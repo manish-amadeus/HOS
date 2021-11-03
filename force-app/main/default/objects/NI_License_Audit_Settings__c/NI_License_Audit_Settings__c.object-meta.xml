@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <customSettingsType>List</customSettingsType>
+    <description>Salesforce.com Change Request: NICC-014431
+
+This custom setting is used to set the default Contracts Manager when a new license audit record is created.  The NI License Audit Trigger Handler Class looks at the default Account Team for the owner of the account that the license audit record is related to.  If it finds a user who has the role listed in this custom setting, the Contracts Manager field is updated to that user</description>
+    <enableFeeds>false</enableFeeds>
+    <label>NI License Audit Settings</label>
+    <visibility>Public</visibility>
+</CustomObject>

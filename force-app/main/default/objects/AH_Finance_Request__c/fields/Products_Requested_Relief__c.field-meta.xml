@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Products_Requested_Relief__c</fullName>
+    <description>NICC-042019 - The family of products the customer is seeking fiscal relief for</description>
+    <externalId>false</externalId>
+    <inlineHelpText>The family of products the customer is seeking fiscal relief for</inlineHelpText>
+    <label>Products Requested Relief</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>true</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>MultiselectPicklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Sales &amp; Catering</fullName>
+                <default>false</default>
+                <label>Sales &amp; Catering</label>
+            </value>
+            <value>
+                <fullName>Service Optimization</fullName>
+                <default>false</default>
+                <label>Service Optimization</label>
+            </value>
+            <value>
+                <fullName>Property Management Systems</fullName>
+                <default>false</default>
+                <label>Property Management Systems</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+    <visibleLines>3</visibleLines>
+</CustomField>

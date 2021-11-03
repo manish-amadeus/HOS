@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>UI_Access_c__c</fullName>
+    <externalDeveloperName>UI_Access__c</externalDeveloperName>
+    <externalId>false</externalId>
+    <inlineHelpText>describes which Salesforce UI they should be permissioned for.</inlineHelpText>
+    <isFilteringDisabled>false</isFilteringDisabled>
+    <isNameField>false</isNameField>
+    <isSortingDisabled>false</isSortingDisabled>
+    <label>UI Access</label>
+    <readOnlyProxy>true</readOnlyProxy>
+    <required>false</required>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Lightning Only</fullName>
+                <default>false</default>
+                <label>Lightning Only</label>
+            </value>
+            <value>
+                <fullName>Lightning Only - Planned</fullName>
+                <default>false</default>
+                <label>Lightning Only - Planned</label>
+            </value>
+            <value>
+                <fullName>Both</fullName>
+                <default>false</default>
+                <label>Both</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

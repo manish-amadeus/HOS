@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Actual_Hours_Required</fullName>
+    <active>true</active>
+    <description>Cannot mark a Task Complete until Actual Hours have been updated.</description>
+    <errorConditionFormula>AND( ISNULL(Hours__c),  ISPICKVAL(Status__c, &quot;Completed&quot;) )</errorConditionFormula>
+    <errorDisplayField>Hours__c</errorDisplayField>
+    <errorMessage>The Status cannot be set to &quot;Completed&quot; until Actual Hours have been entered.</errorMessage>
+</ValidationRule>

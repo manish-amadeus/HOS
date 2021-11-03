@@ -1,0 +1,396 @@
+<apex:page controller="AH_PLCM_Create_User" action="{!CheckTermsAndConditionStatus}">
+    <head>
+        <!-- Include CSS -->
+        <apex:stylesheet value="{!$Resource.AH_PLCM_Style}" />
+        <apex:stylesheet value="{!$Resource.AH_PLCM_Bubble}" />
+
+        <!-- Include JS -->
+        <apex:includeScript value="{!$Resource.AH_PLCM_JQuery_341}" />
+        <apex:includeScript value="{!$Resource.AH_PLCM_JQuery_FloatThead_Min}" />
+        <style>
+        .bubble-popup .property-name-bubble:before {
+            right: 370px!important;
+        }
+        .property-name-bubble {
+           text-align: left!important; 
+           z-index: 999;
+           left: 68%;
+         }
+        .help-show .property-name-bubble {
+          left: 58%;!important;
+         }
+            
+         @media only screen and (max-width: 1280px){
+           .property-name-bubble {
+           text-align: left!important; 
+           z-index: 999;
+           left: 64%;
+         }
+        .help-show .property-name-bubble {
+          left: 52%;!important;
+         }
+         }
+        </style>
+    </head>
+    <apex:form id="frmUsers">
+        <!-- store project id in hidden field for next postback -->
+        <input type="hidden" id="hdnProjectId" name="ProjectId" value="{!ProjectId}" />
+
+        <!-- Progressbar :: Start -->
+        <c:AH_PLCM_Progress_Bar IsPropertyUpdated="{!ProjectPortalStatus.IsPropertyUpdated}" IsUsersCreated="{!ProjectPortalStatus.IsUsersCreated}"
+        IsXrefCompleted="{!ProjectPortalStatus.IsXrefCompleted}" PerecentageCompleted="{!ProjectPortalStatus.PerecentageCompleted}" />
+        <!-- Progressbar :: End -->
+        <div style="width:100%; padding:0px;">
+            <!--<div class="error-msg">Please fill below required fields to proceed.</div>-->
+
+            <div class="main-div">
+                <div class="main-header">
+                    <table class="tbl-header" border="0" cellpadding="0" cellspacing="0">
+                        <tbody>
+                            <tr>
+                                <td class="td-title">
+                                    <h2 class="main-title">Create Users for Migration</h2>
+                                </td>
+                                <td style="text-align: right; padding-right: 10px !important;">
+                                    <input type="submit" value="Take Tutorial" onclick="javacsript: showBubble(0);return false;" class="btn-common" />
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="main-body">
+                    <div style="text-align: right; margin-bottom:5px;">                            
+                        <strong style="paddSing-right:5px;">Total Licenses:</strong>
+                        <input type="text" id="txtAvailableLicenses" value="{!AvailableLicenses}" disabled="true" class="AvailableLicenses"/>
+
+                        <strong style="padding-right:5px;">Remaining Licenses:</strong>
+                        <input type="text" id="txtRemainingLicenses" value="{!AvailableLicenses}" disabled="true" class="AvailableLicenses"/>
+                    </div>
+
+                    <div id="divTable" class="data-grid-wrapper">
+                        <table class="data-grid" border="0" cellpadding="0" cellspacing="0">
+                            <thead>
+                                <tr class="header-row">
+                                    <th style="width:5%">Create User</th>
+                                    <th style="width:25%">Full Name</th>
+                                    <th style="width:75%">Email</th>
+                                    
+                                    <!--Date:-06/18/20 Remove default property drop down from create users page -->
+                                   <!-- <th>User Default Property</th> -->
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <apex:variable var="index" value="{!0}" />
+                                <apex:repeat value="{!lstUsers}" var="user">
+                                    <tr class="data-row" onmouseover="if (window.hiOn){hiOn(this);} " onmouseout="if (window.hiOff){hiOff(this);} " onblur="if (window.hiOff){hiOff(this);}" onfocus="if (window.hiOn){hiOn(this);}">
+                                        <td style="text-align:center;">
+                                            <input type="hidden" value="{!index}" />
+                                            <apex:inputField styleClass="chk-user" value="{!user.New_User__c}" onchange="javascript: selectUser(this);" />
+                                            <apex:outputPanel rendered="{!(index == 0)}">
+                                                <div class="bubble-popup" id="divBubblePopup_1">
+                                                    <div class="property-name-bubble" style="left:12px;">
+                                                        <section class="bbl-header-text">Select Users to Create</section> <input id="button" type="button" onclick="javascript:skipBubble();" value="X"  class="btn-close-bubble"/>
+                                                        <br/>            
+                                                        Indicate the users you wish to have created by checking the Create User checkbox. For more information, please click on the Help button.<br /><br /><br />
+                                                        <input onclick="javascript:showBubble(0);" style="float:Left" type="button" value="Previous" />
+                                                        <label class="lbl-bbl-numbers">2 of 3</label>
+                                                        <input onclick="javascript:showBubble(2);" style="float:right" type="button" value="Continue" />
+                                                    </div>
+                                                </div>
+                                            </apex:outputPanel>
+                                        </td>
+                                        <td>{!user.Name}</td>
+                                        <td>{!user.User_Email_Address__c}</td>
+                                        
+                                        <!--Date:-06/18/20 Remove default property drop down from create users page -->
+                                        <!--<td>
+                                            <div class="requiredInput disabled-wrapper">
+                                                <div class="requiredBlock" style="display:none;"></div>
+                                                <apex:selectList styleClass="ddl-property disabled-control" value="{!user.PLCM_Migration_Property_Assignment__c}" size="1" tabindex="-1">
+                                                    <apex:selectOptions value="{!ddlProperties}"></apex:selectOptions>
+                                                </apex:selectList>                                    
+                                            </div>
+                                        </td>-->
+                                    </tr>
+                                    <apex:variable var="index" value="{!index + 1}" />
+                                </apex:repeat>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="main-footer">
+                    <apex:commandButton immediate="true" value="Back to Property List" action="{!BackToPropertyList}" style="float:left;"/>
+                    <div class="export-menu">
+                        <button onclick="$('.menu-options').toggle(); return false;" class="menu-btn btn">Export</button>
+                        <div class="menu-options">
+                            <a onclick="javascript:exportReport('{!ProjectId}', 'users', 'xls'); return false;">Excel</a>
+                            <a onclick="javascript:exportReport('{!ProjectId}', 'users', 'pdf'); return false;">PDF</a>
+                        </div>
+                    </div>
+                    <apex:commandButton value="Save" action="{!SaveUserDetails}" onclick="javascript:return validateData(false);" style="{!IF(ProjectPortalStatus.IsUsersCreated == true || AvailableLicenses == 0, 'display:none;', '')}"/>
+                    <apex:commandButton value="{!IF(ProjectPortalStatus.IsUsersCreated == true, '', 'Confirm & ')}Next" action="{!ConfirmAndNext}" onclick="javascript:return validateData(true); " />                    
+                </div>
+            </div>
+            <div class="help-wrapper">
+                <div class="help-button">
+                    <a id="btnHelp">Hide Help</a>
+                </div>
+                <div class="help-box">
+                    <div class="help-box-inner">
+                        <div class="help-title">Create Users for Migration</div>
+                        <div class="help-text">
+                            This list shows all of your Active Users in Hotel SalesPro. Typically, not all of these users will be created in your new application as you are limited to the number of licenses you have purchased. While Hotel SalesPro used a “per property” license model, Amadeus Sales &amp; Event Management – Standard or Essentials (ASEM) uses a “per person” license model. If a user exists is in ASEM already, you do not want to create that user again. You will be able to assign users additional property access once the migration is complete.
+                            <br/><br/>
+                            Select the users to be created. Please note you do not have to use all of the licenses indicated. Users can be created by Property or Corporate Administrators in the new application once the migration is complete.
+                            <br/><br/>
+                            NOTE: If there are 0 licenses, users will not be created in the migration process. Please proceed to the next page.
+                            <br/><br/>
+                            Duplicate users may show if their emails are different, which indicates they were created more than once in SalesPro. In these instances, you only need to select one if that person is to be created as a new user. Inactive SalesPro users will not show in this list.
+                            <br/><br/>
+                            If this list of Active Users or Total Available Licenses does not appear to be correct, please email <a href="mailto:Hospitality.PLCM@amadeus.com" target="_top">Hospitality.PLCM@amadeus.com</a> outlining the incorrect information.
+                            <br/><br/>
+                            Feel free to create a report of your configurations by using the "Export to Excel" or "Export to PDF" button.
+                            <br/><br/>
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+
+        <!--Bubble Help Popup For Default(First) Bubble-->
+        <div id="divBubblePopup_0" class="bubble-popup" style="{!IF(ProjectBubbleStatus.IsUserBubbleSkipped, '', 'display:block;')}">
+            <div class="popup-first-last">
+                <section class="bbl-header-text">Create Users to Migrate</section> <input id="button" type="button" onclick="javascript:skipBubble();" value="X"  class="btn-close-bubble"/>
+                <br/>
+                This list shows all of your Active Users in Hotel SalesPro. From this list of users, you will create new users in the new application based on the number of available licenses. Your total number of licenses is shown at the top of the screen.<br/><br/><br/>
+                <input type="button" value="Skip Tutorial" style="float:Left" onclick="javascript:skipBubble();"/>
+                <label class="lbl-bbl-numbers">1 of 3</label>
+                <input type="button" value="Start Tutorial" style="float:right;" onclick="javascript:showBubble(1);" />
+            </div>
+        </div>
+        <!--Final Bubble Help Popup-->
+        <div class="bubble-popup" id="divBubblePopup_2">
+            <div class="popup-first-last">
+                <section class="bbl-header-text">Thank You</section> <input id="button" type="button" onclick="javascript:skipBubble();" value="X"  class="btn-close-bubble"/>
+                <br/>            
+                Thank you for completing these steps. When ready to continue with the tool, please click Confirm &amp; Next.<br/><br/><br/>
+                <input onclick="javascript:showBubble(1);" style="float:Left" type="button" value="Previous" />
+                <label class="lbl-bbl-numbers" style="width:73% !important">3 of 3</label>
+                <input onclick="javascript:skipBubble();" style="float:right" type="button" value="Close" />
+            </div>
+        </div>
+        <!--Bubble Help for 0 Licences available   Date:-062320-->
+        <div id="divBubblePopup_license0" class="bubble-popup" style= "{!IF(ProjectBubbleStatus.IsUserBubbleSkipped, '', 'display:block;')}">
+            <div class="popup-first-last">
+                <section class="bbl-header-text">Create Users to Migrate</section> <input id="button" type="button" onclick="javascript:skipBubble();" value="X"  class="btn-close-bubble"/>
+                <br/>
+                This list shows Active Users in Hotel SalesPro. There are 0 licenses purchased for this migration. There will be no users created in the migration process. Please hit ‘Confirm &amp; Next’ below to proceed to the next page.<br/><br/><br/>    
+                <label class="lbl-bbl-numbers" style="Width:100%">1 of 1</label>
+                
+            </div>
+        </div>
+    </apex:form>
+    <script type="text/javascript">
+        var __sfdcSessionId = '{!GETSESSIONID()}'; //Use to execute SOQL query
+    </script>
+    <script src="/soap/ajax/28.0/connection.js" type="text/javascript"></script>
+    <script type="text/javascript">
+        $(document).ready(function() {            
+            //Change Page Title
+            window.parent.document.title = "Create Users for Migration";
+            var $form = $(document.getElementById('{!$Component.frmUsers}'));
+            setFormAction($form);
+
+            //Calculate & Set remaining licences 
+            var availableLicenses = parseInt($("#txtAvailableLicenses").val());
+            var remainingUsers = 0;
+
+            if(availableLicenses > 0) {
+                var totalSelectedUsers = $(".chk-user:checked").length;
+                remainingUsers = availableLicenses - totalSelectedUsers;  
+                $("#txtRemainingLicenses").val(remainingUsers);
+            }
+            else {
+                availableLicenses = 0;
+            }
+          
+            //Date: 06/19/20    If license count = “0”, Page 2 should be completely grayed out (disable)
+           if(availableLicenses==0){
+                $(".chk-user").attr("disabled", true);
+               if('{!ProjectBubbleStatus.IsUserBubbleSkipped}'.toLowerCase() == 'false'){
+                    $('#divBubblePopup_license0').show();
+                   // $('#divBubblePopup_0').hide();
+               }
+               
+            }
+            else{
+               $('#divBubblePopup_license0').hide();
+                //$('#divBubblePopup_0').show(); 
+                
+            }
+           
+            
+            if('{!ProjectPortalStatus.IsUsersCreated}'.toLowerCase() == 'true') {
+               
+                $("select,input[type=checkbox]").each(function(index, obj) {
+                    //If create users step is completed then disable all controls
+                    disableControl(obj, true);
+                });
+
+                //Do not display warning message for disabled controls
+                unbindNavigationWaring();
+            }
+            else {
+                //Date:-06/18/20 Remove default property drop down from create users page
+                /*$(".chk-user:checked").each(function() {
+                    var index = $(this).siblings("input[type='hidden']").val();
+                  var ddlProperty = $(document.getElementsByClassName("ddl-property")[index]); 
+                  disableControl(ddlProperty, false);
+                   ddlProperty.siblings(".requiredBlock").show();
+                });*/
+
+                setTimeout(function() {
+                    //Display warning message while moving to other tab
+                    bindNavigationWaring();
+                }, 500);
+            }
+
+            //Date:-06/18/20 Remove default property drop down from create users page
+           /* $(".ddl-property").on("change", function () {
+                if($(this).val() == "") {
+                    //Make drop down yellow
+                    $(this).addClass("ddl-empty");
+                }
+                else {
+                    //Make drop down non yellow
+                    $(this).removeClass("ddl-empty");
+                }
+            });*/
+
+            
+        });
+
+        //Check if controll is being dispayled or not in scrollable div
+        function isScrolledIntoView(elem) {
+            var docViewTop = $("#divTable").scrollTop();
+            var docViewBottom = docViewTop + $("#divTable").height();
+
+            var elemTop = $(elem).offset().top;
+            var elemBottom = elemTop + $(elem).height();
+
+            return ((elemBottom <= docViewBottom) && (elemTop >= docViewTop));
+        }
+
+        //Function being called on selecting user checkbox
+        function selectUser(elem) {
+            var availableLicenses = parseInt($("#txtAvailableLicenses").val());
+            var totalSelectedUsers = $(".chk-user:checked").length;
+            var remainingUsers = 0;
+            
+            //Date:-06/18/20 Remove default property drop down from create users page
+            var index = $(elem).siblings("input[type='hidden']").val();
+           // var ddlProperty = $(document.getElementsByClassName("ddl-property")[index]);
+            
+            if($(elem).is(":checked")) {
+                if(totalSelectedUsers > availableLicenses) {
+                    
+                    alert("Only " + availableLicenses + " licenses available. You can not select more than " + availableLicenses + " users.")
+                    $(elem).prop("checked", false);
+                }
+                else {
+                    remainingUsers = availableLicenses - totalSelectedUsers;//Calculate remaining licences
+                    //Date:-06/18/20 Remove default property drop down from create users page
+                    /*ddlProperty.addClass("ddl-empty");
+                    (ddlProperty, false);
+                    ddlProperty.siblings(".requiredBlock").show(); */
+                }                
+            }
+            else {
+                remainingUsers = availableLicenses - totalSelectedUsers; //Calculate remaining licences
+                //Date:-06/18/20 Remove default property drop down from create users page
+                /*ddlProperty.val("");
+                ddlProperty.removeClass("ddl-empty");
+                disableControl(ddlProperty, true);
+                ddlProperty.siblings(".requiredBlock").hide();*/
+            }
+            //Set value of remaining licenses
+            $("#txtRemainingLicenses").val(remainingUsers);
+        }
+
+        //Validate data for proccede further
+        function validateData(isConfirm) {
+            var flagError = false;
+            // Date:-06/18/20 Remove the validation that at least 1 user needs to be selected to proceed to page 3 
+            /*if($(".chk-user:checked").length == 0) {
+                alert("Please select at least one user for migration.");
+                return false;
+            }
+           else {*/
+                if( '{!ProjectPortalStatus.IsUsersCreated}'.toLowerCase() == 'false') {
+                    $(".chk-user:checked").each(function() {
+                        var index = $(this).siblings("input[type='hidden']").val();
+                        //Date:-06/18/20 Remove default property drop down from create users page
+                        /*var ddlProperty = $(document.getElementsByClassName("ddl-property")[index]);
+                        if(ddlProperty.val() == "") {
+                            flagError = true;
+                        }*/
+                    });
+                    
+                   /* $(".error-msg").hide(); //Hide error message
+                    if(flagError) {
+                        $(".error-msg").show(); //Show error message
+                        $(".popup-first-last").css("top", "215px");
+                        $('html, body').animate({
+                            scrollTop: 0
+                        }, 1000);
+                    }
+                    else */
+                    if(isConfirm) {
+                        if(confirm("You will no longer be able to change your selections.  Do you want to proceed?")) {
+                            //Show loader
+                            showHideLoader(true);
+                            return true;
+                        }
+                        else {
+                            return false;
+                        }
+                    }
+                }
+            //}
+
+            if(!flagError) {
+                //Show loader
+                showHideLoader(true);
+            }
+            return !flagError;
+        }
+
+
+        //Display bubble help popup
+        function showBubble(index) {
+            //Bubble help to display when 0 licenses available Date:-062320
+            if($("#txtAvailableLicenses").val() ==0){
+                $('#divBubblePopup_license0').show();
+                //$('#divBubblePopup_0').hide();
+               
+            }
+            else{
+                //$('#divBubblePopup_license0').hide();
+                $('#divBubblePopup_0').show(); 
+                //Hide all bubble help popup
+                $(".bubble-popup").hide();
+                $("#divBubblePopup_" + index).show(); //Show next or prevous popup
+            }
+        }
+        
+        //Click on skip bubble button
+        function skipBubble() {
+            if('{!ProjectBubbleStatus.IsUserBubbleSkipped}'.toLowerCase() != 'true') {
+                //Update bubble help popup flag in NI Doc record
+                updateBubbleFlag('{!ProjectId}', 'create user');
+            }
+            $('.bubble-popup').hide(); //Hide Bubble Popup
+        }
+    </script>
+</apex:page>

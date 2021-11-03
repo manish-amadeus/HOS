@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>DevReqClass__c</fullName>
+    <externalId>false</externalId>
+    <label>DevReqClass</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Defect</fullName>
+                <default>false</default>
+                <label>Defect</label>
+            </value>
+            <value>
+                <fullName>Defect - Cust</fullName>
+                <default>false</default>
+                <label>Defect - Cust</label>
+            </value>
+            <value>
+                <fullName>Defect - Perf</fullName>
+                <default>false</default>
+                <label>Defect - Perf</label>
+            </value>
+            <value>
+                <fullName>Enhancement</fullName>
+                <default>false</default>
+                <label>Enhancement</label>
+            </value>
+            <value>
+                <fullName>Enhancement - Cust</fullName>
+                <default>false</default>
+                <label>Enhancement - Cust</label>
+            </value>
+            <value>
+                <fullName>Enhancement - Perf</fullName>
+                <default>false</default>
+                <label>Enhancement - Perf</label>
+            </value>
+            <value>
+                <fullName>Issue</fullName>
+                <default>false</default>
+                <label>Issue</label>
+            </value>
+            <value>
+                <fullName>Question</fullName>
+                <default>false</default>
+                <label>Question</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

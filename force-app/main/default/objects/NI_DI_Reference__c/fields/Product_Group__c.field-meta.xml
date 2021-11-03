@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Product_Group__c</fullName>
+    <deleteConstraint>Restrict</deleteConstraint>
+    <description>Product Group for the Deployment Instance</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Product Group for the Deployment Instance</inlineHelpText>
+    <label>Product Group</label>
+    <referenceTo>Product_Group__c</referenceTo>
+    <relationshipLabel>NI DI Reference</relationshipLabel>
+    <relationshipName>NI_DI_Reference</relationshipName>
+    <required>true</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

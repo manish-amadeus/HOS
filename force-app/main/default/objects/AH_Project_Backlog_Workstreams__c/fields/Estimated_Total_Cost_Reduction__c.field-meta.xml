@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Estimated_Total_Cost_Reduction__c</fullName>
+    <description>NICC-047197</description>
+    <externalId>false</externalId>
+    <formula>First_Year_Cost_Reduction__c * 3</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <inlineHelpText>First Year Cost Reduction multiplied by 3. The total benefit is over 3 years</inlineHelpText>
+    <label>Estimated Total Cost Reduction</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>2</scale>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Currency</type>
+</CustomField>

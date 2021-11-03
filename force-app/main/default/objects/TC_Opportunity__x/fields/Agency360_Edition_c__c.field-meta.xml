@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Agency360_Edition_c__c</fullName>
+    <externalDeveloperName>Agency360_Edition__c</externalDeveloperName>
+    <externalId>false</externalId>
+    <inlineHelpText>Enterprise Edition is an aggregation of data across multiple properties.</inlineHelpText>
+    <isFilteringDisabled>false</isFilteringDisabled>
+    <isNameField>false</isNameField>
+    <isSortingDisabled>false</isSortingDisabled>
+    <label>Agency360 Edition</label>
+    <required>false</required>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Express Edition</fullName>
+                <default>false</default>
+                <label>Express Edition</label>
+            </value>
+            <value>
+                <fullName>Property Edition</fullName>
+                <default>false</default>
+                <label>Property Edition</label>
+            </value>
+            <value>
+                <fullName>Enterprise Edition</fullName>
+                <default>false</default>
+                <label>Enterprise Edition</label>
+            </value>
+            <value>
+                <fullName>GDS Advertising Edition</fullName>
+                <default>false</default>
+                <label>GDS Advertising Edition</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

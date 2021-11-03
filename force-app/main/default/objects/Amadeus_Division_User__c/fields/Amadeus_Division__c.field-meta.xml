@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Amadeus_Division__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <description>NICC-024997</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Amadeus department/division for whom we buy Salesforce licenses.</inlineHelpText>
+    <label>Amadeus Division</label>
+    <referenceTo>Amadeus_Division__c</referenceTo>
+    <relationshipLabel>Amadeus Division Users</relationshipLabel>
+    <relationshipName>Amadeus_Division_Users_del1</relationshipName>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

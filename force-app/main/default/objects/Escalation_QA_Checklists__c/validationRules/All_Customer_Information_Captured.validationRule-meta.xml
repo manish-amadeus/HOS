@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>All_Customer_Information_Captured</fullName>
+    <active>true</active>
+    <description>Value can not be 2,3 or 4.</description>
+    <errorConditionFormula>Or(
+All_Customer_Info_Captured_Updated__c = 2,
+All_Customer_Info_Captured_Updated__c = 3,
+All_Customer_Info_Captured_Updated__c = 4,
+All_Customer_Info_Captured_Updated__c &gt; 5
+
+)</errorConditionFormula>
+    <errorDisplayField>All_Customer_Info_Captured_Updated__c</errorDisplayField>
+    <errorMessage>Please update your value to 0 for N/A, 1 for NO or 5 for YES.</errorMessage>
+</ValidationRule>

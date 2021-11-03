@@ -1,0 +1,291 @@
+<apex:page controller="NI_Search_IT_Request">
+
+<apex:includeScript value="{!urlFor($Resource.jQueryTabs, '/jquery-ui-1.11.4.custom/external/jquery/jquery.js')}"/>    
+        
+<script>
+       
+     j$ = jQuery.noConflict(); 
+        j$(document).ready(function(){
+       
+            var Container='';
+            var bodyText='';
+            var count;
+            var arrayOfElements;  
+            var gid='{!group_id}';
+            
+             //Event for Show Button Click
+            j$("#btnShow").on("click",function(){
+              
+                 //Delete all tables with Pattern 'tid-*' from page
+                 j$("table[id^='tid-']").each(function (i, el) {
+                    
+                     var element =  document.getElementById(el.id);
+                     element.outerHTML = "";
+                     delete element;
+                   });
+                
+                 var searchText=j$("#search").val();
+                
+                 if(searchText.length>0 && gid.length>0){
+                     
+                  //Calling REST to search group feed Elements
+                  //gid -> Group ID and searchText-> Entered Text to Search
+                  j$.ajax('/services/data/v39.0/chatter/feeds/record/'+gid+'/feed-elements?q='+searchText,
+                  {
+                   beforeSend: function(xhr){
+                       //Setting Seesion ID in Request Header for Authorization
+                        xhr.setRequestHeader('Authorization', 'Bearer {!$Api.Session_ID}');
+                  },
+                   success: function(response){
+                       
+						arrayOfElements=response.elements;
+                       
+                      //Storing Count of returned elements from Response
+                      count=response.elements.length;
+                      
+                      if(j$("table[id^='tid-']").length==0){ 
+                          loadChatterFeeds();
+                      }
+                    },
+                   error: function(jqXHR, textStatus, errorThrown){
+                        console.log('Something Went Wrong ->'+errorThrown);
+                  }
+                }
+              );
+            }
+                
+                  
+                
+                
+                
+                
+                 if(searchText.length==0){
+                  alert('Please Enter Valid Keyword To Search');
+                }
+                
+                 if(gid.length==0){
+                  alert('Please Provide the Group ID in Custom Setting');
+                }
+               
+                 function loadChatterFeeds(){ 
+                   if(count>0) { 
+                       
+                     j$("div#chatter_List").attr("style","display:none");
+                     j$("div#group_List").attr("style","display:block");
+                      
+                      var content = "<table id='tid'>"
+                          for(i=0;i<count;i++){
+                           
+                              content='';
+                              Container='';
+                              bodyText='';    
+                              
+                              //if feed type->POLL
+                              if(arrayOfElements[i].capabilities.poll){
+                                 Container='';
+                              }
+                              
+                             //if feed type->files
+                             if(arrayOfElements[i].capabilities.files){
+                                 
+                                 //Title shown as a link -> downloadUrl
+                                 Container= "<br/><div class='fileDivStyle'><table><tr><td><a href=/"
+                                 +arrayOfElements[i].capabilities.files.items[0].id+' target="_blank"><img src='
+                                 +arrayOfElements[i].capabilities.files.items[0].renditionUrl+"</img></a></td><td>&nbsp;&nbsp;&nbsp;&nbsp;<a href=/"
+                                 +arrayOfElements[i].capabilities.files.items[0].id+' target="_blank"><span class="TitleLink">'
+                                 +arrayOfElements[i].capabilities.files.items[0].title+"</span></a><br/>&nbsp;&nbsp;&nbsp;&nbsp;<a href="
+                                 +arrayOfElements[i].capabilities.files.items[0].downloadUrl+">download "+arrayOfElements[i].capabilities.files.items[0].fileExtension+"</a> <span class='fileSize'>("+bytesToSize(arrayOfElements[i].capabilities.files.items[0].fileSize)+")</span></td></tr></table></div>";
+                                 
+                              }
+                              
+                                   
+                            //if feed type->link
+                             if(arrayOfElements[i].capabilities.link){
+                                 
+                                  Container='<br/>&nbsp;&nbsp;&nbsp;&nbsp;<a href='
+                                  +arrayOfElements[i].capabilities.link.url+' target="_blank" ><h2>'
+                                  +arrayOfElements[i].capabilities.link.urlName+'</h2></a>&nbsp;&nbsp;<h3 style="color:#c0c0c0"> ('
+                                  +arrayOfElements[i].capabilities.link.url+') </h3><br/>';
+                              }
+                             
+                              //if Body text NULL then set to Blank
+                              if(arrayOfElements[i].body.text==null){
+                                 bodyText='';
+                              }
+                                                           
+                               //if Body text NOT NULL then set with Font Style
+                             else if(arrayOfElements[i].body.text!=null){
+                                 
+                                 var bodySize=arrayOfElements[i].body.text;
+                
+                                 //keeping BodyText Short and Providing Link of Feed
+                                if(bodySize.length>400){
+                                 
+                                    var details='(more...)';
+                                    bodyText='<div class="StyleBodyText"><span>'+bodySize.substring(0,400)+'...</span><br/><a href=/'
+                                    +arrayOfElements[i].id+' target="_blank" >'+details+'</a></div>';
+                                    
+                                   }
+                                 }
+                                 else {
+                                     bodyText='&nbsp;&nbsp;<div class="StyleBodyText"><span>'+arrayOfElements[i].body.text+'</span></div>';
+                                 }
+                              
+                            //Image,DisplayName,and Container,BodyText Loaded  
+                            content ='<tr><td><img height="45" width="45" src='
+                            +arrayOfElements[i].actor.photo.standardEmailPhotoUrl+'></td><td><span style="color:#015ba7">&nbsp;&nbsp;&nbsp;&nbsp;<b>'
+                            +arrayOfElements[i].actor.displayName+'</b><br/></span>'+Container+'<br/>&nbsp;&nbsp;&nbsp;&nbsp;'
+                            +bodyText+'</td></tr>';
+                          
+                            
+                       //Content Appended to DIv with Id -> here_table
+                              j$('#group_List').append('<table id="tid-'+i+'">'+content+'</table>');}
+                        }
+                          
+                   else{
+                       //if no elements are present in returned Response.
+                         alert('No matches found in this feed...');
+                           j$("div#group_List").attr("style","display:none");
+                    
+                           j$("#chatter_List").attr("style","display:block");
+                       }
+                  }
+             
+             });
+            
+            //Event for Enter Press
+            j$('#search').keypress(function (e) {
+            var key = e.which;
+            // the enter key code
+            if(key == 13)  
+           {
+            j$('#btnShow').click();
+          }
+        }); 
+            
+            //Event for Hide Button Click
+            j$("#btnHide").on("click",function(){
+                             
+               j$("div#group_List").hide();
+               j$("div#chatter_List").show();
+                   
+           });
+            
+            //Convert Size Of File
+            function bytesToSize(bytes) {
+                                       var sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
+                                       if (bytes == 0) return '0 Byte';
+                                       var i = parseInt(Math.floor(Math.log(bytes) / Math.log(1024)));
+                                       return Math.round(bytes / Math.pow(1024, i), 2) + ' ' + sizes[i];
+                                    };
+            
+            
+       });     
+    
+</script>
+
+
+ 
+ <body>
+ <br/>
+   <style>
+       
+       
+       
+       
+ .searchBox
+    {   border: 1px solid #b6b6b6;
+    padding: 3px 5px 3px 5px;
+    width: 280px;
+    font-size: 100%;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    -moz-box-shadow: 0 1px 1px #969696 inset;
+    height: 16px;
+  }
+  
+    .searchButton   {color: ##000000;
+    margin: 1px;
+    padding: 2px 3px;
+    border: 1px solid #b5b5b5;
+    border-bottom-color: #7f7f7f;
+    background: #e8e8e9 url(/img/alohaSkin/btn_sprite.png) repeat-x right top;
+    font-weight: bold;
+    font-size: .9em;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    border-radius: 3px; 
+    }
+    
+   .SearchName{
+        color: #000;
+    font-size: 11pt;
+    
+    }
+  
+     .StyleBodyText  {    
+      min-height: 47px;
+    white-space: normal;
+    word-wrap: break-word;
+    margin: 0 420px 20px 0;
+    padding: 0 4px 10px 20px;
+    border-top: 1px solid #fff; 
+     }  
+       
+       
+.fileDivStyle {
+    border: 1px solid #ededed;
+    -moz-border-radius: 2px;
+    -webkit-border-radius: 2px;
+    overflow: hidden;
+    padding: 12px 50px 11px 10px;  
+    margin-left: 20px
+       }
+   .fileDivStyle a{
+    color: #015ba7;
+    font-weight: normal;
+    text-decoration: none;  
+       
+     }  
+       
+    .fileDivStyle span.fileSize{
+    color: #999;
+    font-size: .9em;
+}   
+       
+       
+       
+       
+     .TitleLink {
+    font-weight: bold;
+    font-size: 1em;
+}  
+       
+       
+       
+    </style>  
+    
+    <h3 class="SearchName">Search Our Knowledge-base to Find Your Solution</h3>
+    <br/>
+    <br/>
+    
+     <input type="text" id="search" maxlength="100" required="required" class="searchBox"
+     placeholder="Search this feed…" title="Search this feed…" alt="Search this feed" />
+     &nbsp;
+   
+    <input type="button" id="btnShow" value="Search Feed" class="searchButton"/>&nbsp;
+    <input type="button" id="btnHide" value="Hide Search Results" class="searchButton"/> 
+
+
+<br/><br/><br/><br/>
+    
+    <div id='group_List' >
+    </div>
+   
+ <div id="chatter_List" style="display:block;">
+     <apex:outputPanel >
+        <apex:enhancedlist type="AH_Internal_IT_Request__c" height="300" rowsperpage="10" id="chatter_List_1" />
+    </apex:outputPanel>
+     </div>
+ </body>
+</apex:page>

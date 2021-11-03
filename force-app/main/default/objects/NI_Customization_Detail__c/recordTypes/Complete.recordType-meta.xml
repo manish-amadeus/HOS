@@ -1,0 +1,631 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<RecordType xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Complete</fullName>
+    <active>true</active>
+    <label>Complete</label>
+    <picklistValues>
+        <picklist>Category__c</picklist>
+        <values>
+            <fullName>Administrative Tasks</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Analytics</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Communication</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Data Management</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Managing Documents</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Opportunity Cost</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Sharing %26 Security</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>State__c</picklist>
+        <values>
+            <fullName>Cancelled</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Complete</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Incomplete</fullName>
+            <default>true</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Type__c</picklist>
+        <values>
+            <fullName>Additional Consulting</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Analytics Snapshots</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Assigning Page Layouts</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Assigning Roles</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>BEO%E2%80%99s</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Banquet Checks</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Complex Apex Triggers</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Complex Data Validation</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Complex Visualforce Pages</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Contracts</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Create custom report type</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Creating Analytic Snapshots</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Creating Approval Process</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Creating Apps %26 Tabs</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Creating Assignment Rules</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Creating Buttons</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Creating Consoles</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Creating Custom Buttons</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Creating Email Templates</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Creating Escalation Rules</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Creating Fields</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Creating Folders</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Creating Force%2Ecom Sites</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Creating Letter Heads</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Creating Objects</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Creating Page Layouts</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Creating Permission Sets</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Creating Profiles</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Creating Public Groups</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Creating Queues</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Creating Report Types</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Creating Reports</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Creating Users</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Creating Visualforce Components</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Creating Web-to-Case</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Creating Web-to-Lead</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Creating Workflow - Email</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Creating Workflow - Field Updates</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Creating Workflow - Outbound Message</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Creating Workflow - Tasks</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Dashboards</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Deactivating Users</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Design and implement new custom security model</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>E-Mail</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>E-Mail Templates</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Editing Company Profile</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Enabling Advanced Multiple Currency</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Enabling Chatter</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Enabling Custom Fiscal Year</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Enabling History Tracking</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Enabling Multiple Currency</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Enabling Record Types</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Enabling%2FManaging Custom Fiscal Year</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Export</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Exporting Data</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Importing Data</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Initial Consulting</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Initial Quick Start Consultation</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Insert</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Installing Packages</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Maintaining Force%2Ecom Sites</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Manage Network Access</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Manage OWD%2FSharing rules</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Manage Password Policies</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Manage Profiles</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Manage Public Groups</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Manage Roles</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Manage report folders</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Managing  Business Hours</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Managing Access - Creating Sharing Rules</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Managing Access - Managing Sharing Rules</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Managing Access - OWD</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Managing Access - Role Hierarchy</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Managing Advanced Multiple Currency</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Managing Analytic Snapshots</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Managing Approval Process</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Managing Apps %26 Tabs</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Managing Apps and Tabs</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Managing Assignment Rules</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Managing Chatter</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Managing Company Information</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Managing Consoles</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Managing Custom Buttons</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Managing Custom Fiscal Year</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Managing Data Export Backup Service</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Managing Email Templates</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Managing Escalation Rules</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Managing Exchange Rates</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Managing Field Level Security</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Managing Fields</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Managing File Storage</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Managing Folders</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Managing Hisotry Tracking</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Managing Letter Heads</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Managing Login Hours</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Managing Mobile Salesforce</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Managing Network Access</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Managing Objects</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Managing Page Layouts</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Managing Password Policies</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Managing Permission Sets</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Managing Profiles</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Managing Public Groups</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Managing Queues</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Managing Record Types</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Managing Report Types</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Managing Reports</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Managing Salesforce-to-Salesforce</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Managing Session Settings</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Managing Setup Audit History Trail</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Managing Standard Buttons</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Managing Standard Field Validation</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Managing Translation Settings</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Managing User Interface</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Managing User Licensing</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Managing Users</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Managing Visualforce Components</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Managing Web-to-Case</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Managing Web-to-Lead</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Managing Workflow - Email</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Managing Workflow - Field Updates</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Managing Workflow - Outbound Message</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Managing Workflow - Tasks</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Managing%2FCreating Approval Processes</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Managing%2FCreating Fields</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Managing%2FCreating Objects</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Managing%2FCreating Page Layouts</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Managing%2FCreating Record Types</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Managing%2FCreating Users</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Managing%2FCreating Workflows</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Manging Holidays</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Mass Deleting Records</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Mass Transfering Records</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>No show at meeting</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Other %28See notes%29</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Remote Meetings</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Reports</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Simple Apex Triggers</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Simple Data Validation</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Simple Visualforce Pages</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Training</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Update</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Updating Data</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Upsert</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+</RecordType>

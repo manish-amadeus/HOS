@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Flagged_For_Cancellation_Reason__c</fullName>
+    <description>The reason that the &quot;Flagged for Cancellation&quot; check box has been checked.  This field is required if the &quot;Flagged for Cancellation&quot; check box is checked.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>The reason that the &quot;Flagged for Cancellation&quot; check box has been checked.  This field is required if the &quot;Flagged for Cancellation&quot; check box is checked.</inlineHelpText>
+    <label>Flagged For Cancellation Reason</label>
+    <required>false</required>
+    <trackHistory>true</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetName>Cancellation_Reason</valueSetName>
+    </valueSet>
+</CustomField>

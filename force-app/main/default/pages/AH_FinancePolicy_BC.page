@@ -1,0 +1,133 @@
+<apex:page controller="AH_FinancePolicy_BC_Ctlr" showHeader="false" sidebar="false" lightningStylesheets="true" applyHtmlTag="false" applyBodyTag="false" docType="html-5.0">
+    
+    <html xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" lang="en">
+        <head>
+            <meta charset="utf-8" />
+            <meta http-equiv="x-ua-compatible" content="ie=edge" />
+            <title>Manage Billing Contracts</title>
+            <meta name="viewport" content="width=device-width, initial-scale=1" />
+            <apex:stylesheet value="/apexpages/slds/latest/assets/styles/salesforce-lightning-design-system-vf.css" />
+            <apex:stylesheet value="{!URLFOR($Resource.AmadeusHospitalityStyles)}" />  
+            <apex:includeScript value="{!$Resource.Toast}"/>
+            <apex:slds />
+        </head>
+        
+        <script language="JavaScript" type="text/javascript">
+            
+            
+        </script>
+        
+        <div id="divMain" class="slds-scope" style="padding:10px 10px 10px 10px;"> 
+
+            <apex:form >
+
+                <!-- SPINNER -->  
+                <apex:actionstatus id="asStatus">
+                    <apex:facet name="start">
+                        <div class="slds-spinner_container">
+                            <div role="status" class="slds-spinner slds-spinner_medium slds-spinner_brand" style="top:300px;!important;">
+                                <span class="slds-assistive-text">Saving</span>
+                                <div class="slds-spinner__dot-a"></div>
+                                <div class="slds-spinner__dot-b"></div>
+                            </div>
+                        </div>
+                    </apex:facet>
+                </apex:actionstatus> 
+				
+                
+                <!-- HEADER SECTION -->
+                <apex:outputPanel id="opHeader">                
+                    <div id="divHeader" class="roundedContainer">
+                        <table style="font-size:16px;">        
+                            <tr>
+                                <td colspan="4" style="text-align:center !important;">
+                                    <apex:outputText value="MANAGE BILLING CONTACTS ON ACCOUNT POLICY" style="font-size:20px;!important;" /> 
+                                </td>
+                            </tr> 
+                            <tr>
+                                <td colspan="2" style="text-align:left;padding:15px;">
+                                    <apex:outputText value="ACCOUNT NAME: " />&nbsp;&nbsp;
+                                    <apex:outputField value="{!a.Name}" />
+                                </td>
+                                <td colspan="2" style="text-align:right;padding:15px;">
+                                    <apex:outputText value="ACCOUNT NUMBER: " />&nbsp;&nbsp;
+                                    <apex:outputField value="{!a.AccountNumber}" />
+                                </td>
+                            </tr>                      
+                        </table> 
+                        
+                        <apex:pageMessages id="txtMsgs" />
+                        <apex:outputPanel id="opButtons" rendered="{!bShowBCs}">  
+                            <apex:commandButton id="btnCancel" value="Cancel" action="{!doCancel}" />
+                            &nbsp;&nbsp;
+                            <apex:commandButton id="btnSubmit" value="Submit" action="{!doSubmit}" status="asStatus" reRender="opHeader,opDetails" />                          
+                        </apex:outputPanel>
+                        <apex:commandButton id="btnOK" value="Close" action="{!doCancel}" status="asStatus" rendered="{!bShowBCs==false}" />  
+                    </div>
+                    <br />
+                </apex:outputPanel>
+                
+                <apex:outputPanel id="opDetails" rendered="{!bShowBCs}">
+                    
+                    <div id="divDetails" class="roundedContainer">
+                        
+                        <apex:dataTable id="dtBCs" value="{!lstBCs}" var="dt" styleClass="slds-table slds-table_striped" rendered="true">
+                            
+                            <apex:column styleClass="slds-cell-wrap">
+                                <apex:facet name="header">   
+                                    <apex:outputText value="Select" />
+                                </apex:facet>
+                                <apex:inputCheckbox id="chk1" value="{!dt.isSelected}" />
+                            </apex:column>
+                            
+                            <apex:column styleClass="slds-cell-wrap">
+                                <apex:facet name="header">   
+                                    <apex:outputText value="Name" />
+                                </apex:facet>
+                                <apex:outputText value="{!dt.bcName}" style="text-align:left;" />   
+                                <apex:inputHidden value="{!dt.bcId}" />
+                            </apex:column>
+                            
+                            <apex:column styleClass="slds-cell-wrap">
+                                <apex:facet name="header">   
+                                    <apex:outputText value="Account Name" />
+                                </apex:facet>
+                                <apex:outputText value="{!dt.bcAccountName}" style="text-align:left;" />    
+                            </apex:column>
+                            
+                            <apex:column styleClass="slds-cell-wrap">
+                                <apex:facet name="header">   
+                                    <apex:outputText value="Account #" />
+                                </apex:facet>
+                                <apex:outputText value="{!dt.bcAccountNumber}" style="text-align:left;" />    
+                            </apex:column>
+                            
+                            <apex:column styleClass="slds-cell-wrap">
+                                <apex:facet name="header">   
+                                    <apex:outputText value="Company" />
+                                </apex:facet>
+                                <apex:outputText value="{!dt.bcCompanyName}" style="text-align:left;" />    
+                            </apex:column>
+                            
+                            <apex:column styleClass="slds-cell-wrap">
+                                <apex:facet name="header">   
+                                    <apex:outputText value="Currency" />
+                                </apex:facet>
+                                <apex:outputText value="{!dt.bcAccountCurrency}" style="text-align:left;" />    
+                            </apex:column>
+                        </apex:dataTable>
+                        
+                    </div>
+                </apex:outputPanel>
+                
+            </apex:form>
+            
+        </div>
+        
+        <style type="text/css">               
+
+        </style>
+        
+    </html>
+    
+</apex:page>

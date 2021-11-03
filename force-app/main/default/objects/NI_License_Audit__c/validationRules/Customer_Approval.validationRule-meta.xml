@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Customer_Approval</fullName>
+    <active>true</active>
+    <errorConditionFormula>AND(
+   Customer_Approval__c = FALSE, 
+   NOT( ISPICKVAL(Phase__c, &quot;Pending Customer Approval&quot;) )
+)</errorConditionFormula>
+    <errorDisplayField>Customer_Approval__c</errorDisplayField>
+    <errorMessage>We cannot collect customer data without their written approval.  Please obtain approval from the customer, document the approval in this audit request and then check the Customer Approval checkbox.</errorMessage>
+</ValidationRule>

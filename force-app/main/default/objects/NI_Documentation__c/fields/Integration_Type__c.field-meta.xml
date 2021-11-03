@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Integration_Type__c</fullName>
+    <description>Salesforce.com Change Request: NICC-007494
+
+Select the type of Interface</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Select the type of Interface</inlineHelpText>
+    <label>Integration Type</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>true</sorted>
+            <value>
+                <fullName>Epitome</fullName>
+                <default>false</default>
+                <label>Epitome</label>
+            </value>
+            <value>
+                <fullName>EzRMS</fullName>
+                <default>false</default>
+                <label>EzRMS</label>
+            </value>
+            <value>
+                <fullName>Galaxy</fullName>
+                <default>false</default>
+                <label>Galaxy</label>
+            </value>
+            <value>
+                <fullName>HMS</fullName>
+                <default>false</default>
+                <label>HMS</label>
+            </value>
+            <value>
+                <fullName>IDeaS</fullName>
+                <default>false</default>
+                <label>IDeaS</label>
+            </value>
+            <value>
+                <fullName>IDPMS</fullName>
+                <default>false</default>
+                <label>IDPMS</label>
+            </value>
+            <value>
+                <fullName>IQpms</fullName>
+                <default>false</default>
+                <label>IQpms</label>
+            </value>
+            <value>
+                <fullName>LMS</fullName>
+                <default>false</default>
+                <label>LMS</label>
+            </value>
+            <value>
+                <fullName>Maestro</fullName>
+                <default>false</default>
+                <label>Maestro</label>
+            </value>
+            <value>
+                <fullName>Micros OXI (Opera)</fullName>
+                <default>false</default>
+                <label>Micros OXI (Opera)</label>
+            </value>
+            <value>
+                <fullName>ResortSuite</fullName>
+                <default>false</default>
+                <label>ResortSuite</label>
+            </value>
+            <value>
+                <fullName>Rover</fullName>
+                <default>false</default>
+                <label>Rover</label>
+            </value>
+            <value>
+                <fullName>SIHOT</fullName>
+                <default>false</default>
+                <label>SIHOT</label>
+            </value>
+            <value>
+                <fullName>SMS Host</fullName>
+                <default>false</default>
+                <label>SMS Host</label>
+            </value>
+            <value>
+                <fullName>Visual One</fullName>
+                <default>false</default>
+                <label>Visual One</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

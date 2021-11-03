@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>X2015_Laptop_Warranty_Expirations</fullName>
+    <columns>Warranty_Expires__c</columns>
+    <columns>NAME</columns>
+    <columns>Asset_Tag_Number__c</columns>
+    <columns>User__c</columns>
+    <columns>Custodian_Phone__c</columns>
+    <columns>Hardware_Type__c</columns>
+    <columns>Model_Description__c</columns>
+    <columns>Status__c</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>Hardware_Type__c</field>
+        <operation>equals</operation>
+        <value>Workstation</value>
+    </filters>
+    <filters>
+        <field>Status__c</field>
+        <operation>equals</operation>
+        <value>Deployed</value>
+    </filters>
+    <filters>
+        <field>User__c</field>
+        <operation>notEqual</operation>
+    </filters>
+    <filters>
+        <field>Warranty_Expires__c</field>
+        <operation>greaterThan</operation>
+        <value>1/1/2010</value>
+    </filters>
+    <label>Desktop Warranty Expirations</label>
+</ListView>

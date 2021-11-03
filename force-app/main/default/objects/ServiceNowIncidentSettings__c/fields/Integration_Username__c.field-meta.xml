@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Integration_Username__c</fullName>
+    <description>Salesforce username of the ServiceNow integration user, we do not need to send the information back to ServiceNow because the insert or update came from ServiceNow</description>
+    <encryptionScheme>None</encryptionScheme>
+    <externalId>false</externalId>
+    <inlineHelpText>Integration username in Salesforce Org e.g. ihg_servicenow@newmarketinc.com.winaproach</inlineHelpText>
+    <label>Integration Username</label>
+    <length>80</length>
+    <required>true</required>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>ODP_Projects1</fullName>
+    <columns>Estimated_Total_Net_Project_Value__c</columns>
+    <columns>Priority__c</columns>
+    <columns>BS_T_Shirt_Meter__c</columns>
+    <columns>NAME</columns>
+    <columns>User__c</columns>
+    <columns>Request_Status__c</columns>
+    <columns>Weekly_Update__c</columns>
+    <columns>Business_Systems_Project__c</columns>
+    <columns>BS_Project_Status__c</columns>
+    <columns>BS_Project_Phase__c</columns>
+    <columns>CBS_Start_Date__c</columns>
+    <columns>CBS_Committed__c</columns>
+    <columns>Sponsor_Approved_Date__c</columns>
+    <columns>Solution_Domain__c</columns>
+    <columns>Project_Backlog_ID__c</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>Corporate_Initiative_Lookup__c</field>
+        <operation>contains</operation>
+        <value>ODP</value>
+    </filters>
+    <filters>
+        <field>Request_Status__c</field>
+        <operation>notContain</operation>
+        <value>Canceled</value>
+    </filters>
+    <filters>
+        <field>RECORDTYPE</field>
+        <operation>equals</operation>
+        <value>NI_Project_Backlog__c.Commercial_Operation_Projects</value>
+    </filters>
+    <label>ODP Projects</label>
+</ListView>

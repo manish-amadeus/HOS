@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Prerequisite_Step__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <description>If this step requires another step to be completed before, select that step here.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>If this step requires another step to be completed before, select that step here.</inlineHelpText>
+    <label>Prerequisite Step</label>
+    <lookupFilter>
+        <active>true</active>
+        <booleanFilter>1 AND 2 AND 3</booleanFilter>
+        <errorMessage>The Prerequisite Step must be enabled and part of your current workbook.</errorMessage>
+        <filterItems>
+            <field>AH_UDC_WorkbookStep__c.Workbook__r.Id</field>
+            <operation>equals</operation>
+            <valueField>$Source.Workbook__c</valueField>
+        </filterItems>
+        <filterItems>
+            <field>AH_UDC_WorkbookStep__c.Enabled__c</field>
+            <operation>equals</operation>
+            <value>True</value>
+        </filterItems>
+        <filterItems>
+            <field>AH_UDC_WorkbookStep__c.Id</field>
+            <operation>notEqual</operation>
+            <valueField>$Source.Id</valueField>
+        </filterItems>
+        <infoMessage>Chose another step on the same workbook.</infoMessage>
+        <isOptional>false</isOptional>
+    </lookupFilter>
+    <referenceTo>AH_UDC_WorkbookStep__c</referenceTo>
+    <relationshipLabel>UDC Workbook Steps</relationshipLabel>
+    <relationshipName>UDC_Workbook_Steps</relationshipName>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

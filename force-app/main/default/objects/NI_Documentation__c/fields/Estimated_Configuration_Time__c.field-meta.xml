@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Estimated_Configuration_Time__c</fullName>
+    <description>Based on details on the HRM configurations, this is the estimated total time to complete configuration</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Based on details on the HRM configurations, this is the estimated total time to complete configuration</inlineHelpText>
+    <label>Estimated Configuration Time</label>
+    <summarizedField>HRM_Requirement__c.Time_to_Complete_Requirement__c</summarizedField>
+    <summaryForeignKey>HRM_Requirement__c.HRM_Configuration_Document__c</summaryForeignKey>
+    <summaryOperation>sum</summaryOperation>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Summary</type>
+</CustomField>

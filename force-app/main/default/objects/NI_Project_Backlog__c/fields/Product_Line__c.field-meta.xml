@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Product_Line__c</fullName>
+    <description>Used for Development Requests</description>
+    <externalId>false</externalId>
+    <label>Product Line</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>CRS</fullName>
+                <default>false</default>
+                <label>CRS</label>
+            </value>
+            <value>
+                <fullName>Curriculum Development</fullName>
+                <default>false</default>
+                <label>Curriculum Development</label>
+            </value>
+            <value>
+                <fullName>Delphi</fullName>
+                <default>false</default>
+                <label>Delphi</label>
+            </value>
+            <value>
+                <fullName>Guest Centric</fullName>
+                <default>false</default>
+                <label>Guest Centric</label>
+            </value>
+            <value>
+                <fullName>HIS</fullName>
+                <default>false</default>
+                <label>HIS</label>
+            </value>
+            <value>
+                <fullName>HRM</fullName>
+                <default>false</default>
+                <label>HRM</label>
+            </value>
+            <value>
+                <fullName>HSP</fullName>
+                <default>false</default>
+                <label>HSP</label>
+            </value>
+            <value>
+                <fullName>iPlan</fullName>
+                <default>false</default>
+                <label>iPlan</label>
+            </value>
+            <value>
+                <fullName>MeetingBroker</fullName>
+                <default>false</default>
+                <label>MeetingBroker</label>
+            </value>
+            <value>
+                <fullName>NWS</fullName>
+                <default>false</default>
+                <label>NWS</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

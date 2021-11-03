@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Business_Impact_Score__c</fullName>
+    <description>Based on formula defined in Corporate Standard CS1.3.  If two Business Impact scores are 4, then Business Impact Score is 5, otherwise it is the MAX of the Business Impact scores.</description>
+    <externalId>false</externalId>
+    <formula>IF(
+  Financial_Score__c + Regulatory_Score__c + Reputation_Score__c - MIN(Financial_Score__c, Regulatory_Score__c , Reputation_Score__c) = 8, 5,
+  MAX(Financial_Score__c, Regulatory_Score__c , Reputation_Score__c)
+)</formula>
+    <inlineHelpText>Highest of the Financial, Regulatory and Reputational assessments.</inlineHelpText>
+    <label>Business Impact Score</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>0</scale>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Number</type>
+    <unique>false</unique>
+</CustomField>

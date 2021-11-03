@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Auto_Renewal_Status_c__c</fullName>
+    <externalDeveloperName>Auto_Renewal_Status__c</externalDeveloperName>
+    <externalId>false</externalId>
+    <isFilteringDisabled>false</isFilteringDisabled>
+    <isNameField>false</isNameField>
+    <isSortingDisabled>false</isSortingDisabled>
+    <label>Auto Renewal Status</label>
+    <readOnlyProxy>true</readOnlyProxy>
+    <required>false</required>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>A/R Flags don&apos;t match</fullName>
+                <default>false</default>
+                <label>A/R Flags don&apos;t match</label>
+            </value>
+            <value>
+                <fullName>Auto Renewal Flag Changed</fullName>
+                <default>false</default>
+                <label>Auto Renew = No</label>
+            </value>
+            <value>
+                <fullName>Wrong year parent attached</fullName>
+                <default>false</default>
+                <label>Child Attached to Incorrect Parent</label>
+            </value>
+            <value>
+                <fullName>Credit Hold-Child</fullName>
+                <default>false</default>
+                <label>Credit Hold-Child</label>
+            </value>
+            <value>
+                <fullName>Credit Hold-Individual</fullName>
+                <default>false</default>
+                <label>Credit Hold-Individual</label>
+            </value>
+            <value>
+                <fullName>Credit Hold-Parent</fullName>
+                <default>false</default>
+                <label>Credit Hold-Parent</label>
+            </value>
+            <value>
+                <fullName>Edition is Blank</fullName>
+                <default>false</default>
+                <label>Edition is Blank</label>
+            </value>
+            <value>
+                <fullName>Escalate to L3</fullName>
+                <default>false</default>
+                <label>Escalate to L3</label>
+            </value>
+            <value>
+                <fullName>Incorrect Contract Type</fullName>
+                <default>false</default>
+                <label>Incorrect Contract Type</label>
+            </value>
+            <value>
+                <fullName>Incorrect Opportunity Type</fullName>
+                <default>false</default>
+                <label>Incorrect Opportunity Type</label>
+            </value>
+            <value>
+                <fullName>Last Terms Info Missing in SF</fullName>
+                <default>false</default>
+                <label>Last Terms Info Missing in SF</label>
+            </value>
+            <value>
+                <fullName>New Child Added to Existing Parent</fullName>
+                <default>false</default>
+                <label>New Child Added to Existing Parent</label>
+            </value>
+            <value>
+                <fullName>No Children Attached</fullName>
+                <default>false</default>
+                <label>No Children Attached</label>
+            </value>
+            <value>
+                <fullName>Parent is Closed Won.  Process Manually</fullName>
+                <default>false</default>
+                <label>Parent is Closed Won.  Process Manually</label>
+            </value>
+            <value>
+                <fullName>Terminated Renewal Left Open</fullName>
+                <default>false</default>
+                <label>Previous Opty is Terminated</label>
+            </value>
+            <value>
+                <fullName>Product is Blank</fullName>
+                <default>false</default>
+                <label>Product is Blank</label>
+            </value>
+            <value>
+                <fullName>Shouldn&apos;t Have a Parent Attached</fullName>
+                <default>false</default>
+                <label>Shouldn&apos;t Have a Parent Attached</label>
+            </value>
+            <value>
+                <fullName>Start Date Issue</fullName>
+                <default>false</default>
+                <label>Start Date Issue</label>
+            </value>
+            <value>
+                <fullName>Test Opty - Close Lose</fullName>
+                <default>false</default>
+                <label>Test Opty - Close Lose</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

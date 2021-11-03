@@ -1,0 +1,13 @@
+<apex:page showHeader="false" standardStylesheets="false" controller="MigrationPortalController" cache="false">
+<apex:composition template="{!$Site.Template}">
+<apex:define name="body">
+<apex:outputPanel rendered="{!authenticated}">
+<apex:outputText value="{!migrationcustomer.AgreementTextAccepted__c}" escape="false" />
+</apex:outputPanel>
+<apex:outputPanel rendered="{! !authenticated}">
+You are not authenticated to view this page. Please contact <a href="mailto:support@newmarketinc.com">support@newmarketinc.com</a> if you are a Newmarket International Inc. customer.<br/>
+
+</apex:outputPanel>
+</apex:define>
+</apex:composition>
+</apex:page>

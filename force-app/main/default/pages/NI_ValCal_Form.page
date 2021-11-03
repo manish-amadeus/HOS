@@ -1,0 +1,712 @@
+<apex:page standardController="NI_Value_Calculator__c" showHeader="false" sidebar="false">
+
+    <apex:form style="
+        font-size: 9.0pt;
+        font-weight: 400;
+        font-style: normal;
+        text-decoration: none;
+        font-family: Calibri, sans-serif;" >
+
+        <apex:outputPanel rendered="false">
+        
+        
+            <apex:commandButton action="{!save}" value="Submit Calculation"/>
+        
+        
+            <table border="0">
+                <tr>
+                    <td>    
+                        <table border="0" cellpadding="3" cellspacing="0" width="750px">
+                            <tr>
+                                <td style="width:200px;">
+                                    &nbsp;
+                                </td>
+                                <td style="width:125;">
+                                    &nbsp;
+                                </td>
+                                <td class="spacerCol">
+                                    &nbsp;
+                                </td>
+                                <td style="width:125;">
+                                    &nbsp;
+                                </td>
+                                <td style="width:250;">
+                                    &nbsp;
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="5" class="xTitle">
+                                    Newmarket Value Calculator
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="5">
+                                    &nbsp;
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="5" class="xSubTitle">
+                                    About your company
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="5" class="xSubText">
+                                    Just enter some quick information and in seconds we will give you an idea of the value of a Newmarket solution and how much your revenue could increase.
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="5">
+                                    &nbsp;
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <apex:outputLabel value="Company / Property / Venue Name:"/>
+                                </td>
+                                <td colspan="4" class="userDefined" style="text-align: left;">
+                                    <apex:inputField id="Co_Prop_Ven_Name_edit" value="{!NI_Value_Calculator__c.Co_Prop_Ven_Name__c}" style="width: 500px"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="5">
+                                    &nbsp;
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <apex:outputLabel value="Meeting Space"/>
+                                </td>
+                                <td class="userDefined">
+                                    <apex:inputField id="Meeting_Space_edit" value="{!NI_Value_Calculator__c.Meeting_Space__c}"/>
+                                </td>
+                                <td class="spacerCol">
+                                    Sq. Ft.
+                                </td>
+                                <td>
+                                    <apex:outputLabel value="Guest Rooms"/>
+                                </td>
+                                <td class="userDefined">
+                                    <apex:inputField id="Guest_Rooms_edit" value="{!NI_Value_Calculator__c.Guest_Rooms__c}"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="5">
+                                    &nbsp;
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <apex:outputLabel value="Number of sales people"/>
+                                </td>
+                                <td class="userDefined">
+                                    <apex:inputField id="Number_of_Sales_People_edit" value="{!NI_Value_Calculator__c.Number_of_Sales_People__c}"/>
+                                </td>
+                                <td class="spacerCol">
+                                    &nbsp;
+                                </td>
+                                <td style="text-align: center;">
+                                    
+                                </td>
+                                <td>
+                                    
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="5">
+                                    &nbsp;
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <apex:outputLabel value="Annual quota (per rep)"/>
+                                </td>
+                                <td class="userDefined">
+                                    <apex:inputField id="Annual_Quota_per_rep_edit" value="{!NI_Value_Calculator__c.Annual_Quota_per_rep__c}"/>
+                                </td>
+                                <td class="spacerCol">
+                                    &nbsp;
+                                </td>
+                                <td style="text-align: right;">
+                                    
+                                </td>
+                                <td>
+                                
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="5">
+                                    &nbsp;
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <apex:outputLabel value="Average booking amount (per rep)"/>
+                                </td>
+                                <td class="userDefined">
+                                    <apex:inputField id="Average_Booking_Amount_per_rep_edit" value="{!NI_Value_Calculator__c.Average_Booking_Amount_per_rep__c}"/>
+                                </td>
+                                <td class="spacerCol">
+                                    &nbsp;
+                                </td>
+                                <td>
+                                
+                                </td>
+                                <td>
+                                
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="5">
+                                    &nbsp;
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <apex:outputLabel value="Average # of events (per booking)"/>
+                                </td>
+                                <td class="userDefined">
+                                    <apex:inputField id="Average_of_events_per_booking_edit" value="{!NI_Value_Calculator__c.Average_of_events_per_booking__c}"/>
+                                </td>
+                                <td class="spacerCol">
+                                    &nbsp;
+                                </td>
+                                <td>
+                                
+                                </td>
+                                <td>
+                                
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="5">
+                                    &nbsp;
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="5" class="xSubTitle">
+                                    Value drivers
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="5" class="xSubText">
+                                    Our customers see great results. These numbers represent the average increases they report. Want to estimate a bit more conservatively or aggressively? Calculate as many times as you&#39;d like.
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="5">
+                                    &nbsp;
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <apex:outputLabel value="% increase in booking size"/>
+                                </td>
+                                <td class="userDefined">
+                                    <apex:inputField id="Percent_Increase_in_booking_size_edit" value="{!NI_Value_Calculator__c.PercentBookingSize__c}"/>
+                                </td>
+                                <td class="spacerCol">
+                                    <b>&nbsp;**</b>
+                                </td>
+                                <td>
+                                
+                                </td>
+                                <td>
+                                
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="5">
+                                    &nbsp;
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <apex:outputLabel value="% increase in win rate"/>
+                                </td>
+                                <td class="userDefined">
+                                    <apex:inputField id="Percent_Increase_in_Win_Rate_edit" value="{!NI_Value_Calculator__c.PercentWinRate__c}"/>
+                                </td>
+                                <td class="spacerCol">
+                                    <b>&nbsp;**</b>
+                                </td>
+                                <td>
+                                
+                                </td>
+                                <td>
+                                
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="5">
+                                    &nbsp;
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="5" class="xSubText">
+                                    ** average improvements as reported by Salesforce customers.
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="5">
+                                    &nbsp;
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="5" class="xSubTitle">
+                                    Solution financial comparison
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="5">
+                                    &nbsp;
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <apex:outputLabel value="Total amount of Newmarket solution"/>
+                                </td>
+                                <td class="userDefined">
+                                    <apex:inputField id="Total_amount_of_Newmarket_solution_edit" value="{!NI_Value_Calculator__c.Total_amount_of_Newmarket_solution__c}"/>
+                                </td>
+                                <td class="spacerCol">
+                                    &nbsp;
+                                </td>
+                                <td>
+                                
+                                </td>
+                                <td>
+                                
+                                </td>
+                            </tr>                    
+                            <tr>
+                                <td colspan="5">
+                                    &nbsp;
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <apex:outputLabel value="Total amount of Competitor solution"/>
+                                </td>
+                                <td class="userDefined">
+                                    <apex:inputField id="Total_amount_of_Competitor_solution_edit" value="{!NI_Value_Calculator__c.Total_amount_of_Competitor_solution__c}"/>
+                                </td>
+                                <td class="spacerCol">
+                                    &nbsp;
+                                </td>
+                                <td>
+                                
+                                </td>
+                                <td>
+                                
+                                </td>
+                            </tr>
+                            
+                        </table>
+                        </td>
+                    </tr>
+                </table>
+        
+        
+        
+                <br/>
+                <br/>
+                <apex:commandButton action="{!save}" value="Submit Calculation"/>
+                
+        
+        </apex:outputPanel>
+        
+        
+        
+        
+        <apex:outputPanel rendered="true">
+        
+            <table border="0">
+                <tr>
+                    <td>    
+                        <table border="0" cellpadding="3" cellspacing="0" width="750px">
+                            <tr>
+                                <td style="width:200px;">
+                                    &nbsp;
+                                </td>
+                                <td style="width:125;">
+                                    &nbsp;
+                                </td>
+                                <td class="spacerCol">
+                                    &nbsp;
+                                </td>
+                                <td style="width:125;">
+                                    &nbsp;
+                                </td>
+                                <td style="width:250;">
+                                    &nbsp;
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="5" class="xTitle">
+                                    Newmarket Value Calculator
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="5">
+                                    &nbsp;
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="5" class="xSubTitle">
+                                    About your company
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="5" class="xSubText">
+                                    Just enter some quick information and in seconds we will give you an idea of the value of a Newmarket solution and how much your revenue could increase.
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="5">
+                                    &nbsp;
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <apex:outputLabel value="Company / Property / Venue Name:"/>
+                                </td>
+                                <td colspan="4" class="userDefined" style="text-align: left;">
+                                    <apex:outputField id="Co_Prop_Ven_Name" value="{!NI_Value_Calculator__c.Co_Prop_Ven_Name__c}"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="5">
+                                    &nbsp;
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <apex:outputLabel value="Meeting Space"/>
+                                </td>
+                                <td class="userDefined">
+                                    <apex:outputField id="Meeting_Space" value="{!NI_Value_Calculator__c.Meeting_Space__c}"/>
+                                </td>
+                                <td class="spacerCol">
+                                    Sq. Ft.
+                                </td>
+                                <td>
+                                    <apex:outputLabel value="Guest Rooms"/>
+                                </td>
+                                <td class="userDefined">
+                                    <apex:outputField id="Guest_Rooms" value="{!NI_Value_Calculator__c.Guest_Rooms__c}"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="5">
+                                    &nbsp;
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <apex:outputLabel value="Number of sales people"/>
+                                </td>
+                                <td class="userDefined">
+                                    <apex:outputField id="Number_of_Sales_People" value="{!NI_Value_Calculator__c.Number_of_Sales_People__c}"/>
+                                </td>
+                                <td class="spacerCol">
+                                    &nbsp;
+                                </td>
+                                <td style="text-align: center;">
+                                    <u><apex:outputLabel value="per venue"/></u>
+                                </td>
+                                <td>
+                                    
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="5">
+                                    &nbsp;
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <apex:outputLabel value="Annual quota (per rep)"/>
+                                </td>
+                                <td class="userDefined">
+                                    <apex:outputField id="Annual_Quota_per_rep" value="{!NI_Value_Calculator__c.Annual_Quota_per_rep__c}"/>
+                                </td>
+                                <td class="spacerCol">
+                                    &nbsp;
+                                </td>
+                                <td style="text-align: right;" class="userDefined">
+                                    <apex:outputField id="Annual_Quota_Per_Venue" value="{!NI_Value_Calculator__c.Annual_Quota_Per_Venue__c}"/>
+                                </td>
+                                <td>
+                                
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="5">
+                                    &nbsp;
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <apex:outputLabel value="Average booking amount (per rep)"/>
+                                </td>
+                                <td class="userDefined">
+                                    <apex:outputField id="Average_Booking_Amount_per_rep" value="{!NI_Value_Calculator__c.Average_Booking_Amount_per_rep__c}"/>
+                                </td>
+                                <td class="spacerCol">
+                                    &nbsp;
+                                </td>
+                                <td>
+                                
+                                </td>
+                                <td>
+                                
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="5">
+                                    &nbsp;
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <apex:outputLabel value="Average # of bookings (per rep)"/>
+                                </td>
+                                <td class="userDefined">
+                                    <apex:outputField id="Average_of_Bookings_per_rep" value="{!NI_Value_Calculator__c.Average_of_Bookings_per_rep__c}"/>
+                                </td>
+                                <td class="spacerCol">
+                                    &nbsp;
+                                </td>
+                                <td style="text-align: right;" class="userDefined">
+                                    <apex:outputField id="Average_of_Bookings_Per_Venue" value="{!NI_Value_Calculator__c.Average_of_Bookings_Per_Venue__c}"/>
+                                </td>
+                                <td>
+                                
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="5">
+                                    &nbsp;
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <apex:outputLabel value="Average # of events (per booking)"/>
+                                </td>
+                                <td class="userDefined">
+                                    <apex:outputField id="Average_of_events_per_booking" value="{!NI_Value_Calculator__c.Average_of_events_per_booking__c}"/>
+                                </td>
+                                <td class="spacerCol">
+                                    &nbsp;
+                                </td>
+                                <td>
+                                
+                                </td>
+                                <td>
+                                
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="5">
+                                    &nbsp;
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <apex:outputLabel value="Annual of events per rep"/>
+                                </td>
+                                <td style="text-align: right;" class="userDefined">
+                                    <apex:outputField id="Annual_of_events_per_rep" value="{!NI_Value_Calculator__c.Annual_of_events_per_rep__c}"/>
+                                </td>
+                                <td class="spacerCol">
+                                    &nbsp;
+                                </td>
+                                <td style="text-align: right;" class="userDefined">
+                                    <apex:outputField id="Annual_of_events_Per_Venue" value="{!NI_Value_Calculator__c.Annual_of_events_Per_Venue__c}"/>
+                                </td>
+                                <td>
+                                    
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="5">
+                                    &nbsp;
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="5" class="xSubTitle">
+                                    Value drivers
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="5" class="xSubText">
+                                    Our customers see great results. These numbers represent the average increases they report. Want to estimate a bit more conservatively or aggressively? Calculate as many times as you&#39;d like.
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="5">
+                                    &nbsp;
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <apex:outputLabel value="% increase in booking size"/>
+                                </td>
+                                <td class="userDefined">
+                                    <apex:outputField id="Percent_Increase_in_booking_size" value="{!NI_Value_Calculator__c.PercentBookingSize__c}"/>
+                                </td>
+                                <td class="spacerCol">
+                                    <b>&nbsp;**</b>
+                                </td>
+                                <td>
+                                
+                                </td>
+                                <td>
+                                
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="5">
+                                    &nbsp;
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <apex:outputLabel value="% increase in win rate"/>
+                                </td>
+                                <td class="userDefined">
+                                    <apex:outputField id="Percent_Increase_in_Win_Rate" value="{!NI_Value_Calculator__c.PercentWinRate__c}"/>
+                                </td>
+                                <td class="spacerCol">
+                                    <b>&nbsp;**</b>
+                                </td>
+                                <td>
+                                
+                                </td>
+                                <td>
+                                
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="5">
+                                    &nbsp;
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="5" class="xSubText">
+                                    ** average improvements as reported by Salesforce customers.
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="5">
+                                    &nbsp;
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="3" class="calcHighlight">
+                                    <apex:outputLabel value="Annual increase in revenue"/>
+                                </td>
+                                <td colspan="2" class="calcHighlight">
+                                    <apex:outputField id="Annual_Increase_in_Revenue" value="{!NI_Value_Calculator__c.Annual_Increase_in_Revenue__c}"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="5">
+                                    &nbsp;
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="5" class="xSubTitle">
+                                    Solution financial comparison
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="5">
+                                    &nbsp;
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <apex:outputLabel value="Total amount of Newmarket solution"/>
+                                </td>
+                                <td class="userDefined">
+                                    <apex:outputField id="Total_amount_of_Newmarket_solution" value="{!NI_Value_Calculator__c.Total_amount_of_Newmarket_solution__c}"/>
+                                </td>
+                                <td class="spacerCol">
+                                    &nbsp;
+                                </td>
+                                <td>
+                                
+                                </td>
+                                <td>
+                                
+                                </td>
+                            </tr>                    
+                            <tr>
+                                <td colspan="5">
+                                    &nbsp;
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <apex:outputLabel value="Total amount of Competitor solution"/>
+                                </td>
+                                <td class="userDefined">
+                                    <apex:outputField id="Total_amount_of_Competitor_solution" value="{!NI_Value_Calculator__c.Total_amount_of_Competitor_solution__c}"/>
+                                </td>
+                                <td class="spacerCol">
+                                    &nbsp;
+                                </td>
+                                <td>
+                                
+                                </td>
+                                <td>
+                                
+                                </td>
+                            </tr>
+                            
+                            <tr>
+                                <td colspan="5">
+                                    &nbsp;
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="3" class="calcHighlight">
+                                    <apex:outputLabel value="Total solution cost differential per booking"/>
+                                </td>
+                                <td colspan="2" class="calcHighlight">
+                                    <apex:outputField id="Total_solution_cost_diff_per_booking" value="{!NI_Value_Calculator__c.Total_solution_cost_diff_per_booking__c}"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="5" class="calcHighlight">
+                                    
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="3" class="calcHighlight">
+                                    <apex:outputLabel value="Total solution cost differential per event"/>
+                                </td>
+                                <td colspan="2" class="calcHighlight">
+                                    <apex:outputField id="Total_solution_cost_diff_per_event" value="{!NI_Value_Calculator__c.Total_solution_cost_diff_per_event__c}"/>
+                                </td>
+                            </tr>
+                        </table>
+                        </td>
+                    </tr>
+                </table>
+        
+        </apex:outputPanel>
+                
+    </apex:form>
+    
+    <style>
+
+  
+    
+    
+    </style>
+
+
+
+</apex:page>

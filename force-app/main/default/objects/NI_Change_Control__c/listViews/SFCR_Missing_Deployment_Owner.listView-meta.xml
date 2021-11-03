@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>SFCR_Missing_Deployment_Owner</fullName>
+    <columns>NAME</columns>
+    <columns>CREATEDBY_USER</columns>
+    <columns>CREATED_DATE</columns>
+    <columns>Request_Summary__c</columns>
+    <columns>Approval_Status__c</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>Change_Status__c</field>
+        <operation>notContain</operation>
+        <value>Close</value>
+    </filters>
+    <filters>
+        <field>RECORDTYPE</field>
+        <operation>equals</operation>
+        <value>NI_Change_Control__c.Salesforce_com_Change_Request</value>
+    </filters>
+    <filters>
+        <field>NI_Change_Owner__c</field>
+        <operation>equals</operation>
+    </filters>
+    <label>SFCR: Missing Deployment Owner</label>
+    <sharedTo>
+        <allInternalUsers></allInternalUsers>
+    </sharedTo>
+</ListView>

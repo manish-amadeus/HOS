@@ -1,0 +1,55 @@
+<apex:page standardController="AH_UDC_Workbook__c" cache="false"  extensions="AH_UDC_WorkbookResponsesExt" readOnly="true" showHeader="true" standardStylesheets="true" sidebar="true">
+   <apex:pageMessages />
+
+   <apex:sectionHeader subtitle="Workbook Response" help="Workbook Response" />
+
+   <apex:pageBlock title="{!displayWorkbook.Record.Name}">
+      <apex:pageBlockSection columns="1" showHeader="false">
+         <apex:panelGroup >
+               Description:&nbsp;{!displayWorkbook.Record.Description__c}
+         </apex:panelGroup>
+         <apex:panelGroup >
+               NI Document:&nbsp;<apex:outputField value="{!displayWorkbook.Record.RelatedToDocName__c}"></apex:outputField>
+         </apex:panelGroup>
+         <apex:panelGroup >
+               Sent Date:&nbsp;<apex:outputField value="{!displayWorkbook.Record.SentDate__c}"></apex:outputField>
+         </apex:panelGroup>
+         <apex:panelGroup >
+               Sent Status:&nbsp;{!displayWorkbook.Record.SentStatus__c}
+         </apex:panelGroup>
+         <apex:panelGroup >
+               Completed Date:&nbsp;<apex:outputField value="{!displayWorkbook.Record.CompletedDate__c}"></apex:outputField>
+         </apex:panelGroup>
+      </apex:pageBlockSection>
+
+      <apex:pageBlockSection columns="1" showHeader="true" title="Steps">
+         <apex:repeat value="{!displayWorkbook.WorkbookSteps}" var="WorkbookStep" id="repeatWorkbookSteps">
+            <apex:pageBlockSection columns="1" showHeader="true" title="{!WorkbookStep.Record.Name}">
+               <apex:panelGroup >
+                  Step Status:&nbsp;{!WorkbookStep.Record.StepStatus__c}
+               </apex:panelGroup>
+               <apex:panelGroup >
+                  Completed Date:&nbsp;<apex:outputField value="{!WorkbookStep.Record.StepCompleted__c}"></apex:outputField>
+               </apex:panelGroup>
+            
+               <apex:pageBlockSection columns="1" showHeader="true" title="Responses">
+                  <apex:repeat value="{!WorkbookStep.StepResponses}" var="StepResponse" id="repeatStepResponses">
+                     <apex:pageBlockSection columns="1" showHeader="true" title="Response">
+                        <apex:panelGroup ><apex:outputField value="{!StepResponse.Record.Responded__c}"></apex:outputField></apex:panelGroup>
+
+                        <apex:repeat value="{!StepResponse.StepResponseQAs}" var="StepResponseQA" id="repeatStepResponseQAs">
+                           <apex:panelGroup >
+                              <B><apex:outputField value="{!StepResponseQA.Record.Question__c}"></apex:outputField></B>:&nbsp;<apex:outputField value="{!StepResponseQA.Record.Answer__c}"></apex:outputField>
+                           </apex:panelGroup>
+                        </apex:repeat>
+                     </apex:pageBlockSection>
+                  </apex:repeat>
+               </apex:pageBlockSection>
+
+            </apex:pageBlockSection>
+         </apex:repeat>
+      </apex:pageBlockSection>
+   </apex:pageBlock>
+
+
+</apex:page>

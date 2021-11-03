@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Finance_Audit_View</fullName>
+    <columns>Expense_Report__c</columns>
+    <columns>OWNER.FIRST_NAME</columns>
+    <columns>OWNER.LAST_NAME</columns>
+    <columns>ADP_Record_Number__c</columns>
+    <columns>Status__c</columns>
+    <columns>Total_Amount__c</columns>
+    <columns>CREATED_DATE</columns>
+    <columns>Date_Approved__c</columns>
+    <columns>LAST_UPDATE</columns>
+    <columns>To_Finance_Date__c</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>Status__c</field>
+        <operation>equals</operation>
+        <value>Approved,Approved (Step #1),Approved (Step #2)</value>
+    </filters>
+    <filters>
+        <field>Date_Approved__c</field>
+        <operation>greaterThan</operation>
+        <value>12/31/2015 12:00 AM</value>
+    </filters>
+    <filters>
+        <field>To_Finance_Date__c</field>
+        <operation>equals</operation>
+    </filters>
+    <filters>
+        <field>CREATEDBY_USER</field>
+        <operation>startsWith</operation>
+        <value>Jon</value>
+    </filters>
+    <label>Finance Audit View</label>
+    <sharedTo>
+        <group>NISFDCSysAdmin</group>
+        <role>Finance</role>
+    </sharedTo>
+</ListView>

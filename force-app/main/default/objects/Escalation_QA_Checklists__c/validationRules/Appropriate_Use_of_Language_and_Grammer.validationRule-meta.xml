@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Appropriate_Use_of_Language_and_Grammer</fullName>
+    <active>true</active>
+    <description>Value can not be greater than 5</description>
+    <errorConditionFormula>Uses_Professional_Lang_Tone_On_Call__c  &gt; 5</errorConditionFormula>
+    <errorDisplayField>Uses_Professional_Lang_Tone_On_Call__c</errorDisplayField>
+    <errorMessage>Please update your value to be between 0 and 5.</errorMessage>
+</ValidationRule>

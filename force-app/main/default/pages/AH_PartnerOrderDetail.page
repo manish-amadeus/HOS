@@ -1,0 +1,169 @@
+<apex:page Controller="AH_PartnerOrderDetailController" showHeader="false" sidebar="false" standardStylesheets="false">
+    
+    <apex:slds rendered="true"/>
+    
+    <div class="slds-scope">
+        <div style="margin-left:30px;margin-right:30px;">
+
+            <apex:pageBlock >
+                
+                <div class="slds-page-header--vertical" role="banner">
+                    <div class="slds-grid slds-grid--vertical">
+                        <h1 class="slds-page-header__title slds-truncate" title="Order Detail">Order Detail</h1>
+                    </div>
+                </div>
+                <div class="demo-only" style="width: 50rem;">
+                    <article class="slds-tile">
+                        <h3 class="slds-tile__title " title="Order Detail"></h3>
+                        
+                        <div class="slds-tile__detail">
+                            <dl class="slds-list_horizontal slds-wrap">
+                                
+                                <dt class="slds-item_label slds-text-color_weak " title="Opportunity Number">Opportunity Number:</dt>
+                                <dd class="slds-item_detail " title="Opportunity Number" ><apex:OutputText id="OppNumber" value="{!lstOppDetails[0].OpportunityNumber}" label="Opportunity Number" /></dd>                            
+                                
+                                <dt class="slds-item_label slds-text-color_weak " title="Account Name">Account Name:</dt>
+                                <dd class="slds-item_detail " title="Account Name" ><apex:OutputText id="AccountName" value="{!lstOppDetails[0].AccountName}" label="Account" /></dd>
+                                <dt class="slds-item_label slds-text-color_weak " title="Account Number">Customer ID:</dt>
+                                <dd class="slds-item_detail " title="Account Number"><apex:OutputText id="AccountNumber" value="{!lstOppDetails[0].AccountNumber}" label="Customer ID" /></dd>
+                                
+                                
+                                <dt class="slds-item_label slds-text-color_weak " title="Street">Address:</dt>
+                                <dd class="slds-item_detail " title="Street"><apex:OutputText id="AccountStreet" value="{!lstOppDetails[0].AccountStreet}" label="Address" /></dd>
+                                
+                                <dt class="slds-item_label slds-text-color_weak " title="City">City:</dt>
+                                <dd class="slds-item_detail " title="City"><apex:OutputText id="AccountCity" value="{!lstOppDetails[0].AccountCity}" label="City" /></dd>
+                                
+                                <dt class="slds-item_label slds-text-color_weak " title="State">State:</dt>
+                                <dd class="slds-item_detail " title="State"><apex:OutputText id="AccountState" value="{!lstOppDetails[0].AccountState}" label="State" /></dd>
+                                
+                                <dt class="slds-item_label slds-text-color_weak " title="Postal">Postal Code:</dt>
+                                <dd class="slds-item_detail " title="Postal"><apex:OutputText id="AccountPostal" value="{!lstOppDetails[0].AccountPostal}" label="Postal Code" /></dd>
+                                
+                                <dt class="slds-item_label slds-text-color_weak " title="Country">Country:</dt>
+                                <dd class="slds-item_detail " title="Country"><apex:OutputText id="AccountCountry" value="{!lstOppDetails[0].AccountCountry}" label="Country" /></dd>
+                                
+                                <dt class="slds-item_label slds-text-color_weak " title="Phone">Phone:</dt>
+                                <dd class="slds-item_detail " title="Phone"><apex:OutputText id="AccountPhone" value="{!lstOppDetails[0].AccountPhone}" label="Phone" /></dd>
+                                
+                                <dt class="slds-item_label slds-text-color_weak " title="Fax">Fax:</dt>
+                                <dd class="slds-item_detail " title="Fax"><apex:OutputText id="AccountFax" value="{!lstOppDetails[0].AccountFax}" label="Fax" /></dd>
+                                
+                                <dt class="slds-item_label slds-text-color_weak " title="Management Company">Management Company:</dt>
+                                <dd class="slds-item_detail " title="Management Company"><apex:OutputText id="ManagementCo" value="{!lstOppDetails[0].ManagementCo}" label="Management Co." /></dd>
+                                
+                                <dt class="slds-item_label slds-text-color_weak " title="Franchisor">Franchisor:</dt>
+                                <dd class="slds-item_detail " title="Franchisor"><apex:OutputText id="Franchisor" value="{!lstOppDetails[0].Franchisor}" label="Franchisor" /></dd>
+                                
+                                <dt class="slds-item_label slds-text-color_weak " title="Web Site">Web Site:</dt>
+                                <dd class="slds-item_detail " title="Web Site"><apex:OutputText id="Website" value="{!lstOppDetails[0].Website}" label="Web Site" /></dd>
+                                
+                                <dt class="slds-item_label slds-text-color_weak " title="Number of Rooms">Number of Rooms:</dt>
+                                <dd class="slds-item_detail " title="Number of Rooms"><apex:OutputText id="GuestRooms" value="{!lstOppDetails[0].GuestRooms}" label="Number of Rooms" /></dd>
+                                
+                            </dl> 
+                        </div>
+                    </article>
+                    
+                    <article class="slds-tile">
+                        <h3 class="slds-tile__title " title="Order Detail"></h3>
+                        
+                        <div class="slds-tile__detail">
+                            <dl class="slds-list_horizontal slds-wrap">
+                                
+                                <dt class="slds-item_label slds-text-color_weak " title="Status">Status:</dt>
+                                <dd class="slds-item_detail " title="Status"><apex:OutputText id="Status" value="{!lstOppDetails[0].Status}" label="Status" /></dd>
+                                
+                                <dt class="slds-item_label slds-text-color_weak " title="Install Type">Install Type:</dt>
+                                <dd class="slds-item_detail " title="Install Type"><apex:OutputText id="InstallType" value="{!lstOppDetails[0].InstallType}" label="Install Type" /></dd>
+                                
+                                
+                                <dt class="slds-item_label slds-text-color_weak " title="Sales Manager">Sales Manager:</dt>
+                                <dd class="slds-item_detail " title="Sales Manager"><apex:OutputText id="SalesManager" value="{!lstOppDetails[0].SalesManager}" label="Sales Manager" /></dd>
+                                
+                                <dt class="slds-item_label slds-text-color_weak " title="Project Manager">Project Manager:</dt>
+                                <dd class="slds-item_detail " title="Project Manager"><apex:OutputText id="ProjectManager" value="{!lstOppDetails[0].ProjectManager}" label="Project Manager" /></dd>
+                                
+                                <dt class="slds-item_label slds-text-color_weak " title="Order Date">Order Date:</dt>
+                                <dd class="slds-item_detail " title="Order Date"><apex:OutputText id="OrderDate" value="{0, date, MMMM d','  yyyy}" label="Order Date" >
+                                    <apex:Param value="{!DATEVALUE(lstOppDetails[0].OrderDate)}"/></apex:OutputText></dd>
+                                
+                            </dl>
+                        </div>
+                    </article>
+                    <article class="slds-tile">
+                        <h3 class="slds-tile__title " title="Order Detail"></h3>
+                        <div class="slds-tile__detail">
+                            <dl class="slds-list_horizontal slds-wrap">
+                                
+                                <dt class="slds-item_label slds-text-color_weak " title="Ship to Contact">Ship to Contact:</dt>
+                                <dd class="slds-item_detail " title="Ship to Contact"><apex:OutputText id="ShipToName" value="{!lstOppDetails[0].ShipToName}" label="Ship To Contact" /></dd> 
+                                <dt class="slds-item_label slds-text-color_weak " title="Ship to Title">Title:</dt>
+                                <dd class="slds-item_detail " title="Ship to Title"><apex:OutputText id="ShipToTitle" value="{!lstOppDetails[0].ShipToTitle}" label="Title" /></dd>
+                                <dt class="slds-item_label slds-text-color_weak " title="Ship to Email">Email:</dt>
+                                <dd class="slds-item_detail " title="Ship to Email"><apex:OutputText id="ShipToEmail" value="{!lstOppDetails[0].ShipToEmail}" label="Email" /></dd>
+                                <dt class="slds-item_label slds-text-color_weak " title="Ship to Phone">Phone:</dt>
+                                <dd class="slds-item_detail " title="Ship to Phone"><apex:OutputText id="ShipToPhone" value="{!lstOppDetails[0].ShipToPhone}" label="Phone" /></dd>
+                                
+                                <dt class="slds-item_label slds-text-color_weak " title="Client Services Contact">Client Services Contact:</dt>
+                                <dd class="slds-item_detail " title="Client Services Contact"><apex:OutputText id="ClientServicesContact" value="{!lstOppDetails[0].ClientServicesContact}" label="Client Services Contact" /></dd>
+                                <dt class="slds-item_label slds-text-color_weak " title="Client Services Title">Title:</dt>
+                                <dd class="slds-item_detail " title="Client Services Title"><apex:OutputText id="ClientServicesTitle" value="{!lstOppDetails[0].ClientServicesTitle}" label="Title" /></dd>
+                                <dt class="slds-item_label slds-text-color_weak " title="Client Services Email">Email:</dt>
+                                <dd class="slds-item_detail " title="Client Services Email"><apex:OutputText id="ClientServicesEmail" value="{!lstOppDetails[0].ClientServicesEmail}" label="Email" /></dd>
+                                <dt class="slds-item_label slds-text-color_weak " title="Client Services Phone">Phone:</dt>
+                                <dd class="slds-item_detail " title="Client Services Phone"><apex:OutputText id="ClientServicesPhone" value="{!lstOppDetails[0].ClientServicesPhone}" label="Phone" /></dd>
+                                
+                            </dl>
+                        </div>
+                    </article>
+                </div>
+                <br/>
+                <div class="slds-page-header" role="banner">
+                    <div class="slds-grid">
+                        <div class="slds-col slds-has-flexi-truncate">
+                            <h1 class="slds-page-header__title slds-truncate" title="Products">Products</h1>
+                            
+                        </div>
+                    </div>
+                </div>        
+                <table class="slds-table slds-table_bordered slds-table_cell-buffer">
+                    
+                    <tr>
+                        <td>Quantity</td>
+                        <td>SKU</td>
+                        <td>Description</td>
+                        <td>Rate</td>
+                        <td>Price</td>
+                    </tr>
+                    
+                    <apex:repeat value="{!lstOppLineItemDetails}" var="o">
+                        <tr>
+                            <td><apex:outputText value="{!o.Quantity}" id="Quantity"/></td>
+                            <td><apex:outputText value="{!o.SKU}" id="Sku"/></td>
+                            <td><apex:outputText value="{!o.Description}" id="Description"/></td>
+                            <td><apex:outputText value="{!o.Rate}" id="Rate"/></td>
+                            <td><apex:outputText value="{!o.Price}" id="Price"/></td>                    
+                        </tr>
+                    </apex:repeat>                
+                    
+                </table>              
+                
+                <br />
+                <hr/>
+                
+                <table width="100%;" class="slds-table slds-table_bordered slds-table_cell-buffer">               
+                    <tr>
+                        <td>
+                        </td>
+                    </tr>
+                </table>
+                
+            </apex:pageBlock>        
+            
+        </div> 
+    </div>
+    
+    <apex:pageMessages />
+    
+</apex:page>

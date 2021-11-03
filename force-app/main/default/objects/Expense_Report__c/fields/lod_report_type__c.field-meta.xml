@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>lod_report_type__c</fullName>
+    <description>for Libra expense reports - All NI expense reports are Non-Chargeback</description>
+    <externalId>false</externalId>
+    <label>Report Type (lod)</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Non-Chargeback</fullName>
+                <default>true</default>
+                <label>Non-Chargeback</label>
+            </value>
+            <value>
+                <fullName>Chargeback</fullName>
+                <default>false</default>
+                <label>Chargeback</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>CBS_Committed__c</fullName>
+    <businessOwnerGroup>DEPT_Business_Systems</businessOwnerGroup>
+    <businessStatus>Active</businessStatus>
+    <description>NICC-048128
+
+This field indicates whether or not the Corporate Business Systems Team has committed to delivering this project. This field reflects the Committed field on the Business Systems Project that is related to this Internal Project.</description>
+    <externalId>false</externalId>
+    <formula>Business_Systems_Project__r.Committed__c</formula>
+    <inlineHelpText>This field indicates whether or not the Corporate Business Systems Team has committed to delivering this project. This field reflects the Committed field on the Business Systems Project that is related to this Internal Project.</inlineHelpText>
+    <label>CBS Committed</label>
+    <securityClassification>Internal</securityClassification>
+    <trackHistory>false</trackHistory>
+    <type>Checkbox</type>
+</CustomField>

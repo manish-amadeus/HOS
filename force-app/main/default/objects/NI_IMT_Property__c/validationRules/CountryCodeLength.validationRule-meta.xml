@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>CountryCodeLength</fullName>
+    <active>true</active>
+    <description>For country code on property, the code must be 3 characters in length</description>
+    <errorConditionFormula>LEN(Country__c) &lt;&gt; 2</errorConditionFormula>
+    <errorDisplayField>Country__c</errorDisplayField>
+    <errorMessage>The country code must be 2 characters</errorMessage>
+</ValidationRule>

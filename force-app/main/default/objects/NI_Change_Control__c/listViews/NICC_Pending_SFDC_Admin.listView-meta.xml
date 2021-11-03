@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>NICC_Pending_SFDC_Admin</fullName>
+    <columns>NAME</columns>
+    <columns>Priority__c</columns>
+    <columns>NI_Change_Owner__c</columns>
+    <columns>Environment_s_Affected__c</columns>
+    <columns>Date_Required__c</columns>
+    <columns>Request_Summary__c</columns>
+    <columns>Team__c</columns>
+    <columns>Change_Status__c</columns>
+    <columns>CREATEDBY_USER</columns>
+    <columns>Days_Open__c</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>Team__c</field>
+        <operation>equals</operation>
+        <value>SFDC Admin</value>
+    </filters>
+    <filters>
+        <field>Change_Status__c</field>
+        <operation>equals</operation>
+        <value>Open</value>
+    </filters>
+    <filters>
+        <field>NI_Change_Owner__c</field>
+        <operation>equals</operation>
+    </filters>
+    <label>NICC - Pending SFDC Admin</label>
+    <sharedTo>
+        <group>Business_Systems_Internal</group>
+    </sharedTo>
+</ListView>

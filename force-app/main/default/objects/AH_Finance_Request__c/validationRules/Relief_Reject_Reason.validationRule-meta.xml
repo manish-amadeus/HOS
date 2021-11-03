@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Relief_Reject_Reason</fullName>
+    <active>true</active>
+    <description>Relief reject reason cannot be blank when relief status = &quot;Committee Rejected&quot;.</description>
+    <errorConditionFormula>AND (ISPICKVAL(Relief_Status__c, &quot;Committee Rejected&quot;),
+TEXT(Relief_Reject_Reason__c ) = &quot;&quot;
+)</errorConditionFormula>
+    <errorMessage>Relief Reject Reason cannot be blank when Relief Reason = Committee Rejected.</errorMessage>
+</ValidationRule>

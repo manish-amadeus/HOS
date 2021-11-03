@@ -1,0 +1,204 @@
+<apex:page standardController="pse__Assignment__c" extensions="PsaTransferAssignmentController" title="Transfer Assignment" id="ta" >
+
+<script>
+
+    function OpenProjectLookupWindow(url)
+    {
+        var projectNameTag = document.getElementById('ta:taform:new:newAssig:pbsiProj:newProject');
+        if(projectNameTag != null && projectNameTag.value != '')
+        {
+            url += '?projectName='+projectNameTag.value;
+        } 
+        newwindow=window.open(url,'name','width=850,height=550,top=50,toolbar=no,personalbar=no,location=no,directories=no,statusbar=no,menubar=no,status=no,re sizable=yes,left=60,screenX=60,top=100,screenY=100');
+        if (window.focus){newwindow.focus()}
+    }
+
+    function OpenResourceLookupWindow(url)
+    {
+        var resourceNameTag = document.getElementById('ta:taform:new:newAssig:pbsiResource:newResource');
+        //if(resourceNameTag != null && resourceNameTag.value != '')
+        //{
+        //    url += '?resourceName='+resourceNameTag.value;
+        //} 
+        newwindow=window.open(url,'name','width=850,height=550,top=50,toolbar=no,personalbar=no,location=no,directories=no,statusbar=no,menubar=no,status=no,re sizable=yes,left=60,screenX=60,top=100,screenY=100');
+        if (window.focus){newwindow.focus()}
+    }
+    
+    function setProjectValue(pageId,lookupId,lookupName,id,name)
+    {
+        var idComp = document.getElementById(lookupId);
+        var nameComp = document.getElementById(lookupName);
+        var projectNameTag = document.getElementById('ta:taform:new:newAssig:pbsiProj:newProject');
+        if(idComp != null)
+        {
+            idComp.value = id;
+        }
+        if(nameComp != null)
+        {
+            nameComp.value=name;
+        }
+        if(projectNameTag != null)
+        {
+            projectNameTag.value = name;
+        }
+    }
+
+    function setResourceValue(pageId,lookupId,lookupName,id,name)
+    {
+        var idComp = document.getElementById(lookupId);
+        var nameComp = document.getElementById(lookupName);
+        var resourceNameTag = document.getElementById('ta:taform:new:newAssig:pbsiResource:newResource');
+        if(idComp != null)
+        {
+            idComp.value = id;
+        }
+        if(nameComp != null)
+        {
+            nameComp.value=name;
+        }
+        if(resourceNameTag != null)
+        {
+            resourceNameTag.value = name;
+        }
+    }
+    
+    function overrideProjectResourceSearchLinks()
+    {
+        var aTag = document.getElementById('ta:taform:new:newAssig:pbsiProj:newProject_lkwgt');
+        if(aTag != null)
+        {
+            aTag.href = "javascript:OpenProjectLookupWindow('/apex/PsaTxAssignmentProjectLookup')";
+        }
+
+        var bTag = document.getElementById('ta:taform:new:newAssig:pbsiResource:newResource_lkwgt');
+        if(bTag != null)
+        {
+            bTag.href = "javascript:OpenResourceLookupWindow('/apex/PsaTxAssignmentResourceLookup')";
+        }
+        
+    }
+</script>
+
+<apex:sectionHeader title="Transfer Assignment" />
+
+<apex:pageMessages id="messages"/>
+
+<apex:pageBlock id="compl" rendered="{!transferComplete}">
+    <apex:pageBlockSection >
+        <apex:pageBlockSectionItem >
+            <apex:outputLabel >View New Assignment</apex:outputLabel>
+            <apex:outputLink value="/{!newAssignmentId}">View New Assignment</apex:outputLink>
+        </apex:pageBlockSectionItem>
+        <apex:pageBlockSectionItem rendered="{!isCloseOriginal==false}">
+            <apex:outputLabel >View Original Assignment</apex:outputLabel>
+            <apex:outputLink value="/{!origAssignment.Id}">View Original Assignment</apex:outputLink>
+        </apex:pageBlockSectionItem>
+    </apex:pageBlockSection>
+</apex:pageBlock>
+
+
+<apex:form id="taform" rendered="{!transferComplete==false}">
+<apex:pageBlock id="orig" title="Original Assignment">
+    <apex:pageBlockSection id="origAssig" columns="1">
+        <apex:pageBlockSectionItem >
+            <apex:outputLabel >Assignment</apex:outputLabel>
+            <apex:outputLink id="origAssignmentName" value="/{!origAssignment.Id}">{!origAssignment.Name}</apex:outputLink>
+        </apex:pageBlockSectionItem>
+        <apex:pageBlockSectionItem >
+            <apex:outputLabel >Project</apex:outputLabel>
+            <apex:outputField id="origProjectName" value="{!origAssignment.pse__Project__r.Name}"/>
+        </apex:pageBlockSectionItem>
+        <apex:pageBlockSectionItem >
+            <apex:outputLabel >Resource</apex:outputLabel>
+            <apex:outputField id="origResourceName" value="{!origAssignment.pse__Resource__r.Name}"/>
+        </apex:pageBlockSectionItem>
+        <apex:pageBlockSectionItem >
+            <apex:outputLabel >Start Date</apex:outputLabel>
+            <apex:outputField id="origStartDate" value="{!origAssignment.pse__Start_Date__c}"/>
+        </apex:pageBlockSectionItem>
+        <apex:pageBlockSectionItem >
+            <apex:outputLabel >End Date</apex:outputLabel>
+            <apex:outputField id="origEndDate" value="{!origAssignment.pse__End_Date__c}"/>
+        </apex:pageBlockSectionItem>
+    </apex:pageBlockSection>
+</apex:pageBlock>
+
+<apex:pageBlock id="new" title="Transfer Assignment">
+
+    <apex:pageBlockButtons location="bottom" >
+        <apex:commandButton value="Save" action="{!transferAssignment}" onClick="return validate();"/>
+        <apex:commandButton value="Cancel" action="{!cancel}"/>
+    </apex:pageBlockButtons>
+    
+    <apex:pageBlockSection id="newAssig" columns="1" onclick="javascript:overrideProjectResourceSearchLinks();">
+        <apex:pageBlockSectionItem >
+            <apex:outputLabel >Transfer Type</apex:outputLabel>
+            <apex:actionRegion >
+                <apex:selectRadio id="transferType" value="{!transferType}" >
+                    <apex:selectOptions value="{!transferTypeOptions}"/>
+                    <apex:actionSupport event="onchange" action="{!changeTransferType}" reRender="newAssig"></apex:actionSupport>
+                </apex:selectRadio>    
+            </apex:actionRegion>
+        </apex:pageBlockSectionItem>
+        <apex:pageBlockSectionItem rendered="{!isNewProjectRendered}">
+            <apex:outputLabel >Resource</apex:outputLabel>
+            <apex:outputField value="{!origAssignment.pse__Resource__r.Name}"/>
+        </apex:pageBlockSectionItem>
+        <apex:pageBlockSectionItem id="pbsiResource" rendered="{!isNewResourceRendered}">
+            <apex:outputLabel >New Resource</apex:outputLabel>
+            <apex:inputField id="newResource" value="{!newAssignment.pse__Resource__c}"/>
+        </apex:pageBlockSectionItem>
+        <apex:pageBlockSectionItem id="pbsiProj" rendered="{!isNewProjectRendered}">
+            <apex:outputLabel >To Project</apex:outputLabel>
+            <apex:inputField id="newProject" value="{!newAssignment.pse__Project__c}">
+                <apex:actionSupport event="onchange" action="{!refreshMilestoneOptions}" reRender="newMilestone"/>
+            </apex:inputField>
+        </apex:pageBlockSectionItem>
+        <apex:pageBlockSectionItem id="pbsiMilestone" rendered="{!isNewProjectRendered}">
+            <apex:outputLabel >Milestone</apex:outputLabel>
+            <apex:selectList id="newMilestone" value="{!newAssignment.pse__Milestone__c}" size="1">
+                <apex:selectOptions value="{!milestoneOptions}"/>
+            </apex:selectList>
+        </apex:pageBlockSectionItem>
+        <apex:pageBlockSectionItem rendered="{!isNewResourceRendered}">
+            <apex:outputLabel >Project</apex:outputLabel>
+            <apex:outputField value="{!origAssignment.pse__Project__r.Name}"/>
+        </apex:pageBlockSectionItem>
+        <apex:pageBlockSectionItem rendered="{!isNewResourceRendered}">
+            <apex:outputLabel >Milestone</apex:outputLabel>
+            <apex:outputField value="{!origAssignment.pse__Milestone__r.Name}"/>
+        </apex:pageBlockSectionItem>
+        <apex:pageBlockSectionItem >
+            <apex:outputLabel >Start Date</apex:outputLabel>
+            <apex:inputField id="newStartDate" value="{!newSchedule.pse__Start_Date__c}"/>
+        </apex:pageBlockSectionItem>
+        <apex:pageBlockSectionItem >
+            <apex:outputLabel >End Date</apex:outputLabel>
+            <apex:inputField id="newEndDate" value="{!newSchedule.pse__End_Date__c}"/>
+        </apex:pageBlockSectionItem>
+        <!--
+        <apex:pageBlockSectionItem>
+            <apex:outputLabel >Copy Schedule</apex:outputLabel>
+            <apex:inputCheckbox id="copySchedule" value="{!isCopySchedule}"/>
+        </apex:pageBlockSectionItem>
+        -->
+        <!--
+        <apex:pageBlockSectionItem >
+            <apex:outputLabel >Delete Original Assignment</apex:outputLabel>
+            <apex:inputCheckbox id="closeOriginal" value="{!isCloseOriginal}"/>
+        </apex:pageBlockSectionItem>
+		-->
+    </apex:pageBlockSection>
+</apex:pageBlock>
+
+<apex:actionFunction name="refreshMilestones" rerender="newMilestone"/>
+
+</apex:form>
+
+  <script>
+    
+    overrideProjectResourceSearchLinks();
+    
+  </script>
+  
+</apex:page>

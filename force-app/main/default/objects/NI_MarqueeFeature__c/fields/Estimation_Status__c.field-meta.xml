@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Estimation_Status__c</fullName>
+    <description>Salesforce.com Change Request: NICC-013301
+
+Not editable by interactive users.
+Must be edited by the TFS integration.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Not Yet Groomed – status is not equal to Swagged, Deswagged or groomed.
+Swagged – Marquee in TFS has a # in the SWAG field.
+Deswagged – Marquee in TFS has a # in the deSWAG field
+Groomed – Marquee in TFS has “Is Grooming Complete”  set to yes</inlineHelpText>
+    <label>Estimation Status</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Not Yet Groomed</fullName>
+                <default>false</default>
+                <label>Not Yet Groomed</label>
+            </value>
+            <value>
+                <fullName>Swagged</fullName>
+                <default>false</default>
+                <label>Swagged</label>
+            </value>
+            <value>
+                <fullName>Deswagged</fullName>
+                <default>false</default>
+                <label>Deswagged</label>
+            </value>
+            <value>
+                <fullName>Groomed</fullName>
+                <default>false</default>
+                <label>Groomed</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

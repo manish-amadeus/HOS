@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Risk_Treatment__c</fullName>
+    <businessOwnerUser>ssavage@newmarketinc.com</businessOwnerUser>
+    <businessStatus>Active</businessStatus>
+    <description>Risk Register field</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Retention (acceptance of potential burden/loss)
+Avoidance (do not become involved with, or withdraw from, the risk scenario)
+Modification (implement risk mitigation to reduce the risk)
+Sharing (share the potential burden/loss with another party)</inlineHelpText>
+    <label>Risk Treatment</label>
+    <required>false</required>
+    <securityClassification>Restricted</securityClassification>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Retention</fullName>
+                <default>false</default>
+                <label>Retention</label>
+            </value>
+            <value>
+                <fullName>Avoidance</fullName>
+                <default>false</default>
+                <label>Avoidance</label>
+            </value>
+            <value>
+                <fullName>Modification</fullName>
+                <default>false</default>
+                <label>Modification</label>
+            </value>
+            <value>
+                <fullName>Sharing</fullName>
+                <default>false</default>
+                <label>Sharing</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

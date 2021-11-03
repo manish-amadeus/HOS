@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Once_Saved_Commit_Box_Cannot_Be_Deselect</fullName>
+    <active>true</active>
+    <description>Besides the Project Office, the Commit? flag cannot be deselected once selected and saved.  If the record is no longer valid, select the override commit checkbox.</description>
+    <errorConditionFormula>AND(Commit__c  = false, PRIORVALUE(Commit__c) = true, AND($Profile.Name != &quot;NI PSA Administrator&quot;,$Profile.Name != &quot;System Administrator&quot;))</errorConditionFormula>
+    <errorMessage>The Commit field cannot been changed if the field was previously selected and saved.  If this record is no longer valid, select the Override Commit checkbox to remove record from the forecast.</errorMessage>
+</ValidationRule>

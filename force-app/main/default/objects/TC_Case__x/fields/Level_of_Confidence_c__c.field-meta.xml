@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Level_of_Confidence_c__c</fullName>
+    <externalDeveloperName>Level_of_Confidence__c</externalDeveloperName>
+    <externalId>false</externalId>
+    <inlineHelpText>From DOS or DEC to close the sale if item is developed.</inlineHelpText>
+    <isFilteringDisabled>false</isFilteringDisabled>
+    <isNameField>false</isNameField>
+    <isSortingDisabled>false</isSortingDisabled>
+    <label>Level of Confidence</label>
+    <readOnlyProxy>true</readOnlyProxy>
+    <required>false</required>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>1 - Prospect Only. Unable to Approach without supported functionality.</fullName>
+                <default>false</default>
+                <label>1 - Prospect Only. Unable to Approach without supported functionality.</label>
+            </value>
+            <value>
+                <fullName>2 - One of multiple enhancements needed for client to sight (indicated all needed in comments)</fullName>
+                <default>false</default>
+                <label>2 - One of multiple enhancements needed for client to sight (indicated all needed in comments)</label>
+            </value>
+            <value>
+                <fullName>3 - Client will sign with enhancement.</fullName>
+                <default>false</default>
+                <label>3 - Client will sign with enhancement.</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

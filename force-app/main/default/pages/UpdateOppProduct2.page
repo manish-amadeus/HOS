@@ -1,0 +1,52 @@
+<apex:page >
+<apex:includeScript value="/soap/ajax/18.0/connection.js"/>
+
+<button type='button' onclick='updateOpportunityProducts()'>Update Opportunity Products</button>
+<script>
+    function updateOpportunityProducts() {
+        sforce.connection.sessionId = '{!$Api.Session_ID}';
+        sforce.connection.setBatchSize = 200;
+        try {
+            var count = 0;
+            var soql = "select Id, PriceBookEntry.Product2.Family from OpportunityLineItem where Family__c = null and calendar_year(createddate) >= 2010" limit=200;
+            var result = sforce.connection.query(soql);
+            var queryMore = true;
+            var items = [];
+            var err = '';
+            while (queryMore) {
+                var records = result.getArray('records');
+                for(var i=0; i < records.length; i++) {
+                    var oli = records[i];
+                    oli['Family__c'] = oli.PricebookEntry.Product2.Family;
+                    delete oli.PricebookEntry;
+                    items.push(oli);
+                }
+                if (result.getBoolean('done'))
+                    queryMore = false;
+                else
+                    result = sforce.connection.queryMore(result.queryLocator);
+                if (items.length == 200 || (!queryMore && items.length > 0)) {
+                    var res = sforce.connection.update(items);
+                    for (var i=0; i < res.length; i++)
+                        if (res[i].getBoolean('success') == true)
+                            count++;
+                        else
+                            err += (res[i].message ? res[i].message : res[i]) + '\n';
+                    if (err) {
+                        alert(err);
+                        break;
+                    }
+                    items = [];
+                }
+            }
+        }
+        catch (e) {
+            if (e.faultstring)
+                alert(e.faultstring);
+            else
+                alert(e);
+        }
+        alert('Updated ' + count + ' records.');
+    }
+</script>
+</apex:page>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Corporate_Security_Standards</fullName>
+    <columns>NAME</columns>
+    <columns>Assessment__c</columns>
+    <columns>Master_Source__c</columns>
+    <columns>Reference__c</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>RECORDTYPE</field>
+        <operation>equals</operation>
+        <value>BIO_Source__c.Security_Standard</value>
+    </filters>
+    <label>Corporate Security Standards</label>
+</ListView>

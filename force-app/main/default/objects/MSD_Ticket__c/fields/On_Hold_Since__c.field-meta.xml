@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>On_Hold_Since__c</fullName>
+    <description>This field is populated with Now() as soon as the project status is set to either &quot;Blocked&quot; or &quot;Redirected&quot;. It is then cleared when the project status returns to an active state. The amount of time tracked by this field is cumulatively tracked in the &quot;On Hold Duration (days)&quot; field.</description>
+    <encryptionScheme>None</encryptionScheme>
+    <externalId>false</externalId>
+    <label>On Hold Since</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>DateTime</type>
+</CustomField>

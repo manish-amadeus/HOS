@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Site_com_Office_Name__c</fullName>
+    <description>Salesforce.com Change Request:  NICC-014145
+
+The Site.com Office Name of the related NI Office record.  This field is used by Marketing in Site.com to post the job information to NI&apos;s corporate webiste</description>
+    <externalId>false</externalId>
+    <formula>NI_Office__r.Site_com_Office_Name__c</formula>
+    <inlineHelpText>The Site.com Office Name of the related NI Office record.  This field is used by Marketing in Site.com to post the job information to NI&apos;s corporate webiste</inlineHelpText>
+    <label>Site.com Office Name</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

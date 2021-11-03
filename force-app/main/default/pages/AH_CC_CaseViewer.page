@@ -1,0 +1,423 @@
+<apex:page Controller="AH_CC_CaseViewer_Ctlr" showHeader="false" sidebar="false" lightningStylesheets="true" applyHtmlTag="false" applyBodyTag="false" docType="html-5.0">
+          
+    <html xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" lang="en">
+        <head>
+            <meta charset="utf-8" />
+            <meta http-equiv="x-ua-compatible" content="ie=edge" />
+            <title>Cases</title>
+            <meta name="viewport" content="width=device-width, initial-scale=1" />
+            <apex:stylesheet value="/apexpages/slds/latest/assets/styles/salesforce-lightning-design-system-vf.css" />
+            <apex:slds />
+        </head>
+       
+        <script language="JavaScript" type="text/javascript"> 
+        
+            function noenter(ev)  
+            {
+                if (window.event && window.event.keyCode == 13 || ev.which == 13) 
+                {
+                    afDoSearch();
+                    return false;
+                } 
+                else 
+                {
+                    return true;
+                }
+            } 
+        
+            function doSearch()  
+            {
+                afDoSearch();
+            } 
+        
+        </script>
+
+        <div id="divMain" class="slds-scope" style="margin: 10px 10px 10px 10px; !important;">
+
+            <apex:form id="frmMain">
+
+                <apex:actionFunction id="afDoSearch" name="afDoSearch" action="{!doSearch}" rerender="opSearchResults" status="asStatus" />            
+                
+                <div id="divSearch" class="roundedContainer">
+           
+                    <apex:outputpanel id="opSearch">
+                         
+                        <span class="slds-icon_container slds-icon-standard-address"> 
+                            <svg aria-hidden="false" class="slds-icon">    
+                                <use xlink:href="/apexpages/slds/latest/assets/icons/utility-sprite/svg/symbols.svg#search"></use>
+                            </svg> 
+                            <span class="slds-assistive-text">Search</span> 
+                        </span> 
+                        &nbsp;&nbsp; 
+                        <apex:outputLabel id="lblSearchTitle" value="Case Search" styleClass="slds-text-heading_medium slds-text-title_bold" />
+                        <br/>
+                        <br/>
+                        <apex:outputLabel id="lblSearchText" value="Search Text: " />
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;                        
+                        <apex:inputText id="txtSearchText" value="{!searchText}" label="lblSearchText" onkeypress="return noenter(event);" styleClass="slds-input" style="width:400px;!important;"/>&nbsp;&nbsp;
+                        &nbsp;&nbsp;&nbsp;&nbsp; 
+                        <apex:commandButton id="btnSearch" value="Search" action="{!doSearch}" rerender="opSearchResults,lblStartDate,lblEndDate" status="asStatus" styleClass="slds-button slds-button_outline-brand" />
+                        &nbsp;&nbsp;&nbsp;&nbsp; 
+                        <apex:commandLink id="cmdExportCSV" action="{!exportResults}" rendered="{!bChatterEnabled}" rerender="opSearchResults" status="asStatus" target="_blank" style="text-decoration:none;important;">
+                            <span class="slds-icon_container slds-icon-utility-download" title="Export results to CSV format">
+                                <svg class="slds-icon slds-icon-text-success" aria-hidden="true">
+                                    <use xlink:href="/apexpages/slds/latest/assets/icons/utility-sprite/svg/symbols.svg#download"></use>
+                                </svg>
+                                <span class="slds-assistive-text">Export results to CSV format</span>
+                            </span> 
+                        </apex:commandLink>
+                        
+                        <br/>
+
+                        <div class="slds-form-element slds-form-element_horizontal" style="padding-top:10px;padding-left:75px;width:400px;">
+                            <label class="slds-form-element__label" for="ddlFields">Search By:</label>
+                            <div class="slds-form-element__control">
+                                <div class="slds-select_container">
+                                    <apex:selectList id="ddlFields" label="lblSpecificFields" value="{!selField}" styleClass="slds-select" style="width:215px;" size="1" multiselect="false"> 
+                                        <apex:selectOptions value="{!lstSearchFields}" /> 
+                                        <apex:actionSupport event="onchange" reRender="opSearchResults,lblStartDate,lblEndDate" action="{!doSearch}" status="asStatus" />
+                                    </apex:selectList> 
+                                </div>
+                            </div>
+                        </div>   
+                        <table style="width:900px;">
+                            <tr>
+                                <td>
+                                    <div class="slds-form-element slds-form-element_horizontal" style="padding-top:5px;padding-left:70px;width:470px;">
+                                        
+                                    </div>                                    
+                                </td>
+                                <td>
+                                    <div class="slds-form-element slds-form-element_horizontal" style="padding-top:5px;padding-left:0px;width:500px;">
+
+                                    </div>                                    
+                                </td>
+                            </tr>
+                        </table> 
+                        
+                        <div class="container">
+                            <div class="column1">
+                                <apex:outputLabel id="lblStartDate" value="{!strStartDateLabel}" />&nbsp;&nbsp;
+                                <c:AH_DatePicker defaultValue="{!dtStartDate}" defaultStyle="background-color:#fff;border:1px solid #dddbda;border-radius:.25rem;width:120px;transition:border .1s linear,background-color .1s linear;padding:0 1rem 0 .75rem;line-height:1.875rem;" />        
+                            </div>
+                            <div class="column2">
+                                <apex:outputLabel id="lblEndDate" value="{!strEndDateLabel}" />&nbsp;&nbsp;
+                                <c:AH_DatePicker defaultValue="{!dtEndDate}" defaultStyle="background-color:#fff;border:1px solid #dddbda;border-radius:.25rem;width:120px;transition:border .1s linear,background-color .1s linear;padding:0 1rem 0 .75rem;line-height:1.875rem;" />        
+                            </div>
+                        </div>                        
+                        
+                        
+                        <br/>                                                    
+                    </apex:outputpanel>
+                </div>   
+
+                <br/>
+                <apex:pageMessages />
+                
+                <div id="divResults" class="roundedContainer">
+
+                    <apex:outputpanel id="opSearchResults">
+                      
+                        <div style="position:relative;height:30px;">
+                            <apex:outputLabel id="lblSearchResults" value="Search Results:" styleClass="slds-text-heading_medium slds-text-title_bold" />
+                            &nbsp;&nbsp; 
+                            <apex:outputLabel id="lblSearchResultMsg" value="{!searchResultMsg}" />
+                        </div>
+                        
+                        <br/>
+                       
+                        <apex:dataTable value="{!lstSearchResults}" var="dt" styleClass="slds-table slds-table_bordered slds-table_striped" rendered="true" style="table-layout:fixed; !important;">
+
+                            <apex:column >
+                                <apex:facet name="header"> 
+                                    <apex:commandLink id="cmdSortCol1" 
+                                                      value="Case # {!IF(sortByField=='Case.CaseNumber', IF(sortByDirection='ASC','▲','▼'), '')}" 
+                                                      action="{!doSort}" 
+                                                      status="asStatus"                                                           
+                                                      reRender="opSearchResults">
+                                        <apex:param value="Case.CaseNumber" name="prm1" assignTo="{!sortByField}" />
+                                    </apex:commandLink>
+                                </apex:facet>                                
+                                <apex:outputLink value="../{!dt.CaseId}" target="_blank">
+                                    {!dt.CaseNumber} 
+                                </apex:outputLink>     
+                            </apex:column> 
+
+                            <apex:column styleClass="slds-cell-wrap">
+                                <apex:facet name="header"> 
+                                    <apex:commandLink id="cmdSortCol1b" 
+                                                      value="Account {!IF(sortByField=='Case.Account.Name', IF(sortByDirection='ASC','▲','▼'), '')}" 
+                                                      action="{!doSort}" 
+                                                      status="asStatus"                                                           
+                                                      reRender="opSearchResults">
+                                        <apex:param value="Case.Account.Name" name="prm1b" assignTo="{!sortByField}" />
+                                    </apex:commandLink>
+                                </apex:facet>                                   
+                                <apex:outputText value="{!dt.AccountName}" />                           
+                            </apex:column>                             
+
+                            <apex:column styleClass="slds-cell-wrap">
+                                <apex:facet name="header"> 
+                                    <apex:commandLink id="cmdSortCol2" 
+                                                      value="Contact {!IF(sortByField=='Case.Contact.Name', IF(sortByDirection='ASC','▲','▼'), '')}" 
+                                                      action="{!doSort}" 
+                                                      status="asStatus"                                                           
+                                                      reRender="opSearchResults">
+                                        <apex:param value="Case.Contact.Name" name="prm2" assignTo="{!sortByField}" />
+                                    </apex:commandLink>
+                                </apex:facet>                                   
+                                <apex:outputText value="{!dt.ContactName}" />                           
+                            </apex:column> 
+                            
+                            <apex:column styleClass="slds-cell-wrap"> <!-- style="overflow: hidden; white-space: nowrap !important;"> -->
+                                <apex:facet name="header"> 
+                                    <apex:commandLink id="cmdSortCol3" 
+                                                      value="Subject {!IF(sortByField=='Case.Subject', IF(sortByDirection='ASC','▲','▼'), '')}" 
+                                                      action="{!doSort}" 
+                                                      status="asStatus"                                                           
+                                                      reRender="opSearchResults">
+                                        <apex:param value="Case.Subject" name="prm3" assignTo="{!sortByField}" />
+                                    </apex:commandLink>
+                                </apex:facet>                                   
+                                <apex:outputText value="{!dt.Subject}" /> 
+                            </apex:column> 
+                            
+                            <apex:column rendered="{! NOT(bSearchCR)}">
+                                <apex:facet name="header"> 
+                                    <apex:commandLink id="cmdSortCol4" 
+                                                      value="Status {!IF(sortByField=='Case.Status', IF(sortByDirection='ASC','▲','▼'), '')}" 
+                                                      action="{!doSort}" 
+                                                      status="asStatus"                                                           
+                                                      reRender="opSearchResults">
+                                        <apex:param value="Case.Status" name="prm4" assignTo="{!sortByField}" />
+                                    </apex:commandLink>
+                                </apex:facet>                                  
+                                <apex:outputText value="{!dt.Status}" /> 
+                            </apex:column> 
+
+                            <apex:column rendered="{! NOT(bSearchCR)}">
+                                <apex:facet name="header"> 
+                                    <apex:commandLink id="cmdSortCol5" 
+                                                      value="Priority {!IF(sortByField=='Case.Priority', IF(sortByDirection='ASC','▲','▼'), '')}" 
+                                                      action="{!doSort}" 
+                                                      status="asStatus"                                                           
+                                                      reRender="opSearchResults">
+                                        <apex:param value="Case.Priority" name="prm5" assignTo="{!sortByField}" />
+                                    </apex:commandLink>
+                                </apex:facet>                                  
+                                <apex:outputText value="{!dt.Priority}" />                           
+                            </apex:column> 
+                            
+                            <apex:column styleClass="slds-cell-wrap">
+                                <apex:facet name="header"> 
+                                    <apex:commandLink id="cmdSortCol6" 
+                                                      value="Product Group {!IF(sortByField=='Case.DI_Product_Group__c', IF(sortByDirection='ASC','▲','▼'), '')}" 
+                                                      action="{!doSort}" 
+                                                      status="asStatus"                                                           
+                                                      reRender="opSearchResults">
+                                        <apex:param value="Case.DI_Product_Group__c" name="prm6" assignTo="{!sortByField}" />
+                                    </apex:commandLink>
+                                </apex:facet>                                    
+                                <apex:outputText value="{!dt.ProductGroup}" /> 
+                            </apex:column> 
+
+                            <apex:column rendered="{! NOT(bSearchCR)}">
+                                <apex:facet name="header"> 
+                                    <apex:commandLink id="cmdSortCol7" 
+                                                      value="Created Date {!IF(sortByField=='Case.CreatedDate', IF(sortByDirection='ASC','▲','▼'), '')}" 
+                                                      action="{!doSort}" 
+                                                      status="asStatus"                                                           
+                                                      reRender="opSearchResults">
+                                        <apex:param value="Case.CreatedDate" name="prm7" assignTo="{!sortByField}" />
+                                    </apex:commandLink>
+                                </apex:facet>                                    
+                                <apex:outputText value="{0, date, MM/dd/yyyy}">
+                                    <apex:param value="{!dt.CreatedDate}" />
+                                </apex:outputText>                                 
+                            </apex:column> 
+
+
+                            <apex:column >
+                                <apex:facet name="header"> 
+                                    <apex:commandLink id="cmdSortCol8" 
+                                                      value="Closed Date {!IF(sortByField=='Case.ClosedDate', IF(sortByDirection='ASC','▲','▼'), '')}" 
+                                                      action="{!doSort}" 
+                                                      status="asStatus"                                                           
+                                                      reRender="opSearchResults">
+                                        <apex:param value="Case.ClosedDate" name="prm8" assignTo="{!sortByField}" />
+                                    </apex:commandLink>
+                                </apex:facet>    
+                                <apex:outputText value="{0, date, MM/dd/yyyy}">
+                                    <apex:param value="{!dt.ClosedDate}" />
+                                </apex:outputText>                                
+                            </apex:column>    
+                            
+                            <apex:column rendered="{!bSearchCR}">
+                                <apex:facet name="header"> 
+                                    <apex:commandLink id="cmdSortCol9" 
+                                                      value="CR # {!IF(sortByField=='Case.Change_Request__r.Name', IF(sortByDirection='ASC','▲','▼'), '')}" 
+                                                      action="{!doSort}" 
+                                                      status="asStatus"                                                           
+                                                      reRender="opSearchResults">
+                                        <apex:param value="Case.Change_Request__r.Name" name="prm4" assignTo="{!sortByField}" />
+                                    </apex:commandLink>
+                                </apex:facet> 
+                                <apex:outputText value="{!dt.CRNumber}" /> 
+                                <c:toolTip helpText="{!dt.CRTitle}"/>
+                            </apex:column> 
+                            
+                            <apex:column rendered="{!bSearchCR}">
+                                <apex:facet name="header"> 
+                                    <apex:commandLink id="cmdSortCol10" 
+                                                      value="CR Status {!IF(sortByField=='Case.CR_Public_Status__c', IF(sortByDirection='ASC','▲','▼'), '')}" 
+                                                      action="{!doSort}" 
+                                                      status="asStatus"                                                           
+                                                      reRender="opSearchResults">
+                                        <apex:param value="Case.CR_Public_Status__c" name="prm4" assignTo="{!sortByField}" />
+                                    </apex:commandLink>
+                                </apex:facet> 
+                                <apex:outputText value="{!dt.CRStatus}" />
+                                <c:toolTip helpText="{!dt.CRLegendText}"/>
+                            </apex:column>                             
+                            
+                        </apex:dataTable>
+                        
+                        <br/> 
+                        
+<apex:outputLabel id="lblSOQL" value="{!strSOQL}" rendered="false" />
+                        
+                    </apex:outputpanel>
+
+                </div>   
+                
+                <br/>    
+                
+
+                
+                <!-- SPINNER -->  
+                <apex:actionstatus id="asStatus">
+                    <apex:facet name="start">
+                        <div class="slds-spinner_container">
+                            <div role="status" class="slds-spinner slds-spinner_medium slds-spinner_brand">
+                                <span class="slds-assistive-text">Loading</span>
+                                <div class="slds-spinner__dot-a"></div>
+                                <div class="slds-spinner__dot-b"></div>
+                            </div>
+                        </div>
+                    </apex:facet>
+                </apex:actionstatus>
+                
+            </apex:form>          
+            
+        </div>
+
+        <style type="text/css"> 
+            .popupDialogBox 
+            {      
+                position: absolute;
+                background-color: white;
+                border-radius: 5px;
+                top: 100px;
+                left: 50%;
+                width: 1200px;
+                margin-left: -600px;
+                z-index: 9999;
+                padding: 10px; 
+            }                
+            .popupBackground 
+            {          
+                position: fixed;
+                width: 100%;
+                height: 100%;
+                top: 0;
+                right: 0;
+                bottom: 0;
+                left: 0;
+                z-index: calc(9000 + 2);
+                background-color: rgba(0,0,0,.1);
+                visibility: visible;
+                opacity: 1;
+                transition: opacity .2s ease,visibility 0s;
+                transition-delay: 0s,.3s; 
+            }
+            .popupSuccess
+            {      
+                position: absolute;
+                color: white;
+                background-color: #04844b; 
+                border-radius: 5px;
+                top: 30px;
+                left: 50%;
+                width: 500px;
+                margin-left: -250px;
+                z-index: 9999;
+                padding: 0px;       
+            } 
+            .popupSuccessFade
+            {      
+                -webkit-animation-duration: 5s;animation-duration: 5s;
+                -webkit-animation-fill-mode: both;animation-fill-mode: both;
+            }
+            @-webkit-keyframes fadeOut 
+            {
+                0% {opacity: 1;}
+                100% {opacity: 0;}
+            }
+            @keyframes fadeOut 
+            {
+                0% {opacity: 1;}
+                100% {opacity: 0;}
+            }
+            .fadeOut 
+            {
+                -webkit-animation-name: fadeOut;
+                animation-name: fadeOut;
+            }            
+            .roundedContainer
+            {
+                width: 100%;
+                border: 1px solid lightgrey;
+                padding: 10px;
+                border-radius: 5px;
+                !important;
+            }
+            .slds-spinner_container 
+            {
+                position: relative;
+                width: 100%;
+                height: 100%;
+                top: 0;
+                right: 0;
+                bottom: 0;
+                left: 0;
+                z-index: calc(9000 + 2);
+                background-color: rgba(255,255,255,.75);
+                visibility: visible;
+                opacity: 1;
+                transition: opacity .2s ease,visibility 0s;
+                transition-delay: 0s,.3s;
+            } 
+            .column1 
+            {
+                float: left;
+                width: 370px;
+                padding-top: 5px;
+                padding-left: 70px;
+            } 
+            .column2 
+            {
+                float: left;
+                width: 270px;
+                padding-top: 5px;
+            }                         
+            .container:after 
+            {
+                content: "";
+                display: table;
+                clear: both;
+            } 
+        </style>
+        
+    </html>
+    
+</apex:page>

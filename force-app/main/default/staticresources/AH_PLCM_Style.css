@@ -1,0 +1,709 @@
+body.homeTab {
+	background-color: #fff !important;
+}
+.main-div {
+	width: 77%;
+	display: inline-block;
+	margin: 0px;
+	overflow-x: auto;
+	background-color: transparent;
+	border-bottom-color: #eaeaea !important;
+	border-left-color: #eaeaea !important;
+	border-right-color: #eaeaea !important;
+	background-color: #f8f8f8;
+	border-bottom: 1px solid #eaeaea;
+	border-left: 1px solid #eaeaea;
+	border-right: 1px solid #eaeaea;
+	-moz-border-radius: 4px;
+	-webkit-border-radius: 4px;
+	border-radius: 4px;
+	border-top: 3px solid #1797c0;
+	background-image: none;
+	margin: 0;
+	background-repeat: no-repeat;
+	background-position: left bottom;
+}
+.main-body {
+	margin: 7px 12px 7px;
+}
+.main-footer {
+	text-align: right;
+	margin-top: 20px;
+    border-top: 1px solid #dbdbdb;
+    padding: 5px 12px;
+}
+.main-title {
+	font-family: Arial,Helvetica,sans-serif;
+	color: #000;
+	font-size: 1.3em;
+	font-weight: bold;
+	margin: 0;
+	padding: 0;
+	border-spacing: 0;
+}
+
+table.tbl-multi-select {
+	width: 86%;
+}
+
+table.tbl-multi-select>tbody>tr>td {
+	padding-top: 5px;
+	padding-bottom: 5px;
+}
+/*CSS For Header Text :: Start*/
+.main-header {
+	border-bottom: 1px solid #dbdbdb;
+	background-color: transparent;
+	padding: 0;
+	margin: 0;
+}
+.tbl-header {
+	border-spacing: 0px;
+	padding: 5px 0;
+	font-family: 'Helvetica';
+	color: #3c3d3e;
+	width:100%;
+}
+.tbl-header>table>tbody>tr>td {
+	padding: 5px 12px;
+}
+.td-title {
+	font-size: 1em;
+	padding-left: 6px;
+	padding-right: 6px;
+	vertical-align: middle;
+	color: #222;
+	width: 30%;
+	margin: 0;
+}
+/*CSS For Header Text :: End*/
+
+/* CSS For Grid :: Start */
+.floatThead-wrapper {
+	z-index: 0;
+}
+.data-grid-wrapper {
+	width: 100%;
+	margin: 0px;
+	padding: 0px;
+	height: 300px;
+	overflow: auto;
+}
+table.data-grid {
+	width: 100%;
+	border: 1px solid #e0e3e5;
+	background-color: #fff;
+}
+table.data-grid tr.header-row th {
+	background: #f2f3f3;
+	border: 1px solid #ededed;
+	border-width: 0 0 1px 1px;
+	border-color: #e0e3e5;
+	color: #000;
+	font-size: .9em;
+	font-weight: bold;
+	padding: 5px 2px 4px 5px;
+}
+table.data-grid tr.data-row td:first-child {
+	border-left-width: 0;
+}
+table.data-grid tr.data-row td {
+	border: 1px solid #ededed;
+	border-width: 0 0 1px 0;
+	color: #000;
+	vertical-align: middle;
+	padding: 4px 2px 4px 5px;
+}
+
+table.data-grid tr.data-row.highlight td {
+	background-color: #e3f3ff;
+}
+/* CSS For Grid :: End */
+
+.btn-common {
+	min-width: 70px !important;
+	background: linear-gradient(#00ace3,#0060bc);
+	color: #FFFFFF;
+	width: auto;
+	height: 30px;
+	padding: 5px !important;
+	cursor: pointer;
+	font-family: Arial,Helvetica,sans-serif;
+	font-size: 120%;
+	margin: 2px !important;
+	font-weight: bold;
+	border-radius: 5px;
+	border: 1px solid #999;
+	-webkit-box-shadow: 4px 4px 3px #999;
+	-moz-box-shadow: 4px 4px 3px #999;
+}
+		
+.position-relative { position:relative; }
+
+.step-completed .requiredBlock {
+	display:none;
+}
+
+.step-completed .pbBody {
+	pointer-events:none; 
+	opacity: 0.5;
+}
+
+.error-msg {
+	display:none;
+	width: 77%;
+	color: red;
+    margin: 0px;
+    text-align: center;
+	font-size:13px;
+}
+
+.welcome-text {
+	text-align:right;
+	margin-bottom:5px;
+}
+
+.ddl-disabled  { pointer-events:none; opacity:0.5; }
+
+.ddl-empty { background-color:yellow; }
+
+.ddl-empty option { background-color:white; }
+
+.export-thead { display: table-header-group; }
+
+.export-tr { page-break-inside: avoid; }
+
+.dateFormat { display:none; }
+
+.date-lbl {	text-align:right; width:50%; vertical-align:inherit !important }
+
+.txt-left { text-align:left; }
+
+.date-input {
+	height:20px;
+	padding:5px;
+	border-width: 2px;
+    border-style: inset;
+    border-color: initial;
+    border-image: initial;
+}
+
+.chk-large {
+	height:20px;
+	width:20px;
+	margin-left:0px;
+}
+
+.disabled-control {	pointer-events:none; opacity: 0.5; }
+
+.disabled-wrapper {
+    position: relative;
+}
+
+.disabled-wrapper:after {
+	bottom: 0;
+    content: '';
+    left: 0;
+    position: absolute;
+    right: 0;
+    top: 0;
+}
+
+/* CSS For Loader :: Start */
+.loader {
+	display:none;
+	text-align:center;
+	vertical-align: middle;
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	opacity: 0.75;
+	z-index: 1000;
+	background-color: grey;
+	font-size: 20px;
+    font-weight: bold;
+    color: black;
+    padding-top: 320px;
+	padding-left: 670px;
+}
+
+.homeTab .loader { /*Only for Customer Central Community*/
+	padding-top: 230px;
+	padding-left: 580px;
+}
+
+.loader  .spinner {
+	border: 16px solid #f3f3f3;
+	border-radius: 50%;
+	border-top: 16px solid #005EB8;
+	width: 70px;
+	height: 70px;
+	-webkit-animation: spin 2s linear infinite; /* Safari */
+	animation: spin 2s linear infinite;
+}
+
+.loader-visible .floatThead-container {
+	z-index: 0 !important;
+}
+
+.loader-visible .bubble-popup {
+	display: none !important;
+}
+
+/* Safari */
+@-webkit-keyframes spin {
+  0% { -webkit-transform: rotate(0deg); }
+  100% { -webkit-transform: rotate(360deg); }
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* CSS For Loader :: End */
+
+.hidden-control {
+	display:none;
+}
+
+/* CSS For Progressbar :: Start */
+#progressbar {
+	margin-top: 10px;
+	margin-bottom: 10px;
+	overflow: hidden;
+	/*CSS counters to number the steps*/
+	counter-reset: step;
+}
+
+.homeTab #progressbar { /* Only for Customer Central Community */
+	margin-top: 0px;
+}
+
+#progressbar li {
+	margin-left:0px;
+	list-style-type: none;
+	color: #005EB8;
+	font-size: 13px;
+	width: 25%;
+	float: left;
+	position: relative;
+	text-align:center;
+}
+#progressbar li:before {
+	content: counter(step);
+	counter-increment: step;
+	width: 20px;
+	line-height: 20px;
+	display: block;
+	font-size: 10px;
+	color: white;
+	background: #005EB8;
+	border-radius: 3px;
+	margin: 0 auto 5px auto;
+}
+/*progressbar connectors*/
+#progressbar li:after {
+	content: '';
+	height: 5px;
+	background: #005EB8;
+	position: absolute;
+	top: 7px;
+	width: 95%;
+	left: -47%;
+	z-index: 0; /*put it behind the numbers*/
+}
+#progressbar li:first-child:after {
+	/*connector not needed before the first step*/
+	content: none; 
+}
+/*marking active/completed steps green*/
+/*The number of the step and the connector before it = green*/
+#progressbar li.active:before,  #progressbar li.active:after{
+	background: #27AE60;
+	color: white;
+}
+
+.percentage-text {
+	font-size:30px;
+	vertical-align:top;
+	padding-top:8px;
+	color:#27AE60;
+	font-weight: bold;
+}
+
+.homeTab .percentage-text {
+	padding-top: 0px;
+}
+/* CSS For Progressbar :: End */
+
+@font-face {
+	font-family: 'AmadeusBold';
+	src: url('{!URLFOR($Resource.AmadeusBoldFont, 'amadeus-bold-web.eot')}');
+	src: url('{!URLFOR($Resource.AmadeusBoldFont, 'amadeus-bold-web.eot')}?#iefix') format('embedded-opentype'),
+	url('{!URLFOR($Resource.AmadeusBoldFont, 'amadeus-bold-web.woff')}') format('woff'), 
+	url('{!URLFOR($Resource.AmadeusBoldFont, 'amadeus-bold-web.ttf')}') format('truetype'), 
+	url('{!URLFOR($Resource.AmadeusBoldFont, 'amadeus-bold-web.svg.woff')}#AmadeusBold') format('svg'); 
+	font-weight: normal;
+	font-style: normal;
+}
+
+@font-face {
+	font-family: 'AmadeusBoldItalic';
+	src: url('{!URLFOR($Resource.AmadeusBoldItalicFont, 'amadeus-bolditalic-web.eot')}');
+	src: url('{!URLFOR($Resource.AmadeusBoldItalicFont, 'amadeus-bolditalic-web.eot')}?#iefix') format('embedded-opentype'),
+	url('{!URLFOR($Resource.AmadeusBoldItalicFont, 'amadeus-bolditalic-web.woff')}') format('woff'), 
+	url('{!URLFOR($Resource.AmadeusBoldItalicFont, 'amadeus-bolditalic-web.ttf')}') format('truetype'), 
+	url('{!URLFOR($Resource.AmadeusBoldItalicFont, 'amadeus-bolditalic-web.svg.woff')}#AmadeusBoldItalic') format('svg'); 
+	font-weight: normal;
+	font-style: normal;
+}
+@font-face {
+	font-family: 'AmadeusItalic';
+	src: url('{!URLFOR($Resource.AmadeusItalicFont, 'amadeus-italic-web.eot')}');
+	src: url('{!URLFOR($Resource.AmadeusItalicFont, 'amadeus-italic-web.eot')}?#iefix') format('embedded-opentype'),
+	url('{!URLFOR($Resource.AmadeusItalicFont, 'amadeus-italic-web.woff')}') format('woff'), 
+	url('{!URLFOR($Resource.AmadeusItalicFont, 'amadeus-italic-web.ttf')}') format('truetype'), 
+	url('{!URLFOR($Resource.AmadeusItalicFont, 'amadeus-italic-web.svg.woff')}#AmadeusItalic') format('svg'); 
+	font-weight: normal;
+	font-style: normal;
+}                
+@font-face {
+	font-family: 'AmadeusLight';
+	src: url('{!URLFOR($Resource.AmadeusLightFont, 'amadeus-light.eot')}');
+	src: url('{!URLFOR($Resource.AmadeusLightFont, 'amadeus-light.eot')}?#iefix') format('embedded-opentype'),
+	url('{!URLFOR($Resource.AmadeusLightFont, 'amadeus-light.woff')}') format('woff'), 
+	url('{!URLFOR($Resource.AmadeusLightFont, 'amadeus-light.ttf')}') format('truetype'), 
+	url('{!URLFOR($Resource.AmadeusLightFont, 'amadeus-light.svg.woff')}#AmadeusLight') format('svg'); 
+	font-weight: normal;
+	font-style: normal;
+}
+@font-face {
+	font-family: 'AmadeusLightItalic';
+	src: url('{!URLFOR($Resource.AmadeusLightItalicFont, 'amadeus-lightitalic.eot')}');
+	src: url('{!URLFOR($Resource.AmadeusLightItalicFont, 'amadeus-lightitalic.eot')}?#iefix') format('embedded-opentype'),
+	url('{!URLFOR($Resource.AmadeusLightItalicFont, 'amadeus-lightitalic.woff')}') format('woff'), 
+	url('{!URLFOR($Resource.AmadeusLightItalicFont, 'amadeus-lightitalic.ttf')}') format('truetype'), 
+	url('{!URLFOR($Resource.AmadeusLightItalicFont, 'amadeus-lightitalic.svg.woff')}#AmadeusLightItalic') format('svg'); 
+	font-weight: normal;
+	font-style: normal;
+}
+@font-face {
+	font-family: 'AmadeusRegular';
+	src: url('{!URLFOR($Resource.AmadeusRegularFont, 'amadeus-regular-web.eot')}');
+	src: url('{!URLFOR($Resource.AmadeusRegularFont, 'amadeus-regular-web.eot')}?#iefix') format('embedded-opentype'),
+	url('{!URLFOR($Resource.AmadeusRegularFont, 'amadeus-regular-web.woff')}') format('woff'), 
+	url('{!URLFOR($Resource.AmadeusRegularFont, 'amadeus-regular-web.ttf')}') format('truetype'), 
+	url('{!URLFOR($Resource.AmadeusRegularFont, 'amadeus-regular-web.svg.woff')}#AmadeusRegular') format('svg'); 
+	font-weight: normal;
+	font-style: normal;
+} 
+@font-face {
+	font-family: 'AmadeusThin';
+	src: url('{!URLFOR($Resource.AmadeusThinFont, 'amadeus-thin-web.eot')}');
+	src: url('{!URLFOR($Resource.AmadeusThinFont, 'amadeus-thin-web.eot')}?#iefix') format('embedded-opentype'),
+	url('{!URLFOR($Resource.AmadeusThinFont, 'amadeus-thin-web.woff')}') format('woff'), 
+	url('{!URLFOR($Resource.AmadeusThinFont, 'amadeus-thin-web.ttf')}') format('truetype'), 
+	url('{!URLFOR($Resource.AmadeusThinFont, 'amadeus-thin-web.svg.woff')}#AmadeusThin') format('svg'); 
+	font-weight: normal;
+	font-style: normal;
+}
+@font-face {
+	font-family: 'AmadeusThinItalic';
+	src: url('{!URLFOR($Resource.AmadeusThinItalicFont, 'amadeus-thinitalic-web.eot')}');
+	src: url('{!URLFOR($Resource.AmadeusThinItalicFont, 'amadeus-thinitalic-web.eot')}?#iefix') format('embedded-opentype'),
+	url('{!URLFOR($Resource.AmadeusThinItalicFont, 'amadeus-thinitalic-web.woff')}') format('woff'), 
+	url('{!URLFOR($Resource.AmadeusThinItalicFont, 'amadeus-thinitalic-web.ttf')}') format('truetype'), 
+	url('{!URLFOR($Resource.AmadeusThinItalicFont, 'amadeus-thinitalic-web.svg.woff')}#AmadeusThinItalic') format('svg'); 
+	font-weight: normal;
+	font-style: normal;
+}
+
+body .btn {
+	min-width:70px !important;
+    background: linear-gradient(#00ace3,#0060bc);
+    color: #FFFFFF;
+    width: auto;
+	height: 30px;
+    padding: 5px !important;
+    cursor: pointer;
+    font-family: Arial,Helvetica,sans-serif;
+    font-size: 120%;
+	margin: 2px !important;
+    font-weight: bold;
+    border-radius: 5px;
+    border: 1px solid #999;
+    box-shadow: 4px 4px 3px;
+    #999: ;
+    -webkit-box-shadow: 4px 4px 3px #999;
+    -moz-box-shadow: 4px 4px 3px #999;
+}
+body .btn:hover
+{
+	background-position:inherit !important;	
+}
+input[type=text], select {
+    width: auto;
+    padding: 4px;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+/** 11-06-2019 **/
+.errorMsg {                
+    font-size: 13px;
+    display: inline-block;
+}
+.pbBottomButtons .pbTitle {
+	display:none;
+}
+
+.w-15 { width:15% }
+.w-25 { width:25% }
+.w-30 { width:30% }
+
+/** Make Grid Header fixed **/
+ .headerRow th{
+	z-index: 1;
+	position: sticky;
+	top: 0;
+}
+.divNowUCan{
+    background: #00ace3;
+    color: #FFFFFF;
+    padding: 10px !important;
+    font-family: Arial,Helvetica,sans-serif;
+    font-size: 120%;
+    margin: 2px !important;
+    font-weight: bold;
+    border-radius: 5px;
+}
+
+.PropertyButtonStyle{
+	text-align:right;
+	width:100%;
+	margin-top:10px;
+}
+
+.divtableStyle{
+	height: 400px; 
+	overflow-y: auto;
+}
+
+.AttachmentButton:not(btn):hover {
+    background-position-x: 10px !important;
+    background-position-y: 3px !important;
+}  
+.BackButton:not(btn):hover {
+    background-position-x: 10px !important;
+    background-position-y: 6px !important;
+} 
+
+.text-left
+{
+	text-align:left !important;
+}
+
+.AttachmentButton:not(btn) {
+    height: 75px;
+    width: 270px;
+    padding-left: 80px !important;
+    border: 2px solid #00ace3;
+    cursor: pointer;
+    color: #00ace3;
+    font-size: 18px;
+    font-weight: bold;
+}  
+.BackButton:not(btn) {
+    height: 75px;
+    width: 270px;
+    padding-left: 80px !important;
+    border: 2px solid #00ace3;
+    cursor: pointer;
+    color: #00ace3;
+    font-size: 18px;
+    font-weight: bold;
+}
+.SmileContent {
+    display: inline-block;                    
+    color: #00ace3;
+    font-size:160px;
+    margin-top: -40px;
+    width: 100%;
+    text-align: center;
+}
+ .HighlightedCenterContent
+{
+	color: #00ace3;
+	text-align:center;  
+}
+.bodyContent
+{
+	font-size:24px; 
+	font-weight:300; 
+	text-align:center; 
+	padding-top:20px; 
+	padding-left:130px; 
+	padding-right:130px; 
+}
+.buttonAlignment
+{
+	float:left;
+	width:45%;
+	text-align:right
+}
+.orContentAlignment
+{
+	font-size:28px; 
+	color: #00ace3;
+	line-height: 75px; 
+	text-align:center;
+}
+.AvailableLicenses {
+	text-align:center; 
+	width:40px !important; 
+	margin-right:5px !important; 
+	padding-top:5px !important; 
+	padding-bottom:5px !important;
+}
+.errorContent {
+    display: inline-block;
+    background: #00AFF9;                    
+    height: 80vh;
+    width: -webkit-fill-available;
+    color: white;
+    margin: 0;
+    text-align:center;
+}
+
+.errorPageHeading {
+    margin: .8em 3rem;
+    font: 4em Roboto;
+}
+.errorMessageContent {
+    display: inline-block;
+    margin: .2em 3rem;
+    font: 2em Roboto;
+}
+
+.introductionContent {
+	font-size:28px; 
+	font-weight:300; 
+	text-align:center; 
+	padding-top:40px; 
+	padding-left:60px; 
+	padding-right:60px;
+}
+
+/*Help CSS :: Start*/
+.help-wrapper {
+	width:22%;
+	text-align:center;
+	display:inline-block;
+	margin:0px;
+	vertical-align: top;
+}
+.help-box {
+	float: left;
+	margin-left: 10px;
+}
+.help-box-inner {
+	vertical-align: middle;
+	border-radius: 8px;
+	font-size: 12px;
+}
+.help-title {
+	border-radius: 5px;
+	background-color: #00a9e0;
+	margin-bottom: 2px;
+	height: 13px;
+	text-align: center;
+	font-weight: bold;
+	padding: 5px;
+}
+.help-text {
+	border-radius: 5px;
+	overflow-y: auto;
+	text-align: left;
+	background-color: #f2f3f5;
+	padding: 10px;
+	height: 474px;
+}
+.help-button {
+	margin: 0;
+	margin-left: -2px;
+	position: fixed;
+	top: 50%;
+	writing-mode: tb-rl;
+	text-align: center;
+	vertical-align: middle;
+}
+.left-bar-show:not(.help-show) .help-button { /*Change button position only for Neighborhood community when left bar is open*/
+	left: 99% !important;
+}
+.help-button a {
+	background: linear-gradient(#00ace3,#0060bc);
+	padding: 10px 5px 10px 5px;
+	color: #FFFFFF;
+	height: 85px;
+	font-size: 13px;
+	font-weight: bold;
+	cursor: pointer;
+}
+.help-button a:hover {
+	text-decoration: none;
+	color: #FFFFFF;
+}
+/*Help CSS :: End*/
+
+/* Responsive CSS :: Start */
+@media only screen and (min-width: 1441px) {
+	.loader {
+		padding-left: 45% !important;
+	}
+	
+	.main-content {
+		width:100% !important;
+	}
+}
+/* Responsive CSS :: End */
+
+/* For Export */
+.export-menu {
+	position: relative;
+	display: inline-block;
+}
+.menu-btn:hover {
+	background-position: right 0px;
+}
+.menu-options {
+    display: none;
+    position: absolute;
+    background-color: #f1f1f1;
+    min-width: 135px;
+    overflow: auto;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+    text-align: left;
+    bottom: 33px;
+}
+
+.menu-options a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    cursor: pointer;
+}
+
+.menu-options a:hover, .menu-option a:focus {
+    background-color: #ddd;
+    color: black;
+    text-decoration: none;
+    text-decoration: none;
+}
+/*End For Export */

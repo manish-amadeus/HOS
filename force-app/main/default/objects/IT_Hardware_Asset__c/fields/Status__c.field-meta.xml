@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Status__c</fullName>
+    <description>Status of this asset</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Status of this asset</inlineHelpText>
+    <label>Status</label>
+    <required>false</required>
+    <trackHistory>true</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Available Inventory</fullName>
+                <default>false</default>
+                <label>Available Inventory</label>
+            </value>
+            <value>
+                <fullName>Currently Being Configured</fullName>
+                <default>false</default>
+                <label>Currently Being Configured</label>
+            </value>
+            <value>
+                <fullName>Deployed</fullName>
+                <default>false</default>
+                <label>Deployed</label>
+            </value>
+            <value>
+                <fullName>FRU</fullName>
+                <default>false</default>
+                <label>FRU</label>
+            </value>
+            <value>
+                <fullName>Needs Repair</fullName>
+                <default>false</default>
+                <label>Needs Repair</label>
+            </value>
+            <value>
+                <fullName>Reserved Inventory</fullName>
+                <default>false</default>
+                <label>Reserved Inventory</label>
+            </value>
+            <value>
+                <fullName>Retired</fullName>
+                <default>false</default>
+                <label>Retired</label>
+            </value>
+            <value>
+                <fullName>Lifecycle Transition</fullName>
+                <default>false</default>
+                <label>Lifecycle Transition</label>
+            </value>
+            <value>
+                <fullName>Suspended</fullName>
+                <default>false</default>
+                <label>Suspended</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

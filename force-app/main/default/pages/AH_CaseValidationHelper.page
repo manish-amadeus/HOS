@@ -1,0 +1,354 @@
+<apex:page standardController="Case" extensions="AH_CaseValidationHelper_Ctlr" showHeader="false" sidebar="false" lightningStylesheets="true" applyHtmlTag="false" applyBodyTag="false" docType="html-5.0">
+
+    <html xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" lang="en">
+        <head>
+            <meta charset="utf-8" />
+            <meta http-equiv="x-ua-compatible" content="ie=edge" />
+            <title>Case - Quick Update</title>
+            <meta name="viewport" content="width=device-width, initial-scale=1" />
+            <apex:stylesheet value="/apexpages/slds/latest/assets/styles/salesforce-lightning-design-system-vf.css" />
+            <apex:includeScript value="{!$Resource.Toast}"/>
+            <apex:slds />
+        </head>
+        
+        <script language="JavaScript" type="text/javascript"> 
+        
+            function noenter(ev)  
+            {
+                if (window.event && window.event.keyCode == 13 || ev.which == 13) 
+                {
+                    afDoSearch();
+                    return false;
+                } 
+                else 
+                {
+                    if (window.event && window.event.keyCode == 27 || ev.which == 27) 
+                    {
+                        afDoSearchClose();
+                        return false;
+                    }  
+                    else
+                    {
+                        return true;
+                    }
+                }
+            } 
+
+        </script>  
+        
+        <div id="divMain" class="slds-scope" style="margin: 10px 10px 10px 10px; !important;">
+
+            <apex:pageMessages escape="true" />
+            
+            <apex:form id="frmMain">
+
+                <apex:actionFunction id="afDoSearch" name="afDoSearch" action="{!doLKASearch}" rerender="opSearchResults" status="asSearchStatus" />            
+                <apex:actionFunction id="afDoSearchClose" name="afDoSearchClose" action="{!closeSearch}" rerender="opSearchResults" status="asSearchStatus" />   
+                
+                <!-- SUCCESS TOAST POPUP -->
+                <apex:outputPanel id="opSuccess" styleClass="popupSuccessFade fadeOut">
+                    <apex:outputPanel styleClass="popupSuccess" layout="block" rendered="{!isSuccess}">
+                        <div class="slds-notify_container slds-is-relative">
+                            <div class="slds-notify slds-notify_toast slds-theme_success" role="alert">
+                                <span class="slds-assistive-text">success</span>
+                                <span class="slds-icon_container slds-icon-utility-success slds-m-right_small slds-no-flex slds-align-top" title="">
+                                    <svg class="slds-icon slds-icon_small" aria-hidden="true">
+                                        <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/apexpages/slds/latest/assets/icons/utility-sprite/svg/symbols.svg#success" />
+                                    </svg>
+                                </span>
+                                <div class="slds-notify__content">
+                                    <h2 class="slds-text-heading_small ">
+                                        <apex:outputLabel id="lblToastMsg" value="{!toastMsg}" style="color:white !important;font-size:12pt;" />
+                                    </h2>
+                                </div>
+                            </div>
+                        </div>            
+                    </apex:outputPanel>
+                </apex:outputPanel>                 
+                
+                <div id="divHeader" class="roundedContainer">
+                    <span class="slds-icon_container slds-icon-standard-account"> 
+                        <svg aria-hidden="false" class="slds-icon">    
+                            <use xlink:href="/apexpages/slds/latest/assets/icons/utility-sprite/svg/symbols.svg#settings"></use>
+                        </svg> 
+                        <span class="slds-assistive-text">Case - Quick Update</span> 
+                    </span> 
+                    &nbsp;&nbsp; 
+                    <apex:outputLabel id="lblTitle" value="Case - Quick Update" styleClass="slds-text-heading_medium slds-text-title_bold" />                   
+                </div>
+                
+                <br/>
+                
+                <div id="divBody" class="roundedContainer">
+                    
+                    <div style="width: 100%;text-align:center;">
+                        
+                        <table>
+
+                            <tr>
+                                <td style="text-align:center;padding-top:10px;padding-bottom:10px;">
+                                    <apex:commandButton id="cmdCancel" value="{!strCxlBtnText}" action="{!doClose}" status="asStatus" style="width:120px;" styleClass="{!strCxlBtnStyle}" />&nbsp;&nbsp;                                    
+                                    <apex:commandButton id="cmdAttachLKA" value="Attach Known Article" action="{!doAttach}" status="asStatus" style="width:180px;" styleClass="slds-button slds-button_outline-brand" rerender="opSearch" />&nbsp;&nbsp; 
+                                    <apex:commandButton id="cmdSaveCase" value="Save Case" action="{!doSave}" status="asStatus" style="width:120px;" styleClass="slds-button slds-button_brand" reRender="lblMsg,cmdCancel,opSuccess" />&nbsp;&nbsp;  
+                                    <apex:commandButton id="cmdCloseCase" value="Close Case" action="{!closeCase}" status="asStatus" style="width:120px;" styleClass="slds-button slds-button_brand" reRender="lblMsg,cmdCancel,opSuccess,pbMain" />                               
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="text-align:center;">
+                                    <apex:outputLabel id="lblMsg" value="{!strMsg}" style="color:{!strMsgColor};" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="text-align:center;">
+                                    
+                                </td>
+                            </tr>                            
+                        </table>
+                        <br/>
+                    </div>                     
+
+                    <apex:pageBlock id="pbMain" title="Required Customer Support Case Fields">
+
+                        <apex:pageBlockSection columns="2" showHeader="false">
+                            <apex:repeat value="{!$ObjectType.Case.FieldSets.Quick_Update}" var="f">
+                                <apex:inputField value="{!Case[f.fieldPath]}" required="{!OR(f.required, f.dbrequired)}" />
+                            </apex:repeat>
+                        </apex:pageBlockSection>
+                        
+                    </apex:pageBlock>
+                    <br/>
+                    
+                </div>
+                
+                <apex:outputPanel id="opLKAs">
+                    <div id="divLKAs" class="roundedContainer"> 
+                        
+                        <apex:outputLabel id="lblAttachedLKAs" value="Attached Articles" style="font-size:12pt; !important;" />
+                        
+                        <apex:dataTable id="tblAttachedLKAs" value="{!lstAttachedLKAs}" var="lka" styleClass="slds-table slds-table_bordered">
+                            
+                            <apex:column style="width:60px;" headerValue="Action">  
+                                <apex:commandLink id="cmdlnkSel1" value="Remove" action="{!doArticleRemove}" status="asStatus" rerender="opLKAs,tblAttachedLKAs">                                   
+                                    <apex:param name="selParam1" assignTo="{!selLKAId}" value="{!lka.KnowledgeArticleId}" />
+                                </apex:commandLink>   
+                            </apex:column> 
+                            
+                            <apex:column style="width:200px;" headerValue="Article #">                            
+                                <apex:outputText id="txtLKANumber" value="{!lka.ArticleNumber}" /> 
+                            </apex:column> 
+                            
+                            <apex:column style="width:200px;" headerValue="Domain">
+                                <apex:outputText id="txtLKASolutionDomain" value="{!lka.Solution_Domain__c}" /> 
+                            </apex:column> 
+                            
+                            <apex:column style="width:200px;" headerValue="Type">
+                                <apex:outputText id="txtLKARecordType" value="{!lka.RecordType.Name }" /> 
+                            </apex:column> 
+                            
+                            <apex:column style="width:400px;" headerValue="Title">
+                                <apex:outputText id="txtLKATitle" value="{!lka.Title}" /> 
+                            </apex:column> 
+                            
+                        </apex:dataTable>                    
+                    </div>                
+                </apex:outputPanel>
+                
+                
+                <!-- SPINNER -->  
+                <apex:actionstatus id="asStatus">
+                    <apex:facet name="start">
+                        <div class="slds-spinner_container">
+                            <div role="status" class="slds-spinner slds-spinner_medium slds-spinner_brand">
+                                <span class="slds-assistive-text">Loading</span>
+                                <div class="slds-spinner__dot-a"></div>
+                                <div class="slds-spinner__dot-b"></div>
+                            </div>
+                        </div>
+                    </apex:facet>
+                </apex:actionstatus>
+				
+                <!-- SEARCH DIALOG --> 
+                <apex:outputPanel id="opSearch">
+                    <apex:outputPanel styleClass="popupBackground" layout="block" rendered="{!showAttachLKA}" />
+                    <apex:outputPanel styleClass="popupDialogBox" layout="block" rendered="{!showAttachLKA}">
+                        
+                        <!-- (DIALOG CLOSE) --> 
+                        <apex:commandButton id="cmdXBtn1" value="X" action="{!closeSearch}" status="asSearchStatus" 
+                                            rerender="opSearch" 
+                                            style="position:absolute;left:770px;top:-40px;font-size:24px;border:3px solid white;border-radius: 5px;box-shadow: 5px 5px 5px #888888;!important;" 
+                                            styleClass="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" />
+                        
+                        <!-- (SPINNER) -->  
+                        <apex:actionstatus id="asSearchStatus">
+                            <apex:facet name="start">
+                                <div class="slds-spinner_container">
+                                    <div role="status" class="slds-spinner slds-spinner_medium slds-spinner_brand">
+                                        <span class="slds-assistive-text">Saving</span>
+                                        <div class="slds-spinner__dot-a"></div>
+                                        <div class="slds-spinner__dot-b"></div>
+                                    </div>
+                                </div>
+                            </apex:facet>
+                        </apex:actionstatus>  
+                        
+                        <!-- (DIALOG HEADER) --> 
+                        <header class="slds-modal__header">
+                            <h2 class="slds-text-heading_medium slds-hyphenate" id="modal-heading-01">{!strSearchTitle}</h2>
+                        </header>                        
+                        
+                        <br/>
+                        
+                        <!-- (SEARCH INPUT) -->                          
+                        <apex:outputPanel id="opSearchInput">
+
+                            <apex:outputLabel id="lblSearchText" value="Search Text: " />
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;                        
+                            <apex:inputText id="txtSearchText" value="{!searchText}" label="lblSearchText" onkeypress="return noenter(event);" styleClass="slds-input" style="width:400px;!important;"/>&nbsp;&nbsp;
+                            &nbsp;&nbsp;&nbsp;&nbsp; 
+                            <apex:commandButton id="btnSearch" value="Search" action="{!doLKASearch}" rerender="opSearchResults" status="asSearchStatus" styleClass="slds-button slds-button_brand" />
+                            <apex:commandButton id="btnSearchCancel" value="Close" action="{!closeSearch}" rerender="opSearch" status="asSearchStatus" styleClass="slds-button slds-button_outline-brand" />
+                            <br/>
+                            
+                        </apex:outputPanel>                        
+                        
+                        <br/>
+                        
+                        <!-- (SEARCH RESULTS) -->                          
+                        <apex:outputPanel id="opSearchResults">                            
+                            <apex:dataTable value="{!lstLookupResult}" var="lr" styleClass="slds-table slds-table_bordered slds-table_striped">                                
+                                <apex:column style="width:80px;"> 
+                                    <apex:inputHidden id="txtIDValue" value="{!lr.recId}" /> 
+                                    <apex:commandLink id="cmdlnkSel" value="Select" action="{!doArticleSelect}" status="asSearchStatus" rerender="opSearch,tblHelperFields,tblAttachedLKAs">                                   
+                                        <apex:param name="selParam3" assignTo="{!selLKAId}" value="{!lr.KnowledgeArticleId}" />
+                                        <apex:param name="selParam4" assignTo="{!iSelLKAVersion}" value="{!lr.iArticleVersionNumber}" />
+                                    </apex:commandLink>   
+                                </apex:column>                                 
+                                <apex:column style="width:80px;">                              
+                                    <apex:outputText value="{!lr.strVal1}" />   
+                                </apex:column>
+                                <apex:column styleClass="slds-cell-wrap" style="width:200px; !important;">                              
+                                    <apex:outputText value="{!lr.strName}" />   
+                                </apex:column>
+                            </apex:dataTable>
+                            
+                        </apex:outputPanel> 
+                        
+                        <br/>
+                        
+                    </apex:outputPanel>                     
+                </apex:outputPanel> 
+
+            </apex:form>          
+
+        </div>
+        
+        <style type="text/css"> 
+            .popupDialogBox 
+            {      
+                position: absolute;
+                background-color: white;
+                border-radius: 5px;
+                top: 100px;
+                left: 50%;
+                width: 800px;
+                margin-left: -400px;
+                z-index: 9999;
+                padding: 10px; 
+            }                
+            .popupBackground 
+            {          
+                position: fixed;
+                width: 100%;
+                height: 100%;
+                top: 0;
+                right: 0;
+                bottom: 0;
+                left: 0;
+                z-index: calc(9000 + 2);
+                background-color: rgba(0,0,0,.1);
+                visibility: visible;
+                opacity: 1;
+                transition: opacity .2s ease,visibility 0s;
+                transition-delay: 0s,.3s; 
+            }
+            .popupSuccess
+            {      
+                position: absolute;
+                color: white;
+                background-color: #04844b; 
+                border-radius: 5px;
+                top: 30px;
+                left: 50%;
+                width: 500px;
+                margin-left: -250px;
+                z-index: 9999;
+                padding: 0px;       
+            } 
+            .popupSuccessFade
+            {      
+                -webkit-animation-duration: 5s;animation-duration: 5s;
+                -webkit-animation-fill-mode: both;animation-fill-mode: both;
+            }
+            @-webkit-keyframes fadeOut 
+            {
+                0% {opacity: 1;}
+                100% {opacity: 0;}
+            }
+            @keyframes fadeOut 
+            {
+                0% {opacity: 1;}
+                100% {opacity: 0;}
+            }
+            .fadeOut 
+            {
+                -webkit-animation-name: fadeOut;
+                animation-name: fadeOut;
+            }            
+            .roundedContainer
+            {
+                width: 100%;
+                border: 1px solid lightgrey;
+                padding: 10px;
+                border-radius: 5px;
+                !important;
+            }
+            .slds-spinner_container 
+            {
+                position: relative;
+                width: 100%;
+                height: 100%;
+                top: 0;
+                right: 0;
+                bottom: 0;
+                left: 0;
+                z-index: calc(9000 + 2);
+                background-color: rgba(255,255,255,.75);
+                visibility: visible;
+                opacity: 1;
+                transition: opacity .2s ease,visibility 0s;
+                transition-delay: 0s,.3s;
+            } 
+            .helpOrb 
+            {   
+            	display:none !important;
+            }
+            body .bPageBlock, body #bodyCell .bResource .secondaryPalette, body .secondaryPalette.bPageBlock, body .individualPalette .secondaryPalette.bPageBlock, body .bodyDiv .genericTable, body .genericPageBlockTable, body .bodyDiv .bSubBlock, body .bComponentBlock .bPageBlock, body .bMyDashboard .bPageBlock, body.rlHoverFrame .bPageBlock, body.subjectSelectionPopup div.choicesBox, body.lookupTab .secondaryPalette.bPageBlock, body.popupTab .secondaryPalette.bPageBlock, body.UserTagStatsPage .secondaryPalette.bPageBlock {
+            
+                background-color: white;
+            
+                border-bottom: 1px solid gray;
+            
+                border-left: 1px solid gray;
+            
+                border-radius: 5px 5px 5px 5px;
+            
+                border-right: 1px solid gray;
+            
+                border-top: 1px solid gray;
+            
+            }            
+        </style>
+        
+    </html>
+    
+</apex:page>

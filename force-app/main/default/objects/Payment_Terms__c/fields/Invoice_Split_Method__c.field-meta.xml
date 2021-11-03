@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Invoice_Split_Method__c</fullName>
+    <externalId>false</externalId>
+    <inlineHelpText>Pro-Rata: considers the activation date against the year end date  Equal: Equal Amounts across the number of invoices.</inlineHelpText>
+    <label>Invoice Split Method</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Equal</fullName>
+                <default>false</default>
+                <label>Equal</label>
+            </value>
+            <value>
+                <fullName>Percent Breakdown</fullName>
+                <default>false</default>
+                <label>Percent Breakdown</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

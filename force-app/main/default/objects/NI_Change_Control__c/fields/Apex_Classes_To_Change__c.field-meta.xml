@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Apex_Classes_To_Change__c</fullName>
+    <description>NICC-023424
+The Apex Classes that will be changed as part of this Change Request</description>
+    <externalId>false</externalId>
+    <inlineHelpText>The Apex Classes that will be changed as part of this Change Request.  This field must be updated if the Change Type contains &quot;Change Existing Apex Class&quot;</inlineHelpText>
+    <label>Apex Classes To Change</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>MultiselectPicklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetName>Apex_Classes</valueSetName>
+    </valueSet>
+    <visibleLines>10</visibleLines>
+</CustomField>

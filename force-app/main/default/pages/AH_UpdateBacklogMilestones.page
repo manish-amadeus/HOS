@@ -1,0 +1,299 @@
+<apex:page standardController="pse__Proj__c" extensions="AH_UpdateBacklogMilestones_Ctlr" showHeader="false" sidebar="false" lightningStylesheets="true" applyHtmlTag="false" applyBodyTag="false" docType="html-5.0">
+    
+    <html xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" lang="en">
+        <head>
+            <meta charset="utf-8" />
+            <meta http-equiv="x-ua-compatible" content="ie=edge" />
+            <title>Subscription Activations</title>
+            <meta name="viewport" content="width=device-width, initial-scale=1" />
+            <apex:stylesheet value="/apexpages/slds/latest/assets/styles/salesforce-lightning-design-system-vf.css" />    
+            <apex:stylesheet value="{!URLFOR($Resource.AmadeusHospitalityStyles)}" />  
+            <apex:includeScript value="{!$Resource.Toast}"/>
+            <apex:slds />
+        </head>
+        
+        <div id="divMain" class="slds-scope" style="margin: 10px 10px 10px 10px; !important;">
+            
+            <apex:form id="frmMain">
+                
+                <!-- 
+                =====================================================
+                    STEP 1:
+                =====================================================
+                --> 
+                                
+                <apex:outputPanel id="op1" rendered="{!bOp1}">
+                    <div id="div1a" class="roundedContainer">
+                        <apex:outputLabel id="lbl1Title" value="STEP 1:" style="width:600px;height:48px; !important;" styleClass="slds-text-heading_medium" />
+                        <br/>
+                        <apex:outputLabel id="lbl1" value="This wizard will allow you to bulk update specified active contracted milestones related to this project." escape="false" />                
+                        <br/>
+                        <br/>
+                        <div style="text-align:center !important;">
+                            <apex:commandButton id="btn1Next" value="Next >>" action="{!step1Next}" status="asStatus" reRender="frmMain,op1,op2" styleClass="slds-button slds-button_outline-brand" disabled="{!bIsLocked}" /> 
+                            <br/>
+                            <br/>
+                            <apex:outputLabel id="lbl1Error" value="{!strErrorMsg}" style="color:red !important;" /> 
+                        </div> 
+                    </div>
+                    <br/>
+                    <div id="div1a" class="roundedContainer" style="display:{! IF(bIsLocked, 'none', 'block')};">
+
+                        <br/>
+                        <table style="width:600px;">
+                            <tr>
+                                <td style="text-align:left;width:120px;">
+                                    <apex:outputLabel id="lblMasterReason" value="Change Reason:" style="font-weight:bold !important;" />&nbsp;&nbsp;
+                                </td>
+                                <td style="text-align:left;">
+                                    <apex:selectList id="ddlMasterReason" label="lblMasterReason" value="{!selMasterReason}" size="1" multiselect="false">
+                                        <apex:selectOptions value="{!lstChangeReasons}" />
+                                    </apex:selectList>                                 
+                                </td>
+                                <td style="text-align:right;">
+                                    <apex:outputLabel id="lblbIsConsolidated" value="Is Consolidated:" style="font-weight:bold !important;" />&nbsp;&nbsp;
+                                </td>
+                                <td style="text-align:left;">
+                                    <apex:inputCheckbox label="lblbIsConsolidated" id="chkConsolidated" value="{!bIsConsolidated}" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="4" style="text-align:left;padding-top:20px;">
+                                    <apex:outputLabel id="lblMilestoneChangeNote" value="Please enter or update the Milestone Change Note:" escape="false" style="font-weight:bold !important;" /> 
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="4" style="text-align:left;">
+                                    <apex:inputTextarea id="txtMilestoneChangeNote" value="{!strMilestoneChangeNote}" rows="8" style="width:600px;" />
+                                </td>
+                            </tr>
+                        </table>
+                        <br/>
+                    </div>
+                </apex:outputPanel>
+                
+                <!-- 
+                =====================================================
+                    STEP 2:
+                =====================================================
+                --> 
+                                
+                <apex:outputPanel id="op2" rendered="{!bOp2}">
+                    <div id="div2a" class="roundedContainer">
+                        <apex:outputLabel id="lbl2Title" value="STEP 2:" style="width:600px;height:48px; !important;" styleClass="slds-text-heading_medium" />
+                        <br/>
+                        <apex:outputLabel id="lbl2" value="Please check and choose a reason for all applicable Milestones listed below. " />
+                        <br/>
+                        <div style="text-align:center !important;">
+                            <apex:commandButton id="btn2Prev" value="<< Previous" action="{!step2Prev}" status="asStatus" reRender="frmMain,op1,op2" styleClass="slds-button slds-button_brand" style="width:110px !important;" />&nbsp;
+                            <apex:commandButton id="btn2Next" value="Next >>" action="{!step2Next}" status="asStatus" reRender="frmMain,op2,op3" styleClass="slds-button slds-button_outline-brand" style="width:110px !important;" />
+                        	<br/>
+                            <br/>
+                            <apex:outputLabel id="lbl2Error" value="{!strErrorMsg}" style="color:red !important;" /> 
+                        </div>
+                    </div>  
+                    <br/>
+                    <i>{!iCount} Milestones</i>
+                    <br/>                    
+                    <table style="width:100%;">                        
+                        <tr style="background-color:#CF0058;border: 1px solid #dddddd;height:32px;!important;"> 
+                            <td style="text-align:left;padding-left:80px;color:#FFFFFF;">
+                                <b>Milestone Name</b>
+                            </td> 
+                            <td style="text-align:right;padding-right:24px;color:#FFFFFF;">
+                                <b>Milestone Amount</b>
+                            </td>  
+                            <td style="text-align:left;color:#FFFFFF;">
+                                <b>ActLineItem</b>
+                            </td>  
+                            <td style="text-align:left;color:#FFFFFF;">
+                                <b>OppLineItem</b>
+                            </td>  
+                            <td style="text-align:left;color:#FFFFFF;">
+                                <b># Units</b>
+                            </td>    
+                            <td style="text-align:left;color:#FFFFFF;">
+                                <b>Product Unit</b>
+                            </td>
+                            <td style="text-align:left;color:#FFFFFF;">
+                                <b>Type</b>
+                            </td>
+                            <td style="text-align:left;color:#FFFFFF;">
+                                <b>Status</b>
+                            </td>
+                        </tr>
+
+                        <!-- MILESTONE PRODUCT PACKAGE GROUP -->
+                        <apex:repeat value="{!lstMilestones}" var="m">
+                            <tr style="border: 1px solid #dddddd;background-color:{! IF(m.strRowType == 'Package', '#00ACE3', IF(m.strRowType == 'Property', '#2360B1', '#FFFFFF'))};height:{! IF(m.strRowType == 'Milestone', '24px', '32px')};!important;">
+                                <td style="white-space: nowrap;color:{! IF(m.strRowType == 'Package', '#FFFFFF', IF(m.strRowType == 'Property', '#FFFFFF', '#000000'))};">
+									&nbsp;&nbsp;
+                                    <apex:inputCheckbox id="r1a" value="{!m.bIsPackageSelected}" rendered="{!m.strRowType=='Package'}">
+                                        <apex:actionSupport event="onchange" action="{!doSelectPackage}" reRender="op2" status="asStatus">
+                                            <apex:param id="p1a" name="index" value="{!m.iIndex}" assignTo="{!iSelIndex}"/>
+                                        </apex:actionSupport>
+                                    </apex:inputCheckbox>&nbsp;&nbsp;
+                                    
+                                    <apex:outputText id="r1b" value="{!m.strHeader}" style="font-weight:bold !important;" rendered="{!m.strRowType='Package'}" />
+                                    &nbsp;&nbsp;&nbsp;&nbsp;
+
+                                    <apex:inputCheckbox id="r1c" value="{!m.bIsPropertySelected}" rendered="{!m.strRowType=='Property'}">
+                                        <apex:actionSupport event="onchange" action="{!doSelectProperty}" reRender="op2" status="asStatus">
+                                            <apex:param id="p1b" name="index" value="{!m.iIndex}" assignTo="{!iSelIndex}"/>
+                                        </apex:actionSupport>
+                                    </apex:inputCheckbox>&nbsp;&nbsp; 
+
+                                    <apex:outputText id="r1d" value="{!m.strHeader}" style="font-weight:bold !important;" rendered="{!m.strRowType=='Property'}" />
+                                    &nbsp;&nbsp;&nbsp;&nbsp;
+                                    
+                                    <apex:inputCheckbox id="r1e" value="{!m.bIsMilestoneSelected}" disabled="{!m.bIsViewOnly || NOT(bIsConsolidated)}" rendered="{!m.strRowType=='Milestone'}" />&nbsp;&nbsp; 
+                                    <apex:commandLink action="{!selectMS}" value="{!m.mileStone.Name}" target="_blank" rendered="{!m.strRowType=='Milestone'}">
+                                        <apex:param name="prmMSID" assignTo="{!strMSID}" value="{!m.mileStone.Id}"/>
+                                    </apex:commandLink> 
+                                    
+                                </td>  
+                                <td style="text-align:right;padding-right:24px;">
+                                     <apex:outputText id="r2a" value="{!m.mileStone.pse__Milestone_Amount__c}" rendered="{!m.strRowType=='Milestone'}" />
+                                </td> 
+                                <td>
+                                    <apex:commandLink action="{!selectALI}" value="{!m.activityLineItemNumber}" target="_blank" rendered="{!m.strRowType=='Milestone'}">
+                                        <apex:param name="prmALIID" assignTo="{!strALIID}" value="{!m.mileStone.Activity_Line_Item__c}"/>
+                                    </apex:commandLink>                                    
+                                </td> 
+                                <td>                                    
+                                    <apex:commandLink id="r3a" action="{!selectOLI}" value="{!m.opportunityLineItemId}" target="_blank" rendered="{!m.strRowType=='Milestone'}">
+                                        <apex:param name="prmOLIID" assignTo="{!strOLIID}" value="{!m.opportunityLineItemId}"/>
+                                    </apex:commandLink>                                    
+                                </td>  
+                                <td>
+                                     <apex:outputText id="r4a" value="{!m.productUnit}" rendered="{!m.strRowType=='Milestone'}" />
+                                </td>  
+                                <td>
+                                    <apex:outputText id="r5a" value="{0, number, #0}" rendered="{!m.strRowType=='Milestone'}">
+                                        <apex:param value="{!m.Quantity}"/>
+                                    </apex:outputText>                                    
+                                </td>    
+                                <td>
+                                    <apex:outputText id="r6a" value="{!m.mileStone.Milestone_Type__c}" rendered="{!m.strRowType=='Milestone'}" />
+                                </td>
+                                <td>
+                                    <apex:outputText id="r7a" value="{!m.mileStone.pse__Status__c}" rendered="{!m.strRowType=='Milestone'}" />
+                                </td>   
+                            </tr>
+                        </apex:repeat>  
+                    </table>
+                    <br/>
+                    <br/>
+                    <br/>
+                </apex:outputPanel>            
+                
+                <!-- 
+                =====================================================
+                    STEP 3:
+                =====================================================
+                --> 
+                
+                <apex:outputPanel id="op3" rendered="{!bOp3}">
+                    <div id="div3a" class="roundedContainer">
+                        <apex:outputLabel id="lbl3Title" value="STEP 3:" style="width:600px;height:48px; !important;" styleClass="slds-text-heading_medium" />
+                        <br/>
+                        <apex:outputLabel id="lbl3" value="Verify and Save" />
+                        <br/> 
+                        <apex:outputLabel id="lbl3b" value="Please review the list of {!iSelSize} Milestones then click Save button to complete." />
+                        <br/>
+                        <div style="text-align:center !important;">
+                            <apex:commandButton id="btn3Prev" value="<< Previous" action="{!step3Prev}" status="asStatus" reRender="frmMain,op2,op3" styleClass="slds-button slds-button_brand" style="width:110px !important;" disabled="{!bIsLocked}" />&nbsp;
+                            <apex:commandButton id="btn3Save" value="Save" action="{!step3Save}" status="asStatus" reRender="frmMain,op3,op4" styleClass="slds-button slds-button_outline-brand" style="width:110px !important;" disabled="{!bIsLocked}" />
+                            <br/>
+                            <br/>
+                            <apex:outputLabel id="lbl3Error" value="{!strErrorMsg}" style="color:red !important;" /> 
+                        </div>
+                    </div>  
+                    <br/>
+                    <div id="div3Selected" class="roundedContainer"> 
+                        <apex:outputLabel id="lbl3c" value="Total Milestone Amount: " style="font-weight:bold;color:#CF0058;!important;" />
+                        <apex:outputLabel id="lbl3d" value="{!dTotalAmount}" style="color:blue !important;" />
+                        <br/>
+                        <apex:outputLabel value="Change Reason: " style="font-weight:bold !important;" /><apex:outputText value="{!selMasterReason}" style="color:blue !important;" />
+                        <br/>
+                        <apex:outputLabel id="lblChangeNote" value="Milestone Change Note:" style="font-weight:bold !important;" /> 
+                        <br/>
+                        <apex:outputText id="txtChangeNote" value="{!strMilestoneChangeNote}" style="width:600px;color:blue !important;" />
+                        <br/>
+                        <br/>
+                        <apex:outputLabel value="Selected Milestone Summary" style="font-weight:bold;color:#CF0058;font-size:12pt;!important;" />
+                        <apex:repeat id="rptSelected" value="{!lstSelMilestones}" var="s" >
+                            <hr class="selSpilt" />
+                            <apex:outputLabel value="Name: " style="font-weight:bold !important;" /><apex:outputText value="{!s.mileStone.Name}" style="color:blue !important;" />
+                            <br/>
+                            <apex:outputLabel value="Amount: " style="font-weight:bold !important;" /><apex:outputText value="{!s.mileStone.pse__Milestone_Amount__c}" style="color:blue !important;" />
+                            <br/>
+                            <apex:outputLabel value="Package: " style="font-weight:bold !important;" /><apex:outputText value="{!s.productPackageName}" style="color:blue !important;" />
+                            <br/>
+                            <apex:outputLabel value="Managed Property: " style="font-weight:bold !important;" rendered="{! AND(s.managedPropertyName != '')}" /><apex:outputText value="{!s.managedPropertyName}" style="color:blue !important;" rendered="{! AND(s.managedPropertyName != '')}" />
+                            
+                        </apex:repeat>
+                      
+                    </div>
+
+                </apex:outputPanel>             
+                
+                <!-- 
+                =====================================================
+                STEP 4:
+                =====================================================
+                --> 
+                                
+                <apex:outputPanel id="op4" rendered="{!bOp4}">
+                    <div id="div4a" class="roundedContainer">
+                        <apex:outputLabel id="lbl4Title" value="FINAL STEP" style="width:600px;height:48px; !important;" styleClass="slds-text-heading_medium" />
+                        <br/>
+                        <apex:outputLabel id="lbl4a" value="" />
+                        <br/>
+                        <br/>
+                        <div style="text-align:center !important;">
+                            <apex:commandButton id="btn4Next" value="Close" action="{!step4Next}" reRender="frmMain" styleClass="slds-button slds-button_outline-brand" />
+                            <br/>
+                            <apex:outputLabel id="lbl4b" value="{!iSelSize} Milestones were updated." />
+                            <br/>
+                            <apex:outputLabel id="lbl4c" value="An approval has been sent to {!strApprover}" rendered="{!bSubmitted4Approval}" />
+                            <br/>
+                        </div>
+                    </div>
+                </apex:outputPanel>              
+
+                <!-- SPINNER -->  
+                <apex:actionstatus id="asStatus">
+                    <apex:facet name="start">
+                        <div class="slds-spinner_container" style="position:fixed; height: 100% !important;">
+                            <div role="status" class="slds-spinner slds-spinner_medium slds-spinner_brand" style="top:150px;!important;">
+                                <span class="slds-assistive-text">Working...</span>
+                                <div class="slds-spinner__dot-a"></div>
+                                <div class="slds-spinner__dot-b"></div>
+                            </div>
+                        </div>
+                    </apex:facet>
+                </apex:actionstatus> 
+                
+            </apex:form> 
+        </div>
+        
+        <style type="text/css"> 
+            
+            .roundedContainer {
+                width: 100%;
+                border: 2px solid lightgrey;
+                padding: 10px;
+                border-radius: 5px;
+                !important;
+            }  
+            hr.selSpilt {
+                border-top: 1px dashed red;
+                margin: 5px 0 5px 0;
+                !important;
+            }            
+        </style>
+        
+    </html>
+    
+</apex:page>

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Active_Assets</fullName>
+    <booleanFilter>(1 OR 2) AND 3 AND 4</booleanFilter>
+    <columns>NAME</columns>
+    <columns>Status__c</columns>
+    <columns>Product_ID__c</columns>
+    <columns>HardwareType__c</columns>
+    <columns>Hardware_Type__c</columns>
+    <columns>Asset_Location__c</columns>
+    <columns>User__c</columns>
+    <columns>Custodian_Location__c</columns>
+    <columns>Custodian_Department__c</columns>
+    <columns>NI_Department__c</columns>
+    <columns>Machine_Name__c</columns>
+    <columns>Deployment_Type__c</columns>
+    <columns>Model_Description__c</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>Hardware_Type__c</field>
+        <operation>equals</operation>
+        <value>Laptop,Workstation</value>
+    </filters>
+    <filters>
+        <field>HardwareType__c</field>
+        <operation>equals</operation>
+        <value>Laptop,Workstation</value>
+    </filters>
+    <filters>
+        <field>User__c</field>
+        <operation>notEqual</operation>
+    </filters>
+    <filters>
+        <field>Status__c</field>
+        <operation>equals</operation>
+        <value>Deployed</value>
+    </filters>
+    <label>Active Assets</label>
+</ListView>

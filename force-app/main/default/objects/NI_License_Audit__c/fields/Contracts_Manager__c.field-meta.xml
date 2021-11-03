@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Contracts_Manager__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <description>The Contracts Manager responsible for this license audit record</description>
+    <externalId>false</externalId>
+    <inlineHelpText>The Contracts Manager responsible for this license audit record. If left blank when the record is created, it will be automatically populated with the member of the default Account Team of the record owner who has the &quot;Contracts - Primary&quot; Role.</inlineHelpText>
+    <label>Contracts Manager</label>
+    <referenceTo>User</referenceTo>
+    <relationshipName>NI_License_Audits</relationshipName>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>true</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

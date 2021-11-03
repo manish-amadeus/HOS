@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Hosted_RFC_Changes_Made_Past_24hrs</fullName>
+    <booleanFilter>1 AND 2 AND 3</booleanFilter>
+    <columns>NAME</columns>
+    <columns>Request_Summary__c</columns>
+    <columns>Change_Status__c</columns>
+    <columns>CREATEDBY_USER</columns>
+    <columns>Date_Scheduled__c</columns>
+    <columns>Date_Required__c</columns>
+    <columns>NI_Change_Owner__c</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>RECORDTYPE</field>
+        <operation>equals</operation>
+        <value>NI_Change_Control__c.Hosted_RFC</value>
+    </filters>
+    <filters>
+        <field>Date_Changed__c</field>
+        <operation>equals</operation>
+        <value>LAST_N_DAYS:1</value>
+    </filters>
+    <filters>
+        <field>Implementation_Status__c</field>
+        <operation>equals</operation>
+        <value>Closed - Implemented,Closed - Failed,Closed - Escalated</value>
+    </filters>
+    <label>Hosted RFC: Changes Made Past 24hrs</label>
+</ListView>

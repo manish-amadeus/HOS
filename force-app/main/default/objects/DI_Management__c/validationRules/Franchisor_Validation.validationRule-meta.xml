@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Franchisor_Validation</fullName>
+    <active>true</active>
+    <description>If relationship is selected as franchisor, Franchisor name should be provided</description>
+    <errorConditionFormula>IF( AND(TEXT(Relationship__c) = &apos;Franchisor&apos; ,ISBLANK(Franchisor__c ))   , true, false)</errorConditionFormula>
+    <errorDisplayField>Franchisor__c</errorDisplayField>
+    <errorMessage>You must enter a Franchisor for a Franchisor Relationship.</errorMessage>
+</ValidationRule>

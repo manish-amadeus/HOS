@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Billing_Dispute_Detail_c__c</fullName>
+    <externalDeveloperName>Billing_Dispute_Detail__c</externalDeveloperName>
+    <externalId>false</externalId>
+    <isFilteringDisabled>false</isFilteringDisabled>
+    <isNameField>false</isNameField>
+    <isSortingDisabled>false</isSortingDisabled>
+    <label>Billing Dispute Detail</label>
+    <readOnlyProxy>true</readOnlyProxy>
+    <required>false</required>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Accelerated Invoice request</fullName>
+                <default>false</default>
+                <label>Accelerated Invoice request</label>
+            </value>
+            <value>
+                <fullName>Client disputed increased renewal price</fullName>
+                <default>false</default>
+                <label>Client disputed increased renewal price</label>
+            </value>
+            <value>
+                <fullName>Client requesting Billing method/frequency unsupported by TC.</fullName>
+                <default>false</default>
+                <label>Client requesting Billing method/frequency unsupported by TC.</label>
+            </value>
+            <value>
+                <fullName>Client requesting different currency in order to pay.</fullName>
+                <default>false</default>
+                <label>Client requesting different currency in order to pay.</label>
+            </value>
+            <value>
+                <fullName>Contract Enquiry</fullName>
+                <default>false</default>
+                <label>Contract Enquiry</label>
+            </value>
+            <value>
+                <fullName>Contract Extension – No TR</fullName>
+                <default>false</default>
+                <label>Contract Extension – No TR</label>
+            </value>
+            <value>
+                <fullName>Contract Renego – TR</fullName>
+                <default>false</default>
+                <label>Contract Renego – TR</label>
+            </value>
+            <value>
+                <fullName>Covid Relief</fullName>
+                <default>false</default>
+                <label>Covid Relief</label>
+            </value>
+            <value>
+                <fullName>Customer Requesting copies of Invoice</fullName>
+                <default>false</default>
+                <label>Customer Requesting copies of Invoice</label>
+            </value>
+            <value>
+                <fullName>Delayed implementation</fullName>
+                <default>false</default>
+                <label>Delayed implementation</label>
+            </value>
+            <value>
+                <fullName>Duplicate Invoice</fullName>
+                <default>false</default>
+                <label>Duplicate Invoice</label>
+            </value>
+            <value>
+                <fullName>Inaccurate Manual Invoice</fullName>
+                <default>false</default>
+                <label>Inaccurate Manual Invoice</label>
+            </value>
+            <value>
+                <fullName>Incorrect Mailbox</fullName>
+                <default>false</default>
+                <label>Incorrect Mailbox</label>
+            </value>
+            <value>
+                <fullName>Invoice Accuracy Dispute (amount, billing entity, billing method)</fullName>
+                <default>false</default>
+                <label>Invoice Accuracy Dispute (amount, billing entity, billing method)</label>
+            </value>
+            <value>
+                <fullName>Invoice Dispute – Amount</fullName>
+                <default>false</default>
+                <label>Invoice Dispute – Amount</label>
+            </value>
+            <value>
+                <fullName>Invoice Dispute – Billing Entity</fullName>
+                <default>false</default>
+                <label>Invoice Dispute – Billing Entity</label>
+            </value>
+            <value>
+                <fullName>Invoice Dispute – Billing Frequency</fullName>
+                <default>false</default>
+                <label>Invoice Dispute – Billing Frequency</label>
+            </value>
+            <value>
+                <fullName>Invoice Dispute – Billing Method</fullName>
+                <default>false</default>
+                <label>Invoice Dispute – Billing Method</label>
+            </value>
+            <value>
+                <fullName>Invoice Enquiry</fullName>
+                <default>false</default>
+                <label>Invoice Enquiry</label>
+            </value>
+            <value>
+                <fullName>Missing PO or VAT number.</fullName>
+                <default>false</default>
+                <label>Missing PO or VAT number.</label>
+            </value>
+            <value>
+                <fullName>Mock Invoice Request</fullName>
+                <default>false</default>
+                <label>Mock Invoice Request</label>
+            </value>
+            <value>
+                <fullName>Payment/Cash App Enquiry</fullName>
+                <default>false</default>
+                <label>Payment/Cash App Enquiry</label>
+            </value>
+            <value>
+                <fullName>Renewal price dispute</fullName>
+                <default>false</default>
+                <label>Renewal price dispute</label>
+            </value>
+            <value>
+                <fullName>Service Reactivation request</fullName>
+                <default>false</default>
+                <label>Service Reactivation request</label>
+            </value>
+            <value>
+                <fullName>Special Projects</fullName>
+                <default>false</default>
+                <label>Special Projects</label>
+            </value>
+            <value>
+                <fullName>System Issues - COLA</fullName>
+                <default>false</default>
+                <label>System Issues - COLA</label>
+            </value>
+            <value>
+                <fullName>System Issues - Renewals</fullName>
+                <default>false</default>
+                <label>System Issues - Renewals</label>
+            </value>
+            <value>
+                <fullName>Systems Issues - General</fullName>
+                <default>false</default>
+                <label>Systems Issues - General</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

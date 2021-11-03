@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<RecordType xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>SO_Details</fullName>
+    <active>true</active>
+    <description>Service Optimization Details</description>
+    <label>SO Details</label>
+    <picklistValues>
+        <picklist>Amadeus_PMS_Connection_Software__c</picklist>
+        <values>
+            <fullName>Bomgar</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Citrix</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>DeskShare</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Fastviewer Remote</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Fastviewer Support</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>GoToMyPC</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Modem Analog</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Modem ISDN</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>PC Anywhere</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>RSA SecurID Token</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Remote Desktop</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>VNC</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Webbrowser</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Amadeus_PMS_RX_Database_Name__c</picklist>
+        <values>
+            <fullName>OnPremise</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>RX01</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>RX02</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>RX03</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>RX04</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>RX05</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>RX06</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>RX07</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>RX08</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>RX09</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>RX10</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>RX11</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>RX99</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>RXPCI</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>License_Type__c</picklist>
+        <values>
+            <fullName>EDA</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Embedded</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Embedded Plus</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Enterprise</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Mixed</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Sales Cloud</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Org_Status__c</picklist>
+        <values>
+            <fullName>Cancelled</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Created</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Demo</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>In process</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Not Active</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Provisioned</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Trial</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Org_Type__c</picklist>
+        <values>
+            <fullName>Salesforce Production</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Salesforce Sandbox - Configuration Only</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Salesforce Sandbox - Developer</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Salesforce Sandbox - Full</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Product_Type__c</picklist>
+        <values>
+            <fullName>HS Housekeeping</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>HotSOS</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>HotSOS %26 HS Housekeeping</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>HotSOS Select</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+</RecordType>

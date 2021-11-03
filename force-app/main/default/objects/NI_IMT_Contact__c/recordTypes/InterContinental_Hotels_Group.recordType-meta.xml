@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<RecordType xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>InterContinental_Hotels_Group</fullName>
+    <active>true</active>
+    <description>InterContinental Hotels Group Contact</description>
+    <label>InterContinental Hotels Group</label>
+    <picklistValues>
+        <picklist>Status__c</picklist>
+        <values>
+            <fullName>Active</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>No Longer at Property</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>User Entry Error</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+</RecordType>

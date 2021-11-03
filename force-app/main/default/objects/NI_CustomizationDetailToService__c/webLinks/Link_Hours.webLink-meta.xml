@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<WebLink xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Link_Hours</fullName>
+    <availability>online</availability>
+    <displayType>massActionButton</displayType>
+    <encodingKey>UTF-8</encodingKey>
+    <linkType>url</linkType>
+    <masterLabel>Link Hours</masterLabel>
+    <openType>replace</openType>
+    <protected>false</protected>
+    <requireRowSelection>false</requireRowSelection>
+    <url>{!$Site.CurrentSiteUrl}/a6i/e?retURL=%2F{!NI_Customization_Detail__c.Id}&amp;CF00N60000002diCo={!NI_Customization_Detail__c.Account__c}&amp;CF00N60000002diCY={!NI_Customization_Detail__c.Name}&amp;CF00N60000002diCr={!NI_Customization_Detail__c.Case__c}</url>
+</WebLink>

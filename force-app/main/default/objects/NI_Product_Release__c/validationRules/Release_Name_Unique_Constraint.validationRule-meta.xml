@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Release_Name_Unique_Constraint</fullName>
+    <active>true</active>
+    <description>Salesforce.com Change Request: NICC-015073
+
+Request from Heidi Shea to make the &quot;Release Name&quot; field on the Product Release Object unique</description>
+    <errorConditionFormula>/** ORIGINAL CODE
+Name = VLOOKUP(
+$ObjectType.NI_Product_Release__c.Fields.Name,  
+$ObjectType.NI_Product_Release__c.Fields.Name,  
+ Name)
+**/
+
+AND (
+       ISNEW(),
+       Name = VLOOKUP(
+          $ObjectType.NI_Product_Release__c.Fields.Name,  
+          $ObjectType.NI_Product_Release__c.Fields.Name,  
+          Name)  
+    )</errorConditionFormula>
+    <errorDisplayField>Name</errorDisplayField>
+    <errorMessage>There is an existing product release record with the same Release Name as this record.  The Release Name must be unique across all product release records</errorMessage>
+</ValidationRule>

@@ -1,0 +1,114 @@
+<apex:component controller="NI_TrustStatusHistory">
+    
+    <apex:attribute name="strName" type="String" assignTo="{!ipPlatformName}" required="false" description="" />
+    
+    <!-- History -->
+    <apex:outputPanel id="history">
+        <div class="active" style="padding: 10px 40px;"> 
+
+            <div class="history-content wa-content-3up">
+                <div class="history-spacer">
+                    <label for="history-dropdown-service">Platform</label> 
+                    <div class="history-dropdown-container history-dropdown-medium"> 
+                        <apex:selectList styleClass="history-dropdown" value="{!selectedPlatform}" size="1" style="padding: 5px;border-radius: 5px;">
+                            <apex:selectOptions value="{!platformSOList}"></apex:selectOptions>
+                            <apex:actionSupport action="{!refreshHistory}" status="status" event="onchange" reRender="historyNew" />
+                        </apex:selectList>
+                    </div>
+                </div>
+
+                <!--
+                <div class="history-spacer"> 
+                    <label for="history-dropdown-date">Date</label> 
+                    <div class="history-dropdown-container history-dropdown-medium"> 
+                        <apex:selectList styleClass="history-dropdown" value="{!selectedDate}" size="1" style="padding: 5px;border-radius: 5px;">
+                            <apex:selectOptions value="{!dateRangeOptions}"></apex:selectOptions>
+                            <apex:actionSupport action="{!refreshHistory}" status="status" event="onchange" reRender="historyNew" />
+                        </apex:selectList>
+                    </div> 
+                </div>
+				-->
+            </div>
+            
+        <!-- newly added FROM HERE -->
+        </div>
+        </apex:outputPanel>
+    
+		<apex:outputPanel id="historyNew">
+            <!-- newly added HERE -->
+            
+            <div id="history-historyResults-container" style="margin-top: 30px; {!IF(incidenceHistoryList.size == 0, 'display:none;', '')}"> 
+                <apex:repeat value="{!incidenceHistoryList}" var="h">
+                    <div class="history-content history-content-divided"> 
+                        <h4>{!h.monthName}</h4> 
+                        <apex:repeat value="{!h.incidenceList}" var="inc">
+                            <div class="history-statusHistory"> 
+                                <div class="date"> 
+                                    <span class="text-heading4">{!inc.dayName}</span> 
+                                </div> 
+                                <div class="status"> 
+                                    <h4>
+                                        {!inc.platformName} {!inc.incidenceName} {!inc.type}
+                                    </h4>  
+                                    
+                                	<p><b>Severity:</b> {!inc.Severity}<br/><br/>
+                                    	<b>Affected Service:</b> Amadeus Hospitality {!inc.platformName} {!inc.HotSOSApplication}</p><br/>
+                                	<p><b>_Case Number:</b> {!inc.CaseNumber}<br/>
+                                    	<b>_Start Time:</b> {!inc.startDtTime}<br/>
+                                    	<b>_End Time:</b> {!IF(ISBLANK(inc.endDtTime), "Ongoing", inc.endDtTime+" GMT")}<br/>
+                                    	<b>{!IF(ISBLANK(inc.EditableDuration), "", "_Total Duration: ")}</b>
+                                    	{!IF(ISBLANK(inc.EditableDuration), "", inc.EditableDuration+" Minutes")}<br/>
+                                    	<b>{!IF(ISBLANK(inc.EstimatedDuration), "", "_Estimated Duration:")}</b> 
+                                    	{!IF(ISBLANK(inc.EstimatedDuration), "", inc.EstimatedDuration+" Minutes")}
+                                	</p><br/>
+                                    <div id="unplannedRecord" style="display:{!IF(inc.RecordTypeName=='Unplanned','block','none')};">
+                                        <div><p><b>Incident Description:</b><br/>
+                                            {!inc.IncidentDescription}</p>
+                                        </div>
+                                        <div><p><b>Customer Impact:</b><br/>
+                                            {!inc.CustomerImpact}</p>
+                                        </div>
+                                        <div style="display:{!IF(inc.WorkaroundInformation=='','none','block')};">
+                                            <p><b>Workaround Information:</b><br/>
+                                            {!inc.WorkaroundInformation}</p>
+                                        </div>
+                                        <div style="display:{!IF(inc.AmadeusInvestigativeAction=='','none','block')};">
+                                            <p><b>Amadeus Investigative Action:</b><br/>
+                                            {!inc.AmadeusInvestigativeAction}</p>
+                                        </div>
+                                        <div style="display:{!IF(inc.rootCause=='','none','block')};">
+                                            <p><b>Root Cause Analysis:</b><br/>
+                                            {!inc.rootCause}</p>
+                                        </div>       
+                                    </div>
+                                    
+                                    <div id="plannedRecord" style="display:{!IF(inc.RecordTypeName=='Planned','block','none')};">
+                                        <p><b>Maintenance Description:</b><br/>
+                                            {!inc.IncidentDescription}</p>
+                                               
+                                    </div>
+                                    <br/>
+                                </div> 
+                            </div> 
+                        </apex:repeat>
+                    </div>
+                    <hr/>
+                </apex:repeat>
+                <div style="margin-left:10%">
+                    <apex:panelGrid columns="4">
+                        <apex:commandLink action="{!first}" styleClass="paginationLinks" rendered="{!IF(incidenceHistoryList.size > 0, true, false)}" reRender="history">First</apex:commandlink>
+                        <apex:commandLink action="{!previous}" styleClass="paginationLinks" rendered="{!hasPrevious}" reRender="history">Previous</apex:commandlink>
+                        <apex:commandLink action="{!next}" styleClass="paginationLinks" rendered="{!hasNext}" reRender="history">Next</apex:commandlink>
+                        <apex:commandLink action="{!last}" styleClass="paginationLinks" rendered="{!IF(incidenceHistoryList.size > 0, true, false)}" reRender="history">Last</apex:commandlink>
+                    </apex:panelGrid>
+                </div>
+            </div> 
+            <div id="history-historyResults-container" style="margin-top: 30px; {!IF(incidenceHistoryList.size == 0, '', 'display:none;')}"> 
+            	<div class="history-content history-content-divided"> 
+                    No history data to display
+                </div>
+            </div>
+        <!--</div>  COMMENTED AS PER NEW IMPLEMENTATION-->
+    </apex:outputPanel>
+    <!-- /History -->
+</apex:component>

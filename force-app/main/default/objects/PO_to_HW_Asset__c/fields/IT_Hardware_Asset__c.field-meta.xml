@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>IT_Hardware_Asset__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <externalId>false</externalId>
+    <label>IT Hardware Asset</label>
+    <referenceTo>IT_Hardware_Asset__c</referenceTo>
+    <relationshipLabel>Purchase Order Line Items</relationshipLabel>
+    <relationshipName>IT_PO</relationshipName>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

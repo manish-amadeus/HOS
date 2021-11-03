@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Tier_c__c</fullName>
+    <externalDeveloperName>Tier__c</externalDeveloperName>
+    <externalId>false</externalId>
+    <inlineHelpText>Based on GMS revenue.</inlineHelpText>
+    <isFilteringDisabled>false</isFilteringDisabled>
+    <isNameField>false</isNameField>
+    <isSortingDisabled>false</isSortingDisabled>
+    <label>GMS Tier</label>
+    <readOnlyProxy>true</readOnlyProxy>
+    <required>false</required>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Key Account ($75k +)</fullName>
+                <default>false</default>
+                <label>Key Account ($75k +)</label>
+            </value>
+            <value>
+                <fullName>Strategic Account ($35-74k)</fullName>
+                <default>false</default>
+                <label>Strategic Account ($35k-74k)</label>
+            </value>
+            <value>
+                <fullName>Core Account ($10-34k)</fullName>
+                <default>false</default>
+                <label>Core Account ($7,5k-34k)</label>
+            </value>
+            <value>
+                <fullName>Select Account (&lt;$10k)</fullName>
+                <default>false</default>
+                <label>Select Account (&lt;$7,5k)</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

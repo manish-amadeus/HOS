@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Billing_Contract__c</fullName>
+    <description>Billing Contract line item detail for Billing Contract object</description>
+    <externalId>false</externalId>
+    <label>Billing Contract</label>
+    <referenceTo>Billing_Contract__c</referenceTo>
+    <relationshipLabel>Billing Contract Line Items</relationshipLabel>
+    <relationshipName>Billing_Contract_Line_Items</relationshipName>
+    <relationshipOrder>0</relationshipOrder>
+    <reparentableMasterDetail>false</reparentableMasterDetail>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>MasterDetail</type>
+    <writeRequiresMasterRead>false</writeRequiresMasterRead>
+</CustomField>

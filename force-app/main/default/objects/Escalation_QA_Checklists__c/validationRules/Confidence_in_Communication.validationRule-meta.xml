@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Confidence_in_Communication</fullName>
+    <active>true</active>
+    <description>Value can not be 2, or 4. Project#3370</description>
+    <errorConditionFormula>Or(
+Confidence_In_Communication__c = 2,
+Confidence_In_Communication__c = 4,
+Confidence_In_Communication__c &gt; 5
+
+)</errorConditionFormula>
+    <errorDisplayField>Confidence_In_Communication__c</errorDisplayField>
+    <errorMessage>Please update your value to 0 for N/A, 1 for NO, 3 for PARTIALLY COMPLETED or 5 for YES.</errorMessage>
+</ValidationRule>

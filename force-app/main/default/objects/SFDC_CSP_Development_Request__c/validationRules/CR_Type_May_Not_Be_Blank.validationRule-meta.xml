@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>CR_Type_May_Not_Be_Blank</fullName>
+    <active>true</active>
+    <errorConditionFormula>AND (
+NOT($Profile.Name = &quot;NI Administrator&quot;),
+NOT($Profile.Name = &quot;System Administrator&quot;), 
+NOT($Profile.Name = &quot;NI Solutions Managers&quot;),
+ISPICKVAL(Type__c ,&quot;&quot;)
+)</errorConditionFormula>
+    <errorDisplayField>Type__c</errorDisplayField>
+    <errorMessage>Please choose a type.</errorMessage>
+</ValidationRule>

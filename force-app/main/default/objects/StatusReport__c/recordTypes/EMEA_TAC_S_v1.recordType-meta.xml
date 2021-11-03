@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<RecordType xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>EMEA_TAC_S_v1</fullName>
+    <active>true</active>
+    <description>EMEA TAC Specialist Status Report - Version 1</description>
+    <label>EMEA TAC S v1</label>
+    <picklistValues>
+        <picklist>FinalStatus__c</picklist>
+        <values>
+            <fullName>Exceeds</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Meets</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Missed</fullName>
+            <default>true</default>
+        </values>
+    </picklistValues>
+</RecordType>

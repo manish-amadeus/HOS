@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<WebLink xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Update_Global</fullName>
+    <availability>online</availability>
+    <displayType>button</displayType>
+    <linkType>javascript</linkType>
+    <masterLabel>Update Global</masterLabel>
+    <openType>onClickJavaScript</openType>
+    <protected>false</protected>
+    <url>{!REQUIRESCRIPT(&quot;/soap/ajax/25.0/connection.js&quot;)}
+{!REQUIRESCRIPT(&quot;/soap/ajax/25.0/apex.js&quot;)}
+var conid = &apos;{!NI_Project_Acceptance_Criterion__c.Id}&apos;;
+try{
+var message = sforce.apex.execute(&apos;DetailUpdateButtonController&apos;, &apos;updateGAC&apos;,{ProjectId:&apos;{!NI_Project_Acceptance_Criterion__c.Id}&apos;});
+alert(message);
+var query = &quot;SELECT Id, NI_Global_Acceptance_Criterion__c FROM NI_Project_Acceptance_Criterion__c WHERE Id = &apos;&quot; +&apos;{!NI_Project_Acceptance_Criterion__c.Id}&apos;+&quot;&apos; LIMIT 1&quot;; 
+var records = sforce.connection.query(query); 
+var records1 = records.getArray(&apos;records&apos;);
+console.log(records[&apos;records&apos;].NI_Global_Acceptance_Criterion__c);
+if(records[&apos;records&apos;].NI_Global_Acceptance_Criterion__c != null){
+window.location.href = &apos;/&apos;+records[&apos;records&apos;].NI_Global_Acceptance_Criterion__c;
+}
+}
+catch(err){
+alert(&apos;No GAC to Update&apos;);
+}</url>
+</WebLink>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Public_Status__c</fullName>
+    <description>NICC-028950 - Added for the Trust Incident Notifications project.</description>
+    <externalId>false</externalId>
+    <formula>CASE(Status__c, &quot;New&quot;, &quot;New&quot;, &quot;Open Stage 1&quot;, &quot;Open&quot;, &quot;Open Stage 2&quot;, &quot;Open&quot;, &quot;Resolved&quot;)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <inlineHelpText>Optional field that converts the internal status to a customer-facing status. NOT IN USE.</inlineHelpText>
+    <label>Public Status</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

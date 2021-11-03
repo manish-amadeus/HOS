@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Relief_Status__c</fullName>
+    <description>NICC-042019 - The relief status progress</description>
+    <externalId>false</externalId>
+    <inlineHelpText>The relief status progress</inlineHelpText>
+    <label>Relief Status</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>true</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Pending</fullName>
+                <default>true</default>
+                <label>Pending</label>
+            </value>
+            <value>
+                <fullName>Committee Approved</fullName>
+                <default>false</default>
+                <label>Committee Approved</label>
+            </value>
+            <value>
+                <fullName>Payment Plan Validated</fullName>
+                <default>false</default>
+                <label>Payment Plan Validated</label>
+            </value>
+            <value>
+                <fullName>Payment Plan Approved</fullName>
+                <default>false</default>
+                <label>Payment Plan Approved</label>
+            </value>
+            <value>
+                <fullName>Payment Plan Rejected</fullName>
+                <default>false</default>
+                <label>Payment Plan Rejected</label>
+            </value>
+            <value>
+                <fullName>Ready To Process - Finance</fullName>
+                <default>false</default>
+                <label>Ready To Process - Finance</label>
+            </value>
+            <value>
+                <fullName>Complete</fullName>
+                <default>false</default>
+                <label>Complete</label>
+            </value>
+            <value>
+                <fullName>Committee Rejected</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Committee Rejected</label>
+            </value>
+            <value>
+                <fullName>Pending Approval</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Pending Approval</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

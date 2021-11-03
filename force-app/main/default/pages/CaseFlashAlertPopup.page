@@ -1,0 +1,12 @@
+<apex:page standardController="Case" extensions="CaseFlashAlertExtension" action="{!updateCase}">
+    <script>
+        window.onload = new function() 
+        { 
+            if ({!numberOfMessages} > 0 && {!showMessages}) 
+            {
+                window.open('/apex/AccountFlashAlerts?id={!case.AccountId}', '_blank', 'top=50,left=50,width=1024,height=300'); 
+            }
+        };
+    </script>
+    <apex:outputField rendered="false" value="{!Case.First_Time_Flash_Message__c}" />
+</apex:page>

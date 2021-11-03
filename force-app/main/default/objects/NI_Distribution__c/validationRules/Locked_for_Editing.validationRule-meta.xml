@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Locked_for_Editing</fullName>
+    <active>true</active>
+    <description>If the &quot;Locked&quot; field is set to true (checked) then no changes can be made to this distribution record</description>
+    <errorConditionFormula>AND(Locked__c = true, PRIORVALUE(Locked__c) = true)</errorConditionFormula>
+    <errorMessage>This record is locked for editing.  No additional changes can be made</errorMessage>
+</ValidationRule>

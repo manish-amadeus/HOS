@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>IMT_PropertyCodeCannotBeChangedOnceSaved</fullName>
+    <active>true</active>
+    <description>Once the Property Code value has been changed, the value cannot be changed.</description>
+    <errorConditionFormula>AND( $Profile.Name != &quot;NI PSA Administrator&quot;,
+$Profile.Name != &quot;System Administrator&quot;, NOT(ISNEW()),  ISCHANGED( Property_Code__c ) )</errorConditionFormula>
+    <errorDisplayField>Property_Code__c</errorDisplayField>
+    <errorMessage>The property code cannot be changed once the record has been saved.</errorMessage>
+</ValidationRule>

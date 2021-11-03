@@ -1,0 +1,175 @@
+<apex:page standardController="Billing_Contract__c" extensions="billingContractSplitLinesController" showHeader="true" sidebar="false">
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+	<script src="//cdn.datatables.net/1.10.4/js/jquery.dataTables.min.js"></script>
+	<!-- <apex:stylesheet value="//cdn.datatables.net/1.10.4/css/jquery.dataTables.css" /> -->
+	<script type="text/javascript">
+	    j$ = jQuery.noConflict();
+	    j$(document).ready( function () {
+
+	        j$('#select_all').on('click',function(){
+	        if(this.checked){
+	            j$('.checkbox').each(function(){
+	                this.checked = true;
+	            });
+	        }else{
+	             j$('.checkbox').each(function(){
+	                this.checked = false;
+	            });
+	            }
+	        });
+	        
+	        j$('.checkbox').on('click',function(){
+	            if(j$('.checkbox:checked').length == j$('.checkbox').length){
+	                j$('#select_all').prop('checked',true);
+	            }else{
+	                j$('#select_all').prop('checked',false);
+	            }
+	            });
+	        });
+
+	    function checkLine(obj){
+	        j$('#'+obj+' input').prop('checked',true);
+	    }
+	    //Modal
+         j$(document).ready(function(){
+             hideLoadingModal(); 
+         });
+         function showLoadingModal(){
+             j$("#spinner").css({"display":"inline"}); 
+         }
+         function hideLoadingModal(){
+            j$("#spinner").css({"display":"none"}); 
+         }
+	</script>
+	<style>
+         .modal {
+                display:    none;
+                position:   fixed;
+                z-index:    1000;
+                top:        0;
+                left:       0;
+                height:     100%;
+                width:      100%;
+                background: rgba( 255, 255, 255, .8 )
+                            50% 50%
+                            no-repeat;
+            }
+            
+            .box {
+                background-color:      white;
+                border-radius:         10px;
+                border-radius: 10px;
+                border-radius:    10px;
+                box-shadow:            0 0 20px 0 #222;
+                box-shadow:    0 0 20px 0 #222;
+                box-shadow:       0 0 20px 0 #222;
+                position:              fixed;
+                top:                   50%;
+                left:                  50%;
+                margin-top:            -50px;
+                margin-left:           -100px;
+                height:                80px;
+                width:                 240px;
+                padding-top:           35px;
+                text-align:            center;
+            }
+            .alert-box {
+            color:#555;
+            border-radius:10px;
+            font-family:Tahoma,Geneva,Arial,sans-serif;font-size:11px;
+            padding:10px 10px 10px 36px;
+            margin:10px;
+            }
+            .alert-box span {
+                font-weight:bold;
+                text-transform:uppercase;
+            }
+            .error {
+                background:#ffecec url('images/error.png') no-repeat 10px 50%;
+                border:1px solid #f5aca6;
+            }
+            .success {
+                background:#e9ffd9 url('images/success.png') no-repeat 10px 50%;
+                border:1px solid #a6ca8a;
+            }
+            .warning {
+                background:#fff8c4 url('images/warning.png') no-repeat 10px 50%;
+                border:1px solid #f2c779;
+            }
+            .notice {
+                background:#e3f7fc url('images/notice.png') no-repeat 10px 50%;
+                border:1px solid #8ed9f6;
+            }
+    </style>
+
+    <!-- HTML Loading Div -->
+    <div class="modal" id="spinner">
+        <div class="box">
+           <img src="/img/loading.gif" alt="Loading"/><i id="spinner-label" style="padding-left:5px">Processing...</i>
+        </div>
+    </div>
+
+	<apex:form id="theForm">
+		<apex:pageBlock id="open_pb" title="Split Activity Line Items" mode="edit">
+	    	<apex:pageMessages />
+		    <apex:pageBlockButtons >
+		        <apex:commandButton value="Split / Clone" action="{!splitLines}" reRender="theTable" disabled="{!disablePage}" onclick="showLoadingModal();" immediate="false" onComplete="hideLoadingModal();"/>
+		        <apex:commandButton value="Back" action="{!backToBC}" />
+		        
+		    </apex:pageBlockButtons>
+
+		    <!-- ========== UNDEFINED ELEMENTS SECTION ================ -->
+		    <apex:pageBlockSection columns="1" title="Un-Invoiced Activity Line Items" id="theTable">
+		        <apex:pageBlockTable var="ali" value="{!activitylineItems}">
+		        	<!-- Select All Checkbox -->
+		            <apex:column >
+		            	<apex:facet name="header">
+	                    	<input type="checkbox" id="select_all" title="select all" checked="true"/>
+	                	</apex:facet>
+		                <span id='{!ali.ali_object.id}'><apex:inputCheckbox styleClass="checkbox" value="{!ali.check}"/></span>
+		            </apex:column>
+		            <!-- ALI Name -->
+		            <apex:column headerValue="Activity Line">
+		            	<apex:outputLink value="{!URLFOR($Action.Activity_Line_Item__c.View, ali.ali_object.id)}">{!ali.ali_object.Name}</apex:outputLink>
+		            </apex:column>
+		            <!-- Revenue Cat -->
+		            <apex:column headerValue="Revenue Category">
+		            	<apex:outputField value="{!ali.ali_object.Revenue_Category__c}"/>		
+		            </apex:column>
+		            <!-- SKU -->
+		            <apex:column headerValue="SKU">
+		            	<apex:outputField value="{!ali.ali_object.SKU__c}"/>		
+		            </apex:column>
+		            <!-- Product -->
+		            <apex:column headerValue="Product">
+		            	<apex:outputField value="{!ali.ali_object.Product__c}"/>		
+		            </apex:column>
+		            <!-- Activation Date -->
+		            <apex:column headerValue="Activation Date">
+		            	<apex:outputField value="{!ali.ali_object.Activation_Date__c}"/>		
+		            </apex:column>
+		            <!-- Start Date -->
+		            <apex:column headerValue="Start Date">
+		            	<apex:outputField value="{!ali.ali_object.Contract_Start_Date__c}"/>		
+		            </apex:column>
+		            <!-- End Date -->
+		            <apex:column headerValue="End Date">
+		            	<apex:outputField value="{!ali.ali_object.Contract_End_Date__c}"/>		
+		            </apex:column>
+		            <!-- Contract Amount -->
+		            <apex:column headerValue="Unit Price">
+		            	<apex:outputField value="{!ali.ali_object.Contract_Amount__c}"/>		
+		            </apex:column>
+		            <!-- Units-->
+		            <apex:column headerValue="Original Units">
+		            	<apex:outputField value="{!ali.ali_object.Units__c}"/>		
+		            </apex:column>
+		            <!-- Split Units -->
+		            <apex:column headerValue="Units to Split">
+		            	<apex:inputText value="{!ali.splitQuantity}" onchange="checkLine('{!ali.ali_object.id}');"/>		
+		            </apex:column>
+		        </apex:pageBlockTable>
+		    </apex:pageBlockSection> <!-- END -->
+	    </apex:pageBlock>
+	</apex:form>
+</apex:page>

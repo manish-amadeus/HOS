@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>X2021_CBS_Committed_Projects</fullName>
+    <columns>Sponsor__c</columns>
+    <columns>NAME</columns>
+    <columns>Estimated_Total_Net_Project_Value__c</columns>
+    <columns>Priority__c</columns>
+    <columns>Priority_Overriden__c</columns>
+    <columns>Request_Status__c</columns>
+    <columns>BS_Project_Phase__c</columns>
+    <columns>CBS_Start_Date__c</columns>
+    <columns>Requested_Completion_Date__c</columns>
+    <columns>BS_T_Shirt_Meter__c</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>RECORDTYPE</field>
+        <operation>equals</operation>
+        <value>NI_Project_Backlog__c.Commercial_Operation_Projects</value>
+    </filters>
+    <filters>
+        <field>CBS_Committed__c</field>
+        <operation>equals</operation>
+        <value>1</value>
+    </filters>
+    <filters>
+        <field>Request_Status__c</field>
+        <operation>equals</operation>
+        <value>Backlog Item,In Progress,Pending Sponsor Approval,Pending Scheduling,Pending CFO Approval</value>
+    </filters>
+    <filters>
+        <field>NAME</field>
+        <operation>notContain</operation>
+        <value>- Master</value>
+    </filters>
+    <label>2021 CBS Committed Projects</label>
+    <sharedTo>
+        <allInternalUsers></allInternalUsers>
+        <group>Business_Systems_Internal</group>
+    </sharedTo>
+</ListView>

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Match_Type__c</fullName>
+    <businessStatus>Active</businessStatus>
+    <description>NICC-048831 - Used by ARPA case triage.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Specifies which field on the case to search for the text string.</inlineHelpText>
+    <label>Match Type</label>
+    <required>true</required>
+    <securityClassification>Internal</securityClassification>
+    <trackHistory>true</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Subject Only</fullName>
+                <default>false</default>
+                <label>Subject Only</label>
+            </value>
+            <value>
+                <fullName>Description Only</fullName>
+                <default>false</default>
+                <label>Description Only</label>
+            </value>
+            <value>
+                <fullName>Subject and Description</fullName>
+                <default>true</default>
+                <label>Subject and Description</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

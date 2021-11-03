@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Integration_Details__c</fullName>
+    <businessOwnerUser>mosorio@newmarketinc.com</businessOwnerUser>
+    <businessStatus>Active</businessStatus>
+    <description>NICC-044203 and NICC-044204</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Integration Details</inlineHelpText>
+    <label>Integration Details</label>
+    <required>false</required>
+    <securityClassification>Confidential</securityClassification>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>MultiselectPicklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Business Rules Required</fullName>
+                <default>false</default>
+                <label>Business Rules Required</label>
+            </value>
+            <value>
+                <fullName>Issues Added</fullName>
+                <default>false</default>
+                <label>Issues Added</label>
+            </value>
+            <value>
+                <fullName>Is Housekeeping User</fullName>
+                <default>false</default>
+                <label>Is Housekeeping User</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+    <visibleLines>3</visibleLines>
+</CustomField>

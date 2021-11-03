@@ -1,0 +1,362 @@
+<apex:page standardcontroller="NI_Job_Requisition__c" extensions="NI_JobReq_Ext" tabstyle="NI_Job_Requisition__c" title="JobReq Edit">
+    
+    <apex:sectionHeader title="Job Requisition" subtitle="{!NI_Job_Requisition__c.Name}"/>
+    <style>
+        .statusStyle {
+        background:url(/img/loading.gif) no-repeat 0 0; 
+        padding-left:20px; 
+        margin-left:10px; 
+        padding-bottom:5px; 
+        }
+        textarea {
+        width: 80%;
+        }
+        
+    </style>
+    
+    <apex:form > 
+        
+        <!-- <apex:actionFunction action="{!deleteEval}" name="callDeleteEval"/> -->
+        
+        <apex:messages id="msgErrors" />
+        
+        <apex:pageBlock title="Job Requisition Detail" mode="edit">
+            
+            <apex:pageBlockButtons >
+                <apex:commandButton id="cmdSave" action="{!Save}" value="Save" />
+                <apex:commandButton id="cmdCancel" action="{!cancel}" value="Cancel" rendered="{!NOT(bIsNewReq)}"/>
+                <apex:commandButton id="cmdCancelCustom" action="{!deleteJobReq}" value="Cancel" rendered="{!bIsNewReq}"/>  
+                <!-- <apex:commandButton id="cmdDelete" onclick="return confirmDelete();" value="Delete" rendered="{!bShowDeleteButton}" /> -->
+            </apex:pageBlockButtons>
+            
+            <apex:pageBlockSection title="Information" columns="1">
+                <!--<apex:outputField value="{!NI_Job_Requisition__c.RecordType.Name}" label="Record Type"/>-->
+                <apex:inputField value="{!NI_Job_Requisition__c.Status__c}" label="Status" />   
+            </apex:pageBlockSection>
+            <apex:outputPanel id="ExecApprover_Container">    
+                <apex:outputPanel id="idExecOutput">
+                    <apex:pageBlockSection columns="1">    
+                        <apex:inputField value="{!NI_Job_Requisition__c.Exec_Approver__c}" label="Exec Approver" id="idExecApprover" rendered="true"/>
+                        <!-- <apex:outputText value="{!strExecApproverName}" label="Exec Approver" id="idExecApproverOutput" /> -->
+                    </apex:pageBlockSection>
+                </apex:outputPanel>
+            </apex:outputPanel>
+            <apex:pageBlockSection title="HR Information" columns="1" rendered="{!$ObjectType.NI_Job_Requisition__c.Fields.Add_to_Leadership_e_mail_Group__c.updateable}">
+                <apex:actionStatus id="location" startText="Processing..." 
+                                   stopText=""   startStyleClass="statusStyle"/>
+                <apex:repeat value="{!$ObjectType.NI_Job_Requisition__c.fieldsets.HR_Information}" var="fHRInfo">
+                    <apex:Inputfield value="{!NI_Job_Requisition__c[fHRInfo]}"/>
+                </apex:repeat>
+                   
+                <apex:repeat value="{!$ObjectType.NI_Job_Requisition__c.fieldsets.Employee_Information}" var="fEmployeeInfo">
+                    <apex:Inputfield value="{!NI_Job_Requisition__c[fEmployeeInfo]}"/>
+                </apex:repeat>    
+            </apex:pageBlockSection>
+            <apex:pageBlockSection title="Position Information" columns="1">
+                <apex:actionStatus id="replacement" startText="Processing..." 
+                                   stopText=""   startStyleClass="statusStyle"/>     
+                <apex:pageBlockSectionItem >   
+                    <apex:outputLabel value="Job Type" for="idJobType"/>
+                    <apex:actionRegion >
+                        <apex:inputField value="{!NI_Job_Requisition__c.Job_Type__c}" id="idJobType">
+                            <apex:actionSupport event="onchange"
+                                                status="replacement"
+                                                action="{!showReplacementName}" 
+                                                rerender="idReplacementOutput,replacement_Container,idBudgetedHire"/>
+                        </apex:inputField>
+                    </apex:actionRegion>
+                </apex:pageBlockSectionItem>
+            </apex:pageBlockSection>
+            <apex:outputPanel id="replacement_Container">    
+                <apex:outputPanel id="idReplacementOutput" rendered="{!bReplacement}">
+                    <apex:pageBlockSection columns="1">    
+                        <apex:inputField value="{!NI_Job_Requisition__c.Employee_Being_Replaced__c}" id="idReplacement"/>
+                        <apex:inputField value="{!NI_Job_Requisition__c.Position_Open_Due_To__c}" id="idPositionOpenReason"/>
+                    </apex:pageBlockSection>
+                </apex:outputPanel>
+            </apex:outputPanel>
+            <apex:pageBlockSection columns="1"> 
+                <apex:inputField value="{!NI_Job_Requisition__c.Budgeted_Hire__c}" id="idBudgetedHire"/>
+                <apex:pageBlockSectionItem >   
+                    <apex:outputLabel value="Manager" for="idMgr"/>
+                    <apex:actionRegion >
+                        <apex:inputField value="{!NI_Job_Requisition__c.Manager__c}" id="idMgr">
+                            <apex:actionSupport event="onchange"
+                                                status="replacement"
+                                                action="{!changeManager}" 
+                                                rerender="idDepartInput,idLocationInput,idExecOutput,idExecApprover"/>
+                        </apex:inputField>
+                    </apex:actionRegion>
+                </apex:pageBlockSectionItem>        
+            </apex:pageBlockSection>
+            <apex:pageBlockSection columns="1">   
+                <apex:repeat value="{!$ObjectType.NI_Job_Requisition__c.fieldsets.Position_Information}" var="fPositionInfo">
+                    <apex:Inputfield value="{!NI_Job_Requisition__c[fPositionInfo]}"/>
+                </apex:repeat>   
+                <!--</apex:pageBlockSection>-->
+                <!--<apex:pageBlockSection columns="1"> -->
+                <apex:pageBlockSectionItem helpText="{!$ObjectType.NI_Job_Requisition__c.Fields.NI_Location__c.inlineHelpText}" >
+                    <apex:outputLabel value="Financial Department" for="idLocationInput"/>
+                    <apex:actionRegion >    
+                        <apex:inputField value="{!NI_Job_Requisition__c.NI_Location__c}" id="idLocationInput">
+                            <apex:actionSupport event="onchange"
+                                                status="replacement"
+                                                action="{!getExecApprover}" 
+                                                rerender="idExecOutput,idExecApprover,idExecApproverOutput"/>
+                        </apex:inputField>
+                    </apex:actionRegion>    
+                </apex:pageBlockSectionItem> 
+                <apex:pageBlockSectionItem >   
+                    <apex:outputLabel value="Department" for="idDepartment"/>
+                    <apex:actionRegion >
+                        <apex:inputField value="{!NI_Job_Requisition__c.Department__c}" id="idDepartInput">
+                            <apex:actionSupport event="onchange"
+                                                status="replacement"
+                                                action="{!getExecApprover}" 
+                                                rerender="idExecOutput,idExecApprover,idDepOutput,idExecApproverOutput"/>
+                        </apex:inputField>
+                    </apex:actionRegion>    
+                </apex:pageBlockSectionItem>
+                <apex:pageBlockSectionItem >
+                    <apex:outputLabel value="Department Name" for="idDepName"/>    
+                    <apex:outputText value="{!strDepartmentName}" id="idDepOutput"/>
+                </apex:pageBlockSectionItem>    
+                <apex:pageBlockSectionItem >
+                    <apex:outputLabel value="Salary" for="idSalaryInput"/>    
+                    <apex:inputField value="{!NI_Job_Requisition__c.Salary__c}" id="idSalaryInput"/>
+                </apex:pageBlockSectionItem>
+                <apex:pageBlockSectionItem >
+                    <apex:outputLabel value="Manager Comments" for="idMgrCommentsInput"/>    
+                    <apex:inputField value="{!NI_Job_Requisition__c.Manager_Comments__c}" id="idMgrCommentsInput"/>
+                </apex:pageBlockSectionItem>
+            </apex:pageBlockSection>
+            <apex:pageBlockSection title="Job Description" columns="1">
+                <apex:inputField value="{!NI_Job_Requisition__c.Position_Description__c}" id="idPositionDescription"/>    
+                <!-- <apex:actionRegion>   
+<apex:commandButton action="{!showAddAttachment}" value="Attach File" reRender="attachment_Container"/>
+</apex:actionRegion> -->   
+            </apex:pageBlockSection>
+            <apex:pageBlockSection columns="1" >
+                <apex:pageBlockSectionItem >
+                    <apex:outputText value="{!strAttachmentUploadMessage}"/>
+                </apex:pageBlockSectionItem> 
+                <apex:pageBlockSectionItem >
+                    <apex:outputText escape="false" value="<b>Click ''Choose File'' to Select a file for the Job Description.  Click ''Attach File'' to upload the file.</b>"/>
+                </apex:pageBlockSectionItem>
+                <apex:pageBlockSectionItem >
+                    <apex:inputFile accept="doc,docx,pdf" filename="{!fileName}" value="{!jobDescription}"  id="file"/>                        
+                </apex:pageBlockSectionItem>
+                <apex:pageBlockSectionItem >
+                    <apex:commandButton action="{!uploadAttachment}" value="Attach File" id="ubutton"/>   
+                </apex:pageBlockSectionItem> 
+            </apex:pageBlockSection>   
+            <apex:pageBlockSection title="Existing Attachments">
+                <apex:pageBlockTable value="{!lstAttachments}" var="a" id="idExistingAttachments">
+                    <apex:column headerValue="File Name">
+                        <apex:outputText value="{!a.Name}"/>
+                    </apex:column>    
+                </apex:pageBlockTable>
+            </apex:pageBlockSection>            
+            <apex:pageBlockSection title="Primary Hardware" columns="1" >
+                <apex:actionStatus id="hwStatus" startText="Please Wait..." 
+                                   stopText=""   startStyleClass="statusStyle"/>     
+                <apex:pageBlockSectionItem >
+                    <apex:outputLabel value="Main Hardware" for="idInputHW"/>
+                    <apex:actionRegion >
+                        <apex:inputField value="{!NI_Job_Requisition__c.Main_Hardware__c}" id="idInputHW">
+                            <apex:actionSupport event="onchange"
+                                                status="hwStatus"
+                                                action="{!mainHardware}" 
+                                                rerender="mainHW_Container,seconHW_Container"/>
+                        </apex:inputField>
+                    </apex:actionRegion>
+                </apex:pageBlockSectionItem>                                                      
+            </apex:pageBlockSection>
+            <apex:outputPanel id="mainHW_Container">
+                <apex:outputPanel id="mainHW" rendered="{!NOT(bMainHW)}">
+                    <apex:pageBlockSection columns="1">    
+                        <apex:inputField value="{!NI_Job_Requisition__c.No_Hardware_Reason__c}" id="idNoHWReason" required="{!NOT(bMainHW)}"/>
+                    </apex:pageBlockSection>     
+                </apex:outputPanel>
+            </apex:outputPanel>
+            <apex:outputPanel id="seconHW_Container">
+                <apex:outputPanel id="secondHW" rendered="{!bMainHW}">
+                    <apex:pageBlockSection title="Secondary Hardware" columns="1" >    
+                        <apex:Inputfield value="{!NI_Job_Requisition__c.Secondary_Hardware__c}" required="true" Id="secondaryHW"/>
+                    </apex:pageBlockSection>
+                </apex:outputPanel>
+            </apex:outputPanel>
+             <apex:pageBlockSection title="Additional Requirements" columns="1">
+            <apex:inputField value="{!NI_Job_Requisition__c.Existing_Employee_AD_Groups__c}"/>
+            <apex:inputField value="{!NI_Job_Requisition__c.Conference_Calling_Account__c}"/>
+            <apex:inputField value="{!NI_Job_Requisition__c.Additional_Requirements_Notes_to_IT__c}"/>   
+        </apex:pageBlockSection>
+            
+            
+       
+            
+        <apex:pageBlockSection title="Newmarket Salesforce Org User Setup" columns="1" >
+            <div style="text-align: left;">
+                <Left>
+                    <table border="1" style="backcolor: White;">
+                        
+                        <tr>
+                            <td style="text-align: left;">                            
+                                <table>
+                                    <tr>
+                                        <td>
+                                            
+                                        </td>
+                                    </tr>
+                                    <tr style="background-color: #E6E6FA;">
+                                        <td>
+                                            {!$Label.NI_Job_Req_Salesforce_License_Description}
+                                        </td>                                
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr> 
+                    </table>
+                </left>
+            </div>
+        </apex:pageBlockSection>
+            <apex:actionRegion >
+            <apex:pageBlockSection columns="1"> 
+                <br></br> 
+        <apex:actionStatus id="myStatus" startText="Please Wait..." 
+                           stopText=""   startStyleClass="statusStyle"/>
+             
+                <apex:inputField value="{!NI_Job_Requisition__c.Newmarket_Salesforce_Org_Required__c}" id="idInputSFUserRequired">
+                    <apex:actionSupport event="onchange"
+                                        status="myStatus"
+                                        action="{!showNewmarketSalesforceOrgReason}" 
+                                        rerender="SFOrgReason_Container,idSFOrgReasonOutput,idSFApplications,
+                                                  idSFLicenseType,SFLicenseOptions_Container,idInputSFUser,
+                                                  idInputFFPSAUser,idFunnelSource,
+                                                  idXactly,FFLicenseOptions_Container,idFFLicenseOptions,
+                                                  idExsistingSfUser,salesForceApps2,FFLicense"/>
+                </apex:inputField>
+            
+            </apex:pageBlockSection>
+            </apex:actionRegion>
+            <apex:outputPanel id="SFOrgReason_Container">    
+                <apex:outputPanel id="idSFOrgReasonOutput" rendered="{!NOT(bNISalesforceOrgSetup)}">
+                    <apex:pageBlockSection columns="1">
+                        <apex:inputField value="{!NI_Job_Requisition__c.Newmarket_Salesforce_Org_Reason__c}" id="idSFOrgReason" />   
+                    </apex:pageBlockSection> 
+             </apex:outputPanel>   
+            </apex:outputPanel>
+        <apex:outputPanel id="idExsistingSfUser">
+        <apex:actionRegion >
+            
+            <apex:pageBlockSection columns="1" rendered="{!bNISalesforceOrgSetup}">
+                
+                <apex:pageBlockSectionItem >
+                    
+                    <apex:outputLabel value="Copy Existing Salesforce User" for="idInputSFUser" rendered="{!bNISalesforceOrgSetup}"/>      
+                    <apex:inputField value="{!NI_Job_Requisition__c.Mirror_Existing_Salesforce_User__c}" id="idInputSFUser" rendered="{!bNISalesforceOrgSetup}">
+                        <apex:actionSupport event="onchange"
+                                            status="myStatus"
+                                            action="{!checkUserLicenses}" 
+                                            rerender="idSFApplications,idSFLicenseType,SFLicenseOptions_Container,
+                                                      FFLicenseOptions_Container,idInputFFPSAUser,idFunnelSource,
+                                                      idXactly,idSFApplications,idFFLicenseOptions"/>
+                    </apex:inputField>
+                         
+                    </apex:pageBlockSectionItem>
+                   
+                <apex:pageBlockSectionItem >
+                    <apex:outputLabel value="Salesforce License Type" for="idSFLicenseType"/> 
+                    <apex:inputField value="{!NI_Job_Requisition__c.Salesforce_com_License_Type__c}" id="idSFLicenseType"/>
+                </apex:pageBlockSectionItem>         
+            </apex:pageBlockSection>
+        </apex:actionRegion>
+            </apex:outputPanel>
+            <apex:outputPanel id="idSFApplications">
+                <apex:pageBlockSection title="Newmarket Salesforce Org Additional Force.com Licensed Applications" columns="1" rendered="{!bNISalesforceOrgSetup}">
+                    <apex:actionStatus id="myStatus3" startText="Please Wait..." 
+                                       stopText=""   startStyleClass="statusStyle"/>    
+                    <apex:pageBlockSectionItem >
+                        <apex:outputLabel value="Apttus" for="idInputFFPSAUser"/>
+                        <apex:inputField value="{!NI_Job_Requisition__c.Apttus__c}" id="idApttus"/>
+                    </apex:pageBlockSectionItem>
+                    <apex:pageBlockSectionItem >
+                        <apex:outputLabel value="Financialforce - Accounting" for="idInputFFAUser"/>
+                        <apex:inputField value="{!NI_Job_Requisition__c.Financialforce_Accounting__c}" id="idFFA"/>
+                    </apex:pageBlockSectionItem>      
+                    <apex:pageBlockSectionItem >    
+                        <apex:outputLabel value="Financialforce - PSA" for="idInputFFPSAUser"/>    
+                        <apex:actionRegion >   
+                        <apex:inputField value="{!NI_Job_Requisition__c.Financialforce_PSA__c}" id="idInputFFPSAUser">
+                            <apex:actionSupport event="onchange"
+                                                status="myStatus3"
+                                                action="{!showFinancialforcePSALicenseOptions}" 
+                                                rerender="FFLicenseOptions_Container,idFFLicenseOptions"/>
+                        </apex:inputField>
+                        </apex:actionRegion>
+                    </apex:pageBlockSectionItem>
+                </apex:pageBlockSection>
+            </apex:outputPanel>    
+            <apex:outputPanel id="FFLicenseOptions_Container" rendered="{!bNISalesforceOrgSetup}">
+                <apex:outputPanel id="FFLicense" rendered="{!bFFPSALicenseType}">
+                    <apex:pageBlockSection columns="1">    
+                        <!--<apex:outputLabel value="Salesforce License Options" for="idSFLicenseOptions"/> -->
+                        <apex:inputField value="{!NI_Job_Requisition__c.Financialforce_PSA_License_Type__c}" id="idFFLicenseOptions" required="{!bFFPSALicenseType}"/>        
+                    </apex:pageBlockSection>
+                </apex:outputPanel>
+            </apex:outputPanel>
+          <apex:outputPanel id="salesForceApps2">
+            <apex:pageBlockSection Columns="1" rendered="{!bNISalesforceOrgSetup}">
+                <apex:pageBlockSectionItem >
+                    <apex:outputLabel value="FunnelSource" for="idInputFunnelSource"/>
+                    <apex:inputField value="{!NI_Job_Requisition__c.FunnelSource__c}" id="idFunnelSource"/>
+                </apex:pageBlockSectionItem>
+                <apex:pageBlockSectionItem >
+                    <apex:outputLabel value="Xactly" for="idInputXactly"/>
+                    <apex:inputField value="{!NI_Job_Requisition__c.Xactly__c}" id="idXactly"/>
+                </apex:pageBlockSectionItem>
+            </apex:pageBlockSection>
+        </apex:outputPanel>
+        <apex:pageBlockSection title="Additional Enterprise Applications" columns="1">
+            <apex:inputField value="{!NI_Job_Requisition__c.Dynamics_GL__c}"/>
+            <apex:inputField value="{!NI_Job_Requisition__c.MSDN_License__c}"/> 
+            <apex:inputField value="{!NI_Job_Requisition__c.MSDN_License_Options__c}"/> 
+            <apex:inputField value="{!NI_Job_Requisition__c.Softrax__c}"/>
+            <apex:inputField value="{!NI_Job_Requisition__c.Webex__c}"/> 
+        </apex:pageBlockSection>
+        <apex:pageBlockSection title="MTech User Setup Information" columns="1" >
+            <apex:pageblocksection >
+            <apex:repeat value="{!$ObjectType.NI_Job_Requisition__c.fieldsets.MTech_Fields}" var="mTechInfo">
+                <apex:Inputfield value="{!NI_Job_Requisition__c[mTechInfo]}"/>
+            </apex:repeat>    
+        </apex:pageblocksection>
+            <!--
+<div style="text-align: left;">
+<Left>
+<table border="1" style="backcolor: White;">
+
+<tr>
+<td style="text-align: left;">                            
+<table>
+<tr>
+<td>     
+</td>
+</tr>
+<tr style="background-color: #E6E6FA;">
+<td>
+{!$Label.NI_Job_Req_Salesforce_License_Description}
+</td>                                
+</tr>
+</table>
+</td>
+</tr> 
+</table>
+</left>
+</div>
+-->
+        </apex:pageBlockSection>
+        
+    </apex:pageBlock>   
+</apex:form>
+
+</apex:page>

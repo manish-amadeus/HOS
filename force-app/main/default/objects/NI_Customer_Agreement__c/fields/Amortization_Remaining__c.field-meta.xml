@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Amortization_Remaining__c</fullName>
+    <externalId>false</externalId>
+    <label>Amortization Remaining</label>
+    <summarizedField>NI_Distribution__c.Amount__c</summarizedField>
+    <summaryFilterItems>
+        <field>NI_Distribution__c.Status__c</field>
+        <operation>equals</operation>
+        <value>Pending</value>
+    </summaryFilterItems>
+    <summaryFilterItems>
+        <field>NI_Distribution__c.RecordTypeId</field>
+        <operation>equals</operation>
+        <value>Amortization</value>
+    </summaryFilterItems>
+    <summaryForeignKey>NI_Distribution__c.Customer_Agreement__c</summaryForeignKey>
+    <summaryOperation>sum</summaryOperation>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Summary</type>
+</CustomField>

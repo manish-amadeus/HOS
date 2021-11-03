@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>IMT_LimitPropertyNameChanges</fullName>
+    <active>true</active>
+    <description>Once a property has been added, name changes are limited to particular profiles</description>
+    <errorConditionFormula>AND( $Profile.Name != &quot;NI PSA Administrator&quot;,
+$Profile.Name != &quot;System Administrator&quot;, 
+$Profile.Name != &quot;NI IMT Global Super User&quot;,
+$Profile.Name != &quot;NI IMT Regional Admin&quot;,
+NOT(ISNEW()), 
+ISCHANGED(Name))</errorConditionFormula>
+    <errorDisplayField>Name</errorDisplayField>
+    <errorMessage>Please contact a regional or global admin to have the property name modified.</errorMessage>
+</ValidationRule>

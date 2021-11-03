@@ -1,0 +1,63 @@
+<apex:page standardController="NI_Change_Control__c" >
+  <table cellspacing="10">
+  <tr>
+    <td><span style="font-weight: bold; font-size: 12pt;">This RFC does not meet the requirements to enter the Approval Process</span></td>
+  </tr>
+  <tr>
+  <td>
+  <b>The following fields must be completed for all Hosted RFCs with a "Normal" Priority:</b>
+<br></br>
+Assigned Production Date
+<br></br>
+Deployment Owner
+<br></br>
+Compiler
+<br></br>
+Manager Reviewer
+<br></br>
+Outage Required
+<br></br>
+Data Change
+<br></br>
+If Data Change is set to "Yes", you must update the <b>New Custom Script</b> field.
+<br></br>
+If New Custom Script is set to "Yes", the <b>Developer Approved</b> field must be set to "Yes" by the Developer.
+<br></br>
+Account(must have at least one related Account record)
+<br></br>
+Artifacts (must have the required Artifacts)
+<br></br>
+<br></br>
+</td>
+</tr>
+  <tr>
+    <td>
+    <br></br>
+<br></br>
+<apex:pageblock title="Current Field Values">
+<apex:pageBlocktable value="{!NI_Change_Control__c}" var="r">
+<apex:column value="{!r.Date_Scheduled__c}"/>
+<apex:column value="{!r.Manager_Reviewer__c}"/>
+<apex:column value="{!r.NI_Change_Owner__c}"/>
+<apex:column value="{!r.Developer_Compiler__c}"/>
+</apex:pageBlocktable>
+<br></br>
+<apex:pageBlocktable value="{!NI_Change_Control__c}" var="r">
+<apex:column value="{!r.Outage_Required__c}"/>
+<apex:column value="{!r.Data_Change__c}"/>
+<apex:column value="{!r.New_Custom_Script__c}"/>
+<apex:column value="{!r.Developer_Approved__c}"/>
+</apex:pageBlocktable>
+</apex:pageBlock> 
+<apex:relatedlist list="NICCRequestAccountJunction__r" />  
+<apex:relatedlist list="NICC_Artifacts__r" />   
+<br></br>
+    
+Click <a href="/{!NI_Change_Control__c.Id}">here</a> to return to the Hosted RFC and update the missing information.  Once the information has been updated,
+submit the RFC for Approval.
+ 
+ 
+    </td>
+  </tr>
+</table>
+</apex:page>

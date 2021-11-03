@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Availability__c</fullName>
+    <description>Used to assess the Availability of an Asset (Risk Assessment)</description>
+    <externalId>false</externalId>
+    <inlineHelpText>4. Cannot afford more than a 10 minute outage
+3. Cannot afford more than a 4 hour outage
+2. Cannot afford more than a 24 hour outage
+1. Can operate with minimal disruption for upwards of a week or more</inlineHelpText>
+    <label>Availability</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>true</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>4. High Critical</fullName>
+                <default>false</default>
+                <label>4. High Critical</label>
+            </value>
+            <value>
+                <fullName>3. Critical</fullName>
+                <default>false</default>
+                <label>3. Critical</label>
+            </value>
+            <value>
+                <fullName>2. Important</fullName>
+                <default>false</default>
+                <label>2. Important</label>
+            </value>
+            <value>
+                <fullName>1. Basic</fullName>
+                <default>false</default>
+                <label>1. Basic</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

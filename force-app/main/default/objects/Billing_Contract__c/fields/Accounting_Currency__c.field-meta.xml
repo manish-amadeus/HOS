@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Accounting_Currency__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <externalId>false</externalId>
+    <label>Accounting Currency</label>
+    <lookupFilter>
+        <active>true</active>
+        <filterItems>
+            <field>$Source.Company__c</field>
+            <operation>equals</operation>
+            <valueField>c2g__codaAccountingCurrency__c.c2g__OwnerCompany__c</valueField>
+        </filterItems>
+        <infoMessage>Filtering currencies related to the BC company</infoMessage>
+        <isOptional>true</isOptional>
+    </lookupFilter>
+    <referenceTo>c2g__codaAccountingCurrency__c</referenceTo>
+    <relationshipLabel>Billing Contract</relationshipLabel>
+    <relationshipName>Billing_Contract</relationshipName>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>true</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>TDelphiSelectMPEAddProperty</fullName>
+    <booleanFilter>1 or 2 or 3</booleanFilter>
+    <columns>NAME</columns>
+    <columns>Template_Name__c</columns>
+    <columns>Opportunity__c</columns>
+    <columns>CURRENCY_ISO_CODE</columns>
+    <columns>Quote_Amount__c</columns>
+    <columns>LAST_UPDATE</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>NAME</field>
+        <operation>equals</operation>
+        <value>Q-00054,Q-00053,Q-00051,Q-00052,Q-00050,Q-00165,Q-00164,Q-00162,Q-00163</value>
+    </filters>
+    <filters>
+        <field>NAME</field>
+        <operation>equals</operation>
+        <value>Q-00161,Q-00175,Q-00174,Q-00172,Q-00173,Q-00171,Q-00180,Q-00179,Q-00177</value>
+    </filters>
+    <filters>
+        <field>NAME</field>
+        <operation>equals</operation>
+        <value>Q-00178,Q-00176,Q-00170,Q-00169,Q-00167,Q-00168,Q-00166</value>
+    </filters>
+    <label>T-Delphi Select MPE Add Property</label>
+    <sharedTo>
+        <group>Operations</group>
+    </sharedTo>
+</ListView>

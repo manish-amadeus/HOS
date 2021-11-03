@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Requirement_Number__c</fullName>
+    <deleteConstraint>Restrict</deleteConstraint>
+    <description>Requirement Number being assessed</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Requirement Number being assessed</inlineHelpText>
+    <label>Requirement Number</label>
+    <referenceTo>AH_BIO_Requirement__c</referenceTo>
+    <relationshipLabel>Assessments</relationshipLabel>
+    <relationshipName>BIO_Assessment</relationshipName>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>true</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

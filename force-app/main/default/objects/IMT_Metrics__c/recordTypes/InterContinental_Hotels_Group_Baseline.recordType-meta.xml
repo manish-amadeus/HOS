@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<RecordType xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>InterContinental_Hotels_Group_Baseline</fullName>
+    <active>true</active>
+    <description>Baseline # for the IHG GRS Project.  To be manually entered by someone with the Global Super User profile</description>
+    <label>InterContinental Hotels Group Baseline</label>
+    <picklistValues>
+        <picklist>IMT_Region__c</picklist>
+        <values>
+            <fullName>Americas</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Asia%2C Middle East%2C Africa</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Europe</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Greater China</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Status__c</picklist>
+        <values>
+            <fullName>Commit</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Draft</fullName>
+            <default>true</default>
+        </values>
+    </picklistValues>
+</RecordType>

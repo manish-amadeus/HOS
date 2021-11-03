@@ -1,0 +1,144 @@
+<apex:page showHeader="false" standardStylesheets="false" controller="MigrationPortalController" action="{!reviewusers}" cache="false">
+<apex:composition template="{!$Site.Template}">
+<apex:define name="body">
+<apex:outputPanel rendered="{!authenticated}">
+
+<script type="text/javascript">
+function togglesection(header, sectionid) {
+    if (header.className=='expandedsectionheader') {
+        header.className='collapsedsectionheader';
+        document.getElementById(sectionid).style.display='none';
+        
+    } else {
+        header.className='expandedsectionheader';
+        document.getElementById(sectionid).style.display='block';
+    }
+    
+}
+function toggleproperty(checkbox) {
+    var cbclassname=checkbox.className;
+    var allinputs = document.getElementsByTagName("input"); 
+    for (var i = 0; i < allinputs.length; i++) { 
+        el = allinputs[i];
+        if (el.className=='usercheckbox '+cbclassname)
+            el.checked=checkbox.checked;
+    }
+}
+</script>
+<h1>Review Properties and Users</h1>
+Below you will find properties and users list based on the data from your current Delphi.Net subscription.
+<apex:outputPanel rendered="{! usersselectionlocked}">
+<div style="font-weight:bold;color:#333;font-size:14px;">This list is locked and cannot be changed.</div>
+</apex:outputPanel>
+<apex:form >
+<div class="expandedsectionheader" onclick="togglesection(this, 'active')">
+<apex:outputPanel rendered="{! !usersselectionlocked}">
+Please select which properties and users you would like to maintain in your upgraded subscription from the current list of active properties and users.
+</apex:outputPanel>
+<apex:outputPanel rendered="{! usersselectionlocked}">
+The following is a list of active properties and users that will be maintained in your upgraded subscription.
+</apex:outputPanel>
+</div>
+<div class="collapsiblesection" id="active">
+<apex:repeat value="{!propertylist}" var="property">
+<apex:inputCheckbox value="{!property.selected}" styleClass="prop-{!property.property.Id}" onchange="toggleproperty(this);" disabled="{!usersselectionlocked}"/>&nbsp;
+<span style="color:#000;">{!property.property.Name}</span>&nbsp;&nbsp;&nbsp;&nbsp;
+{!property.property.StreetAddress__c}&nbsp;&nbsp;&nbsp;&nbsp;
+{!property.property.City__c}&nbsp;&nbsp;&nbsp;&nbsp;
+{!property.property.State__c}&nbsp;&nbsp;&nbsp;&nbsp;
+{!property.property.Zip__c}<br/>
+<apex:repeat value="{!property.userlist}" var="user">
+<div style="margin: 0 0 0 30px;">
+<apex:inputCheckbox value="{!user.selected}" styleClass="usercheckbox prop-{!property.property.Id}" disabled="{!usersselectionlocked}"/>&nbsp;
+<span style="color:#000;">{!user.user.Name__c}</span>
+<div style="margin: 0 0 0 30px;">
+Email:&nbsp;{!user.user.Email__c}&nbsp;&nbsp;&nbsp;&nbsp;
+Login Name:&nbsp;{!user.user.LoginName__c}&nbsp;&nbsp;&nbsp;&nbsp;
+Role:&nbsp;{!user.user.Role__c}&nbsp;&nbsp;&nbsp;&nbsp;
+<!-- Training Modules Taken:&nbsp;<apex:outputText value="{0, number, ###,###,###,###}">
+    <apex:param value="{!user.user.TrainingModulesTaken__c}"/>
+</apex:outputText>&nbsp;of 10 -->
+</div>
+</div>
+</apex:repeat>
+</apex:repeat>
+</div>
+<div class="collapsedsectionheader" onclick="togglesection(this, 'inactive')">
+<apex:outputPanel rendered="{! usersselectionlocked}">
+The following is a list of inactive users that will not be maintained in your upgrade subscription
+</apex:outputPanel>
+<apex:outputPanel rendered="{! !usersselectionlocked}">
+The following is a list of inactive users that will no longer be available in your upgraded subscription. Please indicate if you would like to re-activate these users.
+</apex:outputPanel>
+
+</div>
+<div class="collapsiblesection" id="inactive">
+<apex:repeat value="{!inactiveuserlist}" var="user">
+<div style="margin: 0 0 0 30px;">
+<apex:inputCheckbox value="{!user.selected}" styleClass="usercheckbox" disabled="{!usersselectionlocked}"/>&nbsp;
+<span style="color:#000;">{!user.user.Name__c}</span>
+<div style="margin: 0 0 0 30px;">
+Email:&nbsp;{!user.user.Email__c}&nbsp;&nbsp;&nbsp;&nbsp;
+Login Name:&nbsp;{!user.user.LoginName__c}&nbsp;&nbsp;&nbsp;&nbsp;
+Property:&nbsp;{!user.user.MigrationProperty__r.Name}&nbsp;&nbsp;&nbsp;&nbsp;
+
+</div>
+</div>
+</apex:repeat>
+</div>
+
+<div class="collapsedsectionheader" onclick="togglesection(this, 'inactiveproperties')">
+<apex:outputPanel rendered="{! usersselectionlocked}">
+The following is a list of inactive properties that will not be maintained in your upgrade subscription
+</apex:outputPanel>
+<apex:outputPanel rendered="{! !usersselectionlocked}">
+The following is a list of inactive properties that will no longer be available in your upgraded subscription. Please indicate if you would like to re-activate these properties.
+</apex:outputPanel>
+
+</div>
+<div class="collapsiblesection" id="inactiveproperties">
+<apex:repeat value="{!inactivepropertylist}" var="property">
+<div style="margin: 0 0 0 30px;">
+<apex:inputCheckbox value="{!property.selected}" disabled="{!usersselectionlocked}"/>&nbsp;
+<span style="color:#000;">{!property.property.Name}</span>&nbsp;&nbsp;&nbsp;&nbsp;
+<div style="margin: 0 0 0 30px;">
+{!property.property.StreetAddress__c}&nbsp;&nbsp;&nbsp;&nbsp;
+{!property.property.City__c}&nbsp;&nbsp;&nbsp;&nbsp;
+{!property.property.State__c}&nbsp;&nbsp;&nbsp;&nbsp;
+{!property.property.Zip__c}
+</div>
+
+</div>
+</apex:repeat>
+</div>
+
+<apex:outputPanel rendered="{! !usersselectionlocked}">
+<table style="width:600px;border:0; margin:15px 0;border-collapse:collapse;"><tr>
+<td style="text-align:left;vertical-align:middle;width:100px;padding:0;">
+<apex:commandButton action="{!selectusers}" value="Submit" styleClass="formsubmit" />
+</td>
+<td style="text-align:left;vertical-align:middle;width:130px;padding:0;">
+<apex:commandButton action="{!completeselectusersstep}" value="Complete This Step" styleClass="formsubmit" />
+</td>
+<td style="text-align:left;vertical-align:middle;width:470px;padding:0 20px;">
+When you click Complete This Step button this step will be marked as completed. However, if you change your mind, you will be able to change the selection until&nbsp;<apex:outputText value="{0,date,MM'/'dd'/'yyyy}">
+    <apex:param value="{!loggedincontact.Account.Delphi_Net_Upgrade_Date__c-5}" /> 
+</apex:outputText> when this selection will be locked.
+</td>
+</tr></table>
+</apex:outputPanel>
+
+
+
+</apex:form>
+<br/><br/>
+
+
+</apex:outputPanel>
+<apex:outputPanel rendered="{! !authenticated}">
+You are not authenticated to view this page. Please contact <a href="mailto:support@newmarketinc.com">support@newmarketinc.com</a> if you are a Newmarket International Inc. customer.<br/>
+
+</apex:outputPanel>
+</apex:define>
+</apex:composition>
+</apex:page>

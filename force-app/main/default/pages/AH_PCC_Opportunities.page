@@ -1,0 +1,335 @@
+<apex:page Controller="AH_PCC_Opportunities_Ctlr" showHeader="false" sidebar="false" lightningStylesheets="true" applyHtmlTag="false" applyBodyTag="false" docType="html-5.0">
+
+    <html xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" lang="en">
+        <head>
+            <meta charset="utf-8" />
+            <meta http-equiv="x-ua-compatible" content="ie=edge" />
+            <title>Opportunities</title>
+            <meta name="viewport" content="width=device-width, initial-scale=1" />
+            <apex:stylesheet value="/apexpages/slds/latest/assets/styles/salesforce-lightning-design-system-vf.css" />
+            <apex:slds />
+        </head>
+        
+        <script language="JavaScript" type="text/javascript">
+            function noenter(ev)  
+            {
+                if (window.event && window.event.keyCode == 13 || ev.which == 13) 
+                {
+                    afDoSearch();
+                    return false;
+                } 
+                else 
+                {
+                    return true;
+                }
+            } 
+
+        </script>
+
+        <div class="slds-scope" style="margin: 10px 10px 10px 10px; !important;">
+
+            <apex:form >
+                
+                <apex:actionFunction id="afDoSearch" name="afDoSearch" action="{!doSearch}" rerender="opSearchResults" status="asStatus" />            
+
+                <div id="divSearch" class="roundedContainer">
+             
+                    <apex:outputpanel id="opSearch">
+                         
+                        <span class="slds-icon_container slds-icon-standard-campaign"> 
+                            <svg aria-hidden="false" class="slds-icon">    
+                                <use xlink:href="/apexpages/slds/latest/assets/icons/utility-sprite/svg/symbols.svg#search"></use>
+                            </svg> 
+                            <span class="slds-assistive-text">Search</span> 
+                        </span> 
+                        &nbsp;&nbsp; 
+                        <apex:outputLabel id="lblSearchTitle" value="Opportunity Search" styleClass="slds-text-heading_medium slds-text-title_bold" />
+                        <br/>
+                        <br/>
+                        <apex:outputLabel id="lblSearchText" value="Search Text: " />
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;                        
+                        <apex:inputText id="txtSearchText" value="{!searchText}" label="lblSearchText" onkeypress="return noenter(event);" styleClass="slds-input" style="width:400px;!important;"/>&nbsp;&nbsp;
+                        &nbsp;&nbsp;&nbsp;&nbsp; 
+                        <apex:commandButton id="btnSearch" value="Search" action="{!doSearch}" rerender="opSearchResults" status="asStatus" styleClass="slds-button slds-button_outline-brand" />
+                        &nbsp;&nbsp;&nbsp;&nbsp; 
+                        <apex:commandLink id="cmdExportCSV" action="{!exportResults}" rendered="{!hasChatterGroup}" rerender="opSearchResults" status="asStatus" target="_blank" style="text-decoration:none;important;">
+                            <span class="slds-icon_container slds-icon-utility-download" title="Export results to CSV format">
+                                <svg class="slds-icon slds-icon-text-success" aria-hidden="true">
+                                    <use xlink:href="/apexpages/slds/latest/assets/icons/utility-sprite/svg/symbols.svg#download"></use>
+                                </svg>
+                                <span class="slds-assistive-text">Export results to CSV format</span>
+                            </span> 
+                        </apex:commandLink>
+                        
+                        <br/>
+
+                        <table style="width:900px;">
+                            <tr>
+                                <td>
+                                    <div class="slds-form-element slds-form-element_horizontal" style="padding-top:15px;padding-left:75px;width:400px;">
+                                        <label class="slds-form-element__label" for="ddlFields">Specific Field:</label>
+                                        <div class="slds-form-element__control">
+                                            <div class="slds-select_container">
+                                                <apex:selectList id="ddlFields" label="lblSpecificFields" value="{!selField}" styleClass="slds-select" size="1" multiselect="false"> 
+                                                    <apex:selectOptions value="{!lstSearchFields}" /> 
+                                                </apex:selectList> 
+                                            </div>
+                                        </div>
+                                    </div>                                    
+                                </td>
+                                <td>
+                                    <div class="slds-form-element slds-form-element_horizontal" style="padding-top:10px;padding-left:0px;width:410px;">
+                                        <label class="slds-form-element__label">Opportunity Stage:</label>
+                                        <div class="slds-form-element__control">
+                                            <div class="slds-select_container">
+                                                <apex:selectList id="ddlStage" label="lblSpecificFields" value="{!selStage}" styleClass="slds-select" size="1" multiselect="false"> 
+                                                    <apex:selectOptions value="{!lstStages}" /> 
+                                                </apex:selectList> 
+                                            </div>
+                                        </div>
+                                    </div>                                    
+                                </td>
+                            </tr>
+                        </table>
+                        <table style="width:900px;">
+                            <tr>
+                                <td>
+                                    <div class="slds-form-element slds-form-element_horizontal" style="padding-top:5px;padding-left:70px;width:470px;">
+                                        <label class="slds-form-element__label" for="txtCloseDateStart">Close Date Start:</label>
+                                        <c:AH_DatePicker defaultValue="{!closeDateStart}" defaultStyle="background-color:#fff;border:1px solid #dddbda;border-radius:.25rem;width:120px;transition:border .1s linear,background-color .1s linear;padding:0 1rem 0 .75rem;line-height:1.875rem;" />
+                                    </div>                                    
+                                </td>
+                                <td>
+                                    <div class="slds-form-element slds-form-element_horizontal" style="padding-top:5px;padding-left:0px;width:500px;">
+                                        <label class="slds-form-element__label">Close Date End:</label>
+                                        <c:AH_DatePicker defaultValue="{!closeDateEnd}" defaultStyle="background-color:#fff;border:1px solid #dddbda;border-radius:.25rem;width:120px;transition:border .1s linear,background-color .1s linear;padding:0 1rem 0 .75rem;line-height:1.875rem;" />
+                                    </div>                                    
+                                </td>
+                            </tr>
+                        </table>  
+                        <br/>
+                  
+                    </apex:outputpanel>
+                </div>   
+
+                <br/>
+                <apex:pageMessages />
+                
+                <div id="divResults" class="roundedContainer">
+
+                    <apex:outputpanel id="opSearchResults">
+                        
+                        <apex:outputLabel id="lblSearchResults" value="Search Results:" styleClass="slds-text-heading_medium slds-text-title_bold" />
+                        &nbsp;&nbsp; 
+                        <apex:outputLabel id="lblSearchResultMsg" value="{!searchResultMsg}" />
+                        <br/>    
+                        <apex:dataTable value="{!lstSearchResults}" var="dt" styleClass="slds-table slds-table_bordered slds-table_striped" rendered="true">
+
+                            <apex:column >
+                                <apex:facet name="header"> 
+                                    <apex:commandLink id="cmdSortCol1" 
+                                                      value="Opportunity # {!IF(sortByField=='Opportunity.Opportunity_Number__c', IF(sortByDirection='ASC','▲','▼'), '')}" 
+                                                      action="{!doSort}" 
+                                                      status="asStatus"                                                           
+                                                      reRender="opSearchResults">
+                                        <apex:param value="Opportunity.Opportunity_Number__c" name="prm1" assignTo="{!sortByField}" />
+                                    </apex:commandLink>
+                                </apex:facet> 
+                                <apex:outputLink value="/apex/AH_PCC_OpportunityDetails" target="_blank" >
+                                    {!dt.OpportunityNumber} 
+                                    <apex:param name="OppId" value="{!dt.OpportunityId}" />
+                                </apex:outputLink>     
+                            </apex:column> 
+                           
+                            <apex:column >
+                                <apex:facet name="header"> 
+                                    <apex:commandLink id="cmdSortCol2" 
+                                                      value="Product Code {!IF(sortByField=='Product2.ProductCode', IF(sortByDirection='ASC','▲','▼'), '')}" 
+                                                      action="{!doSort}" 
+                                                      status="asStatus"                                                           
+                                                      reRender="opSearchResults">
+                                        <apex:param value="Product2.ProductCode" name="prm2" assignTo="{!sortByField}" />
+                                    </apex:commandLink>
+                                </apex:facet>                                   
+                                <apex:outputText value="{!dt.ProductCode}" />                           
+                            </apex:column> 
+                              
+                            <apex:column styleClass="slds-cell-wrap">
+                                <apex:facet name="header"> 
+                                    <apex:commandLink id="cmdSortCol3" 
+                                                      value="Product Name {!IF(sortByField=='Product2.Name', IF(sortByDirection='ASC','▲','▼'), '')}" 
+                                                      action="{!doSort}" 
+                                                      status="asStatus"                                                           
+                                                      reRender="opSearchResults">
+                                        <apex:param value="Product2.Name" name="prm3" assignTo="{!sortByField}" />
+                                    </apex:commandLink>
+                                </apex:facet>                                   
+                                <apex:outputText value="{!dt.ProductName}" /> 
+                            </apex:column> 
+                             
+                            <apex:column styleClass="slds-cell-wrap">
+                                <apex:facet name="header"> 
+                                    <apex:commandLink id="cmdSortCol4" 
+                                                      value="Management Company {!IF(sortByField=='Opportunity.Account.Management_Company_Name__c', IF(sortByDirection='ASC','▲','▼'), '')}" 
+                                                      action="{!doSort}" 
+                                                      status="asStatus"                                                           
+                                                      reRender="opSearchResults">
+                                        <apex:param value="Opportunity.Account.Management_Company_Name__c" name="prm4" assignTo="{!sortByField}" />
+                                    </apex:commandLink>
+                                </apex:facet>                                  
+                                <apex:outputText value="{!dt.MgtCompanyName}" /> 
+                            </apex:column> 
+
+                            <apex:column >
+                                <apex:facet name="header"> 
+                                    <apex:commandLink id="cmdSortCol5" 
+                                                      value="Account # {!IF(sortByField=='Opportunity.Account.AccountNumber', IF(sortByDirection='ASC','▲','▼'), '')}" 
+                                                      action="{!doSort}" 
+                                                      status="asStatus"                                                           
+                                                      reRender="opSearchResults">
+                                        <apex:param value="Opportunity.Account.AccountNumber" name="prm5" assignTo="{!sortByField}" />
+                                    </apex:commandLink>
+                                </apex:facet>                                  
+                                <apex:outputText value="{!dt.AccountNumber}" />                           
+                            </apex:column> 
+                 
+                            <apex:column styleClass="slds-cell-wrap">
+                                <apex:facet name="header"> 
+                                    <apex:commandLink id="cmdSortCol6" 
+                                                      value="Account Name {!IF(sortByField=='Opportunity.Account.Name', IF(sortByDirection='ASC','▲','▼'), '')}" 
+                                                      action="{!doSort}" 
+                                                      status="asStatus"                                                           
+                                                      reRender="opSearchResults">
+                                        <apex:param value="Opportunity.Account.Name" name="prm6" assignTo="{!sortByField}" />
+                                    </apex:commandLink>
+                                </apex:facet>                                    
+                                <apex:outputText value="{!dt.AccountName}" /> 
+                            </apex:column> 
+         
+                            <apex:column >
+                                <apex:facet name="header"> 
+                                    <apex:commandLink id="cmdSortCol7" 
+                                                      value="Probability {!IF(sortByField=='Opportunity.StageName', IF(sortByDirection='ASC','▲','▼'), '')}" 
+                                                      action="{!doSort}" 
+                                                      status="asStatus"                                                           
+                                                      reRender="opSearchResults">
+                                        <apex:param value="Opportunity.StageName" name="prm7" assignTo="{!sortByField}" />
+                                    </apex:commandLink>
+                                </apex:facet>                                 
+                                <apex:outputText value="{!dt.OpportunityProbability}" />                           
+                            </apex:column> 
+
+                            <apex:column style="text-align:left;">
+                                <apex:facet name="header"> 
+                                    <apex:commandLink id="cmdSortCol8" 
+                                                      value="Close Date {!IF(sortByField=='Opportunity.CloseDate', IF(sortByDirection='ASC','▲','▼'), '')}" 
+                                                      action="{!doSort}" 
+                                                      status="asStatus"                                                           
+                                                      reRender="opSearchResults">
+                                        <apex:param value="Opportunity.CloseDate" name="prm8" assignTo="{!sortByField}" />
+                                    </apex:commandLink>
+                                </apex:facet>                                  
+                                <apex:outputText value="{0, date, MM/dd/yyyy}">
+                                    <apex:param value="{!dt.OpportunityCloseDate}" />
+                                </apex:outputText>
+                            </apex:column>    
+                            
+                            <apex:column >
+                                <apex:facet name="header"> 
+                                    <apex:commandLink id="cmdSortCol9" 
+                                                      value="Sales Manager {!IF(sortByField=='Opportunity.Owner.Name', IF(sortByDirection='ASC','▲','▼'), '')}" 
+                                                      action="{!doSort}" 
+                                                      status="asStatus"                                                           
+                                                      reRender="opSearchResults">
+                                        <apex:param value="Opportunity.Owner.Name" name="prm9" assignTo="{!sortByField}" />
+                                    </apex:commandLink>
+                                </apex:facet>                                 
+                                <apex:outputText value="{!dt.SalesManager}" />                           
+                            </apex:column>                             
+                            
+                        </apex:dataTable>
+                        
+                        <br/>
+                        
+                    </apex:outputpanel>
+
+                </div>   
+
+                <!-- SPINNER -->  
+                <apex:actionstatus id="asStatus">
+                    <apex:facet name="start">
+                        <div class="slds-spinner_container">
+                            <div role="status" class="slds-spinner slds-spinner_medium slds-spinner_brand">
+                                <span class="slds-assistive-text">Loading</span>
+                                <div class="slds-spinner__dot-a"></div>
+                                <div class="slds-spinner__dot-b"></div>
+                            </div>
+                        </div>
+                    </apex:facet>
+                </apex:actionstatus>
+                
+            </apex:form>          
+            
+        </div>
+        
+        <style type="text/css"> 
+            .popupDialogBox 
+            {      
+                position: absolute;
+                background-color: white;
+                border-width: 2px;
+                border-style: solid;
+                border-color: gray;
+                border-radius: 5px;
+                top: 60px;
+                left: 50%;
+                width: 1000px;
+                margin-left: -500px;
+                z-index: 9999;
+                padding: 10px; 
+            }                
+            .popupBackground 
+            {          
+                position: fixed;
+                width: 100%;
+                height: 500%;
+                top: 0;
+                right: 0;
+                bottom: 0;
+                left: 0;
+                z-index: calc(9000 + 2);
+                background-color: rgba(0,0,0,.1);
+                visibility: visible;
+                opacity: 1;
+                transition: opacity .2s ease,visibility 0s;
+                transition-delay: 0s,.3s; 
+            }
+            .roundedContainer
+            {
+                width: 100%;
+                border: 2px solid lightgrey;
+                padding: 10px;
+                border-radius: 5px;
+                !important;
+            }
+            .slds-spinner_container 
+            {
+                position: relative;
+                width: 100%;
+                height: 100%;
+                top: 0;
+                right: 0;
+                bottom: 0;
+                left: 0;
+                z-index: calc(9000 + 2);
+                background-color: rgba(255,255,255,.75);
+                visibility: visible;
+                opacity: 1;
+                transition: opacity .2s ease,visibility 0s;
+                transition-delay: 0s,.3s;
+            }
+        </style>
+        
+    </html>
+    
+</apex:page>

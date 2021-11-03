@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>CancellationReason</fullName>
+    <active>true</active>
+    <description>A cancellation reason is required when the status selected equals canceled.</description>
+    <errorConditionFormula>AND(TEXT( Status__c) = &quot;Canceled&quot;,  ISBLANK(TEXT(Cancellation_Reason__c )))</errorConditionFormula>
+    <errorMessage>A cancellation reason is required when the status selected equals Canceled</errorMessage>
+</ValidationRule>

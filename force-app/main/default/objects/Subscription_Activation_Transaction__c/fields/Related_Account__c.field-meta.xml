@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Related_Account__c</fullName>
+    <deleteConstraint>Restrict</deleteConstraint>
+    <description>Account will default from opportunity.  If the subscription was allocated to a related account, this field will be updated by the subscription creator.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Account will default from opportunity.  If the subscription was allocated to a related account, this field will be updated by the subscription creator.</inlineHelpText>
+    <label>Related Account</label>
+    <referenceTo>Account</referenceTo>
+    <relationshipName>Subscription_Go_Live_Detail</relationshipName>
+    <required>true</required>
+    <trackHistory>true</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

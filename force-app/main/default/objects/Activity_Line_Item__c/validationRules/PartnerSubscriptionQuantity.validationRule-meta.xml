@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>PartnerSubscriptionQuantity</fullName>
+    <active>true</active>
+    <description>If ALI. Revenue category = subscription, QTY cannot be &gt; 1 and error message should say “Enter Property Information on Project Tab (SA).</description>
+    <errorConditionFormula>AND (
+    ISPICKVAL(Revenue_Category__c, &quot;Subscription&quot;),
+    Quantity__c &gt; 1
+)</errorConditionFormula>
+    <errorDisplayField>Quantity__c</errorDisplayField>
+    <errorMessage>Enter Property Information on Project Tab (SA)</errorMessage>
+</ValidationRule>

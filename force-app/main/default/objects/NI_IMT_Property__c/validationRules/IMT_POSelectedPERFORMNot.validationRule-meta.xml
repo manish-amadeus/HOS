@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>IMT_POSelectedPERFORMNot</fullName>
+    <active>true</active>
+    <description>If PO has been selected, PERFORM must also be selected</description>
+    <errorConditionFormula>AND( PO__c = True,
+ PERFORM__c = False)</errorConditionFormula>
+    <errorMessage>When PO has been selected, the PERFORM checkbox must also be selected.</errorMessage>
+</ValidationRule>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>SettingTextAreaValue__c</fullName>
+    <description>This field will only contain data for configuration settings that have a SettingType__c  of &quot;TextArea&quot;</description>
+    <encryptionScheme>None</encryptionScheme>
+    <externalId>false</externalId>
+    <inlineHelpText>Contains the setting value for configuration settings that are of SettingType__c = &apos;TextArea&apos;
+
+Allows for large string values, and multi-line strings</inlineHelpText>
+    <label>Setting TextArea Value</label>
+    <length>32768</length>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>LongTextArea</type>
+    <visibleLines>8</visibleLines>
+</CustomField>

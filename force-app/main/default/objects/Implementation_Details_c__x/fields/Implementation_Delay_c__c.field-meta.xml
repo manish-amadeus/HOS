@@ -1,0 +1,528 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Implementation_Delay_c__c</fullName>
+    <externalDeveloperName>Implementation_Delay__c</externalDeveloperName>
+    <externalId>false</externalId>
+    <inlineHelpText>What is holding back this implementation from moving forward?</inlineHelpText>
+    <isFilteringDisabled>false</isFilteringDisabled>
+    <isNameField>false</isNameField>
+    <isSortingDisabled>false</isSortingDisabled>
+    <label>Implementation Delay</label>
+    <required>false</required>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Awaiting Affiliation</fullName>
+                <default>false</default>
+                <label>Awaiting Affiliation</label>
+            </value>
+            <value>
+                <fullName>Awaiting Confirmation on Setup</fullName>
+                <default>false</default>
+                <label>Awaiting Confirmation on Setup</label>
+            </value>
+            <value>
+                <fullName>Awaiting Cybage mapping</fullName>
+                <default>false</default>
+                <label>Awaiting Cybage mapping</label>
+            </value>
+            <value>
+                <fullName>Awaiting Cybersource/Ogone</fullName>
+                <default>false</default>
+                <label>Awaiting Cybersource/Ogone</label>
+            </value>
+            <value>
+                <fullName>Awaiting Forms</fullName>
+                <default>false</default>
+                <label>Awaiting Forms</label>
+            </value>
+            <value>
+                <fullName>Awaiting GDS</fullName>
+                <default>false</default>
+                <label>Awaiting GDS</label>
+            </value>
+            <value>
+                <fullName>Awaiting Implementation Forms</fullName>
+                <default>false</default>
+                <label>Awaiting Implementation Forms</label>
+            </value>
+            <value>
+                <fullName>Awaiting Onboarding of the Competitor</fullName>
+                <default>false</default>
+                <label>Awaiting Onboarding of the Competitor</label>
+            </value>
+            <value>
+                <fullName>Awaiting Onboarding of the Subscriber</fullName>
+                <default>false</default>
+                <label>Awaiting Onboarding of the Subscriber</label>
+            </value>
+            <value>
+                <fullName>Awaiting Setup iHotelier</fullName>
+                <default>false</default>
+                <label>Awaiting Setup iHotelier</label>
+            </value>
+            <value>
+                <fullName>Awaiting Web 3.0</fullName>
+                <default>false</default>
+                <label>Awaiting Web 3.0</label>
+            </value>
+            <value>
+                <fullName>Client Awaiting OTA Info</fullName>
+                <default>false</default>
+                <label>Client Awaiting OTA Info</label>
+            </value>
+            <value>
+                <fullName>Client on Leave</fullName>
+                <default>false</default>
+                <label>Client on Leave</label>
+            </value>
+            <value>
+                <fullName>Client Request to Delay Start Date</fullName>
+                <default>false</default>
+                <label>Client Request to Delay Start Date</label>
+            </value>
+            <value>
+                <fullName>Client Temporarily Not Responding to Team</fullName>
+                <default>false</default>
+                <label>Client Temporarily Not Responding to Team</label>
+            </value>
+            <value>
+                <fullName>Creative – customer currently reviewing</fullName>
+                <default>false</default>
+                <label>Creative – customer currently reviewing</label>
+            </value>
+            <value>
+                <fullName>Creative – pending approval of transactional emails</fullName>
+                <default>false</default>
+                <label>Creative – pending approval of transactional emails</label>
+            </value>
+            <value>
+                <fullName>Creative – pending assets/build out from customer</fullName>
+                <default>false</default>
+                <label>Creative – pending assets/build out from customer</label>
+            </value>
+            <value>
+                <fullName>Creative – pending GMS action (enter notes re why this is barrier – aka custom work, volume, languages)</fullName>
+                <default>false</default>
+                <label>Creative – pending GMS action (enter notes re why this is barrier – aka custom work, volume, languages)</label>
+            </value>
+            <value>
+                <fullName>Customer – needs to fill out or revise workbook</fullName>
+                <default>false</default>
+                <label>Customer – needs to fill out or revise workbook</label>
+            </value>
+            <value>
+                <fullName>Customer – property in crisis (hurricane, etc.)</fullName>
+                <default>false</default>
+                <label>Customer – property in crisis (hurricane, etc.)</label>
+            </value>
+            <value>
+                <fullName>Customer – property under construction</fullName>
+                <default>false</default>
+                <label>Customer – property under construction</label>
+            </value>
+            <value>
+                <fullName>Customer – requested delayed/future start date (notes – term &amp; rebuild?)</fullName>
+                <default>false</default>
+                <label>Customer – requested delayed/future start date (notes – term &amp; rebuild?)</label>
+            </value>
+            <value>
+                <fullName>Customer unresponsive</fullName>
+                <default>false</default>
+                <label>Customer unresponsive</label>
+            </value>
+            <value>
+                <fullName>Customer unresponsive – escalated to DOS/RVP</fullName>
+                <default>false</default>
+                <label>Customer unresponsive – escalated to DOS/RVP</label>
+            </value>
+            <value>
+                <fullName>Customer – wants to cancel, escalate to DOS &amp; Product</fullName>
+                <default>false</default>
+                <label>Customer – wants to cancel, escalate to DOS &amp; Product</label>
+            </value>
+            <value>
+                <fullName>Executive Review</fullName>
+                <default>false</default>
+                <label>Executive Review</label>
+            </value>
+            <value>
+                <fullName>Executive Review-Escalated</fullName>
+                <default>false</default>
+                <label>Executive Review-Escalated</label>
+            </value>
+            <value>
+                <fullName>Future Start Date</fullName>
+                <default>false</default>
+                <label>Future Start Date</label>
+            </value>
+            <value>
+                <fullName>Hotel - Future Contract Date</fullName>
+                <default>false</default>
+                <label>Hotel - Future Contract Date</label>
+            </value>
+            <value>
+                <fullName>Hotel - No OTA Contracts</fullName>
+                <default>false</default>
+                <label>Hotel - No OTA Contracts</label>
+            </value>
+            <value>
+                <fullName>Hotel Not in Operation</fullName>
+                <default>false</default>
+                <label>Hotel Not in Operation</label>
+            </value>
+            <value>
+                <fullName>Hotel - Personnel Change</fullName>
+                <default>false</default>
+                <label>Hotel - Personnel Change</label>
+            </value>
+            <value>
+                <fullName>Hotel - Personnel on Leave</fullName>
+                <default>false</default>
+                <label>Hotel - Personnel on Leave</label>
+            </value>
+            <value>
+                <fullName>Hotel - Potential Cancellation</fullName>
+                <default>false</default>
+                <label>Hotel - Potential Cancellation</label>
+            </value>
+            <value>
+                <fullName>Hotel - Reconfigure OTAs</fullName>
+                <default>false</default>
+                <label>Hotel - Reconfigure OTAs</label>
+            </value>
+            <value>
+                <fullName>Hotel - System Stability Concern</fullName>
+                <default>false</default>
+                <label>Hotel - System Stability Concern</label>
+            </value>
+            <value>
+                <fullName>Hotel - Under Construction</fullName>
+                <default>false</default>
+                <label>Hotel - Under Construction</label>
+            </value>
+            <value>
+                <fullName>Hotel - Unresponsive iHOS Imp</fullName>
+                <default>false</default>
+                <label>Hotel - Unresponsive iHOS Imp</label>
+            </value>
+            <value>
+                <fullName>Imp - Pending New CM Link</fullName>
+                <default>false</default>
+                <label>Imp - Pending New CM Link</label>
+            </value>
+            <value>
+                <fullName>Imp - Pending New iHotelier CRS</fullName>
+                <default>false</default>
+                <label>Imp - Pending New iHotelier CRS</label>
+            </value>
+            <value>
+                <fullName>Imp - Pending New PMS Integration</fullName>
+                <default>false</default>
+                <label>Imp - Pending New PMS Integration</label>
+            </value>
+            <value>
+                <fullName>Imp - Pending Pilot Hotel</fullName>
+                <default>false</default>
+                <label>Imp - Pending Pilot Hotel</label>
+            </value>
+            <value>
+                <fullName>Imp - Pending Unresponsive client Escalated</fullName>
+                <default>false</default>
+                <label>Imp - Pending Unresponsive client Escalated</label>
+            </value>
+            <value>
+                <fullName>Information needed in Forms</fullName>
+                <default>false</default>
+                <label>Information needed in Forms</label>
+            </value>
+            <value>
+                <fullName>Interface in BETA</fullName>
+                <default>false</default>
+                <label>Interface in BETA</label>
+            </value>
+            <value>
+                <fullName>Internal Product Dependency</fullName>
+                <default>false</default>
+                <label>Internal Product Dependency</label>
+            </value>
+            <value>
+                <fullName>Invalid Compset</fullName>
+                <default>false</default>
+                <label>Invalid Compset</label>
+            </value>
+            <value>
+                <fullName>Missing details for Implementation</fullName>
+                <default>false</default>
+                <label>Missing details for Implementation</label>
+            </value>
+            <value>
+                <fullName>No availability on GDS</fullName>
+                <default>false</default>
+                <label>No availability on GDS</label>
+            </value>
+            <value>
+                <fullName>No Existing Interface</fullName>
+                <default>false</default>
+                <label>No Existing Interface</label>
+            </value>
+            <value>
+                <fullName>No OTA&apos;s</fullName>
+                <default>false</default>
+                <label>No OTA&apos;s</label>
+            </value>
+            <value>
+                <fullName>No Property Website</fullName>
+                <default>false</default>
+                <label>No Property Website</label>
+            </value>
+            <value>
+                <fullName>Other: Please provide details</fullName>
+                <default>false</default>
+                <label>Other: Please provide details</label>
+            </value>
+            <value>
+                <fullName>Other barrier – please provide details</fullName>
+                <default>false</default>
+                <label>Other barrier – please provide details</label>
+            </value>
+            <value>
+                <fullName>Pending Activation</fullName>
+                <default>false</default>
+                <label>Pending Activation</label>
+            </value>
+            <value>
+                <fullName>Pending Channel Management Setup</fullName>
+                <default>false</default>
+                <label>Pending Channel Management Setup</label>
+            </value>
+            <value>
+                <fullName>Pending client feedback</fullName>
+                <default>false</default>
+                <label>Pending client feedback</label>
+            </value>
+            <value>
+                <fullName>Pending Completion of Other Hotels in Group</fullName>
+                <default>false</default>
+                <label>Pending Completion of Other Hotels in Group</label>
+            </value>
+            <value>
+                <fullName>Pending Contract Fullfillment</fullName>
+                <default>false</default>
+                <label>Pending Contract Fullfillment</label>
+            </value>
+            <value>
+                <fullName>Pending Conversions</fullName>
+                <default>false</default>
+                <label>Pending Conversions</label>
+            </value>
+            <value>
+                <fullName>Pending Current Provider Expiration</fullName>
+                <default>false</default>
+                <label>Pending Current Provider Expiration</label>
+            </value>
+            <value>
+                <fullName>Pending ETL Data Refresh</fullName>
+                <default>false</default>
+                <label>Pending ETL Data Refresh</label>
+            </value>
+            <value>
+                <fullName>Pending iHOS client training</fullName>
+                <default>false</default>
+                <label>Pending iHOS client training</label>
+            </value>
+            <value>
+                <fullName>Pending Images</fullName>
+                <default>false</default>
+                <label>Pending Images</label>
+            </value>
+            <value>
+                <fullName>Pending Interface Module Purchase</fullName>
+                <default>false</default>
+                <label>Pending Interface Module Purchase</label>
+            </value>
+            <value>
+                <fullName>Pending New iHotelier CRS</fullName>
+                <default>false</default>
+                <label>Pending New iHotelier CRS</label>
+            </value>
+            <value>
+                <fullName>Pending New PMS Integration</fullName>
+                <default>false</default>
+                <label>Pending New PMS Integration</label>
+            </value>
+            <value>
+                <fullName>Pending non-PMS connectivity issue</fullName>
+                <default>false</default>
+                <label>Pending non-PMS connectivity issue</label>
+            </value>
+            <value>
+                <fullName>Pending Partial/Full Contract Termination</fullName>
+                <default>false</default>
+                <label>Pending Partial/Full Contract Termination</label>
+            </value>
+            <value>
+                <fullName>Pending PMS technical issues resolution</fullName>
+                <default>false</default>
+                <label>Pending PMS technical issues resolution</label>
+            </value>
+            <value>
+                <fullName>Pending Property Action</fullName>
+                <default>false</default>
+                <label>Pending Property Action</label>
+            </value>
+            <value>
+                <fullName>Pending request of new OTA&apos;s</fullName>
+                <default>false</default>
+                <label>Pending request of new OTA&apos;s</label>
+            </value>
+            <value>
+                <fullName>Pending technical issues resolution</fullName>
+                <default>false</default>
+                <label>Pending technical issues resolution</label>
+            </value>
+            <value>
+                <fullName>Pending Term &amp; Rebuild</fullName>
+                <default>false</default>
+                <label>Pending Term &amp; Rebuild</label>
+            </value>
+            <value>
+                <fullName>Pending Website Launch - Cpro</fullName>
+                <default>false</default>
+                <label>Pending Website Launch - Cpro</label>
+            </value>
+            <value>
+                <fullName>Pending Website Launch - Non TC</fullName>
+                <default>false</default>
+                <label>Pending Website Launch - Non TC</label>
+            </value>
+            <value>
+                <fullName>PMS – customer issue (example: won’t buy OXI)</fullName>
+                <default>false</default>
+                <label>PMS – customer issue (example: won’t buy OXI)</label>
+            </value>
+            <value>
+                <fullName>PMS – interface live with issues</fullName>
+                <default>false</default>
+                <label>PMS – interface live with issues</label>
+            </value>
+            <value>
+                <fullName>PMS – no PMS on property yet</fullName>
+                <default>false</default>
+                <label>PMS – no PMS on property yet</label>
+            </value>
+            <value>
+                <fullName>PMS – pending external vendor response</fullName>
+                <default>false</default>
+                <label>PMS – pending external vendor response</label>
+            </value>
+            <value>
+                <fullName>PMS – pending GMS/TC prioritization to build/complete</fullName>
+                <default>false</default>
+                <label>PMS – pending GMS/TC prioritization to build/complete</label>
+            </value>
+            <value>
+                <fullName>PMS – waiting for interface related purchase (e.g. OXI, new server, etc.)</fullName>
+                <default>false</default>
+                <label>PMS – waiting for interface related purchase (e.g. OXI, new server, etc.)</label>
+            </value>
+            <value>
+                <fullName>Property/Contact Unresponsive</fullName>
+                <default>false</default>
+                <label>Property/Contact Unresponsive</label>
+            </value>
+            <value>
+                <fullName>Property Owner Issues</fullName>
+                <default>false</default>
+                <label>Property Owner Issues</label>
+            </value>
+            <value>
+                <fullName>Server Issues</fullName>
+                <default>false</default>
+                <label>Server Issues</label>
+            </value>
+            <value>
+                <fullName>Sister Property Dependency</fullName>
+                <default>false</default>
+                <label>Sister Property Dependency</label>
+            </value>
+            <value>
+                <fullName>Tech - Case # in Notes</fullName>
+                <default>false</default>
+                <label>Tech - Case # in Notes</label>
+            </value>
+            <value>
+                <fullName>Techincal Issue</fullName>
+                <default>false</default>
+                <label>Techincal Issue</label>
+            </value>
+            <value>
+                <fullName>Technical Issue</fullName>
+                <default>false</default>
+                <label>Technical Issue</label>
+            </value>
+            <value>
+                <fullName>Tech - OTA Not Available with EZY</fullName>
+                <default>false</default>
+                <label>Tech - OTA Not Available with EZY</label>
+            </value>
+            <value>
+                <fullName>Tech – pending GMS L3 Ticket (enter notes re L3 ticket)</fullName>
+                <default>false</default>
+                <label>Tech – pending GMS L3 Ticket (enter notes re L3 ticket)</label>
+            </value>
+            <value>
+                <fullName>Tech - Pending iHotelier Issue</fullName>
+                <default>false</default>
+                <label>Tech - Pending iHotelier Issue</label>
+            </value>
+            <value>
+                <fullName>Tech – pending non existing functionality (enter notes re feature request)</fullName>
+                <default>false</default>
+                <label>Tech – pending non existing functionality (enter notes re feature request)</label>
+            </value>
+            <value>
+                <fullName>Tech - Pending PMS Technical Issues</fullName>
+                <default>false</default>
+                <label>Tech - Pending PMS Technical Issues</label>
+            </value>
+            <value>
+                <fullName>Transitioning to Customer Care</fullName>
+                <default>false</default>
+                <label>Transitioning to Customer Care</label>
+            </value>
+            <value>
+                <fullName>Unconsumed Bundle Component</fullName>
+                <default>false</default>
+                <label>Unconsumed Bundle Component</label>
+            </value>
+            <value>
+                <fullName>Unconsumed Reseller Component</fullName>
+                <default>false</default>
+                <label>Unconsumed Reseller Component</label>
+            </value>
+            <value>
+                <fullName>Unresponsive Join</fullName>
+                <default>false</default>
+                <label>Unresponsive Join</label>
+            </value>
+            <value>
+                <fullName>Upgrade Needed</fullName>
+                <default>false</default>
+                <label>Upgrade Needed</label>
+            </value>
+            <value>
+                <fullName>Waiting for Implementation Forms</fullName>
+                <default>false</default>
+                <label>Waiting for Implementation Forms</label>
+            </value>
+            <value>
+                <fullName>Waiting for Join-EZYield Link</fullName>
+                <default>false</default>
+                <label>Waiting for Join-EZYield Link</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

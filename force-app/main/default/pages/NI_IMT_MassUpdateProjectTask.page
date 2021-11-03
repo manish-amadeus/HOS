@@ -1,0 +1,51 @@
+<apex:page standardController="pse__Project_Task__c" recordSetvar="unused" extensions="NI_IMT_MassUpdateProjectTask">
+<apex:sectionHeader title="{!$Label.NI_IMT_Mass_Update_Project_Task_Title}"  />
+<apex:form >
+	<script type="text/javascript">
+            function ToggleInput(started,completed)
+            {
+            	var e = document.getElementById(started);
+            	var c = document.getElementById(completed);
+            	if(e != null && c != null){
+                    if(e.checked == false && c.checked == true){
+                    	alert('{!$Label.NI_IMT_Mass_Update_Project_Task_Mark_as_completed}');
+                    	c.checked = false;
+                    }
+                }
+            }
+           </script>
+	<apex:pageBlock title="{!$Label.NI_IMT_Mass_Update_Project_Task_Form_Select_New_value}" rendered="{!IF((isError == false), true , false)}" ><!--  rendered="False" -->
+	
+	<apex:pageMessages />	
+	{!$Label.Ni_IMT_Mass_Update_Project_Task_Form_Information}
+	<!-- {!$Label.Assignment_Status_Update_Information} -->
+	    <apex:pageBlockButtons location="bottom" >
+	        <apex:commandButton action="{!doSave}" value="Update" />
+	        <apex:commandButton action="{!cancel}" value="Cancel" immediate="true"/>
+	    </apex:pageBlockButtons>
+	    <apex:pageBlockSection columns="2" collapsible="false" >
+	    	<apex:inputField value="{!NewProjectTask.Name}"/>
+	    	<apex:inputField value="{!NewProjectTask.pse__Status__c}"/>
+	        <apex:inputField id="started"  onchange="ToggleInput('{!$Component.started}','{!$Component.completed}');" value="{!NewProjectTask.pse__Started__c}"/>
+	        <apex:inputField id="completed" onchange="ToggleInput('{!$Component.started}','{!$Component.completed}');" value="{!NewProjectTask.pse__Completed__c}"/>
+	        
+	        
+	        <!-- <apex:inputField value="{!NewProjectTask.pse__Project_Manager__c}"/> -->
+	        
+	    </apex:pageBlockSection>
+	</apex:pageBlock>
+	
+	<apex:pageBlock title="{!$Label.NI_IMT_Mass_Update_Project_Task_to_Update}" rendered="{!IF((isError == false && NOT(ISBLANK(Selected))), true , false)}">
+		<apex:pageBlockTable value="{!Selected}" var="cs">
+			<apex:column value="{!cs.Name}"/>
+			<apex:column value="{!cs.pse__Status__c}"/>
+			<apex:column value="{!cs.pse__Started__c}"/>
+			<apex:column value="{!cs.pse__Completed__c}"/>
+		</apex:pageBlockTable>		
+	</apex:pageBlock>
+	<apex:pageBlock rendered="{!IF((isError == true ),true , false)}">
+		<apex:pageMessages />
+	</apex:pageBlock>
+	
+</apex:form>
+</apex:page>

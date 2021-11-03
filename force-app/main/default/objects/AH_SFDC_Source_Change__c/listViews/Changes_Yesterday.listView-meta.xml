@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Changes_Yesterday</fullName>
+    <columns>NAME</columns>
+    <columns>AH_SFDC_Source_Control__c</columns>
+    <columns>NI_Change_Control__c</columns>
+    <columns>Component__c</columns>
+    <columns>Component_Type__c</columns>
+    <columns>Change_Date__c</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>CREATED_DATE</field>
+        <operation>equals</operation>
+        <value>YESTERDAY</value>
+    </filters>
+    <filters>
+        <field>Production_Change__c</field>
+        <operation>equals</operation>
+        <value>1</value>
+    </filters>
+    <label>Changes Yesterday</label>
+    <sharedTo>
+        <group>Administrators</group>
+    </sharedTo>
+</ListView>

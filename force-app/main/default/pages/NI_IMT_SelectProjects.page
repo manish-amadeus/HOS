@@ -1,0 +1,188 @@
+<apex:page standardController="pse__Proj__c" extensions="NI_IMT_ProjectController" action="{!init}" docType="html-5.0" language="en-US" sidebar="false">
+    <meta charset="utf-8"/>
+    
+     <script type="text/javascript">  
+    	   
+        function doSearch() {                  
+          searchServer(          
+			document.getElementById("projectName").value,
+            document.getElementById("region").options[document.getElementById("region").selectedIndex].value,
+            document.getElementById("complexity").value,
+            document.getElementById("tzone").options[document.getElementById("tzone").selectedIndex].value,
+            document.getElementById("limitSize").options[document.getElementById("limitSize").selectedIndex].value,
+            document.getElementById("brand").options[document.getElementById("brand").selectedIndex].value,
+            document.getElementById("opProfile").options[document.getElementById("opProfile").selectedIndex].value,
+            document.getElementById("subregion").options[document.getElementById("subregion").selectedIndex].value,
+            document.getElementById("manager").options[document.getElementById("manager").selectedIndex].value
+          );          
+      }
+    
+    	function selectAll(cb) {
+            var elem = document.getElementsByTagName("input");
+            for(var i=0; i<elem.length; i++) {
+            	if(elem[i].id.indexOf("selected") != -1)
+            		elem[i].checked = cb.checked;
+                
+            }
+        }
+      </script>
+    <apex:form >
+        <apex:pageMessages id="messages"></apex:pageMessages>
+    <apex:actionFunction name="searchServer" action="{!runSearch}" rerender="resultsBlock">         
+            <apex:param name="projectName" value="" />
+        	<apex:param name="region" value="" />
+        	<apex:param name="complexity" value="" />
+        	<apex:param name="tzone" value="" />
+        	<apex:param name="limitSize" value="" />
+        	<apex:param name="brand" value="" />
+        	<apex:param name="opProfile" value="" />
+        	<apex:param name="subregion" value="" />
+        	<apex:param name="manager" value="" />
+      </apex:actionFunction>
+       <apex:pageBlock title="Filter Options">      
+      <table cellpadding="5" cellspacing="4" id="table1">
+          <tr id="tablerow">
+              <td style="font-weight:bold;"> Project Name 
+				<div class="right-inner-addon" style="width:250px;">
+					<input type="text" id="projectName" onkeyup="doSearch();" class="form-control"/>
+				</div>
+			</td>  
+			
+			<td style="font-weight:bold;"> Project Manager  
+                  <div class="right-inner-addon" style="width:300px; ">
+              		<select id="manager" onchange="doSearch();">
+                        <option value="none">--Select--</option>
+                         <apex:outputPanel rendered="{!ProjectManagers != null}">
+                        
+                        <apex:repeat value="{!ProjectManagers}" var="r">
+                      		<option value="{!r}">{!ProjectManagers[r]}</option>
+						</apex:repeat>    
+						</apex:outputPanel>                        
+                  </select>
+                  </div>    
+              </td>
+              
+              <td style="font-weight:bold;">Brand  
+                  <div class="right-inner-addon" style="width:250px; ">
+              		<select id="brand" onchange="doSearch();">
+                        <option value="none">--Select--</option>
+                        <apex:repeat value="{!Brand}" var="r">
+                      		<option value="{!r}">{!r}</option>
+						</apex:repeat>                            
+                  </select>
+                  </div>    
+              </td>
+              <td style="font-weight:bold;">Operational Profile 
+                  <div class="right-inner-addon" style="width:200px; ">
+                    <select id="opProfile" onchange="doSearch();">
+                        <option value="none">--Select--</option>
+                        <apex:repeat value="{!OperationProfile}" var="r">
+                      		<option value="{!r}">{!r}</option>
+						</apex:repeat>                            
+                  </select>
+                  </div>
+              </td>
+             
+            </tr>
+          <tr>
+              <td style="font-weight:bold;"> Region 
+				<div class="right-inner-addon" style="width:200px; ">
+					<select id="region" onchange="doSearch();">
+                        <option value="none">--Select--</option>
+                        <apex:repeat value="{!regionList}" var="r">
+                      		<option value="{!r.Id}">{!r.Name}</option>
+						</apex:repeat>                            
+                  </select>
+				</div>
+				</td> 
+              
+              <td style="font-weight:bold;"> Sub Region 
+				<div class="right-inner-addon" style="width:200px; ">
+					<select id="subregion" onchange="doSearch();">
+                        <option value="none">--Select--</option>
+                        <apex:repeat value="{!subregion}" var="r">
+                      		<option value="{!r}">{!r}</option>
+						</apex:repeat>                            
+                  </select>
+				</div>
+				</td>
+				
+              <td style="font-weight:bold;"> Complexity 
+				<div class="right-inner-addon" style="width:200px; ">
+                    <input id="complexity" value="" onkeyup="doSearch();"></input>
+				</div>
+			</td> 
+           
+           <td style="font-weight:bold;"> Timezone 
+				<div class="right-inner-addon" style="width:200px; ">
+                    <select id="tzone" onchange="doSearch();">
+                        <option value="none">--Select--</option>
+                        <apex:repeat value="{!timeZoneList}" var="r">
+                      		<option value="{!r}">{!r}</option>
+						</apex:repeat>                            
+                  </select>
+				</div>
+			</td>
+           <td style="font-weight:bold;"> Records Displayed
+				<div class="right-inner-addon" style="width:200px; ">
+                    <select id="limitSize" onchange="doSearch();">
+                        <option value="20">20</option>
+                        <option value="30">30</option>
+                        <option value="40">40</option>
+                        <option value="50">50</option>
+                  </select>
+				</div>
+			</td>
+              </tr>
+              </table>
+              </apex:pageBlock>
+			  
+			  <apex:pageBlock id="resultsBlock" title="Select Projects">
+			  <apex:pageBlockButtons location="bottom">               
+                <apex:commandButton value="Next" action="{!createAssignment}"/>               
+            </apex:pageBlockButtons> 
+                  <apex:pageBlockSection collapsible="false" title="Available Projects"></apex:pageBlockSection>
+			  <apex:outputPanel id="results" title="Title">
+             <table cellpadding="2" cellspacing="2" id="tableid" class="table table-hover" width="100%"> 
+                 <tr style="background-color:#89D5E2">
+                     <th>
+                                <apex:inputCheckbox onclick="selectAll(this)" id="selectallbox"/>
+                            </th>
+                      <th>Project Name </th>
+                      <th>Region </th>
+                      <th>Sub Region </th>
+                     <th>Start Date </th>
+                     <th>Timezone </th>
+                     <th>Project Manager </th>
+                 </tr>
+                 <apex:repeat value="{!projectList}" var="c" id="repeatId">
+                    <tr>
+                        <td>
+                            <apex:inputCheckbox value="{!c.selected}" id="selected">
+                                
+                            </apex:inputCheckbox>
+                        </td>
+                        <td><a href="{!$Site.Prefix}/{!c.proj.Id}" style="color:#337AB7">{!c.proj.Name}</a></td>
+                        <td><apex:outputField style="width: 100px;" value="{!c.proj.pse__Region__r.Name}" /></td>
+                        <td><apex:outputField style="width: 100px;" value="{!c.proj.IMT_Property__r.Subregion__c}" /></td>
+                        <td><apex:outputField style="width: 100px;" value="{!c.proj.pse__Start_Date__c}" /></td>
+                        <td><apex:outputField style="width: 100px;" value="{!c.proj.IMT_Property__r.Timezone__c}" /></td>
+                    	<td><apex:outputField style="width: 100px;" value="{!c.proj.pse__Project_Manager__c}" /></td>
+                    </tr>
+                     <tr>
+                         <td></td>
+                     </tr>
+                 </apex:repeat>
+            </table>
+        </apex:outputPanel>
+        <apex:outputPanel >
+        <div>
+            <br/><br/>
+            (Maximum Projects shown: {!limitSize}) 
+            </div>    
+               
+        </apex:outputPanel>
+		</apex:pageBlock>
+        
+    </apex:form>
+</apex:page>

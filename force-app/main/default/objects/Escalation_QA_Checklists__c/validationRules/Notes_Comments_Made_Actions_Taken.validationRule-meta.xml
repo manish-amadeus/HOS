@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Notes_Comments_Made_Actions_Taken</fullName>
+    <active>true</active>
+    <description>Value can not be 2 or 4. Project 3370</description>
+    <errorConditionFormula>Or(
+Notes_Comments_Made_And_Actions_Taken__c = 2,
+Notes_Comments_Made_And_Actions_Taken__c = 4,
+Notes_Comments_Made_And_Actions_Taken__c &gt; 5
+
+)</errorConditionFormula>
+    <errorDisplayField>Notes_Comments_Made_And_Actions_Taken__c</errorDisplayField>
+    <errorMessage>Please update your value to 0 for N/A, 1 for NO, 3 for PARTIALLY COMPLETED or 5 for YES.</errorMessage>
+</ValidationRule>

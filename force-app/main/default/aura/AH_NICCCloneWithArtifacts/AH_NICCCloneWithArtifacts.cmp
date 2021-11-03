@@ -1,0 +1,22 @@
+<aura:component implements="force:lightningQuickActionWithoutHeader,force:hasRecordId" controller="AH_NICCCloneWithArtifacts_Cntlr" >
+	
+    <aura:handler event="force:showToast" action="{!c.redirectToNewRec}"/>
+    
+    <aura:attribute name="newRecId" type="String"  />
+    <!-- HEADER -->
+    <div class="slds-col modal-header slds-modal__header">
+        <h1 class="title slds-text-heading--medium"><b>Cancel RFC</b></h1>
+    </div>
+    
+    <!-- BODY height: 110px; max-height: 800px; -->
+    <div class="slds-col modal-body scrollable slds-p-around--medium" style="overflow-y: auto !important">
+        <b>Once you clone this record, a new Hosted RFC will be created along with the related Artifacts. You will be redirected to the Edit page of the new record. Click "OK" to proceed with the clone and create the new record. Click "Cancel" to return to the existing RFC</b>
+    </div>
+    
+    <!-- FOOTER -->
+    <div class="slds-col modal-footer slds-modal__footer">        
+        <lightning:button class="slds-button slds-button_neutral" label="Cancel" onclick="{!c.cancelBtn}"/>
+        <lightning:button class="slds-button slds-button_brand" label="Ok" onclick="{!c.cloneRFC}"/>
+    </div>
+
+</aura:component>

@@ -1,0 +1,57 @@
+<apex:page showHeader="false" standardStylesheets="false" controller="MigrationPortalController" action="{!uploaddocs}" cache="false">
+<apex:composition template="{!$Site.Template}">
+<apex:define name="body">
+<apex:outputPanel rendered="{!authenticated}">
+<h1>Upload Merge Document Templates And Logos</h1>
+<apex:outputPanel rendered="{! !fileuploadlocked}">
+Here you can upload your contract, BEO and Banquet Check document templates that will be used by our technical staff in the upgrade process. Each of the files should be uploaded separately, after a successful upload you will see them appearing in the list on this page.<br/><br/>
+The file names should be unique, if you upload a file with the same name as a file already uploaded, the newer file will replace the older one.<br/><br/>
+<apex:form enctype="multipart/form-data">
+<apex:inputFile value="{!uploadeddocbody}" filename="{!uploadeddocname}" id="file" />
+<apex:inputHidden value="{!authkey}"/>
+<br/><br/>
+
+<table style="width:600px;border:0; margin:15px 0;border-collapse:collapse;"><tr>
+<td style="text-align:left;vertical-align:middle;width:100px;padding:0;">
+<apex:commandButton action="{!uploaddocs}" value="Upload" styleClass="formsubmit"/>
+</td>
+<td style="text-align:left;vertical-align:middle;width:130px;padding:0;">
+<apex:commandButton action="{!completeuploaddocsstep}" value="Complete This Step" styleClass="formsubmit" />
+</td>
+<td style="text-align:left;vertical-align:middle;width:470px;padding:0 20px;">
+When you click Complete This Step button this step will be marked as completed. However, if you change your mind, you will be able to add more files until&nbsp;<apex:outputText value="{0,date,MM'/'dd'/'yyyy}">
+    <apex:param value="{!loggedincontact.Account.Delphi_Net_Upgrade_Date__c-5}" /> 
+</apex:outputText> when file upload will be locked.
+</td>
+</tr></table>
+</apex:form>
+</apex:outputPanel>
+<apex:outputPanel rendered="{! fileuploadlocked}">
+Documents, templates and logos upload has been locked on&nbsp;<apex:outputText value="{0,date,MM'/'dd'/'yyyy}">
+    <apex:param value="{!loggedincontact.Account.Delphi_Net_Upgrade_Date__c-5}" /> 
+</apex:outputText>. You can contact us contact us directly at <a href="mailto:Delphi.fdc@Newmarketinc.com">Delphi.fdc@Newmarketinc.com</a> if you need to add some more files.
+</apex:outputPanel>
+<apex:outputPanel rendered="{! uploadeddocssize>0}">
+<div style="border:0;border-top: #737373 2px dotted; width: 100%; padding:15px 0;margin:15px 0 0 0;">
+<strong>Documents already uploaded</strong><br/><br/>
+<apex:form >
+<apex:repeat value="{!uploadeddocs}" var="docname">
+{!docname}&nbsp;&nbsp;&nbsp;<apex:commandLink action="{!deletedoc}" value="Delete">
+<apex:param name="nickName"
+                value="{!docname}"
+                assignTo="{!filetodelete}"/>
+</apex:commandLink>
+<br/>
+</apex:repeat>
+</apex:form>
+
+</div>
+</apex:outputPanel>
+</apex:outputPanel>
+<apex:outputPanel rendered="{! !authenticated}">
+You are not authenticated to view this page. Please contact <a href="mailto:support@newmarketinc.com">support@newmarketinc.com</a> if you are a Newmarket International Inc. customer.<br/>
+
+</apex:outputPanel>
+</apex:define>
+</apex:composition>
+</apex:page>

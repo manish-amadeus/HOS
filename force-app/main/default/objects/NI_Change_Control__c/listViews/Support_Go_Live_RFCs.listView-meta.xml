@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Support_Go_Live_RFCs</fullName>
+    <columns>Change_Status__c</columns>
+    <columns>NAME</columns>
+    <columns>Date_Scheduled__c</columns>
+    <columns>NI_Change_Owner__c</columns>
+    <columns>Requesting_on_Behalf_of__c</columns>
+    <columns>Developer_Compiler__c</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>Implementation_Status__c</field>
+        <operation>notEqual</operation>
+        <value>Closed - Implemented,Closed - Failed,Closed - Escalated</value>
+    </filters>
+    <filters>
+        <field>Change_Status__c</field>
+        <operation>notEqual</operation>
+        <value>Cancelled</value>
+    </filters>
+    <filters>
+        <field>Date_Scheduled__c</field>
+        <operation>greaterOrEqual</operation>
+        <value>4/16/2018 12:00 AM</value>
+    </filters>
+    <filters>
+        <field>Developer_Compiler__c</field>
+        <operation>contains</operation>
+        <value>Kerrie C,Dawn G,Aerille,Caroline D</value>
+    </filters>
+    <label>Support - Go Live RFCs</label>
+    <language>en_US</language>
+    <sharedTo>
+        <allInternalUsers></allInternalUsers>
+    </sharedTo>
+</ListView>

@@ -1,0 +1,35 @@
+<apex:page controller="AH_CC_Alerts" showHeader="false" sidebar="false" lightningStylesheets="true" applyHtmlTag="false" applyBodyTag="false" docType="html-5.0">
+
+        <apex:form rendered="{!hasMsgs}" >  
+            <div class="slds-scope" style="width:100%;height:48px;!important;">
+            <apex:outputPanel rendered="{!hasMsgs}">
+                <!--#CE0058-->
+                <div style="text-align:center;background-color:#ffb75d;padding: 10px 20% 10px 20%;!important;">
+                    <apex:dataTable id="dtMsgs" value="{!lstMsgs}" var="dt" style="background-color:#ffb75d;!important;">
+                        <apex:column > 
+                            <apex:facet name="header">
+                            </apex:facet>
+                            <apex:outputText value="{!dt.strMessage}" style="color: #000000;"/>
+                        </apex:column>                  
+                    </apex:dataTable>                    
+                </div>
+            </apex:outputPanel>
+            
+            </div>
+            
+            <style>
+                @font-face {
+                font-family: 'AmadeusThin';
+                src: url('../resource/1517586134000/AmadeusThinFont/amadeus-thin-web.eot?orgId=00D4F0000008eme');
+                src: url('../resource/1517586134000/AmadeusThinFont/amadeus-thin-web.eot?orgId=00D4F0000008eme?#iefix') format('embedded-opentype'),
+                url('../resource/1517586134000/AmadeusThinFont/amadeus-thin-web.woff?orgId=00D4F0000008eme') format('woff'), 
+                url('../resource/1517586134000/AmadeusThinFont/amadeus-thin-web.ttf?orgId=00D4F0000008eme') format('truetype'), 
+                url('../resource/1517586134000/AmadeusThinFont/amadeus-thin-web.svg.woff?orgId=00D4F0000008eme#AmadeusThin') format('svg'); 
+                font-weight: normal;
+                font-style: normal;
+                }          
+            </style>            
+            
+        </apex:form>
+
+</apex:page>

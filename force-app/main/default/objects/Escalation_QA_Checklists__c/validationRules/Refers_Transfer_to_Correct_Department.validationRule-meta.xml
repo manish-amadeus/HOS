@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Refers_Transfer_to_Correct_Department</fullName>
+    <active>true</active>
+    <description>Value can not be 2,3 or 4.</description>
+    <errorConditionFormula>Or(
+Refers_Transfer_To_Correct_Department__c = 2,
+Refers_Transfer_To_Correct_Department__c = 3,
+Refers_Transfer_To_Correct_Department__c = 4,
+Refers_Transfer_To_Correct_Department__c &gt; 5
+)</errorConditionFormula>
+    <errorDisplayField>Refers_Transfer_To_Correct_Department__c</errorDisplayField>
+    <errorMessage>Please update your value to 0 for N/A, 1 for NO or 5 for YES.</errorMessage>
+</ValidationRule>

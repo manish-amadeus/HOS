@@ -1,0 +1,45 @@
+<!---
+    DESCRIPTION: This popup use for common level
+    Created By:  Tushar Gupta
+    Created On: 12/10/2020
+    User Story ID: 572060, 574893
+    Change History:
+-->
+<apex:component >
+    <!-- Declare the attributes -->
+    <apex:attribute name="popupId" description="Set dynamic id to popup" type="String" required="true" />
+    <apex:attribute name="headerText" description="Set the header text" type="String" />
+    <apex:attribute name="bodyText" description="Set the body text part 1" type="String" />
+    <apex:attribute name="confirmationMessage" description="Set the confirmation text" type="String" />
+    <apex:attribute name="leftButtonText" description="Set the left button text" type="String" />
+    <apex:attribute name="leftButtonClickEvent" description="Set the left button click event" type="String" />
+    <apex:attribute name="rightButtonText" description="Set the right button text" type="String" required="true" />
+    <apex:attribute name="rightButtonClickEvent" description="Set the right button click event" type="String" />
+    <apex:attribute name="customStyle" description="Set custom style" type="String" />
+    <apex:attribute name="onlyCancelButton" description="Display cancel button only" type="Boolean" />
+
+    <section aria-describedby="dialog-body-id-98" aria-labelledby="dialog-heading-id-5" id="{!popupId}" class="slds-popover slds-popover_hide slds-popover_prompt_top popup-custom popup-custom-border" role="dialog" style="border-color: #0171C0; border-width: 4px; border-radius: 25px;">
+        <div class="slds-popover__body" id="dialog-body-id-98">
+            <div class="slds-media">
+                <div class="slds-media__body">
+                    <h2 id="dialog-heading-id-5" class="slds-popover_prompt__heading slds-align_absolute-center" style="{!customStyle}">
+                        <apex:outputText escape="false" value="{!headerText}" />
+                    </h2>
+                    <div class="slds-var-p-around_xx-small"></div>
+                    <p class="slds-text-align--center">
+                        <apex:outputText escape="false" value="{!bodyText}" />
+                    </p>
+                    <div class="slds-var-p-around_xx-small"></div>
+                    <p class="slds-text-align--center" id="confirmMessage{!popupId}">
+                        <apex:outputText escape="false" value="{!confirmationMessage}" />
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="slds-grid slds-align_absolute-center">
+            <button class="slds-button slds-button_brand" style="{!IF(onlyCancelButton, 'display:none;', '')}" onclick="javascript:{!leftButtonClickEvent} return false;" id="btnConfirm{!popupId}">{!leftButtonText}</button> &nbsp;
+            <button class="slds-button slds-button_brand" onclick="javascript:{!rightButtonClickEvent} return false;" id="btnCancel{!popupId}">{!rightButtonText}</button>
+        </div>
+        <div class="slds-var-p-around_small"></div>
+    </section>
+</apex:component>

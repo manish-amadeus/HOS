@@ -1,0 +1,102 @@
+<apex:page controller="PsaMyAssignmentsController">
+
+	<apex:form >
+	<apex:pageMessages id="errors" />
+ 
+	<apex:pageBlock title="My Recently Modified / Upcoming Assignments" mode="edit">
+
+	<table width="100%" border="0">
+	<tr>  
+		<td width="200" valign="top">
+ 			
+ 			<apex:pageBlock title="Show Assignments:" mode="edit" id="criteria">
+	
+	      		<script type="text/javascript">
+      			function doSearch() {
+        			searchServer (
+          				document.getElementById("modDays").value,
+          				document.getElementById("startWithinDays").value
+          			);
+      			}
+      			</script>
+      			
+      			<apex:actionFunction name="searchServer" action="{!runSearch}" rerender="results,errors">
+          			<apex:param name="modDays" value="{!lastModDays}" />
+          			<apex:param name="startWithinDays" value="{!startWithinDays}" />
+      			</apex:actionFunction> 
+	
+	      		<table cellpadding="2" cellspacing="2">
+      			<tr>
+        			<td style="font-weight:bold;">Modified in the last<br/>
+        			<apex:inputText id="modDays" value="{!lastModDays}"/><br/>Days
+        			</td>
+      			</tr>
+      			<tr>
+        			<td style="font-weight:bold;">Starting in the next<br/>
+        			<apex:inputText id="startWithinDays" value="{!startWithinDays}"/><br/>Days
+        			</td>
+      			</tr>
+      			</table>
+      			<apex:commandButton value="Search" action="{!runSearch}"/>
+      		</apex:pageBlock>
+      	</td>
+      	<td valign="top">
+      	
+      		<apex:pageBlock mode="edit" id="results">
+      			<apex:pageBlockTable value="{!assignments}" var="assignment">
+      			
+      				<apex:column >
+                		<apex:facet name="header">
+                    		<apex:commandLink value="Assignment" action="{!toggleSort}" rerender="results">
+                        		<apex:param name="sortField" value="Name" assignTo="{!sortField}"/>
+                    		</apex:commandLink>
+                		</apex:facet>
+                		<apex:outputLink value="/{!assignment.Id}">{!assignment.Name}</apex:outputLink>
+            		</apex:column>
+
+      				<apex:column >
+                		<apex:facet name="header">
+                    		<apex:commandLink value="Start Date" action="{!toggleSort}" rerender="results">
+                        		<apex:param name="sortField" value="pse__Start_Date__c" assignTo="{!sortField}"/>
+                    		</apex:commandLink>
+                		</apex:facet>
+                		<apex:outputField value="{!assignment.pse__Start_Date__c}"/>
+            		</apex:column>
+
+      				<apex:column >
+                		<apex:facet name="header">
+                    		<apex:commandLink value="End Date" action="{!toggleSort}" rerender="results">
+                        		<apex:param name="sortField" value="pse__End_Date__c" assignTo="{!sortField}"/>
+                    		</apex:commandLink>
+                		</apex:facet>
+                		<apex:outputField value="{!assignment.pse__End_Date__c}"/>
+            		</apex:column>
+
+      				<apex:column >
+                		<apex:facet name="header">
+                    		<apex:commandLink value="Project" action="{!toggleSort}" rerender="results">
+                        		<apex:param name="sortField" value="pse__Project__r.Name" assignTo="{!sortField}"/>
+                    		</apex:commandLink>
+                		</apex:facet>
+                		<apex:outputField value="{!assignment.pse__Project__r.Name}"/>
+            		</apex:column>
+
+      				<apex:column >
+                		<apex:facet name="header">
+                    		<apex:commandLink value="Last Modified" action="{!toggleSort}" rerender="results">
+                        		<apex:param name="sortField" value="LastModifiedDate" assignTo="{!sortField}"/>
+                    		</apex:commandLink>
+                		</apex:facet>
+                		<apex:outputField value="{!assignment.LastModifiedDate}"/>
+            		</apex:column>
+            		            		
+      			</apex:pageBlockTable>
+      		</apex:pageBlock>
+      	</td>
+     </tr>
+     </table>
+	
+	</apex:pageBlock>
+	
+	</apex:form>
+</apex:page>

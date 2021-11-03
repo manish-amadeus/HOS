@@ -1,0 +1,239 @@
+<apex:page Controller="AH_CC_SINViewer_ctlr" showHeader="false" sidebar="false" lightningStylesheets="true" applyHtmlTag="false" applyBodyTag="false" docType="html-5.0">
+
+    <html xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" lang="en">
+        <head>
+            <meta charset="utf-8" />
+            <meta http-equiv="x-ua-compatible" content="ie=edge" />
+            <title>My Invoices</title>
+            <meta name="viewport" content="width=device-width, initial-scale=1" />
+            <apex:stylesheet value="/apexpages/slds/latest/assets/styles/salesforce-lightning-design-system-vf.css" />
+            <apex:slds />
+        </head>
+
+        <div id="divMain" class="slds-scope" style="margin: 10px 10px 10px 10px; !important;">
+
+            <apex:form id="frmMain">
+
+                <div id="divSearch" class="roundedContainer">
+             
+                    <apex:outputpanel id="opSearch">
+                         
+                        <span class="slds-icon_container slds-icon-standard-call"> 
+                            <svg aria-hidden="false" class="slds-icon">    
+                                <use xlink:href="/apexpages/slds/latest/assets/icons/utility-sprite/svg/symbols.svg#search"></use>
+                            </svg> 
+                            <span class="slds-assistive-text">Search</span> 
+                        </span> 
+                        &nbsp;&nbsp; 
+                        <apex:outputLabel id="lblSearchTitle" value="My Invoices" styleClass="slds-text-heading_medium slds-text-title_bold" />
+                        &nbsp;&nbsp;&nbsp;&nbsp; 
+                        <apex:commandLink id="cmdExportCSV" action="{!exportResults}" rendered="{!bChatterEnabled}" rerender="opSearchResults" status="asStatus" target="_blank" style="text-decoration:none;important;">
+                            <span class="slds-icon_container slds-icon-utility-download" title="Export results to CSV format">
+                                <svg class="slds-icon slds-icon-text-success" aria-hidden="true">
+                                    <use xlink:href="/apexpages/slds/latest/assets/icons/utility-sprite/svg/symbols.svg#download"></use>
+                                </svg>
+                                <span class="slds-assistive-text">Export results to CSV format</span>
+                            </span> 
+                        </apex:commandLink>                        
+                        <br/>
+                        <br/>
+                    </apex:outputpanel>
+                </div>   
+
+                <br/>
+                <apex:pageMessages />
+                
+                <div id="divResults" class="roundedContainer">
+
+                    <apex:outputpanel id="opSearchResults">
+                        
+                        <apex:outputLabel id="lblSearchResults" value="Search Results:" styleClass="slds-text-heading_medium slds-text-title_bold" />
+                        &nbsp;&nbsp; 
+                        <apex:outputLabel id="lblSearchResultMsg" value="{!searchResultMsg}" />
+                        <br/>    
+                        
+                        <apex:dataTable value="{!lstSearchResults}" var="dt" styleClass="slds-table slds-table_bordered slds-table_striped" rendered="true">
+
+                            <apex:column style="text-align:left;width:200px;">
+                                <apex:facet name="header"> 
+                                    <apex:commandLink id="cmdSortCol1" 
+                                                      value="Invoice Number {!IF(sortByField=='Name', IF(sortByDirection='ASC','▲','▼'), '')}" 
+                                                      action="{!doSort}" 
+                                                      status="asStatus"                                                           
+                                                      reRender="opSearchResults">
+                                        <apex:param value="Name" name="prm1" assignTo="{!sortByField}" />
+                                    </apex:commandLink>
+                                </apex:facet> 
+                                <apex:outputLink value="../{!dt.InvoiceId}" target="_blank" >
+                                    {!dt.InvoiceNumber}
+                                </apex:outputLink>     
+                            </apex:column> 
+                            
+                            <apex:column >
+                                <apex:facet name="header"> 
+                                    <apex:commandLink id="cmdSortCol2" 
+                                                      value="Account Name {!IF(sortByField=='Account_Name_Community__c', IF(sortByDirection='ASC','▲','▼'), '')}" 
+                                                      action="{!doSort}" 
+                                                      status="asStatus"                                                           
+                                                      reRender="opSearchResults">
+                                        <apex:param value="Account_Name_Community__c" name="prm2" assignTo="{!sortByField}" />
+                                    </apex:commandLink>
+                                </apex:facet>                                
+                                <apex:outputText value="{!dt.AccountName}" />   
+                            </apex:column>                             
+
+                            <apex:column style="text-align:right;width:100px;">
+                                <apex:facet name="header"> 
+                                    <apex:commandLink id="cmdSortCol3" 
+                                                      value="Invoice Date {!IF(sortByField=='c2g__InvoiceDate__c', IF(sortByDirection='ASC','▲','▼'), '')}" 
+                                                      action="{!doSort}" 
+                                                      status="asStatus"                                                           
+                                                      reRender="opSearchResults">
+                                        <apex:param value="c2g__InvoiceDate__c" name="prm3" assignTo="{!sortByField}" />
+                                    </apex:commandLink>
+                                </apex:facet>                                  
+                                <apex:outputText value="{0, date, MM/dd/yyyy}">
+                                    <apex:param value="{!dt.InvoiceDate}" />
+                                </apex:outputText>
+                            </apex:column>  
+                            
+                            <apex:column style="text-align:right;width:100px;">
+                                <apex:facet name="header"> 
+                                    <apex:commandLink id="cmdSortCol4" 
+                                                      value="Due Date {!IF(sortByField=='c2g__DueDate__c', IF(sortByDirection='ASC','▲','▼'), '')}" 
+                                                      action="{!doSort}" 
+                                                      status="asStatus"                                                           
+                                                      reRender="opSearchResults">
+                                        <apex:param value="c2g__DueDate__c" name="prm4" assignTo="{!sortByField}" />
+                                    </apex:commandLink>
+                                </apex:facet>                                  
+                                <apex:outputText value="{0, date, MM/dd/yyyy}">
+                                    <apex:param value="{!dt.DueDate}" />
+                                </apex:outputText>
+                            </apex:column>  
+                            
+                            <apex:column style="text-align:right;width:100px;">
+                                <apex:facet name="header"> 
+                                    <apex:outputText value="Invoice Total" />  
+                                </apex:facet>                                  
+                                <apex:outputText value="{!dt.InvoiceTotal}" />  
+                            </apex:column>                              
+                            
+                        </apex:dataTable>
+                        
+                        <br/>
+                        
+                    </apex:outputpanel>
+
+                </div>   
+                
+                <br/>    
+
+                <!-- SPINNER -->  
+                <apex:actionstatus id="asStatus">
+                    <apex:facet name="start">
+                        <div class="slds-spinner_container">
+                            <div role="status" class="slds-spinner slds-spinner_medium slds-spinner_brand">
+                                <span class="slds-assistive-text">Loading</span>
+                                <div class="slds-spinner__dot-a"></div>
+                                <div class="slds-spinner__dot-b"></div>
+                            </div>
+                        </div>
+                    </apex:facet>
+                </apex:actionstatus>
+  
+            </apex:form>          
+            
+        </div>
+        
+        <style type="text/css"> 
+            .popupDialogBox 
+            {      
+                position: absolute;
+                background-color: white;
+                border-radius: 5px;
+                top: 100px;
+                left: 50%;
+                width: 1200px;
+                margin-left: -600px;
+                z-index: 9999;
+                padding: 10px; 
+            }                
+            .popupBackground 
+            {          
+                position: fixed;
+                width: 100%;
+                height: 100%;
+                top: 0;
+                right: 0;
+                bottom: 0;
+                left: 0;
+                z-index: calc(9000 + 2);
+                background-color: rgba(0,0,0,.1);
+                visibility: visible;
+                opacity: 1;
+                transition: opacity .2s ease,visibility 0s;
+                transition-delay: 0s,.3s; 
+            }
+            .popupSuccess
+            {      
+                position: absolute;
+                color: white;
+                background-color: #04844b; 
+                border-radius: 5px;
+                top: 30px;
+                left: 50%;
+                width: 500px;
+                margin-left: -250px;
+                z-index: 9999;
+                padding: 0px;       
+            } 
+            .popupSuccessFade
+            {      
+                -webkit-animation-duration: 5s;animation-duration: 5s;
+                -webkit-animation-fill-mode: both;animation-fill-mode: both;
+            }
+            @-webkit-keyframes fadeOut 
+            {
+                0% {opacity: 1;}
+                100% {opacity: 0;}
+            }
+            @keyframes fadeOut 
+            {
+                0% {opacity: 1;}
+                100% {opacity: 0;}
+            }
+            .fadeOut 
+            {
+                -webkit-animation-name: fadeOut;
+                animation-name: fadeOut;
+            }            
+            .roundedContainer
+            {
+                width: 100%;
+                border: 1px solid lightgrey;
+                padding: 10px;
+                border-radius: 5px;
+                !important;
+            }
+            .slds-spinner_container 
+            {
+                position: relative;
+                width: 100%;
+                height: 100%;
+                top: 0;
+                right: 0;
+                bottom: 0;
+                left: 0;
+                z-index: calc(9000 + 2);
+                background-color: rgba(255,255,255,.75);
+                visibility: visible;
+                opacity: 1;
+                transition: opacity .2s ease,visibility 0s;
+                transition-delay: 0s,.3s;
+            }          
+        </style>
+        
+    </html>
+    
+</apex:page>

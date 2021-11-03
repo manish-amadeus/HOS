@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Other_Existent_connections_c__c</fullName>
+    <externalDeveloperName>Other_Existent_connections__c</externalDeveloperName>
+    <externalId>false</externalId>
+    <inlineHelpText>Is the Property already working with any of these Connections?</inlineHelpText>
+    <isFilteringDisabled>false</isFilteringDisabled>
+    <isNameField>false</isNameField>
+    <isSortingDisabled>false</isSortingDisabled>
+    <label>Other Existent connections</label>
+    <required>false</required>
+    <type>MultiselectPicklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Channel Manager</fullName>
+                <default>false</default>
+                <label>Channel Manager</label>
+            </value>
+            <value>
+                <fullName>EZ RMS</fullName>
+                <default>false</default>
+                <label>EZ RMS</label>
+            </value>
+            <value>
+                <fullName>Ideas</fullName>
+                <default>false</default>
+                <label>Ideas</label>
+            </value>
+            <value>
+                <fullName>JUYO RMS</fullName>
+                <default>false</default>
+                <label>JUYO RMS</label>
+            </value>
+            <value>
+                <fullName>OTA connection</fullName>
+                <default>false</default>
+                <label>OTA connection</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+    <visibleLines>4</visibleLines>
+</CustomField>

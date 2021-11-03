@@ -1,0 +1,59 @@
+<apex:page controller="AH_PLCM_Terms_And_Conditions" action="{!IsTermsAndConditionsAccepted}" showHeader="false" sidebar="false" lightningStylesheets="true" applyHtmlTag="false" applyBodyTag="false" docType="html-5.0">
+    <head>
+        <apex:stylesheet value="{!$Resource.AH_PLCM_Style}"/>
+    </head>
+    <apex:form id="frmTermsAndConditions">
+        <div style="font-size:16px;">
+            <p>
+                By submitting information through this Online Services Tool, you signify your acceptance of the terms below. 
+            </p>
+            <p>
+                Customer shall immediately notify Amadeus Hospitality in the event Customer elects to change, add or delete an Authorized User. Customer acknowledges and agrees that Amadeus Hospitality is not responsible for controlling, tracking, or monitoring access to the Amadeus Hospitality Customer Central by Customer's Authorized Users. 
+            </p>
+            <p>
+                The information in this website is confidential and proprietary to Amadeus Hospitality, and may not be disclosed, copied, reproduced, published, translated or reduced to electronic medium or machine readable form, in whole or in part, without the prior written consent of Amadeus Hospitality.
+            </p>
+            <ul style="list-style-type:none;">
+                <li>
+                    1.1.1&nbsp;The access to the Materials is provided as is and, to the extent permitted by law, is provided without any warranties, guarantees, conditions, representations, and undertakings of any kind. We do not warrant that the Online Services Tool or any other items provided hereunder will meet your requirements or that your access or use of the same will be uninterrupted, error free, non-infringing or completely secure. You shall be solely responsible for your use of the Online Services Tool or any other materials provided, received or otherwise delivered, including for quality and performance and for accuracy or quality of any information transmitted.
+                </li><br/>
+                <li>
+                    1.1.2&nbsp;We, and our subsidiaries and affiliates, will not be liable to you for any direct, indirect, special, consequential and/or punitive losses or damages related to these Terms and/or Online Services Tool whether arising from contract, tort (including negligence), breach of statutory duty, contribution, or otherwise. Our liability is limited to the fullest extent permitted by applicable law.
+                </li>
+            </ul>
+            <div>
+                Privacy Policy: <a href="https://www.amadeus-hospitality.com/privacy-policy/" target="_blank" style="text-decoration:none; color:blue;">https://www.amadeus-hospitality.com/privacy-policy/</a>
+            </div>
+            <label for="{!$Component.chkTermsAndCondition}" style="font-weight:bold;">
+                <apex:inputCheckbox id="chkTermsAndCondition" value="{!TermsAndCondtionAccepted}"/>
+                I have read and accept Amadeus’ terms of use and associated Privacy Policy
+            </label>
+            <div style="margin-top:10px;">
+                The Amadeus Hospitality Customer Central Community allows communication and sharing of information between users of Amadeus Hospitality products.
+            </div>
+            <label for="{!$Component.chkNeighborhood}" style="font-weight:bold;">
+                <apex:inputCheckbox id="chkNeighborhood" value="{!Opt_Out_Social_Media_Feature}" />
+                I would like to opt into the use of social media in the Amadeus customer community which is not linked to my personal social media accounts however allows features including but not limited to the ability to download files, export case lists, and access content within the community.
+            </label>
+        </div>
+        <div style="text-align:center; margin-top:20px;">
+            <apex:commandButton value="Next" action="{!AcceptTermsAndCondtion}" onclick="javascript: return validateTermsAndCondition();" style="{!IF(lstProjects.size > 0, '', 'display:none;')}" />
+        </div>
+    </apex:form>
+    <script type="text/javascript">
+        document.addEventListener("DOMContentLoaded", function(event) {
+            //Change Page Title
+            window.parent.document.title = "Terms and Conditions";
+        });
+    
+        //Check for terms and condition field values
+        function validateTermsAndCondition() {
+            var chkTermsAndCondition = document.getElementById("{!$Component.frmTermsAndConditions.chkTermsAndCondition}");
+            if(typeof(chkTermsAndCondition) != "undefined" &&  chkTermsAndCondition != null && !chkTermsAndCondition.checked) {
+                //Terms and conditions are not accepted
+                alert("Please accept terms and conditions.");
+            }
+            return chkTermsAndCondition.checked;
+        }
+    </script>
+</apex:page>

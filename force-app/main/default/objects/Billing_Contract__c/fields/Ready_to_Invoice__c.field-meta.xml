@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Ready_to_Invoice__c</fullName>
+    <externalId>false</externalId>
+    <formula>Ready_to_Invoice_Numeric__c &gt; 0
+&amp;&amp;
+Billing_Hold__c = false</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <inlineHelpText>Set to true if one or more billing line items are eligible to be invoiced</inlineHelpText>
+    <label>Ready to Invoice</label>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

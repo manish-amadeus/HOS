@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Escalation_Reason__c</fullName>
+    <externalId>false</externalId>
+    <label>Escalation Reason</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Delay</fullName>
+                <default>false</default>
+                <label>Delay</label>
+            </value>
+            <value>
+                <fullName>Other Department</fullName>
+                <default>false</default>
+                <label>Other Department</label>
+            </value>
+            <value>
+                <fullName>Customer Provided Incorrect Details</fullName>
+                <default>false</default>
+                <label>Customer Provided Incorrect Details</label>
+            </value>
+            <value>
+                <fullName>Customer Perception</fullName>
+                <default>false</default>
+                <label>Customer Perception</label>
+            </value>
+            <value>
+                <fullName>Accepted Urgency</fullName>
+                <default>false</default>
+                <label>Accepted Urgency</label>
+            </value>
+            <value>
+                <fullName>Case Mishandling</fullName>
+                <default>false</default>
+                <label>Case Mishandling</label>
+            </value>
+            <value>
+                <fullName>Contractual SLA Commitment</fullName>
+                <default>false</default>
+                <label>Contractual SLA Commitment</label>
+            </value>
+            <value>
+                <fullName>Other - Please Describe</fullName>
+                <default>false</default>
+                <label>Other - Please Describe</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

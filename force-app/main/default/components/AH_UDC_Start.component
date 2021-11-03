@@ -1,0 +1,84 @@
+<apex:component >
+   <apex:attribute name="workbook" description="Current Workbook" type="AH_UDC_CommunityWorkbook" required="true" />
+
+   <style type="text/css">
+      .slds-truncate {
+         white-space: initial !important;
+      }
+
+      .slds-input {
+         margin-top: -4px !important;
+      }
+
+      .slds-table > tbody > tr:nth-child(odd) > td,
+      .slds-table > tbody > tr:nth-child(odd) > th {
+         background-color: #CFD5EA !important;
+      }
+
+      .slds-table > tbody > tr:nth-child(even) > td,
+      .slds-table > tbody > tr:nth-child(even) > th {
+         background-color: #E9EBF5 !important;
+      }
+
+      .header-color {
+         background-color: #4472C4 !important;
+         color: white !important;
+      }
+
+      .lbl-input {
+         display: inline-block;
+         margin-top: 5px;
+      }
+   </style>
+   <apex:outputPanel rendered="{!workbook.dueDate!=null}">
+      <div class="slds-section slds-is-open">
+         <div aria-hidden="false" class="slds-section__content">
+            <div class="slds-form-element slds-form-element_horizontal slds-form-element_1-col">
+               <label class="slds-form-element__label" for="Workbook-Due-Date-input">{!$Label.AH_UDC_Start_Label_Due_Date}</label>
+               <div class="slds-form-element__control">
+                  <label class="lbl-input" id="Workbook-Due-Date-input">{!workbook.dueDate}</label>
+               </div>
+            </div>
+         </div>
+      </div>
+      <div Style="height:25px"></div>
+   </apex:outputPanel>
+   <apex:outputpanel id="startPagePanel">
+      <table class="slds-table slds-table_cell-buffer slds-table_bordered slds-table_striped slds-table_col-bordered">
+         <thead>
+            <tr class="slds-line-height_reset">
+               <th class="header-color" scope="col">
+                  <div class="slds-truncate">{!$Label.AH_UDC_Start_Label_Step_Name}</div>
+               </th>
+               <th class="header-color" scope="col" style="Width:8%">
+                  <div class="slds-truncate">{!$Label.AH_UDC_Start_Step_Status_Label}</div>
+               </th>
+               <th class="header-color" scope="col">
+                  <div class="slds-truncate">{!$Label.AH_UDC_Start_Label_Step_Description}</div>
+               </th>
+            </tr>
+         </thead>
+         <tbody>
+            <apex:repeat value="{!workbook.steps}" var="step">
+               <tr class="slds-hint-parent">
+                  <td data-label="Step Name" scope="row">
+                     <div class="slds-truncate wrapword">
+                        {!step.Name}
+                     </div>
+                  </td>
+                  <td data-label="Step Status">
+                     <div class="slds-truncate wrapword">
+                        <apex:outputtext value="{!step.status}" escape="false" />
+                     </div>
+                  </td>
+                  <td data-label="Step Description">
+                     <div class="slds-truncate wrapword">
+                        <apex:outputtext value="{!step.description}" escape="false" />
+                     </div>
+                  </td>
+               </tr>
+            </apex:repeat>
+         </tbody>
+      </table>
+   </apex:outputpanel>
+</apex:component>

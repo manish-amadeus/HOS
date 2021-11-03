@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Indicator_Status__c</fullName>
+    <businessStatus>Active</businessStatus>
+    <description>Corporate Security KPI NICC-035711</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Status of the KPI based on related assessments</inlineHelpText>
+    <label>Indicator Status</label>
+    <required>false</required>
+    <securityClassification>Restricted</securityClassification>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Green</fullName>
+                <default>false</default>
+                <label>Green</label>
+            </value>
+            <value>
+                <fullName>Amber</fullName>
+                <default>false</default>
+                <label>Amber</label>
+            </value>
+            <value>
+                <fullName>Red</fullName>
+                <default>false</default>
+                <label>Red</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

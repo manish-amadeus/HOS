@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>RevenueStrategy360_Edition_c__c</fullName>
+    <externalDeveloperName>RevenueStrategy360_Edition__c</externalDeveloperName>
+    <externalId>false</externalId>
+    <inlineHelpText>Select the RevenueStrategy360 edition you are selling</inlineHelpText>
+    <isFilteringDisabled>false</isFilteringDisabled>
+    <isNameField>false</isNameField>
+    <isSortingDisabled>false</isSortingDisabled>
+    <label>RevenueStrategy360 Edition</label>
+    <required>false</required>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Essentials Edition</fullName>
+                <default>false</default>
+                <label>Essentials Edition</label>
+            </value>
+            <value>
+                <fullName>Advanced Edition</fullName>
+                <default>false</default>
+                <label>Advanced Edition</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

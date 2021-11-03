@@ -1,0 +1,208 @@
+<apex:page controller="AH_AddEscalation_Ctlr" showHeader="false" sidebar="false" lightningStylesheets="true" applyHtmlTag="false" applyBodyTag="false" docType="html-5.0">
+    
+    <html xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" lang="en">
+        <head>
+            <meta charset="utf-8" />
+            <meta http-equiv="x-ua-compatible" content="ie=edge" />
+            <title>Add Escalation</title>
+            <meta name="viewport" content="width=device-width, initial-scale=1" />
+            <apex:stylesheet value="/apexpages/slds/latest/assets/styles/salesforce-lightning-design-system-vf.css" />
+            <apex:slds />
+        </head>
+        
+        <div id="divMain" class="slds-scope" style="margin: 10px 10px 10px 10px; !important;">
+                        
+            <apex:form id="frmMain">
+                
+                <apex:pageMessages id="msgMain" />
+                <br/>
+                
+                <!-- SECTION 1 -->
+                <apex:outputPanel id="opDecision" rendered="{!bShowInitialDecision}">
+                    <br/>
+                    <br/>
+                    <div id="divBody" style="text-align:center;!important;" class="roundedContainer">
+                        <br/>
+                        <apex:outputLabel id="lblMsg1" value="Please choose next action:" style="font-size:12pt;" />
+                        <br/>
+                        <br/>
+                        <apex:commandButton id="cmdExisting" value="Attach Existing Escalation" action="{!openSearch}" style="width:180px;" reRender="frmMain" styleClass="slds-button slds-button_brand" />&nbsp;&nbsp;
+                        <apex:commandButton id="cmdNew" value="Create New Escalation" action="{!doRecTypeSel}" style="width:180px;" reRender="frmMain" styleClass="slds-button slds-button_brand" />   
+                        <br/>
+                        <br/>
+                        <apex:commandButton id="cmdGoCase1" value="<< Go back to Case" action="{!goToCase}" style="width:200px;" styleClass="slds-button slds-button_outline-brand" />&nbsp;&nbsp;
+                        <br/>
+                        <br/>
+                    </div>
+                    <br/>
+                </apex:outputPanel>
+                
+                <!-- SECTION 3 -->
+                <apex:outputPanel id="opSearch" rendered="{!bShowSearch}">
+                    
+                    <div id="divBody" style="text-align:center;!important;" class="roundedContainer">
+                        <br/>
+                        <apex:outputLabel id="lblMsg3" value="Search for existing Escalation" style="font-size:12pt;" />
+                        <br/>
+                        <br/>
+                        <apex:outputLabel id="lblSearchText" value="Search Text: " />
+                        &nbsp;&nbsp;&nbsp;&nbsp;                        
+                        <apex:inputText id="txtSearchText" value="{!searchText}" label="lblSearchText" onkeypress="return noenter(event);" styleClass="slds-input" style="width:400px;!important;"/>
+                        &nbsp;&nbsp;&nbsp;&nbsp; 
+                        <apex:commandButton id="btnSearch" value="Search" action="{!doSearch}" rerender="opSearch,dtEsc" status="asStatus" styleClass="slds-button slds-button_brand" />
+                        <br/>
+                        <br/>
+                        <apex:commandButton id="cmdGoCase3" value="<< Go back to Case" action="{!goToCase}" status="asStatus" style="width:200px;" styleClass="slds-button slds-button_outline-brand" />
+                        <br/>
+                        <br/>
+                        <div style="text-align:left;!important;" class="roundedContainer">
+                            <apex:outputLabel id="lblSearchResults" value="Search Results: " />
+                            <apex:dataTable id="dtEsc" value="{!lstEscalationResults}" var="er" styleClass="slds-table slds-table_bordered slds-table_striped">                                
+                                <apex:column > 
+                                    <apex:inputHidden id="txtIDValue" value="{!er.Id}" /> 
+                                    <apex:commandLink id="cmdlnkSel" value="Select" action="{!doSelect}" status="asStatus" rerender="frmMain"> 
+                                        <apex:param name="p1" assignTo="{!selSearchId}" value="{!er.Id}" /> 
+                                    </apex:commandLink> 
+                                </apex:column> 
+                                <apex:column > 
+                                    <apex:outputText value="{!er.Name}" /> 
+                                </apex:column> 
+                            </apex:dataTable> 
+                            <br/>
+                        </div>
+                        <br/>
+                        
+                    </div>                      
+                    
+                </apex:outputPanel>
+                
+                <!-- SECTION 4 -->
+                <apex:outputPanel id="opAttached" rendered="{!bShowSelectRecType}">
+                    <div id="divBody" style="text-align:center;!important;" class="roundedContainer">
+                        <br/>
+                        <apex:outputLabel id="lblMsg4" value="Select Escalation Record Type" style="font-size:12pt;" />
+                        <br/>
+                        <br/>
+                        <div class="roundedContainer" style="margin-left:40%;text-align:center;width:400px;!important;">
+                            <apex:selectRadio value="{!selRecordType}" layout="pageDirection" borderVisible="true"> 
+                                <apex:selectOptions value="{!lstRecordTypes}" />
+                            </apex:selectRadio>	  
+                            <br/>
+                            <br/>
+                            <apex:commandButton id="cmdEscNext" value="Next" action="{!doCreate}" status="asStatus" styleClass="slds-button slds-button_brand" />
+                            <br/>
+                        </div>
+                        <br/>
+                    </div>                      
+                </apex:outputPanel>
+
+
+
+                <!-- SPINNER -->  
+                <apex:actionstatus id="asStatus">
+                    <apex:facet name="start">
+                        <div class="slds-spinner_container">
+                            <div role="status" class="slds-spinner slds-spinner_medium slds-spinner_brand">
+                                <span class="slds-assistive-text">Loading</span>
+                                <div class="slds-spinner__dot-a"></div>
+                                <div class="slds-spinner__dot-b"></div>
+                            </div>
+                        </div>
+                    </apex:facet>
+                </apex:actionstatus>
+
+            </apex:form>
+            
+        </div>
+        
+        <style type="text/css"> 
+            .popupDialogBox 
+            {      
+                position: absolute;
+                background-color: white;
+                border-radius: 5px;
+                top: 100px;
+                left: 50%;
+                width: 800px;
+                margin-left: -400px;
+                z-index: 9999;
+                padding: 10px; 
+            }                
+            .popupBackground 
+            {          
+                position: fixed;
+                width: 100%;
+                height: 100%;
+                top: 0;
+                right: 0;
+                bottom: 0;
+                left: 0;
+                z-index: calc(9000 + 2);
+                background-color: rgba(0,0,0,.1);
+                visibility: visible;
+                opacity: 1;
+                transition: opacity .2s ease,visibility 0s;
+                transition-delay: 0s,.3s; 
+            }
+            .popupSuccess
+            {      
+                position: absolute;
+                color: white;
+                background-color: #04844b; 
+                border-radius: 5px;
+                top: 30px;
+                left: 50%;
+                width: 500px;
+                margin-left: -250px;
+                z-index: 9999;
+                padding: 0px;       
+            } 
+            .popupSuccessFade
+            {      
+                -webkit-animation-duration: 5s;animation-duration: 5s;
+                -webkit-animation-fill-mode: both;animation-fill-mode: both;
+            }
+            @-webkit-keyframes fadeOut 
+            {
+                0% {opacity: 1;}
+                100% {opacity: 0;}
+            }
+            @keyframes fadeOut 
+            {
+                0% {opacity: 1;}
+                100% {opacity: 0;}
+            }
+            .fadeOut 
+            {
+                -webkit-animation-name: fadeOut;
+                animation-name: fadeOut;
+            }            
+            .roundedContainer
+            {
+                width: 100%;
+                border: 1px solid lightgrey;
+                padding: 10px;
+                border-radius: 5px;
+                !important;
+            }
+            .slds-spinner_container 
+            {
+                position: relative;
+                width: 100%;
+                height: 100%;
+                top: 0;
+                right: 0;
+                bottom: 0;
+                left: 0;
+                z-index: calc(9000 + 2);
+                background-color: rgba(255,255,255,.75);
+                visibility: visible;
+                opacity: 1;
+                transition: opacity .2s ease,visibility 0s;
+                transition-delay: 0s,.3s;
+            }          
+        </style>
+        
+    </html>
+    
+</apex:page>

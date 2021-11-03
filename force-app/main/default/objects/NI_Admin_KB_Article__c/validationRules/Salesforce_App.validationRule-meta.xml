@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Salesforce_App</fullName>
+    <active>true</active>
+    <description>Salesforce App field is required</description>
+    <errorConditionFormula>ISBLANK(Salesforce_App__c)</errorConditionFormula>
+    <errorDisplayField>Salesforce_App__c</errorDisplayField>
+    <errorMessage>You must select a Salesforce App for this KB Article</errorMessage>
+</ValidationRule>

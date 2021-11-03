@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Lifecycle_Date__c</fullName>
+    <description>The date the hardware is due to lifecycle.  The formula refers to a combination of the Acquisition Date and Hardware Type fields.</description>
+    <externalId>false</externalId>
+    <formula>IF ( 
+OR ( 
+HardwareType__c = &quot;Firewall&quot;, 
+HardwareType__c = &quot;Network Switch&quot;, 
+HardwareType__c = &quot;Phone&quot;, 
+HardwareType__c = &quot;Phone Equipment&quot;, 
+HardwareType__c = &quot;SAN&quot;, 
+HardwareType__c = &quot;SAN Switch&quot;, 
+HardwareType__c = &quot;Server Hardware&quot;, 
+HardwareType__c = &quot;Storage Array&quot; 
+), Acquisition_Date__c + 2556, 
+IF ( 
+OR ( 
+HardwareType__c = &quot;Monitor&quot;, 
+HardwareType__c = &quot;Server&quot;, 
+HardwareType__c = &quot;Workstation&quot; 
+), Acquisition_Date__c + 1826, 
+IF ( 
+OR ( 
+HardwareType__c = &quot;Docking Station&quot;, 
+HardwareType__c = &quot;Laptop&quot; 
+), Acquisition_Date__c + 1096, 
+null 
+) 
+) 
+)</formula>
+    <inlineHelpText>The projected lifecycle date of the hardware based on Acquisition Date and Hardware Type.</inlineHelpText>
+    <label>Lifecycle Date</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Date</type>
+</CustomField>

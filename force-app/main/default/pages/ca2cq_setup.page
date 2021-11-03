@@ -1,0 +1,915 @@
+<apex:page controller="ca2cq_setupCtr" standardStylesheets="false" sidebar="false">
+    <head>
+
+        <link href="{!URLFOR($Resource.ca2cq_resources, '/css/bootstrap.min.css')}" rel="stylesheet" media="screen"/>
+        <apex:includeScript value="{!URLFOR($Resource.ca2cq_resources, '/js/jquery.min.js')}"/>
+
+        <style type="text/css">
+            body {
+                font-size: 12px !important;
+            }
+            .form-horizontal .form-group {
+                margin-right: 0px !important;
+                margin-left: 0px !important;
+            }
+            .form-control {
+                height: 32px !important;
+                font-size: 12px !important;
+            }
+            .text-area{
+                height: auto !important;
+            }
+			div.debug_logs{
+				display: none !important;
+			}
+        </style>
+        <script type="text/javascript">
+		var questionIdPrefix = "{!JSINHTMLENCODE(questionIDPrefix)}";
+        var mapOfCategoriesToTopic = {};
+        function preProcessSave()
+        {
+
+            var questionsFromCsv = document.getElementById('csv_file').files[0];
+
+            var listIdFromCsv = "";
+            if(questionsFromCsv != undefined) {
+                readFile(questionsFromCsv, function(e) {
+                   // use result in callback...
+                   var lines = e.target.result.split("\n");
+                   var g = 0;
+                   for (var i = 1; i < lines.length; i++) {
+                      var firstColumn = lines[i].split(",")[0];     //First column (Split on the separator!)
+                      if(firstColumn != ''){
+                          listIdFromCsv = listIdFromCsv + firstColumn + ',';
+                          g++;
+                      }
+                   }
+
+                   localStorage.setItem('label','File Name: ' + questionsFromCsv.name + ' - Questions: ' + g);
+
+                   listIdFromCsv = listIdFromCsv.substring(0, listIdFromCsv.length - 1);
+
+                   listIdFromCsv = listIdFromCsv.replace(/"/g,'');
+                   listIdFromCsv = listIdFromCsv.replace(/(?:\r\n|\r|\n)/g, '');
+                   var actualDate = new Date();
+                   var actualTimeStamp = actualDate.getTime()+'';
+                   localStorage.setItem("id", actualTimeStamp);
+                   localStorage.setItem(actualTimeStamp,listIdFromCsv);
+
+                   localStorage.setItem("finish", "false"); //this is to know that we an use again another diferent file to migrate
+
+                   //var idIs = localStorage.getItem("id");
+                   //alert('the data saved is: '+localStorage.getItem(idIs));
+                   processSave(listIdFromCsv);
+                });
+            }
+            else
+            {
+                //when the user want to update
+                if(localStorage.getItem("id") === null)
+                {
+                    processSave("");
+                }
+                else
+                {
+                    if(localStorage.getItem("finish") === "true"){
+
+                        // if this user already migrate with this file we clean - cause didnt upload another one
+                        var lastIdKey = localStorage.getItem("id");
+                        localStorage.removeItem("id");
+                        localStorage.removeItem(lastIdKey);
+                        processSave("");
+                    }
+                    else
+                    {
+                        var lastIdKey = localStorage.getItem("id");
+                        var actualListNotMigratedYet = localStorage.getItem(lastIdKey);
+                        processSave(actualListNotMigratedYet);
+                    }
+                }
+
+            }
+            //alert(listIdFromCsv);
+        }
+        function readFile(file, onLoadCallback){
+            var reader = new FileReader();
+            reader.onload = onLoadCallback;
+            reader.readAsText(file);
+        }
+
+
+        function processSave(listIdFromCsv){
+            var whichQuestions = $('input[type="radio"]:checked').val();
+
+            if(whichQuestions == 'includeAll')
+            {
+                var lastIdK = localStorage.getItem("id");
+                localStorage.removeItem("id");
+                localStorage.removeItem(lastIdK);
+                localStorage.setItem('label', ' ');
+                listIdFromCsv='';
+                document.getElementById('fileDiv').innerHTML= '';
+            }
+            var allowNullList = false;
+            var pairs = new Array();
+
+            var selects = document.getElementsByClassName('selectOfCommunity');
+            for (var s = 0; s < selects.length; ++s) {
+
+                var selObj = selects[s];
+
+                var isCHECK = (selObj.options[selObj.selectedIndex].text !=  "Inactive for migration") ? "1"  : "0" ;
+                pairs.push(selObj.id+':'+selObj.value+':'+isCHECK) ;
+
+            }
+            /*$('.cMap').each(function(){
+                var selObj = $(this).find('select');
+                var isCHECK = $(this).find('input[type="checkbox"]:checked').size();
+                pairs.push($(selObj).attr('id')+':'+$(selObj).val()+':'+isCHECK) ;
+            })*/
+            var topicsPair = new Array();
+            /*$('.topicMap').each(function(){
+                var category = $(this).find('.dataCategoryName').text().trim();
+                var topicName = $(this).find('.topicName').val().trim();
+
+            })*/
+            for (var key in mapOfCategoriesToTopic) {
+              if (mapOfCategoriesToTopic.hasOwnProperty(key)) {
+                  topicsPair.push(key+':'+mapOfCategoriesToTopic[key]);
+              }
+            }
+
+
+
+            //var questionIdList = $('#questionIds').val();
+            var email = $('.input-email').val();
+            var pass = true;
+            var splitResearchArea = [];
+
+
+             /*read = new FileReader();
+             read.readAsBinaryString(questionsFromCsv);
+             read.result*/
+
+
+
+
+
+
+            if(whichQuestions != 'includeAll'){
+
+// && questionsFromCsv.length == 0
+				//if ( questionIdList == '' && listIdFromCsv == ''){
+                if ( listIdFromCsv == ''){
+                    alert('Please provide question Ids');
+	                pass = false;
+	            }else{
+					//questionIDPrefix
+					var idListRegEx = new RegExp("^(("+questionIdPrefix+")[0-9a-zA-Z]{15})(,("+questionIdPrefix+")[0-9a-zA-Z]{15})*$");
+
+                    var validL = false;
+
+                    if(listIdFromCsv != '')
+                    {
+                        validL = idListRegEx.test(listIdFromCsv);
+                        allowNullList = true;
+                    }
+                    if( !validL ){
+		                alert('Please provide valid question Ids');
+		                pass = false;
+					}
+				}
+			}
+            if(email == ''){
+                alert('Please provide an email address');
+                pass = false;
+            }
+
+            if(pass){
+                if(allowNullList)
+                {
+                    //alert(listIdFromCsv);
+                    //saveJS(pairs.toString(),topicsPair.toString(), whichQuestions,questionIdList,$('#yearOption').val().toString(),listIdFromCsv,allowNullList);
+                    saveJS(pairs.toString(),topicsPair.toString(), whichQuestions,$('#yearOption').val().toString(),listIdFromCsv,allowNullList);
+                }
+                else
+                {
+
+                    //alert(listIdFromCsv);
+                    //saveJS(pairs.toString(),topicsPair.toString(), whichQuestions,questionIdList,$('#yearOption').val().toString(),"",allowNullList);
+                    saveJS(pairs.toString(),topicsPair.toString(), whichQuestions,$('#yearOption').val().toString(),"",allowNullList);
+                }
+
+            }
+        }
+
+        function cancelSave(){
+            window.location.reload();
+        }
+
+        var IsProcessRunningJS ="{!IsProcessRunning}"!="false";
+
+        function checkBatch(){
+            localStorage.setItem("finish", "true");
+            localStorage.setItem('label',' ');
+            if (IsProcessRunningJS){
+                refreshJS();
+            }else{
+            }
+
+        }
+
+        function updateSelectedYears(selectedYear) {
+            if (selectedYear != undefined && selectedYear != null) {
+                var yearsToCheck = selectedYear.split(',');
+                $('#yearOption').val(yearsToCheck);
+            }
+        }
+        $( document ).ready(function() {
+            updateSelectedYears("{!JSINHTMLENCODE(setupObj.Selected_Years__c)}");
+            var selects = document.getElementsByClassName('selectOfCommunity');
+            console.log(selects);
+            for (var s = 0; s <= selects.length; ++s) {
+                if(document.getElementsByClassName('selectOfCommunity')[s].selectedIndex < 0)
+                {
+                    document.getElementsByClassName('selectOfCommunity')[s].selectedIndex = 0;
+                }
+            }
+        });
+        </script>
+    </head>
+
+    <apex:form styleClass="form-horizontal" html-role="form">
+
+    <apex:outputPanel id="all" layout="block" styleClass="panel panel-default">
+
+        <div class="panel-body">
+            <apex:pageMessages />
+            <div class="row">
+            <!-- COL for settings -->
+                <div class="col-sm-6">
+
+                <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Settings</h3>
+                </div>
+                <div class="panel-body">
+                    <div class="form-group">
+                        <div class="col-sm-4">
+                            <label for="Notification_email" class="control-label">{!$ObjectType.ca2cq_config__c.fields.Notification_email__c.label}</label>
+                        </div>
+                        <div class="col-sm-5">
+                            <apex:inputField value="{!setupObj.Notification_email__c}" id="Notification_email" styleClass="form-control input-email" />
+                        </div>
+                        <div class="col-sm-2">&nbsp;</div>
+                    </div>
+                    <hr/>
+
+                    <label  class="control-label ">Which questions do you want to migrate?</label>
+                    <br/>
+                <div class="form-group"  >
+                    <br/>
+                    <div class="container">
+                        <div class="col-sm-3"    >
+                            <div class="radio">
+                            <label>
+                                <apex:outputPanel rendered="{!setupObj.Migrate_all_Questions__c}">
+                                    <input type="radio" name="optionsRadios" id="Migrate_all_Questions__c" value="includeAll"
+                                        checked='checked'   />
+                                </apex:outputPanel>
+                            <apex:outputPanel rendered="{!!setupObj.Migrate_all_Questions__c}">
+                              <input type="radio" name="optionsRadios" id="Migrate_all_Questions__c" value="includeAll"
+                                 />
+                            </apex:outputPanel>
+                             All questions
+                          </label>
+                        </div>
+                      </div>
+                  </div>
+
+
+                  <div class="container">
+                      <div class="col-sm-2"   >
+                          <div class="radio">
+                          <label>
+                           <apex:outputPanel rendered="{!setupObj.Include_this_Ids__c}">
+                            <input  type="radio" name="optionsRadios" id="Include_this_Ids__c" value="includeThis"
+                                    checked='checked'    />
+                           </apex:outputPanel>
+                           <apex:outputPanel rendered="{!!setupObj.Include_this_Ids__c}">
+                            <input type="radio" name="optionsRadios" id="Include_this_Ids__c" value="includeThis"
+                           />
+                           </apex:outputPanel>
+                             Only these questions
+                          </label>
+                        </div>
+                      </div>
+                      <div class="col-sm-1"   >
+
+                          <label> <b > <script>document.getElementById('fileDiv').innerHTML=localStorage.getItem('label');</script> </b>
+                            <apex:outputPanel >
+                                    <label for="csv_file" class="btn" style="position:absolute;padding: 7px 14px 7px 14px;">Upload csv</label>
+                                    <input type="file" id="csv_file" name="csv_file"  style="display:none;"  accept=".csv"  />
+                            </apex:outputPanel>
+                          </label>
+                      </div>
+
+                      <div class="col-sm-5"   >
+                            <apex:outputPanel >
+                                    <div id="fileDiv" style="position:absolute;" class="col-sm-7"></div>
+                            </apex:outputPanel>
+                      </div>
+                  </div>
+
+
+                  <div class="container">
+                      <div class="col-sm-3"   >
+                          <div class="radio">
+                          <label>
+                            <apex:outputPanel rendered="{!setupObj.Exclude_this_Ids__c}">
+                              <input type="radio" name="optionsRadios" id="Exclude_this_Ids__c" value="excludeThis"
+                                checked='checked'  />
+                            </apex:outputPanel>
+                            <apex:outputPanel rendered="{!!setupObj.Exclude_this_Ids__c}">
+                              <input type="radio" name="optionsRadios" id="Exclude_this_Ids__c" value="excludeThis"
+                              />
+                            </apex:outputPanel>
+                              All except these questions
+                          </label>
+                        </div>
+                      </div>
+                  </div>
+
+
+
+
+              </div>
+
+            <!--  <div class="form-group">
+                  <div class="col-sm-12">
+                   <textarea  id="questionIds" cols="120" rows="4" class="form-control text-area">{!setupObj.Question_Ids__c}</textarea>
+
+                  </div>
+              </div>-->
+              <hr/>
+              <h5  class="control-label " style="text-align:left;">Select year to migrate</h5>
+              <br/><br/>
+              <select  id="yearOption" multiple="true" size="{!availableYears.size}" style="width:100%;">
+                  <apex:repeat value="{!availableYears}" var="ay">
+                      <option value="{!ay}">{!ay}
+                      </option>
+                  </apex:repeat>
+              </select>
+              <script >
+                updateSelectedYears("{!JSINHTMLENCODE(setupObj.Selected_Years__c)}");
+              </script>
+
+                <hr/>
+                <h5  class="control-label " style="text-align:left;">Map Zones to Communities</h5>
+                <br/><br/>
+
+                <apex:repeat value="{!zonesMap}" var="key">
+
+                    <apex:outputPanel styleClass="form-group cMap" layout="block">
+
+                        <div class="col-sm-5">
+                            {!allCommunities[key.zoneId__c].Name}
+                        </div>
+
+
+                        <div class="col-sm-4">
+
+                            <select class="form-control selectOfCommunity select{!key.zoneId__c}" onchange="checkValueOfSelectCommunity(this,'{!key.zoneId__c}');" id="{!key.zoneId__c}">
+                                <option value="0">Inactive for migration</option>
+                                <option value="null">Internal</option>
+                                <apex:repeat value="{!allNetworkList}" var="c">
+                                    <option value="{!c.Id}">{!c.Name}
+                                    </option>
+                                </apex:repeat>
+                            </select>
+
+                            <script type="text/javascript">
+
+
+
+                                var selOption = "{!JSENCODE(key.Community_Id__c)}";
+                                $('#' + '{!JSENCODE(key.zoneId__c)}').val(selOption);
+                            </script>
+                        </div>
+
+                        <div class="col-sm-2">
+                            <input type="button" value="Map DC to Topic" onclick = "setFromButton();setThisValueToLocalStorage('{!key.zoneId__c}');saveThisValue('{!key.zoneId__c}');">
+
+                            </input>
+                        </div>
+                        <div style="text-align:center;" id="div{!key.zoneId__c}">
+
+                        </div>
+
+                    </apex:outputPanel>
+
+
+                </apex:repeat>
+                <script>
+                    function setFromButton()
+                    {
+                        localStorage.setItem('cameFromButton','yes');
+                    }
+                    function setThisValueToLocalStorage(zoneId)
+                    {
+
+                        localStorage.setItem('zoneId' ,zoneId);
+                    }
+                </script>
+
+
+
+
+              </div>
+
+              <div class="panel-footer">
+                <div class="row">
+                  <div class="col-sm-6">
+                    <input type="button" class="btn pull-right" onclick="preProcessSave()" value="Save" />
+                  </div>
+                  <div class="col-sm-6">
+                    <input type="button" class="btn" onclick="cancelSave()" value="Cancel" />
+                  </div>
+                </div>
+              </div>
+
+            </div>
+
+
+          </div>
+
+          <!-- COL for batch -->
+          <div class="col-sm-6">
+            <div class="panel panel-default">
+            <div class="panel-heading"> <h3 class="panel-title">Migration Process</h3></div>
+            <apex:outputPanel layout="block" id="batchStatus"  styleClass="panel-body">
+
+
+              <script type="text/javascript">
+              IsProcessRunningJS ="{!IsProcessRunning}"!="false";
+              if (IsProcessRunningJS){
+				checkBatch();
+
+			  }
+             </script>
+
+
+            <div class="form-group">
+            <div class="col-sm-10">
+                <script>
+                    function getListId()
+                    {
+                        return (localStorage.getItem(localStorage.getItem('id')));
+                    }
+                </script>
+
+
+				<apex:outputPanel rendered="{!canStartProcess}">
+                <input type="button" class="btn" onclick="launchBatchJS($('#yearOption').val(),getListId());" value="Start Migration" />
+                    </apex:outputPanel>
+                <apex:outputPanel rendered="{!isProcessRunning}">
+                    <input type="button" class="btn"  disabled="disabled" value="Start Migration" />
+                </apex:outputPanel>
+                <input type="button" class="btn" onclick="refreshJS()"  value="Reload" />
+                <apex:outputPanel style="float:right;text-align:right;" >
+                    <input type="button" class="btn" onclick="resetStatusConfig();" value="Reset Status" />
+                </apex:outputPanel>
+
+            </div>
+            <div class="col-sm-2">
+            &nbsp;
+            </div>
+            </div>
+			<div class="debug_logs">
+            <hr/>
+            <br/>
+           [level:{!setupObj.Current_Executing_Level__c}][can start :{!canStartProcess}][IsProcessRunning: {!isProcessRunning}]
+
+            <hr/>
+			</div>
+                <div class="form-group">
+                    <!-- running status for questions batch  -->
+                    <div class="col-sm-4">
+                        <label for="Execution" class="control-label">Questions and replies : </label>
+                    </div>
+                    <div class="col-sm-6">
+                        <h5>
+                            <apex:outputPanel styleClass="label label-default" rendered="{!setupObj.Current_Executing_Level__c<1}">
+                                Not Started
+                            </apex:outputPanel>
+                            <apex:outputPanel styleClass="label label-warning" rendered="{!setupObj.Current_Executing_Level__c==1}">
+                                In progress
+                            </apex:outputPanel>
+                            <apex:outputPanel styleClass="label label-success" rendered="{!IF(setupObj.Current_Executing_Level__c>1 && setupObj.Current_Executing_Level__c<6, true, false)}">
+                                Completed
+                            </apex:outputPanel>
+                            <apex:outputPanel styleClass="label label-danger" rendered="{!setupObj.Current_Executing_Level__c==6}">
+                                Error
+                            </apex:outputPanel>
+                        </h5>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <!-- running status for BestAnswers batch  -->
+                    <div class="col-sm-4">
+                        <label for="Execution" class="control-label">BestAnswers selection : </label>
+                    </div>
+                    <div class="col-sm-6">
+                        <h5>
+                            <apex:outputPanel styleClass="label label-default" rendered="{!setupObj.Current_Executing_Level__c<2}">
+                                Not Started
+                            </apex:outputPanel>
+                            <apex:outputPanel styleClass="label label-warning" rendered="{!setupObj.Current_Executing_Level__c==2}">
+                                In progress
+                            </apex:outputPanel>
+                            <apex:outputPanel styleClass="label label-success" rendered="{!IF(setupObj.Current_Executing_Level__c>2 && setupObj.Current_Executing_Level__c<6, true, false)}">
+                                Completed
+                            </apex:outputPanel>
+                            <apex:outputPanel styleClass="label label-danger" rendered="{!setupObj.Current_Executing_Level__c==6}">
+                                Error
+                            </apex:outputPanel>
+                        </h5>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <!-- running status for UserReputation batch  -->
+                    <div class="col-sm-4">
+                        <label for="Execution" class="control-label">UserReputation update : </label>
+                    </div>
+                        <div class="col-sm-6">
+                            <h5>
+                                <apex:outputPanel styleClass="label label-default" rendered="{!setupObj.Current_Executing_Level__c<3}">
+                                    Not Started
+                                </apex:outputPanel>
+                                <apex:outputPanel styleClass="label label-warning" rendered="{!setupObj.Current_Executing_Level__c==3}">
+                                    In progress
+                                </apex:outputPanel>
+                                <apex:outputPanel styleClass="label label-success" rendered="{!IF(setupObj.Current_Executing_Level__c>3 && setupObj.Current_Executing_Level__c<6, true, false)}">
+                                    Completed
+                                </apex:outputPanel>
+                                <apex:outputPanel styleClass="label label-danger" rendered="{!setupObj.Current_Executing_Level__c==6}">
+                                    Error
+                                </apex:outputPanel>
+                            </h5>
+                        </div>
+                    </div>
+
+                <div class="form-group">
+                    <!-- running status for Content batch  -->
+                    <div class="col-sm-4">
+                        <label for="Execution" class="control-label">Images migration : </label>
+                    </div>
+                    <div class="col-sm-6">
+                        <h5>
+                            <apex:outputPanel styleClass="label label-default" rendered="{!setupObj.Current_Executing_Level__c<4}">
+                                Not Started
+                            </apex:outputPanel>
+                            <apex:outputPanel styleClass="label label-warning" rendered="{!setupObj.Current_Executing_Level__c==4}">
+                                In progress
+                            </apex:outputPanel>
+                            <apex:outputPanel styleClass="label label-success" rendered="{!IF(setupObj.Current_Executing_Level__c>4 && setupObj.Current_Executing_Level__c<6, true, false)}">
+                                Completed
+                            </apex:outputPanel>
+                            <apex:outputPanel styleClass="label label-danger" rendered="{!setupObj.Current_Executing_Level__c==6}">
+                                Error
+                            </apex:outputPanel>
+                        </h5>
+                    </div>
+              </div>
+
+
+              <hr/>
+                <h5  class="control-label " style="text-align:left;"> Last Migration</h5>
+                <br/><br/>
+
+              <div class="form-group">
+                  <div class="col-sm-4">
+                      <label class="control-label">{!$ObjectType.ca2cq_log__c.fields.Start_Date__c.label}</label>
+                  </div>
+                  <div class="col-sm-6">
+                      <label class="control-label">
+
+                      <apex:outputText value=" {!lastLog.Start_Date__c}" />
+                      </label>
+                  </div>
+                  <div class="col-sm-2">
+                      &nbsp;
+                  </div>
+              </div>
+
+              <div class="form-group">
+                  <div class="col-sm-4">
+                      <label class="control-label">{!$ObjectType.ca2cq_log__c.fields.End_Date__c.label}</label>
+                  </div>
+                  <div class="col-sm-6">
+                      <label class="control-label">
+                        <apex:outputText value=" {!lastLog.End_Date__c}" />
+                      </label>
+                  </div>
+                  <div class="col-sm-2">
+                      &nbsp;
+                  </div>
+              </div>
+
+                <div class="form-group">
+                  <div class="col-sm-4">
+                      <label class="control-label">Migration Log</label>
+                  </div>
+                  <div class="col-sm-6">
+                      <label class="control-label">
+                          <a href="/{!lastLog.Id}" target="_blank"> {!lastLog.Id}</a>
+                      </label>
+                  </div>
+                  <div class="col-sm-2">
+                      &nbsp;
+                  </div>
+              </div>
+
+
+             <table class="table">
+              <thead>
+                <tr>
+                  <th>Content Type</th>
+                  <th>Selected</th>
+                  <th>Migrated</th>
+                  <th>Failed to migrate</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Questions</td>
+                  <td>{!lastLog.Questions_Selected__c}</td>
+                  <td>{!lastLog.Questions_Migrated__c}</td>
+                  <td>{!lastLog.Errors_on_Questions__c}</td>
+                </tr>
+                <tr>
+                  <td>Answers</td>
+                  <td>{!lastLog.Answers_Selected__c}</td>
+                  <td>{!lastLog.Answers_Migrated__c}</td>
+                  <td>{!lastLog.Errors_on_Answers__c}</td>
+                </tr>
+              </tbody>
+            </table>
+
+
+            </apex:outputPanel>
+          </div>
+          </div>
+
+        </div>
+
+        </div>
+        <apex:actionstatus id="whileLoading">
+            <apex:facet name="start">
+            <div class="waitingSearchDiv" id="el_loading" style="background-color: #fbfbfb;
+                 height: 100%;opacity:0.65;width:100%;">
+                <div class="waitingHolder" style="top: 74.2px; width: 91px;">
+                <img class="waitingImage" src="/img/loading.gif" title="Working..." />
+                <span class="waitingDescription">Working...</span>
+                </div>
+            </div>
+            </apex:facet>
+        </apex:actionstatus>
+
+
+
+    </apex:outputPanel>
+
+
+
+    <apex:actionFunction name="saveJS" action="{!save}" status="whileLoading"  reRender="all" >
+    <apex:param name="zonesMap" value="" />
+    <apex:param name="topicsMaps" value="" />
+    <apex:param name="whichQuestions" value="" />
+    <!--<apex:param name="questionIdList" value="" />-->
+    <apex:param name="selectedYear" value="" />
+    <apex:param name="questionIdListFromCsv" value="" />
+    <apex:param name="allowNullList" value="" />
+    </apex:actionFunction>
+    <apex:actionFunction name="launchBatchJS" action="{!launchBatch}" reRender="all" status="whileLoading" oncomplete="checkBatch();">
+
+    <apex:param name="selectedYear" value="" />
+
+    <apex:param name="questionIdListFromCsv" value="" />
+    </apex:actionFunction>
+
+
+
+    <apex:actionFunction name="refreshJS" action="{!refresh}"  reRender="batchStatus" oncomplete="checkBatch();">
+    </apex:actionFunction>
+
+    <apex:actionFunction name="getProcessedDcToTopic" action="{!returnTopicsOfDC}" oncomplete="updateValuesOfTopics('{!dCTopicListProcessed}');" reRender="none">
+        <apex:param name="dCTopicListToProcess" assignTo="{!dCTopicListProcessed}" value="" />
+    </apex:actionFunction>
+
+    <apex:actionFunction name="resetStatusConfig" action="{!resetStatusConfig}" oncomplete="reloadPage();" reRender="none">
+    </apex:actionFunction>
+    <apex:actionFunction name="saveThisValue" action="{!saveCommunityId}" oncomplete="getCommunityNames();" reRender="categoryBlock">
+        <apex:param name="communityIdSelected" value="" />
+    </apex:actionFunction>
+    <script>
+        var ctrlZPressed;
+        var ctrlAPressed;
+        function reloadPage()
+        {
+            location.reload();
+        }
+        function updateValuesOfTopics(listProcessed)
+        {
+            var dataCategoriesToTopic = listProcessed.toString().split(',');
+
+            for (var i = 0; i < dataCategoriesToTopic.length; i++) {
+                var actualDCT = dataCategoriesToTopic[i].split(":");
+                var actualInputs = document.getElementsByClassName(actualDCT[0]);
+                for (var j = 0; j < actualInputs.length; j++) {
+                    actualInputs[j].value = actualDCT[1];
+                    mapOfCategoriesToTopic[actualDCT[0]] = actualDCT[1];
+                }
+            }
+        }
+
+        function checkValueOfSelectCommunity(selectObject, zoneOfSelect)
+        {
+
+            if(selectObject.options[selectObject.selectedIndex].text == "Inactive for migration") {
+
+                var div = document.getElementById('div'+zoneOfSelect);
+                if(div.innerHTML.includes("input"))
+                {
+                    if(div.style.display !== 'none')
+                    {
+                        div.style.display = "none";
+                    }
+                }
+                if(div.innerHTML.includes("This zone doesn") )
+                {
+
+                    div.innerHTML =  '';
+                }
+            }
+            else
+            {
+                var div = document.getElementById('div'+zoneOfSelect);
+                if(div.innerHTML.includes("input"))
+                {
+                    if(div.style.display === 'none')
+                    {
+                        div.style.display = "block";
+                    }
+                }
+                else
+                {
+                    setThisValueToLocalStorage(zoneOfSelect);
+                    saveThisValue(zoneOfSelect);
+                }
+            }
+        }
+
+        function checkTopicKeyUp(topicObject, e)
+        {
+            var charCode = (typeof e.which == "number") ? e.which : e.keyCode;
+            if(charCode != 39 && charCode != 37) {
+                if((charCode == 65 || charCode == 17 || charCode == 91) && ctrlAPressed)
+                {
+                    return false;
+                }
+                else{
+                    if(ctrlZPressed)
+                    {
+                        var x = document.getElementsByClassName(topicObject.name);
+                        var i;
+                        for (i = 0; i < x.length; i++) {
+                            x[i].value = topicObject.value;
+                            mapOfCategoriesToTopic[x[i].name] = topicObject.value;
+                        }
+                    }
+                    else{
+                        var cc = document.getElementsByClassName(topicObject.name);
+                        var j;
+                        for (j = 0; j < cc.length; j++) {
+                            cc[j].value = topicObject.value;
+                            mapOfCategoriesToTopic[cc[j].name] = topicObject.value;
+                        }
+                    }
+               }
+
+            }
+
+        }
+        function checkTopicKeyDown(topicObject ,e )
+        {
+                var charCode = (typeof e.which == "number") ? e.which : e.keyCode;
+                if(charCode == 90 && e.ctrlKey || (charCode == 90 && e.metaKey)){
+                    ctrlZPressed = true;
+
+
+                }
+                if((charCode == 65 && e.ctrlKey) || (charCode == 65 && e.metaKey)){
+                    ctrlAPressed = true;
+                }
+        }
+
+        function saveTopicMapping(topicDataInput, e)
+        {
+                var charCode = (typeof e.which == "number") ? e.which : e.keyCode;
+
+                var c = String.fromCharCode(charCode);
+
+                        topicDataInput.className = "s";
+                        mapOfCategoriesToTopic[topicDataInput.name] = topicDataInput.value +  c;
+                        var x = document.getElementsByClassName(topicDataInput.name);
+                        var i;
+                        for (i = 0; i < x.length; i++) {
+
+                            x[i].value = topicDataInput.value +  c;
+                        }
+                        topicDataInput.className = topicDataInput.name ;
+
+        }
+
+
+        function getCommunityNames() {
+
+           var items = document.getElementsByClassName("cxdatacategory");
+           var categories = [];
+           var actualCommunityDivSelected = localStorage.getItem('zoneId');
+           var actualSelect = document.getElementsByClassName('select'+actualCommunityDivSelected);
+
+           if (actualSelect[0].options[actualSelect[0].selectedIndex].text == "Inactive for migration")
+           {
+               alert("Please select Community");
+           }
+           else{
+               var div = document.getElementById('div'+actualCommunityDivSelected);
+               if(div.innerHTML.includes("input"))
+               {
+                   if(div.style.display === 'none')
+                   {
+                       div.style.display = "block";
+                   }
+                   else
+                   {
+                       div.style.display = "none";
+                   }
+                   //check if innerHTML Contain body yet and hide, if is hide show but never reinsert more innerhtml if already was inserted
+                   //cause probably could lose already changes
+               }
+               else
+               {
+                   var cameFromButton =     localStorage.getItem('cameFromButton');
+
+                   if((div.innerHTML.includes("This zone doesn") && (actualSelect[0].options[actualSelect[0].selectedIndex].text.includes("Inactive for"))) || (div.innerHTML.includes("This zone doesn") && cameFromButton == "yes"))
+                   {
+
+                        localStorage.setItem('cameFromButton','no');
+                       div.innerHTML =  '';
+                   }
+                   else{
+                       div.innerHTML = '<br/><br/>';
+                       var dataC =  new Array();
+                       for (var i = 0; i < items.length; ++i) {
+                           if(mapOfCategoriesToTopic[items[i].dataset.dc] == undefined) {
+                               mapOfCategoriesToTopic[items[i].dataset.dc] = items[i].dataset.dc;
+                               dataC.push(items[i].dataset.dc);
+                               div.innerHTML = div.innerHTML + '<br/><input style="margin-top:1%;width:45%;" disabled name="'+items[i].dataset.dc+'" value="'+items[i].dataset.dc+'" readonly> - <input style="width:45%;" class="'+items[i].dataset.dc+'" name="'+items[i].dataset.dc+'" onKeyPress="saveTopicMapping(this,event)" onkeydown="checkTopicKeyDown(this,event)"  onKeyUp="checkTopicKeyUp(this,event)" value =""/>' ;
+
+                           }
+                           else
+                           {
+                               mapOfCategoriesToTopic[items[i].dataset.dc] = mapOfCategoriesToTopic[items[i].dataset.dc];
+                               div.innerHTML = div.innerHTML + '<br/><input style="margin-top:1%;width:45%;" disabled name="'+items[i].dataset.dc+'" value="'+items[i].dataset.dc+'" readonly> - <input style="width:45%;" class="'+items[i].dataset.dc+'" name="'+items[i].dataset.dc+'" onKeyPress="saveTopicMapping(this,event)" onkeydown="checkTopicKeyDown(this,event)" onKeyUp="checkTopicKeyUp(this,event)" value ="'+mapOfCategoriesToTopic[items[i].dataset.dc]+'"/>' ;
+
+                           }
+                           categories.push(items[i].dataset.dc);
+
+                       }
+                       getProcessedDcToTopic(dataC.toString());
+
+                       if(!div.innerHTML.includes("input"))
+                       {
+                            localStorage.setItem('cameFromButton','no');
+                            div.innerHTML = div.innerHTML + '<br/>This zone doesn\'t have Data Categories';
+                       }
+                   }
+               }
+           }
+
+
+
+
+       }
+    </script>
+</apex:form>
+<apex:pageBlock id="categoryBlock">
+    <div style="display:none;">
+           <chatteranswers:datacategoryfilter id="dddd" communityId="{!selectedCommunity}"/>
+    </div>
+</apex:pageBlock>
+</apex:page>

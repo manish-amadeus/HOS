@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Assessment_Requirement__c</fullName>
+    <description>Requirement on the Assessment that generated this Reference</description>
+    <externalId>false</externalId>
+    <formula>Assessment__r.Requirement_Number__r.Name</formula>
+    <inlineHelpText>Assessed Requirement linked this Reference</inlineHelpText>
+    <label>Assessment Requirement</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

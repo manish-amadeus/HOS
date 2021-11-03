@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Owner_Role__c</fullName>
+    <deleteConstraint>Restrict</deleteConstraint>
+    <description>Risk Assessment Role</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Role responsible for providing technical information or escalation support for this asset</inlineHelpText>
+    <label>Owner Role</label>
+    <referenceTo>AH_BIO_Role__c</referenceTo>
+    <relationshipLabel>Technical Owner</relationshipLabel>
+    <relationshipName>BIO_Sources</relationshipName>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

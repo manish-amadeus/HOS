@@ -1,0 +1,139 @@
+<apex:page Controller="NI_CendynOrders"  showHeader="true"  sidebar="false" standardStylesheets="true">
+
+
+<table width="100%">
+    <tr>
+        <td valign="top">
+            &nbsp;<apex:image url="{!URLFOR($Resource.CendynLogo)}"/>&nbsp;&nbsp; 
+            <font size="6">Cendyn Projects</font> 
+        </td>
+    </tr>
+</table>
+
+<apex:form >
+
+<apex:pageBlock id="pageBlockProducts">
+
+ <table>
+      <tr>
+      <td>
+          <apex:inputText id="searchText" value="{!searchText}" label="Search Text" styleClass="searchText"/>
+      </td>
+      <td>
+          <apex:commandButton value="Search Projects" action="{!runSearch}"  rerender="pbTP" status="status"/>
+      </td>
+   
+      </tr>
+      <tr>
+      <td>
+          <apex:actionStatus id="status" startText="requesting..."/>
+      </td>
+      </tr>
+      </table>
+     
+      <table width="100%">
+      <tr>
+      <td>
+          <apex:outputText rendered="{!lineItems.empty}" >No matches found</apex:outputText>
+      </td>
+      </tr>
+  </table>
+
+
+ <apex:pageBlockSection title="Cendyn Projects"  columns="1" collapsible="false" showHeader="false">
+     <apex:pageBlockTable value="{!lineItems}" var="o" id="pbTP"  >
+           
+           
+           <apex:column >
+       
+          
+           <apex:OutputLink value="/apex/CendynOrderDetail" target="_blank" >View<apex:param name="OppId" value="{!o.Opportunity.Id}"  />
+                      </apex:OutputLink>
+          
+           </apex:column>
+         
+            <apex:column >
+                 <apex:facet name="header">   
+                       <apex:commandLink action="{!ViewData}" value="Account Name{!IF(sortExpression=='AccountName',IF(sortDirection='ASC','▼','▲'),'')}" id="cmdSort">
+                         <apex:param value="Opportunity.Account.Name" name="column" assignTo="{!sortExpression}" ></apex:param>
+                       </apex:commandLink>
+                 </apex:facet>
+                 <apex:OutputText value="{!o.Opportunity.Account.Name}" id="AccountName"/>
+            </apex:column>
+            
+              <apex:column >
+               <apex:facet name="header">   
+                       <apex:commandLink action="{!ViewData}" value="Product Name{!IF(sortExpression=='ProductName',IF(sortDirection='ASC','▼','▲'),'')}" id="cmdSortProduct">
+                         <apex:param value="Product2.Name" name="column" assignTo="{!sortExpression}" ></apex:param>
+                       </apex:commandLink>
+                 </apex:facet>
+                 
+                <apex:OutputText value="{!o.Product2.Name}" id="ProductName"/>
+            </apex:column>
+            
+              <apex:column >
+               <apex:facet name="header">   
+                       <apex:commandLink action="{!ViewData}" value="Account Number{!IF(sortExpression=='AccountNumber',IF(sortDirection='ASC','▼','▲'),'')}" id="cmdSortAccountNumber">
+                         <apex:param value="Opportunity.Account.AccountNumber" name="column" assignTo="{!sortExpression}" ></apex:param>
+                       </apex:commandLink>
+                 </apex:facet>
+                <apex:OutputText value="{!o.Opportunity.Account.AccountNumber}" id="AccountNumber"/>
+            </apex:column>
+            
+           
+          
+            
+              <apex:column >
+               <apex:facet name="header">   
+                       <apex:commandLink action="{!ViewData}" value="Opportunity Number{!IF(sortExpression=='OpportunityNumber',IF(sortDirection='ASC','▼','▲'),'')}" id="cmdSortOppNum">
+                         <apex:param value="Opportunity.Opportunity_Number__c" name="column" assignTo="{!sortExpression}" ></apex:param>
+                       </apex:commandLink>
+                 </apex:facet>
+                <apex:OutputText value="{!o.Opportunity.Opportunity_Number__c}" id="OppNumb"/>
+            </apex:column>
+               <apex:column >
+                <apex:facet name="header">   
+                       <apex:commandLink action="{!ViewData}" value="Opportunity Close Date{!IF(sortExpression=='OpportunityCloseDate',IF(sortDirection='ASC','▼','▲'),'')}" id="cmdSortOppCloseDate">
+                         <apex:param value="Opportunity.CloseDate" name="column" assignTo="{!sortExpression}" ></apex:param>
+                       </apex:commandLink>
+                 </apex:facet>
+                <apex:OutputText value=" {0,date, MM/dd/yyyy}" id="OppCloseDate">
+                 <apex:param value="{!o.Opportunity.CloseDate}" />
+                </apex:OutputText>
+            </apex:column>
+             <apex:column >
+              <apex:facet name="header">   
+                       <apex:commandLink action="{!ViewData}" value="Projected Live Date{!IF(sortExpression=='ProjectedLiveDate',IF(sortDirection='ASC','▼','▲'),'')}" id="cmdSortProjectedLiveDate">
+                         <apex:param value="Projected_Go_Live__c" name="column" assignTo="{!sortExpression}" ></apex:param>
+                       </apex:commandLink>
+                 </apex:facet>
+                <apex:InputField value="{!o.Projected_Go_Live__c}" id="ProjectedLiveDate"/>
+            </apex:column>
+           
+             <apex:column >
+              <apex:facet name="header">   
+                       <apex:commandLink action="{!ViewData}" value="Live Date{!IF(sortExpression=='LiveDate',IF(sortDirection='ASC','▼','▲'),'')}" id="cmdSortLiveDate">
+                         <apex:param value="ServiceDate" name="column" assignTo="{!sortExpression}" ></apex:param>
+                       </apex:commandLink>
+                 </apex:facet>
+                <apex:InputField value="{!o.ServiceDate}" id="LiveDate"/>
+            </apex:column>
+            
+            
+        </apex:pageBlockTable>
+    
+    </apex:pageBlockSection>
+     <apex:pageBlockButtons >
+        <apex:commandButton action="{!SaveOrder}" value="Save Order" disabled="{!disableSaveButton}"> 
+          </apex:commandButton>    
+             
+    </apex:pageBlockButtons>
+
+</apex:pageBlock>    
+
+
+</apex:form>
+<apex:pageMessages />
+
+
+</apex:page>

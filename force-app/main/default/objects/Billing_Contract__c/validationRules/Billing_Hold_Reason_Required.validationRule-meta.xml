@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Billing_Hold_Reason_Required</fullName>
+    <active>true</active>
+    <description>Reason why Billing Contract is placed on Billing Hold. NICC-042125</description>
+    <errorConditionFormula>AND(
+Billing_Hold__c,
+ISBLANK(TEXT(Billing_Hold_Reason__c))
+)</errorConditionFormula>
+    <errorMessage>A billing hold reason is required for this record.</errorMessage>
+</ValidationRule>

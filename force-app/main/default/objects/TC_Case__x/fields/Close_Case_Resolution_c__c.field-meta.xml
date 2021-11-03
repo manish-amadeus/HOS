@@ -1,0 +1,463 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Close_Case_Resolution_c__c</fullName>
+    <externalDeveloperName>Close_Case_Resolution__c</externalDeveloperName>
+    <externalId>false</externalId>
+    <isFilteringDisabled>false</isFilteringDisabled>
+    <isNameField>false</isNameField>
+    <isSortingDisabled>false</isSortingDisabled>
+    <label>Close Case Resolution</label>
+    <readOnlyProxy>true</readOnlyProxy>
+    <required>false</required>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Account Reconciliation</fullName>
+                <default>false</default>
+                <label>Account Reconciliation</label>
+            </value>
+            <value>
+                <fullName>Action Taken on Duplicate Payment - Application</fullName>
+                <default>false</default>
+                <label>Action Taken on Duplicate Payment - Application</label>
+            </value>
+            <value>
+                <fullName>Action Taken on Duplicate Payment - Refund</fullName>
+                <default>false</default>
+                <label>Action Taken on Duplicate Payment - Refund</label>
+            </value>
+            <value>
+                <fullName>Adjustment Issued</fullName>
+                <default>false</default>
+                <label>Adjustment Issued</label>
+            </value>
+            <value>
+                <fullName>Adjustments</fullName>
+                <default>false</default>
+                <label>Adjustments</label>
+            </value>
+            <value>
+                <fullName>Billing Error (Manual File)</fullName>
+                <default>false</default>
+                <label>Billing Error (Manual File)</label>
+            </value>
+            <value>
+                <fullName>Billing Error (Other)</fullName>
+                <default>false</default>
+                <label>Billing Error (Other)</label>
+            </value>
+            <value>
+                <fullName>Billing inquiries</fullName>
+                <default>false</default>
+                <label>Billing inquiries</label>
+            </value>
+            <value>
+                <fullName>Billing Service Question</fullName>
+                <default>false</default>
+                <label>Billing Service Question</label>
+            </value>
+            <value>
+                <fullName>Cancellation-Management Change (new owner will not pay)</fullName>
+                <default>false</default>
+                <label>Cancellation-Management Change (new owner will not pay)</label>
+            </value>
+            <value>
+                <fullName>Cancellation-Nonpayment Auto Suspension</fullName>
+                <default>false</default>
+                <label>Cancellation-Nonpayment Auto Suspension</label>
+            </value>
+            <value>
+                <fullName>Cancellation-Not Within Contract Terms</fullName>
+                <default>false</default>
+                <label>Cancellation-Not Within Contract Terms</label>
+            </value>
+            <value>
+                <fullName>Cancellation-Within Contract Terms</fullName>
+                <default>false</default>
+                <label>Cancellation-Within Contract Terms</label>
+            </value>
+            <value>
+                <fullName>CC Charge Declined</fullName>
+                <default>false</default>
+                <label>CC Charge Declined</label>
+            </value>
+            <value>
+                <fullName>CC Charge Processed - Approved</fullName>
+                <default>false</default>
+                <label>CC Charge Processed - Approved</label>
+            </value>
+            <value>
+                <fullName>Closed</fullName>
+                <default>false</default>
+                <label>Closed</label>
+            </value>
+            <value>
+                <fullName>Closed - Incorrect Mailbox</fullName>
+                <default>false</default>
+                <label>Closed - Incorrect Mailbox</label>
+            </value>
+            <value>
+                <fullName>Closed - Termination</fullName>
+                <default>false</default>
+                <label>Closed - Termination</label>
+            </value>
+            <value>
+                <fullName>Closed - Unresolved</fullName>
+                <default>false</default>
+                <label>Closed - Unresolved</label>
+            </value>
+            <value>
+                <fullName>Collections agreed on different Payment Plan</fullName>
+                <default>false</default>
+                <label>Collections agreed on different Payment Plan</label>
+            </value>
+            <value>
+                <fullName>Collections Agreed to Refund</fullName>
+                <default>false</default>
+                <label>Collections Agreed to Refund</label>
+            </value>
+            <value>
+                <fullName>Contract Issue</fullName>
+                <default>false</default>
+                <label>Contract Issue</label>
+            </value>
+            <value>
+                <fullName>Contract Sent</fullName>
+                <default>false</default>
+                <label>Contract Sent</label>
+            </value>
+            <value>
+                <fullName>Coordinator Support</fullName>
+                <default>false</default>
+                <label>Coordinator Support</label>
+            </value>
+            <value>
+                <fullName>Correct Invoice</fullName>
+                <default>false</default>
+                <label>Correct Invoice</label>
+            </value>
+            <value>
+                <fullName>Credit/Rebill</fullName>
+                <default>false</default>
+                <label>Credit/Rebill</label>
+            </value>
+            <value>
+                <fullName>Credit Card - Charge Failed</fullName>
+                <default>false</default>
+                <label>Credit Card/Direct Debit - Failed</label>
+            </value>
+            <value>
+                <fullName>Credit Card - Processed</fullName>
+                <default>false</default>
+                <label>Credit Card/Direct Debit-Processed or Sent Receipt</label>
+            </value>
+            <value>
+                <fullName>Credit Issued</fullName>
+                <default>false</default>
+                <label>Credit Issued</label>
+            </value>
+            <value>
+                <fullName>Credit Memo Issued Against Dup Invoice</fullName>
+                <default>false</default>
+                <label>Credit Memo Issued Against Dup Invoice</label>
+            </value>
+            <value>
+                <fullName>Customer Change -Billing Delivery</fullName>
+                <default>false</default>
+                <label>Customer Change -Billing Delivery</label>
+            </value>
+            <value>
+                <fullName>Customer Change -Billing Frequency</fullName>
+                <default>false</default>
+                <label>Customer Change -Billing Frequency</label>
+            </value>
+            <value>
+                <fullName>Customer Change-Ownership Change</fullName>
+                <default>false</default>
+                <label>Customer Change-Ownership Change</label>
+            </value>
+            <value>
+                <fullName>Customer Change -Start Date</fullName>
+                <default>false</default>
+                <label>Customer Change -Start Date</label>
+            </value>
+            <value>
+                <fullName>Customer Issue Resolved</fullName>
+                <default>false</default>
+                <label>Customer Issue Resolved</label>
+            </value>
+            <value>
+                <fullName>Debit Memo Issued by Billing Team</fullName>
+                <default>false</default>
+                <label>Debit Memo Issued by Billing Team</label>
+            </value>
+            <value>
+                <fullName>Discount</fullName>
+                <default>false</default>
+                <label>Discount</label>
+            </value>
+            <value>
+                <fullName>Discretionary Credit</fullName>
+                <default>false</default>
+                <label>Discretionary Credit</label>
+            </value>
+            <value>
+                <fullName>Duplicate</fullName>
+                <default>false</default>
+                <label>Duplicate</label>
+            </value>
+            <value>
+                <fullName>Duplicate Opty</fullName>
+                <default>false</default>
+                <label>Duplicate Opty</label>
+            </value>
+            <value>
+                <fullName>Edited Invoice Details Manually</fullName>
+                <default>false</default>
+                <label>Edited Invoice Details Manually</label>
+            </value>
+            <value>
+                <fullName>Explaination of Invoice or Service</fullName>
+                <default>false</default>
+                <label>Explaination of Invoice or Service</label>
+            </value>
+            <value>
+                <fullName>Extension Amendment - Sent for signature</fullName>
+                <default>false</default>
+                <label>Extension Amendment - Sent for signature</label>
+            </value>
+            <value>
+                <fullName>Feature Spotlight Rollup</fullName>
+                <default>false</default>
+                <label>Feature Spotlight Rollup</label>
+            </value>
+            <value>
+                <fullName>Foreign Cury Remittance</fullName>
+                <default>false</default>
+                <label>Foreign Cury Remittance</label>
+            </value>
+            <value>
+                <fullName>Fulfillment Issue</fullName>
+                <default>false</default>
+                <label>Fulfillment Issue</label>
+            </value>
+            <value>
+                <fullName>Full/Partial Credit Memo Issued Against the Incorrect Charges</fullName>
+                <default>false</default>
+                <label>Full/Partial Credit Memo Issued Against the Incorrect Charges</label>
+            </value>
+            <value>
+                <fullName>Incorrect Mailbox</fullName>
+                <default>false</default>
+                <label>Incorrect Mailbox</label>
+            </value>
+            <value>
+                <fullName>Invoice Details Explained to Requester</fullName>
+                <default>false</default>
+                <label>Invoice Details Explained to Requester</label>
+            </value>
+            <value>
+                <fullName>Invoice Forwarded to Requester</fullName>
+                <default>false</default>
+                <label>Invoice Forwarded to Requester</label>
+            </value>
+            <value>
+                <fullName>Migration Error</fullName>
+                <default>false</default>
+                <label>Migration Error</label>
+            </value>
+            <value>
+                <fullName>No Action Needed</fullName>
+                <default>false</default>
+                <label>No Action Needed</label>
+            </value>
+            <value>
+                <fullName>Follow Up - All Other</fullName>
+                <default>false</default>
+                <label>No Action Needed/Follow-Up All Other</label>
+            </value>
+            <value>
+                <fullName>No Action Required</fullName>
+                <default>false</default>
+                <label>No Action Required</label>
+            </value>
+            <value>
+                <fullName>Order Management Issue</fullName>
+                <default>false</default>
+                <label>Order Management Issue</label>
+            </value>
+            <value>
+                <fullName>Payment Applied</fullName>
+                <default>false</default>
+                <label>Payment Applied</label>
+            </value>
+            <value>
+                <fullName>Payment Plan</fullName>
+                <default>false</default>
+                <label>Payment Plan</label>
+            </value>
+            <value>
+                <fullName>Product Conversion</fullName>
+                <default>false</default>
+                <label>Product Conversion</label>
+            </value>
+            <value>
+                <fullName>Product downgrade</fullName>
+                <default>false</default>
+                <label>Product downgrade</label>
+            </value>
+            <value>
+                <fullName>Product Upgrade</fullName>
+                <default>false</default>
+                <label>Product Upgrade</label>
+            </value>
+            <value>
+                <fullName>Received - Payment/Remittance</fullName>
+                <default>false</default>
+                <label>Received Payment/Promise to Pay/Remittance</label>
+            </value>
+            <value>
+                <fullName>Received - PO Number</fullName>
+                <default>false</default>
+                <label>Received - PO Number</label>
+            </value>
+            <value>
+                <fullName>Refund Initiated</fullName>
+                <default>false</default>
+                <label>Refund Initiated</label>
+            </value>
+            <value>
+                <fullName>Submitted Refund Request</fullName>
+                <default>false</default>
+                <label>Refund Submitted</label>
+            </value>
+            <value>
+                <fullName>Re-priced the renewal</fullName>
+                <default>false</default>
+                <label>Re-priced the renewal</label>
+            </value>
+            <value>
+                <fullName>Review Credit Hold</fullName>
+                <default>false</default>
+                <label>Review Credit Hold</label>
+            </value>
+            <value>
+                <fullName>Review signed Extension</fullName>
+                <default>false</default>
+                <label>Review signed Extension</label>
+            </value>
+            <value>
+                <fullName>Sabre Spotlight Rollup</fullName>
+                <default>false</default>
+                <label>Sabre Spotlight Rollup</label>
+            </value>
+            <value>
+                <fullName>Seller unresponsive to reminders</fullName>
+                <default>false</default>
+                <label>Seller unresponsive to reminders</label>
+            </value>
+            <value>
+                <fullName>Sent to Cash Aps</fullName>
+                <default>false</default>
+                <label>Sent - Cash Application</label>
+            </value>
+            <value>
+                <fullName>Sent - Contract</fullName>
+                <default>false</default>
+                <label>Sent Documents-Contract/W9/COI/Tax Doc</label>
+            </value>
+            <value>
+                <fullName>Sent - Invoice</fullName>
+                <default>false</default>
+                <label>Sent - Invoice</label>
+            </value>
+            <value>
+                <fullName>Sent - Statement</fullName>
+                <default>false</default>
+                <label>Sent - Statement or Called Customer</label>
+            </value>
+            <value>
+                <fullName>Sent to 3rd Party Collection</fullName>
+                <default>false</default>
+                <label>Sent to 3rd Party Collection</label>
+            </value>
+            <value>
+                <fullName>Sent to Proper Department</fullName>
+                <default>false</default>
+                <label>Sent to Proper Department</label>
+            </value>
+            <value>
+                <fullName>Service Reactivated</fullName>
+                <default>false</default>
+                <label>Service Reactivated</label>
+            </value>
+            <value>
+                <fullName>Service Suspension</fullName>
+                <default>false</default>
+                <label>Service Suspension</label>
+            </value>
+            <value>
+                <fullName>Signed Contract Explained &amp; Forwarded to Requester</fullName>
+                <default>false</default>
+                <label>Signed Contract Explained &amp; Forwarded to Requester</label>
+            </value>
+            <value>
+                <fullName>SPAM</fullName>
+                <default>false</default>
+                <label>SPAM</label>
+            </value>
+            <value>
+                <fullName>System Issue</fullName>
+                <default>false</default>
+                <label>System Issue</label>
+            </value>
+            <value>
+                <fullName>Taxes Withheld Documentation</fullName>
+                <default>false</default>
+                <label>Taxes Withheld Documentation</label>
+            </value>
+            <value>
+                <fullName>TC Bank Stuff</fullName>
+                <default>false</default>
+                <label>TC Bank Stuff</label>
+            </value>
+            <value>
+                <fullName>Term/rebuilt 2</fullName>
+                <default>false</default>
+                <label>Term/rebuilt 2</label>
+            </value>
+            <value>
+                <fullName>Term/rebuilt 3</fullName>
+                <default>false</default>
+                <label>Term/rebuilt 3</label>
+            </value>
+            <value>
+                <fullName>Term &amp; Rebuilt</fullName>
+                <default>false</default>
+                <label>Term &amp; Rebuilt</label>
+            </value>
+            <value>
+                <fullName>Termination</fullName>
+                <default>false</default>
+                <label>Termination</label>
+            </value>
+            <value>
+                <fullName>Update Email Delivery</fullName>
+                <default>false</default>
+                <label>Update Email Delivery</label>
+            </value>
+            <value>
+                <fullName>USD Remittance</fullName>
+                <default>false</default>
+                <label>USD Remittance</label>
+            </value>
+            <value>
+                <fullName>Wrong Department</fullName>
+                <default>false</default>
+                <label>Wrong Department</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

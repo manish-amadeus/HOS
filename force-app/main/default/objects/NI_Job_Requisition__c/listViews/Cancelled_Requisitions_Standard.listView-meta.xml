@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Cancelled_Requisitions_Standard</fullName>
+    <columns>NAME</columns>
+    <columns>CREATED_DATE</columns>
+    <columns>Manager__c</columns>
+    <columns>Employee_Preferred_Name__c</columns>
+    <columns>Job_Title__c</columns>
+    <columns>Department_Name__c</columns>
+    <columns>Employee_Start_Date__c</columns>
+    <columns>NI_Office__c</columns>
+    <columns>Status__c</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>RECORDTYPE</field>
+        <operation>equals</operation>
+        <value>NI_Job_Requisition__c.Standard_Closed</value>
+    </filters>
+    <filters>
+        <field>Status__c</field>
+        <operation>equals</operation>
+        <value>Cancelled</value>
+    </filters>
+    <label>Cancelled Requisitions (Standard)</label>
+</ListView>

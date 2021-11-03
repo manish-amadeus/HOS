@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<RecordType xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Commercial_Operation_Tasks</fullName>
+    <active>true</active>
+    <label>Process Improvement Task</label>
+    <picklistValues>
+        <picklist>Project_Phase__c</picklist>
+        <values>
+            <fullName>Code Review</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Development</fullName>
+            <default>true</default>
+        </values>
+        <values>
+            <fullName>Development Validation</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Documentation_Training</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Initial Discovery</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Production Deployment</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Production Validation</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Requirements Gathering</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>SBFULL Business Systems Validation</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>SBFULL Deployment</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>SBFULL Stakeholder Validation</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Solution Design</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Reason__c</picklist>
+        <values>
+            <fullName>Dependency</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Deprioritized</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Underestimated</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Unplanned Time-Off</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Status__c</picklist>
+        <values>
+            <fullName>Completed</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Deferred</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>In Progress</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Neglected</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>No Longer Applicable</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Not Started</fullName>
+            <default>true</default>
+        </values>
+    </picklistValues>
+</RecordType>

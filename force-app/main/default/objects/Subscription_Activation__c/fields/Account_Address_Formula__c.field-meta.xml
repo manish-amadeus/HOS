@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Account_Address_Formula__c</fullName>
+    <description>NICC-024063
+***THIS FIELD IS DISPLAYED IN THE PARTNER COMMUNITY***
+Originally created to display the Shipping Address of the account record related to the Subscription Activation record to Partner Community users. This allows the Partner Community users to see the Shipping Address (Physical Address) without giving them access to the Account object.</description>
+    <externalId>false</externalId>
+    <formula>Account__r.ShippingStreet &amp; BR() &amp; Account__r.ShippingCity &amp; &apos;,&apos; &amp; Account__r.ShippingState &amp; &apos; &apos; &amp; Account__r.ShippingPostalCode &amp; BR() &amp; Account__r.ShippingCountry</formula>
+    <inlineHelpText>The physical address of the account related to this subscription activation record</inlineHelpText>
+    <label>Account Address</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

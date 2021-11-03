@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>BC_s_Ready_to_Invoice_Excl_Itesso_BV3</fullName>
+    <booleanFilter>1 AND 2 AND 3 AND 4 AND 5</booleanFilter>
+    <columns>NAME</columns>
+    <columns>Company__c</columns>
+    <columns>Collector__c</columns>
+    <columns>Account__c</columns>
+    <columns>Opportunity__c</columns>
+    <columns>CREATEDBY_USER</columns>
+    <columns>Invoice_Date__c</columns>
+    <columns>Next_Invoice_Date__c</columns>
+    <columns>Ready_to_Invoice__c</columns>
+    <columns>Ready_to_Invoice_Numeric__c</columns>
+    <columns>CURRENCY_ISO_CODE</columns>
+    <columns>Total_Contract_Amount__c</columns>
+    <columns>Bill_to_Contact__c</columns>
+    <columns>Effective_Date__c</columns>
+    <columns>CREATED_DATE</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>Ready_to_Invoice__c</field>
+        <operation>equals</operation>
+        <value>1</value>
+    </filters>
+    <filters>
+        <field>Company__c</field>
+        <operation>notContain</operation>
+        <value>Itesso BV</value>
+    </filters>
+    <filters>
+        <field>Billing_Hold__c</field>
+        <operation>equals</operation>
+        <value>0</value>
+    </filters>
+    <filters>
+        <field>Ready_to_Invoice_Numeric__c</field>
+        <operation>notEqual</operation>
+        <value>0</value>
+    </filters>
+    <filters>
+        <field>Collector__c</field>
+        <operation>equals</operation>
+    </filters>
+    <label>RTI  - No Collector Excld. Itesso</label>
+    <language>en_US</language>
+</ListView>

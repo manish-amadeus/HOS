@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>PSA_Updated__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>NICC-026811
+
+This field was originally created for the Project Office.   Sometimes the IT Business Systems Team will work on customer-facing projects and their hours will need to be logged in the Financialforce - PSA.  This field will be checked (set to true) once the Project Office has updated the hours related to the Project Task in FF PSA.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>When working on projects where time needs to be logged in Financialforce - PSA, the Project Office will checked this field (set to true) once the time related to the Project has been updated in FF PSA.  Valerie Ruocco is currently updating this field.</inlineHelpText>
+    <label>PSA Updated</label>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>true</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

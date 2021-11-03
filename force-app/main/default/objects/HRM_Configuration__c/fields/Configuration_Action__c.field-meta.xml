@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Configuration_Action__c</fullName>
+    <externalId>false</externalId>
+    <label>Configuration Action</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>true</sorted>
+            <value>
+                <fullName>Activate</fullName>
+                <default>false</default>
+                <label>Activate</label>
+            </value>
+            <value>
+                <fullName>Check</fullName>
+                <default>false</default>
+                <label>Check</label>
+            </value>
+            <value>
+                <fullName>Create</fullName>
+                <default>true</default>
+                <label>Create</label>
+            </value>
+            <value>
+                <fullName>De-activate</fullName>
+                <default>false</default>
+                <label>De-activate</label>
+            </value>
+            <value>
+                <fullName>Delete</fullName>
+                <default>false</default>
+                <label>Delete</label>
+            </value>
+            <value>
+                <fullName>Do Not Activate</fullName>
+                <default>false</default>
+                <label>Do Not Activate</label>
+            </value>
+            <value>
+                <fullName>Edit</fullName>
+                <default>false</default>
+                <label>Edit</label>
+            </value>
+            <value>
+                <fullName>Edit/Activate</fullName>
+                <default>false</default>
+                <label>Edit/Activate</label>
+            </value>
+            <value>
+                <fullName>Remove</fullName>
+                <default>false</default>
+                <label>Remove</label>
+            </value>
+            <value>
+                <fullName>Use Existing Action</fullName>
+                <default>false</default>
+                <label>Use Existing Action</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

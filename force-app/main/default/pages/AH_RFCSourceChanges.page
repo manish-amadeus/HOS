@@ -1,0 +1,297 @@
+<apex:page standardController="NI_Change_Control__c" extensions="AH_RFCSourceChanges" standardStylesheets="true">
+
+    <apex:slds rendered="true"/>
+    <apex:stylesheet value="{!URLFOR($Resource.AmadeusStyles, 'Amadeus.css')}"/>
+    
+    <script language="JavaScript" type="text/javascript">    
+        function doFilter(chk) 
+        {
+            callDoSearch();  
+        } 
+        function noenter(ev)  
+        {
+            if (window.event && window.event.keyCode == 13 || ev.which == 13) 
+            {
+                callDoSearch();
+                return false;
+            } 
+            else 
+            {
+                return true;
+            }
+        }     
+    </script>    
+    
+    <div class="slds-scope" style="width: 100% !important;margin: auto !important;"> 
+        
+        <apex:sectionHeader title="Source Selection for " subtitle="{!pageSubTitle}" />
+        
+        <apex:messages />
+        
+    <apex:form > 
+
+        <apex:actionFunction action="{!doSearch}" status="status" name="callDoSearch" /> 
+
+        <apex:pageBlock title="Change Control Details" mode="read">
+            <apex:pageBlockButtons location="Top">
+                <apex:commandButton id="cmdSave" value="Save" action="{!saveRecord}" />
+                <apex:commandButton id="cmdCancel" value="Cancel" action="{!cancel}" />
+                <apex:commandButton id="cmdSync" value="Sync Source Control" action="{!syncSource}" rerender="pbsSearch" status="status" />
+            </apex:pageBlockButtons>
+            <apex:pageBlockSection columns="1">   
+               
+                <apex:outputField value="{!nicc.Request_Summary__c}" label="Request Summary" style="font-family: AmadeusRegular;font-size: x-large;color:#005eb8;" /> 
+
+            </apex:pageBlockSection>
+        </apex:pageBlock>  
+        
+        
+        <apex:pageBlock > 
+            <apex:pageBlockSection id="pbsSearch" columns="1" collapsible="true" rendered="true" showHeader="true" title="Source Search"> 
+                <apex:outputPanel id="outSearch">
+
+                    &nbsp;&nbsp;&nbsp;&nbsp;
+                    <apex:outputLabel value="Keyword: " for="txtKeyword" style="font-weight: bold;" />
+                    <apex:inputText id="txtKeyword" value="{!strKeyword}" style="width: 200px;" onkeypress="return noenter(event);" />
+                    &nbsp;
+                    <apex:commandButton id="cmdSearch" value="Search" action="{!doSearch}" rerender="pbsSearch" status="status" accesskey="ENTER"/>
+                    <br/>
+                    <apex:outputLabel value="What to Include:" style="font-weight:bold;" />&nbsp;&nbsp;&nbsp;&nbsp;
+                    
+                    <apex:outputLabel value="Apex Classes" />&nbsp;
+                    <apex:inputCheckbox id="chkClasses" value="{!bApexClasses}" onchange="doFilter();" />&nbsp;&nbsp;
+
+                    <apex:outputLabel value="Apex Triggers" />&nbsp;      
+                    <apex:inputCheckbox id="chktriggers" value="{!bApexTriggers}" onchange="doFilter();" />&nbsp;&nbsp;
+                    
+                    <apex:outputLabel value="Visualforce Pages" />&nbsp;      
+                    <apex:inputCheckbox id="chkVFPages" value="{!bVFPages}" onchange="doFilter();" />&nbsp;&nbsp;  
+                    
+                    <apex:outputLabel value="Visualforce Components" />&nbsp;      
+                    <apex:inputCheckbox id="chkVFComponents" value="{!bVFComponents}" onchange="doFilter();" />&nbsp;&nbsp; 
+                    
+                    <apex:outputLabel value="Process Builders" />&nbsp;      
+                    <apex:inputCheckbox id="chkProcessBuilders" value="{!bProcessBuilders}" onchange="doFilter();" />&nbsp;&nbsp;  
+                    
+                    <apex:outputLabel value="Validation Rules" />&nbsp;      
+                    <apex:inputCheckbox id="chkValidationRules" value="{!bValidationRules}" onchange="doFilter();" />&nbsp;&nbsp;  
+                    
+                </apex:outputPanel>
+                <br />
+                <apex:commandButton id="cmdAddUser" value="Add Selected" action="{!addSelected}" />
+                <apex:outputPanel id="outSearchResult">
+                    <apex:pageBlockTable value="{!lstUserSelections}" var="obj"> 
+                        
+                        <apex:column style="text-align: center; width: 40px;">
+                            <apex:facet name="header">
+                                <apex:outputText value="Select" /> 
+                            </apex:facet>
+                            <apex:inputCheckbox value="{!obj.isSelected}" id="checkedUser" />
+                        </apex:column>  
+                        
+                        <apex:column value="{!obj.ssc.API_Name__c}" headerValue="Source Name"/>                  
+                        <apex:column value="{!obj.ssc.Salesforce_Source_Type__c}" headerValue="Source Type"/> 
+
+                        
+                    </apex:pageBlockTable>
+                </apex:outputPanel>
+            </apex:pageBlockSection>
+            
+            <apex:outputpanel >
+                <apex:actionstatus id="status">
+                    <apex:facet name="start">
+                        <div class="waitingSearchDiv" id="el_loading" style="background-color: #fbfbfb; height: 100%; opacity:0.65; width:100%;"> 
+                            <div class="waitingHolder" style="top: 74.2px; width: 91px;">
+                                <img class="waitingImage" src="/img/loading.gif" title="Please Wait..." />
+                                <span class="waitingDescription"></span>
+                            </div>
+                        </div>
+                    </apex:facet>
+                </apex:actionstatus>
+            </apex:outputpanel>              
+            
+            <apex:pageBlockSection id="pbsSelected" columns="1" collapsible="false" rendered="true" showHeader="true" title="Selected"> 
+				<br />
+                <apex:commandButton id="cmdRemove" value="Remove Selected" action="{!removeSelected}" />
+                <apex:outputPanel id="outSelected">
+                    <apex:pageBlockTable value="{!lstSelectedSSCs}" var="obj2"> 
+                        
+                        <apex:column style="text-align: center; width: 40px;">
+                            <apex:facet name="header">
+                                <apex:outputText value="Remove" /> 
+                            </apex:facet>
+                            <apex:inputCheckbox value="{!obj2.isSelected}" id="checkedSelUser" />
+                        </apex:column>  
+                        
+                        <apex:column value="{!obj2.ssc.API_Name__c}" headerValue="Source Name"/>                  
+                        <apex:column value="{!obj2.ssc.Salesforce_Source_Type__c}" headerValue="Source Type"/> 
+                        
+                    </apex:pageBlockTable>
+                </apex:outputPanel>
+            </apex:pageBlockSection>            
+
+        </apex:pageBlock>  
+        
+        <style type="text/css">        
+            .formPopup 
+            {      
+            background-color: white;
+            border-width: 2px;
+            border-style: solid;
+            border-color: gray;
+            z-index: 9999;
+            left: 50%;
+            padding: 10px;
+            position: absolute;
+            width: 1000px;
+            margin-left: -500px;
+            top: 60px;
+            border-radius: 5px;
+            }                
+            .popupBackground 
+            {              
+            background-color: black;
+            opacity: 0.20;
+            filter: alpha(opacity = 20);
+            position: absolute;
+            width: 100%;
+            height: 500%;
+            top: 0;
+            left: 0;
+            z-index: 9998;
+            }                
+            .pbColHeadr
+            {
+            text-align: center !important;
+            }  
+            
+            thead>tr>th 
+            {
+            white-space: normal !important;
+            font-weight: bold !important;
+            text-align: center !important;                  
+            text-decoration: underline !important;
+            }
+            
+            @font-face {
+            font-family: 'AmadeusBold';
+            src: url('{!URLFOR($Resource.AmadeusBoldFont, 'amadeus-bold-web.eot')}');
+            src: url('{!URLFOR($Resource.AmadeusBoldFont, 'amadeus-bold-web.eot')}?#iefix') format('embedded-opentype'),
+            url('{!URLFOR($Resource.AmadeusBoldFont, 'amadeus-bold-web.woff')}') format('woff'), 
+            url('{!URLFOR($Resource.AmadeusBoldFont, 'amadeus-bold-web.ttf')}') format('truetype'), 
+            url('{!URLFOR($Resource.AmadeusBoldFont, 'amadeus-bold-web.svg.woff')}#AmadeusBold') format('svg'); 
+            font-weight: normal;
+            font-style: normal;
+            }
+            
+            @font-face {
+            font-family: 'AmadeusBoldItalic';
+            src: url('{!URLFOR($Resource.AmadeusBoldItalicFont, 'amadeus-bolditalic-web.eot')}');
+            src: url('{!URLFOR($Resource.AmadeusBoldItalicFont, 'amadeus-bolditalic-web.eot')}?#iefix') format('embedded-opentype'),
+            url('{!URLFOR($Resource.AmadeusBoldItalicFont, 'amadeus-bolditalic-web.woff')}') format('woff'), 
+            url('{!URLFOR($Resource.AmadeusBoldItalicFont, 'amadeus-bolditalic-web.ttf')}') format('truetype'), 
+            url('{!URLFOR($Resource.AmadeusBoldItalicFont, 'amadeus-bolditalic-web.svg.woff')}#AmadeusBoldItalic') format('svg'); 
+            font-weight: normal;
+            font-style: normal;
+            }
+            @font-face {
+            font-family: 'AmadeusItalic';
+            src: url('{!URLFOR($Resource.AmadeusItalicFont, 'amadeus-italic-web.eot')}');
+            src: url('{!URLFOR($Resource.AmadeusItalicFont, 'amadeus-italic-web.eot')}?#iefix') format('embedded-opentype'),
+            url('{!URLFOR($Resource.AmadeusItalicFont, 'amadeus-italic-web.woff')}') format('woff'), 
+            url('{!URLFOR($Resource.AmadeusItalicFont, 'amadeus-italic-web.ttf')}') format('truetype'), 
+            url('{!URLFOR($Resource.AmadeusItalicFont, 'amadeus-italic-web.svg.woff')}#AmadeusItalic') format('svg'); 
+            font-weight: normal;
+            font-style: normal;
+            }                
+            @font-face {
+            font-family: 'AmadeusLight';
+            src: url('{!URLFOR($Resource.AmadeusLightFont, 'amadeus-light.eot')}');
+            src: url('{!URLFOR($Resource.AmadeusLightFont, 'amadeus-light.eot')}?#iefix') format('embedded-opentype'),
+            url('{!URLFOR($Resource.AmadeusLightFont, 'amadeus-light.woff')}') format('woff'), 
+            url('{!URLFOR($Resource.AmadeusLightFont, 'amadeus-light.ttf')}') format('truetype'), 
+            url('{!URLFOR($Resource.AmadeusLightFont, 'amadeus-light.svg.woff')}#AmadeusLight') format('svg'); 
+            font-weight: normal;
+            font-style: normal;
+            }
+            @font-face {
+            font-family: 'AmadeusLightItalic';
+            src: url('{!URLFOR($Resource.AmadeusLightItalicFont, 'amadeus-lightitalic.eot')}');
+            src: url('{!URLFOR($Resource.AmadeusLightItalicFont, 'amadeus-lightitalic.eot')}?#iefix') format('embedded-opentype'),
+            url('{!URLFOR($Resource.AmadeusLightItalicFont, 'amadeus-lightitalic.woff')}') format('woff'), 
+            url('{!URLFOR($Resource.AmadeusLightItalicFont, 'amadeus-lightitalic.ttf')}') format('truetype'), 
+            url('{!URLFOR($Resource.AmadeusLightItalicFont, 'amadeus-lightitalic.svg.woff')}#AmadeusLightItalic') format('svg'); 
+            font-weight: normal;
+            font-style: normal;
+            }
+            @font-face {
+            font-family: 'AmadeusRegular';
+            src: url('{!URLFOR($Resource.AmadeusRegularFont, 'amadeus-regular-web.eot')}');
+            src: url('{!URLFOR($Resource.AmadeusRegularFont, 'amadeus-regular-web.eot')}?#iefix') format('embedded-opentype'),
+            url('{!URLFOR($Resource.AmadeusRegularFont, 'amadeus-regular-web.woff')}') format('woff'), 
+            url('{!URLFOR($Resource.AmadeusRegularFont, 'amadeus-regular-web.ttf')}') format('truetype'), 
+            url('{!URLFOR($Resource.AmadeusRegularFont, 'amadeus-regular-web.svg.woff')}#AmadeusRegular') format('svg'); 
+            font-weight: normal;
+            font-style: normal;
+            } 
+            @font-face {
+            font-family: 'AmadeusThin';
+            src: url('{!URLFOR($Resource.AmadeusThinFont, 'amadeus-thin-web.eot')}');
+            src: url('{!URLFOR($Resource.AmadeusThinFont, 'amadeus-thin-web.eot')}?#iefix') format('embedded-opentype'),
+            url('{!URLFOR($Resource.AmadeusThinFont, 'amadeus-thin-web.woff')}') format('woff'), 
+            url('{!URLFOR($Resource.AmadeusThinFont, 'amadeus-thin-web.ttf')}') format('truetype'), 
+            url('{!URLFOR($Resource.AmadeusThinFont, 'amadeus-thin-web.svg.woff')}#AmadeusThin') format('svg'); 
+            font-weight: normal;
+            font-style: normal;
+            }
+            @font-face {
+            font-family: 'AmadeusThinItalic';
+            src: url('{!URLFOR($Resource.AmadeusThinItalicFont, 'amadeus-thinitalic-web.eot')}');
+            src: url('{!URLFOR($Resource.AmadeusThinItalicFont, 'amadeus-thinitalic-web.eot')}?#iefix') format('embedded-opentype'),
+            url('{!URLFOR($Resource.AmadeusThinItalicFont, 'amadeus-thinitalic-web.woff')}') format('woff'), 
+            url('{!URLFOR($Resource.AmadeusThinItalicFont, 'amadeus-thinitalic-web.ttf')}') format('truetype'), 
+            url('{!URLFOR($Resource.AmadeusThinItalicFont, 'amadeus-thinitalic-web.svg.woff')}#AmadeusThinItalic') format('svg'); 
+            font-weight: normal;
+            font-style: normal;
+            }    
+        </style>
+        
+        </apex:form>
+
+        <style type="text/css"> 
+
+            .AHFooter
+            {
+                font-family: Verdana;
+                color: #005EB8;
+                border-top-width: 1px;
+                border-top-style: solid;
+                border-top-color: #FFF;
+                height: 114px;
+            }
+            .AHFootContainer
+            {
+                width: 970px;
+                margin-top: 0px;
+                margin-right: auto;
+                margin-bottom: 0px;
+                margin-left: auto;
+                padding-top: 22px;
+            }
+            .AHFooterTerms
+            {
+                font-size: 11px;
+                float: left;
+                padding-top: 38px;
+            }    
+            .AHFooterSocial
+            {
+                float: right;
+                font-size: 14px;
+                padding-top: 36px;
+            }             
+        </style>        
+
+        
+    </div>
+</apex:page>

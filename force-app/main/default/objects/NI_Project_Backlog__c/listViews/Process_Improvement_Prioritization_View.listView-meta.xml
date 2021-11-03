@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Process_Improvement_Prioritization_View</fullName>
+    <columns>NAME</columns>
+    <columns>User__c</columns>
+    <columns>Sponsor__c</columns>
+    <columns>Priority__c</columns>
+    <columns>Estimated_Total_Net_Project_Value__c</columns>
+    <columns>Request_Status__c</columns>
+    <columns>Legal_Compliance__c</columns>
+    <columns>Required_for_Security_Compliance__c</columns>
+    <columns>Systems__c</columns>
+    <columns>T_shirt_Size__c</columns>
+    <columns>CBS_Committed__c</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>RECORDTYPE</field>
+        <operation>equals</operation>
+        <value>NI_Project_Backlog__c.Commercial_Operation_Projects</value>
+    </filters>
+    <filters>
+        <field>Request_Status__c</field>
+        <operation>contains</operation>
+        <value>Pending Scheduling</value>
+    </filters>
+    <filters>
+        <field>NAME</field>
+        <operation>notContain</operation>
+        <value>Master</value>
+    </filters>
+    <filters>
+        <field>Priority__c</field>
+        <operation>greaterOrEqual</operation>
+        <value>1</value>
+    </filters>
+    <label>PI - Internal Project Prioritization</label>
+    <sharedTo>
+        <allInternalUsers></allInternalUsers>
+    </sharedTo>
+</ListView>

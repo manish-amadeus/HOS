@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>TFS_Team_Project__c</fullName>
+    <description>Salesforce.com Change Request: NICC-013301
+
+Editable by interactive users.
+Editable by the TFS integration.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Determines which TFS Project the Marquee will be created in.  The Marquee record will not be created in TFS if this field is not populated</inlineHelpText>
+    <label>TFS Team Project</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Connex</fullName>
+                <default>false</default>
+                <label>Connex</label>
+            </value>
+            <value>
+                <fullName>Curriculum Development</fullName>
+                <default>false</default>
+                <label>Curriculum Development</label>
+            </value>
+            <value>
+                <fullName>Daylight</fullName>
+                <default>false</default>
+                <label>Daylight</label>
+            </value>
+            <value>
+                <fullName>Delphi</fullName>
+                <default>false</default>
+                <label>Delphi</label>
+            </value>
+            <value>
+                <fullName>Delphi.Net</fullName>
+                <default>false</default>
+                <label>Delphi.Net</label>
+            </value>
+            <value>
+                <fullName>Delphi BI</fullName>
+                <default>false</default>
+                <label>Delphi BI</label>
+            </value>
+            <value>
+                <fullName>Diagrams</fullName>
+                <default>false</default>
+                <label>Diagrams</label>
+            </value>
+            <value>
+                <fullName>EA Integration</fullName>
+                <default>false</default>
+                <label>EA Integration</label>
+            </value>
+            <value>
+                <fullName>HIS</fullName>
+                <default>false</default>
+                <label>HIS</label>
+            </value>
+            <value>
+                <fullName>HSP</fullName>
+                <default>false</default>
+                <label>HSP</label>
+            </value>
+            <value>
+                <fullName>iPlan</fullName>
+                <default>false</default>
+                <label>iPlan</label>
+            </value>
+            <value>
+                <fullName>I-Server</fullName>
+                <default>false</default>
+                <label>I-Server</label>
+            </value>
+            <value>
+                <fullName>Labs</fullName>
+                <default>false</default>
+                <label>Labs</label>
+            </value>
+            <value>
+                <fullName>Libra</fullName>
+                <default>false</default>
+                <label>Libra</label>
+            </value>
+            <value>
+                <fullName>MeetingMatrix</fullName>
+                <default>false</default>
+                <label>MeetingMatrix</label>
+            </value>
+            <value>
+                <fullName>OnDemand</fullName>
+                <default>false</default>
+                <label>OnDemand</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

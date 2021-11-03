@@ -1,0 +1,283 @@
+<apex:page standardcontroller="NI_Employee_Performance_Evaluation__c" extensions="NI_PerfEval_Ext" tabstyle="NI_Employee_Performance_Evaluation__c" title="PerfEval View">
+
+    <script>
+
+        function SendToManager() 
+        {
+            if (confirm('{!JSENCODE($Label.PerfEval_SubmitToManagerMsg)}')) 
+            {
+                callSendToManager();
+                return false;
+            }
+            return false;
+        }
+    
+    	function ReturnToEmployee() 
+        {
+            if (confirm('{!JSENCODE($Label.PerfEval_ReturnToEmployeeMsg)}')) 
+            {
+                callReturnToEmployee();
+                return false;
+            }
+            return false;
+        }
+    
+    	function ReviewWithEmployee() 
+        {	
+            if (confirm('{!JSENCODE($Label.PerfEval_ReviewWithEmployeeMsg)}')) 
+            {
+                callReviewWithEmployee();
+                return false;
+            }
+            return false;
+        }
+    
+    	function EmployeeSignoff() 
+        {
+            if (confirm('{!JSENCODE($Label.PerfEval_EmployeeSignOffMsg)}')) 
+            {
+                callEmployeeSignoff();
+                return false;
+            }
+            return false;
+        }
+    
+    </script>
+    
+    <apex:sectionHeader title="Employee Performance Evaluation" subtitle="{!NI_Employee_Performance_Evaluation__c.Name}"/>
+    <chatter:feedWithFollowers id="chatFeed" entityId="{!NI_Employee_Performance_Evaluation__c.Id}"/>  
+    
+    <apex:form > 
+        
+        <apex:actionFunction action="{!sendToManager}" name="callSendToManager"/>
+        <apex:actionFunction action="{!returnToEmployee}" name="callReturnToEmployee"/>
+        <apex:actionFunction action="{!reviewWithEmployee}" name="callReviewWithEmployee"/>
+        <apex:actionFunction action="{!employeeSignoff}" name="callEmployeeSignoff"/>
+        
+        <apex:pageBlock title="Employee Performance Evaluation Detail">
+            
+            <apex:pageBlockButtons >
+                <apex:commandButton id="cmdEdit" action="{!editEval}" value="Edit" rendered="{!bShowEditButton}" />
+                <apex:commandButton id="cmdSharing" action="{!URLFOR($Action.NI_Employee_Performance_Evaluation__c.Share,NI_Employee_Performance_Evaluation__c.Id)}" value="Sharing" rendered="{!bShowSharingButton}" />
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <apex:commandButton id="cmdSendToManager" onclick="return SendToManager();" value="Submit to Manager" rendered="{!bShowSendToManagerButton}" />
+                <apex:commandButton id="cmdReturnToEmployee" onclick="return ReturnToEmployee();" value="Return To Employee" rendered="{!bShowReturnToEmployeeButton}" />
+                <apex:commandButton id="cmdReviewWithEmployee" onclick="return ReviewWithEmployee();" value="Review With Employee" rendered="{!bShowReviewWithEmployeeButton}" />
+                <apex:commandButton id="cmdEmployeeSignoff" onclick="return EmployeeSignoff();" value="Submit for Approval" rendered="{!bShowEmployeeSignoffButton}" />
+                <apex:commandButton id="cmdCreateNew" action="{!URLFOR($Action.NI_Employee_Performance_Evaluation__c.New_Evaluation, NI_Employee_Performance_Evaluation__c.Id)}" value="New Performance Evaluation" rendered="{!bShowCreateNewButton}" />
+            </apex:pageBlockButtons>
+            
+            <apex:outputPanel id="divMessages" style="text-align: center; color: #FF0000;" rendered="{!bShowFormLock}"> 
+                <center>
+                    <apex:image id="imgLocked1" alt="Locked" url="/img/func_icons/util/lock12.gif"/>&nbsp;&nbsp;&nbsp;
+                    <apex:outputText value="{!$Label.PerfEval_EmployeeLockMsgTop}" />&nbsp;&nbsp;&nbsp;
+                    <apex:image id="imgLocked2" alt="Locked" url="/img/func_icons/util/lock12.gif"/><br/>
+                    <apex:outputText value="{!$Label.PerfEval_EmployeeLockMsgBottom}" />
+                    <br/>                     
+                    <br/>
+                </center>
+            </apex:outputPanel>
+            
+            <apex:pageBlockSection title="Information" columns="2">
+                
+                <apex:outputField label="Employee Name" value="{!NI_Employee_Performance_Evaluation__c.Owner.Name}" />
+                <apex:outputField value="{!NI_Employee_Performance_Evaluation__c.Manager__c}"/>
+                
+                <apex:outputField value="{!NI_Employee_Performance_Evaluation__c.Job_Title__c}"/>
+                <apex:outputField value="{!NI_Employee_Performance_Evaluation__c.Department_Code__c}"/>
+                
+                <apex:outputField value="{!NI_Employee_Performance_Evaluation__c.Time_in_Position__c}"/>
+                <apex:outputField value="{!NI_Employee_Performance_Evaluation__c.Department__c}"/>
+                
+                <apex:outputField value="{!NI_Employee_Performance_Evaluation__c.NI_Location__c}"/>
+                <apex:outputField value="{!NI_Employee_Performance_Evaluation__c.Status__c}"/>                
+                
+                <apex:outputField value="{!NI_Employee_Performance_Evaluation__c.Performance_Evaluation_Year__c}"/>                
+                <apex:outputField value="{!NI_Employee_Performance_Evaluation__c.Name}"/>
+                
+                <apex:outputField label="Collaborating Manager" value="{!NI_Employee_Performance_Evaluation__c.Collaborating_Manager__c}" />
+                <apex:outputText value=""/>
+                <apex:outputField label="Collaborating Manager 2" value="{!NI_Employee_Performance_Evaluation__c.Collaborating_Manager_2__c}" />
+                
+                <apex:outputText value=""/>
+                <apex:outputField label="Collaborating Manager 3" value="{!NI_Employee_Performance_Evaluation__c.Collaborating_Manager_3__c}" />
+                <apex:outputField value="{!NI_Employee_Performance_Evaluation__c.Employee_Name__c}" rendered="false"/>
+                
+                <apex:outputText value=""/>
+                <apex:outputField value="{!NI_Employee_Performance_Evaluation__c.Admin_Edit__c}"/>                
+                
+            </apex:pageBlockSection>
+            
+            <br/>
+            
+            <div style="text-align: center;"> 
+                <center>
+                    <table border="1" style="backcolor: White;">
+                        <tr>
+                            <td style="text-align: center; background-color: #DCDCDC;">
+                                <b>Assessment Scale</b>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: left;">                            
+                                <table>
+                                    <tr>
+                                        <td>
+                                            <b>Exceeds Expectations</b>
+                                        </td>
+                                        <td>
+                                            {!$Label.PerfEval_ExceedsExpectations}
+                                        </td>
+                                    </tr>
+                                    <tr style="background-color: #E6E6FA;">
+                                        <td>
+                                            <b>Demonstrates/Exceeds Expectations</b>
+                                        </td>
+                                        <td>
+                                            {!$Label.PerfEval_DemonstratesExceedsExpectations}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <b>Demonstrates</b>
+                                        </td>
+                                        <td>
+                                            {!$Label.PerfEval_Demonstrates}
+                                        </td>
+                                    </tr>
+                                    <tr style="background-color: #E6E6FA;">
+                                        <td>
+                                            <b>Needs Development/Demonstrates</b>
+                                        </td>
+                                        <td>
+                                            {!$Label.PerfEval_NeedsDevelopmentDemonstrates}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <b>Needs Development</b>
+                                        </td>
+                                        <td>
+                                            {!$Label.PerfEval_NeedsDevelopment}
+                                        </td>
+                                    </tr>
+                                    <tr style="background-color: #E6E6FA;">
+                                        <td>
+                                            <b>Does Not Demonstrate</b>
+                                        </td>
+                                        <td>
+                                            {!$Label.PerfEval_DoesNotDemonstrate}
+                                        </td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr> 
+                    </table>
+                </center>    
+            </div>	            
+            
+            <apex:pageBlockSection title="Assessments" collapsible="true" columns="1">
+                <apex:pageBlockTable value="{!lstAssessment}" var="a">
+                    <apex:column value="{!a.Category__c}"/>
+                    <apex:column value="{!a.Description__c}"/>
+                    <apex:column headerValue="Self-Appraisal Rating">
+                        <apex:outputField value="{!a.Self_Appraisal_Rating__c}" />
+                    </apex:column>
+                    <apex:column headerValue="Manager Rating" rendered="{!bShowManagerRatingColumn}">
+                        <apex:outputField value="{!a.Manager_Rating__c}" Rendered="{!bShowManagerRatingColumn}"/>
+                    </apex:column>
+                </apex:pageBlockTable>
+            </apex:pageBlockSection>
+            
+            <apex:pageBlockSection title="Management Skills Assessments (for Team Leads, Supervisors, Managers, and Directors only)" collapsible="true" columns="1">
+                <apex:pageBlockTable value="{!lstMgmntAssessment}" var="ma">
+                    <apex:column value="{!ma.Category__c}" />
+                    <apex:column value="{!ma.Description__c}" />
+                    <apex:column headerValue="Self-Appraisal Rating">
+                        <apex:outputField value="{!ma.Self_Appraisal_Rating__c}" />
+                    </apex:column>
+                    <apex:column headerValue="Manager Rating" rendered="{!bShowManagerRatingColumn}">
+                        <apex:outputField value="{!ma.Manager_Rating__c}" Rendered="{!bShowManagerRatingColumn}" />
+                    </apex:column>
+                </apex:pageBlockTable>
+            </apex:pageBlockSection> 
+            
+            <apex:pageBlockSection title="Performance Summary" columns="1">
+                <apex:outputField value="{!NI_Employee_Performance_Evaluation__c.Employee_Summary__c}" /> 
+                <apex:outputField value="{!NI_Employee_Performance_Evaluation__c.Manager_Summary__c}" Rendered="{!bShowManagerRatingSummary}" />
+            </apex:pageBlockSection>
+            
+            <apex:pageBlockSection title="Overall Rating" columns="1">
+                <apex:outputField value="{!NI_Employee_Performance_Evaluation__c.Overall_Rating_Self_Apprai__c}" />                
+                <apex:outputField value="{!NI_Employee_Performance_Evaluation__c.Overall_Rating_Manager__c}" Rendered="{!bShowManagerOverallRating}" />
+            </apex:pageBlockSection>
+            
+            
+            <apex:pageBlockSection title="Goals" collapsible="true" columns="1" rendered="{!bShowGoalsSection}">
+                <apex:commandButton id="cmdAddGoal" value="Add Goal" action="{!newGoal}" Rendered="{!bShowAddGoalButton}"/>
+                <apex:pageBlockTable value="{!lstGoals}" var="gls">                    
+                    <apex:column headerValue="Action" Rendered="{!bShowGoalActionColumn}">
+                        <apex:commandLink action="{!selectGoal}" value="Edit" target="_self">
+                            <apex:param name="a" assignTo="{!goalId}" value="{!gls.Id}"/>
+                        </apex:commandLink>
+                    </apex:column>                     
+                    <!--<apex:column value="{!gls.CreatedBy.Name}" headerValue="Created By"/> -->
+                    <apex:column value="{!gls.Set_By__r.Name}" headerValue="Set By"/>
+                    <apex:column value="{!gls.Current_Previous_Year__c}" /> 
+                    <apex:column value="{!gls.Category__c}" /> 
+                    <apex:column value="{!gls.Status__c}" /> 
+                    <apex:column value="{!gls.Goal__c}" />          
+                </apex:pageBlockTable>
+            </apex:pageBlockSection>                 
+            
+            <apex:pageBlockSection title="Career Path" collapsible="true" columns="1" rendered="{!bShowCareerPathSection}">
+                <div style="text-align: center;">
+                    <apex:commandButton id="cmdAddCareerPath" value="Add Career Path" action="{!newPath}" Rendered="{!bShowAddPathButton}"/>
+                </div>
+                <apex:pageBlockTable value="{!lstCareerPaths}" var="cps">
+                    <apex:column headerValue="Action" Rendered="{!bShowAddPathActionColumn}">
+                        <apex:commandLink action="{!selectPath}" value="Edit" target="_self">
+                            <apex:param name="b" assignTo="{!pathId}" value="{!cps.Id}"/>
+                        </apex:commandLink>
+                    </apex:column>    
+                    <apex:column value="{!cps.Manager__c}" />
+                    <apex:column value="{!cps.Department__c}" />
+                    <apex:column value="{!cps.Career_Path_Comments__c}" />
+                </apex:pageBlockTable>
+            </apex:pageBlockSection> 
+            
+            
+        </apex:pageBlock>
+        
+    </apex:form>
+    
+    <apex:relatedList list="CombinedAttachments" rendered="{!bShowNoteAndAttachments}" />
+    
+    <apex:relatedList list="ProcessSteps" rendered="{!bShowApprovalHistory}" />
+    
+    <apex:pageBlock title="Approval History" rendered="{!bDisplayApprovals}">
+        <apex:pageBlockSection title="" collapsible="false" columns="1">
+            <apex:pageBlockTable value="{!lstApprovalHistory}" var="h">
+                <apex:column value="{!h.SystemModstamp}" headerValue="Date"/>                    
+                <apex:column >
+                    <apex:facet name="header">Status</apex:facet>
+                    <apex:outputText value="{!h.StepStatus}"/>
+                </apex:column>
+                <apex:column > 
+                    <apex:facet name="header">Assigned To</apex:facet>
+                    <apex:outputText value="{!h.OriginalActor.Name}"/>
+                </apex:column>
+                <apex:column >
+                    <apex:facet name="header">Actual Approver</apex:facet>
+                    <apex:outputText value="{!h.Actor.Name}"/>
+                </apex:column>
+                <apex:column >
+                    <apex:facet name="header">Comments</apex:facet>
+                    <apex:outputText value="{!h.Comments}"/>       
+                </apex:column>                                 
+            </apex:pageBlockTable>
+        </apex:pageBlockSection>
+    </apex:pageBlock>
+    
+    
+</apex:page>

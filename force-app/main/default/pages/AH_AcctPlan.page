@@ -1,0 +1,123 @@
+<apex:page standardController="SFDC_Acct_Plan__c" sidebar="false" showHeader="false" showChat="false" standardStylesheets="false" applyBodyTag="false" renderAs="PDF">
+    
+<head>
+    <style type="text/css">
+        body, td, th {
+            font-family: 'Arial Unicode MS';
+        }
+        h1 {
+            font-style: normal;
+            font-size: 11pt;
+            font-family: 'Arial Unicode MS';
+            color: #FFFFFF;
+        }
+        .header {
+            background-color: #005EB8;
+            padding-top: 0px;
+            padding-right: 10px;
+            padding-bottom: 0px;
+            padding-left: 10px;
+        }
+        .Main {
+            padding-left: 0px;
+            padding-right: 0px;
+        }
+    </style>
+</head>  
+<body>
+   
+    <div class="Main">
+    <apex:form >
+        <table style="width: 100%;">
+            <tr>
+                <td style="text-align: left; width: 120px; vertical-align: bottom;" >
+                    <apex:image width="100px" alt="Company Logo" url="{!SFDC_Acct_Plan__c.Company_Logo_URL__c}" />
+                </td>
+                <td style="text-align: center; width: 100%;">
+                    <apex:outputText id="txtTitle" value="{!SFDC_Acct_Plan__c.Name}" style="color: #005EB8; font-size: 16pt; font-style: bold;" />
+                </td>
+                <td style="text-align: right; width: 120px; vertical-align: bottom;">
+                    <apex:image width="100px" alt="Amadeus Hospitality Logo" url="/servlet/servlet.ImageServer?id=01532000001nJ7K&oid=00D300000006Ctn&lastMod=1465225542000" />
+                </td>
+            </tr>
+            <tr>
+                <td>
+                </td>
+                <td style="text-align: center; width: 100%; color: #005EB8; font-size: 9pt; font-style: normal;">
+                    Owner:&nbsp;{!SFDC_Acct_Plan__c.CreatedBy.Name},&nbsp;&nbsp;Last Modified:&nbsp;
+                    <apex:outputText value="{0, date, MMMM d','  yyyy}">
+                        <apex:param value="{!SFDC_Acct_Plan__c.LastModifiedDate}" />
+                    </apex:outputText>
+                </td>
+                <td>
+                </td>
+            </tr>
+        </table>
+
+        <div class="header">                
+            <h1>
+                Account Goals
+            </h1>
+        </div>
+        <apex:outputText id="txtAccountGoals" value="{!SFDC_Acct_Plan__c.Account_Goals__c}" escape="false" /><br/><br/>
+        <div class="header">                
+            <h1>
+                Key Business Problems
+            </h1>
+        </div>
+        <apex:outputText id="txtKeyBusinessProblems" value="{!SFDC_Acct_Plan__c.Key_Business_Problems__c}" escape="false" /><br/><br/>
+        <div class="header">                
+            <h1>
+                Strengths to Leverage
+            </h1>
+        </div>
+        <apex:outputText id="txtStrengthsToLeverage" value="{!SFDC_Acct_Plan__c.Strengths_to_Leverage__c}" escape="false" /><br/><br/>
+        <div class="header">                
+            <h1>
+                Current Technology
+            </h1>
+        </div>
+        <apex:outputText id="txtCurrentTechnology" value="{!SFDC_Acct_Plan__c.Current_Technology__c}" escape="false" /><br/><br/>
+        <div class="header">                
+            <h1>
+                Active Projects
+            </h1>
+        </div>
+        <apex:outputText id="txtActiveProjects" value="{!SFDC_Acct_Plan__c.Active_Projects__c}" escape="false" /><br/><br/>
+        <div class="header">                
+            <h1>
+                Pending/Future Projects
+            </h1>
+        </div>
+        <apex:outputText id="txtPendingFutureProjects" value="{!SFDC_Acct_Plan__c.Pending_Future_Projects__c}" escape="false" /><br/><br/>
+        <div class="header">                
+            <h1>
+                Recent &amp; Pending Activity
+            </h1>
+        </div>
+        <apex:outputText id="txtRecentPendingActivity" value="{!SFDC_Acct_Plan__c.Recent_Pending_Activity__c}" escape="false" /><br/><br/>
+        <div class="header">                
+            <h1>
+                Senior Leadership Interaction/Relations
+            </h1>
+        </div>
+        <apex:outputText id="txtSeniorLeaderInteractRels" value="{!SFDC_Acct_Plan__c.Senior_Leadership_Interaction_Relations__c}" escape="false" /><br/><br/>
+        <div class="header">                
+            <h1>
+                Competition, Threats, Risk
+            </h1>
+        </div>
+        <apex:outputText id="txtCompetitionThreatsRisk" value="{!SFDC_Acct_Plan__c.Competition_Threats_Risk__c}" escape="false" /><br/><br/>
+        <div class="header">                
+            <h1>
+                Notes
+            </h1>
+        </div>
+        <apex:outputText id="txtNotes" value="{!SFDC_Acct_Plan__c.Notes__c}" escape="false" /><br/><br/>
+        
+        
+    </apex:form>
+    </div>
+    
+</body> 
+</apex:page>

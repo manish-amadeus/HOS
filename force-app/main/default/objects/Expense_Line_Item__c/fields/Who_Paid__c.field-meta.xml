@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Who_Paid__c</fullName>
+    <externalId>false</externalId>
+    <label>Who Paid?</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Company Paid</fullName>
+                <default>false</default>
+                <label>Company Paid</label>
+            </value>
+            <value>
+                <fullName>Employee Paid</fullName>
+                <default>true</default>
+                <label>Employee Paid</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

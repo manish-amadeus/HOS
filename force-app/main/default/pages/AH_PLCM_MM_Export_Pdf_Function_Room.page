@@ -1,0 +1,56 @@
+<apex:page controller="AH_PLCM_MM_Export_Report" renderAs="{!RenderAs}" contentType="{!ContentType}" showHeader="false" sidebar="false" standardStylesheets="false" applyBodyTag="false" applyHtmlTag="false">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
+        <style>
+            @page {
+                size: 41.0cm 49.7cm;
+                margin:5mm;
+                page-break-after:always;
+            }
+            .page-break {
+                display:block;
+                page-break-after:always;
+            }
+            table tr th{
+                text-align:left;
+            	padding:5px;
+            	white-space: nowrap;
+            }
+            table tr td {
+            	padding:5px;
+            }
+        </style>
+    </head>
+    <table border="1" cellpadding="0" cellspacing="0">
+        <thead>
+            <tr>
+                <th>Function Room Name</th>
+                <th>Source Type</th>
+                <th>Source Location</th>
+                <th>Square Feet</th>
+                <th>Ceiling Height</th>
+                <th>Function Room Type</th>
+                <th>Reception Only</th>
+                <th>Floor Plan Level</th>
+                <th>Seating Orientation?</th>
+                <th>Seating Orientation Details</th>
+            </tr>
+        </thead>
+        <tbody>
+            <apex:repeat value="{!lstExportFunctionRoom}" var="functionroom">
+                <tr>
+                    <td>{!functionroom.Name}</td>
+                    <td>{!functionroom.MM_Source_Type__c}</td>
+                    <td>{!functionroom.MM_Source_Location__c}</td>
+                    <td>{!functionroom.MM_Square_Feet__c}</td>
+                    <td>{!functionroom.MM_Ceiling_Height__c}</td>
+                    <td>{!functionroom.MM_Function_Room_Type__c}</td>
+                    <td>{!IF(functionroom.MM_Is_Reception_Only__c, 'Yes', 'No')}</td>
+                    <td>{!functionroom.MM_Floor_Plan_Level__c}</td>
+                    <td>{!IF(functionroom.MM_Is_Seating_Orientation_Non_Std__c, 'Non-Standard', 'Standard')}</td>
+                    <td>{!functionRoom.MM_Seating_Orientation_Details__c}</td>
+                </tr>
+            </apex:repeat>
+        </tbody>
+    </table>
+</apex:page>

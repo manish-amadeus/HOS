@@ -1,0 +1,118 @@
+<apex:page sidebar="false" standardController="Opportunity" Extensions="AH_ActivityLineItemOpptyExt" Showheader="false">
+    <apex:pageMessages id="showmsg"></apex:pageMessages>
+    <apex:form >
+        <apex:outputLabel value="{!Opportunity.AccountId}" rendered="false" />
+        <apex:pageblock id="pbMain" title="">               
+            <apex:pageBlockButtons location="Top">                    
+                <apex:outputPanel id="idButtons">
+                    <apex:commandButton value=" Edit " status="status" rendered="{!bDisabled && lstActLineItems.size > 0 && $Permission.Activity_Line_Items_Edit_Flagged_For_Cancellation}" action="{!enableListEdit}" reRender="opLineItems,idButtons,showmsg"/>
+                    <apex:commandButton value=" Save " status="status" rendered="{!NOT(bDisabled)}" action="{!saveSelected}" reRender="opLineItems,idButtons,showmsg" />
+                    <apex:commandButton value=" Cancel " status="status" rendered="{!NOT(bDisabled)}" action="{!disableListEdit}" reRender="opLineItems,idButtons,showmsg" />
+                </apex:outputPanel>   
+            </apex:pageBlockButtons>  
+            
+            <apex:outputpanel >
+                <apex:actionstatus id="status">
+                    <apex:facet name="start">
+                        <div class="waitingSearchDiv" id="el_loading" style="background-color: #fbfbfb; height: 100%; opacity:0.65; width:100%;"> 
+                            <div class="waitingHolder" style="top: 74.2px; width: 91px;">
+                                <img class="waitingImage" src="/img/loading.gif" title="Please Wait..." />
+                                <span class="waitingDescription"></span>
+                            </div>
+                        </div>
+                    </apex:facet>
+                </apex:actionstatus>
+            </apex:outputpanel>
+            
+            <apex:pageBlockSection title="Used by the Contracts Team to cancel existing Activity Line Items" collapsible="false"> 
+            </apex:pageBlockSection> 
+            <apex:outputPanel id="opLineItems">
+                <apex:pageBlockTable value="{!lstActLineItems}" var="li" rendered="{!NOT(ISNULL(lstActLineItems))}">
+                    <apex:column style="text-align: center;">
+                        <apex:facet name="header">
+                            <apex:outputText value="Flagged For Cancellation"/> 
+                        </apex:facet>
+                        <apex:actionRegion >
+                        <apex:inputCheckbox value="{!li.isSelected}" Disabled="{!bDisabled}" id="idChecked">
+                             <apex:actionSupport event="onchange"
+                                                status="status"
+                                                action="{!changeSelected}" 
+                                                rerender="idReasonOutput"/>
+                        </apex:inputCheckbox>
+                    </apex:actionRegion>
+                    </apex:column>
+                    <apex:column style="text-align: left;">
+                        <apex:facet name="header">
+                            <apex:outputText value="Flagged For Cancellation Reason"/> 
+                        </apex:facet>
+                        <apex:outputPanel id="Reason_Container" layout="block">    
+                            <apex:outputPanel id="idReasonOutput" layout="block">
+                                <apex:outputText value="{!li.ali.Flagged_For_Cancellation_Reason__c}" rendered="{!bDisabled}"/>
+                                <div class="requiredInput">
+                                    <div class="requiredBlock"></div>
+                                    <apex:selectList value="{!li.ali.Flagged_For_Cancellation_Reason__c}" Disabled="{!(bDisabled || li.isSelected == false)}" rendered="{!(li.isSelected == true && bDisabled == false)}" size="1">
+                                        <apex:selectOptions value="{!FlaggForCancellationReasonOptionList}" rendered="{!(li.isSelected == true && bDisabled == false)}"/>
+                                    </apex:selectList>
+                                </div>
+                            </apex:outputPanel>
+                        </apex:outputPanel>
+                    </apex:column>
+                    <apex:column > 
+                        <apex:facet name="header">Line Item</apex:facet>
+                        <a href="/{!li.idActLineItem}" id="{!li.idActLineItem}" onblur="LookupHoverDetail.getHover('{!li.idActLineItem}').hide();" 
+                           onfocus="LookupHoverDetail.getHover('{!li.idActLineItem}', '/{!li.idActLineItem}/m?retURL=%2F{!li.idActLineItem}&isAjaxRequest=1').show();" 
+                           onmouseout="LookupHoverDetail.getHover('{!li.idActLineItem}').hide();" 
+                           onmouseover="LookupHoverDetail.getHover('{!li.idActLineItem}', '/{!li.idActLineItem}/m?retURL=%2F{!li.idActLineItem}&isAjaxRequest=1').show();" target="_blank">{!li.ali.Name}</a> 
+                    </apex:column>
+                    <apex:column > 
+                        <apex:facet name="header">Product Package</apex:facet>
+                        <a href="/{!li.idProductPackage}" id="{!li.idProductPackage}" onblur="LookupHoverDetail.getHover('{!li.idProductPackage}').hide();" 
+                           onfocus="LookupHoverDetail.getHover('{!li.idProductPackage}', '/{!li.idProductPackage}/m?retURL=%2F{!li.idProductPackage}&isAjaxRequest=1').show();" 
+                           onmouseout="LookupHoverDetail.getHover('{!li.idProductPackage}').hide();" 
+                           onmouseover="LookupHoverDetail.getHover('{!li.idProductPackage}', '/{!li.idProductPackage}/m?retURL=%2F{!li.idProductPackage}&isAjaxRequest=1').show();" target="_blank">{!li.ali.Product_Package__r.Name}</a> 
+                    </apex:column>
+                    <apex:column >
+                        <apex:facet name="header">SKU</apex:facet>
+                        <apex:outputText value="{!li.ali.SKU__c}"/>
+                    </apex:column>
+                    <apex:column >
+                        <apex:facet name="header">Description</apex:facet>
+                        <apex:outputText value="{!li.ali.Product__r.Name}"/>
+                    </apex:column>
+                    <apex:column >
+                        <apex:facet name="header">
+                            <apex:outputText value="Start Date"/>
+                        </apex:facet>             
+                        <apex:outputText value="{0, date, MM'/'dd'/'yyyy}">
+                            <apex:param value="{!li.ali.Contract_Start_Date__c}"/>
+                        </apex:outputText> 
+                    </apex:column>
+                    <apex:column >
+                        <apex:facet name="header">
+                            <apex:outputText value="End Date"/>
+                        </apex:facet>
+                        <apex:outputText value="{0, date, MM'/'dd'/'yyyy}">
+                            <apex:param value="{!li.ali.Contract_End_Date__c}"/>
+                        </apex:outputText> 
+                    </apex:column>
+                    <apex:column >
+                        <apex:facet name="header">Quantity</apex:facet>
+                        <apex:outputText value="{!li.ali.Units__c}"/>       
+                    </apex:column>
+                    <apex:column >
+                        <apex:facet name="header">Status</apex:facet>
+                        <apex:outputText value="{!li.ali.Status__c}"/>       
+                    </apex:column>
+                    <apex:column >
+                        <apex:facet name="header">Fee</apex:facet>
+                        <apex:outputtext value="{!li.ali.CurrencyISOCode}" />
+                        <apex:outputText value="{0, number, ###,###,###.00}">
+                            <apex:param value="{!li.ali.Contract_Total_Amount_Currency__c}" />
+                        </apex:outputText> 
+                    </apex:column> 
+                    <apex:actionStatus startText="applying value..." id="status"/> 
+                </apex:pageBlockTable> 
+            </apex:outputPanel>          
+        </apex:pageblock> 
+    </apex:form> 
+</apex:page>

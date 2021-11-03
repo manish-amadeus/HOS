@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<WebLink xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Submit_for_Approval_Original</fullName>
+    <availability>online</availability>
+    <description>Original code</description>
+    <displayType>button</displayType>
+    <linkType>javascript</linkType>
+    <masterLabel>Submit for Approval Original</masterLabel>
+    <openType>onClickJavaScript</openType>
+    <protected>false</protected>
+    <url>if (Modal.confirm(&apos;Once you submit this record for approval, you might not be able to edit it or recall it from the approval process depending on your settings. Continue?&apos;)) 
+{ 
+if ({!ISPICKVAL( NI_Change_Control__c.Priority__c , &quot;Incident&quot;)}  || {!ISPICKVAL( NI_Change_Control__c.Priority__c , &quot;Emergency&quot;)})  
+{
+navigateToUrl(&apos;/apex/NICCpriorityIncidentNoApprovalMessage?id={!NI_Change_Control__c.Id}&apos;);
+}
+else if ({!ISPICKVAL( NI_Change_Control__c.Priority__c , &quot;Normal&quot;)})  
+{
+  if ({!NI_Change_Control__c.Ready_for_Manager_Reviewer_Approval__c} != &apos;1&apos;)
+{ 
+     navigateToUrl(&apos;/apex/NICCRfcNormalSubMessage_Edit?id={!NI_Change_Control__c.Id}&apos;); 
+}
+   if ({!NI_Change_Control__c.Ready_for_Manager_Reviewer_Approval__c}  == &apos;1&apos;)
+{
+   navigateToUrl(&apos;/p/process/Submit?id={!NI_Change_Control__c.Id}&amp;retURL=%2F{!NI_Change_Control__c.Id}&apos;); 
+} 
+}
+else if ({!ISPICKVAL( NI_Change_Control__c.Priority__c , &quot;Standard&quot;)})  
+{
+  if ({!NI_Change_Control__c.Ready_for_Manager_Reviewer_Approval__c} != &apos;1&apos;)
+{ 
+   navigateToUrl(&apos;/apex/NICNICCRfcStandardSubMessage_Edit?id={!NI_Change_Control__c.Id}&apos;); 
+}
+  if ({!NI_Change_Control__c.Ready_for_Manager_Reviewer_Approval__c}  == &apos;1&apos;)
+{
+   navigateToUrl(&apos;/p/process/Submit?id={!NI_Change_Control__c.Id}&amp;retURL=%2F{!NI_Change_Control__c.Id}&apos;); 
+} 
+}
+}</url>
+</WebLink>

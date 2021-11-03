@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>This_Month_s_Activations2</fullName>
+    <columns>NAME</columns>
+    <columns>Related_Account__c</columns>
+    <columns>Date__c</columns>
+    <columns>Status__c</columns>
+    <columns>Quantity__c</columns>
+    <columns>Value__c</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>CREATED_DATE</field>
+        <operation>equals</operation>
+        <value>THIS_MONTH</value>
+    </filters>
+    <label>This Month&apos;s Activations</label>
+    <language>en_US</language>
+    <sharedTo>
+        <allInternalUsers></allInternalUsers>
+    </sharedTo>
+</ListView>

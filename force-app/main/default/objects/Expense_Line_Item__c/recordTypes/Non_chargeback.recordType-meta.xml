@@ -1,0 +1,271 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<RecordType xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Non_chargeback</fullName>
+    <active>true</active>
+    <description>Non billable expense</description>
+    <label>Non-chargeback</label>
+    <picklistValues>
+        <picklist>Category__c</picklist>
+        <values>
+            <fullName>Breda Employees</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Entertainment</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Meals</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Other</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Supplies</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Travel</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Sub_Category__c</picklist>
+        <values>
+            <fullName>Airfare</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Auto Rental %2B Gas</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Breakfast</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Breda Employees - Commuting Mileage</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Breda Employees - Travel Mileage</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Bus%2C Limo%2C Taxi%2C Train %26 Subway</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Business Gifts</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Business Meals %26 Entertainment</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Client Gifts</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Client Meals</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Client entertainment</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Conference</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Conference Fee</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Dinner</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Educational Training</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Employee Meals</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Employee entertainment</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Foreign Exchange fees</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Home phone%2Finternet</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Hotel %26 Lodging</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Laundry</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Lunch %26 Snack</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Mileage</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Office Supplies%28Cables%2C paper%2C ink%2C incidentals%29</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Other</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Parking</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Parking %26 Tolls</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Passport %2F Visa fees</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Phone%2FInternet</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Postage</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Recruiting</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Subscriptions</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Supplies</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Telephone%2C Fax %26 Internet</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Tips %26 Incidentals</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Tolls</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Who_Paid__c</picklist>
+        <values>
+            <fullName>Company Paid</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Employee Paid</fullName>
+            <default>true</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>lod_Expenditure_Type__c</picklist>
+        <values>
+            <fullName>Airfare</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Computer Hardware</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Currency trans fee</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Entertainment</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Gas</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Gratuities</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Hotel</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Marketing</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Meals</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Mileage</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Misc</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Office Supplies</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Online Subscriptions</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Parking%2FTolls</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Phone%2FInternet</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Postage</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Rental Car</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Software</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Taxi</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+</RecordType>

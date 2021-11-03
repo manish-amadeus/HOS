@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Batch_size__c</fullName>
+    <defaultValue>200</defaultValue>
+    <description>Number of questions the batch process will retrieve per batch execution</description>
+    <externalId>false</externalId>
+    <inlineHelpText>This number delimits the number of questions, have in mind that we estimate 2Q + 2x500Q</inlineHelpText>
+    <label>Batch Size</label>
+    <precision>18</precision>
+    <required>true</required>
+    <scale>0</scale>
+    <trackTrending>false</trackTrending>
+    <type>Number</type>
+    <unique>false</unique>
+</CustomField>

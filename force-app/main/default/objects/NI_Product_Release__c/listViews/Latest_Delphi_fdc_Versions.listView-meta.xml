@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Latest_Delphi_fdc_Versions</fullName>
+    <columns>Expected_Development_Complete_Date__c</columns>
+    <columns>Expected_General_Availability__c</columns>
+    <columns>NAME</columns>
+    <columns>Delphi_fdc_R_Series_Version_ID__c</columns>
+    <columns>Loading_Instructions_Link__c</columns>
+    <columns>Installation_Password__c</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>Product_Line__c</field>
+        <operation>equals</operation>
+        <value>Delphi.fdc</value>
+    </filters>
+    <filters>
+        <field>Obsolete__c</field>
+        <operation>equals</operation>
+        <value>0</value>
+    </filters>
+    <filters>
+        <field>Loading_Instructions_Link__c</field>
+        <operation>notEqual</operation>
+    </filters>
+    <filters>
+        <field>Status__c</field>
+        <operation>equals</operation>
+        <value>Released</value>
+    </filters>
+    <label>Latest Delphi.fdc Versions</label>
+    <sharedTo>
+        <allInternalUsers></allInternalUsers>
+    </sharedTo>
+</ListView>

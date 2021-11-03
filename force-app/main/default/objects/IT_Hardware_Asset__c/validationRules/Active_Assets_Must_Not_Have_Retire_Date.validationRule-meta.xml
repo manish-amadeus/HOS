@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Active_Assets_Must_Not_Have_Retire_Date</fullName>
+    <active>true</active>
+    <description>When an asset&apos;s status is not Retired, the Retirement Date field must be cleared.</description>
+    <errorConditionFormula>NOT(ISPICKVAL(Status__c, &quot;Retired&quot;)) &amp;&amp; NOT(ISBLANK(Retirement_Date__c))</errorConditionFormula>
+    <errorMessage>Retirement date field must be blank if asset is not retired.</errorMessage>
+</ValidationRule>

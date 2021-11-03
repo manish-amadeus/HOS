@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Audit_Reason__c</fullName>
+    <description>NICC-018131</description>
+    <externalId>false</externalId>
+    <label>Audit Reason</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <controllingField>Audit_Origin__c</controllingField>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>True Up</fullName>
+                <default>false</default>
+                <label>True Up</label>
+            </value>
+            <value>
+                <fullName>Current Opportunity</fullName>
+                <default>false</default>
+                <label>Current Opportunity</label>
+            </value>
+        </valueSetDefinition>
+        <valueSettings>
+            <controllingFieldValue>Internal</controllingFieldValue>
+            <valueName>True Up</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Internal</controllingFieldValue>
+            <valueName>Current Opportunity</valueName>
+        </valueSettings>
+    </valueSet>
+</CustomField>

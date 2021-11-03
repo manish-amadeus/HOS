@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>AH_UDC_PropertyAccountLink__c</fullName>
+    <description>Created to have hyperlink to the UDC Property Account that shows the name instead of the record number</description>
+    <externalId>false</externalId>
+    <formula>HYPERLINK(&quot;/&quot; &amp;  AH_UDC_PropertyAccount__r.Id,  AH_UDC_PropertyAccount__r.PropertyName__c,&quot;_self&quot;)</formula>
+    <inlineHelpText>Created to have hyperlink to the UDC Property Account that shows the name instead of the record number</inlineHelpText>
+    <label>UDC Property Account</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<WebLink xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>New_Security_Child_Project</fullName>
+    <availability>online</availability>
+    <description>NICC-027852
+
+Creates a child Security Project record and links it to the parent record.</description>
+    <displayType>massActionButton</displayType>
+    <encodingKey>UTF-8</encodingKey>
+    <linkType>url</linkType>
+    <masterLabel>New Security Child Project</masterLabel>
+    <openType>replace</openType>
+    <protected>false</protected>
+    <requireRowSelection>false</requireRowSelection>
+    <url>/aEQ/e?CF00N60000002gM4w={!NI_Project_Backlog__c.Name}&amp;CF00N60000002gM4w_lkid={!NI_Project_Backlog__c.Id}&amp;retURL=%2F{!NI_Project_Backlog__c.Id} 
+&amp;RecordType=&quot;0120d000000JOjzAAG&quot;</url>
+</WebLink>

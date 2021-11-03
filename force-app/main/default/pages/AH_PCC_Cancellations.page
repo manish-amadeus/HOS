@@ -1,0 +1,339 @@
+<apex:page Controller="AH_PCC_Cancellations_Ctlr" showHeader="false" sidebar="false" lightningStylesheets="true" applyHtmlTag="false" applyBodyTag="false" docType="html-5.0">
+
+    <html xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" lang="en">
+        <head>
+            <meta charset="utf-8" />
+            <meta http-equiv="x-ua-compatible" content="ie=edge" />
+            <title>Cancellations</title>
+            <meta name="viewport" content="width=device-width, initial-scale=1" />
+            <apex:stylesheet value="/apexpages/slds/latest/assets/styles/salesforce-lightning-design-system-vf.css" />
+            <apex:slds />
+        </head>
+        
+        <script language="JavaScript" type="text/javascript">
+            function noenter(ev)  
+            {
+                if (window.event && window.event.keyCode == 13 || ev.which == 13) 
+                {
+                    afDoSearch();
+                    return false;
+                } 
+                else 
+                {
+                    return true;
+                }
+            } 
+            function doChks(chk)  
+            {
+                var chk_arr = document.getElementsByName("chkSelector[]"); 
+                var chklength = chk_arr.length; 
+                for (k = 0; k < chklength; k++) 
+                {
+                    if (chk.checked)
+                    {
+                        chk_arr[k].checked = false;
+                    }
+                } 
+            }
+        </script>
+
+        <div class="slds-scope" style="margin: 10px 10px 10px 10px; !important;">
+
+            <apex:form >
+                
+                <apex:actionFunction id="afDoSearch" name="afDoSearch" action="{!doSearch}" rerender="opSearchResults" status="asStatus" />            
+
+                <div id="divSearch" class="roundedContainer">
+             
+                    <apex:outputpanel id="opSearch">
+                         
+                        <span class="slds-icon_container slds-icon-standard-event"> 
+                            <svg aria-hidden="false" class="slds-icon">    
+                                <use xlink:href="/apexpages/slds/latest/assets/icons/utility-sprite/svg/symbols.svg#search"></use>
+                            </svg> 
+                            <span class="slds-assistive-text">Search</span> 
+                        </span> 
+                        &nbsp;&nbsp; 
+                        <apex:outputLabel id="lblSearchTitle" value="Cancellation Search" styleClass="slds-text-heading_medium slds-text-title_bold" />
+                        <br/>
+                        <br/>
+                        <apex:outputLabel id="lblSearchText" value="Search Text: " />
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;                        
+                        <apex:inputText id="txtSearchText" value="{!searchText}" label="lblSearchText" onkeypress="return noenter(event);" styleClass="slds-input" style="width:400px;!important;"/>&nbsp;&nbsp;
+                        &nbsp;&nbsp;&nbsp;&nbsp; 
+                        <apex:commandButton id="btnSearch" value="Search" action="{!doSearch}" rerender="opSearchResults" status="asStatus" styleClass="slds-button slds-button_outline-brand" />
+                        &nbsp;&nbsp;&nbsp;&nbsp; 
+                        <apex:commandLink id="cmdExportCSV" action="{!exportResults}" rendered="{!hasChatterGroup}" rerender="opSearchResults" status="asStatus" target="_blank" style="text-decoration:none;important;">
+                            <span class="slds-icon_container slds-icon-utility-download" title="Export results to CSV format">
+                                <svg class="slds-icon slds-icon-text-success" aria-hidden="true">
+                                    <use xlink:href="/apexpages/slds/latest/assets/icons/utility-sprite/svg/symbols.svg#download"></use>
+                                </svg>
+                                <span class="slds-assistive-text">Export results to CSV format</span>
+                            </span> 
+                        </apex:commandLink>
+                        
+                        <br/>
+
+                        <div class="slds-form-element slds-form-element_horizontal" style="padding-top:15px;padding-left:75px;width:400px;">
+                            <label class="slds-form-element__label" for="ddlFields">Specific Field:</label>
+                            <div class="slds-form-element__control">
+                                <div class="slds-select_container">
+                                    <apex:selectList id="ddlFields" label="lblSpecificFields" value="{!selField}" styleClass="slds-select" style="width:215px;" size="1" multiselect="false"> 
+                                        <apex:selectOptions value="{!lstSearchFields}" /> 
+                                    </apex:selectList> 
+                                </div>
+                            </div>
+                        </div>     
+                        <table style="width:900px;">
+                            <tr>
+                                <td>
+                                    <div class="slds-form-element slds-form-element_horizontal" style="padding-top:5px;padding-left:60px;width:470px;">
+                                        <label class="slds-form-element__label">Renew Date From:</label>
+                                        <c:AH_DatePicker defaultValue="{!renewDateStart}" defaultStyle="background-color:#fff;border:1px solid #dddbda;border-radius:.25rem;width:120px;transition:border .1s linear,background-color .1s linear;padding:0 1rem 0 .75rem;line-height:1.875rem;" />
+                                    </div>                                    
+                                </td>
+                                <td>
+                                    <div class="slds-form-element slds-form-element_horizontal" style="padding-top:5px;padding-left:0px;width:500px;">
+                                        <label class="slds-form-element__label">Renewal Date To:</label>
+                                        <c:AH_DatePicker defaultValue="{!renewDateEnd}" defaultStyle="background-color:#fff;border:1px solid #dddbda;border-radius:.25rem;width:120px;transition:border .1s linear,background-color .1s linear;padding:0 1rem 0 .75rem;line-height:1.875rem;" />
+                                    </div>                                    
+                                </td>
+                            </tr>
+                        </table>
+                    </apex:outputpanel>
+                </div>   
+
+                <br/>
+                <apex:pageMessages />
+                
+                <div id="divResults" class="roundedContainer">
+
+                    <apex:outputpanel id="opSearchResults">
+                        
+                        <apex:outputLabel id="lblSearchResults" value="Search Results:" styleClass="slds-text-heading_medium slds-text-title_bold" />
+                        &nbsp;&nbsp;
+                        <apex:outputLabel id="lblSearchResultMsg" value="{!searchResultMsg}" />
+                        <br/>
+                        
+                        <apex:dataTable value="{!lstSearchResults}" var="dt" styleClass="slds-table slds-table_bordered slds-table_striped" rendered="true">
+
+
+                            <apex:column >
+                                <apex:facet name="header"> 
+                                    <apex:commandLink id="cmdSortCol1" 
+                                                      value="Cancellation # {!IF(sortByField=='Name', IF(sortByDirection='ASC','▲','▼'), '')}" 
+                                                      action="{!doSort}" 
+                                                      status="asStatus"                                                           
+                                                      reRender="opSearchResults">
+                                        <apex:param value="Name" name="prm1" assignTo="{!sortByField}" />
+                                    </apex:commandLink>
+                                </apex:facet> 
+                                <apex:outputLink value="/apex/AH_PCC_CancellationDetails" target="_blank" >
+                                    {!dt.CancellationName} 
+                                    <apex:param name="id" value="{!dt.CancellationId}" />
+                                </apex:outputLink>                                   
+                            </apex:column> 
+                            
+                            <apex:column >
+                                <apex:facet name="header"> 
+                                    <apex:commandLink id="cmdSortCol2" 
+                                                      value="Product Code {!IF(sortByField=='Product2__r.ProductCode', IF(sortByDirection='ASC','▲','▼'), '')}" 
+                                                      action="{!doSort}" 
+                                                      status="asStatus"                                                           
+                                                      reRender="opSearchResults">
+                                        <apex:param value="Product2__r.ProductCode" name="prm2" assignTo="{!sortByField}" />
+                                    </apex:commandLink>
+                                </apex:facet>                                   
+                                <apex:outputText value="{!dt.ProductCode}" />                           
+                            </apex:column> 
+                            
+                            <apex:column styleClass="slds-cell-wrap">
+                                <apex:facet name="header"> 
+                                    <apex:commandLink id="cmdSortCol3" 
+                                                      value="Product Name {!IF(sortByField=='Product2__r.Name', IF(sortByDirection='ASC','▲','▼'), '')}" 
+                                                      action="{!doSort}" 
+                                                      status="asStatus"                                                           
+                                                      reRender="opSearchResults">
+                                        <apex:param value="Product2__r.Name" name="prm3" assignTo="{!sortByField}" />
+                                    </apex:commandLink>
+                                </apex:facet>                                   
+                                <apex:outputText value="{!dt.ProductName}" /> 
+                            </apex:column> 
+                            
+                            <apex:column >
+                                <apex:facet name="header"> 
+                                    <apex:commandLink id="cmdSortCol4" 
+                                                      value="Status {!IF(sortByField=='Status__c', IF(sortByDirection='ASC','▲','▼'), '')}" 
+                                                      action="{!doSort}" 
+                                                      status="asStatus"                                                           
+                                                      reRender="opSearchResults">
+                                        <apex:param value="Status__c" name="prm4" assignTo="{!sortByField}" />
+                                    </apex:commandLink>
+                                </apex:facet>                                  
+                                <apex:outputText value="{!dt.CancellationStatus}" /> 
+                            </apex:column> 
+
+                            <apex:column >
+                                <apex:facet name="header"> 
+                                    <apex:commandLink id="cmdSortCol5" 
+                                                      value="Account # {!IF(sortByField=='Account_Number__c', IF(sortByDirection='ASC','▲','▼'), '')}" 
+                                                      action="{!doSort}" 
+                                                      status="asStatus"                                                           
+                                                      reRender="opSearchResults">
+                                        <apex:param value="Account_Number__c" name="prm5" assignTo="{!sortByField}" />
+                                    </apex:commandLink>
+                                </apex:facet>                                  
+                                <apex:outputText value="{!dt.AccountNumber}" />                           
+                            </apex:column> 
+                            
+                            <apex:column styleClass="slds-cell-wrap">
+                                <apex:facet name="header"> 
+                                    <apex:commandLink id="cmdSortCol6" 
+                                                      value="Account Name {!IF(sortByField=='Account__r.Name', IF(sortByDirection='ASC','▲','▼'), '')}" 
+                                                      action="{!doSort}" 
+                                                      status="asStatus"                                                           
+                                                      reRender="opSearchResults">
+                                        <apex:param value="Account__r.Name" name="prm6" assignTo="{!sortByField}" />
+                                    </apex:commandLink>
+                                </apex:facet>                                    
+                                <apex:outputText value="{!dt.AccountName}" /> 
+                            </apex:column> 
+
+                            <apex:column >
+                                <apex:facet name="header"> 
+                                    <apex:commandLink id="cmdSortCol7" 
+                                                      value="Qty Cancelled {!IF(sortByField=='Renewal_Cancellation_Quantity__c', IF(sortByDirection='ASC','▲','▼'), '')}" 
+                                                      action="{!doSort}" 
+                                                      status="asStatus"                                                           
+                                                      reRender="opSearchResults">
+                                        <apex:param value="Renewal_Cancellation_Quantity__c" name="prm7" assignTo="{!sortByField}" />
+                                    </apex:commandLink>
+                                </apex:facet>                                 
+                                <apex:outputText value="{!dt.CancellationQty}" />                           
+                            </apex:column> 
+                            
+                            <apex:column style="text-align:left;">
+                                <apex:facet name="header"> 
+                                    <apex:commandLink id="cmdSortCol8" 
+                                                      value="Renew Date {!IF(sortByField=='Cancel_Renewal_By_Date__c', IF(sortByDirection='ASC','▲','▼'), '')}" 
+                                                      action="{!doSort}" 
+                                                      status="asStatus"                                                           
+                                                      reRender="opSearchResults">
+                                        <apex:param value="Cancel_Renewal_By_Date__c" name="prm8" assignTo="{!sortByField}" />
+                                    </apex:commandLink>
+                                </apex:facet>                                  
+                                <apex:outputText value="{0, date, MM/dd/yyyy}">
+                                    <apex:param value="{!dt.CancelRenewalByDate}" />
+                                </apex:outputText>
+                            </apex:column> 
+                            
+                            <apex:column style="width:16px;text-align:center;">
+                                <apex:facet name="header"> 
+                                    <apex:outputText id="lblLateHeader" value="Is Late" />
+                                </apex:facet>                                   
+                                <apex:inputCheckbox id="chkLate" value="{!dt.isLate}" disabled="true" /> 
+                            </apex:column> 
+                            
+                            <!--
+                            <apex:column style="text-align:left;">
+                                <apex:facet name="header"> 
+                                    <apex:commandLink id="cmdSortCol8" 
+                                                      value="Created Date {!IF(sortByField=='CreatedDate', IF(sortByDirection='ASC','▲','▼'), '')}" 
+                                                      action="{!doSort}" 
+                                                      status="asStatus"                                                           
+                                                      reRender="opSearchResults">
+                                        <apex:param value="CreatedDate" name="prm8" assignTo="{!sortByField}" />
+                                    </apex:commandLink>
+                                </apex:facet>                                  
+                                <apex:outputText value="{0, date, MM/dd/yyyy}">
+                                    <apex:param value="{!dt.CancellationCreatedDate}" />
+                                </apex:outputText>
+                            </apex:column>    
+                            -->
+                            
+                            
+                        </apex:dataTable>
+                        
+                        <br/>
+                        
+                    </apex:outputpanel>
+
+                </div>   
+
+                <!-- SPINNER -->  
+                <apex:actionstatus id="asStatus">
+                    <apex:facet name="start">
+                        <div class="slds-spinner_container">
+                            <div role="status" class="slds-spinner slds-spinner_medium slds-spinner_brand">
+                                <span class="slds-assistive-text">Loading</span>
+                                <div class="slds-spinner__dot-a"></div>
+                                <div class="slds-spinner__dot-b"></div>
+                            </div>
+                        </div>
+                    </apex:facet>
+                </apex:actionstatus>
+
+            </apex:form>          
+            
+        </div>
+        
+        <style type="text/css"> 
+            .popupDialogBox 
+            {      
+                position: absolute;
+                background-color: white;
+                border-width: 2px;
+                border-style: solid;
+                border-color: gray;
+                border-radius: 5px;
+                top: 60px;
+                left: 50%;
+                width: 1000px;
+                margin-left: -500px;
+                z-index: 9999;
+                padding: 10px; 
+            }                
+            .popupBackground 
+            {          
+                position: fixed;
+                width: 100%;
+                height: 500%;
+                top: 0;
+                right: 0;
+                bottom: 0;
+                left: 0;
+                z-index: calc(9000 + 2);
+                background-color: rgba(0,0,0,.1);
+                visibility: visible;
+                opacity: 1;
+                transition: opacity .2s ease,visibility 0s;
+                transition-delay: 0s,.3s; 
+            }
+            .roundedContainer
+            {
+                width: 100%;
+                border: 2px solid lightgrey;
+                padding: 10px;
+                border-radius: 5px;
+                !important;
+            }
+            .slds-spinner_container {
+                position: relative;
+                width: 100%;
+                height: 100%;
+                top: 0;
+                right: 0;
+                bottom: 0;
+                left: 0;
+                z-index: calc(9000 + 2);
+                background-color: rgba(255,255,255,.75);
+                visibility: visible;
+                opacity: 1;
+                transition: opacity .2s ease,visibility 0s;
+                transition-delay: 0s,.3s;
+            }            
+        </style>
+        
+    </html>
+    
+</apex:page>

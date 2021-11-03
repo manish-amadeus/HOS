@@ -1,0 +1,38 @@
+<apex:page controller="NI_IMT_CreateScheduleController" action="{!init}" sidebar="false">
+	<apex:form >
+		<apex:pageMessages id="messages"></apex:pageMessages>
+		<apex:pageBlock >
+			<apex:pageBlockButtons location="bottom">
+				<apex:commandButton value="Create Schedule"
+					action="{!createAssignment}" />
+			</apex:pageBlockButtons>
+			<apex:pageBlockSection collapsible="false" title="Assignment Details"></apex:pageBlockSection>
+			<table cellpadding="2" cellspacing="2" id="tableid"
+				class="table table-hover" width="100%">
+				<tr>
+					<th>Project Name</th>
+					<th>Assignment Name</th>
+					<th>Local Time</th>
+					<th>Status</th>
+				</tr>
+				<apex:repeat value="{!assignmentList}" var="c" id="repeatId">
+					<tr>
+						<td><apex:outputField style="width: 100px;"
+								value="{!c.proj.Name}" /></td>
+						<td><apex:inputField style="width: 200px;"
+								value="{!c.proj.Name}" /></td>
+						<td>
+							<!--apex:selectlist value="{!c.scheduleTime}" size="1" >
+                        				<apex:selectOptions value="{!options}" />
+                        </apex:selectlist--> <input
+							id="time_{!c.proj.Id}" value="10:00 PM" disabled="true"
+							style="width: 60px;"></input>
+						</td>
+						<td><input id="status_{!c.proj.Id}" value="{!status}"
+							disabled="true" style="width: 100px;"></input></td>
+					</tr>
+				</apex:repeat>
+			</table>
+		</apex:pageBlock>
+	</apex:form>
+</apex:page>

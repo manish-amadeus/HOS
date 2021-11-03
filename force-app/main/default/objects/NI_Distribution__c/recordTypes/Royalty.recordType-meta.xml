@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<RecordType xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Royalty</fullName>
+    <active>true</active>
+    <label>Royalty</label>
+    <picklistValues>
+        <picklist>Amortized__c</picklist>
+        <values>
+            <fullName>No</fullName>
+            <default>true</default>
+        </values>
+        <values>
+            <fullName>Yes</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Deployment_Status__c</picklist>
+        <values>
+            <fullName>Cancelled</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Live-Other</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Live-Site</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Status__c</picklist>
+        <values>
+            <fullName>Closed</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Pending</fullName>
+            <default>true</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Territory__c</picklist>
+        <values>
+            <fullName>AP Australia</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>AP China</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Americas</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Asia</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Europe Africa Middle East</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Latin America</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+</RecordType>

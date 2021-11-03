@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Did_you_use_a_sales_presentation_c__c</fullName>
+    <externalDeveloperName>Did_you_use_a_sales_presentation__c</externalDeveloperName>
+    <externalId>false</externalId>
+    <inlineHelpText>What materials were used with this Opportunity?</inlineHelpText>
+    <isFilteringDisabled>false</isFilteringDisabled>
+    <isNameField>false</isNameField>
+    <isSortingDisabled>false</isSortingDisabled>
+    <label>Did you use a sales presentation?</label>
+    <required>false</required>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Yes, I used the marketing developed presentation</fullName>
+                <default>false</default>
+                <label>Yes, I used the marketing developed presentation</label>
+            </value>
+            <value>
+                <fullName>Yes, I used my edited version of the marketing presentation</fullName>
+                <default>false</default>
+                <label>Yes, I used my edited version of the marketing presentation</label>
+            </value>
+            <value>
+                <fullName>Yes, I used my own presentation</fullName>
+                <default>false</default>
+                <label>Yes, I used my own presentation</label>
+            </value>
+            <value>
+                <fullName>No, I did not use a presentation</fullName>
+                <default>false</default>
+                <label>No, I did not use a presentation</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

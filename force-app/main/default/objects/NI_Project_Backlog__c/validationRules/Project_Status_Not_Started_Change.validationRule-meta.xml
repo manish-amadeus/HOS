@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Project_Status_Not_Started_Change</fullName>
+    <active>true</active>
+    <description>You Cannot change the Project Status from &quot;Not Started&quot; until at least one related task is created.</description>
+    <errorConditionFormula>AND(NOT ISPICKVAL(Project_Status__c,&apos;Not Started&apos;),  Total_Project_Tasks__c = 0)</errorConditionFormula>
+    <errorMessage>Cannot change the Project Status from &quot;Not Started&quot; until at least one related task is created.</errorMessage>
+</ValidationRule>

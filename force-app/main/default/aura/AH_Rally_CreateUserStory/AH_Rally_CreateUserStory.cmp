@@ -1,0 +1,27 @@
+<aura:component controller="AH_Rally_LEXMethods" access="global" implements="flexipage:availableForRecordHome,force:hasRecordId,force:hasSObjectName,force:lightningQuickAction" >
+    
+    <aura:handler event="aura:waiting" action="{!c.showSpinner}"/>
+    
+    <aura:attribute name="usURL" type="String" default="" /> 
+    <aura:attribute name="Spinner" type="boolean" default="false"/>
+    
+    <aura:if isTrue="{!v.Spinner}">
+        <div class="exampleHolder slds-spinner" >
+            <lightning:spinner aura:id="mySpinner"  variant="brand" size="medium"/>
+        </div>
+    </aura:if>
+    
+    <aura:attribute name="record" type="Object"/>
+    <aura:attribute name="simpleRecord" type="Object"/>
+    <aura:attribute name="recordError" type="String"/>
+    <force:recordData aura:id="record"
+                      layoutType="FULL"
+                      recordId="{!v.recordId}"
+                      targetError="{!v.recordError}"
+                      targetRecord="{!v.record}"
+                      targetFields ="{!v.simpleRecord}"
+                      recordUpdated="{!c.myAction1}"/>
+    <c:AH_Rally_Error aura:id = "msgs" />
+    <aura:handler event="aura:doneWaiting" action="{!c.hideSpinner}"/>
+    
+</aura:component>

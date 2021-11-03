@@ -1,0 +1,1224 @@
+<apex:page controller="AH_PLCM_MM_Room_Capacities" action="{!CheckTermsAndConditionStatus}" >
+    <head>
+        <apex:stylesheet value="{!$Resource.AH_PLCM_MM_Style}"/>
+        <apex:stylesheet value="{!$Resource.AH_PLCM_MM_Bubble_Style}" />
+        <!-- Include JS -->
+        <apex:includeScript value="{!$Resource.AH_PLCM_JQuery_341}" />
+        <style type="text/css">
+            .num-input {
+                width:160px !important;
+            }
+
+            .general-text {
+                width: 59% !important;
+                text-align: center;
+                font-weight: bold;
+                padding-left: 250px;
+            }
+            
+            .help-show .general-text {
+                width: 75% !important;
+                padding-left: 90px;
+            }
+            
+            .tbl-options {
+                width: 100%;
+            }
+            
+            .tbl-options td {
+                text-align: left;
+                padding-bottom: 10px;
+            }
+            
+            .tbl-options .opt-chk {
+                vertical-align: top;
+                padding-right: 5px;
+            }
+            
+            .tbl-options .opt-text {
+                vertical-align: middle;
+                padding-top: 2px;
+            }
+            
+            #tblFileUpload td { padding:5px; }
+
+            .btn-upload {
+                min-width: 70px !important;
+                background: linear-gradient(#00ace3,#0060bc) !important;
+                color: #FFFFFF !important;
+                width: auto !important;
+                height: 27px !important;
+                cursor: pointer !important;
+                font-family: Arial,Helvetica,sans-serif !important;
+                font-size: 12px !important;
+                font-weight: bold !important;
+                border-radius: 5px !important;
+                border: 1px solid #999 !important;
+                box-shadow: 4px 4px 3px #999 !important;
+                -webkit-box-shadow: 4px 4px 3px #999 !important;
+                -moz-box-shadow: 4px 4px 3px #999 !important;
+            }
+            
+            #divOptions.error {
+                width: 99.5% !important;
+                margin-bottom: 5px;
+            }
+            .div-header-icon {
+                display: inline-block;
+                margin: 0px;
+                padding: 0px;
+                width: 20px;
+                height: 15px;
+                background-image: url('{!$Resource.AH_PLCM_MM_Expand_Collapse_Icons}');
+                background-repeat: no-repeat;
+                background-position: -8px -4px;
+            }
+            
+            body:not(.help-show) .bubble-popup .popup-right-corner { left: 45% !important; }
+
+            body:not(.help-show) .bubble-popup .popup-right-corner:before { left: 90% !important; }
+
+            .bubble-popup .margin-top-10 { margin-top: 10px !important; }
+            
+            .spn-red { float:right; color:red; font-size: 10px; }
+            
+             /* CSS apply for IE Browser */
+            @media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
+                /* Image Resizing */
+                .img-container {
+                    position: relative;
+                    padding-bottom: 56.25%!important; /* 16:9 ratio */
+                    /* height: 0;
+                    overflow: hidden; */
+                }
+
+                .img-container img {
+                    position: absolute;
+                    top: 0;
+                    /* left: 0; */
+                    width: 100%;
+                    height: 100%;                   
+                }
+
+                .btn-upload {
+                    box-shadow: none!important;
+                }
+            }
+        </style>
+    </head>
+    <!-- Progressbar :: Start -->
+    <c:AH_PLCM_MM_Progress_Bar BaseUrl="{!BaseUrl}" IsFunctionRoomInfomationProvided="{!ProjectPortalStatus.IsFunctionRoomInfomationProvided }" IsRoomCapacityInformationProvided="{!ProjectPortalStatus.IsRoomCapacityInformationProvided}"
+        IsInventoryInformationProvided="{!ProjectPortalStatus.IsInventoryInformationProvided}" PerecentageCompleted="{!ProjectPortalStatus.PerecentageCompleted}" />
+    <!-- Progressbar :: End -->
+    <apex:form enctype="multipart/form-data" id="frmRoomCapacities">
+        <div style="width:100%; padding:0px;">
+            <div class="main-div">
+                <c:AH_PLCM_MM_Bubble_Help_Popup FlagShow="{!ProjectBubbleStatus.IsRoomCapacityBubbleSkipped == false}" StyleClass="popup-center" Index="1" TotalBubbles="6" HeaderText="Room Capacity Information"
+                   HelpText="This page will allow you to fill in information on how the room capacities should be calculated for the various setup styles in AHD." />
+                <c:AH_PLCM_MM_Bubble_Help_Popup StyleClass="popup-center" Index="6" TotalBubbles="6" HeaderText="Thank You"
+                   HelpText="Thank you for completing these steps. When you are done, please hit Save & Next at the bottom of the page to move forward." />
+
+                <apex:pageBlock id="pbRoomCapacities">
+                    <div class="page-header">
+                        <table class="tbl-header" border="0" cellpadding="0" cellspacing="0">
+                            <tbody>
+                                <tr>
+                                    <td class="td-title">
+                                        <h2 class="main-title">Room Capacity Information</h2>
+                                    </td>
+                                    <td style="text-align: right; padding-right: 10px !important;">
+                                        <input type="button" value="Take Tutorial" onclick="javacsript: showBubble(1);" class="btn-common" />
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="general-text">
+                        Your maximum capacities can be generated one of two ways. Please place check the box below next to your chosen option; this will be reviewed in more detail during the Diagram Readiness Call.
+                    </div>
+                    <apex:pageMessages id="pgMessage" />
+                    <div id="divOptions" class="data-wrapper" style="padding-top:10px;">
+                        <table class="tbl-options" border="0" cellspacing="0" cellpadding="0">
+                            <tbody>
+                                <tr>
+                                    <td class="opt-chk">
+                                        <input type="checkbox" id="chkOption1" value="Option One" class="chk-opt" />
+                                    </td>
+                                    <td class="opt-text">
+                                        <label for="chkOption1">
+                                            <span style="font-weight:bold;">Option 1 - </span>
+                                            <span>I will provide a copy of our current capacity chart which Amadeus will use to create maximum capacities within +/- a 10% tolerance of the number listed. This option is best suited for properties who do have existing capacity charts.</span>
+                                        </label>
+                                       
+                                        <div id="divFileUpload" class="box-main" style="{!IF(objNIDoc.AH_PLCM_MM_Maximum_Capacity_Option__c == 'Option One' || lstFiles.size > 0, '', 'display:none;')}">
+                                            <div class="box-header">
+                                                File Upload
+                                                <span class="spn-red">*File Types Allowed: .DWG, .DXF, .PDF, .MMR, .FLP, .XLS, .XLXS, .DOC, .DOCX, .ZIP</span>    
+                                            </div>
+                                            <div class="box-content">
+                                                <table id="tblFileUpload" border="0" cellpadding="0" cellspacing="0" style="margin-bottom:10px;">
+                                                    <tr>
+                                                        <td style="font-size: 12px; font-weight: bold;">File:</td>
+                                                        <td>
+                                                            <apex:inputFile id="fileUpload" value="{!file}" filename="{!fileName}" contentType="{!contentType}" />
+                                                            <div id="errorMsg1" class="error-msg">Please select a file to upload</div>
+                                                            <div id="errorMsg2" class="error-msg">File type is not supported</div>
+                                                            <div id="errorMsg3" class="error-msg">Blank files are not allowed</div>
+                                                            <div id="errorMsg4" class="error-msg">File size is larger than 25 Mb. Please contact your Amadeus Project Manager.</div>
+                                                        </td>
+                                                        <td>
+                                                            <apex:commandButton id="btnUpload" action="{!UploadFile}" value="Upload" styleClass="btn-upload" />
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                                <apex:actionFunction action="{!DeleteFile}" name="DeleteFile" reRender="pbFiles" oncomplete="javascript: showHideLoader(false);">
+                                                    <apex:param name="FileIdToDelete" assignTo="{!FileIdToDelete}" value="" />
+                                                </apex:actionFunction>
+                                                <apex:pageBlockTable id="pbFiles" value="{!lstFiles}" var="objFile" rendered="{!lstFiles.size > 0}">
+                                                    <apex:column headerClass="w-15" headerValue="Action">
+                                                        <a href="{!objFile.DownloadUrl}" class="action-link">Download</a>
+                                                        {!IF(ProjectPortalStatus.IsInventoryInformationProvided, '', ' | ')}
+                                                        <apex:commandLink value="Delete" action="{!DeleteFile}" rendered="{!ProjectPortalStatus.IsInventoryInformationProvided == false}" onclick="javascript: if(confirm('Are you sure you want to delete?')) { showHideLoader(true); } else { return false; }" styleClass="action-link">
+                                                            <apex:param name="FileIdToDelete" assignTo="{!FileIdToDelete}" value="{!objFile.ContentDocumentId}" />
+                                                        </apex:commandLink>
+                                                    </apex:column>
+                                                    <apex:column headerValue="File Name" value="{!objFile.Name}" />
+                                                    <apex:column headerValue="File Type" value="{!objFile.Type}" />
+                                                    <apex:column headerValue="Uploaded On (GMT)" value="{!objFile.UploadedOn}" />
+                                                </apex:pageBlockTable>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2">
+                                        <c:AH_PLCM_MM_Bubble_Help_Popup StyleClass="popup-arrow margin-top-10" Index="2" TotalBubbles="6" HeaderText="Select Generation Method"
+                                           HelpText="Begin by selecting how you wish to generate the maximum capacities from the two options outlined. If Option 1 is selected, please upload the file of your current capacity chart." />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="opt-chk">
+                                        <input type="checkbox" id="chkOption2" value="Option Two" class="chk-opt" />
+                                    </td>
+                                    <td class="opt-text">
+                                        <label for="chkOption2">
+                                            <span style="font-weight:bold;">Option 2 - </span>
+                                            Amadeus to generate maximum capacities using room diagram dimensions, and the Inventory Worksheet for Inventory Sizes, Seating Style measurements that you have provided. Please note these maximum capacities are generated automatically based on the above. This option is best suited for pre-opening/newly renovated properties who do not have existing capacity charts.
+                                        </label>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <apex:inputField value="{!objNIDoc.AH_PLCM_MM_Maximum_Capacity_Option__c}" styleClass="ddl-options" style="display:none;" />
+                    <table class="tbl-header" border="0" cellpadding="0" cellspacing="0">
+                            <tbody>
+                                <tr>
+                                    <td class="td-title" style="width: 100%;text-align: center;vertical-align: bottom;">
+                                        <div id="divErrorSummary" class="error-msg"> Please fill below required fields to proceed.</div>
+                                    </td>
+                                    <td>
+                                        <input type="button" id="btnReset" style="{!IF(ProjectPortalStatus.IsInventoryInformationProvided, 'display:none;', '')}float:right; margin-bottom:-2px!important;" value="Reset" class="btn-common" />
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    <div class="data-wrapper">
+                        <table border="0" cellspacing="0" cellpadding="0" class="tbl-common" style="border-bottom: none;">
+                            <thead>
+                                <tr>
+                                    <th style="width:35%;">&nbsp;</th>
+                                    <th style="width:20%;">Description</th>
+                                    <th style="width:25%;">
+                                        Amadeus Default Standard Values
+                                        <c:AH_PLCM_MM_Bubble_Help_Popup StyleClass="popup-arrow margin-top-10" Index="4" TotalBubbles="6" HeaderText="Default Values"
+                                           HelpText="These are the industry default values when calculating max capacity. These will be used unless the Property Values column is filled in." />
+                                    </th>
+                                    <th style="width:20%;">
+                                        Property Values
+                                        <c:AH_PLCM_MM_Bubble_Help_Popup StyleClass="popup-arrow popup-right-corner margin-top-10" Index="5" TotalBubbles="6" HeaderText="Enter Values"
+                                           HelpText="These values are auto-populated from the industry defaults. If your property values differ for the listed row, please indicate here by overwriting the default value. This will be used instead of the default value when the set up is created in AHD." />
+                                    </th>
+                                </tr>
+                            </thead>
+                        </table>
+                    </div>
+                    
+                    <!----------------------- THEATRE :: START --------------------- -->
+                    <div class="data-wrapper">
+                        <div class="div-header">
+                            <table border="0" cellspacing="0" cellpadding="0" class="tbl-common">
+                                <thead>
+                                    <tr>
+                                        <th>
+                                            <div class="header-text">
+                                                <div class="div-header-icon expanded">&nbsp;</div> THEATRE
+                                            </div>
+                                            <c:AH_PLCM_MM_Bubble_Help_Popup StyleClass="popup-arrow" Index="3" TotalBubbles="6" HeaderText="Complete Setup Values"
+                                               HelpText="Next fill in the information for each of the setup types below. Be sure to note the description information for the units (feet, inches, quantity) in each row." />
+                                        </th>
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div>
+                        <div class="div-data" style="display:block;">
+                            <table border="0" cellspacing="0" cellpadding="0" class="tbl-common">
+                                <tbody>
+                                    <tr>
+                                        <td rowspan="8" style="width:35%; text-align: center" class="img-container">
+                                            <apex:image alt="Image" url="{!$Resource.AH_PLCM_MM_Theatre_Diagram}" />
+                                        </td>
+                                        <td style="width:20%;">
+                                            Number of Center Aisle(s):
+                                        </td>
+                                        <td style="width:25%;">
+                                            <apex:inputField html-disabled="true" styleClass="default-value" value="{!objDefaultValues.MM_THE_Center_Aisle_s_quantity__c}" />
+                                        </td>
+                                        <td style="width:20%;">
+                                            <apex:inputField styleClass="num-input required-input" value="{!objUpdatedValues.MM_THE_Center_Aisle_s_quantity__c}" html-data-maxlength="2" />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            Center Aisle(s) Width (in feet):
+                                        </td>
+                                        <td>
+                                            <apex:inputField html-disabled="true" styleClass="default-value" value="{!objDefaultValues.MM_THE_Center_Aisle_s_Width__c}" />
+                                        </td>
+                                        <td>
+                                            <apex:inputField styleClass="num-input required-input" value="{!objUpdatedValues.MM_THE_Center_Aisle_s_Width__c}" html-data-maxlength="2" />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            Number of Cross Aisle(s):
+                                        </td>
+                                        <td>
+                                            <apex:inputField html-disabled="true" styleClass="default-value" value="{!objDefaultValues.MM_THE_Cross_Aisle_s_quantity__c}" />
+                                        </td>
+                                        <td>
+                                            <apex:inputField styleClass="num-input required-input" value="{!objUpdatedValues.MM_THE_Cross_Aisle_s_quantity__c}" html-data-maxlength="2" />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            Cross Aisle(s) Width (in feet):
+                                        </td>
+                                        <td>
+                                            <apex:inputField html-disabled="true" styleClass="default-value" value="{!objDefaultValues.MM_THE_Cross_Aisle_s_Width__c}" />
+                                        </td>
+                                        <td>
+                                            <apex:inputField styleClass="num-input required-input" value="{!objUpdatedValues.MM_THE_Cross_Aisle_s_Width__c}" html-data-maxlength="2" />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            Distance between Chairs (in feet):
+                                        </td>
+                                        <td>
+                                            <apex:inputField html-disabled="true" styleClass="default-value" value="{!objDefaultValues.MM_THE_Distance_Between_Chairs__c}" />
+                                        </td>
+                                        <td>
+                                            <apex:inputField styleClass="num-input required-input" value="{!objUpdatedValues.MM_THE_Distance_Between_Chairs__c}" html-data-maxlength="3" />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            Distance between Rows of Chairs (in inches):
+                                        </td>
+                                        <td>
+                                            <apex:inputField html-disabled="true" styleClass="default-value" value="{!objDefaultValues.MM_THE_Distance_Between_Rows_of_Chairs__c}" />
+                                        </td>
+                                        <td>
+                                            <apex:inputField styleClass="num-input required-input" value="{!objUpdatedValues.MM_THE_Distance_Between_Rows_of_Chairs__c}" html-data-maxlength="3" />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            Default Chair Length (in inches):
+                                        </td>
+                                        <td>
+                                            <apex:inputField html-disabled="true" styleClass="default-value" value="{!objDefaultValues.MM_THE_Default_Chair_Size_Length__c}" />
+                                        </td>
+                                        <td>
+                                            <apex:inputField styleClass="num-input required-input" value="{!objUpdatedValues.MM_THE_Default_Chair_Size_Length__c}" html-data-maxlength="3,2" />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            Default Chair Width (in inches):
+                                        </td>
+                                        <td>
+                                            <apex:inputField html-disabled="true" styleClass="default-value" value="{!objDefaultValues.MM_THE_Default_Chair_Size_Width__c}" />
+                                        </td>
+                                        <td>
+                                            <apex:inputField styleClass="num-input required-input" value="{!objUpdatedValues.MM_THE_Default_Chair_Size_Width__c}" html-data-maxlength="3,2" />
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <!----------------------- THEATRE :: END ---------------------  -->
+                    
+                    <!----------------------- CLASSROOM :: START --------------------- -->
+                    <div class="data-wrapper">
+                        <div class="div-header">
+                            <table border="0" cellspacing="0" cellpadding="0" class="tbl-common">
+                                <thead>
+                                    <tr>
+                                        <th>
+                                            <div class="header-text">
+                                                <div class="div-header-icon expanded">&nbsp;</div> CLASSROOM
+                                            </div>
+                                        </th>
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div>
+                        <div class="div-data">
+                            <table border="0" cellspacing="0" cellpadding="0" class="tbl-common">
+                                <tbody>
+                                    <tr>
+                                        <td rowspan="11" style="width:35%; text-align: center" class="img-container">
+                                            <apex:image alt="Image" url="{!$Resource.AH_PLCM_MM_ClassRoom_Diagram}" />
+                                        </td>
+                                        <td style="width:20%;">
+                                            Number of Center Aisle(s):
+                                        </td>
+                                        <td style="width:25%;">
+                                            <apex:inputField html-disabled="true" styleClass="default-value" value="{!objDefaultValues.MM_CLA_Center_Aisle_s_quantity__c}" />
+                                        </td>
+                                        <td style="width:20%;">
+                                            <apex:inputField styleClass="num-input required-input" value="{!objUpdatedValues.MM_CLA_Center_Aisle_s_quantity__c}" html-data-maxlength="2" />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            Center Aisle(s) Width (in feet):
+                                        </td>
+                                        <td>
+                                            <apex:inputField html-disabled="true" styleClass="default-value" value="{!objDefaultValues.MM_CLA_Center_Aisle_s_Width__c}" />
+                                        </td>
+                                        <td>
+                                            <apex:inputField styleClass="num-input required-input" value="{!objUpdatedValues.MM_CLA_Center_Aisle_s_Width__c}" html-data-maxlength="2" />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            Number of Cross Aisle(s):
+                                        </td>
+                                        <td>
+                                            <apex:inputField html-disabled="true" styleClass="default-value" value="{!objDefaultValues.MM_CLA_Cross_Aisle_s_quantity__c}" />
+                                        </td>
+                                        <td>
+                                            <apex:inputField styleClass="num-input required-input" value="{!objUpdatedValues.MM_CLA_Cross_Aisle_s_quantity__c}" html-data-maxlength="2" />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            Cross Aisle(s) Width (in feet):
+                                        </td>
+                                        <td>
+                                            <apex:inputField html-disabled="true" styleClass="default-value" value="{!objDefaultValues.MM_CLA_Cross_Aisle_s_Width__c}" />
+                                        </td>
+                                        <td>
+                                            <apex:inputField styleClass="num-input required-input" value="{!objUpdatedValues.MM_CLA_Cross_Aisle_s_Width__c}" html-data-maxlength="2" />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            Distance between Rows of Tables (in inches):
+                                        </td>
+                                        <td>
+                                            <apex:inputField html-disabled="true" styleClass="default-value" value="{!objDefaultValues.MM_CLA_Distance_Between_Rows_of_Tables__c}" />
+                                        </td>
+                                        <td>
+                                            <apex:inputField styleClass="num-input required-input" value="{!objUpdatedValues.MM_CLA_Distance_Between_Rows_of_Tables__c}" html-data-maxlength="3" />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            Distance between Tables (in inches):
+                                        </td>
+                                        <td>
+                                            <apex:inputField html-disabled="true" styleClass="default-value" value="{!objDefaultValues.MM_CLA_Distance_Between_Tables__c}" />
+                                        </td>
+                                        <td>
+                                            <apex:inputField styleClass="num-input required-input" value="{!objUpdatedValues.MM_CLA_Distance_Between_Tables__c}" html-data-maxlength="3" />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            Default Table Length (in feet):
+                                        </td>
+                                        <td>
+                                            <apex:inputField html-disabled="true" styleClass="default-value" value="{!objDefaultValues.MM_CLA_Default_Table_Size_Length__c}" />
+                                        </td>
+                                        <td>
+                                            <apex:inputField styleClass="num-input required-input" value="{!objUpdatedValues.MM_CLA_Default_Table_Size_Length__c}" html-data-maxlength="3,2" />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            Default Table Width (in inches):
+                                        </td>
+                                        <td>
+                                            <apex:inputField html-disabled="true" styleClass="default-value" value="{!objDefaultValues.MM_CLA_Default_Table_Size_Width__c}" />
+                                        </td>
+                                        <td>
+                                            <apex:inputField styleClass="num-input required-input" value="{!objUpdatedValues.MM_CLA_Default_Table_Size_Width__c}" html-data-maxlength="3,2" />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            Default Chair Length (in inches):
+                                        </td>
+                                        <td>
+                                            <apex:inputField html-disabled="true" styleClass="default-value" value="{!objDefaultValues.MM_CLA_Default_Chair_Size_Length__c}" />
+                                        </td>
+                                        <td>
+                                            <apex:inputField styleClass="num-input required-input" value="{!objUpdatedValues.MM_CLA_Default_Chair_Size_Length__c}" html-data-maxlength="3,2" />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            Default Chair Width (in inches):
+                                        </td>
+                                        <td>
+                                            <apex:inputField html-disabled="true" styleClass="default-value" value="{!objDefaultValues.MM_CLA_Default_Chair_Size_Width__c}" />
+                                        </td>
+                                        <td>
+                                            <apex:inputField styleClass="num-input required-input" value="{!objUpdatedValues.MM_CLA_Default_Chair_Size_Width__c}" html-data-maxlength="3,2" />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            Number of Seats per table:
+                                        </td>
+                                        <td>
+                                            <apex:inputField html-disabled="true" styleClass="default-value" value="{!objDefaultValues.MM_CLA_Seats_per_Table__c}" />
+                                        </td>
+                                        <td>
+                                            <apex:inputField styleClass="num-input required-input" value="{!objUpdatedValues.MM_CLA_Seats_per_Table__c}" html-data-maxlength="2" />
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <!----------------------- CLASSROOM :: END --------------------- -->
+                    
+                    <!----------------------- BANQUET :: START --------------------- -->
+                    <div class="data-wrapper">
+                        <div class="div-header">
+                            <table border="0" cellspacing="0" cellpadding="0" class="tbl-common">
+                                <thead>
+                                    <tr>
+                                        <th>
+                                            <div class="header-text">
+                                                <div class="div-header-icon expanded">&nbsp;</div> BANQUET
+                                            </div>
+                                        </th>
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div>
+                        <div class="div-data">
+                            <table border="0" cellspacing="0" cellpadding="0" class="tbl-common">
+                                <tbody>
+                                    <tr>
+                                        <td rowspan="11" style="width:35%; text-align: center" class="img-container">
+                                            <apex:image alt="Image" url="{!$Resource.AH_PLCM_MM_Banquet_Diagram}" />
+                                        </td>
+                                        <td style="width:20%;">
+                                            Number of Center Aisle(s):
+                                        </td>
+                                        <td style="width:25%;">
+                                            <apex:inputField html-disabled="true" styleClass="default-value" value="{!objDefaultValues.MM_BAN_Center_Aisle_s_quantity__c}" />
+                                        </td>
+                                        <td style="width:20%;">
+                                            <apex:inputField styleClass="num-input required-input" value="{!objUpdatedValues.MM_BAN_Center_Aisle_s_quantity__c}" html-data-maxlength="2" />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            Center Aisle(s) Width (in feet):
+                                        </td>
+                                        <td style="width:25%;">
+                                            <apex:inputField html-disabled="true" styleClass="default-value" value="{!objDefaultValues.MM_BAN_Center_Aisle_s_Width__c}" />
+                                        </td>
+                                        <td style="width:20%;">
+                                            <apex:inputField styleClass="num-input required-input" value="{!objUpdatedValues.MM_BAN_Center_Aisle_s_Width__c}" html-data-maxlength="2" />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            Number of Cross Aisle(s):
+                                        </td>
+                                        <td>
+                                            <apex:inputField html-disabled="true" styleClass="default-value" value="{!objDefaultValues.MM_BAN_Cross_Aisle_s_quantity__c}" />
+                                        </td>
+                                        <td>
+                                            <apex:inputField styleClass="num-input required-input" value="{!objUpdatedValues.MM_BAN_Cross_Aisle_s_quantity__c}" html-data-maxlength="2" />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            Cross Aisle(s) Width (in feet):
+                                        </td>
+                                        <td style="width:25%;">
+                                            <apex:inputField html-disabled="true" styleClass="default-value" value="{!objDefaultValues.MM_BAN_Cross_Aisle_s_Width__c}" />
+                                        </td>
+                                        <td style="width:20%;">
+                                            <apex:inputField styleClass="num-input required-input" value="{!objUpdatedValues.MM_BAN_Cross_Aisle_s_Width__c}" html-data-maxlength="2" />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            Distance between Rows of Tables (in inches):
+                                        </td>
+                                        <td>
+                                            <apex:inputField html-disabled="true" styleClass="default-value" value="{!objDefaultValues.MM_BAN_Distance_Between_Rows_of_Tables__c}" />
+                                        </td>
+                                        <td>
+                                            <apex:inputField styleClass="num-input required-input" value="{!objUpdatedValues.MM_BAN_Distance_Between_Rows_of_Tables__c}" html-data-maxlength="3" />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            Distance between Tables (in inches): 
+                                        </td>
+                                        <td>
+                                            <apex:inputField html-disabled="true" styleClass="default-value" value="{!objDefaultValues.MM_BAN_Distance_Between_Tables__c}" />
+                                        </td>
+                                        <td>
+                                            <apex:inputField styleClass="num-input required-input" value="{!objUpdatedValues.MM_BAN_Distance_Between_Tables__c}" html-data-maxlength="3" />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            Default Round Table Size (in feet):
+                                        </td>
+                                        <td>
+                                            <apex:inputField html-disabled="true" styleClass="default-value" value="{!objDefaultValues.MM_BAN_Default_Table_Size_Width__c}" />
+                                        </td>
+                                        <td>
+                                            <apex:inputField styleClass="num-input required-input" value="{!objUpdatedValues.MM_BAN_Default_Table_Size_Width__c}" html-data-maxlength="3,2" />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            Default Chair Length (in inches):
+                                        </td>
+                                        <td>
+                                            <apex:inputField html-disabled="true" styleClass="default-value" value="{!objDefaultValues.MM_BAN_Default_Chair_Size_Length__c}" />
+                                        </td>
+                                        <td>
+                                            <apex:inputField styleClass="num-input required-input" value="{!objUpdatedValues.MM_BAN_Default_Chair_Size_Length__c}" html-data-maxlength="3,2" />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            Default Chair Width (in inches):
+                                        </td>
+                                        <td>
+                                            <apex:inputField html-disabled="true" styleClass="default-value" value="{!objDefaultValues.MM_BAN_Default_Chair_Size_Width__c}" />
+                                        </td>
+                                        <td>
+                                            <apex:inputField styleClass="num-input required-input" value="{!objUpdatedValues.MM_BAN_Default_Chair_Size_Width__c}" html-data-maxlength="3,2" />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            Number of Seats per table:
+                                        </td>
+                                        <td>
+                                            <apex:inputField html-disabled="true" styleClass="default-value" value="{!objDefaultValues.MM_BAN_Seats_per_Table__c}" />
+                                        </td>
+                                        <td>
+                                            <apex:inputField styleClass="num-input required-input" value="{!objUpdatedValues.MM_BAN_Seats_per_Table__c}" html-data-maxlength="2" />
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <!----------------------- BANQUET :: END --------------------- -->
+                    
+                    <!----------------------- CONFERENCE :: START --------------------- -->
+                    <div class="data-wrapper">
+                        <div class="div-header">
+                            <table border="0" cellspacing="0" cellpadding="0" class="tbl-common">
+                                <thead>
+                                    <tr>
+                                        <th>
+                                            <div class="header-text">
+                                                <div class="div-header-icon expanded">&nbsp;</div> CONFERENCE
+                                            </div>
+                                        </th>
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div>
+                        <div class="div-data">
+                            <table border="0" cellspacing="0" cellpadding="0" class="tbl-common">
+                                <tbody>
+                                    <tr>
+                                        <td rowspan="5" style="width:35%; text-align: center">
+                                            &nbsp;
+                                            <!--<apex:image alt="Image" url="{!$Resource.AH_PLCM_MM_Banquet_Diagram}" />-->
+                                        </td>
+                                        <td style="width:20%;">
+                                            Default Table Length (in feet):
+                                        </td>
+                                        <td style="width:25%;">
+                                            <apex:inputField html-disabled="true" styleClass="default-value" value="{!objDefaultValues.MM_CON_Default_Table_Size_Length__c}" />
+                                        </td>
+                                        <td style="width:20%;">
+                                            <apex:inputField styleClass="num-input required-input" value="{!objUpdatedValues.MM_CON_Default_Table_Size_Length__c}" html-data-maxlength="3,2" />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            Default Table Width (in inches):
+                                        </td>
+                                        <td style="width:25%;">
+                                            <apex:inputField html-disabled="true" styleClass="default-value" value="{!objDefaultValues.MM_CON_Default_Table_Size_Width__c}" />
+                                        </td>
+                                        <td style="width:20%;">
+                                            <apex:inputField styleClass="num-input required-input" value="{!objUpdatedValues.MM_CON_Default_Table_Size_Width__c}" html-data-maxlength="3,2" />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            Default Chair Length (in inches):
+                                        </td>
+                                        <td>
+                                            <apex:inputField html-disabled="true" styleClass="default-value" value="{!objDefaultValues.MM_CON_Default_Chair_Size_Length__c}" />
+                                        </td>
+                                        <td>
+                                            <apex:inputField styleClass="num-input required-input" value="{!objUpdatedValues.MM_CON_Default_Chair_Size_Length__c}" html-data-maxlength="3,2" />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            Default Chair Width (in inches):
+                                        </td>
+                                        <td style="width:25%;">
+                                            <apex:inputField html-disabled="true" styleClass="default-value" value="{!objDefaultValues.MM_CON_Default_Chair_Size_Width__c}" />
+                                        </td>
+                                        <td style="width:20%;">
+                                            <apex:inputField styleClass="num-input required-input" value="{!objUpdatedValues.MM_CON_Default_Chair_Size_Width__c}" html-data-maxlength="3,2" />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            Number of Seats per table:
+                                        </td>
+                                        <td>
+                                            <apex:inputField html-disabled="true" styleClass="default-value" value="{!objDefaultValues.MM_CON_Seats_per_Table__c}" />
+                                        </td>
+                                        <td>
+                                            <apex:inputField styleClass="num-input required-input" value="{!objUpdatedValues.MM_CON_Seats_per_Table__c}" html-data-maxlength="2" />
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <!----------------------- CONFERENCE:: END --------------------- -->
+                    
+                    <!----------------------- U-SHAPE :: START --------------------- -->
+                    <div class="data-wrapper">
+                        <div class="div-header">
+                            <table border="0" cellspacing="0" cellpadding="0" class="tbl-common">
+                                <thead>
+                                    <tr>
+                                        <th>
+                                            <div class="header-text">
+                                                <div class="div-header-icon expanded">&nbsp;</div> U-SHAPE
+                                            </div>
+                                        </th>
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div>
+                        <div class="div-data">
+                            <table border="0" cellspacing="0" cellpadding="0" class="tbl-common">
+                                <tbody>
+                                    <tr>
+                                        <td rowspan="5" style="width:35%; text-align: center">
+                                            &nbsp;
+                                            <!--<apex:image alt="Image" url="{!$Resource.AH_PLCM_MM_Banquet_Diagram}" />-->
+                                        </td>
+                                        <td style="width:20%;">
+                                            Default Table Length (in feet):
+                                        </td>
+                                        <td style="width:25%;">
+                                            <apex:inputField html-disabled="true" styleClass="default-value" value="{!objDefaultValues.MM_USH_Default_Table_Size_Length__c}" />
+                                        </td>
+                                        <td style="width:20%;">
+                                            <apex:inputField styleClass="num-input required-input" value="{!objUpdatedValues.MM_USH_Default_Table_Size_Length__c}" html-data-maxlength="3,2" />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            Default Table Width (in inches):
+                                        </td>
+                                        <td style="width:25%;">
+                                            <apex:inputField html-disabled="true" styleClass="default-value" value="{!objDefaultValues.MM_USH_Default_Table_Size_Width__c}" />
+                                        </td>
+                                        <td style="width:20%;">
+                                            <apex:inputField styleClass="num-input required-input" value="{!objUpdatedValues.MM_USH_Default_Table_Size_Width__c}" html-data-maxlength="3,2" />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            Default Chair Length (in inches):
+                                        </td>
+                                        <td>
+                                            <apex:inputField html-disabled="true" styleClass="default-value" value="{!objDefaultValues.MM_USH_Default_Chair_Size_Length__c}" />
+                                        </td>
+                                        <td>
+                                            <apex:inputField styleClass="num-input required-input" value="{!objUpdatedValues.MM_USH_Default_Chair_Size_Length__c}" html-data-maxlength="3,2" />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            Default Chair Width (in inches):
+                                        </td>
+                                        <td style="width:25%;">
+                                            <apex:inputField html-disabled="true" styleClass="default-value" value="{!objDefaultValues.MM_USH_Default_Chair_Size_Width__c}" />
+                                        </td>
+                                        <td style="width:20%;">
+                                            <apex:inputField styleClass="num-input required-input" value="{!objUpdatedValues.MM_USH_Default_Chair_Size_Width__c}" html-data-maxlength="3,2" />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            Number of Seats per table:
+                                        </td>
+                                        <td>
+                                            <apex:inputField html-disabled="true" styleClass="default-value" value="{!objDefaultValues.MM_USH_Seats_per_Table__c}" />
+                                        </td>
+                                        <td>
+                                            <apex:inputField styleClass="num-input required-input" value="{!objUpdatedValues.MM_USH_Seats_per_Table__c}" html-data-maxlength="3" />
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <!----------------------- U-SHAPE :: END ----------------------->
+                    
+                    <!----------------------- HOLLOW SQUARE :: START --------------------- -->
+                    <div class="data-wrapper">
+                        <div class="div-header">
+                            <table border="0" cellspacing="0" cellpadding="0" class="tbl-common">
+                                <thead>
+                                    <tr>
+                                        <th>
+                                            <div class="header-text">
+                                                <div class="div-header-icon expanded">&nbsp;</div> HOLLOW SQUARE
+                                            </div>
+                                        </th>
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div>
+                        <div class="div-data">
+                            <table border="0" cellspacing="0" cellpadding="0" class="tbl-common">
+                                <tbody>
+                                    <tr>
+                                        <td rowspan="5" style="width:35%; text-align: center">
+                                            &nbsp;
+                                            <!--<apex:image alt="Image" url="{!$Resource.AH_PLCM_MM_Banquet_Diagram}" />-->
+                                        </td>
+                                        <td style="width:20%;">
+                                            Default Table Length (in feet):
+                                        </td>
+                                        <td style="width:25%;">
+                                            <apex:inputField html-disabled="true" styleClass="default-value" value="{!objDefaultValues.MM_HSQ_Default_Table_Size_Length__c}" />
+                                        </td>
+                                        <td style="width:20%;">
+                                            <apex:inputField styleClass="num-input required-input" value="{!objUpdatedValues.MM_HSQ_Default_Table_Size_Length__c}" html-data-maxlength="3,2" />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            Default Table Width (in inches):
+                                        </td>
+                                        <td style="width:25%;">
+                                            <apex:inputField html-disabled="true" styleClass="default-value" value="{!objDefaultValues.MM_HSQ_Default_Table_Size_Width__c}" />
+                                        </td>
+                                        <td style="width:20%;">
+                                            <apex:inputField styleClass="num-input required-input" value="{!objUpdatedValues.MM_HSQ_Default_Table_Size_Width__c}" html-data-maxlength="3,2" />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            Default Chair Length (in inches):
+                                        </td>
+                                        <td>
+                                            <apex:inputField html-disabled="true" styleClass="default-value" value="{!objDefaultValues.MM_HSQ_Default_Chair_Size_Length__c}" />
+                                        </td>
+                                        <td>
+                                            <apex:inputField styleClass="num-input required-input" value="{!objUpdatedValues.MM_HSQ_Default_Chair_Size_Length__c}" html-data-maxlength="3,2" />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            Default Chair Width (in inches):
+                                        </td>
+                                        <td style="width:25%;">
+                                            <apex:inputField html-disabled="true" styleClass="default-value" value="{!objDefaultValues.MM_HSQ_Default_Chair_Size_Width__c}" />
+                                        </td>
+                                        <td style="width:20%;">
+                                            <apex:inputField styleClass="num-input required-input" value="{!objUpdatedValues.MM_HSQ_Default_Chair_Size_Width__c}" html-data-maxlength="3,2" />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            Number of Seats per table:
+                                        </td>
+                                        <td>
+                                            <apex:inputField html-disabled="true" styleClass="default-value" value="{!objDefaultValues.MM_HSQ_Seats_per_Table__c}" />
+                                        </td>
+                                        <td>
+                                            <apex:inputField styleClass="num-input required-input" value="{!objUpdatedValues.MM_HSQ_Seats_per_Table__c}" html-data-maxlength="2" />
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <!----------------------- HOLLOW SQUARE :: END ----------------------->
+                    
+                    <!----------------------- RECEPTION :: START --------------------- -->
+                    <!-- <div class="data-wrapper">
+                        <div class="div-header">
+                            <table border="0" cellspacing="0" cellpadding="0" class="tbl-common">
+                                <thead>
+                                    <tr>
+                                        <th>
+                                            <div class="header-text">
+                                                <div class="div-header-icon expanded">&nbsp;</div> RECEPTION
+                                            </div>
+                                        </th>
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div>
+                        <div class="div-data">
+                            <table border="0" cellspacing="0" cellpadding="0" class="tbl-common">
+                                <tbody>
+                                    <tr>
+                                        <td rowspan="2" style="width:35%; text-align: center">
+                                            &nbsp;
+                                        </td>
+                                        <td style="width:20%;">
+                                            Total Room Length (in feet):
+                                        </td>
+                                        <td style="width:25%;">
+                                            <apex:inputField html-disabled="true" styleClass="default-value" value="{!objDefaultValues.MM_REC_Room_Total_Length__c}" />
+                                        </td>
+                                        <td style="width:20%;">
+                                            <apex:inputField styleClass="num-input required-input" value="{!objUpdatedValues.MM_REC_Room_Total_Length__c}" html-data-maxlength="3,2" />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            Total Room Width (in feet):
+                                        </td>
+                                        <td style="width:25%;">
+                                            <apex:inputField html-disabled="true" styleClass="default-value" value="{!objDefaultValues.MM_REC_Room_Total_Width__c}" />
+                                        </td>
+                                        <td style="width:20%;">
+                                            <apex:inputField styleClass="num-input required-input" value="{!objUpdatedValues.MM_REC_Room_Total_Width__c}" html-data-maxlength="3,2" />
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>-->
+                    <!----------------------- RECEPTION :: END --------------------- -->
+        
+                    <apex:pageBlockButtons location="bottom" style="text-align: right;">
+                        <apex:commandButton action="{!BackToFunctionRoomPage}" value="Back to Function Room" style="float:left;"/>
+                        <div class="export-menu">
+                            <button onclick="$('.menu-options').toggle(); return false;" class="menu-btn btn-common">Export</button>
+                            <div class="menu-options">
+                                <a onclick="javascript:exportReport('{!ProjectId}', 'roomcapacities', 'xls'); return false;">Excel</a>
+                                <a onclick="javascript:exportReport('{!ProjectId}', 'roomcapacities', 'pdf'); return false;">PDF</a>
+                            </div>
+                        </div>
+                        <apex:commandButton action="{!SaveData}" rendered="{!ProjectPortalStatus.IsInventoryInformationProvided == false}" value="Save" onclick="javascript: if(validateForm(false)) { showHideLoader(true); } else { return false; }" styleClass="btn-common" />
+                        <apex:commandButton action="{!ConfirmAndNext}" value="{!IF(ProjectPortalStatus.IsInventoryInformationProvided, 'Next', 'Save & Next') }" onclick="javascript: if(validateForm(true)) { showHideLoader(true); } else { return false; }" styleClass="btn-common" />
+                    </apex:pageBlockButtons>
+                </apex:pageBlock>
+            </div>
+            <div class="help-wrapper">
+                <div class="help-button">
+                    <a id="btnHelp">Hide Help</a>
+                </div>
+                <div class="help-box">
+                    <div class="help-box-inner">
+                        <div class="help-title">Room Capacity Information</div>
+                        <div class="help-text">
+                            The inputs on this page will be used to generate maximum capacities. There are two options when generating maximum capacities: providing a copy of the current max capacity charts or Amadeus will auto-calculate based on the information entered in this tool. If you will be providing a copy of the properties current max capacities you will be prompted to upload the files, accordingly. In both options Amadeus will ask you to complete the inputs to confirm and discuss on your Diagram Readiness Call.
+                            <br/><br/>
+                            Refer to the description and related images for the set up information requested. The fixed column of AHD default values is listed as a reference and auto populated into the fields. It is most common to use the defaults but if your property uses a different measurement or count of the descripted, please overwrite the populated default and it will replace that value.
+                            <br/><br/>
+                            This information will be reviewed and confirmed on your Diagramming Readiness Call. Feel free to create a report of your configurations by using the "Export to Excel" or "Export to PDF" button.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </apex:form>
+    <script type="text/javascript">
+        var __sfdcSessionId = '{!GETSESSIONID()}'; //Use to execute SOQL query
+    </script>
+    <script src="/soap/ajax/28.0/connection.js" type="text/javascript"></script>
+    <script type="text/javascript">
+        var pgMessage = document.getElementById('{!$Component.frmRoomCapacities.pbRoomCapacities.pgMessage}');
+        $(document).ready(function() {
+            //Change Page Title
+            window.parent.document.title = "Room Capacities";
+
+            //Set in line help text height
+            setHelpHeight(0);
+            $(".btn-upload").removeClass('btn');
+
+            var flagFileUploaded = '{!lstFiles.size > 0}'.toLowerCase() == 'true';
+            $('.chk-opt').prop('checked', false);
+            if(flagFileUploaded || '{!objNIDoc.AH_PLCM_MM_Maximum_Capacity_Option__c}'.toLowerCase() == 'option one') {
+                $('#chkOption1').prop('checked', true);
+            }
+            else if('{!objNIDoc.AH_PLCM_MM_Maximum_Capacity_Option__c}'.toLowerCase() == 'option two') {
+                $('#chkOption2').prop('checked', true);
+            }
+
+            if('{!ProjectPortalStatus.IsInventoryInformationProvided}'.toLowerCase() == 'true') {
+                $("input[type=text], input[type=checkbox], select").prop('disabled', true);
+                $("#tblFileUpload").hide();
+                
+                if('{!lstFiles.size == 0}'.toLowerCase() == 'true') {
+                    $('#divFileUpload').hide();
+                }
+                
+                //Do not display warning message for disabled controls
+                unbindNavigationWarning();
+            }
+            else {
+                var fileUpload = document.getElementById('{!$Component.frmRoomCapacities.pbRoomCapacities.fileUpload}');
+                $('.ddl-options').val($('.chk-opt:checked').val());
+                $(".chk-opt").prop('disabled', flagFileUploaded);
+
+                $(".chk-opt").on("click", function() {
+                    var flagChecked = $(this).is(":checked");
+                    $(".chk-opt").prop("checked", false);
+                    $(this).prop("checked", flagChecked); //Make only one checkbox selected at a time
+                    $(pgMessage).hide(); //Hide success message
+    
+                    if(flagChecked) {
+                        //Remove red border
+                        $(this).parents('.data-wrapper').removeClass('error');
+                        
+                        //Hide file upload error message
+                        $(fileUpload).siblings('#errorMsg1').hide();
+
+                        if($(this).val() == 'Option One') {
+                            $('#divFileUpload').slideDown(800);
+                            $('html, body').animate({ //Scroll to error summary div
+                                scrollTop: 50
+                            }, 900);
+                        }
+                        else {
+                            $('#divFileUpload').slideUp(800);
+                        }
+                    }
+                    else {
+                        $('#divFileUpload').slideUp(800);
+                    }
+    
+                    //Make drop down selection to save selected option
+                    if($('.chk-opt:checked').length > 0) {
+                        $('.ddl-options').val($('.chk-opt:checked').val());
+                    }
+                    else {
+                        $('.ddl-options').val('');
+                    }
+    
+                    //Set help div height based on height of main div
+                    setHelpHeight(800);
+                });
+
+                $(fileUpload).on("change", function() {
+                    if($(fileUpload).val() != '') {
+                        var parent = $(this).parent('td');
+                        $('.error-msg', parent).hide();
+    
+                        var supportedExt = ["dwg", "dxf", "pdf", "mmr", "flp", "xls", "xlsx", "doc", "docx", "zip"];
+                        $(this.files).each(function(index, file) {
+                            var fileName = file.name; //Get file name
+                            var extension = fileName.replace(/^.*\./, ''); //Get file extension
+                            var fileSize = file.size; //Get file size 
+                            var fileType = file.type; //Get file type
+    
+                            if(!arrayContains(supportedExt, extension.toLowerCase())) {
+                                $("#errorMsg2", parent).show();
+                                $(fileUpload).val('');
+                            }
+                            else if(fileSize == 0) {
+                                $("#errorMsg3", parent).show();
+                                $(fileUpload).val('');
+                            }
+                            else if(fileSize > 25000000) {
+                                $("#errorMsg4", parent).show();
+                                $(fileUpload).val('');
+                            }
+                        });
+                    }
+                });
+                
+                $(".btn-upload").on("click", function() {
+                    var parent = $(fileUpload).parent('td');
+                    $('.error-msg', parent).hide();
+                    if($(fileUpload).val() != '') {
+                        showHideLoader(true);
+                        return true;
+                    }
+                    else {
+                        $("#errorMsg1", parent).show();
+                        $(pgMessage).hide(); //Hide success message
+                        return false;
+                    }
+                });
+                    
+                $("#btnReset").on("click", function() {
+                    var isReset = confirm('Are you sure you want to reset all values back to Amadeus Default Standards?');
+                    if(isReset) {
+                        $(pgMessage).hide(); //Hide success message
+                        $('.default-value').each(function(){
+                            $(this).parents('tr').find('.num-input').val($(this).val())
+                        });
+                        
+                        $('#divErrorSummary').hide(); //Hide validation message summary
+                        $('.required-input').removeClass('error'); //Remove individual error messages
+                        $('.errorMsg').remove(); //Remove all error messages
+                    }
+                });
+                
+                setTimeout(function() {
+                    //Display warning message while moving to other tab
+                    bindNavigationWarning();
+                }, 500);
+            }
+
+            $(".div-header").each(function() {
+                $(".header-text", this).on("click", function() {
+                    var divHeader = $(this).parents('.div-header');
+                    var $data = $(divHeader).next('.div-data');
+                    $data.slideToggle('slow');
+                    $('.div-header-icon', divHeader).toggleClass('expanded'); //Set expand/collapse icon            
+                    
+                    //Set help div height based on height of main div
+                    setHelpHeight(600);
+                });
+            });
+        });
+        
+        //Check if array contains element or not 
+        function arrayContains(arr, elem) {
+            var flagContains = false;
+            $(arr).each(function(index, obj) {
+                if(obj == elem) {
+                    flagContains = true;
+                    return true;
+                }
+            });
+            return flagContains;
+        }
+
+        //Display bubble help popup
+        function showBubble(index) {
+            //Hide all bubble help popup
+            $(".bubble-popup").hide();
+            $("#divBubblePopup_" + index).show(); //Show next or prevous popup
+            $('html, body').animate({ //Scroll to specific bubble
+                scrollTop: $("#divBubblePopup_" + index).offset().top - 50
+            }, 600);
+        }
+        
+        function validateForm(flagConfirmAndNext) {
+            if('{!ProjectPortalStatus.IsInventoryInformationProvided}'.toLowerCase() == 'true') {
+                //If step is completed then return true by default
+                return true;
+            }
+            else {
+                if($('.ddl-options').val() == '') {
+                    alert('Please select Option 1 or 2');
+                    $(pgMessage).hide(); //Hide success message
+                    $('#divOptions').addClass('error');
+                    $('html, body').animate({ //Scroll to Option Div
+                        scrollTop: 0
+                    }, 600);
+                    return false;
+                }
+                else {
+                    $('#divOptions').removeClass('error');
+                }
+            
+                if(flagConfirmAndNext) { //Perform validation only for Confirm & Next button
+                    var flagError = false;
+                    var errorDiv = '<div class="errorMsg">This field is required</div>';
+
+                    $('#divErrorSummary').hide(); //Hide validation message summary
+                    $('.required-input').removeClass('error'); //Remove individual error messages
+                    $('.errorMsg').remove(); //Remove all error messages
+                    $('.required-input').each(function() {
+                        if($(this).val().trim() == '') {
+                            flagError = true;
+                            $(this).addClass('error');
+                            $(this).parent().append(errorDiv); //Show error message
+                            
+                            var parent = $(this).parents('.div-data').parent();
+                            $('.div-data', parent).show(); //Expand section in which error found
+                            $('.div-header-icon', parent).addClass('expanded');
+                        }
+                    });
+                    
+                    if(flagError) {
+                        $(pgMessage).hide(); //Hide success message
+                        $('#divErrorSummary').show();
+                        $('html, body').animate({ //Scroll to error summary div
+                            scrollTop: $('#divErrorSummary').offset().top - 20
+                        }, 600);
+    
+                        //Set help div height based on height of main div
+                        setHelpHeight(100);
+                        return false;
+                    }
+                    else {
+                        return true;
+                    }
+                }
+                else {
+                    return true;
+                }
+            }
+        }
+        
+        //Click on skip bubble button
+        function skipBubble() {
+            if('{!ProjectBubbleStatus.IsRoomCapacityBubbleSkipped}'.toLowerCase() != 'true') {
+                //Update bubble help popup flag in NI Doc record
+                updateBubbleFlag('{!ProjectId}', 'roomcapacities');
+            }
+            $('.bubble-popup').hide(); //Hide Bubble Popup   
+        }
+    </script>
+</apex:page>

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>No_change_to_Line_items_if_submitted</fullName>
+    <active>true</active>
+    <errorConditionFormula>and(or(   ISPICKVAL(Expense_Report__r.Status__c, &quot;Submitted&quot;) ,ISPICKVAL(Expense_Report__r.Status__c, &quot;Approved&quot;) ), ISCHANGED( Amount__c ))</errorConditionFormula>
+    <errorMessage>You can not change the amount of the Line Items once the expense report has been submitted or approved. Please recall the approval in order to make the changes.</errorMessage>
+</ValidationRule>

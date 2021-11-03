@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Rejection_Reaso_c__c</fullName>
+    <externalDeveloperName>Rejection_Reaso__c</externalDeveloperName>
+    <externalId>false</externalId>
+    <inlineHelpText>Why was this request rejected?</inlineHelpText>
+    <isFilteringDisabled>false</isFilteringDisabled>
+    <isNameField>false</isNameField>
+    <isSortingDisabled>false</isSortingDisabled>
+    <label>Rejection Reason</label>
+    <readOnlyProxy>true</readOnlyProxy>
+    <required>false</required>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Account on Credit Hold</fullName>
+                <default>false</default>
+                <label>Account on Credit Hold</label>
+            </value>
+            <value>
+                <fullName>Aging &gt;150</fullName>
+                <default>false</default>
+                <label>Aging &gt;150</label>
+            </value>
+            <value>
+                <fullName>Already Paid</fullName>
+                <default>false</default>
+                <label>Already Paid</label>
+            </value>
+            <value>
+                <fullName>Duplicate-Previously Rejected</fullName>
+                <default>false</default>
+                <label>Duplicate-Previously Rejected</label>
+            </value>
+            <value>
+                <fullName>High Occupancy</fullName>
+                <default>false</default>
+                <label>&gt;10% Occupancy</label>
+            </value>
+            <value>
+                <fullName>Low Tenure</fullName>
+                <default>false</default>
+                <label>Low Tenure</label>
+            </value>
+            <value>
+                <fullName>Low Valuation</fullName>
+                <default>false</default>
+                <label>Low Valuation</label>
+            </value>
+            <value>
+                <fullName>Missing/Insufficient Information</fullName>
+                <default>false</default>
+                <label>Missing/Insufficient Information</label>
+            </value>
+            <value>
+                <fullName>Not Eligible</fullName>
+                <default>false</default>
+                <label>Not Eligible</label>
+            </value>
+            <value>
+                <fullName>Other</fullName>
+                <default>false</default>
+                <label>Other</label>
+            </value>
+            <value>
+                <fullName>Payment Plan Option</fullName>
+                <default>false</default>
+                <label>Payment Plan Option</label>
+            </value>
+            <value>
+                <fullName>Slow Payer</fullName>
+                <default>false</default>
+                <label>Slow Payer</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

@@ -1,0 +1,1058 @@
+<!---
+    DESCRIPTION     : Creation of a NI Document & Workbook - Workbook Send
+    Created By      : Umang Ankleshwaria
+    Created On      : 27-Jan-2021
+    User Story ID   : 577131
+    Last Mod Date   : 08-Feb-2021
+    Last Mod By     : Umang Ankleshwaria
+    User Story ID   :
+    Change History  :
+                      1. 590043 - Refactoring Code - Changed by Umang Ankleshwaria on 8-Feb-2021
+-->
+<apex:page showheader="false" applybodytag="true" applyhtmltag="false" doctype="html-5.0" id="SendWorkbookPage" standardcontroller="Contact" extensions="AH_UDC_SendWorkbook">
+   <head>
+      <title>{!$Label.AH_UDC_Send_Workbook_Title}</title>
+      <apex:slds />
+      
+      <!--Include for Common CSS-->
+      <c:AH_UDC_CommonCSS />
+
+      <!--Hover Tooltip - Tippy JS-->
+      <c:AH_UDC_Tool_Tip />
+      <style type="text/css">
+         .slds-spinner_container::after {
+            position: absolute;
+            content: attr(data-content);
+            width: 100%;
+            text-align: center;
+            top: calc(50% + 3em);
+            font-weight: bold;
+         }
+
+         .autoCompleteBoxScrolling {
+            display: none !important;
+         }
+
+         fieldset {
+            display: block;
+            margin-inline-start: 2px !important;
+            margin-inline-end: 2px !important;
+            padding-block-start: 0.35em !important;
+            padding-inline-start: 0.75em !important;
+            padding-inline-end: 0.75em !important;
+            padding-block-end: 0.625em !important;
+            min-inline-size: min-content !important;
+            border-width: 2px !important;
+            border-style: groove !important;
+            border-color: threedface !important;
+            border-image: initial !important;
+            /*For ie browser*/
+            padding-left: 5px !important;
+            padding-bottom: 10px !important;
+         }
+
+         #tblSendWorkbook td {
+            vertical-align: top;
+         }
+
+         #clear {
+            position: relative;
+            float: right;
+            height: 10%;
+            width: 3%;
+            top: 0px;
+            right: 5%;
+            font-weight: bold;
+            text-align: center;
+            cursor: pointer;
+         }
+
+         @media only screen and (max-width: 500px) {
+            #clear {
+               right: 6% !important;
+            }
+         }
+
+         @media only screen and (max-width: 700px) {
+            #clear {
+               right: 8% !important;
+            }
+         }
+
+         @media only screen and (max-width: 800px) {
+            #clear {
+               right: 6% !important;
+            }
+
+            .niDocumentCopy {
+               width: 89% !important;
+            }
+         }
+
+         @media only screen and (max-width: 900px) {
+            #clear {
+               right: 6% !important;
+            }
+
+            @-moz-document url-prefix() {
+               #clear {
+                  right: 7% !important;
+               }
+            }
+         }
+
+         @-moz-document url-prefix() {
+            #clear {
+               top: -19px !important;
+            }
+         }
+
+         .niDocumentCopy {
+            width: 95%;
+         }
+
+         .contactClear {
+            position: relative;
+            bottom: -2px;
+            cursor: pointer;
+            color: black;
+         }
+
+         .ui-datepicker-trigger {
+            width: 3%;
+         }
+
+         .spn-Workbook {
+            margin-top: 10px;
+            display: block;
+         }
+      </style>
+      <apex:includescript value="{!$Resource.AH_UDC_Jquery}" />
+      <apex:includescript value="{!URLFOR($Resource.AH_UDC_Jquery_UI_Zip, 'jquery-ui.min.js')}" />
+      <apex:stylesheet value="{!URLFOR($Resource.AH_UDC_Jquery_UI_Zip,'jquery-ui.min.css')}" />
+      <apex:includescript value="{!URLFOR($Resource.AH_UDC_Jquery_UI_Zip,'jquery-ui-i18n.min.js')}" />
+   </head>
+   <body>
+      <apex:form id="frmSendWorkbook">
+         <apex:actionfunction name="getWorkbookSentDetails" action="{!GetWorkbookSentDetails}" rerender="pageMessage,parentWorkbook,account,productSelect,selectWorkbook,chkWorkbookAccessed,chkWorkbookCompleted,chkWorkbookStepCompleted,renderJS" oncomplete="javascript: getWorkbookSentDetailsCompleted();"></apex:actionfunction>
+
+         <!--popup if contact does not have email-->
+         <div class="section-d" id="ContactHasEmail" style="{!IF(IsErrorOccurred != true && IsContactHasEmail == false, 'display:block', 'display:none')}">
+            <section aria-describedby="dialog-body-id-989" aria-labelledby="dialog-heading-id-6" id="userDontHaveEmail" class="slds-popover slds-popover_prompt slds-popover_prompt_top popup-custom popup-custom-border" role="dialog" style="border-color: #0171C0; border-width: 4px; border-radius: 25px;">
+               <div class="slds-popover__body" id="dialog-body-id-989">
+                  <div class="slds-media">
+                     <div class="slds-media__body">
+                        <h2 id="dialog-heading-id-6" class="slds-popover_prompt__heading slds-align_absolute-center slds-text-align--center" style="{!IF(IsContactHasEmail == true, 'display:none', 'display:block')}">{!$Label.AH_UDC_Send_Workbook_Contact_Email_Required_Message}</h2>
+                        <div class="slds-var-p-around_xx-small"></div>
+                     </div>
+                  </div>
+               </div>
+               <div class="slds-grid slds-align_absolute-center">
+                  <button class="slds-button slds-button_brand" onclick="closeConfirmPopup();" id="btnclose">{!$Label.AH_UDC_Close}</button>
+               </div>
+               <div class="slds-var-p-around_small"></div>
+            </section>
+         </div>
+         <!--popup click on send workbook page open new workbook page-->
+         <div id="divSendWorkbookPopup" style="{!IF( IsContactHasEmail == true && IsErrorOccurred != true, 'display:block', 'display:none')}">
+            <section aria-describedby="dialog-body-id-98" aria-labelledby="dialog-heading-id-5" id="newWorkbookId" class="slds-popover slds-popover_prompt slds-popover_prompt_top popup-custom popup-custom-border" role="dialog" style="border-color: #0171C0; border-width: 4px; border-radius: 25px;">
+               <div class="slds-popover__body" id="dialog-body-id-98">
+                  <div class="slds-media">
+                     <div class="slds-media__body">
+                        <h2 id="dialog-heading-id-5" class="slds-popover_prompt__heading slds-align_absolute-center slds-text-align--center">{!$Label.AH_UDC_Send_Workbook_New_UDC_Workbook_Label}</h2>
+                        <span id="spnNewWorkbook" class="spn-Workbook">
+                           <input type="radio" checked="checked" name="workbook" id="newWorkbook" value="{!$Label.AH_UDC_Send_Workbook_New_UDC_Workbook_Radio_Label}" />
+                           <label for="newWorkbook">{!$Label.AH_UDC_Send_Workbook_New_UDC_Workbook_Radio_Label}</label>
+                        </span>
+                        <span id="spnCopyWorkbook" class="spn-Workbook">
+                           <input type="radio" name="workbook" id="copyWorkbook" value="{!$Label.AH_UDC_Send_Workbook_Copy_UDC_Workbook_Radio_Label}" />
+                           <label for="copyWorkbook">{!$Label.AH_UDC_Send_Workbook_Copy_UDC_Workbook_Radio_Label}</label>
+                        </span>
+                     </div>
+                  </div>
+               </div>
+               <div class="slds-grid slds-align_absolute-center">
+                  <button class="slds-button slds-button_brand buttonConfirm" id="btnNext">{!$Label.AH_UDC_Next}</button>
+                  <button class="slds-button slds-button_brand" onclick="javascript:closeAndRefresh(true);" id="btnCancelPopup">{!$Label.AH_UDC_Cancel}</button>
+                  <apex:inputcheckbox id="chkCopyWorkbook" value="{!IsCopyWorkbook}" style="display:none;" />
+               </div>
+               <div class="slds-var-p-around_small"></div>
+            </section>
+         </div>
+         <!--Display Send Workbook Page-->
+         <div id="divSendWorkbook" class="slds-section slds-is-open" style="{!IF(IsErrorOccurred, '', 'display:none;')} position: relative;">
+            <!-- Spinner-->
+            <div id="spinner" class="slds-spinner_container" style="display: none;">
+               <div role="status" class="slds-spinner slds-spinner_medium slds-spinner_brand">
+                  <span class="slds-assistive-text">Loading</span>
+                  <div class="slds-spinner__dot-a"></div>
+                  <div class="slds-spinner__dot-b"></div>
+               </div>
+            </div>
+
+            <apex:pageblock id="pbSendWorkbook" title="{!$Label.AH_UDC_Send_Workbook_Title}">
+               <div aria-hidden="false" id="secDiv" class="slds-section__content" style="padding-left: 40px; padding-right: 40px;">
+                  <!--Display error message to user-->
+                  <apex:pagemessages id="pageMessage" />
+                  <apex:actionfunction name="actionfunction_LogMessages" action="{!ServerLogMessages}" oncomplete="return false;" />
+                  <apex:actionfunction name="actionfunction_CopyResponsesStepByStep" action="{!CopyResponsesStepByStep}" reRender="pageMessage,ScriptPanel" oncomplete="javascript:CopyResponsesStepByStepCompleted();" />
+                  <table id="tblSendWorkbook" cellpadding="0" cellspacing="0" border="0" style="{!IF(IsErrorOccurred, 'display:none;', '')}">
+                     <tbody>
+                        <tr>
+                           <td>
+                              <!--Readonly Contact Details-->
+                              <div class="slds-form-element">
+                                 <label class="slds-form-element__label" for="contact-text-input-id">{!$Label.AH_UDC_Send_Workbook_Contact_Name_lbl}</label>
+                                 <div class="slds-form-element__control">
+                                    <apex:outputtext value="{!SelectedContact.Name}" id="contact-text-input-id" style="width: 98%" html-tabindex="1" />
+                                 </div>
+                              </div>
+                              <!--NI Document lookup for Copy Workbook -->
+                              <div class="slds-form-element" id="divNIDocLookupCopy">
+                                 <label class="slds-form-element__label">
+                                    <abbr class="slds-required" title="required">* </abbr>{!$Label.AH_UDC_Send_Workbook_Workbook_Sent_Copy_From_Label}
+                                 </label>
+                                 <div class="slds-form-element__control">
+                                    <span class="lookupInput">
+                                       <apex:inputtext id="txtNIDocumentCopy" tabindex="1" style="width: 95%" html-oninput="javascript:resetNIDocumentLookup(this); onInputParent();" styleclass="niDocumentCopy" onchange="javascript:onChangeParent();" html-autocomplete="off" />
+                                       <apex:inputhidden id="txtNIDocumentCopy_lkid" value="{!SelectedNIDocIdCopy}" />
+                                       <a tabindex="2" title="{!$ObjectType['NI_Documentation__c'].label} {!$Label.AH_UDC_Custom_Lookup_Tooltip_Text}" style="margin-left:-4px;" href="javascript:void(0);" onclick="javascript:openLookup('AH_UDC_CustomLookupDialog?lkfm=' + escapeUTF('{!$Component.frmSendWorkbook}') + '&lknm=' + escapeUTF('{!$Component.frmSendWorkbook.pbSendWorkbook.txtNIDocumentCopy}') + '&lktp={!$ObjectType['NI_Documentation__c'].keyPrefix}', 670, '1', '&lksrch=' + escapeUTF(document.getElementById('{!$Component.frmSendWorkbook.pbSendWorkbook.txtNIDocumentCopy}').value.substring(0, 80)));">
+                                          <img class="lookupIcon" src="{!URLFOR($Resource.AH_UDC_Empty_Image)}" alt="{!$ObjectType['NI_Documentation__c'].label} {!$Label.AH_UDC_Custom_Lookup_Tooltip_Text}" onmouseover="this.className = 'lookupIconOn';" onmouseout="this.className = 'lookupIcon';" onfocus="this.className = 'lookupIconOn';" onblur="this.className = 'lookupIcon';" />
+                                       </a>
+                                    </span>
+                                 </div>
+                              </div>
+                              <!--Required Product Pick list-->
+                              <div class="slds-form-element">
+                                 <label class="slds-form-element__label" for="productSelect">
+                                    <abbr class="slds-required" title="required">* </abbr>{!$Label.AH_UDC_Send_Workbook_Product_lbl}
+                                 </label>
+                                 <div class="slds-form-element__control">
+                                    <apex:selectlist id="productSelect" size="1" value="{!SelectedProduct}" style="width: 98%" tabindex="3">
+                                       <apex:selectoptions value="{!WorkbookProducts}" />
+                                       <apex:actionsupport action="{!GetEnabledProductWorkbooks}" event="onchange" rerender="workbookList, wbSpinner" oncomplete="setNiDocumentName();bindTooltip();enableSendButton();" status="workbookSppiner" />
+                                    </apex:selectlist>
+                                 </div>
+                              </div>
+                              <!--Workbook Selection list-->
+                              <apex:outputpanel id="workbookList">
+                                 <div class="slds-form-element">
+                                    <abbr class="slds-required" title="required">* </abbr><label class="slds-form-element__label" for="selectWorkbook">{!$Label.AH_UDC_Send_Workbook_Workbooks_lbl}</label>
+                                    <div class="slds-form-element__control">
+                                       <apex:selectlist id="selectWorkbook" size="5" value="{!SelectedWorkbook}" style="width: 98%;" onclick="javascript:setNiDocumentFromWorkbook();" onchange="setNiDocumentName(); javascript:enableSendButton(); " styleclass="selectWorkbook" tabindex="4">
+                                          <apex:selectoptions value="{!EnabledProductWorkbooks}" />
+                                       </apex:selectlist>
+                                    </div>
+                                 </div>
+                              </apex:outputpanel>
+                              <!--Workbook Due Date-->
+                              <div class="slds-form-element">
+                                 <label class="slds-form-element__label" for="dueDateInput">{!$Label.AH_UDC_Send_Workbook_Workbook_Due_Date_lbl}</label>
+                                 <div class="slds-form-element__control">
+                                    <div style="white-space:nowrap;">
+                                       <apex:input type="text" id="dueDateInput" styleclass="dueDateInput" value="{!DueDate}" style="width: 95%" tabindex="5" html-autocomplete="off" />
+                                       <div id="clear" onclick="clearDueDate();" title="{!$Label.AH_UDC_Clear_Due_Date}" style="display:none" tabindex="-1">x</div>
+                                       <div class="slds-form-element__help" id="errtxntDueDateInput" style="display:none;color:red;">{!$Label.AH_UDC_Past_Date_Error_Message}</div>
+                                       <a style="margin-left:0%;" tabindex="6" id="calcIcon">
+                                          <img class="lookupIcon" style="width:15px;" src="{!URLFOR($Resource.AH_UDC_Date)}" alt="{!$Label.AH_UDC_Calendar}" />
+                                       </a>
+                                    </div>
+                                 </div>
+                              </div>
+                           </td>
+                           <td>
+                              <!--Account Pick list-->
+                              <div class="slds-form-element">
+                                 <label class="slds-form-element__label" for="account">{!$Label.AH_UDC_Send_Workbook_Property_Account_lbl}</label>
+                                 <div class="slds-form-element__control">
+                                    <apex:inputfield id="account" value="{!SelectedContact.AccountId}" style="width: 95%" onchange="resetAccount(); setTimeout(function() { setNiDocumentName(); enableSendButton(); }, 200);" html-tabindex="7" /><!--resetAccount();-->
+                                 </div>
+                                 <div class="slds-form-element__help" id="error-message-txtAccount" style="color:red;display:none;"></div>
+                              </div>
+                              <!--NI Document Name-->
+                              <div class="slds-form-element">
+                                 <label class="slds-form-element__label" for="nidoctextinputid">
+                                    <abbr class="slds-required" title="required">* </abbr>{!$Label.AH_UDC_Send_Workbook_NI_Documentation_Name_lbl}
+                                 </label>
+                                 <div class="slds-form-element__control">
+                                    <apex:inputtext value="{!NiDocumentName}" id="nidoctextinputid" maxlength="120" onchange="javascript:enableSendButton();" style="width: 98%" tabindex="8" />
+                                 </div>
+                              </div>
+                              <!-- Copy Parent Workbook-->
+                              <div class="slds-form-element" id="divParentWorkbook">
+                                 <label class="slds-form-element__label" for="parentWorkbook">{!$Label.AH_UDC_Send_Workbook_Parent_Workbook_Label}</label>
+                                 <div class="slds-form-element__control">
+                                    <apex:inputtext value="{!ParentWorkbookName}" id="parentWorkbook" style="width: 98%" tabindex="9" disabled="true" />
+                                 </div>
+                              </div>
+                              <!--NI Document lookup for New Workbook -->
+                              <div class="slds-form-element" id="divNIDocLookupNew">
+                                 <label class="slds-form-element__label">
+                                    {!$Label.AH_UDC_Send_Workbook_Parent_Workbook_Label}
+                                 </label>
+                                 <div class="slds-form-element__control">
+                                    <span class="lookupInput">
+                                       <apex:inputtext id="txtNIDocumentNew" tabindex="9" style="width: 95%" html-oninput="javascript:resetNIDocumentLookup(this);" html-autocomplete="off" onchange="javascript: enableSendButton();" />
+                                       <apex:inputhidden id="txtNIDocumentNew_lkid" value="{!SelectedNIDocIdNew}" />
+                                       <a tabindex="9" title="{!$label.AH_UDC_Send_Workbook_Parent_HelpText}" style="margin-left:-4px;" href="javascript:void(0);" onclick="javascript:openLookup('AH_UDC_CustomLookupDialog?lkfm=' + escapeUTF('{!$Component.frmSendWorkbook}') + '&lknm=' + escapeUTF('{!$Component.frmSendWorkbook.pbSendWorkbook.txtNIDocumentNew}') + '&lktp={!$ObjectType['NI_Documentation__c'].keyPrefix}', 670, '1', '&lksrch=' + escapeUTF(document.getElementById('{!$Component.frmSendWorkbook.pbSendWorkbook.txtNIDocumentNew}').value.substring(0, 80)));">
+                                          <img class="lookupIcon" src="{!URLFOR($Resource.AH_UDC_Empty_Image)}" title="{!$label.AH_UDC_Send_Workbook_Parent_HelpText}" alt="{!$label.AH_UDC_Send_Workbook_Parent_HelpText}" onmouseover="this.className = 'lookupIconOn';" onmouseout="this.className = 'lookupIcon';" onfocus="this.className = 'lookupIconOn';" onblur="this.className = 'lookupIcon';" />
+                                       </a>
+                                    </span>
+                                 </div>
+                              </div>
+                              <!--Email Template Lookup Field-->
+                              <div class="slds-form-element">
+                                 <label class="slds-form-element__label">
+                                    <abbr class="slds-required" title="required">*</abbr> {!$Label.AH_UDC_Send_Workbook_Email_Template_lbl}
+                                 </label>
+                                 <div class="slds-form-element__control">
+                                    <span class="lookupInput">
+                                       <apex:inputhidden value="{!SelectedEmailTemplateId}" id="EmailTemplate_lkid" />
+                                       <apex:inputhidden value="{!SelectedEmailTemplateName}" id="EmailTemplate_lkold" />
+                                       <apex:inputtext value="{!SelectedEmailTemplateName}" id="EmailTemplate" style="width: 95%;" onchange="javascript:document.getElementById('{!$Component.frmSendWorkbook.pbSendWorkbook.EmailTemplate_lkid}').value=''; setTimeout(enableSendButton, 50);" maxlength="80" tabindex="10" />
+                                       <script>
+                                          new ForeignKeyInputElement("EmailTemplate", "/_ui/common/data/LookupValidationServlet", null, true, {"acent":"{!$ObjectType['EmailTemplate'].keyPrefix}"});
+                                       </script>
+                                       <a title="{!$ObjectType['EmailTemplate'].label} {!$Label.AH_UDC_Custom_Lookup_Tooltip_Text}" style="margin-left:-4px;" href="javascript:openLookup('/_ui/common/data/LookupPage?lkfm=' + escapeUTF('{!$Component.frmSendWorkbook}') + '&lknm=' + escapeUTF('{!$Component.frmSendWorkbook.pbSendWorkbook.EmailTemplate}') + '&lkrf=&epf=1&lktp={!$ObjectType['EmailTemplate'].keyPrefix}', 670, '1', '&lksrch=' + escapeUTF(document.getElementById('{!$Component.frmSendWorkbook.pbSendWorkbook.EmailTemplate}').value.substring(0, 80)));" tabindex="11">
+                                          <img class="lookupIcon" src="{!URLFOR($Resource.AH_UDC_Empty_Image)}" alt="Email Template {!$Label.AH_UDC_Custom_Lookup_Tooltip_Text}" title="Email Template {!$Label.AH_UDC_Custom_Lookup_Tooltip_Text}" onmouseover="this.className = 'lookupIconOn';" onmouseout="this.className = 'lookupIcon';" onfocus="this.className = 'lookupIconOn';" onblur="this.className = 'lookupIcon';" />
+                                       </a>
+                                    </span>
+                                 </div>
+                              </div>
+                           </td>
+                        </tr>
+                        <tr>
+                           <td colspan="2">
+                              <fieldset>
+                                 <legend>&nbsp;{!$Label.AH_UDC_Send_Workbook_Chatter_Notification_Section_Label}&nbsp;</legend>
+                                 <div class="slds-form-element">
+                                    <div class="slds-form-element__control">
+                                       <div class="slds-checkbox">
+                                          <div class="slds-grid">
+                                             <div class="slds-col">
+                                                <!--UDC Workbook Accessed Checkbox-->
+                                                <apex:inputcheckbox id="chkWorkbookAccessed" value="{!IsUDCWorkbookAccessed}" tabindex="12" />
+                                                <label class="slds-checkbox__label" for="{!$Component.frmSendWorkbook.pbSendWorkbook.chkWorkbookAccessed}">
+                                                   <span class="slds-checkbox_faux"></span>
+                                                   <span class="slds-form-element__label">{!$Label.AH_UDC_Send_Workbook_Workbook_Accessed_Label}</span>
+                                                </label>
+                                             </div>
+                                             <div class="slds-col">
+                                                <!--UDC Workbook Completed Checkbox-->
+                                                <apex:inputcheckbox id="chkWorkbookCompleted" value="{!IsUDCWorkbookCompleted}" selected="true" tabindex="13" />
+                                                <label class="slds-checkbox__label" for="{!$Component.frmSendWorkbook.pbSendWorkbook.chkWorkbookCompleted}">
+                                                   <span class="slds-checkbox_faux"></span>
+                                                   <span class="slds-form-element__label">{!$Label.AH_UDC_Send_Workbook_Workbook_Completed_Label}</span>
+                                                </label>
+                                             </div>
+                                             <div class="slds-col">
+                                                <!--UDC Workbook Step Completed Checkbox-->
+                                                <apex:inputcheckbox id="chkWorkbookStepCompleted" value="{!IsUDCWorkbookStepCompleted}" tabindex="14" />
+                                                <label class="slds-checkbox__label" for="{!$Component.frmSendWorkbook.pbSendWorkbook.chkWorkbookStepCompleted}">
+                                                   <span class="slds-checkbox_faux"></span>
+                                                   <span class="slds-form-element__label">{!$Label.AH_UDC_Send_Workbook_Workbook_Step_Completed_Label}</span>
+                                                </label>
+                                             </div>
+                                          </div>
+                                       </div>
+                                    </div>
+                                 </div>
+                              </fieldset>
+                           </td>
+                        </tr>
+
+                        <!--Add Additional Contact-->
+                        <tr>
+                           <td colspan="2">
+                              <apex:outputpanel id="opAddContact">
+                                 <fieldset id="frm">
+                                    <legend>
+                                       &nbsp;
+                                       <apex:outputText value="{!$Label.AH_UDC_Send_Workbook_Add_Additional_Contact_Section_Label}">
+                                          <apex:param value="{!AddContactLimit}" />
+                                       </apex:outputText>
+                                       &nbsp;
+                                    </legend>
+                                    <div class="slds-form-element">
+                                       <apex:actionfunction name="ValidateContact" action="{!ValidateContact}" rerender="pageMessage,renderJS,opAddContact" oncomplete="ValidateContactCompleted();hideSpinner();">
+                                          <apex:param name="SelectedContactId" assignto="{!SelectedContactId}" value="" />
+                                          <apex:param name="LookupIndex" value="" />
+                                       </apex:actionfunction>
+                                       <apex:repeat id="rptContactLookup" value="{!ContactLookupList}" var="item">
+                                          <div class="slds-form-element__control" style="margin-bottom: 5px;">
+                                             <span class="lookupInput">
+                                                <apex:inputtext id="contactLookup" value="{!item.Name}" html-oninput="javascript:document.getElementById(this.id + '_lkid').value = '';" onchange="javascript:onChangeContactLookup(this.id, {!item.Index});" html-autocomplete="off" styleclass="contactCls" style="width: 65%" />
+                                                <apex:inputhidden id="contactLookup_lkid" value="{!item.id}" />
+                                                <a title="{!$ObjectType['Contact'].label} {!$Label.AH_UDC_Custom_Lookup_Tooltip_Text}" style="margin-left:-4px;" href="javascript:void(0);" onclick="javascript:openContactLookup(this);">
+                                                   <img class="lookupIcon" src="{!URLFOR($Resource.AH_UDC_Empty_Image)}" alt="{!$ObjectType['Contact'].label} {!$Label.AH_UDC_Custom_Lookup_Tooltip_Text}" onmouseover="this.className = 'lookupIconOn';" onmouseout="this.className = 'lookupIcon';" onfocus="this.className = 'lookupIconOn';" onblur="this.className = 'lookupIcon';" />
+                                                </a>
+                                                <apex:outputpanel rendered="{!item.Id != null}">
+                                                   <span class="contactClear">
+                                                      <a onclick="javascript:clearAdditionalContact(this, '{!item.Index}'); return false;" style="font-size: 14px; color: black;">{!$Label.AH_UDC_Clear}</a>
+                                                   </span>
+                                                </apex:outputpanel>
+                                             </span>
+                                             <div class="slds-form-element__help error-div" style="color: #ff0000; font-weight: bold; font-size: 10px;{!IF(item.ErrorMessage != null && item.ErrorMessage != '', '', 'display: none;')}" id="contactErr">{!item.ErrorMessage}</div>
+                                          </div>
+                                       </apex:repeat>
+                                       <div>
+                                          <apex:actionfunction name="addContactLookup" action="{!AddContactLookup}" rerender="pageMessage, opAddContact, opJs" oncomplete="javascript:addContactCompleted();" />
+                                          <apex:commandButton styleClass="slds-button slds-button_brand" value="{!$Label.AH_UDC_Add_Contact_Button_Label}" onclick="javascript:addContactLookup(); return false;" disabled="{!ContactLookupList.size >= AddContactLimit}" />
+                                       </div>
+                                    </div>
+                                 </fieldset>
+                              </apex:outputpanel>
+                           </td>
+                        </tr>
+                     </tbody>
+                  </table>
+
+                  <apex:outputpanel id="wbSpinner">
+                     <apex:actionstatus id="workbookSppiner">
+                        <apex:facet name="start">
+                           <div class="slds-spinner_container" style="border-radius:9%">
+                              <div role="status" class="slds-spinner slds-spinner_medium slds-spinner_brand">
+                                 <span class="slds-assistive-text">Loading</span>
+                                 <div class="slds-spinner__dot-a"></div>
+                                 <div class="slds-spinner__dot-b"></div>
+                              </div>
+                           </div>
+                        </apex:facet>
+                     </apex:actionstatus>
+                  </apex:outputpanel>
+                  
+                  <!--Send & Cancel Button-->
+                  <div class="slds-no-flex slds-align_absolute-center" style="margin-top: 10px; margin-bottom: 10px;">
+                     <button class="slds-button slds-button_brand send_btn" name="send" onclick="javascript:onClickSendButton(); return false;" id="btnSend" disabled="disabled" style="{!IF(IsErrorOccurred, 'display:none;', '')}">{!$Label.AH_UDC_Send_Workbook_Send_btn}</button> &nbsp;
+                     <apex:actionfunction name="createCommunityUsers" action="{!CreateCommunityUsers}" oncomplete="javascript:createCommunityUsersCompleted();" rerender=""></apex:actionfunction>
+                     <apex:actionfunction name="sendWorkbook" action="{!SendWorkbook}" oncomplete="javascript:sendWorkbookCompleted();" rerender="pageMessage,renderJS"></apex:actionfunction>
+                     <button id="btnCancel" class="slds-button slds-button_brand" onclick="javascript:closeAndRefresh(true);">{!$Label.AH_UDC_Cancel}</button>
+                  </div>
+               </div>
+            </apex:pageblock>
+         </div>
+      </apex:form>
+   </body>
+   <script type="text/javascript">
+       $(document).ready(function() {
+            //Log Any Messages
+            if ('{!HasPageLoadLogMessages}'.toLowerCase() == 'true') {
+               setTimeout(actionfunction_LogMessages, 500);
+            }
+         });
+
+      window.onload = function() {
+        //Log Any Messages
+
+         $('#btnNext').click(function() {
+            if($('#copyWorkbook').prop('checked')) {
+               setTimeout(function() {$('[id$="txtNIDocumentCopy"]').focus();}, 1000);
+               $('[id$="chkCopyWorkbook"]').prop('checked', true);
+               $('#divParentWorkbook').show();
+               $('#divNIDocLookupCopy').show();
+               $('#divNIDocLookupNew').hide();
+               $('#divParentWorkbooknew').hide();
+               $('[id$="productSelect"]').prop("disabled", true);
+               $('[id$="selectWorkbook"]').prop("disabled", true);
+               $('[id$="parentWorkbook"]').prop("disabled", true);
+            }
+            else {
+               setTimeout(function() {$('[id$="productSelect"]').focus();}, 1000);
+               $('#divParentWorkbooknew').show();
+               $('#divParentWorkbook').hide();
+               $('#divNIDocLookupCopy').hide();
+               $('#divNIDocLookupNew').show();
+               $('[id$="productSelect"]').prop("disabled", false);
+               $('[id$="selectWorkbook"]').prop("disabled", false);
+               $('[id$="parentWorkbook"]').prop("disabled", false);
+            }
+            $('#divSendWorkbook').show();
+            $('#divSendWorkbookPopup').hide();
+            return false;
+         });
+
+         var spnNewWorkbook = document.getElementById('spnNewWorkbook');
+         var spnCopyWorkbook = document.getElementById('spnCopyWorkbook');
+         bindToolTip(spnNewWorkbook,'{!$Label.AH_UDC_Send_Workbook_New_UDC_Workbook_Radio_Tooltip_Label}');
+         bindToolTip(spnCopyWorkbook,'{!$Label.AH_UDC_Send_Workbook_Copy_UDC_Workbook_Radio_Tooltip_Label}');
+
+         if('{!IsContactHasEmail}' != 'true' && document.referrer.indexOf(".lightning.force.com") < 0) { //document.referrer.indexOf(".lightning.force.com") < 0 - checks current page is loaded in Classic
+            window.resizeTo(500,350);
+         }
+         else if(window.outerWidth < 700){
+            //Set widnow size based on pagge content width and height
+            window.resizeTo(700, window.outerHeight);
+         }
+
+         setTimeout(function() {
+            $('[id$="productSelect"]').focus();
+         }, 1000);
+
+         //Date picker with local
+         console.log('UserLocal', '{!UserLocal}');
+         var dueDate = $(document.getElementById('{!$Component.frmSendWorkbook.pbSendWorkbook.dueDateInput}'));
+         dueDate.datepicker( {
+            minDate: 0,
+            // showOn: "button",
+            // buttonImage: "{!URLFOR($Resource.AH_UDC_Date)}",
+            onClose: function(dateText, inst) {
+               if(dueDate.val() != null && dueDate.val() != undefined && dueDate.val() != '') {
+                  $('#clear').show();
+               }
+            }
+         });
+         dueDate.datepicker( "option", $.datepicker.regional[getLocalCode()] );
+         dueDate.datepicker( "option", "dateFormat", '{!DateFormat}');
+         // Prevent the input of duedate
+         $("body").on('keydown', '[id$="dueDateInput"]', function(e) {
+            var keyCode = e.keyCode || e.which;
+            if (keyCode != 9) {
+               return false;
+            }
+         });
+
+         $('[id$="dueDateInput"]').change(function() {
+            $('[id$="dueDateInput"]').focus();
+         });
+
+
+         $("#calcIcon").click(function(){
+            dueDate.datepicker("show");
+         });
+
+         validateDate();
+         setNiDocumentName();
+
+         // Configure for enter click
+         $('body').keypress(function(event) {
+            var keycode = (event.keyCode ? event.keyCode : event.which);
+            if(keycode == '13') {
+               if($('#btnNext').is(':visible')) {
+                  $('#btnNext').trigger('click');
+                  return false;
+               } else if($('#btnSend').prop("disabled") == false) {
+                  $('#btnSend').trigger('click');
+                  return false;
+               }
+               else {
+                  return false;
+               }
+            }
+         });
+      }
+
+      function onClickSendButton() {
+         if(checkAccountId() && checkPastDate()) {
+            showSpinner();
+            $('#btnSend').prop('disabled', true);
+            $('#btnCancel').prop('disabled', true);
+            createCommunityUsers();
+         }
+      }
+
+      function onInputParent() {
+         if($('[id$="txtNIDocumentCopy_lkid"]').val() == '' || $('[id$="txtNIDocumentCopy_lkid"]').val() == null) {
+            $('[id$="productSelect"]').val($('[id$="productSelect"] option:first').val());
+            $('[id$="selectWorkbook"]').html('');
+            setNiDocumentName();
+         }
+      }
+
+      function onChangeParent() {
+         if($('[id$="txtNIDocumentCopy_lkid"]').val() != '' && $('[id$="txtNIDocumentCopy_lkid"]').val() != null) {
+            showSpinner();
+            getWorkbookSentDetails();
+         }
+      }
+
+      function clearDueDate() {
+         $('#clear').hide();
+         $(document.getElementById('{!$Component.frmSendWorkbook.pbSendWorkbook.dueDateInput}')).val('');
+      }
+
+      //Open custom lookup dialog for contact selection
+      function openContactLookup(elem) {
+         var parentElem = $(elem).parents('.lookupInput');
+         var contactLookup = $('[id$="contactLookup"]', parentElem);
+         openLookup('AH_UDC_CustomLookupDialog?lkfm=' + escapeUTF('{!$Component.frmSendWorkbook}') + '&lknm=' + escapeUTF(contactLookup.attr('id')) + '&lktp={!$ObjectType['Contact'].keyPrefix}', 670, '1', '&lksrch=' + escapeUTF(contactLookup.val().substring(0, 80)));
+      }
+
+      //will be called on click of clear button in contact lookup field
+      function clearAdditionalContact(btnClear, index) {
+         showSpinner();
+         var contactId = $(btnClear).parents('.lookupInput').find('.contactCls').attr('id');
+         document.getElementById(contactId).value = '';
+         document.getElementById(contactId + '_lkid').value = '';
+         ValidateContact('', index);
+         if($('#contactErr').is(':visible')) {
+            $('#contactErr').hide();
+            $('#btnSend').show();
+         }
+         enableSendButton();
+         $(btnClear).hide();
+      }
+
+      //Bind tooltip
+      function bindTooltip() {
+         $('.selectWorkbook option').each(function() {
+            $(this).attr('data-tooltip', this.innerText);
+            bindToolTip(this, $(this).data('tooltip'));
+         });
+
+         $('.selectWorkbook option').hover(function() {
+            setTimeout(function() {
+               $('.tippy-box:visible').addClass('charecter-wrap'),200
+            });
+         });
+      }
+
+      //Enable/disable send button based on validation
+      function enableSendButton() {
+         var strNIDocName = document.getElementById('{!$Component.frmSendWorkbook.pbSendWorkbook.nidoctextinputid}').value;
+         var strEmailTemplateId = document.getElementById('{!$Component.frmSendWorkbook.pbSendWorkbook.EmailTemplate_lkid}').value;
+         var selectWorkbook = document.getElementById('{!$Component.frmSendWorkbook.pbSendWorkbook.selectWorkbook}').value;
+         if($('#copyWorkbook').prop('checked')) {
+            var strNIDocId = document.getElementById('{!$Component.frmSendWorkbook.pbSendWorkbook.txtNIDocumentCopy}_lkid').value;
+            if($.trim(strNIDocId)!= '' && $.trim(strNIDocName) != '' && $.trim(strEmailTemplateId) != '' && $.trim(selectWorkbook) != '' && $('.error-div:visible').length == 0) {
+                  $('#btnSend').prop("disabled", false);
+            }
+            else {
+                  $('#btnSend').prop("disabled", true);
+            }
+         }
+         else {
+            var strParentNIDocId = document.getElementById('{!$Component.frmSendWorkbook.pbSendWorkbook.txtNIDocumentNew}_lkid').value;
+            var strParentNIDocNameText =  document.getElementById('{!$Component.frmSendWorkbook.pbSendWorkbook.txtNIDocumentNew}').value;
+            if((($.trim(strParentNIDocId)== '' && $.trim(strParentNIDocNameText)== '') ||($.trim(strParentNIDocId)!= '' && $.trim(strParentNIDocNameText)!= '')) && $.trim(strNIDocName) != '' && $.trim(strEmailTemplateId) != '' && $.trim(selectWorkbook) != '' && $('.error-div:visible').length == 0) { // only enable either parent ni doc is not selected or valid parent ni doc is enterd/selected.
+               $('#btnSend').prop("disabled", false);
+            }
+            else {
+               $('#btnSend').prop("disabled", true);
+            }
+         }
+      }
+
+      //Close popup message
+      function closeConfirmPopup() {
+         $(".slds-popover_prompt").removeClass('slds-popover_prompt').addClass('slds-popover_hide');
+         $('html').removeClass('popup-show');
+         closeAndRefresh(true);
+      }
+
+      // show the spinner
+      function showSpinner() {
+         var spinner = document.getElementById("spinner");
+         spinner.style.display = "block";
+      }
+
+      // hide the spinner
+      function hideSpinner() {
+         var spinner = document.getElementById("spinner");
+         spinner.style.display = "none";
+      }
+
+      //Check past date
+      function checkPastDate() {
+         var selectedText = document.getElementById('{!$Component.frmSendWorkbook.pbSendWorkbook.dueDateInput}').value;
+         var selectedDate = new Date(selectedText);
+         var todayDate =  new Date(getDate());
+
+         if (selectedDate < todayDate) {
+            $('#errtxtDueDateInput').text('{!$Label.AH_UDC_Past_Date_Error_Message}');
+            $('#errtxtDueDateInput').show();
+            return false;
+         }
+         $('#errtxtDueDateInput').hide();
+         return true;
+      }
+
+      //Set NI Document Name on Workbook Click
+      function setNiDocumentFromWorkbook() {
+         if($('[id$="nidoctextinputid"]').val() == '') {
+            setNiDocumentName();
+            enableSendButton();
+         }
+      }
+
+      //Set NI Document Name
+      function setNiDocumentName() {
+         var workbookName = $('.selectWorkbook :selected').text();
+         var propertyName = '';
+         if($('[id$="account_lkid"]').val() != '') {
+            propertyName = $('[id$="account"]').val();
+         }
+
+         var propertyValue = '';
+         var remCharacter = 0 ;
+         if(propertyName != null && propertyName != '') {
+            if(propertyName.length > 80) {
+               if(workbookName != null && workbookName != '' && propertyName.length + workbookName.length > 120){
+                  if(workbookName.length < 40) {
+                     remCharacter = 120 - workbookName.length - 1;
+                     propertyValue = propertyName.substr(0,remCharacter);
+                  }
+                  else {
+                     //Take 79 characters from Property Name
+                     propertyValue = propertyName.substr(0,79);
+                  }
+               }
+               else {
+                  propertyValue = propertyName.substr(0,120);
+               }
+            }
+            else {
+               propertyValue = propertyName;
+            }
+         }
+         else {
+            propertyValue = 'Property Name';
+         }
+         remCharacter = 120 - propertyValue.length - 1;
+         var NIDocName = propertyValue.trim();
+         if(workbookName != null && workbookName != '') {
+            if(workbookName.length > remCharacter) {
+               NIDocName += '_' + workbookName.substr(0, remCharacter).trim();
+            }
+            else {
+               NIDocName += '_' + workbookName.trim();
+            }
+         }
+         $('[id$="nidoctextinputid"]').val(NIDocName);
+      }
+
+      function checkAccountId() {
+         var accountId = $('[id$="account_lkid"]').val();
+         var accName  = $('[id$="account"]').val();
+         if(accountId == '' && accName != '') {
+            $('#error-message-txtAccount').show();
+            $('#error-message-txtAccount').text('{!$Label.AH_UDC_No_Match_Found}');
+               return false;
+            } else {
+               $('#error-message-txtAccount').hide();
+         }
+         return true;
+      }
+
+      function resetAccount() {
+         $('[id$="account_lkid"]').val('');
+      }
+
+      //Reset id field value if text changed in NI Doc lookup field
+      function resetNIDocumentLookup(lookupField) {
+         document.getElementById(lookupField.id + '_lkid').value = '';
+         $('[id$="productSelect"]').prop("disabled", $('#copyWorkbook').prop('checked'));
+         $('[id$="selectWorkbook"]').prop("disabled", $('#copyWorkbook').prop('checked'));
+      }
+
+      //This function will be called once contact selected from lookup dialog
+      function onChangeContactLookup(elemId, index) {
+         showSpinner();
+         ValidateContact(document.getElementById(elemId + '_lkid').value, index);
+      }
+
+      //Validate date
+      function validateDate() {
+         console.log('date',document.getElementById('{!$Component.frmSendWorkbook.pbSendWorkbook.dueDateInput}').value);
+         document.getElementById('{!$Component.frmSendWorkbook.pbSendWorkbook.dueDateInput}').setAttribute('min',getDate());
+      }
+
+      //Get Date in 'yyyy-MM-dd'
+      function getDate() {
+         var dt = new Date();
+         var day = dt.getDate();
+         var month = dt.getMonth() + 1;
+         var year = dt.getFullYear();
+         if (day < 10) {
+            day = '0' + day;
+         }
+         if (month < 10) {
+            month = '0' + month;
+         }
+         var date = year + '-'+ month + '-' + day;
+         return date;
+      }
+
+      //Get Local code
+      function getLocalCode() {
+         var userLocal = '{!UserLocal}';
+         var countryCode = userLocal.split('_');
+         var countryCodeValue = '';
+         if(countryCode.length > 1) {
+               countryCodeValue = countryCode[1].toLocaleLowerCase();
+         } else {
+               countryCodeValue = countryCode[0].toLocaleLowerCase();
+         }
+         switch(countryCodeValue) {
+            case 'hk':
+               return 'zh-HK';
+               break;
+            case 'dz':
+               return 'ar-DZ';
+               break;
+            case 'gb':
+               return 'cy-GB';
+               break;
+            case 'au':
+               return 'en-AU';
+               break;
+            case 'gb':
+               return 'en-GB';
+               break;
+            case 'nz':
+               return 'en-NZ';
+               break;
+            case 'ca':
+               return 'fr-CA';
+               break;
+            case 'ch':
+               return 'fr-CH';
+               break;
+            case 'be':
+               return 'nl-BE';
+               break;
+            case 'br':
+               return 'pt-BR';
+               break;
+            case 'sr':
+               return 'sr-SR';
+               break;
+            case 'cn':
+               return 'zh-CN';
+               break;
+            case 'tw':
+               return 'zh-TW';
+               break;
+               case 'fr':
+               case 'zh':
+               case 'af':
+               case 'ar':
+               case 'az':
+               case 'be':
+               case 'bg':
+               case 'bs':
+               case 'ca':
+               case 'cs':
+               case 'da':
+               case 'de':
+               case 'el':
+               case 'eo':
+               case 'es':
+               case 'et':
+               case 'eu':
+               case 'fa':
+               case 'fi':
+               case 'fo':
+               case 'gl':
+               case 'he':
+               case 'hi':
+               case 'hr':
+               case 'hu':
+               case 'hy':
+               case 'id':
+               case 'is':
+               case 'it':
+               case 'ja':
+               case 'ka':
+               case 'kk':
+               case 'km':
+               case 'ko':
+               case 'ky':
+               case 'lb':
+               case 'lt':
+               case 'lv':
+               case 'mk':
+               case 'ml':
+               case 'ms':
+               case 'nb':
+               case 'nl':
+               case 'nn':
+               case 'no':
+               case 'pl':
+               case 'pt':
+               case 'rm':
+               case 'ro':
+               case 'ru':
+               case 'sk':
+               case 'sl':
+               case 'sq':
+               case 'sr':
+               case 'sv':
+               case 'ta':
+               case 'th':
+               case 'tj':
+               case 'tr':
+               case 'uk':
+               case 'vi':
+               return countryCodeValue;
+               break;
+            default:
+               return '';
+         }
+      }
+   </script>
+   <apex:outputpanel id="renderJS">
+      <script type="text/javascript">
+         function getWorkbookSentDetailsCompleted() {
+            if('{!IsErrorOccurred}'.toLowerCase() == 'true') {
+               //Hide all input fields if error occurred
+               $('#tblSendWorkbook').hide();
+            }
+            else {
+               var flagDisable = $('#copyWorkbook').prop('checked');
+               $('[id$="productSelect"]').attr("disabled", flagDisable);
+               $('[id$="selectWorkbook"]').attr("disabled", flagDisable);
+
+               //Fill NI Doc Name based on account name and workbook name
+               setNiDocumentName();
+               enableSendButton();
+               if($('#copyWorkbook').prop('checked')) {
+                  $('[id$="account_lkold"]').val($('[id$="account"]').val());
+               }
+            }
+            hideSpinner();
+         }
+
+         function ValidateContactCompleted() {
+            if('{!IsErrorOccurred}'.toLowerCase() == 'true') {
+               //Hide all input fields if error occurred
+               $('#tblSendWorkbook').hide();
+            }
+            else if($('.error-div:visible').length > 0) { //If atleast one error div is being displayed then hide send button
+               //Disable send button if there is an error in additional contact validation
+               $('#btnSend').prop("disabled", true);
+            }
+            else {
+               enableSendButton();
+            }
+            hideSpinner();
+         }
+
+         //Function will be called once createCommunityUsers action is completed
+         function createCommunityUsersCompleted() {
+            if('{!IsCommunityUserCreated}'.toLowerCase() == 'false') {
+               //Show section about the user needing to verify Community Users
+            }
+            sendWorkbook();
+         }
+
+         //Function will be called once send workbook action is completed
+         function sendWorkbookCompleted() {
+            if('{!IsErrorOccurred}'.toLowerCase() == 'true' || $('[id$="pageMessage"]').html() != '') {
+               //Hide all input fields if error occurred
+               $('#tblSendWorkbook').hide();
+
+               if('{!IsErrorOccurredInEmail}'.toLowerCase() == 'true') {
+                  $('#btnCancel').hide();
+                  $('#btnSend').html('{!$Label.AH_UDC_Continue}'); //Change send button text to Continue
+                  $('#btnSend').prop('disabled', false);
+                  //Redirect to NI Doc record on click of Continue button
+                  $('#btnSend').attr('onclick', "javascript:closeAndRefresh(false); return false;");
+               }
+               else { //Error occurred in send workbook method so hide send button
+                  $('#btnCancel').prop('disabled', false);
+                  $('#btnSend').hide();
+               }
+
+               hideSpinner();
+               return;
+            }
+            else if ('{!HasPendingStepsToCopy}'.toLowerCase() == 'true') {
+               //Display Step number in spinner
+               $('#spinner').attr('data-content', '{!$Label.AH_UDC_StepNameMessageForSpinner} ' + 1);
+               //Copy form responses of the nest step
+               actionfunction_CopyResponsesStepByStep();
+            }
+            else {
+               //Redirect user to inserted NI Doc record
+               closeAndRefresh(false);
+            }
+         }
+
+         //Close the page and redirect to the inserted record
+         function closeAndRefresh(flagCancelButton) {
+            var strId = flagCancelButton ? '{!$CurrentPage.parameters.id}' : '{!NewNIDocId}';
+            if((typeof sforce != 'undefined') && sforce && (!!sforce.one)) { //Lightning View
+               if(flagCancelButton) {
+                  //Redirect back to contact record if cancel button clicked
+                  sforce.one.navigateToSObject(strId);
+               }
+               else {
+                  //Refresh workbook record on click of Confirm button
+                  window.parent.location.href = "/" + strId;
+               }
+            }
+            else { //Classic View
+               if(flagCancelButton) {
+                  //Refresh workbook record on click of Confirm button
+                  window.opener.location.href = "/" + strId;
+               }
+               window.top.close();
+            }
+         }
+      </script>
+   </apex:outputpanel>
+   <apex:outputpanel id="opJs">
+      <script type="text/javascript">
+         // Prevent the input of contacts
+         $("body").on('keydown', '[class$="contactCls"]', function(e) {
+            var keyCode = e.keyCode || e.which;
+            if (keyCode != 9) {
+               return false;
+            }
+         });
+
+         //On completion of add contact
+         function addContactCompleted() {
+            if('{!IsErrorOccurred}'.toLowerCase() == 'true') {
+               //Hide all input fields if error occurred
+               $('#tblSendWorkbook').hide();
+               $('#btnSend').hide();
+               $('#btnCancel').prop('disabled', false);
+            }
+            hideSpinner();
+         }
+      </script>
+   </apex:outputpanel>
+
+   <apex:outputpanel id="ScriptPanel">
+      <script type="text/javascript">
+         //On completion of actionfunction_CopyResponsesStepByStep
+         function CopyResponsesStepByStepCompleted() {
+            if('{!IsErrorOccurred}'.toLowerCase() == 'true' || $('[id$="pageMessage"]').html() != '') {
+               //Hide all input fields if error occurred
+               $('#tblSendWorkbook').hide();
+
+               if('{!IsErrorOccurredInEmail}'.toLowerCase() == 'true') {
+                  $('#btnCancel').hide();
+                  $('#btnSend').html('{!$Label.AH_UDC_Continue}'); //Change send button text to Continue
+                  $('#btnSend').prop('disabled', false);
+                  //Redirect to NI Doc record on click of Continue button
+                  $('#btnSend').attr('onclick', "javascript:closeAndRefresh(false); return false;");
+               }
+               else { //Error occurred in send workbook method so hide send button
+                  $('#btnCancel').prop('disabled', false);
+                  $('#btnSend').hide();
+               }
+               hideSpinner();
+            }
+            else if ('{!HasPendingStepsToCopy}'.toLowerCase() == 'true') {
+               var spinnerText = $('#spinner').attr('data-content');
+               var arr = spinnerText.split(' ');
+               if(arr != null && arr.length > 0) {
+                  var stepNumber = parseInt(arr[arr.length - 1]);
+                  if(stepNumber > 0) {
+                     //Display Step number in spinner
+                     $('#spinner').attr('data-content', '{!$Label.AH_UDC_StepNameMessageForSpinner} ' +  (stepNumber + 1));
+                  }
+               }
+               //Copy form responses of the nest step
+               actionfunction_CopyResponsesStepByStep();
+            }
+            else {
+               //Redirect user to inserted NI Doc record
+               closeAndRefresh(false);
+            }
+         }
+      </script>
+   </apex:outputpanel>
+</apex:page>

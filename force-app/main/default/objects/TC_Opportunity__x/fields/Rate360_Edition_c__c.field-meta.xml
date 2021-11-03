@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Rate360_Edition_c__c</fullName>
+    <externalDeveloperName>Rate360_Edition__c</externalDeveloperName>
+    <externalId>false</externalId>
+    <inlineHelpText>Corporate Edition is the ability to manage/view multiple Property Editions.  Enterprise Edition is the aggregation of data for a data handoff ONLY.</inlineHelpText>
+    <isFilteringDisabled>false</isFilteringDisabled>
+    <isNameField>false</isNameField>
+    <isSortingDisabled>false</isSortingDisabled>
+    <label>Rate360 Edition</label>
+    <readOnlyProxy>true</readOnlyProxy>
+    <required>false</required>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Pro Edition</fullName>
+                <default>false</default>
+                <label>Pro Edition</label>
+            </value>
+            <value>
+                <fullName>ProPlus Edition</fullName>
+                <default>false</default>
+                <label>ProPlus Edition</label>
+            </value>
+            <value>
+                <fullName>Premium Edition</fullName>
+                <default>false</default>
+                <label>Premium Edition</label>
+            </value>
+            <value>
+                <fullName>Corporate Edition</fullName>
+                <default>false</default>
+                <label>Corporate Edition</label>
+            </value>
+            <value>
+                <fullName>Enterprise Edition</fullName>
+                <default>false</default>
+                <label>Enterprise Edition</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

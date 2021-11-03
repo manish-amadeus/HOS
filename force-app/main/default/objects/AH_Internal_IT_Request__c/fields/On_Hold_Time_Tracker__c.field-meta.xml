@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>On_Hold_Time_Tracker__c</fullName>
+    <description>Tracks the cumulative on-hold time. Tracker includes previously recorded on-hold time PLUS current on hold duration.</description>
+    <externalId>false</externalId>
+    <formula>IF(ISPICKVAL(Status__c,&quot;On Hold (Pending User Input)&quot;),
+ Days_on_hold__c + (Now() - On_Hold_Since__c),
+0
+)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <inlineHelpText>Tracks the cumulative on-hold time. Tracker includes previously recorded on-hold time PLUS current on hold duration.</inlineHelpText>
+    <label>On Hold Time Tracker</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>2</scale>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Number</type>
+    <unique>false</unique>
+</CustomField>

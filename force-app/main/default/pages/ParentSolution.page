@@ -1,0 +1,6 @@
+<apex:page controller="ParentSolutionController" tabStyle="Case">
+    <h1>You cannot attach a Parent Solution to a Case</h1>
+    <apex:form >
+        <apex:commandLink action="{!case}">Return to case</apex:commandLink>
+    </apex:form>
+</apex:page>

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Division_c__c</fullName>
+    <externalDeveloperName>Division__c</externalDeveloperName>
+    <externalId>false</externalId>
+    <inlineHelpText>Updates from InSite</inlineHelpText>
+    <isFilteringDisabled>false</isFilteringDisabled>
+    <isNameField>false</isNameField>
+    <isSortingDisabled>false</isSortingDisabled>
+    <label>Division</label>
+    <readOnlyProxy>true</readOnlyProxy>
+    <required>false</required>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Americas</fullName>
+                <default>false</default>
+                <label>Americas</label>
+            </value>
+            <value>
+                <fullName>Asia Pacific</fullName>
+                <default>false</default>
+                <label>Asia Pacific</label>
+            </value>
+            <value>
+                <fullName>EMEA</fullName>
+                <default>false</default>
+                <label>EMEA</label>
+            </value>
+            <value>
+                <fullName>Intl Corporate Sales</fullName>
+                <default>false</default>
+                <label>Intl Corporate Sales</label>
+            </value>
+            <value>
+                <fullName>TravelClick</fullName>
+                <default>false</default>
+                <label>TravelClick</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

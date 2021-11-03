@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Change_Reason__c</fullName>
+    <description>Reason for the change</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Reason for the change</inlineHelpText>
+    <label>Change Reason</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Additional Functionality</fullName>
+                <default>false</default>
+                <label>Additional Functionality</label>
+            </value>
+            <value>
+                <fullName>Issue Resolution</fullName>
+                <default>false</default>
+                <label>Issue Resolution</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

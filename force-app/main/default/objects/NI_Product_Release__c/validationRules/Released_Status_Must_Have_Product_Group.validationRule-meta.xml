@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Released_Status_Must_Have_Product_Group</fullName>
+    <active>true</active>
+    <errorConditionFormula>AND (
+    ISBLANK(Product_Group__c),
+    ISPICKVAL(Status__c, &quot;Released&quot;)  
+)</errorConditionFormula>
+    <errorDisplayField>Product_Group__c</errorDisplayField>
+    <errorMessage>You must select a Product Group when setting the status to Released</errorMessage>
+</ValidationRule>

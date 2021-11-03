@@ -1,0 +1,451 @@
+<apex:component >
+   <!-- Declare the attributes -->
+   <apex:attribute name="WorkbookDocumentId" description="The Document ID on which chatter will be created" type="String" required="true" />
+   <script>
+      var isFormAssemblySaved = false;
+      var RefreshTimer;
+      var moveToNextStepAfterComplete = false;
+      var blockNavigation = false;
+      var requestedStepPositionForConfirm;
+      var showNotificationButtons; //Controls Code path after user clicks Continue or Cancel
+
+      function consolelog(message)
+      {
+         if (DisplayConsoleLogMessages) console.log(message);
+      }
+      function updateTimerStart(){
+         RefreshTimer = setTimeout(UpdateTimer, UpdateTimerIntervalInMilliSeconds);
+      }
+      function updateTimerStop(){
+         clearTimeout(RefreshTimer);
+      }
+      $( document ).ready(function() {
+         //Only update chatter icon if in Community View and no error has occurred
+         consolelog("starting Update Timer");
+         updateTimerStart();
+      });
+
+      window.onbeforeunload = function(event) {
+         if (isFormAssemblySaved == false)
+         {
+            //TODO Message about navigating away
+            //return "You have unsaved changes. Are you sure you want to navigate away?";
+         }
+      };
+
+      var updateTimerCounter = 0;
+      function UpdateTimerCallback()
+      {
+         updateTimerCounter++;
+         consolelog('UpdateTimer CallBack: ' + updateTimerCounter);
+         RefreshTimer = setTimeout(UpdateTimer, UpdateTimerIntervalInMilliSeconds);
+      }
+
+      function UpdateTimer()
+      {
+         consolelog("UpdateTimer: call server side: " + updateTimerCounter);
+         actionfunction_UpdateTimer();
+      }
+
+      //This is used to update the chatter Button based on if there are chatter messages
+      function setChatterIcon(){
+         //consolelog('chatterUpdate:' +chatterUpdate );
+         let chatterButton = document.getElementById('chatterButton');
+         let chatterButtonImage = document.getElementById('chatterButtonImage');
+
+         //consolelog(chatterButton);
+         //consolelog(chatterButtonImage);
+
+         //consolelog(chatterButton.classList.contains('chatterButtonUnread'));
+
+         if (chatterUpdate==false && chatterButton.classList.contains('chatterButtonUnread')) {
+            chatterButton.classList.remove('chatterButtonUnread');
+            chatterButtonImage.classList.remove('fa-comment-medical');
+            chatterButtonImage.classList.add('fa-comment-dots');
+            consolelog('Unread');
+         }
+         if (chatterUpdate == true && !chatterButton.classList.contains('chatterButtonUnread')) {
+            chatterButton.classList.add('chatterButtonUnread');
+            chatterButtonImage.classList.remove('fa-comment-dots');
+            chatterButtonImage.classList.add('fa-comment-medical');
+            consolelog('Read');
+         }
+      }
+
+      function MarkStepComplete(){
+         if (blockNavigation == true) return;
+
+         //Check if current step is saved - otherwise prompt
+         if(!isFormAssemblySaved)
+         {
+            showNotificationsWithButtons(LABEL_VerifyFormSave, 'MarkStepComplete');
+            return;
+         }
+         showSpinner();
+         actionfunction_MarkStepComplete();
+      }
+      function markStepCompleteCallback()
+      {
+         //TODO Catch error
+         hideSpinner();
+         showNotifications(NotificationToShow);
+         consolelog('markStepCompleteCallback - Step Marked Complete');
+         if(moveToNextStepAfterComplete==true)
+         {
+            moveToNextStepAfterComplete == false;
+            actionfunction_ChangeToNextStepNotCompleted();
+         }
+      }
+
+      function changeToStepCallback()
+      {
+         hideSpinner();
+         if (currentPosition>0)
+         {
+            isFormAssemblySaved = false;
+            $('#rmStep' + currentPosition).addClass("current-step");
+            //if (changeToStepUrl != "")
+            //{
+               //document.getElementById("contentarea").src= changeToStepUrl;
+            //}
+            //document.getElementById("contentarea").style.display = ""; //show iframe;
+         }
+      }
+
+      function changeToStep(requestedStepPosition)
+      {
+         if (blockNavigation == true) return;
+
+         if(isWorkbookCompleted)
+         {
+            showNotifications('{!$Label.AH_UDC_ViewWorkbook_SubmittedReadOnly}');
+            return;
+         }
+
+         if (isPropertyConfirmed ==true)
+         {
+            //Check if current step is saved - otherwise prompt
+            if(!isFormAssemblySaved)
+            {
+               requestedStepPositionForConfirm = requestedStepPosition;
+               showNotificationsWithButtons(LABEL_VerifyFormSave, 'ChangeToStep');
+               return;
+            }
+            showSpinner();
+            actionfunction_ChangeToStep(requestedStepPosition);
+         }
+         else
+         {
+            showNotifications('{!$Label.AH_UDC_ViewWorkbook_ConfirmPropertyFirst}');
+         }
+      }
+
+      function saveformContinue()
+      {
+         hideNotifications();
+         showSpinner();
+         if(showNotificationButtons == 'ChangeToStep')
+         {
+            actionfunction_ChangeToStep(requestedStepPositionForConfirm);
+         }
+         if(showNotificationButtons == 'MarkStepComplete')
+         {
+            actionfunction_MarkStepComplete();
+         }
+      }
+      function saveformCancel()
+      {
+         hideNotifications();
+      }
+
+      //Open blank tab on click of chatter button
+      function onClickChatterButton() {
+         //var tabName = getQueryStringValue('tabset-8bc76'); //Get community tab name and pass into url
+         //window.open('/customers/s/sfdcpage/' + encodeURIComponent('/apex/AH_UDC_Chatter?Id={!WorkbookDocumentId}&tabset-8bc76=' + tabName), '_blank');
+         var chatHeight = window.screen.height - 300;
+         var chatWidth = window.screen.width - 300;
+         var chatTop = 200;
+         var chatLeft = 150;
+         if (IsCommunityView)
+         {
+            var host = window.location.protocol + "//" + window.location.host;
+            window.open(host + '/customers/AH_UDC_Chatter?id={!WorkbookDocumentId}', 'AH_UDC_Help', 'location=no, width=' + chatWidth + ', height=' + chatHeight + ', top=' + chatTop + ', left=' + chatLeft);
+            chatterUpdate = false;
+            setChatterIcon();
+         }
+         else
+         {
+            window.open('/' + documentationId, 'AH_UDC_Documentation', 'location=no, width=' + chatWidth + ', height=' + chatHeight + ', top=' + chatTop + ', left=' + chatLeft);
+         }
+      }
+
+      //Get query string value
+      function getQueryStringValue(queryStringName) {
+         var url = decodeURIComponent(window.parent.location.href);
+         var arr = url.slice(url.indexOf('?') + 1).split('&');
+         if(arr != null) {
+            for(var i = 0; i < arr.length; i++) {
+               var arrKeyValue = arr[i].split('=');
+               if(arrKeyValue != null && arrKeyValue.length > 1) {
+                     if(arrKeyValue[0] == queryStringName) {
+                        return arrKeyValue[1];
+                     }
+               }
+            }
+         }
+         return '';
+      }
+
+      //Event listener for ThankYouPage
+      window.addEventListener("message", (event) => {
+        consolelog('event.origin: ' + event.origin);
+        consolelog('event.data: ' + event.data);
+        if(event.origin == 'https://staging-mbrfp.meetingbroker.com' ||
+		     event.origin == 'https://mbrfp.meetingbroker.com')
+        {
+          if(event.data=='ThankYouPage')
+          {
+            isFormAssemblySaved = true;
+            updateTimerStop();
+            updateTimerStart();
+            UpdateTimer();
+          }
+          if(event.data=='MarkComplete')
+          {
+            showSpinner();
+            //Mark Step Complete & Navigate to Next Step
+            moveToNextStepAfterComplete = true;
+            actionfunction_MarkStepComplete();
+          }
+          if(event.data=='CloseHelpSidebar')
+          {
+            let helpbar = document.getElementsByClassName('help-bar')[0];
+            if (helpbar.classList.contains('opened')) toggleHelpBar();
+          }
+        }
+      }, false);
+
+      function displayHelp(helpUrl)
+      {
+         if (helpUrl=='')
+         {
+            document.getElementById('helpopenclose').style.display='none';
+            let helpbar = document.getElementsByClassName('help-bar')[0];
+            if (helpbar.classList.contains('opened'))
+            {
+               toggleHelpBar();
+            }
+         }
+         else
+         {
+            document.getElementById('helparea').src=helpUrl;
+            document.getElementById('helpopenclose').style.display='';
+         }
+      }
+
+      function completeInitialRender()
+      {
+         //Log Any Messages
+         if (logMessages=='true')
+         {
+            setTimeout(actionfunction_LogMessages, 500);
+         }
+      }
+
+      function completeReRender()
+      {
+         //Don't show the page if an error has occurred
+         if (showErrorMessage == false)
+         {
+            setChatterIcon();
+            setStartCompleteColor();
+
+            displayHelp(currentStepHelpUrl);
+
+            //Hide Mark Complete Button
+            if (currentStepStatus=='' || currentStepStatus=='Completed')
+            {
+               document.getElementById('mark_complete_button').style.display='none';
+            }
+            else
+            {
+               document.getElementById('mark_complete_button').style.display='';
+            }
+         }
+      }
+
+      function ConfirmOnClickConfirm()
+      {
+         showSpinner();
+         actionfunction_ConfirmProperty();
+      }
+
+      function confirmPropertyCallback()
+      {
+         hideSpinner();
+         consolelog('confirmPropertyCallback');
+         //Check if property was confirmed
+         if(isPropertyConfirmed == true)
+         {
+            showNotifications('{!$Label.AH_UDC_Property_Confirmation}');
+            actionfunction_ChangeToNextStepNotCompleted();
+         }
+         else
+         {
+            showNotifications('An error occurred confirming the property.');
+         }
+      }
+
+      //Spinner Controls
+      function showSpinner() {
+         consolelog('showSpinner');
+         $('#spinner').show();
+         $('#spinner_background').show();
+         consolelog('spinner true');
+         blockNavigation = true;
+      }
+      function hideSpinner(){
+         $('#spinner').hide();
+         $('#spinner_background').hide();
+         consolelog('spinner false');
+         blockNavigation = false;
+      }
+
+      //show the message
+      $('#notification_background').hide();
+      function showNotificationsWithButtons(msg, buttons) {
+         blockNavigation = true;
+         showNotificationButtons = buttons;
+         $('#notification_buttons_saveform').show();
+         $('#notification_message').html(msg);
+         $('#notification_background').show();
+      }
+
+      function showNotifications(msg) {
+         consolelog('showNotifications: ' + msg);
+         $('#notification_message').html(msg);
+         $('#notification_background').show();
+         setTimeout(hideNotifications, NotificationDisplayMilliseconds);
+      }
+      function hideNotifications()
+      {
+         consolelog('showNotificationsTimerEnd');
+         $('#notification_buttons_saveform').hide();
+         $('#notification_background').hide(); //hide notification message
+         $('#notification_message').html(''); //Clear notification message
+         blockNavigation = false;
+      }
+
+      function ConfirmOnClickCancel()
+      {
+         if (IsCommunityView==true)
+         {
+            window.location = returnToWelcomePageUrl;
+         }
+      }
+
+      function setStartCompleteColor()
+      {
+         if (isPropertyConfirmed){
+            let startCircles = document.getElementsByClassName('start-step-circle');
+            for(var i=0; i<startCircles.length; i++)
+            {
+               startCircles[i].classList.add('startCompleted')
+            }
+         }
+         if (isWorkbookCompleted){
+            let completeCircles = document.getElementsByClassName('complete-step-circle');
+            for(var i=0; i<completeCircles.length; i++)
+            {
+               completeCircles[i].classList.add('completeCompleted')
+            }
+         }
+      }
+
+      function Submit()
+      {
+         if (blockNavigation == true) return;
+         showSpinner();
+         actionfunction_Submit();
+      };
+
+      function submitCallback()
+      {
+         consolelog('NotificationToShow' + NotificationToShow);
+         hideSpinner();
+         showNotifications(NotificationToShow);
+      }
+
+   </script>
+   <script>
+      function toggleSidebar() {
+          let sidebar = document.getElementsByClassName('sidebar')[0]
+          let helpbar = document.getElementsByClassName('help-bar')[0]
+          let navbar = document.getElementsByClassName('navbar-nav')[0]
+          let chevron = document.getElementsByClassName('toggle-indicator')[0]
+          let logo = document.getElementsByClassName('logo')[0]
+          let content = document.getElementsByClassName('content')[0]
+          let stepssummary = document.getElementById('steps_summary');
+
+          if (sidebar.classList.contains('closed')) {
+
+              // Remove closed state classes
+              sidebar.classList.remove('closed')
+              logo.classList.remove('closed-sidebar')
+              content.classList.remove('closed-sidebar')
+              // Add opened state classes
+              sidebar.classList.add('opened')
+              logo.classList.add('opened-sidebar')
+              content.classList.add('opened-sidebar')
+              // Change chevron icon
+              chevron.classList.remove('fa-chevron-right')
+              chevron.classList.add('fa-chevron-left')
+
+              stepssummary.style.display='none';
+          } else {
+              // Remove opened state classes
+              sidebar.classList.remove('opened')
+              logo.classList.remove('opened-sidebar')
+              content.classList.remove('opened-sidebar')
+              // Add closed state classes
+              sidebar.classList.add('closed')
+              logo.classList.add('closed-sidebar')
+              content.classList.add('closed-sidebar')
+              // Change chevron icon
+              chevron.classList.remove('fa-chevron-left')
+              chevron.classList.add('fa-chevron-right')
+
+              stepssummary.style.display='';
+          }
+      }
+
+      function toggleHelpBar() {
+          let sidebar = document.getElementsByClassName('sidebar')[0]
+          let helpbar = document.getElementsByClassName('help-bar')[0]
+          let navbar = document.getElementsByClassName('navbar-nav')[0]
+          let chevron = document.getElementsByClassName('toggle-indicator')[0]
+          let logo = document.getElementsByClassName('logo')[0]
+          let content = document.getElementsByClassName('content')[0]
+
+          if (helpbar.classList.contains('closed')) {
+              // Remove closed state classes
+              helpbar.classList.remove('closed')
+              navbar.classList.remove('closed-help-bar')
+              content.classList.remove('closed-help-bar')
+              // Add closed state classes
+              helpbar.classList.add('opened')
+              navbar.classList.add('opened-help-bar')
+              content.classList.add('opened-help-bar')
+          } else {
+              // Remove closed state classes
+              helpbar.classList.remove('opened')
+              navbar.classList.remove('opened-help-bar')
+              content.classList.remove('opened-help-bar')
+              // Add closed state classes
+              helpbar.classList.add('closed')
+              navbar.classList.add('closed-help-bar')
+              content.classList.add('closed-help-bar')
+          }
+      }
+   </script>
+</apex:component>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Assessment_Scope__c</fullName>
+    <description>Used to segregate Source and Assessment records to a defined assessment scope (individual office, region, division, division subgroup, etc.).  For example, the first use of this Assessment will be for Hospitality S&amp;C/SO.  Later assessments may be done for Hospitality PMS and Hospitality TravelClick.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Scope of the assessment</inlineHelpText>
+    <label>Assessment Scope</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>true</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>MultiselectPicklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetName>BIO_Assessment_Scope</valueSetName>
+    </valueSet>
+    <visibleLines>4</visibleLines>
+</CustomField>

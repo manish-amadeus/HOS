@@ -1,0 +1,54 @@
+<apex:page standardController="SFDC_CSP_Development_Request__c" recordSetVar="CRS" extensions="AH_ChangeRequest_ChangeOwner_Cntlr" tabStyle="SFDC_CSP_Development_Request__c" id="pgId" >
+    
+    <style>
+    
+        .OwnerHeader{
+        	border-width:0; 
+        	color:#000; 
+        	padding:4px 16px;
+        	background-color:#91b691; 
+        	border-color:#91b691; 
+        	border-top:none;
+        	background-image:url(/img/alohaSkin/opacity75.png);
+        }
+                
+        .lookupInput{
+        	margin-left:5px;
+ 	       	width:160px;
+        }
+    
+    </style>
+    <script>
+        document.onreadystatechange = function(e)
+        {
+            console.log('{!showForm}');
+            if (document.readyState === 'complete' && {!showForm} == false)
+            {
+                alert('{!errorMessage}');
+                window.location = "/apex/ChangeRequestTab";
+            }
+        };
+    </script>
+    
+    <apex:sectionHeader title="Change Request" subtitle="Mass Ownership Edit" rendered="{!IF(showForm = true ,true,false)}"/>
+    <apex:form id="frm" rendered="{!IF(showForm = true ,true,false)}">
+        This screen allows you to transfer a change request from one user to another.
+        <apex:pageBlock id="pgBlock1">
+        	<br/>
+            <div class="OwnerHeader">
+                <h3>Select New Owner</h3>
+            </div>
+            <br/>
+            <apex:pageBlockSection columns="2" id="pgBlockSection">
+                <apex:inputField id="uId" value="{!cr.OwnerId}" label="Owner" />
+            </apex:pageBlockSection>
+            
+            <apex:pageBlockButtons location="bottom"> 
+                <apex:commandButton action="{!doSave}" value="Save"/> 
+                <apex:commandButton action="{!doCancel}" value="Cancel"/> 
+            </apex:pageBlockButtons>
+        </apex:pageBlock>
+        
+    </apex:form>
+    
+</apex:page>

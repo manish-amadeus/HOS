@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<WebLink xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>AH_UDC_ViewResponses</fullName>
+    <availability>online</availability>
+    <description>This button will open the View Response Page</description>
+    <displayType>button</displayType>
+    <encodingKey>UTF-8</encodingKey>
+    <height>600</height>
+    <linkType>url</linkType>
+    <masterLabel>View Responses</masterLabel>
+    <openType>sidebar</openType>
+    <protected>false</protected>
+    <url>/apex/AH_UDC_WorkbookResponses?wbid={!AH_UDC_Workbook__c.Id}</url>
+</WebLink>
