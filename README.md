@@ -1,13 +1,14 @@
 # Amadeus Hospitality Salesforce Source Code
 
-## Notes to Developers
+## How Do You Plan to Deploy Your Changes?
+## Notes to Developers & Release Manager
 
 Please go throught the following before starting development
 
-[Salesforce Best Practises Documentation](https://amadeus-hospitality.quip.com/UCYgAljJIGxb/Amadeus-Hospitality-Apex-Development-Standards-in-Salesforce)
-[Version control Documentation](https://amadeus-hospitality.quip.com/8IsCA9YtbDwR/Version-control-management)
-[RM Documentation]()
-
+- [Salesforce Best Practises Documentation](https://amadeus-hospitality.quip.com/UCYgAljJIGxb/)
+- Amadeus-Hospitality-Apex-Development-Standards-in-Salesforce)
+- [Version control Documentation](https://amadeus-hospitality.quip.com/8IsCA9YtbDwR/Version-control-management)
+- [RM Documentation]()
 
 ## Reference
 [sfdx commands](refCommandsfdx.md)
@@ -41,9 +42,6 @@ Automate Unit Test Runs for LEX
 ## Part 7: lex testing
 TODO:
 Automate Code Push for QA/UAT on Pull
-
-## How Do You Plan to Deploy Your Changes?
-
 
 
 ## Configure Your Salesforce DX Project
