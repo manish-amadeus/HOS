@@ -5,8 +5,7 @@
 
 Please go throught the following before starting development
 
-- [Salesforce Best Practises Documentation](https://amadeus-hospitality.quip.com/UCYgAljJIGxb/)
-- Amadeus-Hospitality-Apex-Development-Standards-in-Salesforce)
+- [Salesforce Best Practises Documentation](https://amadeus-hospitality.quip.com/UCYgAljJIGxb/Amadeus-Hospitality-Apex-Development-Standards-in-Salesforce)
 - [Version control Documentation](https://amadeus-hospitality.quip.com/8IsCA9YtbDwR/Version-control-management)
 - [RM Documentation]()
 
