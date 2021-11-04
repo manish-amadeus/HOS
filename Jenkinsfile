@@ -26,7 +26,9 @@ node {
         // JWT key credentials.
         // ----------------------------------------------------------------------------------
         withEnv(["HOME=${env.WORKSPACE}"]) {
-            
+            SF_USERNAME = "ENV_HOS_QA_USERNAME"
+            SF_CONSUMER_KEY = "ENV_HOS_QA_CLIENT"
+            SF_CONSUMER_SERVER_KEY = "ENV_HOS_QA_SERVERKEY" //Serverkey
             // Based on the source and target branches, set SF_* variables for authentication withing sfdx
             if ( ("${env.BITBUCKET_SOURCE_BRANCH}".contains("feature/") || "${env.BITBUCKET_SOURCE_BRANCH}".contains("hotfix/") ) && "${env.BITBUCKET_TARGET_BRANCH}".contains("develop")) {
                 SF_USERNAME = "ENV_HOS_QA_USERNAME"
@@ -44,6 +46,8 @@ node {
 
             // Print some usefull info
             echo "Salesforce User: ${SF_USERNAME}"
+            echo "Source branch: ${env.BITBUCKET_SOURCE_BRANCH}"
+            echo "Target: ${env.BITBUCKET_TARGET_BRANCH}"
             
             // ----------------------------------------------------------------------------------
             // Get server key file to connect with the connected app.
