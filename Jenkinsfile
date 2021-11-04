@@ -42,6 +42,9 @@ node {
                 SF_CONSUMER_SERVER_KEY = "SF-CIT.PROD-SERVERKEY" // FIXME
             }
 
+            // Print some usefull info
+            echo "Salesforce User: ${SF_USERNAME}"
+            
             // ----------------------------------------------------------------------------------
             // Get server key file to connect with the connected app.
             // ----------------------------------------------------------------------------------
@@ -51,6 +54,9 @@ node {
                 string(credentialsId: "${SF_CONSUMER_KEY}", variable: 'CONSUMER_KEY')
             ]) {
         
+                // Print some usefull info
+                echo "Salesforce User: ${SF_USERNAME}"
+                echo "Salesforce Username: ${USERNAME}"
                 // ----------------------------------------------------------------------------------
                 // Set the target org, instance URL to be used. Clone the repo and authorize 
                 // connection to SF org.
@@ -63,9 +69,9 @@ node {
                     if ( ("${env.BITBUCKET_SOURCE_BRANCH}".contains("feature/") || "${env.BITBUCKET_SOURCE_BRANCH}".contains("hotfix/") ) && "${env.BITBUCKET_TARGET_BRANCH}".contains("develop")) {
                         SF_TARGET_ENV = "tcsfqa"
                     } else if ("${env.BITBUCKET_TARGET_BRANCH}".contains("release/")) {
-                        SF_TARGET_ENV = "uat" // FIXME
+                        SF_TARGET_ENV = "uat" 
                     } else if ("${env.BITBUCKET_SOURCE_BRANCH}".contains("release/") && "${env.BITBUCKET_TARGET_BRANCH}".contains("master")) {
-                        SF_TARGET_ENV = "prod" // FIXME
+                        SF_TARGET_ENV = "prod" 
                         INSTANCEURL = "https://login.salesforce.com"
                     }
 
@@ -84,7 +90,7 @@ node {
                         extensions: [[$class: 'WipeWorkspace']],
                         userRemoteConfigs: [[
                             credentialsId: 'ENV_AMADEUS_CRED',
-                            url: 'https://planke@https://rndwww.nce.amadeus.net/git/scm/ahsf/demo-org.git'
+                            url: 'https://planke@rndwww.nce.amadeus.net/git/scm/ahsf/demo-org.git'
                         ]]
                     ])
 
