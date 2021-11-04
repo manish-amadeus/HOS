@@ -94,7 +94,7 @@ node {
                         extensions: [[$class: 'WipeWorkspace']],
                         userRemoteConfigs: [[
                             credentialsId: 'ENV_AMADEUS_CRED',
-                            url: 'https://planke@rndwww.nce.amadeus.net/git/scm/ahsf/demo-org.git'
+                            url: 'https://planke@rndwww.nce.amadeus.net/git/scm/ahsf/salesforce.git'
                         ]]
                     ])
 
