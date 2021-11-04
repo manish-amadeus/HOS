@@ -62,7 +62,7 @@ node {
 
                     if ( ("${env.BITBUCKET_SOURCE_BRANCH}".contains("feature/") || "${env.BITBUCKET_SOURCE_BRANCH}".contains("hotfix/") ) && "${env.BITBUCKET_TARGET_BRANCH}".contains("develop")) {
                         SF_TARGET_ENV = "tcsfqa"
-                    } else if ("${env.BITBUCKET_TARGET_BRANCH}".contains("release/")) {
+                    } else if ("${env.BITBUCKET_TARGET_BRANCH}".contains("release/") ) {
                         SF_TARGET_ENV = "uat" // FIXME
                     } else if ("${env.BITBUCKET_SOURCE_BRANCH}".contains("release/") && "${env.BITBUCKET_TARGET_BRANCH}".contains("master")) {
                         SF_TARGET_ENV = "prod" // FIXME
