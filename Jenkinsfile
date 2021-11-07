@@ -71,11 +71,11 @@ node {
                     def INSTANCEURL = "https://test.salesforce.com"
 
                     if ( ("${env.BITBUCKET_SOURCE_BRANCH}".contains("feature/") || "${env.BITBUCKET_SOURCE_BRANCH}".contains("hotfix/") ) && "${env.BITBUCKET_TARGET_BRANCH}".contains("develop")) {
-                        SF_TARGET_ENV = "tcsfqa"
+                        SF_TARGET_ENV = "ahqa"
                     } else if ("${env.BITBUCKET_TARGET_BRANCH}".contains("release/")) {
-                        SF_TARGET_ENV = "uat" 
+                        SF_TARGET_ENV = "ahuat" 
                     } else if ("${env.BITBUCKET_SOURCE_BRANCH}".contains("release/") && "${env.BITBUCKET_TARGET_BRANCH}".contains("master")) {
-                        SF_TARGET_ENV = "prod" 
+                        SF_TARGET_ENV = "ahprod" 
                         INSTANCEURL = "https://login.salesforce.com"
                     }
 
