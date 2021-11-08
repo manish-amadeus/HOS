@@ -79,7 +79,7 @@ node {
                     echo "Salesforce target env: ${SF_TARGET_ENV}"
                     echo "Bitbucket source branch: ${env.BITBUCKET_SOURCE_BRANCH}"
                     echo "Bitbucket target branch: ${env.BITBUCKET_TARGET_BRANCH}"
-
+                    echo "Salesforce url:${SF_INSTANCE_URL}"
                     // Clone repo and checkout to desired 
                     SCMVARS = checkout([
                         $class: 'GitSCM', 
