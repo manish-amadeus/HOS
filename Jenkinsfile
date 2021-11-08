@@ -29,7 +29,7 @@ node {
             SF_USERNAME = "ENV_HOS_CIONE_USERNAME"
             SF_CONSUMER_KEY = "ENV_HOS_CIONE_CLIENT"
             SF_CONSUMER_SERVER_KEY = "ENV_HOS_CIONE_SERVERKEY" //Serverkey
-            INSTANCEURL = "https://test.salesforce.com"
+            SF_INSTANCE_URL = "https://test.salesforce.com"
             // Based on the source and target branches, set SF_* variables for authentication withing sfdx
             if ( ("${env.BITBUCKET_SOURCE_BRANCH}".contains("feature/") || "${env.BITBUCKET_SOURCE_BRANCH}".contains("hotfix/") ) && "${env.BITBUCKET_TARGET_BRANCH}".contains("develop")) {
                 SF_USERNAME = "ENV_HOS_CIONE_USERNAME"
@@ -46,7 +46,7 @@ node {
                 SF_CONSUMER_KEY = "SF-CIT.PROD-CLIENTID" // FIXME
                 SF_CONSUMER_SERVER_KEY = "SF-CIT.PROD-SERVERKEY" // FIXME
                 SF_TARGET_ENV = "ahprod" 
-                INSTANCEURL = "https://login.salesforce.com"
+                SF_INSTANCE_URL = "https://login.salesforce.com"
             }
 
             // Print some usefull info
@@ -71,7 +71,7 @@ node {
                 // Set the target org, instance URL to be used. Clone the repo and authorize 
                 // connection to SF org.
                 // ----------------------------------------------------------------------------------
-                stage('Prepare (current build, target org, instance url)') {
+                stage('Build Setup (Org, Repo)') {
 
                      // Clean the workspace in case previous build ended in Failure and cleanup wasn't performed.
                     cleanWs()
@@ -79,7 +79,7 @@ node {
                     echo "Salesforce target env: ${SF_TARGET_ENV}"
                     echo "Bitbucket source branch: ${env.BITBUCKET_SOURCE_BRANCH}"
                     echo "Bitbucket target branch: ${env.BITBUCKET_TARGET_BRANCH}"
-
+                    echo "Salesforce url:${SF_INSTANCE_URL}"
                     // Clone repo and checkout to desired 
                     SCMVARS = checkout([
                         $class: 'GitSCM', 
@@ -96,7 +96,7 @@ node {
                     commandOutput "git config user.name \"$SCMVARS.GIT_AUTHOR_NAME\""
 
                     // Authorize connections through sfdx to Salesforce org
-                    rc = commandStatus "sfdx auth:jwt:grant --instanceurl ${INSTANCEURL} --clientid ${CONSUMER_KEY} --jwtkeyfile ${CONSUMER_SERVER_KEY} --username ${USERNAME} --setalias ${SF_TARGET_ENV}"
+                    rc = commandStatus "sfdx auth:jwt:grant --instanceurl ${SF_INSTANCE_URL} --clientid ${CONSUMER_KEY} --jwtkeyfile ${CONSUMER_SERVER_KEY} --username ${USERNAME} --setalias ${SF_TARGET_ENV}"
                     if (rc != 0) {
                         error 'Salesforce org authorization failed.'
                     }
@@ -106,9 +106,10 @@ node {
                 // Perform static analisys on the code using Sonarqube-runner
                 // This assumes that there's a 'sonar-project.properties' file on git.
                 // ----------------------------------------------------------------------------------
-                stage('Run Code Quality Analysis (SonarQube)') {
-
-                   /*  
+                /*
+                // Not in use for the scope of analysis
+                stage('Run Code Quality Analysis(PMD)'){
+                     
                     FIXME waiting confirmation that Jenkisn has access to the web
                     Download pmd from GitHub 
                     if (isUnix()) {
@@ -147,8 +148,11 @@ node {
                     rc = commandStatus "rm -r pmd-bin-6.39.0*"
                     rc = commandStatus "rm apex_security_pmd.html"
                     echo "PMD: ${rc}" 
-                    */
                     
+                }
+                */
+                stage('Run Code Quality Analysis (SonarQube)') {
+ 
                     // Run SonarQube Analysis
                     withSonarQubeEnv('Sonar') {
                         //    rc = commandStatus "sonar-scanner"
@@ -164,19 +168,30 @@ node {
                 // Run the LocalTests on the Salesforce org for a given AA_WORK_ITEM
                 // ----------------------------------------------------------------------------------
                 stage('SonarQube: Quality Gate') {
-                /*    
-                    timeout(time: 30, unit: 'MINUTES') {
-                        def qg = waitForQualityGate(true)
-                        if (qg.status != 'OK') {
-                            error "Pipeline aborted due to quality gate failure: ${qg.status}"
+
+                        def userInput = input(message: 'Wait till the Sonar Quality Test are complete ?', ok: 'Continue', 
+                                        parameters: [choice(choices: ['Yes', 'No'], 
+                                                        description: 'Continue to next stage', 
+                                                        name: 'validateChanges')])
+
+                        if (userInput == 'Yes') 
+                        {	
+                            echo 'Waiting for the quality gates to pass: Default wait time is 30 mins'
+                            timeout(time: 1, unit: 'MINUTES') { // TODO: change the time later
+                                def qg = waitForQualityGate(true)
+                                if (qg.status != 'OK') {
+                                    // error "Pipeline aborted due to quality gate failure: ${qg.status}"
+                                    //TODO: Notify developer , reviwer and release manager
+                                    echo "Pipeline aborted due to quality gate failure: ${qg.status}"
+                                }
+                            }
                         }
-                    } */
                 }
 
                 // ----------------------------------------------------------------------------------
                 // Run the LocalTests on the Salesforce org for a given AA_WORK_ITEM
                 // ----------------------------------------------------------------------------------
-                stage('Run Test (RunLocalTests, jest)') {
+                stage('Validate (RunLocalTests, jest)') {
                     
                     String CURRENT_BRANCH = "${env.BITBUCKET_SOURCE_BRANCH}"
                     AA_WORK_ITEM = CURRENT_BRANCH.substring(CURRENT_BRANCH.indexOf('/') + 1, CURRENT_BRANCH.length())
