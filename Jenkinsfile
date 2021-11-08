@@ -168,19 +168,32 @@ node {
                 // Run the LocalTests on the Salesforce org for a given AA_WORK_ITEM
                 // ----------------------------------------------------------------------------------
                 stage('SonarQube: Quality Gate') {
-                    
-                    timeout(time: 30, unit: 'MINUTES') {
-                        def qg = waitForQualityGate(true)
-                        if (qg.status != 'OK') {
-                            error "Pipeline aborted due to quality gate failure: ${qg.status}"
+
+                        def userInput = input(message: 'Wait till the Spnar Quality Test are complete ?', ok: 'Continue', 
+                                        parameters: [choice(choices: ['Yes', 'No'], 
+                                                        description: 'Continue to next stage', 
+                                                        name: 'validateChanges')])
+
+                        if (userInput == 'Yes') 
+                        {	
+                            echo 'Waiting for the quality gates to pass: Default wait time is 30 mins'
+                            timeout(time: 10, unit: 'MINUTES') {
+                            def qg = waitForQualityGate(true)
+                            if (qg.status != 'OK') {
+                                error "Pipeline aborted due to quality gate failure: ${qg.status}"
+                            }
                         }
+                        else{
+                            echo 'Skipped to validate changes in ci environment'
+                        }
+                        
                     } 
                 }
 
                 // ----------------------------------------------------------------------------------
                 // Run the LocalTests on the Salesforce org for a given AA_WORK_ITEM
                 // ----------------------------------------------------------------------------------
-                stage('Run Test (RunLocalTests, jest)') {
+                stage('Validate (RunLocalTests, jest)') {
                     
                     String CURRENT_BRANCH = "${env.BITBUCKET_SOURCE_BRANCH}"
                     AA_WORK_ITEM = CURRENT_BRANCH.substring(CURRENT_BRANCH.indexOf('/') + 1, CURRENT_BRANCH.length())
