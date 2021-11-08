@@ -96,7 +96,7 @@ node {
                     commandOutput "git config user.name \"$SCMVARS.GIT_AUTHOR_NAME\""
 
                     // Authorize connections through sfdx to Salesforce org
-                    rc = commandStatus "sfdx auth:jwt:grant --instanceurl ${INSTANCEURL} --clientid ${CONSUMER_KEY} --jwtkeyfile ${CONSUMER_SERVER_KEY} --username ${USERNAME} --setalias ${SF_TARGET_ENV}"
+                    rc = commandStatus "sfdx auth:jwt:grant --instanceurl ${SF_INSTANCE_URL} --clientid ${CONSUMER_KEY} --jwtkeyfile ${CONSUMER_SERVER_KEY} --username ${USERNAME} --setalias ${SF_TARGET_ENV}"
                     if (rc != 0) {
                         error 'Salesforce org authorization failed.'
                     }
