@@ -71,7 +71,7 @@ node {
                 // Set the target org, instance URL to be used. Clone the repo and authorize 
                 // connection to SF org.
                 // ----------------------------------------------------------------------------------
-                stage('Prepare (current build, target org, instance url)') {
+                stage('Build Setup (Org, Repo)') {
 
                      // Clean the workspace in case previous build ended in Failure and cleanup wasn't performed.
                     cleanWs()
