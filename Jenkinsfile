@@ -168,7 +168,7 @@ node {
                 // Run the LocalTests on the Salesforce org for a given AA_WORK_ITEM
                 // ----------------------------------------------------------------------------------
                 stage('SonarQube: Quality Gate') {
-                        /*
+
                         def userInput = input(message: 'Wait till the Sonar Quality Test are complete ?', ok: 'Continue', 
                                         parameters: [choice(choices: ['Yes', 'No'], 
                                                         description: 'Continue to next stage', 
@@ -186,8 +186,9 @@ node {
                                 }
                             }
                         }
-                        */
-                        echo "Skipping Quality Gate validation for time being"
+                        else {
+                            echo 'Skipped to validate changes in ci environment'
+                        } 
                 }
 
                 // ----------------------------------------------------------------------------------
