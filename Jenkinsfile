@@ -186,9 +186,6 @@ node {
                                 }
                             }
                         }
-                        else{
-                            echo 'Skipped to validate changes in ci environment'
-                        } 
                 }
 
                 // ----------------------------------------------------------------------------------
