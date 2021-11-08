@@ -169,7 +169,7 @@ node {
                 // ----------------------------------------------------------------------------------
                 stage('SonarQube: Quality Gate') {
 
-                        def userInput = input(message: 'Wait till the Spnar Quality Test are complete ?', ok: 'Continue', 
+                        def userInput = input(message: 'Wait till the Sonar Quality Test are complete ?', ok: 'Continue', 
                                         parameters: [choice(choices: ['Yes', 'No'], 
                                                         description: 'Continue to next stage', 
                                                         name: 'validateChanges')])
@@ -177,17 +177,18 @@ node {
                         if (userInput == 'Yes') 
                         {	
                             echo 'Waiting for the quality gates to pass: Default wait time is 30 mins'
-                            timeout(time: 10, unit: 'MINUTES') {
-                            def qg = waitForQualityGate(true)
-                            if (qg.status != 'OK') {
-                                error "Pipeline aborted due to quality gate failure: ${qg.status}"
+                            timeout(time: 1, unit: 'MINUTES') { // TODO: change the time later
+                                def qg = waitForQualityGate(true)
+                                if (qg.status != 'OK') {
+                                    // error "Pipeline aborted due to quality gate failure: ${qg.status}"
+                                    //TODO: Notify developer , reviwer and release manager
+                                    echo "Pipeline aborted due to quality gate failure: ${qg.status}"
+                                }
                             }
                         }
                         else{
                             echo 'Skipped to validate changes in ci environment'
-                        }
-                        
-                    } 
+                        } 
                 }
 
                 // ----------------------------------------------------------------------------------
