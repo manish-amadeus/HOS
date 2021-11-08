@@ -29,7 +29,7 @@ node {
             SF_USERNAME = "ENV_HOS_CIONE_USERNAME"
             SF_CONSUMER_KEY = "ENV_HOS_CIONE_CLIENT"
             SF_CONSUMER_SERVER_KEY = "ENV_HOS_CIONE_SERVERKEY" //Serverkey
-            INSTANCEURL = "https://test.salesforce.com"
+            SF_INSTANCE_URL = "https://test.salesforce.com"
             // Based on the source and target branches, set SF_* variables for authentication withing sfdx
             if ( ("${env.BITBUCKET_SOURCE_BRANCH}".contains("feature/") || "${env.BITBUCKET_SOURCE_BRANCH}".contains("hotfix/") ) && "${env.BITBUCKET_TARGET_BRANCH}".contains("develop")) {
                 SF_USERNAME = "ENV_HOS_CIONE_USERNAME"
@@ -46,7 +46,7 @@ node {
                 SF_CONSUMER_KEY = "SF-CIT.PROD-CLIENTID" // FIXME
                 SF_CONSUMER_SERVER_KEY = "SF-CIT.PROD-SERVERKEY" // FIXME
                 SF_TARGET_ENV = "ahprod" 
-                INSTANCEURL = "https://login.salesforce.com"
+                SF_INSTANCE_URL = "https://login.salesforce.com"
             }
 
             // Print some usefull info
