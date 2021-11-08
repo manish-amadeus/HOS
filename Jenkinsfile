@@ -75,45 +75,60 @@ node {
 
                      // Clean the workspace in case previous build ended in Failure and cleanup wasn't performed.
                     cleanWs()
+                    if (branch == 'cione'){
+                        boolean executionStageError = false;
+                        def userInput = input(message: 'Validate Environment?', ok: 'Continue', 
+                                        parameters: [booleanParam(defaultValue: false, 
+                                                        description: 'Check validate option if you want to validate this build or Continue to next stage',
+                                                        name: 'Validate')
+                                                    , choice(choices: ['NoTestRun', 'RunSpecifiedTests', 'RunLocalTests', 'RunAllTestsInOrg'], 
+                                                        description: 'Option for testing?', 
+                                                        name: 'kindOfTesting')])
+                        
+                        echo ("userInput: " + userInput['Validate'])
+                        echo ("userInput: " + userInput['kindOfTesting'])
 
-                    // Define target org/env and instance URL
-                    def INSTANCEURL = "https://test.salesforce.com"
-                    /*
-                    if ( ("${env.BITBUCKET_SOURCE_BRANCH}".contains("feature/") || "${env.BITBUCKET_SOURCE_BRANCH}".contains("hotfix/") ) && "${env.BITBUCKET_TARGET_BRANCH}".contains("develop")) {
-                        SF_TARGET_ENV = "ahqa"
-                    } else if ("${env.BITBUCKET_TARGET_BRANCH}".contains("release/")) {
-                        SF_TARGET_ENV = "ahuat" 
-                    } else if ("${env.BITBUCKET_SOURCE_BRANCH}".contains("release/") && "${env.BITBUCKET_TARGET_BRANCH}".contains("master")) {
-                        SF_TARGET_ENV = "ahprod" 
-                        INSTANCEURL = "https://login.salesforce.com"
-                    }
-                    */
-                    SF_TARGET_ENV = "ahprod" 
-                    // Print some usefull info
-                    echo "Salesforce target env: ${SF_TARGET_ENV}"
-                    echo "Bitbucket source branch: ${env.BITBUCKET_SOURCE_BRANCH}"
-                    echo "Bitbucket target branch: ${env.BITBUCKET_TARGET_BRANCH}"
-                    echo "Salesforce target env: ${env.BITBUCKET_BRANCH}"
-                    // Clone repo and checkout to desired 
-                    SCMVARS = checkout([
-                        $class: 'GitSCM', 
-                        branches: [[name: "${env.BITBUCKET_BRANCH}"]], 
-                        extensions: [[$class: 'WipeWorkspace']],
-                        userRemoteConfigs: [[
-                            credentialsId: 'ENV_AMADEUS_CRED',
-                            url: 'https://planke@rndwww.nce.amadeus.net/git/scm/ahsf/salesforce.git'
-                        ]]
-                    ])
 
-                    // Configure git variables using the ones from Jenkins global config
-                    commandOutput "git config user.email \"$SCMVARS.GIT_AUTHOR_EMAIL\""
-                    commandOutput "git config user.name \"$SCMVARS.GIT_AUTHOR_NAME\""
+                        if (userInput['Validate']) 
+                        {	
 
-                    // Authorize connections through sfdx to Salesforce org
-                    rc = commandStatus "sfdx auth:jwt:grant --instanceurl ${INSTANCEURL} --clientid ${CONSUMER_KEY} --jwtkeyfile ${CONSUMER_SERVER_KEY} --username ${USERNAME} --setalias ${SF_TARGET_ENV}"
-                    if (rc != 0) {
-                        error 'Salesforce org authorization failed.'
-                    }
+                            // Define target org/env and instance URL
+                            def INSTANCEURL = "https://test.salesforce.com"
+                            /*
+                            if ( ("${env.BITBUCKET_SOURCE_BRANCH}".contains("feature/") || "${env.BITBUCKET_SOURCE_BRANCH}".contains("hotfix/") ) && "${env.BITBUCKET_TARGET_BRANCH}".contains("develop")) {
+                                SF_TARGET_ENV = "ahqa"
+                            } else if ("${env.BITBUCKET_TARGET_BRANCH}".contains("release/")) {
+                                SF_TARGET_ENV = "ahuat" 
+                            } else if ("${env.BITBUCKET_SOURCE_BRANCH}".contains("release/") && "${env.BITBUCKET_TARGET_BRANCH}".contains("master")) {
+                                SF_TARGET_ENV = "ahprod" 
+                                INSTANCEURL = "https://login.salesforce.com"
+                            }
+                            */
+                            SF_TARGET_ENV = "cidevone" 
+                            // Print some usefull info
+                            echo "Salesforce target env: ${SF_TARGET_ENV}"
+                            echo "Salesforce target env: ${env.BITBUCKET_BRANCH}"
+                            // Clone repo and checkout to desired 
+                            SCMVARS = checkout([
+                                $class: 'GitSCM', 
+                                branches: [[name: "${env.BITBUCKET_BRANCH}"]], 
+                                extensions: [[$class: 'WipeWorkspace']],
+                                userRemoteConfigs: [[
+                                    credentialsId: 'ENV_AMADEUS_CRED',
+                                    url: 'https://planke@rndwww.nce.amadeus.net/git/scm/ahsf/salesforce.git'
+                                ]]
+                            ])
+
+                            // Configure git variables using the ones from Jenkins global config
+                            commandOutput "git config user.email \"$SCMVARS.GIT_AUTHOR_EMAIL\""
+                            commandOutput "git config user.name \"$SCMVARS.GIT_AUTHOR_NAME\""
+
+                            // Authorize connections through sfdx to Salesforce org
+                            rc = commandStatus "sfdx auth:jwt:grant --instanceurl ${INSTANCEURL} --clientid ${CONSUMER_KEY} --jwtkeyfile ${CONSUMER_SERVER_KEY} --username ${USERNAME} --setalias ${SF_TARGET_ENV}"
+                            if (rc != 0) {
+                                error 'Salesforce org authorization failed.'
+                            }
+                        }
                 }
 
                 // ----------------------------------------------------------------------------------
