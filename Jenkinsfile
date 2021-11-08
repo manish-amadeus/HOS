@@ -106,9 +106,10 @@ node {
                 // Perform static analisys on the code using Sonarqube-runner
                 // This assumes that there's a 'sonar-project.properties' file on git.
                 // ----------------------------------------------------------------------------------
-                stage('Run Code Quality Analysis (SonarQube)') {
-
-                   /*  
+                /*
+                // Not in use for the scope of analysis
+                stage('Run Code Quality Analysis(PMD)'){
+                     
                     FIXME waiting confirmation that Jenkisn has access to the web
                     Download pmd from GitHub 
                     if (isUnix()) {
@@ -147,8 +148,11 @@ node {
                     rc = commandStatus "rm -r pmd-bin-6.39.0*"
                     rc = commandStatus "rm apex_security_pmd.html"
                     echo "PMD: ${rc}" 
-                    */
                     
+                }
+                */
+                stage('Run Code Quality Analysis (SonarQube)') {
+ 
                     // Run SonarQube Analysis
                     withSonarQubeEnv('Sonar') {
                         //    rc = commandStatus "sonar-scanner"
@@ -164,13 +168,13 @@ node {
                 // Run the LocalTests on the Salesforce org for a given AA_WORK_ITEM
                 // ----------------------------------------------------------------------------------
                 stage('SonarQube: Quality Gate') {
-                /*    
+                    
                     timeout(time: 30, unit: 'MINUTES') {
                         def qg = waitForQualityGate(true)
                         if (qg.status != 'OK') {
                             error "Pipeline aborted due to quality gate failure: ${qg.status}"
                         }
-                    } */
+                    } 
                 }
 
                 // ----------------------------------------------------------------------------------
