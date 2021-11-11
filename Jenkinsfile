@@ -187,7 +187,7 @@ node {
                             }
                         }
                         else {
-                            echo 'Skipped to validate changes in ci environment'
+                            echo 'Skipped to sonar quality verification'
                         } 
                 }
 
@@ -216,7 +216,7 @@ node {
                 // ----------------------------------------------------------------------------------
                 //  Validate package
                 // ----------------------------------------------------------------------------------
-                stage('Pre Deploy (preDeploy package + validation)') {
+                stage('Wait for bitbucket approval)') {
                     // TODO What to do here? Like a dry-run deployment??
                     // similar to deploy package but we need to specify a folder
                 }
@@ -224,7 +224,7 @@ node {
                 // ----------------------------------------------------------------------------------
                 // Deploy the package previously validated on stage "Run Test (RunLocalTests, jest)"
                 // ----------------------------------------------------------------------------------
-                stage('Deploy (deploy package + validation)') {
+                stage('Promote to QA (deploy package + validation)') {
                     
                     rc = commandStatus "sfdx force:source:deploy -u ${SF_TARGET_ENV} -w 10 -q ${JOBIDDEPLOY}"
                     //rc = commandStatus "sfdx force:source:deploy -u ${SF_TARGET_ENV} -w 10 -l NoTestRun -x manifest/${AA_WORK_ITEM}/package.xml"
@@ -236,18 +236,41 @@ node {
                 // ----------------------------------------------------------------------------------
                 // 
                 // ----------------------------------------------------------------------------------
-                stage('Post Deploy (postDeploy package + validation)') {
+                stage('Run Unit Regression (postDeploy package)') {
                     // TODO What to do here?
                 }
 
                 // ----------------------------------------------------------------------------------
                 // 
                 // ----------------------------------------------------------------------------------
-                stage('Destructive (pre & post)') {
-                    // TODO use destructiveChanges folder. If data inside, do a deploy. Optional step. 
+                stage('Promote to UAT (postDeploy package)') {
+                    //rc = commandStatus "sfdx force:source:deploy -u ${SF_TARGET_ENV} -w 10 -q ${JOBIDDEPLOY}"
+                    rc = commandStatus "sfdx force:source:deploy -u ${SF_TARGET_ENV} -w 10 -l NoTestRun -x manifest/${AA_WORK_ITEM}/package.xml"
+                    if (rc != 0) {
+                        error 'Salesforce deployment failed.'
+                    }
+                }
+
+                // ----------------------------------------------------------------------------------
+                // 
+                // ----------------------------------------------------------------------------------
+                stage('Promote to UAT (postDeploy package)') {
+                    //rc = commandStatus "sfdx force:source:deploy -u ${SF_TARGET_ENV} -w 10 -q ${JOBIDDEPLOY}"
+                    rc = commandStatus "sfdx force:source:deploy -u ${SF_TARGET_ENV} -w 10 -l NoTestRun -x manifest/${AA_WORK_ITEM}/package.xml"
+                    if (rc != 0) {
+                        error 'Salesforce deployment failed.'
+                    }
+                }
+                // ----------------------------------------------------------------------------------
+                // 
+                // ----------------------------------------------------------------------------------
+                stage('Run regression') {
                     // Comment and see if we need another pipeline for this changes
                 }
 
+                stage('Release') {
+                    // Comment and see if we need another pipeline for this changes
+                }
                 // ----------------------------------------------------------------------------------
                 // Auto Merge changes
                 // ----------------------------------------------------------------------------------
