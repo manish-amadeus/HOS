@@ -152,16 +152,26 @@ node {
                 }
                 */
                 stage('Run Code Quality Analysis (SonarQube)') {
- 
-                    // Run SonarQube Analysis
-                    withSonarQubeEnv('Sonar') {
-                        //    rc = commandStatus "sonar-scanner"
-                        rc = commandStatus "sonar-scanner -D sonar.pullrequest.key=${env.BITBUCKET_PULL_REQUEST_ID} -D sonar.pullrequest.branch=${env.BITBUCKET_SOURCE_BRANCH} -Dsonar.pullrequest.base=${env.BITBUCKET_TARGET_BRANCH}"
-                     
-                        if (rc != 0) {
-                            error 'Failed to start sonar-scanner'
+                    def userInput = input(message: 'Do you want to run Sonar quality analysis ?', ok: 'Continue', 
+                                        parameters: [choice(choices: ['Yes', 'No'], 
+                                                        description: 'Continue to next stage', 
+                                                        name: 'sonarValidation')])
+
+                        if (userInput == 'Yes') 
+                        {	
+                            // Run SonarQube Analysis
+                            withSonarQubeEnv('Sonar') {
+                                //    rc = commandStatus "sonar-scanner"
+                                rc = commandStatus "sonar-scanner -D sonar.pullrequest.key=${env.BITBUCKET_PULL_REQUEST_ID} -D sonar.pullrequest.branch=${env.BITBUCKET_SOURCE_BRANCH} -Dsonar.pullrequest.base=${env.BITBUCKET_TARGET_BRANCH}"
+                            
+                                if (rc != 0) {
+                                    error 'Failed to start sonar-scanner'
+                                }
+                            }
                         }
-                    }
+                         else {
+                            echo 'Skipped to sonar quality verification'
+                        } 
                    
                 }
                 // ----------------------------------------------------------------------------------
@@ -216,101 +226,9 @@ node {
                 // ----------------------------------------------------------------------------------
                 //  Validate package
                 // ----------------------------------------------------------------------------------
-                stage('Wait for bitbucket approval)') {
-                    // TODO What to do here? Like a dry-run deployment??
-                    // similar to deploy package but we need to specify a folder
-                }
-
-                // ----------------------------------------------------------------------------------
-                // Deploy the package previously validated on stage "Run Test (RunLocalTests, jest)"
-                // ----------------------------------------------------------------------------------
-                stage('Promote to QA (deploy package + validation)') {
+                stage('Notify Reviewrs') {
+                    // TODO: Notify Leads to review
                     
-                    rc = commandStatus "sfdx force:source:deploy -u ${SF_TARGET_ENV} -w 10 -q ${JOBIDDEPLOY}"
-                    //rc = commandStatus "sfdx force:source:deploy -u ${SF_TARGET_ENV} -w 10 -l NoTestRun -x manifest/${AA_WORK_ITEM}/package.xml"
-                    if (rc != 0) {
-                        error 'Salesforce deployment failed.'
-                    }
-                }
-
-                // ----------------------------------------------------------------------------------
-                // 
-                // ----------------------------------------------------------------------------------
-                stage('Run Unit Regression (postDeploy package)') {
-                    // TODO What to do here?
-                }
-
-                // ----------------------------------------------------------------------------------
-                // 
-                // ----------------------------------------------------------------------------------
-                stage('Promote to UAT (postDeploy package)') {
-                    //rc = commandStatus "sfdx force:source:deploy -u ${SF_TARGET_ENV} -w 10 -q ${JOBIDDEPLOY}"
-                    rc = commandStatus "sfdx force:source:deploy -u ${SF_TARGET_ENV} -w 10 -l NoTestRun -x manifest/${AA_WORK_ITEM}/package.xml"
-                    if (rc != 0) {
-                        error 'Salesforce deployment failed.'
-                    }
-                }
-
-                // ----------------------------------------------------------------------------------
-                // 
-                // ----------------------------------------------------------------------------------
-                stage('Promote to UAT (postDeploy package)') {
-                    //rc = commandStatus "sfdx force:source:deploy -u ${SF_TARGET_ENV} -w 10 -q ${JOBIDDEPLOY}"
-                    rc = commandStatus "sfdx force:source:deploy -u ${SF_TARGET_ENV} -w 10 -l NoTestRun -x manifest/${AA_WORK_ITEM}/package.xml"
-                    if (rc != 0) {
-                        error 'Salesforce deployment failed.'
-                    }
-                }
-                // ----------------------------------------------------------------------------------
-                // 
-                // ----------------------------------------------------------------------------------
-                stage('Run regression') {
-                    // Comment and see if we need another pipeline for this changes
-                }
-
-                stage('Release') {
-                    // Comment and see if we need another pipeline for this changes
-                }
-                // ----------------------------------------------------------------------------------
-                // Auto Merge changes
-                // ----------------------------------------------------------------------------------
-                // Pradeep, changes needs to be reviewed before merging
-                stage('Merging') {
-                    
-                    /* 
-                    // Logout from SFDX
-                    rc = commandStatus "sfdx auth:logout --targetusername ${SF_TARGET_ENV}"
-                    if (rc != 0) {
-                        error 'Salesforce logout failed.'
-                    }
-
-                    // Merge the PR on BitBucket
-                    // Checkout to source branch (so we can have a local copy)
-                    rc = commandStatus "git checkout ${BITBUCKET_SOURCE_BRANCH}"
-                    if (rc != 0) {
-                        error 'Failed to checkout to source branch.'
-                    }
-                    
-                    // Checkout to target branch
-                    rc = commandStatus "git checkout ${BITBUCKET_TARGET_BRANCH}"
-                    if (rc != 0) {
-                        error 'Failed to checkout to target branch.'
-                    }
-
-                    // Merge source branch into target branch. Squash commits into just one.
-                    rc = commandStatus "git merge ${BITBUCKET_SOURCE_BRANCH}"
-                    if (rc != 0) {
-                        error 'Failed to merge source branch into target branch.'
-                    }
-
-                    // Push changes back to BitBucket
-                    withCredentials([usernamePassword(credentialsId: 'ENV_GALAXY_CRM_BITBUCKET', passwordVariable: 'GIT_PASSWORD', usernameVariable: 'GIT_USERNAME')]) {
-                        rc = commandStatus "git push https://${GIT_USERNAME}:${GIT_PASSWORD}@rndwww.nce.amadeus.net/git/scm/cgal/crm.git"
-                        if (rc != 0) {
-                            error 'Failed to push merge to BitBucket.'
-                        }
-                    } 
-                    */
                 }
             }
         }
