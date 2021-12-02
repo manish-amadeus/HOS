@@ -28,25 +28,32 @@ node {
         withEnv(["HOME=${env.WORKSPACE}"]) {
             SF_USERNAME = "ENV_HOS_CIONE_USERNAME"
             SF_CONSUMER_KEY = "ENV_HOS_CIONE_CLIENT"
-            SF_CONSUMER_SERVER_KEY = "ENV_HOS_CIONE_SERVERKEY" //Serverkey
+            SF_CONSUMER_SERVER_KEY = "ENV_HOS_SERVERKEY" //Serverkey
             SF_INSTANCE_URL = "https://test.salesforce.com"
+            SF_VALIDATION = true
             // Based on the source and target branches, set SF_* variables for authentication withing sfdx
             if ( ("${env.BITBUCKET_SOURCE_BRANCH}".contains("feature/") || "${env.BITBUCKET_SOURCE_BRANCH}".contains("hotfix/") ) && "${env.BITBUCKET_TARGET_BRANCH}".contains("develop")) {
-                SF_USERNAME = "ENV_HOS_CIONE_USERNAME"
-                SF_CONSUMER_KEY = "ENV_HOS_CIONE_CLIENT"
-                SF_CONSUMER_SERVER_KEY = "ENV_HOS_CIONE_SERVERKEY" //Serverkey
-                SF_TARGET_ENV = "cidevone"
-            } else if ("${env.BITBUCKET_TARGET_BRANCH}".contains("release/")) {
-                SF_USERNAME = "SF-CIT.UAT-USER" // FIXME
-                SF_CONSUMER_KEY = "SF-CIT.UAT-CLIENTID" // FIXME
-                SF_CONSUMER_SERVER_KEY = "SF-CIT.UAT-SERVERKEY" // FIXME
-                SF_TARGET_ENV = "ahuat" 
+                SF_USERNAME = "ENV_HOS_QA_USERNAME"
+                SF_CONSUMER_KEY = "ENV_HOS_QA_CLIENT"
+                SF_TARGET_ENV = "ahqa"
+                SF_VALIDATION = true
+            } if ( ("${env.BITBUCKET_SOURCE_BRANCH}".contains("sltc/") || "${env.BITBUCKET_SOURCE_BRANCH}".contains("hotfix/") ) && "${env.BITBUCKET_TARGET_BRANCH}".contains("sltc")) {
+                SF_USERNAME = "ENV_HOS_QA_USERNAME"
+                SF_CONSUMER_KEY = "ENV_HOS_QA_CLIENT"
+                SF_TARGET_ENV = "ahqa"
+                SF_VALIDATION = true
+            } 
+            else if ("${env.BITBUCKET_TARGET_BRANCH}".contains("release/")) {
+                SF_USERNAME = "SF-CIT.UAT-USER"
+                SF_CONSUMER_KEY = "SF-CIT.UAT-CLIENTID" 
+                SF_TARGET_ENV = "ahuat"
+                SF_VALIDATION = false 
             } else if ("${env.BITBUCKET_SOURCE_BRANCH}".contains("release/") && "${env.BITBUCKET_TARGET_BRANCH}".contains("master")) {
                 SF_USERNAME = "SF-CIT.PROD-USER" // FIXME
                 SF_CONSUMER_KEY = "SF-CIT.PROD-CLIENTID" // FIXME
-                SF_CONSUMER_SERVER_KEY = "SF-CIT.PROD-SERVERKEY" // FIXME
                 SF_TARGET_ENV = "ahprod" 
                 SF_INSTANCE_URL = "https://login.salesforce.com"
+                SF_VALIDATION = false
             }
 
             // Print some usefull info
@@ -151,7 +158,7 @@ node {
                     
                 }
                 */
-                stage('Run Code Quality Analysis (SonarQube)') {
+                stage('Code Quality Analysis (SonarQube)') {
                     def userInput = input(message: 'Do you want to run Sonar quality analysis ?', ok: 'Continue', 
                                         parameters: [choice(choices: ['Yes', 'No'], 
                                                         description: 'Continue to next stage', 
@@ -175,8 +182,9 @@ node {
                    
                 }
                 // ----------------------------------------------------------------------------------
-                // Run the LocalTests on the Salesforce org for a given AA_WORK_ITEM
+                // Wait for Quality gate results
                 // ----------------------------------------------------------------------------------
+                /*
                 stage('SonarQube: Quality Gate') {
 
                         def userInput = input(message: 'Wait till the Sonar Quality Test are complete ?', ok: 'Continue', 
@@ -200,7 +208,7 @@ node {
                             echo 'Skipped to sonar quality verification'
                         } 
                 }
-
+                */
                 // ----------------------------------------------------------------------------------
                 // Run the LocalTests on the Salesforce org for a given AA_WORK_ITEM
                 // ----------------------------------------------------------------------------------
@@ -222,14 +230,62 @@ node {
                         error 'Salesforce RunLocalTests failed.'
                     }
                 }
+                // ----------------------------------------------------------------------------------
+                // Deploy the package previously validated on stage "Run Test (RunLocalTests, jest)"
+                // ----------------------------------------------------------------------------------
+                stage('Promote to QA (deploy package + validation)') {
+                    
+                    rc = commandStatus "sfdx force:source:deploy -u ${SF_TARGET_ENV} -w 10 -q ${JOBIDDEPLOY}"
+                    //rc = commandStatus "sfdx force:source:deploy -u ${SF_TARGET_ENV} -w 10 -l NoTestRun -x manifest/${AA_WORK_ITEM}/package.xml"
+                    if (rc != 0) {
+                        error 'Salesforce deployment failed.'
+                    }
+                }
+                stage('Merging') {
+                    
+                    // Logout from SFDX
+                    rc = commandStatus "sfdx auth:logout --targetusername ${SF_TARGET_ENV}"
+                    if (rc != 0) {
+                        error 'Salesforce logout failed.'
+                    }
 
+                    // Merge the PR on BitBucket
+                    // Checkout to source branch (so we can have a local copy)
+                    rc = commandStatus "git checkout ${BITBUCKET_SOURCE_BRANCH}"
+                    if (rc != 0) {
+                        error 'Failed to checkout to source branch.'
+                    }
+                    
+                    // Checkout to target branch
+                    rc = commandStatus "git checkout ${BITBUCKET_TARGET_BRANCH}"
+                    if (rc != 0) {
+                        error 'Failed to checkout to target branch.'
+                    }
+
+                    // Merge source branch into target branch. Squash commits into just one.
+                    rc = commandStatus "git merge ${BITBUCKET_SOURCE_BRANCH}"
+                    if (rc != 0) {
+                        error 'Failed to merge source branch into target branch.'
+                    }
+
+                    // Push changes back to BitBucket
+                    withCredentials([usernamePassword(credentialsId: 'ENV_GALAXY_CRM_BITBUCKET', passwordVariable: 'GIT_PASSWORD', usernameVariable: 'GIT_USERNAME')]) {
+                        rc = commandStatus "git push https://${GIT_USERNAME}:${GIT_PASSWORD}@rndwww.nce.amadeus.net/git/scm/cgal/crm.git"
+                        if (rc != 0) {
+                            error 'Failed to push merge to BitBucket.'
+                        }
+                    } 
+                }
                 // ----------------------------------------------------------------------------------
                 //  Validate package
                 // ----------------------------------------------------------------------------------
-                stage('Notify Reviewrs') {
+                
+                /*
+                stage('Notify Reviewers') {
                     // TODO: Notify Leads to review
                     
                 }
+                */
             }
         }
     } catch (e) {
