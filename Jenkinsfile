@@ -212,6 +212,17 @@ node {
                 // ----------------------------------------------------------------------------------
                 // Run the LocalTests on the Salesforce org for a given AA_WORK_ITEM
                 // ----------------------------------------------------------------------------------
+                 stage('wait for pr approval and continue') {
+                    def userInput = input(message: 'PR is approved and move to next stage?', ok: 'Continue', 
+                                        parameters: [choice(choices: ['Yes', 'No'], 
+                                                        description: 'Continue to next stage', 
+                                                        name: 'prApprovalValidation')])
+
+                        if (userInput == 'Yes') 
+                        {
+
+                        }
+                 }
                 stage('Validate (RunLocalTests, jest)') {
                     
                     String CURRENT_BRANCH = "${env.BITBUCKET_SOURCE_BRANCH}"
