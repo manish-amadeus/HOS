@@ -209,20 +209,6 @@ node {
                         } 
                 }
                 */
-                // ----------------------------------------------------------------------------------
-                // Run the LocalTests on the Salesforce org for a given AA_WORK_ITEM
-                // ----------------------------------------------------------------------------------
-                 stage('wait for pr approval and continue') {
-                    def userInput = input(message: 'PR is approved and move to next stage?', ok: 'Continue', 
-                                        parameters: [choice(choices: ['Yes', 'No'], 
-                                                        description: 'Continue to next stage', 
-                                                        name: 'prApprovalValidation')])
-
-                        if (userInput == 'Yes') 
-                        {
-
-                        }
-                 }
                 stage('Validate (RunLocalTests, jest)') {
                     
                     String CURRENT_BRANCH = "${env.BITBUCKET_SOURCE_BRANCH}"
@@ -242,9 +228,32 @@ node {
                     }
                 }
                 // ----------------------------------------------------------------------------------
-                // Deploy the package previously validated on stage "Run Test (RunLocalTests, jest)"
+                // Run the LocalTests on the Salesforce org for a given AA_WORK_ITEM
                 // ----------------------------------------------------------------------------------
-                stage('Promote to QA (deploy package + validation)') {
+                stage('wait for pr approval and continue') {
+                    def userInput = input(message: 'PR is approved and move to next stage?', ok: 'Continue', 
+                                        parameters: [choice(choices: ['Yes', 'No'], 
+                                                        description: 'Continue to next stage', 
+                                                        name: 'prApprovalValidation')])
+
+                        if (userInput == 'Yes') 
+                        {
+                            return true
+                        }
+                        if (userInput == 'No'){
+                            steps {
+                                catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {
+                                    emailext to: ["pradeep.lanke@amadeus.com"], subject: "Job '${JOB_NAME}' (${BUILD_NUMBER}) is rejected: ${currentBuild.currentResult}" , body: "The build #${BUILD_NUMBER} is rejected by the TL/RM with status ${currentBuild.currentResult} and contains the logs attached.", attachLog: true
+                                sh "exit 1"
+                            }
+                        }
+                 }
+                
+                // ----------------------------------------------------------------------------------
+                // Deploy the package previously validated on stage "Run Test (RunLocalTests, jest)"
+                // if the review takes longer, probably need to login again
+                // ----------------------------------------------------------------------------------
+                stage('Promote (deploy package + validation)') {
                     
                     rc = commandStatus "sfdx force:source:deploy -u ${SF_TARGET_ENV} -w 10 -q ${JOBIDDEPLOY}"
                     //rc = commandStatus "sfdx force:source:deploy -u ${SF_TARGET_ENV} -w 10 -l NoTestRun -x manifest/${AA_WORK_ITEM}/package.xml"
@@ -252,7 +261,7 @@ node {
                         error 'Salesforce deployment failed.'
                     }
                 }
-                stage('Merging') {
+                stage('Merging and Logout') {
                     
                     // Logout from SFDX
                     rc = commandStatus "sfdx auth:logout --targetusername ${SF_TARGET_ENV}"
