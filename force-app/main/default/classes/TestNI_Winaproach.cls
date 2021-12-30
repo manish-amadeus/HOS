@@ -187,7 +187,7 @@ public class TestNI_Winaproach
             
             system.assert(lstnLog.size() ==1);
             
-            niwin.parseAndLogResponse(response,String.valueOf(cs.Id),winSettings.Endpoint__c, 'Update', 'CaseComment', lstUpdate, lstnLog,request,null, null);
+            niwin.parseAndLogResponse(response,String.valueOf(cs.Id),winSettings.Endpoint__c, 'Update', 'CaseComment', lstUpdate, lstnLog,request,null, null,null);
 
             List<NI_Integration_Log__c> lstnLog2 = new List<NI_Integration_Log__c>();
             lstnLog2.add(NI_WinaproachService.createIntegraionLog(String.valueOf(cs.Id), createResponse, 'Success', 'Insert',null,winSettings.Endpoint__c,'Win@proach', request));
@@ -195,19 +195,19 @@ public class TestNI_Winaproach
             system.assert(lstnLog2.size() ==1);
             //String response,String cs,String endPoint, String opType, String updateFor, List<Case> resUpdateCase, List<NI_Integration_Log__c> resInsertLog,String xmlRequest, List<Task> resUpdateTask, Attachment at
             
-            niwin.parseAndLogResponse(createResponse,String.valueOf(cs.Id),winSettings.Endpoint__c, 'Insert', null, lstUpdate, lstnLog2,request,null, null);
+            niwin.parseAndLogResponse(createResponse,String.valueOf(cs.Id),winSettings.Endpoint__c, 'Insert', null, lstUpdate, lstnLog2,request,null, null,null);
             
             List<NI_Integration_Log__c> lstnLog3 = new List<NI_Integration_Log__c>();
             lstnLog3.add(NI_WinaproachService.createIntegraionLog(String.valueOf(cs.Id), unAuthResponse, 'Failed', 'Insert',null,winSettings.Endpoint__c,'Win@proach', request));
             
             system.assert(lstnLog3.size() ==1);
-            niwin.parseAndLogResponse(unAuthResponse,String.valueOf(cs.Id),winSettings.Endpoint__c, 'Insert', null, lstUpdate, lstnLog3,request,null, null);
+            niwin.parseAndLogResponse(unAuthResponse,String.valueOf(cs.Id),winSettings.Endpoint__c, 'Insert', null, lstUpdate, lstnLog3,request,null, null,null);
             
             List<NI_Integration_Log__c> lstnLog4 = new List<NI_Integration_Log__c>();
             lstnLog.add(NI_WinaproachService.createIntegraionLog(String.valueOf(cs.Id), taskResponse, 'Success', 'Update','Task',winSettings.Endpoint__c,'Win@proach', taskRequest));
             //system.debug(lstnLog4.size());
             system.assert(lstnLog4.size() ==0);		
-            niwin.parseAndLogResponse(taskResponse,String.valueOf(cs.Id),winSettings.Endpoint__c, 'Update', 'Task', lstUpdate, lstnLog4,taskRequest,lstTask, null);
+            niwin.parseAndLogResponse(taskResponse,String.valueOf(cs.Id),winSettings.Endpoint__c, 'Update', 'Task', lstUpdate, lstnLog4,taskRequest,lstTask, null,null);
 
         }
         
@@ -532,7 +532,7 @@ public class TestNI_Winaproach
             
             system.assert(lstnLog2.size() ==1);
             
-            niwin.parseAndLogResponse(createResponse,String.valueOf(cs.Id),winSettings.Endpoint__c, 'Insert', null, lstCase, lstnLog2,request,null, null);
+            niwin.parseAndLogResponse(createResponse,String.valueOf(cs.Id),winSettings.Endpoint__c, 'Insert', null, lstCase, lstnLog2,request,null, null,null);
             
         }
         
