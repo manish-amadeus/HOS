@@ -26,41 +26,22 @@ node {
         // JWT key credentials.
         // ----------------------------------------------------------------------------------
         withEnv(["HOME=${env.WORKSPACE}"]) {
-            SF_USERNAME = "ENV_HOS_CIONE_USERNAME"
-            SF_CONSUMER_KEY = "ENV_HOS_CIONE_CLIENT"
-            SF_CONSUMER_SERVER_KEY = "ENV_HOS_SERVERKEY" //Serverkey
-            SF_INSTANCE_URL = "https://test.salesforce.com"
-            SF_VALIDATION = true
+            
             // Based on the source and target branches, set SF_* variables for authentication withing sfdx
             if ( ("${env.BITBUCKET_SOURCE_BRANCH}".contains("feature/") || "${env.BITBUCKET_SOURCE_BRANCH}".contains("hotfix/") ) && "${env.BITBUCKET_TARGET_BRANCH}".contains("develop")) {
                 SF_USERNAME = "ENV_HOS_QA_USERNAME"
                 SF_CONSUMER_KEY = "ENV_HOS_QA_CLIENT"
-                SF_TARGET_ENV = "ahqa"
-                SF_VALIDATION = true
-            } if ( ("${env.BITBUCKET_SOURCE_BRANCH}".contains("sltc/") || "${env.BITBUCKET_SOURCE_BRANCH}".contains("hotfix/") ) && "${env.BITBUCKET_TARGET_BRANCH}".contains("sltc")) {
-                SF_USERNAME = "ENV_HOS_QA_USERNAME"
-                SF_CONSUMER_KEY = "ENV_HOS_QA_CLIENT"
-                SF_TARGET_ENV = "ahqa"
-                SF_VALIDATION = true
-            } 
-            else if ("${env.BITBUCKET_TARGET_BRANCH}".contains("release/")) {
-                SF_USERNAME = "SF-CIT.UAT-USER"
-                SF_CONSUMER_KEY = "SF-CIT.UAT-CLIENTID" 
-                SF_TARGET_ENV = "ahuat"
-                SF_VALIDATION = false 
+                SF_CONSUMER_SERVER_KEY = "ENV_HOS_QA_SERVERKEY" //Serverkey
+            } else if ("${env.BITBUCKET_TARGET_BRANCH}".contains("release/") {
+                SF_USERNAME = "SF-CIT.UAT-USER" // FIXME
+                SF_CONSUMER_KEY = "SF-CIT.UAT-CLIENTID" // FIXME
+                SF_CONSUMER_SERVER_KEY = "SF-CIT.UAT-SERVERKEY" // FIXME
             } else if ("${env.BITBUCKET_SOURCE_BRANCH}".contains("release/") && "${env.BITBUCKET_TARGET_BRANCH}".contains("master")) {
                 SF_USERNAME = "SF-CIT.PROD-USER" // FIXME
                 SF_CONSUMER_KEY = "SF-CIT.PROD-CLIENTID" // FIXME
-                SF_TARGET_ENV = "ahprod" 
-                SF_INSTANCE_URL = "https://login.salesforce.com"
-                SF_VALIDATION = false
+                SF_CONSUMER_SERVER_KEY = "SF-CIT.PROD-SERVERKEY" // FIXME
             }
 
-            // Print some usefull info
-            echo "Salesforce User: ${SF_USERNAME}"
-            echo "Source branch: ${env.BITBUCKET_SOURCE_BRANCH}"
-            echo "Target: ${env.BITBUCKET_TARGET_BRANCH}"
-            
             // ----------------------------------------------------------------------------------
             // Get server key file to connect with the connected app.
             // ----------------------------------------------------------------------------------
@@ -70,23 +51,32 @@ node {
                 string(credentialsId: "${SF_CONSUMER_KEY}", variable: 'CONSUMER_KEY')
             ]) {
         
-                // Print some usefull info
-                echo "Salesforce User: ${SF_USERNAME}"
-                echo "Salesforce Username: ${USERNAME}"
-                
                 // ----------------------------------------------------------------------------------
                 // Set the target org, instance URL to be used. Clone the repo and authorize 
                 // connection to SF org.
                 // ----------------------------------------------------------------------------------
-                stage('Build Setup (Org, Repo)') {
+                stage('Prepare (current build, target org, instance url)') {
 
-                     // Clean the workspace in case previous build ended in Failure and cleanup wasn't performed.
+                    // Define target org/env and instance URL
+                    def INSTANCEURL = "https://test.salesforce.com"
+
+                    if ( ("${env.BITBUCKET_SOURCE_BRANCH}".contains("feature/") || "${env.BITBUCKET_SOURCE_BRANCH}".contains("hotfix/") ) && "${env.BITBUCKET_TARGET_BRANCH}".contains("develop")) {
+                        SF_TARGET_ENV = "tcsfqa"
+                    } else if ("${env.BITBUCKET_TARGET_BRANCH}".contains("release/") {
+                        SF_TARGET_ENV = "uat" // FIXME
+                    } else if ("${env.BITBUCKET_SOURCE_BRANCH}".contains("release/") && "${env.BITBUCKET_TARGET_BRANCH}".contains("master")) {
+                        SF_TARGET_ENV = "prod" // FIXME
+                        INSTANCEURL = "https://login.salesforce.com"
+                    }
+
+                    // Clean the workspace in case previous build ended in Failure and cleanup wasn't performed.
                     cleanWs()
+
                     // Print some usefull info
                     echo "Salesforce target env: ${SF_TARGET_ENV}"
                     echo "Bitbucket source branch: ${env.BITBUCKET_SOURCE_BRANCH}"
                     echo "Bitbucket target branch: ${env.BITBUCKET_TARGET_BRANCH}"
-                    echo "Salesforce url:${SF_INSTANCE_URL}"
+
                     // Clone repo and checkout to desired 
                     SCMVARS = checkout([
                         $class: 'GitSCM', 
@@ -94,7 +84,7 @@ node {
                         extensions: [[$class: 'WipeWorkspace']],
                         userRemoteConfigs: [[
                             credentialsId: 'ENV_AMADEUS_CRED',
-                            url: 'https://planke@rndwww.nce.amadeus.net/git/scm/ahsf/salesforce.git'
+                            url: 'https://planke@https://rndwww.nce.amadeus.net/git/scm/ahsf/demo-org.git'
                         ]]
                     ])
 
@@ -103,7 +93,7 @@ node {
                     commandOutput "git config user.name \"$SCMVARS.GIT_AUTHOR_NAME\""
 
                     // Authorize connections through sfdx to Salesforce org
-                    rc = commandStatus "sfdx auth:jwt:grant --instanceurl ${SF_INSTANCE_URL} --clientid ${CONSUMER_KEY} --jwtkeyfile ${CONSUMER_SERVER_KEY} --username ${USERNAME} --setalias ${SF_TARGET_ENV}"
+                    rc = commandStatus "sfdx auth:jwt:grant --instanceurl ${INSTANCEURL} --clientid ${CONSUMER_KEY} --jwtkeyfile ${CONSUMER_SERVER_KEY} --username ${USERNAME} --setalias ${SF_TARGET_ENV}"
                     if (rc != 0) {
                         error 'Salesforce org authorization failed.'
                     }
@@ -113,10 +103,9 @@ node {
                 // Perform static analisys on the code using Sonarqube-runner
                 // This assumes that there's a 'sonar-project.properties' file on git.
                 // ----------------------------------------------------------------------------------
-                /*
-                // Not in use for the scope of analysis
-                stage('Run Code Quality Analysis(PMD)'){
-                     
+                stage('Run Code Quality Analysis (SonarQube)') {
+
+                   /*  
                     FIXME waiting confirmation that Jenkisn has access to the web
                     Download pmd from GitHub 
                     if (isUnix()) {
@@ -155,61 +144,36 @@ node {
                     rc = commandStatus "rm -r pmd-bin-6.39.0*"
                     rc = commandStatus "rm apex_security_pmd.html"
                     echo "PMD: ${rc}" 
+                    */
                     
-                }
-                */
-                stage('Code Quality Analysis (SonarQube)') {
-                    def userInput = input(message: 'Do you want to run Sonar quality analysis ?', ok: 'Continue', 
-                                        parameters: [choice(choices: ['Yes', 'No'], 
-                                                        description: 'Continue to next stage', 
-                                                        name: 'sonarValidation')])
-
-                        if (userInput == 'Yes') 
-                        {	
-                            // Run SonarQube Analysis
-                            withSonarQubeEnv('Sonar') {
-                                //    rc = commandStatus "sonar-scanner"
-                                rc = commandStatus "sonar-scanner -D sonar.pullrequest.key=${env.BITBUCKET_PULL_REQUEST_ID} -D sonar.pullrequest.branch=${env.BITBUCKET_SOURCE_BRANCH} -Dsonar.pullrequest.base=${env.BITBUCKET_TARGET_BRANCH}"
-                            
-                                if (rc != 0) {
-                                    error 'Failed to start sonar-scanner'
-                                }
-                            }
+                    // Run SonarQube Analysis
+                    withSonarQubeEnv('Sonar') {
+                        //    rc = commandStatus "sonar-scanner"
+                        rc = commandStatus "sonar-scanner -D sonar.pullrequest.key=${env.BITBUCKET_PULL_REQUEST_ID} -D sonar.pullrequest.branch=${env.BITBUCKET_SOURCE_BRANCH} -Dsonar.pullrequest.base=${env.BITBUCKET_TARGET_BRANCH}"
+                     
+                        if (rc != 0) {
+                            error 'Failed to start sonar-scanner'
                         }
-                         else {
-                            echo 'Skipped to sonar quality verification'
-                        } 
+                    }
                    
                 }
                 // ----------------------------------------------------------------------------------
-                // Wait for Quality gate results
+                // Run the LocalTests on the Salesforce org for a given AA_WORK_ITEM
                 // ----------------------------------------------------------------------------------
-                /*
                 stage('SonarQube: Quality Gate') {
-
-                        def userInput = input(message: 'Wait till the Sonar Quality Test are complete ?', ok: 'Continue', 
-                                        parameters: [choice(choices: ['Yes', 'No'], 
-                                                        description: 'Continue to next stage', 
-                                                        name: 'validateChanges')])
-
-                        if (userInput == 'Yes') 
-                        {	
-                            echo 'Waiting for the quality gates to pass: Default wait time is 30 mins'
-                            timeout(time: 1, unit: 'MINUTES') { // TODO: change the time later
-                                def qg = waitForQualityGate(true)
-                                if (qg.status != 'OK') {
-                                    // error "Pipeline aborted due to quality gate failure: ${qg.status}"
-                                    //TODO: Notify developer , reviwer and release manager
-                                    echo "Pipeline aborted due to quality gate failure: ${qg.status}"
-                                }
-                            }
+                /*    
+                    timeout(time: 30, unit: 'MINUTES') {
+                        def qg = waitForQualityGate(true)
+                        if (qg.status != 'OK') {
+                            error "Pipeline aborted due to quality gate failure: ${qg.status}"
                         }
-                        else {
-                            echo 'Skipped to sonar quality verification'
-                        } 
+                    } */
                 }
-                */
-                stage('Validate (RunLocalTests, jest)') {
+
+                // ----------------------------------------------------------------------------------
+                // Run the LocalTests on the Salesforce org for a given AA_WORK_ITEM
+                // ----------------------------------------------------------------------------------
+                stage('Run Test (RunLocalTests, jest)') {
                     
                     String CURRENT_BRANCH = "${env.BITBUCKET_SOURCE_BRANCH}"
                     AA_WORK_ITEM = CURRENT_BRANCH.substring(CURRENT_BRANCH.indexOf('/') + 1, CURRENT_BRANCH.length())
@@ -227,34 +191,19 @@ node {
                         error 'Salesforce RunLocalTests failed.'
                     }
                 }
+
                 // ----------------------------------------------------------------------------------
-                // Run the LocalTests on the Salesforce org for a given AA_WORK_ITEM
+                //  Validate package
                 // ----------------------------------------------------------------------------------
-                stage('wait for pr approval and continue') {
-                    def userInput = input(message: 'PR is approved and move to next stage?', ok: 'Continue', 
-                                        parameters: [choice(choices: ['Yes', 'No'], 
-                                                        description: 'Continue to next stage', 
-                                                        name: 'prApprovalValidation')])
-                    timeout(time: 2, unit: 'DAYS') {
-                        if (userInput == 'Yes') {
-                            return true
-                        }
-                        if (userInput == 'No'){
-                            steps {
-                                catchError(buildResult: 'FAILURE', stageResult: 'ABORTED') {
-                                    emailext to: ["pradeep.lanke@amadeus.com"], subject: "Job '${JOB_NAME}' (${BUILD_NUMBER}) is rejected: ${currentBuild.currentResult}" , body: "The build #${BUILD_NUMBER} is rejected by the TL/RM with status ${currentBuild.currentResult} and contains the logs attached.", attachLog: true
-                                sh "exit 1"
-                                }
-                            }
-                        }
-                    }
-                 }
-                
+                stage('Pre Deploy (preDeploy package + validation)') {
+                    // TODO What to do here? Like a dry-run deployment??
+                    // similar to deploy package but we need to specify a folder
+                }
+
                 // ----------------------------------------------------------------------------------
                 // Deploy the package previously validated on stage "Run Test (RunLocalTests, jest)"
-                // if the review takes longer, probably need to login again
                 // ----------------------------------------------------------------------------------
-                stage('Promote (deploy package + validation)') {
+                stage('Deploy (deploy package + validation)') {
                     
                     rc = commandStatus "sfdx force:source:deploy -u ${SF_TARGET_ENV} -w 10 -q ${JOBIDDEPLOY}"
                     //rc = commandStatus "sfdx force:source:deploy -u ${SF_TARGET_ENV} -w 10 -l NoTestRun -x manifest/${AA_WORK_ITEM}/package.xml"
@@ -262,8 +211,29 @@ node {
                         error 'Salesforce deployment failed.'
                     }
                 }
-                stage('Merging and Logout') {
+
+                // ----------------------------------------------------------------------------------
+                // 
+                // ----------------------------------------------------------------------------------
+                stage('Post Deploy (postDeploy package + validation)') {
+                    // TODO What to do here?
+                }
+
+                // ----------------------------------------------------------------------------------
+                // 
+                // ----------------------------------------------------------------------------------
+                stage('Destructive (pre & post)') {
+                    // TODO use destructiveChanges folder. If data inside, do a deploy. Optional step. 
+                    // Comment and see if we need another pipeline for this changes
+                }
+
+                // ----------------------------------------------------------------------------------
+                // Auto Merge changes
+                // ----------------------------------------------------------------------------------
+                // Pradeep, changes needs to be reviewed before merging
+                stage('Merging') {
                     
+                    /* 
                     // Logout from SFDX
                     rc = commandStatus "sfdx auth:logout --targetusername ${SF_TARGET_ENV}"
                     if (rc != 0) {
@@ -296,17 +266,8 @@ node {
                             error 'Failed to push merge to BitBucket.'
                         }
                     } 
+                    */
                 }
-                // ----------------------------------------------------------------------------------
-                //  Validate package
-                // ----------------------------------------------------------------------------------
-                
-                /*
-                stage('Notify Reviewers') {
-                    // TODO: Notify Leads to review
-                    
-                }
-                */
             }
         }
     } catch (e) {
