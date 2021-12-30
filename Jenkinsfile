@@ -174,32 +174,6 @@ node {
                         } 
                    
                 }
-                // ----------------------------------------------------------------------------------
-                // Run the LocalTests on the Salesforce org for a given AA_WORK_ITEM
-                // ----------------------------------------------------------------------------------
-                stage('SonarQube: Quality Gate') {
-
-                        def userInput = input(message: 'Wait till the Sonar Quality Test are complete ?', ok: 'Continue', 
-                                        parameters: [choice(choices: ['Yes', 'No'], 
-                                                        description: 'Continue to next stage', 
-                                                        name: 'validateChanges')])
-
-                        if (userInput == 'Yes') 
-                        {	
-                            echo 'Waiting for the quality gates to pass: Default wait time is 30 mins'
-                            timeout(time: 1, unit: 'MINUTES') { // TODO: change the time later
-                                def qg = waitForQualityGate(true)
-                                if (qg.status != 'OK') {
-                                    // error "Pipeline aborted due to quality gate failure: ${qg.status}"
-                                    //TODO: Notify developer , reviwer and release manager
-                                    echo "Pipeline aborted due to quality gate failure: ${qg.status}"
-                                }
-                            }
-                        }
-                        else {
-                            echo 'Skipped to sonar quality verification'
-                        } 
-                }
 
                 // ----------------------------------------------------------------------------------
                 // Run the LocalTests on the Salesforce org for a given AA_WORK_ITEM
@@ -222,12 +196,77 @@ node {
                         error 'Salesforce RunLocalTests failed.'
                     }
                 }
+                // ----------------------------------------------------------------------------------
+                // Run the LocalTests on the Salesforce org for a given AA_WORK_ITEM
+                // ----------------------------------------------------------------------------------
+                stage('PR Approval?') {
+
+                        def userInput = input(message: 'PR is approved and move to next stage ?', ok: 'Continue', 
+                                        parameters: [choice(choices: ['Yes', 'No'], 
+                                                        description: 'Continue to next stage', 
+                                                        name: 'prapproval')])
+
+                        if (userInput == 'Yes') 
+                        {	
+                            echo 'PR is approved and continue to next stage'
+                            
+                        }
+                        else {
+                            
+                        } 
+                }
+
+                // ----------------------------------------------------------------------------------
+                // Deploy the package previously validated on stage "Run Test (RunLocalTests, jest)"
+                // ----------------------------------------------------------------------------------
+                stage('Promote to QA (deploy package + validation)') {
+                    
+                    rc = commandStatus "sfdx force:source:deploy -u ${SF_TARGET_ENV} -w 10 -q ${JOBIDDEPLOY}"
+                    //rc = commandStatus "sfdx force:source:deploy -u ${SF_TARGET_ENV} -w 10 -l NoTestRun -x manifest/${AA_WORK_ITEM}/package.xml"
+                    if (rc != 0) {
+                        error 'Salesforce deployment failed.'
+                    }
+                }
+                stage('Merging') {
+                    
+                    // Logout from SFDX
+                    rc = commandStatus "sfdx auth:logout --targetusername ${SF_TARGET_ENV}"
+                    if (rc != 0) {
+                        error 'Salesforce logout failed.'
+                    }
+
+                    // Merge the PR on BitBucket
+                    // Checkout to source branch (so we can have a local copy)
+                    rc = commandStatus "git checkout ${BITBUCKET_SOURCE_BRANCH}"
+                    if (rc != 0) {
+                        error 'Failed to checkout to source branch.'
+                    }
+                    
+                    // Checkout to target branch
+                    rc = commandStatus "git checkout ${BITBUCKET_TARGET_BRANCH}"
+                    if (rc != 0) {
+                        error 'Failed to checkout to target branch.'
+                    }
+
+                    // Merge source branch into target branch. Squash commits into just one.
+                    rc = commandStatus "git merge ${BITBUCKET_SOURCE_BRANCH}"
+                    if (rc != 0) {
+                        error 'Failed to merge source branch into target branch.'
+                    }
+
+                    // Push changes back to BitBucket
+                    withCredentials([usernamePassword(credentialsId: 'ENV_GALAXY_CRM_BITBUCKET', passwordVariable: 'GIT_PASSWORD', usernameVariable: 'GIT_USERNAME')]) {
+                        rc = commandStatus "git push https://${GIT_USERNAME}:${GIT_PASSWORD}@rndwww.nce.amadeus.net/git/scm/cgal/crm.git"
+                        if (rc != 0) {
+                            error 'Failed to push merge to BitBucket.'
+                        }
+                    } 
+                }
 
                 // ----------------------------------------------------------------------------------
                 //  Validate package
                 // ----------------------------------------------------------------------------------
-                stage('Notify Reviewrs') {
-                    // TODO: Notify Leads to review
+                stage('Notify Reviewers') {
                     
                 }
             }
