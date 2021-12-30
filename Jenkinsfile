@@ -28,32 +28,25 @@ node {
         withEnv(["HOME=${env.WORKSPACE}"]) {
             SF_USERNAME = "ENV_HOS_CIONE_USERNAME"
             SF_CONSUMER_KEY = "ENV_HOS_CIONE_CLIENT"
-            SF_CONSUMER_SERVER_KEY = "ENV_HOS_SERVERKEY" //Serverkey
+            SF_CONSUMER_SERVER_KEY = "ENV_HOS_CIONE_SERVERKEY" //Serverkey
             SF_INSTANCE_URL = "https://test.salesforce.com"
-            SF_VALIDATION = true
             // Based on the source and target branches, set SF_* variables for authentication withing sfdx
             if ( ("${env.BITBUCKET_SOURCE_BRANCH}".contains("feature/") || "${env.BITBUCKET_SOURCE_BRANCH}".contains("hotfix/") ) && "${env.BITBUCKET_TARGET_BRANCH}".contains("develop")) {
-                SF_USERNAME = "ENV_HOS_QA_USERNAME"
-                SF_CONSUMER_KEY = "ENV_HOS_QA_CLIENT"
-                SF_TARGET_ENV = "ahqa"
-                SF_VALIDATION = true
-            } if ( ("${env.BITBUCKET_SOURCE_BRANCH}".contains("sltc/") || "${env.BITBUCKET_SOURCE_BRANCH}".contains("hotfix/") ) && "${env.BITBUCKET_TARGET_BRANCH}".contains("sltc")) {
-                SF_USERNAME = "ENV_HOS_QA_USERNAME"
-                SF_CONSUMER_KEY = "ENV_HOS_QA_CLIENT"
-                SF_TARGET_ENV = "ahqa"
-                SF_VALIDATION = true
-            } 
-            else if ("${env.BITBUCKET_TARGET_BRANCH}".contains("release/")) {
-                SF_USERNAME = "SF-CIT.UAT-USER"
-                SF_CONSUMER_KEY = "SF-CIT.UAT-CLIENTID" 
-                SF_TARGET_ENV = "ahuat"
-                SF_VALIDATION = false 
+                SF_USERNAME = "ENV_HOS_CIONE_USERNAME"
+                SF_CONSUMER_KEY = "ENV_HOS_CIONE_CLIENT"
+                SF_CONSUMER_SERVER_KEY = "ENV_HOS_CIONE_SERVERKEY" //Serverkey
+                SF_TARGET_ENV = "cidevone"
+            } else if ("${env.BITBUCKET_TARGET_BRANCH}".contains("release/")) {
+                SF_USERNAME = "SF-CIT.UAT-USER" // FIXME
+                SF_CONSUMER_KEY = "SF-CIT.UAT-CLIENTID" // FIXME
+                SF_CONSUMER_SERVER_KEY = "SF-CIT.UAT-SERVERKEY" // FIXME
+                SF_TARGET_ENV = "ahuat" 
             } else if ("${env.BITBUCKET_SOURCE_BRANCH}".contains("release/") && "${env.BITBUCKET_TARGET_BRANCH}".contains("master")) {
                 SF_USERNAME = "SF-CIT.PROD-USER" // FIXME
                 SF_CONSUMER_KEY = "SF-CIT.PROD-CLIENTID" // FIXME
+                SF_CONSUMER_SERVER_KEY = "SF-CIT.PROD-SERVERKEY" // FIXME
                 SF_TARGET_ENV = "ahprod" 
                 SF_INSTANCE_URL = "https://login.salesforce.com"
-                SF_VALIDATION = false
             }
 
             // Print some usefull info
@@ -158,7 +151,7 @@ node {
                     
                 }
                 */
-                stage('Code Quality Analysis (SonarQube)') {
+                stage('Run Code Quality Analysis (SonarQube)') {
                     def userInput = input(message: 'Do you want to run Sonar quality analysis ?', ok: 'Continue', 
                                         parameters: [choice(choices: ['Yes', 'No'], 
                                                         description: 'Continue to next stage', 
@@ -181,34 +174,7 @@ node {
                         } 
                    
                 }
-                // ----------------------------------------------------------------------------------
-                // Wait for Quality gate results
-                // ----------------------------------------------------------------------------------
-                /*
-                stage('SonarQube: Quality Gate') {
 
-                        def userInput = input(message: 'Wait till the Sonar Quality Test are complete ?', ok: 'Continue', 
-                                        parameters: [choice(choices: ['Yes', 'No'], 
-                                                        description: 'Continue to next stage', 
-                                                        name: 'validateChanges')])
-
-                        if (userInput == 'Yes') 
-                        {	
-                            echo 'Waiting for the quality gates to pass: Default wait time is 30 mins'
-                            timeout(time: 1, unit: 'MINUTES') { // TODO: change the time later
-                                def qg = waitForQualityGate(true)
-                                if (qg.status != 'OK') {
-                                    // error "Pipeline aborted due to quality gate failure: ${qg.status}"
-                                    //TODO: Notify developer , reviwer and release manager
-                                    echo "Pipeline aborted due to quality gate failure: ${qg.status}"
-                                }
-                            }
-                        }
-                        else {
-                            echo 'Skipped to sonar quality verification'
-                        } 
-                }
-                */
                 // ----------------------------------------------------------------------------------
                 // Run the LocalTests on the Salesforce org for a given AA_WORK_ITEM
                 // ----------------------------------------------------------------------------------
@@ -230,18 +196,27 @@ node {
                         error 'Salesforce RunLocalTests failed.'
                     }
                 }
-                stage('wait for pr approval and continue') {
-                def userInput = input(message: 'PR is approved and move to next stage?', ok: 'Continue', 
-                                    parameters: [choice(choices: ['Yes', 'No'], 
-                                                    description: 'Continue to next stage', 
-                                                    name: 'prApprovalValidation')])
 
-                    if (userInput == 'Yes') 
-                    {
+                // ----------------------------------------------------------------------------------
+                // Run the LocalTests on the Salesforce org for a given AA_WORK_ITEM
+                // ----------------------------------------------------------------------------------
+                stage('PR Approval?') {
 
-                    }
+                        def userInput = input(message: 'PR is approved and move to next stage ?', ok: 'Continue', 
+                                        parameters: [choice(choices: ['Yes', 'No'], 
+                                                        description: 'Continue to next stage', 
+                                                        name: 'prapproval')])
+
+                        if (userInput == 'Yes') 
+                        {	
+                            echo 'PR is approved and continue to next stage'
+                            
+                        }
+                        else {
+                            
+                        } 
                 }
-                
+
                 // ----------------------------------------------------------------------------------
                 // Deploy the package previously validated on stage "Run Test (RunLocalTests, jest)"
                 // ----------------------------------------------------------------------------------
@@ -288,16 +263,14 @@ node {
                         }
                     } 
                 }
+
                 // ----------------------------------------------------------------------------------
                 //  Validate package
                 // ----------------------------------------------------------------------------------
-                
-                /*
                 stage('Notify Reviewers') {
                     // TODO: Notify Leads to review
-                    
+                    emailext recipientProviders: [developers()], subject: "Job '${JOB_NAME}' (${BUILD_NUMBER}) finished with result: ${currentBuild.currentResult}" , body: "The build #${BUILD_NUMBER} finished with status ${currentBuild.currentResult} and contains the logs attached.", attachLog: true
                 }
-                */
             }
         }
     } catch (e) {
