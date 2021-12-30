@@ -196,7 +196,6 @@ node {
                         error 'Salesforce RunLocalTests failed.'
                     }
                 }
-
                 // ----------------------------------------------------------------------------------
                 // Run the LocalTests on the Salesforce org for a given AA_WORK_ITEM
                 // ----------------------------------------------------------------------------------
@@ -268,8 +267,7 @@ node {
                 //  Validate package
                 // ----------------------------------------------------------------------------------
                 stage('Notify Reviewers') {
-                    // TODO: Notify Leads to review
-                    emailext recipientProviders: [developers()], subject: "Job '${JOB_NAME}' (${BUILD_NUMBER}) finished with result: ${currentBuild.currentResult}" , body: "The build #${BUILD_NUMBER} finished with status ${currentBuild.currentResult} and contains the logs attached.", attachLog: true
+                    
                 }
             }
         }
