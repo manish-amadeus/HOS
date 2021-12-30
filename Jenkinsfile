@@ -151,6 +151,9 @@ node {
                     
                 }
                 */
+                // ----------------------------------------------------------------------------------
+                // Run the sonar quality gates
+                // ----------------------------------------------------------------------------------
                 stage('Run Code Quality Analysis (SonarQube)') {
                     def userInput = input(message: 'Do you want to run Sonar quality analysis ?', ok: 'Continue', 
                                         parameters: [choice(choices: ['Yes', 'No'], 
@@ -267,7 +270,7 @@ node {
                 //  Validate package
                 // ----------------------------------------------------------------------------------
                 stage('Notify Reviewers') {
-                    
+
                 }
             }
         }
