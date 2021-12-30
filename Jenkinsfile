@@ -235,16 +235,17 @@ node {
                                         parameters: [choice(choices: ['Yes', 'No'], 
                                                         description: 'Continue to next stage', 
                                                         name: 'prApprovalValidation')])
-
-                        if (userInput == 'Yes') 
-                        {
-                            return true
-                        }
-                        if (userInput == 'No'){
-                            steps {
-                                catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {
-                                    emailext to: ["pradeep.lanke@amadeus.com"], subject: "Job '${JOB_NAME}' (${BUILD_NUMBER}) is rejected: ${currentBuild.currentResult}" , body: "The build #${BUILD_NUMBER} is rejected by the TL/RM with status ${currentBuild.currentResult} and contains the logs attached.", attachLog: true
-                                sh "exit 1"
+                        timeout(time: 2, unit: 'DAYS') {
+                            if (userInput == 'Yes') 
+                            {
+                                return true
+                            }
+                            if (userInput == 'No'){
+                                steps {
+                                    catchError(buildResult: 'FAILURE', stageResult: 'ABORTED') {
+                                        emailext to: ["pradeep.lanke@amadeus.com"], subject: "Job '${JOB_NAME}' (${BUILD_NUMBER}) is rejected: ${currentBuild.currentResult}" , body: "The build #${BUILD_NUMBER} is rejected by the TL/RM with status ${currentBuild.currentResult} and contains the logs attached.", attachLog: true
+                                    sh "exit 1"
+                                }
                             }
                         }
                  }
