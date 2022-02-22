@@ -4,7 +4,7 @@ Author          : Ganesh Bora
 Created Date    : 02/17/2022
 Last Mod Date   : 02/17/2022
 Last Mod By     : Ganesh Bora
-NICC Reference  : NICC-00XXXX
+NICC Reference  : NICC-056411
 Description     : Class that contains static method for writing apex and custom log messages
                 : to the custom object DTS_Integration_Log_c
 *************************************************************************************************/

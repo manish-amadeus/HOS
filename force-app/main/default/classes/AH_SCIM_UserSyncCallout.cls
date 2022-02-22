@@ -4,7 +4,7 @@ Author          : Ganesh Bora
 Created Date    : 05/01/2022
 Last Mod Date   :  
 Last Mod By     : 
-NICC Reference  :  
+NICC Reference  :  NICC-056411
 Description     : class for user sync up SCIM User resource type, 
                 : class is used to create and parse SCIM user object request response.
                 : 

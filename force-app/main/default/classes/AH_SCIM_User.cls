@@ -4,7 +4,7 @@ Author          : Ganesh Bora
 Created Date    : 05/01/2022
 Last Mod Date   :  
 Last Mod By     : 
-NICC Reference  :  
+NICC Reference  : NICC-056411
 Description     : Wrapper class for SCIM User resource type
                 : 
 ****************************************************************************************/
