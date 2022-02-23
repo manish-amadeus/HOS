@@ -54,28 +54,19 @@ global class AH_SCIM_UserSyncCallout_Batch implements Database.Batchable<sObject
                 userData.name.formatted = u.FirstName+' '+u.LastName;
                 
                 //Mapping Account Related Data
+                Map<string, string> AccountDataMap = new Map<string, string> {'accountID'=>u.Account.Id, 
+                 					'accountName'=>u.Account.Name,
+                 					'managementCompanyID' => u.Account.Management_Company_ID__c,
+                 					'managementCompanyName' => u.Account.Management_Company_Name__c};
+    
                 userData.custom = new List <AH_SCIM_User.Custom>();
-                
-                AH_SCIM_User.Custom c1 = new AH_SCIM_User.Custom();
-                c1.key = 'accountID';
-                c1.value = u.Account.Id;
-                userData.custom.add(c1);
-                
-                AH_SCIM_User.Custom c2 = new AH_SCIM_User.Custom();
-                c2.key = 'accountName';
-                c2.value = u.Account.Name;
-                userData.custom.add(c2);
-                
-                AH_SCIM_User.Custom c3 = new AH_SCIM_User.Custom();
-                c3.key = 'managementCompanyID';
-                c3.value = u.Account.Management_Company_ID__c;
-                userData.custom.add(c3);
-                
-                AH_SCIM_User.Custom c4 = new AH_SCIM_User.Custom();
-                c4.key = 'managementCompanyName';
-                c4.value = u.Account.Management_Company_Name__c;
-                userData.custom.add(c4);
-                
+                for(string key: AccountDataMap.keyset())
+                {
+                    AH_SCIM_User.Custom c = new AH_SCIM_User.Custom();
+                    c.key = key;
+                	c.value = AccountDataMap.get(key);
+                	userData.custom.add(c);
+                }
                 //call callout function for user syncup
                 objAH_SCIM_UserSyncCallout.syncUser(userData);
             }

@@ -18,44 +18,29 @@ public class AH_SCIM_UserSyncCallout_Test {
         Account a = NI_TestClassData.createTestAccount(1);
         insert a;
         
-        // CREATE A TEST CONTACT TO BE CREATED AS A PORTAL USER 
-        Contact cnt1 = NI_TestClassData.createTestContact(1, a.Id);
-        cnt1.FirstName = 'duck1';
-        cnt1.LastName = 'donald';
-        cnt1.Email = 'donald.duck01@valamis.comtest';
-        insert cnt1;
-        
-        // CREATE A TEST CONTACT TO BE CREATED AS A PORTAL USER 
-        Contact cnt2 = NI_TestClassData.createTestContact(1, a.Id);
-        cnt2.FirstName = 'duck2';
-        cnt2.LastName = 'donald';
-        cnt2.Email = 'donald.duck01@valamis.comtest';
-        insert cnt2;
-        
-        // CREATE A TEST USER WITH THE AH Customer Community Plus Login User PROFILE
-        User u1 = NI_TestClassData.createTestUser(1, 'AH Customer Community Plus Login User');
-        u1.ContactId = cnt1.Id;
-        u1.FirstName = 'duck1';
-        u1.LastName = 'donald';
-        u1.Email = 'donald.duck01@valamis.comtest';
-        u1.Username = 'donald.duck01@valamis.comtest.ahcc';
-        u1.LMS_User_Access__c = 'No Access';
-        u1.CommunityNickname = 'duck1donald';
-        u1.ADUserName__c  = 'duck1donald';
-        insert u1;   
-        
-        // CREATE A TEST USER WITH THE AH Customer Community Plus Login User PROFILE
-        User u2 = NI_TestClassData.createTestUser(1, 'AH Customer Community Plus Login User');
-        u2.ContactId = cnt2.Id;
-        u2.FirstName = 'duck2';
-        u2.LastName = 'donald';
-        u2.Email = 'donald.duck02@valamis.comtest';
-        u2.Username = 'donald.duck02@valamis.comtest.ahcc';
-        u2.LMS_User_Access__c = 'No Access';
-        u2.CommunityNickname = 'duck2donald';
-        u2.ADUserName__c  = 'duck2donald';
-        
-        insert u2;   
+        for (Integer i = 0; i < 5; i++) {
+            string firstName = 'duck'+i;
+        	string lastName = 'donald';
+        	string email = firstName+''+lastName+'@valamis.comtest';
+            
+            // CREATE A TEST CONTACT TO BE CREATED AS A PORTAL USER 
+            Contact cnt = NI_TestClassData.createTestContact(1, a.Id);
+            cnt.FirstName = firstName;
+            cnt.LastName = lastName;
+            cnt.Email = email;
+            insert cnt;
+            
+            // CREATE A TEST USER WITH THE AH Customer Community Plus Login User PROFILE
+            User u = NI_TestClassData.createTestUser(1, 'AH Customer Community Plus Login User');
+            u.ContactId = cnt.Id;
+            u.FirstName = firstName;
+            u.LastName = lastName;
+            u.Email = email;
+            u.Username = email+'.ahcc';
+            u.LMS_User_Access__c = 'No Access';
+            u.CommunityNickname = firstName+''+lastName;
+            u.ADUserName__c  = firstName+''+lastName;
+		}
     }
 
 	@isTest static void testPing() 
@@ -63,7 +48,7 @@ public class AH_SCIM_UserSyncCallout_Test {
         Test.setMock(HttpCalloutMock.class, new AH_SCIM_UserSyncCallout_Mock());
         Test.startTest();
         objAH_SCIM_UserSyncCallout.ping();
-        
+        system.assert(true);
         Test.stopTest();	
 	}
     
@@ -74,6 +59,7 @@ public class AH_SCIM_UserSyncCallout_Test {
 		try
         {
             objAH_SCIM_UserSyncCallout.ping();
+            system.assert(true);
         } 
         catch (Exception e) 
         {
@@ -89,6 +75,8 @@ public class AH_SCIM_UserSyncCallout_Test {
         string email = 'donald.duck01@valamis.comtest';
         AH_SCIM_User userData = AH_SCIM_UserSyncCallout_Test.getTestUserData(email);
         objAH_SCIM_UserSyncCallout.syncUser(userData);
+        //string userUUID = objAH_SCIM_UserSyncCallout.checkUserExistsByUserName(userData.UserName);
+        //system.assertNotEquals(null, userUUID);
         Test.stopTest();
 	}
     
@@ -101,6 +89,8 @@ public class AH_SCIM_UserSyncCallout_Test {
         	string email = 'donald.duck01@valamis.comtest';
         	AH_SCIM_User userData = AH_SCIM_UserSyncCallout_Test.getTestUserData(email);
         	objAH_SCIM_UserSyncCallout.createUser(userData);
+            string userUUID = objAH_SCIM_UserSyncCallout.checkUserExistsByUserName(userData.UserName);
+        	system.assertEquals(null, userUUID);
         } 
         catch (Exception e) 
         {
@@ -116,6 +106,8 @@ public class AH_SCIM_UserSyncCallout_Test {
         string email = 'donald.duck02@valamis.comtest';
         AH_SCIM_User userData = AH_SCIM_UserSyncCallout_Test.getTestUserData(email);
         objAH_SCIM_UserSyncCallout.syncUser(userData);
+        //string userUUID = objAH_SCIM_UserSyncCallout.checkUserExistsByUserName(userData.UserName);
+        //system.assertNotEquals(null, userUUID);
         Test.stopTest();
 	}
     @isTest public static void testBatchSCIMUserSyncCallout()
@@ -144,6 +136,8 @@ public class AH_SCIM_UserSyncCallout_Test {
         	AH_SCIM_User userData = AH_SCIM_UserSyncCallout_Test.getTestUserData(email);
         	string uuid = 'ccc0f97f-db9d-f5b1-6aea-813c3bab4c';
         	objAH_SCIM_UserSyncCallout.updateUser(userData,uuid);
+            string userUUID = objAH_SCIM_UserSyncCallout.checkUserExistsByUserName(userData.UserName);
+        	system.assertNotEquals(null, userUUID);
         } 
         catch (Exception e) 
         {
@@ -160,6 +154,8 @@ public class AH_SCIM_UserSyncCallout_Test {
         {
         	string email = 'donald.duck02@valamis.comtest';
         	objAH_SCIM_UserSyncCallout.checkUserExistsByUserName(email);
+            string userUUID = objAH_SCIM_UserSyncCallout.checkUserExistsByUserName(email);
+        	system.assertEquals(null, userUUID);
         } 
         catch (Exception e) 
         {
