@@ -17,7 +17,7 @@ public class AH_SCIM_UserSyncCallout_Test {
     	// CREATE TEST PARENT ACCOUNT RECORD
         Account a = NI_TestClassData.createTestAccount(1);
         insert a;
-        
+        List<Contact> listContact = new List<Contact>;
         for (Integer i = 0; i < 5; i++) {
             string firstName = 'duck'+i;
         	string lastName = 'donald';
@@ -28,11 +28,19 @@ public class AH_SCIM_UserSyncCallout_Test {
             cnt.FirstName = firstName;
             cnt.LastName = lastName;
             cnt.Email = email;
-            insert cnt;
+            listContact.add(cnt);
+        }
+        insert listContact;
+        
+        List<User> listUser = new List<User>; 
+        for (Integer i = 0; i < 5; i++) {
+            string firstName = 'duck'+i;
+        	string lastName = 'donald';
+        	string email = firstName+''+lastName+'@valamis.comtest';
             
             // CREATE A TEST USER WITH THE AH Customer Community Plus Login User PROFILE
             User u = NI_TestClassData.createTestUser(1, 'AH Customer Community Plus Login User');
-            u.ContactId = cnt.Id;
+            u.ContactId = listContact[i];
             u.FirstName = firstName;
             u.LastName = lastName;
             u.Email = email;
@@ -40,7 +48,11 @@ public class AH_SCIM_UserSyncCallout_Test {
             u.LMS_User_Access__c = 'No Access';
             u.CommunityNickname = firstName+''+lastName;
             u.ADUserName__c  = firstName+''+lastName;
+
+            listUser.add(u);
 		}
+        insert listUser;
+
     }
 
 	@isTest static void testPing() 
