@@ -217,6 +217,9 @@ public class AH_SCIM_UserSyncCallout
         string accessToken = '';
         String response = '';
         
+        //Mark User as inactive while creating it.
+        userdata.active = false;
+        
         //Get Access Token
         accessToken = this.getAccessToken();
         
@@ -299,7 +302,6 @@ public class AH_SCIM_UserSyncCallout
             {  
                 String responseBody = httpResponse.getBody(); 
                 AH_SCIM_user user = (AH_SCIM_user)JSON.deserialize(httpResponse.getBody(),AH_SCIM_user.class);
-                this.updateLMSUserAccessFieldStatus(userData.userName);
             } 
 			else 
 		    {  

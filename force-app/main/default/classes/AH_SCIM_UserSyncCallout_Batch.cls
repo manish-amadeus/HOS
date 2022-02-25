@@ -40,8 +40,11 @@ global class AH_SCIM_UserSyncCallout_Batch implements Database.Batchable<sObject
                 system.debug('Processing User : '+u.Username);
                 userData.userName = u.Username;
                 userData.externalId = u.Username;
-                userdata.active = false;
-                
+                if(u.IsActive == false)                 
+                {
+                	//Mark User as inactive if its deactivated.
+        			userdata.active = false;    
+                }
                 AH_SCIM_User.Emails e1 = new AH_SCIM_User.Emails();
                 e1.value = u.Email;
                 e1.primary = true;

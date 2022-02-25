@@ -41,7 +41,7 @@ public class AH_SCIM_UserSyncCallout_Test {
             
             // CREATE A TEST USER WITH THE AH Customer Community Plus Login User PROFILE
             User u = NI_TestClassData.createTestUser(1, 'AH Customer Community Plus Login User');
-            u.ContactId = listContact.get(i).id;
+            u.ContactId = listContact[i].id;
             u.FirstName = firstName;
             u.LastName = lastName;
             u.Email = email;
