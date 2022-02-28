@@ -1,0 +1,64 @@
+<template>
+        <template if:true={whiteFont}>
+            <div class="clearFloats slds-align--absolute-center">
+                <template if:true={showSpinner}>
+                    <lightning-spinner alternative-text="Loading" size="small">
+                    </lightning-spinner>
+                </template>
+                <div class={circleToggle}>
+                    <span>
+                        <div if:true={percentageFormat} style={themeColor}>
+                            {percentText}
+                        </div>
+                        <div if:true={actualFormat} style={themeColor}>
+                            {actualProgress}
+                        </div>
+                        <div if:true={mixFormat} style={themeColor}>
+                            {mixProgress}
+                        </div>
+                    </span>
+                    
+                    <div class="slice">
+                        <div data-id="barDiv" class="bar"></div>
+                        <div class="fill"></div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class={legendClass} style="color: white;"> 
+                {legend}
+            </div>
+        </template>
+        <template if:false={whiteFont}>
+            <div class="clearFloats slds-align--absolute-center">
+                <template if:true={showSpinner}>
+                    <lightning-spinner alternative-text="Loading" size="small">
+                    </lightning-spinner>
+                </template>
+                <div class={circleToggle}>
+                    <span>
+                        <div if:true={percentageFormat}>
+                            {percentText}
+                        </div>
+                        <div if:true={actualFormat}>
+                            {actualProgress}
+                        </div>
+                        <div if:true={mixFormat}>
+                            {mixProgress}
+                        </div>
+                    </span>
+                    
+                    <div class="slice">
+                        <div data-id="barDiv" class="bar"></div>
+                        <div class="fill"></div>
+                    </div>
+                </div>
+            </div>
+            <div class={legendClass}> 
+                {legend}
+            </div>
+        </template>
+        <template if:true={enableChangeDataCapture}>
+            <c-sme_-change-data-capture channel-name={channelName} ondatachange={handleDataChange} record-id={recordId}></c-sme_-change-data-capture>
+        </template>
+    </template>

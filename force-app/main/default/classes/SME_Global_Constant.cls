@@ -1,0 +1,66 @@
+/*
+Usage: Class contains Constant Variables
+*/
+public without sharing class SME_Global_Constant {
+    public static final String LEAD_PARTNER_REGISTRATION_RECORD_TYPE_NAME = 'Partner Registration';
+    public static final String LEAD_PARTNER_REGISTRATION_STATUS_APPROVED = 'Approved';
+    public static final String LEAD_STATUS_SUSPECT = 'Suspect';
+    public static final String LEAD_IS_CONVERTED_FILED = 'IsConverted';
+    public static final String ACCOUNT_PARTNER_RECORD_TYPE_NAME = 'Partner';
+    public static final String CONTACT_PARTNER_RECORD_TYPE_NAME = 'Partner Contact';
+    public static final String SYSTEM_PROPERTIES_CUSTOM_SETTING_NAME = 'System Properties';
+    public static final String TIMEZONE_SID_KEY = 'America/Los_Angeles';
+    public static final String LOCALE_SID_KEY = 'en_US';
+    public static final String EMAIL_ENCODING_KEY = 'UTF-8';
+    public static final String LANGUAGE_LOCALE_KEY = 'en_US';
+    public static final String SYSTEM_PROPERTIES_CUSTOM_SETTING_COMMUNITY_PROFILE = 'SME_Company - Partner User';
+    public static final String Account_Plan_Team_Owner_Role = 'Account Owner';
+    public static final String Account_Plan_Team_Delete_Error = 'The record on Account Plan Team with owner role can not be manually deleted';
+    public static final String Account_Plan_Team_NonTeamMember_Error = 'Non account plan team members can not create/modify/delete account plan team.';
+    public static final String Account_Plan_Team_DuplicateTeamMember_Error = 'One team member can only present once in a team';
+    public static final String EditAccessLevel = 'Edit';
+    public static final String AccountPlanTeamOwnerRole = 'Account Owner';
+    public static final String LEAD = 'Lead';
+    public static final String ACCOUNT = 'Account';
+    public static final String Account_Plan_Owner_Change_Error = 'Account Plan owner can only change owner.';
+    public static final String GSOT_Focus_Area_RT = 'GSOT Focus Area';
+    public static final String Product_Focus_Area_RT ='Product Focus Area';
+    public static final String Goals_RT = 'Goals';
+    public static final String COMPETITOR_RT = 'Competitor';
+    public static final String GSOT_Strategy_Record_Type = 'Strategies';
+    public static final String GSOT_Objective_Record_Type = 'Objectives';
+    public static final String GSOT_Status_Picklist_Value_Achieved = 'Completed';
+    public static final String GSOT_Status_Picklist_Value_Canceled = 'Canceled';
+    public static final String GSOT_GOAL_TABLE_NAME = 'GoalTableList';
+    public static final String GSOT_STRATEGY_TABLE_NAME = 'StrategyTableList';
+    public static final String GSOT_OBJECTIVE_TABLE_NAME = 'ObjectiveTableList';
+    public static final String GSOT_Status_Picklist_Value_DRAFT = 'Draft';
+    public static final String GSOT_Status_Picklist_Value_IN_PROGRESS ='In Progress';
+    public static final String GSOT_Status_Picklist_Value_NOT_COMPLETED ='Not Completed';
+    public static final String PRODUCT2_PRODUCT_TYPE_Picklist_Value ='Product Option';
+    public static final String surveyName = 'CSAT Survey';
+    public static final String surveyQuestion1 = '%Based on your most recent support experience, how satisfied were you with the service you received%';
+    public static final String surveyQuestion2 = 'Was your issue resolved ?';
+    public static final String surveyQuestion3 = '%How likely are you to recommend this product/service to others?%';
+    public static final String yesResponse = 'Yes';
+    public static final String noResponse ='No';
+    public static final String caseObj = 'Case';
+    public static final String GROUP_TYPE = 'Group';
+    public static final String USER_TYPE = 'User';
+    public static final String ACCOUNT_PLAN_REMINDER_EMAIL_TEMPLATE = 'SME_Update_Account_Plan_Reminder_Email_Template';
+    public static final String DUPLICATE_KEY_CONTACT_ERROR = 'Duplicate Key Contact record found.';
+    public static final String DEFAULT_RECORDTYPE_NAME = 'Internal Lead';
+    public static final String My_Company_Pricebook = 'My Company Pricebook';
+    public static final String US_Price_Book_USD = 'US Price Book USD';
+    public static final String Subscription_Product_Type = 'Subscription';
+    public static final String Service_Product_Type = 'Service';
+    public static final String Identified_Opportunity = 'Identified Opportunity';
+    public static final String Presented_Quote_Status = 'Presented';
+    public static final String New_Business_Opp_Type = 'New Business';
+    public static final String Accepted_Quote_Status = 'Accepted';
+    public static final String SA_GENERATED_FROM_OPP_ERROR = 'A Sales Agreement has already been generated from the selected Opportunity';
+    public static final String CONTRACT_GENERATED_FROM_QUOTE_ERROR = 'Looks like a Contract has already been generated from this Quote';
+    public static final String Account_Plan_Approved_Record_Type = 'Approved Account Plan';
+    public static final String EXISTING_BUSINESS = 'Existing Business';
+    public static final String RENEWAL = 'Renewal';
+}

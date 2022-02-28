@@ -1,0 +1,71 @@
+<template>
+        <template if:true={openmodel}>
+        <div class="demo-only" style="height: 640px;">
+            <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+                <div class="slds-modal__container">
+                    <header class="slds-modal__header">
+                        <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close" onclick={closeModal}>
+                            <lightning-icon icon-name="utility:close" size="medium">
+                            </lightning-icon>
+                            <span class="slds-assistive-text">Close</span>
+                        </button>
+                        <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">Create Task for GSO</h2>
+                    </header>
+                    <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                        <div class="slds-grid slds-wrap">
+                            <div class="slds-col slds-size_1-of-1">
+                                <div class = "margin10">
+                                    <lightning-input name="Subject" label="Subject" required value={taskRec.Subject} onchange={handleSubjectChange}></lightning-input>
+                                </div>
+                            </div>
+                            <div class="slds-col slds-size_1-of-2">
+                                <div class = "margin10 margintop">
+                                    <template if:true={FR_Priority}>
+                                            <lightning-combobox name="Priority"
+                                                                label="Priority"
+                                                                value={taskRec.Priority}
+                                                                placeholder="-Select-"
+                                                                options={FR_Priority}
+                                                                required
+                                                                onchange={handlePriorityChange} >
+                                            </lightning-combobox>
+                                    </template>
+                                </div>
+                            </div>
+                            <div class="slds-col slds-size_1-of-2">
+                                <div class = "margin10 margintop">
+                                    <lightning-input type="date" name="ActivityDate" label="Due Date" value={taskRec.ActivityDate} onchange={handleDueDateChange} class="margin"></lightning-input>
+                                </div>
+                            </div>
+                            <div class="slds-col slds-size_1-of-2">
+                                <div class = "margin10">
+                                    <c-s-m-e_-custom-lookup-user-for-task objectname="SME_Account_Plan_GSOT__c" 
+                                    fieldname="SME_Objective_Name__c" required condition={relatedToIdCondition} label="Related To" iconname = "action:new_account" onselected={handleOnRelatedTo} onunselected={handleOnRelatedTo}></c-s-m-e_-custom-lookup-user-for-task>
+                                </div>
+                            </div>
+                            <div class="slds-col slds-size_1-of-2">
+                                <div class = "margin10">
+                                    <c-s-m-e_-custom-lookup-user-for-task objectname="Contact" 
+                                    fieldname="Name" condition={whoIdCondition} label="Name" iconname = "action:add_contact" onselected={handleOnNameChange} onunselected={handleOnNameChange}></c-s-m-e_-custom-lookup-user-for-task>
+                                </div>
+                            </div>
+                            <div class="slds-col slds-size_1-of-2">
+                                <div class = "margin10">
+                                    <c-s-m-e_-custom-multi-lookup objectname="User" 
+                                    fieldname="Name" condition=" AND isActive = true" label="Assigned To" iconname = "action:user" onselected={handleOnAssignedTo}></c-s-m-e_-custom-multi-lookup>
+                                </div>
+                            </div>
+                            
+                            <br/><br/><br/><br/><br/><br/>
+                        </div>
+                    </div>
+                    <footer class="slds-modal__footer">
+                        <lightning-button label="Close" variant="neutral" onclick={closeModal}></lightning-button>&nbsp;&nbsp;&nbsp;&nbsp;
+                        <lightning-button label="Save" variant="brand" onclick={saveMethod}></lightning-button>
+                    </footer>
+                </div>
+            </section>
+            <div class="slds-backdrop slds-backdrop_open"></div>
+        </div>
+        </template>
+    </template>

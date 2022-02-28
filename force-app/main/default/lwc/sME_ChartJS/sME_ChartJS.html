@@ -1,0 +1,24 @@
+<template >
+        <lightning-card title={titlename} >
+             <div>
+                    <div>
+                         <div class="slds-float_left slds-m-left_medium"> {headerdata.label1} : ${headerdata.value1}</div>
+                         <div class="slds-float_right">  {headerdata.label2} : ${headerdata.value2} </div>   
+                       
+                    </div></br>
+                    <div>
+                        <!--<div class="slds-m-top_xx-large slds-float_left"> 
+                             <div>{headerdata.label3}</div>  
+                          </div>-->
+                        
+                        <div class="slds-p-horizontal_small">
+                                
+                                        <canvas class="mdfchart" style="width: 425px;height: 200px;" lwc:dom="manual"></canvas>
+                        </div>
+                    </div>
+                    <!--<div class="slds-float_right"> {headerdata.label4}</div>-->
+             </div>   
+               
+            </lightning-card>
+    
+</template>

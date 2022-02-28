@@ -1,0 +1,62 @@
+<template>
+    <!-- Below three lines shows error message on Component if expection occurs -->
+    
+    <template if:true={toggleErrorMessage}>
+		<c-s-m-e_-lightning-error-component-l-w-c></c-s-m-e_-lightning-error-component-l-w-c>
+    </template>
+    <!--<c-sme_-quick-info-lwc onreloadparentevt={connectedCallback}></c-sme_-quick-info-lwc>-->
+    <div class="slds-m-around_medium">
+        <lightning-layout>
+            <lightning-layout-item size = "6" class="slds-p-around_x-small slds-m-bottom_xx-small">
+                <div>
+                    <lightning-input
+                                     data-id="entersearch"
+                                     name="enter-search"
+                                     label="Competitive Analysis"
+                                     placeholder="Search Competitive Analysis..."
+                                     is-loading={issearching}
+                                     type="search"
+                                     onchange={handleKeyUp}
+                                     ></lightning-input>
+                </div>
+            </lightning-layout-item>
+            
+        </lightning-layout>
+        <template if:false={caListValue}>
+            <div class="slds-align_absolute-center" style="height: 3rem;"> 
+                No competitor found.
+            </div>
+            </template>
+            <template if:true={caListValue}>
+                <table class="slds-table slds-table_bordered">
+                    <thead>
+                        <tr class="slds-text-heading_label">
+                            
+                            <th class="slds-cell-wrap" scope="col"><div  title="Action">Action</div></th>
+                            <th class="slds-cell-wrap" scope="col"><div  title="Competitor Name">Competitor Name</div></th>
+                            <th class="slds-cell-wrap" scope="col"><div  title="Industry">Industry</div></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Use the Apex model and controller to fetch server side data -->
+                        
+                        <template for:each={caList} for:item="ca" for:index ="count">
+                            <tr key={ca.Id}>
+                                <td>
+                                    <lightning-button
+                                                      label="Select"
+                                                      variant="brand"
+                                                      type="submit"
+                                                      value={ca.Id}
+                                                      onclick={handleClick}
+                                                      ></lightning-button>
+                                </td>
+                                <td class="slds-cell-wrap" scope="col"><div  title={ca.SME_Competitor__r.Name}>{ca.SME_Competitor__r.Name}</div></td>
+                                <td class="slds-cell-wrap" scope="col"><div  title={ca.SME_Competitor__r.Industry}>{ca.SME_Competitor__r.Industry}</div></td>
+                                
+                            </tr>
+                        </template>
+                    </tbody>
+                </table></template>
+    </div>
+</template>

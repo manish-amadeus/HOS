@@ -1,0 +1,184 @@
+<template>
+        <template if:true={toggleErrorMessage}>
+            <c-s-m-e_-lightning-error-component-l-w-c></c-s-m-e_-lightning-error-component-l-w-c>
+        </template>
+        <!--<c-sme_-search-competitor-lwc onhandclickevent={handleSelect}></c-sme_-search-competitor-lwc>-->
+        <template if:true={showData}>
+            <div class="slds-m-around_medium">
+                <!--<force-record-data data-id="record"
+                                  record-id={caId}
+                                  fields="Name,SME_Competitor__r.SME_Competitor_Type__c,SME_Competitor__r.SME_Current_Estimated_Profits__c,
+                                          SME_Competitor__r.SME_Current_Estimated_Revenue__c,Overall_Weakness__c, Current_estimated__c, 
+                                          Potential_Incremental_Revenue_Available__c,SME_Competitor__r.Name,
+                                          Overall_Strength__c"
+                                  target-error={recordError}
+                                  target-record={record}
+                                  target-fields ={simpleRecord}
+                                  mode="EDIT"></force-record-data>
+                                 
+                                    -->
+                
+                                   
+                 <lightning-record-edit-form
+                    record-id={recordId}
+                    object-api-name="SME_Competitive_Analysis__c" onsuccess={handleSuccess}>
+                   
+                       
+                <lightning-layout multiple-rows>
+                    <template if:true={hasCompetitiveAnalysisEditAccess}>
+                        <lightning-layout-item class="slds-align_absolute-center slds-p-around_xx-small slds-m-bottom_x-small">
+                            <div>
+                                <template if:true={showData}>
+                                    <template if:true={showEditDelete}>
+                                        <lightning-button label="Edit" title="Edit"  onclick={onEditCA}></lightning-button>&nbsp;&nbsp;
+                                        <lightning-button data-id="deleteId" label="Delete" title="Delete"  onclick={handleDelete}></lightning-button>
+                                    </template>
+                                </template>
+                                <template if:true={editData}>
+                                    <lightning-button data-id="saveId" name="save" type="submit" label="Save" onclick={handleclick}></lightning-button>&nbsp;&nbsp;
+                                    <lightning-button label="Cancel" title="Cancel" onclick={onCancelEdit}></lightning-button>
+                                </template>
+                            </div>
+                        </lightning-layout-item>
+                    </template></lightning-layout>
+                 </lightning-record-edit-form>
+
+                    <lightning-record-view-form
+                    record-id={recordId}
+                    object-api-name="SME_Competitive_Analysis__c">
+                    <lightning-layout>
+                    <lightning-layout-item class="slds-p-around_x-small slds-m-bottom_x-small" style="width:100%">
+                        <div>
+                        <table class="slds-table slds-table_bordered">
+                            <thead>
+                                <tr class="slds-text-heading_label">
+                                    <th class="slds-cell-wrap" scope="col"><div  title="Competitor Name">Competitor Name</div></th>
+                                    <th class="slds-cell-wrap" scope="col"><div  title="Competitor Type">Competitor Type</div></th>
+                                    <th class="slds-cell-wrap" scope="col"><div  title="Current Estimated Profits">Current Estimated Profits</div></th>
+                                    <th class="slds-cell-wrap" scope="col"><div  title="Current Estimated Revenue">Current Estimated Revenue</div></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                               
+                                <tr>
+                                    <td class="slds-cell-wrap" scope="col"><div  title={COMPETITOR_FIELD}>{COMPETITOR_FIELD}</div></td>
+                                    <td class="slds-cell-wrap" scope="col"><div  title={TYPE_FIELD}>{TYPE_FIELD}</div></td>
+                                    <td class="slds-cell-wrap" scope="col"><div  title={PROFIT_FIELD}>{PROFIT_FIELD}</div></td>
+                                    <td class="slds-cell-wrap" scope="col"><div  title={REVENUE_FIELD}>{REVENUE_FIELD}</div></td>
+                                    
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                        
+                    </lightning-layout-item>
+                </lightning-layout></lightning-record-view-form>
+
+                <lightning-record-edit-form data-id="textboxId"
+                        record-id={recordId}
+                        object-api-name="SME_Competitive_Analysis__c">
+                <template if:true={editData}>
+                       
+                    <div class="editmode">
+                        <lightning-layout >
+                            <lightning-layout-item class="slds-p-top_medium textBox">
+                                <div class="slds-grid slds-wrap">
+                                    <div class="slds-col slds-size_6-of-12 slds-p-around_xx-small">
+                                            <label class="slds-form-element__label" for="form-element-01">Strength</label>
+                                                <lightning-input-field  variant="label-hidden" field-name="Current_estimated__c" maxlength="32000">
+                                                       </lightning-input-field>
+                                    </div>
+                                    <div class="slds-col slds-size_6-of-12 slds-p-around_xx-small">
+                                            <label class="slds-form-element__label" for="form-element-01">Weakness</label>
+                                            <lightning-input-field variant="label-hidden" field-name="Overall_Strength__c" maxlength="32000">
+                                                </lightning-input-field>
+                                    </div>
+                                </div>
+                                <div class="slds-grid slds-wrap">
+                                    <div class="slds-col slds-size_6-of-12 slds-p-around_xx-small">
+                                            <label class="slds-form-element__label" for="form-element-01">Opportunities</label>
+                                            <lightning-input-field variant="label-hidden" field-name="Overall_Weakness__c" maxlength="32000">
+                                                </lightning-input-field>
+                                    </div>
+                                    <div class="slds-col slds-size_6-of-12 slds-p-around_xx-small">
+                                            <label class="slds-form-element__label" for="form-element-01">Threats</label>
+                                            <lightning-input-field variant="label-hidden" field-name="Potential_Incremental_Revenue_Available__c" maxlength="32000">
+                                                </lightning-input-field>
+                                    </div>
+                                </div>
+                            </lightning-layout-item>
+                            <!--<lightning-layout-item>
+                                <template if:true={!not(empty(v.recordError))}>
+                                    <div class="recordError">
+                                        {recordError}
+                                    </div>
+                                </template>
+                            </lightning-layout-item>  -->  
+                        </lightning-layout>
+                    </div>
+                    </template>
+                    <template if:false={editData}>
+                            
+                        <div class="readmode">
+                            <lightning-layout>
+                                <lightning-layout-item class="slds-p-top_medium textBox">
+                                    <div class="slds-grid slds-wrap">
+                                        <div class="slds-col slds-size_6-of-12 slds-p-around_xx-small">
+                                               <label class="slds-form-element__label" for="form-element-01">Strength</label>
+                                            <lightning-input-field  disabled variant="label-hidden" field-label="Strength" field-name="Current_estimated__c" maxlength="32000"></lightning-input-field>
+                                        </div>
+                                        <div class="slds-col slds-size_6-of-12 slds-p-around_xx-small">
+                                                <label class="slds-form-element__label" for="form-element-01">Weakness</label>
+                                                <lightning-input-field  disabled variant="label-hidden" field-name="Overall_Strength__c" maxlength="32000"></lightning-input-field>
+                                        </div>
+                                    </div>
+                                    <div class="slds-grid slds-wrap">
+                                        <div class="slds-col slds-size_6-of-12 slds-p-around_xx-small">
+                                                <label class="slds-form-element__label" for="form-element-01">Opportunities</label>
+                                                <lightning-input-field  disabled variant="label-hidden" field-name="Overall_Weakness__c" maxlength="32000"></lightning-input-field>
+                                        </div>
+                                        <div class="slds-col slds-size_6-of-12 slds-p-around_xx-small">
+                                                <label class="slds-form-element__label" for="form-element-01">Threats</label>
+                                                <lightning-input-field  disabled variant="label-hidden" field-name="Potential_Incremental_Revenue_Available__c" maxlength="32000"></lightning-input-field>
+                                        </div>
+                                    </div>
+                                </lightning-layout-item>
+                                <!--<lightning-layout-item>
+                                    <template if:true="{!not(empty(v.recordError))}">
+                                        <div class="recordError">
+                                            {recordError}
+                                        </div>
+                                    </template>
+                                </lightning-layout-item>     -->
+                            </lightning-layout>  
+                            
+                        </div>
+                    
+                    </template>
+                </lightning-record-edit-form>
+            </div>
+        </template>
+        <!--<template if:true={enableChangeDataCapture}>-->
+                <c-sme_-change-data-capture channel-name={channelName} ondatachange={handleDataChange} record-id={recordId}></c-sme_-change-data-capture>
+           <!--</template>-->
+        <!-- Delete Confirm Modal-->
+        <div data-id="delConfirm" class="slds-hide">
+            <div class="demo-only" style="height: 640px;">
+                <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+                    <div class="slds-modal__container">
+                        <header class="slds-modal__header">
+                            <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">Competitive Analysis Delete</h2>
+                        </header>
+                        <div class="slds-modal__content slds-p-around_medium " id="modal-content-id-1">
+                            <h1 class="slds-align_absolute-center">Are you sure you want to delete competitive analysis?</h1>
+                        </div>
+                        <footer class="slds-modal__footer">
+                            <button class="slds-button slds-button_neutral" onclick={handleModalCancel}>Cancel</button>
+                            <button class="slds-button slds-button_brand" onclick={handleModalDelete}>Delete</button>
+                        </footer>
+                    </div>
+                </section>
+                <div class="slds-backdrop slds-backdrop_open"></div>
+            </div>
+        </div>
+        </template>

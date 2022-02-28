@@ -1,0 +1,32 @@
+<template>
+    <lightning-card title={titlename}  > <br/>
+
+	<template if:true={pfrequeststatus}>
+		<lightning-tabset variant="default" onclick={handleTabClick}>
+			<template for:each={pfrequeststatus} for:item="item">
+				<span key={item}>
+					<lightning-tab label={item} id={item} data-id={item} value={item}>
+						<template if:true={item}>
+							<div style="height: 300px">
+								
+								<template if:true={tabledata}>
+								<lightning-datatable data={tabledata}
+													 columns={columns}
+													 key-field="id"
+													 sorted-by={sortBy}
+													 sorted-direction={sortDirection}
+													 onsort={handleSortdata}
+													 onrowaction={handleRowAction}
+													 hide-checkbox-column="true">
+								 </lightning-datatable>
+								</template>
+							</div>
+						</template>
+					</lightning-tab>
+				 </span>
+			</template>
+		</lightning-tabset>
+	</template>
+	
+	</lightning-card>
+</template>

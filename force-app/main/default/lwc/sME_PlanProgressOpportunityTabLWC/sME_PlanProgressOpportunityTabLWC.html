@@ -1,0 +1,44 @@
+<template>
+	<template if:true={toggleErrorMessage}>
+		<c-s-m-e_-lightning-error-component-l-w-c></c-s-m-e_-lightning-error-component-l-w-c>
+	</template>
+	<lightning-tabset variant="default" onclick={handleTabClick}>
+		<lightning-tab label="Open Opportunities" id="Current" data-id="Current" value= "Current">
+			<template if:true={data}>
+				<div style="height: 300px">
+					<lightning-datatable
+					 key-field="id"
+					 data={data}
+					 onrowaction={handleRowAction}
+					 row-number-offset={rowOffset}
+					 sorted-by={sortBy}
+					 sorted-direction={sortDirection}
+					 onsort={handleSortdata}
+					 hide-checkbox-column="true"
+					 columns={columns}></lightning-datatable>
+				</div>
+			</template>
+			<!--<c.SME_PlanProgressOpportunityList typeOfOpportunity="Current" recordId="{!v.recordId}"/>-->
+		</lightning-tab>
+		<!-- <lightning:tab aura:id="Prospective" label= "Prospective Opportunities" id="Prospective"><div style="height: 300px"><lightning:datatable
+                    keyField="id"
+                    data="{! v.data }"
+                    columns="{! v.columns }"
+                    hideCheckboxColumn="true"/></div><c.SME_PlanProgressOpportunityList typeOfOpportunity="Prospective" recordId="{!v.recordId}"/></lightning:tab>-->
+		<lightning-tab label= "Closed Won Opportunities" id="ClosedWon" data-id="ClosedWon" value= "ClosedWon">
+			<div style="height: 300px">
+				<lightning-datatable
+					 key-field="id"
+					 data={data}
+					 onrowaction={handleRowAction}
+					 row-number-offset={rowOffset}
+					 sorted-by={sortBy}
+					 sorted-direction={sortDirection}
+					 onsort={handleSortdata}
+					 hide-checkbox-column="true"
+					 columns={columns}></lightning-datatable>
+			</div>
+			<!--<c.SME_PlanProgressOpportunityList typeOfOpportunity="ClosedWon" recordId="{!v.recordId}"/>-->
+		</lightning-tab>
+	</lightning-tabset>
+</template>
