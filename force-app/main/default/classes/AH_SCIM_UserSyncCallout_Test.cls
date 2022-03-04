@@ -14,46 +14,56 @@ public class AH_SCIM_UserSyncCallout_Test {
     public static AH_SCIM_UserSyncCallout objAH_SCIM_UserSyncCallout = new AH_SCIM_UserSyncCallout();
     @testSetup static void setup()
     {
-    	// CREATE TEST PARENT ACCOUNT RECORD
-        Account a = NI_TestClassData.createTestAccount(1);
-        insert a;
-        List<Contact> listContact = new List<Contact>();
-        for (Integer i = 0; i < 5; i++) {
-            string firstName = 'duck'+i;
-        	string lastName = 'donald';
-        	string email = firstName+''+lastName+'@valamis.comtest';
+    	User u1 = NI_TestClassData.createTestUser(4321, 'System Administrator');
+        UserRole userrole = [Select id, name from UserRole where PortalType = 'None' limit 1];
+        u1.UserRoleId=userrole.id;
+        insert u1;
+
+        List<User> lstUserAssert = new List<User>([SELECT Id FROM User WHERE Alias = 'user4321']);
+        system.assertEquals(1, lstUserAssert.Size());
+
+        system.runAs(u1)
+        {
+            // CREATE TEST PARENT ACCOUNT RECORD
+            Account a = NI_TestClassData.createTestAccount(1);
+            insert a;
+            List<Contact> listContact = new List<Contact>();
+            for (Integer i = 0; i < 5; i++) {
+                string firstName = 'duck'+i;
+                string lastName = 'donald';
+                string email = firstName+''+lastName+'@valamis.comtest';
+                
+                // CREATE A TEST CONTACT TO BE CREATED AS A PORTAL USER 
+                Contact cnt = NI_TestClassData.createTestContact(1, a.Id);
+                cnt.FirstName = firstName;
+                cnt.LastName = lastName;
+                cnt.Email = email;
+                 
+                listContact.add(cnt);
+            }
+            insert listContact;
             
-            // CREATE A TEST CONTACT TO BE CREATED AS A PORTAL USER 
-            Contact cnt = NI_TestClassData.createTestContact(1, a.Id);
-            cnt.FirstName = firstName;
-            cnt.LastName = lastName;
-            cnt.Email = email;
-             
-            listContact.add(cnt);
+            List<User> listUser = new List<User>(); 
+            for (Integer i = 0; i < 5; i++) {
+                string firstName = 'duck'+i;
+                string lastName = 'donald';
+                string email = firstName+''+lastName+'@valamis.comtest';
+                
+                // CREATE A TEST USER WITH THE AH Customer Community Plus Login User PROFILE
+                User u = NI_TestClassData.createTestUser(1, 'AH Customer Community Plus Login User');
+                u.ContactId = listContact[i].id;
+                u.FirstName = firstName;
+                u.LastName = lastName;
+                u.Email = email;
+                u.Username = email+'.ahcc';
+                u.LMS_User_Access__c = 'No Access';
+                u.CommunityNickname = firstName+''+lastName;
+                u.ADUserName__c  = firstName+''+lastName;
+    
+                listUser.add(u);
+            }
+            insert listUser;
         }
-        insert listContact;
-        
-        List<User> listUser = new List<User>(); 
-        for (Integer i = 0; i < 5; i++) {
-            string firstName = 'duck'+i;
-        	string lastName = 'donald';
-        	string email = firstName+''+lastName+'@valamis.comtest';
-            
-            // CREATE A TEST USER WITH THE AH Customer Community Plus Login User PROFILE
-            User u = NI_TestClassData.createTestUser(1, 'AH Customer Community Plus Login User');
-            u.ContactId = listContact[i].id;
-            u.FirstName = firstName;
-            u.LastName = lastName;
-            u.Email = email;
-            u.Username = email+'.ahcc';
-            u.LMS_User_Access__c = 'No Access';
-            u.CommunityNickname = firstName+''+lastName;
-            u.ADUserName__c  = firstName+''+lastName;
-
-            listUser.add(u);
-		}
-        insert listUser;
-
     }
 
 	@isTest static void testPing() 
