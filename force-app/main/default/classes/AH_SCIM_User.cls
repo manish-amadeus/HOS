@@ -10,8 +10,8 @@ Description     : Wrapper class for SCIM User resource type
 ****************************************************************************************/
 public class AH_SCIM_User 
 {
-
-	public class Addresses 
+        
+    public class Addresses 
     {
 		public String country;
 		public String streetAddress;
@@ -35,10 +35,12 @@ public class AH_SCIM_User
 	}
 	public class Emails
     {
-		public String value{get;set;}
-		public Boolean primary{get;set;}
+        public String value;
+        //public String type;
+		public Boolean primary;
 	}
-	public List<String> schemas;
+    
+    public List<String> schemas;
 	public List<Addresses> addresses;
 	public String preferredLanguage;
 	public Meta meta;
@@ -54,11 +56,16 @@ public class AH_SCIM_User
     public string managementCompanyID;
     public string accountName;
     public string accountID;
+    public cls_urn_ietf_params_scim_schemas_extension_valamis_2_0_User urn_ietf_params_scim_schemas_extension_valamis_2_0_User;
     public List<Custom> custom {get;set;}
+   
     public class custom {
 		public String value {get;set;} 
 		public String key {get;set;} 
     }
+    public class cls_urn_ietf_params_scim_schemas_extension_valamis_2_0_User {
+		public List<custom> custom {get;set;}
+	}
 	public class Name 
     {
 		public String formatted;

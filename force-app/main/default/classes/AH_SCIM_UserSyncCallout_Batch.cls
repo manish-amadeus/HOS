@@ -2,14 +2,13 @@
 Name            : AH_SCIM_UserSyncCallout_Batch Class
 Author          : Ganesh Bora
 Created Date    : 21/01/2022
-Last Mod Date   : Ganesh Bora
-Last Mod By     : 21/01/2022
+Last Mod Date   : 03/25/2022
+Last Mod By     : 
 NICC Reference  : NICC-056411
 Description     : Batch  job for Valamis user sychronization.	
 				: 
 Comments		: 
 ─────────────────────────────────────────────────────────────────────────────────────────────────────
-MaintainedBy 	: Ganesh Bora
 Dependencies 	: AH_SCIM_UserSyncCallout.cls
 TestClass    	: AH_SCIM_UserSyncCallout_Test.cls
 *******************************************************************************************************/
@@ -22,6 +21,7 @@ global class AH_SCIM_UserSyncCallout_Batch implements Database.Batchable<sObject
 		Blob bodyBlob = sr.Body;
         String query = bodyBlob.toString();
 		System.debug('Static Resource :'+ query);
+
         if(Test.isRunningTest())
 		{
 			query += ' Limit 1';
@@ -31,20 +31,29 @@ global class AH_SCIM_UserSyncCallout_Batch implements Database.Batchable<sObject
     
 	global void execute(Database.BatchableContext BC, List<User> scope) 
     {
+                
         AH_SCIM_UserSyncCallout objAH_SCIM_UserSyncCallout = new AH_SCIM_UserSyncCallout();
-		AH_SCIM_User userData = objAH_SCIM_UserSyncCallout.getDummySCIMUserDataObject();
+		
 		if(scope != null)
         {			 
 			for(User u : scope) 
             {
+                //re-initialized userdata object to avoid any old data catching 
+                AH_SCIM_User userData = objAH_SCIM_UserSyncCallout.getDummySCIMUserDataObject();
+                
                 system.debug('Processing User : '+u.Username);
-                userData.userName = u.Username;
+                //userData.userName = u.Username;               
                 userData.externalId = u.Username;
-                if(u.IsActive == false)                 
+                
+                objAH_SCIM_UserSyncCallout.sfuserIsActive = u.IsActive;             
+                
+                /*if(u.IsActive == false)                 
                 {
-                	//Mark User as inactive if its deactivated.
-        			userdata.active = false;    
-                }
+                	//Mark User as inactive if its deactivated.        			
+                    userdata.active = false; 
+                    system.debug('setting status for'+userdata.userName+' as '+userdata.active);
+                }*/ 
+				
                 AH_SCIM_User.Emails e1 = new AH_SCIM_User.Emails();
                 e1.value = u.Email;
                 e1.primary = true;
@@ -55,13 +64,13 @@ global class AH_SCIM_UserSyncCallout_Batch implements Database.Batchable<sObject
                 userData.name.familyName = u.LastName;
                 userData.name.givenName = u.FirstName;
                 userData.name.formatted = u.FirstName+' '+u.LastName;
-                
+                userdata.urn_ietf_params_scim_schemas_extension_valamis_2_0_User.custom = new List<AH_SCIM_User.Custom>();
                 //Mapping Account Related Data
                 Map<string, string> AccountDataMap = new Map<string, string> {'accountID'=>u.Account.Id, 
                  					'accountName'=>u.Account.Name,
                  					'managementCompanyID' => u.Account.Management_Company_ID__c,
                  					'managementCompanyName' => u.Account.Management_Company_Name__c};
-    
+                                        
                 userData.custom = new List <AH_SCIM_User.Custom>();
                 for(string key: AccountDataMap.keyset())
                 {
@@ -69,6 +78,8 @@ global class AH_SCIM_UserSyncCallout_Batch implements Database.Batchable<sObject
                     c.key = key;
                 	c.value = AccountDataMap.get(key);
                 	userData.custom.add(c);
+                    //New API Structure
+                    userdata.urn_ietf_params_scim_schemas_extension_valamis_2_0_User.custom.add(c);
                 }
                 //call callout function for user syncup
                 objAH_SCIM_UserSyncCallout.syncUser(userData);
