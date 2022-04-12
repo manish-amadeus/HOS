@@ -172,7 +172,7 @@ public class AH_SCIM_UserSyncCallout
         catch( System.Exception e) 
         {  
             String strExDetails = 'ERROR: '+ e.getMessage();
-            DTS_Integration_Logger.WriteToLog(strExDetails, 'user', 'AH_SCIM_UserSyncCallout', 'update','Error'); 
+            //DTS_Integration_Logger.WriteToLog(strExDetails, 'user', 'AH_SCIM_UserSyncCallout', 'update','Error'); 
         }  
         return null;
     }
@@ -189,6 +189,7 @@ public class AH_SCIM_UserSyncCallout
         //Get Access Token
         string accessToken = this.getAccessToken();
         if(accessToken == null) {
+            DTS_Integration_Logger.WriteToLog('Environment is not accessible or credentials are not matching', 'user', 'AH_SCIM_UserSyncCallout', 'update','Error');
             system.debug('Environment is not accessible or credentials are not matching');
          	return;   
         }

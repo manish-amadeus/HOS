@@ -22,12 +22,12 @@ public class DTS_Integration_Logger
         try
         {
            
-            /*DTS_Integration_Log__c log = new DTS_Integration_Log__c();
+            DTS_Integration_Log__c log = new DTS_Integration_Log__c();
             log.Summary__c = 'Object :'+strObjectName+'Apex Class : '+strClassName+'DML Type:'+strDMLType+' Message:'+strMessage;
 			log.Type__c = strLogType;
             log.Date_Time__c = Datetime.now();
             log.Integration_Status__c = 'Active';            
-            insert log;*/
+            insert log;
 			
         } 
         catch (Exception ex) 

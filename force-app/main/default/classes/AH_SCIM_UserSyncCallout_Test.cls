@@ -160,7 +160,7 @@ public class AH_SCIM_UserSyncCallout_Test {
         	string uuid = 'ccc0f97f-db9d-f5b1-6aea-813c3bab4c';
         	objAH_SCIM_UserSyncCallout.updateUser(userData,uuid);
             string userUUID = objAH_SCIM_UserSyncCallout.checkUserExistsByUserName(userData.UserName);
-        	system.assertNotEquals(null, userUUID);
+        	system.assertEquals(null, userUUID);
         } 
         catch (Exception e) 
         {
