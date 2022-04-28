@@ -11,6 +11,8 @@ node {
     // Local Variables 
     String AA_WORK_ITEM //Agile Accelerator work item number
     String JOBIDDEPLOY
+    def SOURCE_BRANCH
+    def TARGET_BRANCH
     def SCMVARS
     def SF_USERNAME
     def SF_TARGET_ENV
@@ -21,12 +23,12 @@ node {
     env.LANG    = "en_US.UTF-8"
     try {
 	  //---------------------------------------------------------------------------------
-        //Getting the cource and target branch from user
+        //Getting the source and target branch from user
 	  //---------------------------------------------------------------------------------
-				def SOURCE_BRANCH = System.console().readLine 'enter the source branch'
-				echo "source branch is: ${SOURCE_BRANCH}"
-				def TARGET_BRANCH = System.console().readLine 'enter the target branch'
-				echo "target branch is: ${TARGET_BRANCH}"
+	  SOURCE_BRANCH = System.console().readLine 'enter the source branch'
+	  echo "source branch is: ${SOURCE_BRANCH}"
+	  TARGET_BRANCH = System.console().readLine 'enter the target branch'
+	  echo "target branch is: ${TARGET_BRANCH}"
 
         // ----------------------------------------------------------------------------------
         // Run all the enclosed stages with access to the Salesforce
@@ -90,9 +92,11 @@ node {
                     echo "Salesforce url:${SF_INSTANCE_URL}"
                     // Clone repo and checkout to desired 
                     SCMVARS = checkout([
-                        $class: 'GitSCM', 
+                         $class: 'GitSCM', 
                         branches: [[name: "${SOURCE_BRANCH}"]], 
+				doGenerateSubmoduleConfigurations: false,
                         extensions: [[$class: 'WipeWorkspace']],
+				submoduleCfg: [],
                         userRemoteConfigs: [[
                             credentialsId: 'ENV_AMADEUS_CRED',
                             url: 'https://planke@rndwww.nce.amadeus.net/git/scm/ahsf/salesforce.git'
