@@ -106,7 +106,8 @@ node {
                     // Configure git variables using the ones from Jenkins global config
                     commandOutput "git config user.email \"$SCMVARS.GIT_AUTHOR_EMAIL\""
                     commandOutput "git config user.name \"$SCMVARS.GIT_AUTHOR_NAME\""
-                    commandOutput "git config --system core.longpaths true "
+
+                    rc = commandStatus "git config --system core.longpaths true "
 
                     // Authorize connections through sfdx to Salesforce org
                     rc = commandStatus "sfdx auth:jwt:grant --instanceurl ${SF_INSTANCE_URL} --clientid ${CONSUMER_KEY} --jwtkeyfile ${CONSUMER_SERVER_KEY} --username ${USERNAME} --setalias ${SF_TARGET_ENV}"
