@@ -25,10 +25,16 @@ node {
 	  //---------------------------------------------------------------------------------
         //Getting the source and target branch from user
 	  //---------------------------------------------------------------------------------
-	  SOURCE_BRANCH = System.console().readLine 'enter the source branch'
-	  echo "source branch is: ${SOURCE_BRANCH}"
-	  TARGET_BRANCH = System.console().readLine 'enter the target branch'
-	  echo "target branch is: ${TARGET_BRANCH}"
+	  SOURCE_BRANCH = input message: 'Please enter the source branch',
+                             parameters: [string(defaultValue: '',
+                                          description: '',
+                                          name: 'sourceb')]
+	  TARGET_BRANCH = input message: 'enter the target branch',
+                             parameters: [password(defaultValue: '',
+                                          description: '',
+                                          name: 'targetb')]
+	    echo "source branch is: ${SOURCE_BRANCH}"
+	    echo "target branch is: ${TARGET_BRANCH}"
 
         // ----------------------------------------------------------------------------------
         // Run all the enclosed stages with access to the Salesforce
@@ -98,16 +104,17 @@ node {
                         extensions: [[$class: 'WipeWorkspace']],
 				submoduleCfg: [],
                         userRemoteConfigs: [[
-                            credentialsId: 'ENV_AMADEUS_CRED',
-                            url: 'https://planke@rndwww.nce.amadeus.net/git/scm/ahsf/salesforce.git'
+                            credentialsId: 'ENV_MANISH_GIT_CRED',
+                            url: 'https://mkumar7@rndwww.nce.amadeus.net/git/scm/ahsf/salesforce.git'
                         ]]
                     ])
 
-                    // Configure git variables using the ones from Jenkins global config
+                    rc = commandStatus "git config --system core.longpaths true"
+			  // Configure git variables using the ones from Jenkins global config
                     commandOutput "git config user.email \"$SCMVARS.GIT_AUTHOR_EMAIL\""
                     commandOutput "git config user.name \"$SCMVARS.GIT_AUTHOR_NAME\""
 
-                    rc = commandStatus "git config --system core.longpaths true "
+
 
                     // Authorize connections through sfdx to Salesforce org
                     rc = commandStatus "sfdx auth:jwt:grant --instanceurl ${SF_INSTANCE_URL} --clientid ${CONSUMER_KEY} --jwtkeyfile ${CONSUMER_SERVER_KEY} --username ${USERNAME} --setalias ${SF_TARGET_ENV}"
