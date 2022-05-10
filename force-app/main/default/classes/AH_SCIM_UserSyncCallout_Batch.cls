@@ -2,11 +2,11 @@
 Name            : AH_SCIM_UserSyncCallout_Batch Class
 Author          : Ganesh Bora
 Created Date    : 21/01/2022
-Last Mod Date   : 03/25/2022
-Last Mod By     : 
+Last Mod Date   : 05/10/2022
+Last Mod By     : Arul Geetha Amalraj
 NICC Reference  : NICC-056411
 Description     : Batch  job for Valamis user sychronization.	
-				: 
+				: Disable Customer User Scenario
 Comments		: 
 ─────────────────────────────────────────────────────────────────────────────────────────────────────
 Dependencies 	: AH_SCIM_UserSyncCallout.cls
@@ -42,8 +42,19 @@ global class AH_SCIM_UserSyncCallout_Batch implements Database.Batchable<sObject
                 AH_SCIM_User userData = objAH_SCIM_UserSyncCallout.getDummySCIMUserDataObject();
                 
                 system.debug('Processing User : '+u.Username);
-                //userData.userName = u.Username;               
-                userData.externalId = u.Username;
+                //userData.userName = u.Username; 
+                //Disable Customer User Scenario
+                String u1 = u.Username; 
+                if (u1.startsWith ('_')){
+    				System.debug('Disabled Customer UserName = '+u1);
+    				String u2 = u1.Right(u1.length()-1);    
+    				System.debug('Old UserName' + u2);
+                    userData.externalId = u2;
+				}
+                else{
+                    userData.externalId = u.Username;  
+                }
+                // EOC :Disable Customer User Scenario                
                 
                 objAH_SCIM_UserSyncCallout.sfuserIsActive = u.IsActive;             
                 
