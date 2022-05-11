@@ -109,7 +109,7 @@ node {
                         ]]
                     ])
 
-                    rc = commandStatus "git config --system core.longpaths true"
+                    rc = commandStatus "git config --global core.longpaths true"
 			  // Configure git variables using the ones from Jenkins global config
                     commandOutput "git config user.email \"$SCMVARS.GIT_AUTHOR_EMAIL\""
                     commandOutput "git config user.name \"$SCMVARS.GIT_AUTHOR_NAME\""
