@@ -17,19 +17,20 @@ public class AH_CostControlUpdate_Ext
     public List<WrapperUser> usrlst {get; set;}
     public Integer OffsetSize = 0;
     private final Integer QueryLimit = 25;
+    public String searchKey {get;set;}
+    public String searchString {get;set;}
     
     public AH_CostControlUpdate_Ext(ApexPages.StandardController controller)
     {
 
-        CountTotalRecords = [SELECT COUNT() FROM User WHERE Controlling_Verified__c = false AND IsActive = true AND UserType = 'Standard'];
+        CountTotalRecords = [SELECT COUNT() FROM User WHERE IsActive = true AND UserType = 'Standard'];
         
         usrlst = new List<WrapperUser>(); 
         
         for (User usr: [SELECT Id, Name, Email, FirstName, LastName, Department, Title,Manager.Name, Controlling_Verified__c, 
-                        FFA_Company__c, FFA_Dimension_2__c, FFA_Dimension_3__c, Cost_Ctr__c 
+                        FFA_Company__c, FFA_Dimension_2__c, FFA_Dimension_3__c, Cost_Ctr__c,Workday_Id__c,SAP__c 
                         FROM User 
-                        WHERE Controlling_Verified__c = false 
-                        AND IsActive = true 
+                        WHERE IsActive = true 
                         AND UserType = 'Standard' 
                         ORDER BY LastName, FirstName 
                         LIMIT : QueryLimit 
@@ -73,13 +74,14 @@ public class AH_CostControlUpdate_Ext
             {
                 if (wr.flag)
                 {                   
-                    if
+                    /*if
                         ((wr.usr.FFA_Company__c == null || wr.usr.FFA_Company__c == '')
                          && (wr.usr.FFA_Dimension_2__c ==null || wr.usr.FFA_Dimension_2__c == '')
                          && (wr.usr.FFA_Dimension_3__c == null || wr.usr.FFA_Dimension_3__c == ''))
                     {
                         wr.usr.Cost_Ctr__c = '';                  
-                    }                   
+                    } 
+                    */
                     usrs.add(wr.usr);    
                 }      
             } 
@@ -112,17 +114,28 @@ public class AH_CostControlUpdate_Ext
     public void queryAgain()
     {
 system.debug(' *** OffsetSize = ' + OffsetSize);        
-        usrlst = new List<WrapperUser>(); 
+        usrlst = new List<WrapperUser>();
         
-        for (User usr: [SELECT Id, Name, Email, FirstName, LastName, Department, Title, Manager.Name, Controlling_Verified__c, 
-                       FFA_Company__c, FFA_Dimension_2__c, FFA_Dimension_3__c, Cost_Ctr__c 
-                       FROM User 
-                       WHERE Controlling_Verified__c = false 
-                       AND IsActive = true 
-                       AND UserType = 'Standard'
-                       ORDER BY LastName, FirstName 
-                       LIMIT : QueryLimit 
-                       OFFSET : OffsetSize])
+        String queryCountTotalRecords = 'SELECT COUNT() FROM User ';
+        queryCountTotalRecords += 'WHERE IsActive = true AND UserType = \'Standard\'';
+        if(searchString != null) {
+            queryCountTotalRecords += ' AND( LastName like \''+searchString+'\' OR FirstName like \''+searchString+'\')';
+        }
+        
+        CountTotalRecords = Database.countQuery(queryCountTotalRecords);
+        
+        string queryString = 'SELECT Id, Name, Email, FirstName, LastName, Department, Title, Manager.Name, Controlling_Verified__c, FFA_Company__c, FFA_Dimension_2__c, FFA_Dimension_3__c, Cost_Ctr__c,Workday_Id__c,SAP__c'; 
+        queryString += ' FROM User';
+        queryString += ' WHERE IsActive = true AND UserType = \'Standard\'';
+        if(searchString != null) 
+        {
+        	queryString += ' AND( LastName like \''+searchString+'\' OR FirstName like \''+searchString+'\')';   
+        }
+        queryString += ' ORDER BY LastName, FirstName'; 
+        queryString += ' LIMIT '+QueryLimit;
+        queryString += ' OFFSET '+ OffsetSize;
+        
+        for (User usr: Database.Query(queryString))
         {
             WrapperUser wr = new WrapperUser();
             wr.flag =false;
@@ -162,6 +175,29 @@ system.debug(' *** OffsetSize = ' + OffsetSize);
         queryAgain();
         return null;
     }
+    public PageReference search() 
+    {    
+        OffsetSize = 0;
+        searchString = null;
+        if(searchKey != null)
+        {
+        	searchString = '%' + searchKey + '%';
+        }   
+
+        queryAgain();
+        return null;
+    }
+    
+    public PageReference clear() 
+    {    
+        OffsetSize = 0;
+        searchKey = null;
+        searchString = null;
+        
+        queryAgain();
+        return null;
+    }
+
     
     public PageReference Previous() 
     {
