@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Package xmlns="http://soap.sforce.com/2006/04/metadata">
+	  <types>         
+        <members>SLTC_OppTeamMember_TriggerHandler</members>
+        <members>SLTC_OppSplit_TriggerHandler</members>     
+        <members>SLTC_OppSplit_TriggerHandler_Test</members>        
+        <members>SLTC_OppTeamMember_TriggerHandler_Test</members>       
+        <name>ApexClass</name>
+    </types>
+    <types>
+        <members>SLTC_OpportunitySplit_BeforeDelete</members>
+        <members>SLTC_OpportunityTeamMember_BeforeDelete</members>
+        <name>ApexTrigger</name>
+    </types>
+   <version>54.0</version>
+</Package>
