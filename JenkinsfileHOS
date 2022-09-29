@@ -32,7 +32,7 @@ node {
                 SF_USERNAME = "ENV_HOS_SF_USERNAME"
                 SF_CONSUMER_KEY = "ENV_HOS_SF_CONSUMERKEY"
                 SF_CONSUMER_SERVER_KEY = "ENV_HOS_SF_SECRETKEY"
-            
+            }
            else {
               error 'Please check the branches on your PR. (source branch should be: feature/*, bugfix/*, promotion/*, release or hotfix/*) (target branch should be: develop, release or master)'
             }
