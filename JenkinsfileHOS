@@ -213,7 +213,19 @@ node {
                 }
             }
         }
-    } 
+    } catch (e) {
+        throw e
+    } finally {
+        
+        // Send email. Uses the configs from Manage Jenkins > Configure System > Extended E-mail Notification
+        emailext recipientProviders: [developers()], subject: "Job '${JOB_NAME}' (${BUILD_NUMBER}) finished with result: ${currentBuild.currentResult}" , body: "The build #${BUILD_NUMBER} finished with status ${currentBuild.currentResult} and contains the logs attached.", attachLog: true
+
+        // TODO MS Teams
+        //office365ConnectorSend message: "<Your message>", status:"${RESULT}", webhookUrl:'<The connector webhook url>'
+        
+        // Clean workspace (remove files used for this build)
+        cleanWs()
+    }
 }
 
 // ----------------------------------------------------------------------------------
@@ -283,10 +295,3 @@ def shCommandOutput(script) {
 }
 
 
-// ----------------------------------------------------------------------------------
-// Current Date Time formated
-// ----------------------------------------------------------------------------------
-def getEndTime(){
-    return new Date().format("yyyy-MM-dd'T'HH:mm:ss.SSSZ")
-}
-}
