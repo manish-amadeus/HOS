@@ -128,9 +128,7 @@ node {
                 // Run the LocalTests on the Salesforce org for a given SDWORK_ID
                 // ----------------------------------------------------------------------------------
 				stage('Validate (RunLocalTests, jest)') {
-					String CURRENT_BRANCH = "${env.BITBUCKET_SOURCE_BRANCH}"
-                    SDWORK_ID = CURRENT_BRANCH.substring(CURRENT_BRANCH.indexOf('/') + 1, CURRENT_BRANCH.length())
-                    String JOB = commandOutput "sfdx force:source:deploy -u ${SF_TARGET_ENV} -l RunLocalTests -w 40 -c -x manifest/${SDWORK_ID}/package.xml"
+					String JOB = commandOutput "sfdx force:source:deploy -u ${SF_TARGET_ENV} -l RunLocalTests -w 40 -c -x manifest/${SDWORK_ID}/package.xml"
                     def idPosition = JOB.indexOf("Job ID") + 9
                     JOBIDDEPLOY =  JOB.substring(idPosition,idPosition+15).trim()
                     echo "JOBIDDEPLOY: ${idPosition}  :  ${JOBIDDEPLOY}"
