@@ -16,12 +16,12 @@ node {
     def INSTANCEURL = "https://test.salesforce.com"
     env.LANG    = "en_US.UTF-8"
     try {
-        // ----------------------------------------------------------------------------------
+		// ----------------------------------------------------------------------------------
         // Run all the enclosed stages with access to the Salesforce
         // JWT key credentials.
         // ----------------------------------------------------------------------------------
         withEnv(["HOME=${env.WORKSPACE}"]) {
-            // Based on the source and target branches, set SF_* variables for authentication withing sfdx
+			// Based on the source and target branches, set SF_* variables for authentication withing sfdx
             if ( ("${env.BITBUCKET_SOURCE_BRANCH}".contains("feature/") || "${env.BITBUCKET_SOURCE_BRANCH}".contains("bugfix/")  || "${env.BITBUCKET_SOURCE_BRANCH}".contains("promotion/")) && ("${env.BITBUCKET_TARGET_BRANCH}".contains("develop")||"${env.BITBUCKET_TARGET_BRANCH}".contains("release"))) {
                 SF_USERNAME = "ENV_HOS_SF_USERNAME"
                 SF_CONSUMER_KEY = "ENV_HOS_SF_CONSUMERKEY"
@@ -29,22 +29,22 @@ node {
             } else {
               error 'Please check the branches on your PR. (source branch should be: feature/*, bugfix/*, promotion/*, release or hotfix/*) (target branch should be: develop, release or master)'
             }
-            String CURRENT_BRANCH   = "${env.BITBUCKET_SOURCE_BRANCH}"
+			String CURRENT_BRANCH   = "${env.BITBUCKET_SOURCE_BRANCH}"
             SDWORK_ID = CURRENT_BRANCH.substring(CURRENT_BRANCH.indexOf('/') + 1, CURRENT_BRANCH.length())
             // ----------------------------------------------------------------------------------
             // Get server key file to connect with the connected app.
             // ----------------------------------------------------------------------------------
-            withCredentials([
+			withCredentials([
                 file(credentialsId: "${SF_CONSUMER_SERVER_KEY}", variable: 'CONSUMER_SERVER_KEY'),
                 string(credentialsId: "${SF_USERNAME}", variable: 'USERNAME'),
                 string(credentialsId: "${SF_CONSUMER_KEY}", variable: 'CONSUMER_KEY')
-            ]) {
-                // ----------------------------------------------------------------------------------
+            ]){
+				// ----------------------------------------------------------------------------------
                 // Set the target org, instance URL to be used. Clone the repo and authorize 
                 // connection to SF org.
                 // ----------------------------------------------------------------------------------
                 stage('Prepare (current build, target org, instance url)') {
-                    // Define target org/env and instance URL
+					// Define target org/env and instance URL
                     if ( ("${env.BITBUCKET_SOURCE_BRANCH}".contains("feature/") || "${env.BITBUCKET_SOURCE_BRANCH}".contains("bugfix/") ) && "${env.BITBUCKET_TARGET_BRANCH}".contains("develop")) {
                         SF_TARGET_ENV = "SBFULL"
                         currentBuild.description = "Deployment to SBFULL - ${SDWORK_ID}"
@@ -52,14 +52,14 @@ node {
                         SF_TARGET_ENV = "SBFULL"
                         currentBuild.description = "Deployment to SBFULL - V${SDWORK_ID}"
                     }
-                    // Print some usefull info
+					// Print some usefull info
                     echo "Salesforce target env: ${SF_TARGET_ENV}"
                     echo "Bitbucket source branch: ${env.BITBUCKET_SOURCE_BRANCH}"
                     echo "Bitbucket target branch: ${env.BITBUCKET_TARGET_BRANCH}"
                     String SFDX_CLI_VERSION = commandOutput "sfdx --version"
                     echo "SFDX CLI version: ${SFDX_CLI_VERSION}"
                     // Clone repo and checkout to desired 
-                    SCMVARS = checkout([
+					SCMVARS = checkout([
                         $class: 'GitSCM', 
                         branches: [[name: "${env.BITBUCKET_SOURCE_BRANCH}"]], 
                         extensions: [[$class: 'WipeWorkspace']],
@@ -68,109 +68,112 @@ node {
                             url: 'https://mkumar7@rndwww.nce.amadeus.net/git/scm/ahsf/salesforce.git'
                         ]]
                     ])
-                    // Configure git variables using the ones from Jenkins global config
+					// Configure git variables using the ones from Jenkins global config
                     commandOutput "git config user.email \"$SCMVARS.GIT_AUTHOR_EMAIL\""
                     commandOutput "git config user.name \"$SCMVARS.GIT_AUTHOR_NAME\""
                     // Authorize connections through sfdx to Salesforce org
-                    rc = commandStatus "sfdx auth:jwt:grant --instanceurl ${INSTANCEURL} --clientid ${CONSUMER_KEY} --jwtkeyfile ${CONSUMER_SERVER_KEY} --username ${USERNAME} --setalias ${SF_TARGET_ENV}"
+					rc = commandStatus "sfdx auth:jwt:grant --instanceurl ${INSTANCEURL} --clientid ${CONSUMER_KEY} --jwtkeyfile ${CONSUMER_SERVER_KEY} --username ${USERNAME} --setalias ${SF_TARGET_ENV}"
                     if (rc != 0) {
                         error 'Salesforce org authorization failed.'
                     }
-                }
-                // ----------------------------------------------------------------------------------
+				}
+				// ----------------------------------------------------------------------------------
                 // Perform static analisys on the code using Sonarqube-runner
                 // This assumes that there's a 'sonar-project.properties' file on git.
                 // ----------------------------------------------------------------------------------
                 stage('Run Code Quality Analysis (SonarQube)') {
-                    // Run SonarQube Analysis
-                    withSonarQubeEnv('Sonar') {
-                        rc = commandStatus "sonar-scanner -D sonar.pullrequest.key=${env.BITBUCKET_PULL_REQUEST_ID} -D sonar.pullrequest.branch=${env.BITBUCKET_SOURCE_BRANCH} -Dsonar.pullrequest.base=${env.BITBUCKET_TARGET_BRANCH}"
-                        if (rc != 0) {
+				    // Run SonarQube Analysis
+					withSonarQubeEnv('Sonar') {
+						rc = commandStatus "sonar-scanner -D sonar.pullrequest.key=${env.BITBUCKET_PULL_REQUEST_ID} -D sonar.pullrequest.branch=${env.BITBUCKET_SOURCE_BRANCH} -Dsonar.pullrequest.base=${env.BITBUCKET_TARGET_BRANCH}"
+						if (rc != 0) {
                             error 'Failed to start sonar-scanner'
                         }
-                    }  
-                }
-                // ----------------------------------------------------------------------------------
+					}
+				}
+				// ----------------------------------------------------------------------------------
                 // Wait and react to SonarQube results
                 // ----------------------------------------------------------------------------------
                 stage('SonarQube: Quality Gate') {
-                    def qg
+				   def qg
                     timeout(time: 12, unit: 'MINUTES') {
-                        qg = waitForQualityGate(abortPipeline: false)
-                        if (qg.status != 'OK') {
+					  qg = waitForQualityGate(abortPipeline: false)
+					  if (qg.status != 'OK') {
                             // error "Pipeline aborted due to quality gate failure: ${qg.status}"
                         }
-                    }
-                }
-                // Checkout to target branch and merge source into target. This helps making sure that we're validating/deploying the components without 
+					}
+				}
+				// Checkout to target branch and merge source into target. This helps making sure that we're validating/deploying the components without 
                 // overriding anything 
                 // E.g.: Deployed PR 790 and then 792. Both changes the same file but no conflicts were reported. During deployment, 792 overwrited the 
                 // changes of 790 since the branch was created before 790 was merged into develop
                 stage('Merge branches') {
-                    // Merge the PR on BitBucket
+					// Merge the PR on BitBucket
                     // Checkout to source branch (so we can have a local copy)
                     rc = commandStatus "git checkout ${BITBUCKET_SOURCE_BRANCH}"
-                    if (rc != 0) {
+					if (rc != 0) {
                         error 'Failed to checkout to source branch.'
                     }
-                    // Checkout to target branch
+					// Checkout to target branch
                     rc = commandStatus "git checkout ${BITBUCKET_TARGET_BRANCH}"
                     if (rc != 0) {
                         error 'Failed to checkout to target branch.'
                     }
-                    // Merge source branch into target branch.
+					// Merge source branch into target branch.
                     rc = commandStatus "git merge ${BITBUCKET_SOURCE_BRANCH}"
                     if (rc != 0) {
                         error 'Failed to merge source branch into target branch.'
                     }
-                }
-                // ----------------------------------------------------------------------------------
+				}
+				// ----------------------------------------------------------------------------------
                 // Run the LocalTests on the Salesforce org for a given SDWORK_ID
                 // ----------------------------------------------------------------------------------
-                stage('Validate (RunLocalTests, jest)') {
-                    String CURRENT_BRANCH = "${env.BITBUCKET_SOURCE_BRANCH}"
+				stage('Validate (RunLocalTests, jest)') {
+					String CURRENT_BRANCH = "${env.BITBUCKET_SOURCE_BRANCH}"
                     SDWORK_ID = CURRENT_BRANCH.substring(CURRENT_BRANCH.indexOf('/') + 1, CURRENT_BRANCH.length())
                     String JOB = commandOutput "sfdx force:source:deploy -u ${SF_TARGET_ENV} -l RunLocalTests -w 40 -c -x manifest/${SDWORK_ID}/package.xml"
                     def idPosition = JOB.indexOf("Job ID") + 9
                     JOBIDDEPLOY =  JOB.substring(idPosition,idPosition+15).trim()
                     echo "JOBIDDEPLOY: ${idPosition}  :  ${JOBIDDEPLOY}"
                     if ("${JOB}".contains("Success")) {
-                        JOBIDDEPLOY =  JOB.substring(idPosition,idPosition+15).trim()
+						JOBIDDEPLOY =  JOB.substring(idPosition,idPosition+15).trim()
                         echo "JOBIDDEPLOY: ${idPosition}  :  ${JOBIDDEPLOY}"
-                    } else if ("${JOB}".contains("Failed")) {
+					} else if ("${JOB}".contains("Failed")) {
                         error 'Salesforce RunLocalTests failed.'
                     }
-                }
-                // ----------------------------------------------------------------------------------
+					
+				}
+				// ----------------------------------------------------------------------------------
                 // Deploy the package previously validated on stage "Run Test (RunLocalTests, jest)"
                 // ----------------------------------------------------------------------------------
                 stage('Promote to QA (deploy package + validation)') {
-                    rc = commandStatus "sfdx force:source:deploy -u ${SF_TARGET_ENV} -w 10 -q ${JOBIDDEPLOY}"
-                    //rc = commandStatus "sfdx force:source:deploy -u ${SF_TARGET_ENV} -w 10 -l NoTestRun -x manifest/${AA_WORK_ITEM}/package.xml"
-                    if (rc != 0) {
+					rc = commandStatus "sfdx force:source:deploy -u ${SF_TARGET_ENV} -w 10 -q ${JOBIDDEPLOY}"
+					if (rc != 0) {
                         error 'Salesforce deployment failed.'
                     }
-                }
-                // ----------------------------------------------------------------------------------
+				}
+				// ----------------------------------------------------------------------------------
                 // Merging Source branch into the Target branch
                 // ----------------------------------------------------------------------------------
                 stage('Logout & Close PR') {
-                    // Logout from SFDX
+					// Logout from SFDX
                     rc = commandStatus "sfdx auth:logout -p --targetusername ${SF_TARGET_ENV}"
                     if (rc != 0) {
                         error 'Salesforce logout failed.'
                     }
-                    // Push changes (merging) back to BitBucket to complete the PR
+					// Push changes (merging) back to BitBucket to complete the PR
                     withCredentials([usernamePassword(credentialsId: 'ENV_MANISH_GIT_CRED', passwordVariable: 'GIT_PASSWORD', usernameVariable: 'GIT_USERNAME')]) {
-                        rc = commandStatus "git push https://${GIT_USERNAME}:${GIT_PASSWORD}@rndwww.nce.amadeus.net/git/scm/ahsf/salesforce.git"
+						rc = commandStatus "git push https://${GIT_USERNAME}:${GIT_PASSWORD}@rndwww.nce.amadeus.net/git/scm/ahsf/salesforce.git"
                         if (rc != 0) {
-                            error 'Failed to push merge to BitBucket.'
-                        }
-                    }
-                }
-            }            
-        }
-    } catch (e) {
+							error 'Failed to push merge to BitBucket.'
+						}
+					
+					}
+				}
+			}
+			
+		}
+	
+	} catch (e) {
         throw e
     } finally {
         // Send email. Uses the configs from Manage Jenkins > Configure System > Extended E-mail Notification
@@ -180,7 +183,9 @@ node {
         // Clean workspace (remove files used for this build)
         cleanWs()
     }
+
 }
+
 // ----------------------------------------------------------------------------------
 // Run a command and return the status code
 // ----------------------------------------------------------------------------------
@@ -236,3 +241,5 @@ def shCommandOutput(script) {
     def object = readJSON text: finalJson
     return object
 }
+
+
