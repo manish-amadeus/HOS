@@ -84,8 +84,8 @@ node {
                 stage('Run Code Quality Analysis (SonarQube)') {
 				    // Run SonarQube Analysis
 					withSonarQubeEnv('Sonar') {
-						//rc = commandStatus "sonar-scanner -D sonar.pullrequest.key=${env.BITBUCKET_PULL_REQUEST_ID} -D sonar.pullrequest.branch=${env.BITBUCKET_SOURCE_BRANCH} -Dsonar.pullrequest.base=${env.BITBUCKET_TARGET_BRANCH}"
-                        rc = commandStatus "sonar-scanner -Dsonar.login=b549f1ea2911de1bd996c716879390ec3fcdb6af -D sonar.pullrequest.key=${env.BITBUCKET_PULL_REQUEST_ID} -D sonar.pullrequest.branch=${env.BITBUCKET_SOURCE_BRANCH} -D sonar.pullrequest.base=${env.BITBUCKET_TARGET_BRANCH}"
+						rc = commandStatus "sonar-scanner -D sonar.pullrequest.key=${env.BITBUCKET_PULL_REQUEST_ID} -D sonar.pullrequest.branch=${env.BITBUCKET_SOURCE_BRANCH} -Dsonar.pullrequest.base=${env.BITBUCKET_TARGET_BRANCH}"
+                        //rc = commandStatus "sonar-scanner -Dsonar.login=b549f1ea2911de1bd996c716879390ec3fcdb6af -D sonar.pullrequest.key=${env.BITBUCKET_PULL_REQUEST_ID} -D sonar.pullrequest.branch=${env.BITBUCKET_SOURCE_BRANCH} -D sonar.pullrequest.base=${env.BITBUCKET_TARGET_BRANCH}"
 						if (rc != 0) {
                             error 'Failed to start sonar-scanner'
                         }
@@ -96,7 +96,7 @@ node {
                 // ----------------------------------------------------------------------------------
                 stage('SonarQube: Quality Gate') {
 				   def qg
-                    timeout(time: 12, unit: 'MINUTES') {
+                    timeout(time: 20, unit: 'MINUTES') {
 					  qg = waitForQualityGate(abortPipeline: false)
 					  if (qg.status != 'OK') {
                              error "Pipeline aborted due to quality gate failure: ${qg.status}"
