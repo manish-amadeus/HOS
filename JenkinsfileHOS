@@ -96,13 +96,13 @@ node {
                 // ----------------------------------------------------------------------------------
                 stage('SonarQube: Quality Gate') {
 				    def qg
-                    timeout(time: 5, unit: 'MINUTES') {
+                    //timeout(time: 5, unit: 'MINUTES') {
                      //qg = waitForQualityGate(abortPipeline: false)
-                     qg = waitForQualityGate()
-                     if (qg.status != 'OK') {
-                             error "Pipeline aborted due to quality gate failure: ${qg.status}"
-                        }
-					}
+                     //qg = waitForQualityGate()
+                     //if (qg.status != 'OK') {
+                       //      error "Pipeline aborted due to quality gate failure: ${qg.status}"
+                        //}
+					//}
 				}
 				// Checkout to target branch and merge source into target. This helps making sure that we're validating/deploying the components without 
                 // overriding anything 
