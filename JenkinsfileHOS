@@ -95,12 +95,10 @@ node {
                 // Wait and react to SonarQube results
                 // ----------------------------------------------------------------------------------
                 stage('SonarQube: Quality Gate') {
-				   def qg
-                  
+				    def qg
                     timeout(time: 5, unit: 'MINUTES') {
-                     echo "STATUS : ${qg.status}"
-					  qg = waitForQualityGate(abortPipeline: false)
-					  if (qg.status != 'OK') {
+                     //qg = waitForQualityGate(abortPipeline: false)
+                     if (qg.status != 'OK') {
                              error "Pipeline aborted due to quality gate failure: ${qg.status}"
                         }
 					}
