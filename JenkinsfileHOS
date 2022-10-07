@@ -165,7 +165,8 @@ node {
                     }
 					// Push changes (merging) back to BitBucket to complete the PR
                     withCredentials([usernamePassword(credentialsId: 'ENV_MANISH_GIT_CRED', passwordVariable: 'GIT_PASSWORD', usernameVariable: 'GIT_USERNAME')]) {
-						rc = commandStatus "git push https://${GIT_USERNAME}:${GIT_PASSWORD}@rndwww.nce.amadeus.net/git/scm/ahsf/salesforce.git"
+						//rc = commandStatus "git push https://${GIT_USERNAME}:${GIT_PASSWORD}@rndwww.nce.amadeus.net/git/scm/ahsf/salesforce.git"
+                        rc = commandStatus "git push https://mkumar7@rndwww.nce.amadeus.net/git/scm/ahsf/salesforce.git"
                         if (rc != 0) {
 							error 'Failed to push merge to BitBucket.'
 						}
