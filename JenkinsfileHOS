@@ -96,7 +96,7 @@ node {
                 // ----------------------------------------------------------------------------------
                 stage('SonarQube: Quality Gate') {
 				    def qg
-                    timeout(time: 5, unit: 'MINUTES') {
+                    timeout(time:12, unit: 'MINUTES') {
                      qg = waitForQualityGate(abortPipeline: false)
                      qg = waitForQualityGate()
                      if (qg.status != 'OK') {
