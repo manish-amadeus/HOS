@@ -7,7 +7,7 @@ Last Mod By     : Sean Harris
 NICC Reference  :
 Description     : DEVOPS TEST
 ***********************************************************************************************************/
-public class DevOpsClass 
+public class DevOpsClass1 
 {
 
     public static string testString()
