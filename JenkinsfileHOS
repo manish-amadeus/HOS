@@ -3,7 +3,6 @@
 // Please refer to the following links that may contain usefull information:
 // - https://developer.salesforce.com/docs/atlas.en-us.sfdx_dev.meta/sfdx_dev/sfdx_dev_ci_jenkins.htm 
 // - https://plugins.jenkins.io/bitbucket-push-and-pull-request/
-set +e
 node {
     String SDWORK_ID
     String JOBIDDEPLOY
@@ -246,6 +245,5 @@ def shCommandOutput(script) {
     def object = readJSON text: finalJson
     return object
 }
-set -e
 
 
