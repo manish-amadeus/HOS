@@ -131,8 +131,8 @@ node {
                 // Run the LocalTests on the Salesforce org for a given SDWORK_ID
                 // ----------------------------------------------------------------------------------
 				stage('Validate (RunLocalTests, jest)') {
-					//String JOB = commandOutput "sfdx force:source:deploy -u ${SF_TARGET_ENV} -l RunLocalTests -w 40 -c -x manifest/package.xml"
-                      String JOB = commandOutput "sfdx force:source:deploy -u ${SF_TARGET_ENV} -l RunSpecifiedTests -r DevOpsClass_Test -w 40 -c -x manifest/package.xml"
+					String JOB = commandOutput "sfdx force:source:deploy -u ${SF_TARGET_ENV} -l RunLocalTests -w 40 -c -x manifest/package.xml"
+                    //String JOB = commandOutput "sfdx force:source:deploy -u ${SF_TARGET_ENV} -l RunSpecifiedTests -r DevOpsClass_Test -w 40 -c -x manifest/package.xml"
                       echo "JOB: ${JOB}"
                     def idPosition = JOB.indexOf("Job ID") + 9
                     JOBIDDEPLOY =  JOB.substring(idPosition,idPosition+15).trim()
