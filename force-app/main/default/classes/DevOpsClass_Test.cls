@@ -14,7 +14,7 @@ public class DevOpsClass_Test
     static testMethod void test1() 
     { 
         string s = DevOpsClass.testString(); 
-        system.assertEquals('Hello World! this is test', s);
+        system.assertEquals('Hello World!', s);
     }
     
 }

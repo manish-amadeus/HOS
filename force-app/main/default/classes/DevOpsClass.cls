@@ -12,7 +12,7 @@ public class DevOpsClass
 
     public static string testString()
     {        
-        return 'Hello World! this is test';
+        return 'Hello World!';
     }
     
 }
