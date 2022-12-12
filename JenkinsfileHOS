@@ -134,9 +134,9 @@ node {
 				stage('Validate (RunLocalTests, jest)') {
                     //def fileName = "${env.WORKSPACE}/RunSpecifiedTests.txt"
 					//def testFile = new File(fileName)
-					//if (testFile.exists("${env.WORKSPACE}/RunSpecifiedTests.txt")){
-                    if (fileExists()){
-					  def RunSpecifiedTests =  readFile "${env.WORKSPACE}/RunSpecifiedTests.txt" 
+					//if (fileExists()){
+                    if (testFile.exists("${env.WORKSPACE}/RunSpecifiedTests.txt")){
+                      def RunSpecifiedTests =  readFile "${env.WORKSPACE}/RunSpecifiedTests.txt" 
 					  echo "RunSpecifiedTests list is : ${RunSpecifiedTests}"
 					  String JOB = commandOutput "sfdx force:source:deploy -u ${SF_TARGET_ENV} -l RunSpecifiedTests -r ${RunSpecifiedTests} -w 40 -c -x manifest/${SDWORK_ID}/package.xml"
 						}
