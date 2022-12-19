@@ -133,11 +133,11 @@ node {
                 // ----------------------------------------------------------------------------------
 				stage('Validate (RunLocalTests, jest)') {
                     env.WORKSPACE = pwd()
-                    def file = readFile "${env.WORKSPACE}/manifest/${SDWORK_ID}/package.xml"
-                    def lines = file.readLines()
-                    for(item in lines){
-                    print item."\n"
+                    def list = readFile("${env.WORKSPACE}/manifest/${SDWORK_ID}/package.xml").readLines().collect()
+                    for (item in list){
+                    print "item is :"+item
                     }
+                    
 					//echo " content is :${lines}"
                    //String JOB = commandOutput "sfdx force:source:deploy -u ${SF_TARGET_ENV} -l RunLocalTests -w 40 -c -x manifest/${SDWORK_ID}/package.xml"
                     String JOB = commandOutput "sfdx force:source:deploy -u ${SF_TARGET_ENV} -l RunSpecifiedTests -r AH_DemoCICDContlr_Test -w 40 -c -x manifest/${SDWORK_ID}/package.xml"
