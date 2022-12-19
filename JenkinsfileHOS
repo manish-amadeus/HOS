@@ -140,7 +140,7 @@ node {
                     print "item is :"+item
                     if (item.contains('Test')||item.contains('test')){
                     def contentRegex = ">(.*)<"
-                     SpecifiedTestClass = (item =~ /">(.*)<"/)[ 0 ]​[ 1 ]
+                     SpecifiedTestClass = (item =~ />(.*)</)
                      print "SpecifiedTestClass is :"+SpecifiedTestClass
                      }
                     }
