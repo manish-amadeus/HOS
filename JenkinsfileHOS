@@ -135,19 +135,10 @@ node {
                      def workspace = pwd()
 					def lines  = readFile workspace +'\\.manifest/${SDWORK_ID}/package.xml'
 					echo " content is :${lines}"
-                    /def testFile = new File(fileName)
-					//if (fileExists("${env.WORKSPACE}/RunSpecifiedTests.txt")){
-                    if (testFile.exists()){
-                      echo "in the for file present loop"
-				 	 //String JOB = commandOutput "sfdx force:source:deploy -u ${SF_TARGET_ENV} -l RunLocalTests -w 40 -c -x manifest/${SDWORK_ID}/package.xml"
-                      }
-                	 else {			
-                        echo "in the else file not present loop"
-							def RunSpecifiedTests =  readFile "${env.WORKSPACE}/RunSpecifiedTests.txt" 
-					       echo "RunSpecifiedTests list is : ${RunSpecifiedTests}"
-					       String JOB = commandOutput "sfdx force:source:deploy -u ${SF_TARGET_ENV} -l RunSpecifiedTests -r ${RunSpecifiedTests} -w 40 -c -x manifest/${SDWORK_ID}/package.xml"
+                   //String JOB = commandOutput "sfdx force:source:deploy -u ${SF_TARGET_ENV} -l RunLocalTests -w 40 -c -x manifest/${SDWORK_ID}/package.xml"
+                    String JOB = commandOutput "sfdx force:source:deploy -u ${SF_TARGET_ENV} -l RunSpecifiedTests -r AH_DemoCICDContlr_Test -w 40 -c -x manifest/${SDWORK_ID}/package.xml"
 						
-				 		}
+				 		
 					
                 	//String JOB = commandOutput "sfdx force:source:deploy -u ${SF_TARGET_ENV} -l RunLocalTests -w 40 -c -x manifest/${SDWORK_ID}/package.xml"
                     //String JOB = commandOutput "sfdx force:source:deploy -u ${SF_TARGET_ENV} -l RunSpecifiedTests -r ${RunSpecifiedTests} -w 40 -c -x manifest/${SDWORK_ID}/package.xml"
