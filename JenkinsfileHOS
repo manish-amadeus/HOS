@@ -132,12 +132,10 @@ node {
                 // Run the LocalTests on the Salesforce org for a given SDWORK_ID
                 // ----------------------------------------------------------------------------------
 				stage('Validate (RunLocalTests, jest)') {
-                    //def lines  = new File("${env.WORKSPACE}/manifest/${SDWORK_ID}/package.xml").readline()
-					new File("${env.WORKSPACE}/manifest/${SDWORK_ID}/package.xml").eachLine { line ->
-							println line
-							echo "New line is ${line}"
-						}
-					//def testFile = new File(fileName)
+                     def workspace = pwd()
+					def lines  = readFile workspace +'\\.manifest/${SDWORK_ID}/package.xml'
+					echo " content is :${lines}"
+                    /def testFile = new File(fileName)
 					//if (fileExists("${env.WORKSPACE}/RunSpecifiedTests.txt")){
                     if (testFile.exists()){
                       echo "in the for file present loop"
