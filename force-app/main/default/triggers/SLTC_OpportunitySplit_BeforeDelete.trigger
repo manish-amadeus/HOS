@@ -12,7 +12,7 @@ Description 	: Trigger used to call beforeDelete events.
 
 trigger SLTC_OpportunitySplit_BeforeDelete on OpportunitySplit (before delete) {
      if(trigger.isBefore){
-        SLTC_OpportunitySplit_TriggerHandler handler = new SLTC_OpportunitySplit_TriggerHandler();
-        handler.OnBeforeDelete(Trigger.Old);
+        SLTC_OppSplit_TriggerHandler handler = new SLTC_OppSplit_TriggerHandler();
+        handler.onBeforeDelete(Trigger.Old);
     }
 }
