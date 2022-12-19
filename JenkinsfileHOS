@@ -133,7 +133,7 @@ node {
                 // ----------------------------------------------------------------------------------
 				stage('Validate (RunLocalTests, jest)') {
                     def RunTesttype
-                    def SpecifiedTestClass = NULL
+                    def SpecifiedTestClass 
                     env.WORKSPACE = pwd()
                     def list = readFile("${env.WORKSPACE}/manifest/${SDWORK_ID}/package.xml").readLines().collect()
                     for (item in list){
