@@ -138,7 +138,7 @@ node {
                     def list = readFile("${env.WORKSPACE}/manifest/${SDWORK_ID}/package.xml").readLines().collect()
                     for (item in list){
                     print "item is :"+item
-                    if (item.contains("Test" or "test")){
+                    if (item.contains('Test'||'test)){
                      //SpecifiedTestClass = (item =~ ">(.*)<")
                      print "SpecifiedTestClass is :"+SpecifiedTestClass
                      }
