@@ -13,6 +13,6 @@ Description     : Trigger used to call AfterDelete events.
 trigger SLTC_Account_AfterDelete on Account (after delete) {
     if(Trigger.isAfter){
         SLTC_Account_TriggerHandler accountHandler = new SLTC_Account_TriggerHandler();
-        accountHandler.OnAfterDelete(trigger.old);
+        accountHandler.onAfterDelete(trigger.old);
     }
 }
