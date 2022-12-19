@@ -135,7 +135,7 @@ node {
                     env.WORKSPACE = pwd()
                     def file = readFile "${env.WORKSPACE}/manifest/${SDWORK_ID}/package.xml"
                     def lines = file.readLines()
-                    for(items in lines){
+                    for(item in lines){
                     print item."\n"
                     }
 					//echo " content is :${lines}"
