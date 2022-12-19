@@ -18,40 +18,48 @@ Public class SLTC_OppSplit_TriggerHandler {
         bpSwitch = NI_TriggerBypassSwitches__c.getOrgDefaults();
     }
     
-    // ========================================
+    // ============================================================================================================
     // BeforeDelete method to check Switch On/Off of TriggerHandler and custom Permission.
-    // ========================================
-    Public void OnBeforeDelete(List<OpportunitySplit> olddata){
+    // ============================================================================================================
+    Public void onBeforeDelete(List<OpportunitySplit> olddata){
         // ONLY EXECUTE CODE IF BYBASS IS NOT CHECKED and custom permiision is not assigned
         if(!bpSwitch.Bypass_SLTC_OpportunitySplit_Trigger__c  && !FeatureManagement.checkPermission('SLTC_Bypass_ValidationRules_Automation')){
             BeforedeleteRecords(olddata);
         }   
     }
     
-    // ========================================
-    // Related object Opportinuty team memeber should not be deleted if Opportunity is in  'Awaiting QA','Closed Won','Closed Lost' Stage
-    // ========================================
-    private void BeforedeleteRecords(List<OpportunitySplit> oldRecords){
-        Set<Id> opportunitysplitIdList = new Set<Id>();
+    // ==============================================================================================================================================
+    // Related object Opportinuty team memeber should can not be deleted if Opportunity is in  'Awaiting QA','Closed Won','Closed Lost' Stage
+    // ==============================================================================================================================================
+    private void beforedeleteRecords(List<OpportunitySplit> oldRecords){       
         try{
-            for(OpportunitySplit oppsplitItem : oldRecords) {
-                opportunitysplitIdList.add(oppsplitItem.OpportunityId);
-            }      
+            //list of profile's to exclude the validation message  
+            List<String> listOfprofile = New List<String>{'SLTC Data Governance','SLTC Sales Operations','SLTC Order Management'};
+            Id profileId = Userinfo.getProfileId();
+            String profileName = [Select Name from Profile where Id=:profileId LIMIT 1].Name;
             
-            List<String> opportunityStages = New list<String>{'Awaiting QA','Closed Won','Closed Lost'};
-                Map<Id, Opportunity> opportunityMap = new Map<Id, Opportunity>([SELECT Id,StageName,RecordType.DeveloperName FROM Opportunity WHERE Id IN : opportunitysplitIdList AND StageName IN : opportunityStages]);
-            
-            If(opportunityMap.isEmpty()){
+            If(listOfprofile.contains(profileName)){
                 RETURN;
             }
             
-            for(OpportunitySplit oppsplit : oldRecords) {
-                Opportunity currentopportunity = opportunityMap.get(oppsplit.OpportunityId);
-                String recordTypeName = currentopportunity.RecordType.DeveloperName;
-                If((recordTypeName.contains('SLTC') == True) && opportunityStages.contains(currentopportunity.stageName) && !checkBypassValidation(currentopportunity.stageName)){
-                    oppsplit.addError('The Opportunity is Locked, cannot delete Opportunity Split. Please reach out to Admin for assistance.');
-                }
+            Set<Id> opportunitysplitIdList = new Set<Id>();
+            for(OpportunitySplit oppsplitItem : oldRecords) {
+                  opportunitysplitIdList.add(oppsplitItem.OpportunityId);
+            } 
+            
+            List<String> opportunityStages = New list<String>{'Awaiting QA','Closed Won','Closed Lost'};
+            Map<Id, Opportunity> opportunityMap = new Map<Id, Opportunity>([SELECT Id,StageName,RecordType.DeveloperName FROM Opportunity WHERE Id IN : opportunitysplitIdList AND StageName IN : opportunityStages]);
+            If(opportunityMap.isEmpty()){
+             		RETURN;
             }
+            
+            for(OpportunitySplit oppsplit : oldRecords) {
+                   Opportunity currentopportunity = opportunityMap.get(oppsplit.OpportunityId);
+                   String recordTypeName = currentopportunity.RecordType.DeveloperName;
+                   If((recordTypeName.contains('SLTC') == True) && opportunityStages.contains(currentopportunity.stageName) && !checkBypassValidation(currentopportunity.stageName)){
+                           oppsplit.addError('The opportunity is locked, cannot delete opportunity split details. Please reach out to commercial operations team for further assistance.');
+                    }
+             }
         }
          Catch(Exception exec){
             String message = exec.getTypeName() +':'+exec.getLineNumber() +':message'+ exec.getMessage(); 

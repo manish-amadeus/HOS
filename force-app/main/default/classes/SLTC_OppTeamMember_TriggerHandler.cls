@@ -19,40 +19,49 @@ public class SLTC_OppTeamMember_TriggerHandler {
         bpSwitch = NI_TriggerBypassSwitches__c.getOrgDefaults();
     }
     
-    // ========================================
+    // ========================================================================================================
     // BeforeDelete method to check Switch On/Off of TriggerHandler and custom Permission.
-    // ========================================
-    public void OnBeforeDelete(List<OpportunityTeamMember> olddata){
+    // ========================================================================================================
+    public void onBeforeDelete(List<OpportunityTeamMember> olddata){
         // ONLY EXECUTE CODE IF BYBASS IS NOT CHECKED and custom permiision is not assigned
-        if(!bpSwitch.Bypass_SLTCOpportunityTeamMember_Trigger__c && !FeatureManagement.checkPermission('SLTC_Bypass_ValidationRules_Automation')){
+        if(!bpSwitch.Bypass_SLTCOpportunityTeamMember_Trigger__c && !FeatureManagement.checkPermission('SLTC_Bypass_ValidationRules_Automation') ){
             BeforedeleteRecords(olddata);
         }   
     }
     
-    // ========================================
+    // ========================================================================================================
     // Before Delete method to check StageName and Display Message Record Is Deleted.
-    // ========================================
-    private void BeforedeleteRecords(List<OpportunityTeamMember> oldRecords){
-        Set<Id> opportunityIdList = new Set<Id>();
+    // ========================================================================================================
+    private void beforedeleteRecords(List<OpportunityTeamMember> oldRecords){       
         try{
+            //list of profile's to exclude the validation message  
+            List<String> listOfprofile = New List<String>{'SLTC Data Governance','SLTC Sales Operations','SLTC Order Management'};
+            Id profileId = userinfo.getProfileId();
+            String profileName = [Select Name from Profile where Id=:profileId].Name;
+            
+            If(listOfprofile.contains(profileName)){
+                RETURN;
+            }
+            
+            Set<Id> opportunityIdList = new Set<Id>();
             for(OpportunityTeamMember oppTeamMemeberItem : oldRecords) {
-            opportunityIdList.add(oppTeamMemeberItem.OpportunityId);
-            }      
-        
+                    opportunityIdList.add(oppTeamMemeberItem.OpportunityId);
+            }   
+            
             //Opportinity stages to lock related object for delete
             List<String> opportunityStages = New list<String>{'Awaiting QA','Closed Won','Closed Lost'};
             Map<Id, Opportunity> opportunityMap = new Map<Id, Opportunity>([SELECT Id,StageName,RecordType.DeveloperName FROM Opportunity WHERE Id IN : opportunityIdList AND StageName IN : opportunityStages]);
-        
             If(opportunityMap.isEmpty()){
-               return;
-             }
+                   RETURN;
+            }
+            
             //Loop on OpportunityTeamMember Records
             for(OpportunityTeamMember oppTeam : oldRecords) {
-               Opportunity currentopportunity = opportunityMap.get(oppTeam.OpportunityId);
-               String recordTypeName = currentopportunity.RecordType.DeveloperName;
-               if((recordTypeName.contains('SLTC') == True) && opportunityStages.contains(currentopportunity.stageName) && !checkBypassValidation(currentopportunity.stageName)){
-                oppTeam.addError('The Opportunity is Locked, cannot delete OpportunityTeamMember. Please reach out to Admin for assistance.');
-                }
+                    Opportunity currentopportunity = opportunityMap.get(oppTeam.OpportunityId);
+                    String recordTypeName = currentopportunity.RecordType.DeveloperName;
+                    if((recordTypeName.contains('SLTC') == True) && opportunityStages.contains(currentopportunity.stageName) && !checkBypassValidation(currentopportunity.stageName)){
+                            oppTeam.addError('The opportunity is locked, cannot delete opportunity team members details. Please reach out to commercial operations team for further assistance.');
+                    }
             }
         }
         Catch(Exception exec){

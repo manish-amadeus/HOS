@@ -11,7 +11,7 @@ Description 		: Test Class for SLTC_OppSplit_TriggerHandler
 ***********************************************************
 *******************************/
 @isTest
-public class SLTC_OppSplit_TriggerHandler_Test {
+Private class SLTC_OppSplit_TriggerHandler_Test {
       
     // ===================================================================
     // Create Test Data
@@ -21,8 +21,10 @@ public class SLTC_OppSplit_TriggerHandler_Test {
         List<PermissionSet> requirePermission_data = new List<PermissionSet>();
         List<PermissionSetAssignment> permissionassignment_data= new List<PermissionSetAssignment>();
         List<User> user_data = new List<User>();
-        user_data.Add(SLTC_TestDataFactory.createuser('SLTC Sales','Business Development','Manager','SLTC_Sales_Manger'));
-        user_data.add(SLTC_TestDataFactory.createuser('SLTC Order Management','Order','Management','SLTC_Data_Governance_Team'));
+        user_data.Add(SLTC_TestDataFactory.createuser('SLTC Sales','Business Development','Manager','WWSales'));
+        user_data.add(SLTC_TestDataFactory.createuser('SLTC Order Management','Order','Management','ContractsAdministrator'));
+        user_data.add((SLTC_TestDataFactory.createuser('SLTC Sales','Director','Sales','WWSales')));
+        user_data.add((SLTC_TestDataFactory.createuser('SLTC Order Management','contractSupport','Team','CEOCFO')));
         INSERT user_data;
         System.runAs(new User(Id=UserInfo.getUserId())){
             //stop running old legacy trigger code and Assign the Required permission set to user.
@@ -30,42 +32,59 @@ public class SLTC_OppSplit_TriggerHandler_Test {
             requirePermission_data.add(SLTC_TestDataFactory.getpermissionset('SLTC_Contact_Create_Modify_View'));
             requirePermission_data.Add(SLTC_TestDataFactory.getpermissionset('SLTC_Opportunity_Create_Modify_View'));
             requirePermission_data.Add(SLTC_TestDataFactory.getpermissionset('SLTC_Account_Create_Modify_View'));
+            requirePermission_data.Add(SLTC_TestDataFactory.getpermissionset('SLTC_Proposal_Create_View_Modify'));
+            
             for(PermissionSet ps: requirePermission_data){
-                permissionassignment_data.add(new PermissionSetAssignment(AssigneeId = user_data[0].id, PermissionSetId = ps.Id));          
+                permissionassignment_data.add(new PermissionSetAssignment(AssigneeId = user_data[0].id, PermissionSetId = ps.Id));
+                permissionassignment_data.add(new PermissionSetAssignment(AssigneeId = user_data[1].id, PermissionSetId = ps.Id));
+                permissionassignment_data.add(new PermissionSetAssignment(AssigneeId = user_data[3].id, PermissionSetId = ps.Id)); 
             }
             INSERT permissionassignment_data;
         }
         //run in context of Business Development Manager
         System.runAs(user_data[0]){
-        List<Account> account_data = SLTC_TestDataFactory.createAccounts('SLTC','Test','Approved', 'SLTC_Corporate', 'Preliminary',1);
+        List<Account> account_data = SLTC_TestDataFactory.createAccounts('SLTC','Test','MDM Approved', 'SLTC_Property', 'Preliminary',1);
         INSERT account_data;
         
         List<Opportunity> opportunity_data = SLTC_TestDataFactory.createopportunity('Initial Interest', 'New Business', account_data[0], 1, 'SLTC_Opportunity');
         INSERT opportunity_data;
         
-        List<Contact> contact_data = SLTC_TestDataFactory.createcontact('firstcontact', 'SLTC_Contact', account_data[0].Id,1);
-        contact_data.addAll(SLTC_TestDataFactory.createcontact('secondcontact_data', 'SLTC_Contact', account_data[0].Id,1));
-        contact_data.addAll(SLTC_TestDataFactory.createcontact('thridcontact_data', 'SLTC_Contact', account_data[0].Id,1));
-        contact_data.addAll(SLTC_TestDataFactory.createcontact('fourthcontact_data', 'SLTC_Contact', account_data[0].Id,1));
+        List<Contact> contact_data = SLTC_TestDataFactory.createcontact('firstcontact', 'Contact', account_data[0].Id,1);
+        contact_data.addAll(SLTC_TestDataFactory.createcontact('secondcontact_data', 'Contact', account_data[0].Id,1));
+        contact_data.addAll(SLTC_TestDataFactory.createcontact('thridcontact_data', 'Contact', account_data[0].Id,1));
+        contact_data.addAll(SLTC_TestDataFactory.createcontact('fourthcontact_data', 'Contact', account_data[0].Id,1));
         INSERT contact_data;
+            
+        List<OpportunityContactRole> contactRoleList = SLTC_TestDataFactory.createOpportunityContactRole(opportunity_data[0].Id, contact_data[0].Id,'Customer Project Contact');
+        contactRoleList.addAll(SLTC_TestDataFactory.createOpportunityContactRole(opportunity_data[0].Id, contact_data[1].Id,'Bill To'));
+        contactRoleList.addAll(SLTC_TestDataFactory.createOpportunityContactRole(opportunity_data[0].Id, contact_data[2].Id,'Sold To'));
+        contactRoleList.addAll(SLTC_TestDataFactory.createOpportunityContactRole(opportunity_data[0].Id, contact_data[3].Id,'Authorizer'));
+        INSERT contactRoleList;
+            
+        //Create a Proposal 
+        Apttus_Proposal__Proposal__c proposal_data = SLTC_TestDataFactory.createProposal(account_data[0].Id, contact_data[0].Id, opportunity_data[0].Id, 'Proposal'); 
+        INSERT proposal_data;  
+            
+        //Create a Agreement
+        Apttus__APTS_Agreement__c agreement_data = SLTC_TestDataFactory.createAgreement(account_data[0].Id, opportunity_data[0].Id, contact_data[0].Id, proposal_data.Id,'Order_Form'); 
+        INSERT agreement_data;  
         }      
      } 
     
     // ============================================================================================================================
     // Test Method - user without Custom Permission cannot delete the opportunity Split Members when opportunity in Awaiting QA
     // =============================================================================================================================
-    @isTest static void beforeDeleteRecord_AtAwaitingQA_PTest(){    
-            User user_data = [SELECT Id FROM User where FirstName='Business Development' limit 1];
-            User orderUser_data = [SELECT Id FROM User where FirstName='Order' limit 1];
+    @isTest static void beforeDeleteRecordAtAwaitingQAPositiveTest(){    
+            List<User> user_data = [SELECT Id FROM User WHERE FirstName='Business Development' OR FirstName='Order' ORDER BY Name limit 2];    
             List<OpportunityTeamMember> opportunityTeamMember_data = new List<OpportunityTeamMember>();
-            List<OpportunitySplit> opportunitysplit_data = new List<OpportunitySplit>(); 
+            List<OpportunitySplit> opportunitysplit_data = new List<OpportunitySplit>();
             List<Opportunity> opportunity_data = [SELECT Id FROM Opportunity WHERE Account.Name LIKE '%SLTC_Test' LIMIT 1];
-            opportunityTeamMember_data.addAll(SLTC_TestDataFactory.createOpportunityTeamMember(opportunity_data, orderUser_data.Id));
+            opportunityTeamMember_data.addAll(SLTC_TestDataFactory.createOpportunityTeamMember(opportunity_data, user_data[1].Id));
             INSERT opportunityTeamMember_data;
-            opportunitysplit_data = SLTC_TestDataFactory.createopportunitysplit(opportunity_data, orderUser_data.Id);
+            opportunitysplit_data = SLTC_TestDataFactory.createopportunitysplit(opportunity_data, user_data[1].Id);
             INSERT opportunitysplit_data;
             //run in context of Business Development Manager to update the opportunity and delete the opportuntiysplit members
-            System.runAs(user_data){
+            System.runAs(user_data[0]){
                opportunity_data[0].StageName = 'Awaiting QA';
                opportunity_data[0].Win_Loss_Reason__c = 'Price';
                Test.startTest();
@@ -79,31 +98,30 @@ public class SLTC_OppSplit_TriggerHandler_Test {
     // =========================================================================================================================
     // Test Method - user with Custom Permission can delete the opportunity split Members when opportunity in Awaiting QA
     // =========================================================================================================================
-     @isTest private static void beforeDeleteRecord_AtAwaitingQA_NTest(){    
-            User user_data = [SELECT Id FROM User where FirstName='Business Development' limit 1];
-            User orderUser_data = [SELECT Id FROM User where FirstName='Order' limit 1];
+     @isTest static void beforeDeleteRecordAtAwaitingQANegativeTest(){    
+            List<User> user_data = [SELECT Id FROM User WHERE FirstName='Business Development' OR FirstName='Order' ORDER BY Name limit 2];
          	List<OpportunityTeamMember> opportunityTeamMember_data = new List<OpportunityTeamMember>();
           	List<OpportunitySplit> opportunitysplit_data = new List<OpportunitySplit>(); 
             List<Opportunity> opportunity_data = new List<Opportunity>();
             System.runAs(new User(Id=UserInfo.getUserId())){
             opportunity_data = [SELECT Id FROM Opportunity WHERE Account.Name LIKE '%SLTC_Test' LIMIT 1];
-            opportunityTeamMember_data.addAll(SLTC_TestDataFactory.createOpportunityTeamMember(opportunity_data, orderUser_data.Id));
+            opportunityTeamMember_data.addAll(SLTC_TestDataFactory.createOpportunityTeamMember(opportunity_data, user_data[1].Id));
             INSERT opportunityTeamMember_data;
-            opportunitysplit_data = SLTC_TestDataFactory.createopportunitysplit(opportunity_data, orderUser_data.Id);
+            opportunitysplit_data = SLTC_TestDataFactory.createopportunitysplit(opportunity_data, user_data[1].Id);
             INSERT opportunitysplit_data;    
             PermissionSet requirePermission_data = new PermissionSet();
             requirePermission_data = SLTC_TestDataFactory.createPermissionSet('SLTC_Bypass_Opportunity_Lock_stage_Awaiting_QA');
-            PermissionSetAssignment permissionassignment_data = new PermissionSetAssignment(AssigneeId = user_data.id, PermissionSetId = requirePermission_data.Id);
+            PermissionSetAssignment permissionassignment_data = new PermissionSetAssignment(AssigneeId = user_data[0].id, PermissionSetId = requirePermission_data.Id);
             INSERT permissionassignment_data;
             }
             //run in context of Business Development Manager to update the opportunity and delete the opportuntiy team members
-            System.runAs(user_data){
+            System.runAs(user_data[0]){
                opportunity_data[0].StageName = 'Awaiting QA';
-               opportunity_data[0].Win_Loss_Reason__c = 'Price';             
+               opportunity_data[0].Win_Loss_Reason__c = 'Price';
                Test.startTest();
                update opportunity_data;
                Database.DeleteResult result = Database.delete(opportunitysplit_data[0], false);  
-               Test.stopTest();
+               Test.stopTest(); 
                System.assertEquals(true, result.isSuccess());
             } 
         }
@@ -111,18 +129,17 @@ public class SLTC_OppSplit_TriggerHandler_Test {
     // ============================================================================================================================
     // Test Method - user without Custom Permission cannot delete the opportunity Split Members when opportunity in Closed Lost
     // =============================================================================================================================
-    @isTest static void beforeDeleteRecord_AtClosedLost_PTest(){    
-            User user_data = [SELECT Id FROM User where FirstName='Business Development' limit 1];
-            User orderUser_data = [SELECT Id FROM User where FirstName='Order' limit 1];
+    @isTest static void beforeDeleteRecordAtClosedLostPositiveTest(){    
+            List<User> user_data = [SELECT Id FROM User WHERE FirstName='Business Development' OR FirstName='Order' ORDER BY Name limit 2];
             List<OpportunityTeamMember> opportunityTeamMember_data = new List<OpportunityTeamMember>();
             List<OpportunitySplit> opportunitysplit_data = new List<OpportunitySplit>(); 
             List<Opportunity> opportunity_data = [SELECT Id FROM Opportunity WHERE Account.Name LIKE '%SLTC_Test' LIMIT 1];
-            opportunityTeamMember_data.addAll(SLTC_TestDataFactory.createOpportunityTeamMember(opportunity_data, orderUser_data.Id));
+            opportunityTeamMember_data.addAll(SLTC_TestDataFactory.createOpportunityTeamMember(opportunity_data, user_data[1].Id));
             INSERT opportunityTeamMember_data;
-            opportunitysplit_data = SLTC_TestDataFactory.createopportunitysplit(opportunity_data, orderUser_data.Id);
+            opportunitysplit_data = SLTC_TestDataFactory.createopportunitysplit(opportunity_data, user_data[1].Id);
             INSERT opportunitysplit_data;
             //run in context of Business Development Manager to update the opportunity and delete the opportuntiysplit members
-            System.runAs(user_data){
+            System.runAs(user_data[0]){
                opportunity_data[0].StageName = 'Closed Lost';
                opportunity_data[0].Win_Loss_Reason__c = 'Duplicate Opportunity Exists';
                Test.startTest();
@@ -136,27 +153,26 @@ public class SLTC_OppSplit_TriggerHandler_Test {
      // =========================================================================================================================
     // Test Method - user with Custom Permission can delete the opportunity split Members when opportunity in Closed Lost
     // =========================================================================================================================
-     @isTest private static void beforeDeleteRecord_AtClosedLost_NTest(){    
-            User user_data = [SELECT Id FROM User where FirstName='Business Development' limit 1];
-            User orderUser_data = [SELECT Id FROM User where FirstName='Order' limit 1];
+     @isTest static void beforeDeleteRecordAtClosedLostNegativeTest(){    
+            List<User> user_data = [SELECT Id FROM User WHERE FirstName='Business Development' OR FirstName='Order' ORDER BY Name limit 2];
          	List<OpportunityTeamMember> opportunityTeamMember_data = new List<OpportunityTeamMember>();
-          	List<OpportunitySplit> opportunitysplit_data = new List<OpportunitySplit>(); 
+          	List<OpportunitySplit> opportunitysplit_data = new List<OpportunitySplit>();
             List<Opportunity> opportunity_data = new List<Opportunity>();
             System.runAs(new User(Id=UserInfo.getUserId())){
             opportunity_data = [SELECT Id FROM Opportunity WHERE Account.Name LIKE '%SLTC_Test' LIMIT 1];
-            opportunityTeamMember_data.addAll(SLTC_TestDataFactory.createOpportunityTeamMember(opportunity_data, orderUser_data.Id));
+            opportunityTeamMember_data.addAll(SLTC_TestDataFactory.createOpportunityTeamMember(opportunity_data, user_data[1].Id));
             INSERT opportunityTeamMember_data;
-            opportunitysplit_data = SLTC_TestDataFactory.createopportunitysplit(opportunity_data, orderUser_data.Id);
+            opportunitysplit_data = SLTC_TestDataFactory.createopportunitysplit(opportunity_data, user_data[1].Id);
             INSERT opportunitysplit_data;    
             PermissionSet requirePermission_data = new PermissionSet();
             requirePermission_data = SLTC_TestDataFactory.createPermissionSet('SLTC_Bypass_Opportunity_Lock_stage_ClosedLost');
-            PermissionSetAssignment permissionassignment_data = new PermissionSetAssignment(AssigneeId = user_data.id, PermissionSetId = requirePermission_data.Id);
+            PermissionSetAssignment permissionassignment_data = new PermissionSetAssignment(AssigneeId = user_data[0].id, PermissionSetId = requirePermission_data.Id);
             INSERT permissionassignment_data;
             }
-            //run in context of Business Development Manager to update the opportunity and delete the opportuntiy team members
-            System.runAs(user_data){
+            //run in context of Business Development Manager to update the opportunity and delete the opportuntiysplit members
+            System.runAs(user_data[0]){
                opportunity_data[0].StageName = 'Closed Lost';
-               opportunity_data[0].Win_Loss_Reason__c = 'Duplicate Opportunity Exists';             
+               opportunity_data[0].Win_Loss_Reason__c = 'Duplicate Opportunity Exists'; 
                Test.startTest();
                update opportunity_data;
                Database.DeleteResult result = Database.delete(opportunitysplit_data[0], false);  
@@ -168,71 +184,103 @@ public class SLTC_OppSplit_TriggerHandler_Test {
     // ============================================================================================================================
     // Test Method - user without Custom Permission cannot delete the opportunity Split Members when opportunity in Closed Won
     // =============================================================================================================================
-    @isTest static void beforeDeleteRecord_AtClosedWon_PTest(){    
-            User user_data = [SELECT Id FROM User where FirstName='Business Development' limit 1];
-            User orderUser_data = [SELECT Id FROM User where FirstName='Order' limit 1];
-        	List<Contact> contact_data = [Select Id from Contact WHERE Account.Name Like '%SLTC_Test' LIMIT 4];
+    @isTest static void beforeDeleteRecordAtClosedWonPositiveTest(){    
+            List<User> user_data = [SELECT Id FROM User WHERE FirstName='Business Development' OR FirstName='Order' ORDER BY Name limit 2];
             List<OpportunityTeamMember> opportunityTeamMember_data = new List<OpportunityTeamMember>();
             List<OpportunitySplit> opportunitysplit_data = new List<OpportunitySplit>(); 
             List<Opportunity> opportunity_data = [SELECT Id FROM Opportunity WHERE Account.Name LIKE '%SLTC_Test' LIMIT 1];
-            opportunityTeamMember_data.addAll(SLTC_TestDataFactory.createOpportunityTeamMember(opportunity_data, orderUser_data.Id));
+            opportunityTeamMember_data.addAll(SLTC_TestDataFactory.createOpportunityTeamMember(opportunity_data, user_data[1].Id));
             INSERT opportunityTeamMember_data;
-            opportunitysplit_data = SLTC_TestDataFactory.createopportunitysplit(opportunity_data, orderUser_data.Id);
+            opportunitysplit_data = SLTC_TestDataFactory.createopportunitysplit(opportunity_data, user_data[1].Id);
             INSERT opportunitysplit_data;
+            Apttus_Proposal__Proposal__c proposal_record = [SELECT Id,Apttus_Proposal__Approval_Stage__c FROM Apttus_Proposal__Proposal__c WHERE Apttus_Proposal__Opportunity__c in: opportunity_data limit 1];
+            Apttus__APTS_Agreement__c Agreement_record = [SELECT Id,Apttus__Status_Category__c,Apttus__Status__c FROM Apttus__APTS_Agreement__c WHERE Apttus__Related_Opportunity__c in: opportunity_data  limit 1];
             //run in context of Business Development Manager to update the opportunity and delete the opportuntiysplit members
-            System.runAs(user_data){
-               opportunity_data[0].StageName = 'Closed Won';
-               opportunity_data[0].Win_Loss_Reason__c = 'Price';
-               //Create Contact Roles 
-               List<OpportunityContactRole> contactRoleList = SLTC_TestDataFactory.createOpportunityContactRole(opportunity_data[0].Id, contact_data[0].Id,'Customer Project Contact');
-               contactRoleList.addAll(SLTC_TestDataFactory.createOpportunityContactRole(opportunity_data[0].Id, contact_data[1].Id,'Bill To'));
-               contactRoleList.addAll(SLTC_TestDataFactory.createOpportunityContactRole(opportunity_data[0].Id, contact_data[2].Id,'Sold To'));
-               contactRoleList.addAll(SLTC_TestDataFactory.createOpportunityContactRole(opportunity_data[0].Id, contact_data[3].Id,'Authorizer'));
-               INSERT contactRoleList;
-               Test.startTest();
-               update opportunity_data;
-               Database.DeleteResult result = Database.delete(opportunitysplit_data[0], false);
-               Test.stopTest();
-               System.assertEquals(false, result.isSuccess());
-            }
-        }
+            System.runAs(user_data[0]){
+                proposal_record.Apttus_Proposal__Approval_Stage__c = 'Accepted';
+            	UPDATE proposal_record;                   
+                Agreement_record.Apttus__Status_Category__c = 'In Effect';
+            	Agreement_record.Apttus__Status__c = 'Activated';
+           	 	UPDATE Agreement_record;             
+                //run in context of Order Management persona to set the stage to Closed won.
+                System.runAs(user_data[1]){ 
+                      opportunity_data[0].StageName = 'Closed Won';
+                      opportunity_data[0].Win_Loss_Reason__c = 'Price';
+                      Test.startTest();     
+                      UPDATE opportunity_data;
+                      System.runAs(user_data[0]){
+                             Database.DeleteResult result = Database.delete(opportunitysplit_data[0], false);
+                             Test.stopTest();
+                             System.assertEquals(false, result.isSuccess());
+                      }
+                  }
+              }
+         }
     
     // =========================================================================================================================
     // Test Method - user with Custom Permission can delete the opportunity split Members when opportunity in Closed Won
     // =========================================================================================================================
-     @isTest private static void beforeDeleteRecord_AtClosedWon_NTest(){    
-            User user_data = [SELECT Id FROM User where FirstName='Business Development' limit 1];
-            User orderUser_data = [SELECT Id FROM User where FirstName='Order' limit 1];
-            List<Contact> contact_data = [Select Id from Contact WHERE Account.Name Like '%SLTC_Test' LIMIT 4]; 
+     @isTest static void beforeDeleteRecordAtClosedWonNegativeTest(){    
+            List<User> user_data = [SELECT Id FROM User WHERE FirstName='Business Development' OR FirstName='Order' ORDER BY Name limit 2];
          	List<OpportunityTeamMember> opportunityTeamMember_data = new List<OpportunityTeamMember>();
           	List<OpportunitySplit> opportunitysplit_data = new List<OpportunitySplit>(); 
             List<Opportunity> opportunity_data = new List<Opportunity>();
             System.runAs(new User(Id=UserInfo.getUserId())){
             opportunity_data = [SELECT Id FROM Opportunity WHERE Account.Name LIKE '%SLTC_Test' LIMIT 1];
-            opportunityTeamMember_data.addAll(SLTC_TestDataFactory.createOpportunityTeamMember(opportunity_data, orderUser_data.Id));
+            opportunityTeamMember_data.addAll(SLTC_TestDataFactory.createOpportunityTeamMember(opportunity_data, user_data[1].Id));
             INSERT opportunityTeamMember_data;
-            opportunitysplit_data = SLTC_TestDataFactory.createopportunitysplit(opportunity_data, orderUser_data.Id);
+            opportunitysplit_data = SLTC_TestDataFactory.createopportunitysplit(opportunity_data, user_data[1].Id);
             INSERT opportunitysplit_data;    
             PermissionSet requirePermission_data = new PermissionSet();
             requirePermission_data = SLTC_TestDataFactory.createPermissionSet('SLTC_Bypass_Opportunity_Lock_stage_Closed_Won');
-            PermissionSetAssignment permissionassignment_data = new PermissionSetAssignment(AssigneeId = user_data.id, PermissionSetId = requirePermission_data.Id);
+            PermissionSetAssignment permissionassignment_data = new PermissionSetAssignment(AssigneeId = user_data[0].id, PermissionSetId = requirePermission_data.Id);
             INSERT permissionassignment_data;
             }
+            Apttus_Proposal__Proposal__c proposal_record = [SELECT Id,Apttus_Proposal__Approval_Stage__c FROM Apttus_Proposal__Proposal__c WHERE Apttus_Proposal__Opportunity__c in: opportunity_data limit 1];
+            Apttus__APTS_Agreement__c Agreement_record = [SELECT Id,Apttus__Status_Category__c,Apttus__Status__c FROM Apttus__APTS_Agreement__c WHERE Apttus__Related_Opportunity__c in: opportunity_data  limit 1];
             //run in context of Business Development Manager to update the opportunity and delete the opportuntiy team members
-            System.runAs(user_data){
-               opportunity_data[0].StageName = 'Closed Won';
-               opportunity_data[0].Win_Loss_Reason__c = 'Price'; 
-               //Create Contact Roles 
-               List<OpportunityContactRole> contactRoleList = SLTC_TestDataFactory.createOpportunityContactRole(opportunity_data[0].Id, contact_data[0].Id,'Customer Project Contact');
-               contactRoleList.addAll(SLTC_TestDataFactory.createOpportunityContactRole(opportunity_data[0].Id, contact_data[1].Id,'Bill To'));
-               contactRoleList.addAll(SLTC_TestDataFactory.createOpportunityContactRole(opportunity_data[0].Id, contact_data[2].Id,'Sold To'));
-               contactRoleList.addAll(SLTC_TestDataFactory.createOpportunityContactRole(opportunity_data[0].Id, contact_data[3].Id,'Authorizer'));
-               INSERT contactRoleList; 
+            System.runAs(user_data[0]){
+                proposal_record.Apttus_Proposal__Approval_Stage__c = 'Accepted';
+            	UPDATE proposal_record;                   
+                Agreement_record.Apttus__Status_Category__c = 'In Effect';
+            	Agreement_record.Apttus__Status__c = 'Activated';
+           	 	UPDATE Agreement_record;
+                //run in context of Order Management persona to set the stage to Closed won.
+                System.runAs(user_data[1]){ 
+                      opportunity_data[0].StageName = 'Closed Won';
+                      opportunity_data[0].Win_Loss_Reason__c = 'Price';
+                      Test.startTest();   
+                      UPDATE opportunity_data;
+                      System.runAs(user_data[0]){       
+                             Database.DeleteResult result = Database.delete(opportunitysplit_data[0], false);  
+                             Test.stopTest();
+                             System.assertEquals(true, result.isSuccess());
+                      }
+                 }
+             } 
+       }
+    
+    // ============================================================================================================================
+    // Test Method - user without Custom Permission cannot delete the opportunity Split Members when opportunity in Awaiting QA
+    // =============================================================================================================================
+    @isTest static void excludeProfileTest(){    
+            List<User> user_data = [SELECT Id,FirstName,Name FROM User WHERE FirstName = 'Director' OR FirstName = 'contractSupport' ORDER BY Name limit 2];    
+            List<OpportunityTeamMember> opportunityTeamMember_data = new List<OpportunityTeamMember>();
+            List<OpportunitySplit> opportunitysplit_data = new List<OpportunitySplit>();
+            List<Opportunity> opportunity_data = [SELECT Id FROM Opportunity WHERE Account.Name LIKE '%SLTC_Test' LIMIT 1];
+            opportunityTeamMember_data.addAll(SLTC_TestDataFactory.createOpportunityTeamMember(opportunity_data, user_data[1].Id));
+            INSERT opportunityTeamMember_data;
+            opportunitysplit_data = SLTC_TestDataFactory.createopportunitysplit(opportunity_data, user_data[1].Id);
+            INSERT opportunitysplit_data;
+            System.runAs(user_data[0]){
+               opportunity_data[0].StageName = 'Awaiting QA';
+               opportunity_data[0].Win_Loss_Reason__c = 'Price';
                Test.startTest();
                update opportunity_data;
-               Database.DeleteResult result = Database.delete(opportunitysplit_data[0], false);  
+               Database.DeleteResult result = Database.delete(opportunitysplit_data[0], true);
                Test.stopTest();
                System.assertEquals(true, result.isSuccess());
-            } 
-     }     
+            }
+        }
+    
 }
