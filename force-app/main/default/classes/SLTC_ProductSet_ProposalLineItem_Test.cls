@@ -1,16 +1,16 @@
 /**********************************************************
 *************************************
-Name          : SLTC_TerminatedProducts_List_Test
+Name          : SLTC_ProductSet_ProposalLineItem
 Author        : Sreeharsha L
 Created Date  : 08-05-22
 Last Mod Date : 08-05-22
 Last Mod By   : Sreeharsha L
-Description   : Test class for SLTC_TerminatedProducts_List
+Description   : Test class for SLTC_ProductSet_ProposalLineItem
 ***********************************************************
 *************************************/
 
 @isTest
-public class SLTC_TerminatedProducts_List_Test {
+public class SLTC_ProductSet_ProposalLineItem_Test {
     //setup test data product and pricebook entries
     @testSetup static void setupProduct(){
         List<Product2> product = SLTC_TestDataFactory.createProduct('Ihotlier', 5);
@@ -21,10 +21,10 @@ public class SLTC_TerminatedProducts_List_Test {
     }
     //Perform test to remove duplicate product from Proposal Line items
     @isTest static void getProposalLineItemTest(){
-        List<Account> account_data = SLTC_TestDataFactory.createAccounts('SLTC', 'Test', 'Approved', 'SLTC_Corporate', 'Preliminary', 1);
+        List<Account> account_data = SLTC_TestDataFactory.createAccounts('SLTC', 'Test', 'MDM Approved', 'SLTC_Property', 'Preliminary', 1);
         INSERT account_data;
         
-        List<Contact> contact_data = SLTC_TestDataFactory.createContact('contact', 'SLTC_Contact', account_data[0].Id, 1);
+        List<Contact> contact_data = SLTC_TestDataFactory.createContact('contact', 'Contact', account_data[0].Id, 1);
         INSERT contact_data;
         
         List<Opportunity> opportunity_data = SLTC_TestDataFactory.createopportunity('Initial Interest', 'New Business', account_data[0], 1, 'SLTC_Opportunity');
@@ -33,7 +33,7 @@ public class SLTC_TerminatedProducts_List_Test {
         Apttus_Proposal__Proposal__c proposal_data = SLTC_TestDataFactory.createProposal(account_data[0].Id, contact_data[0].Id, opportunity_data[0].Id, 'Proposal');
         INSERT proposal_data;
         
-        List<Product2> products = [SELECT Id FROM Product2];
+        List<Product2> products = [SELECT Id FROM Product2 WHERE Name = 'Ihotlier Product' LIMIT 5];
         
         List<Apttus_Proposal__Proposal_Line_Item__c> lineItem_data = SLTC_TestDataFactory.createProposalLineItem(proposal_data.Id, products, 'Cancelled');
         //creating duplicate proposalLine item for test
@@ -42,15 +42,14 @@ public class SLTC_TerminatedProducts_List_Test {
 
         Test.startTest();
         List<List<Apttus_Proposal__Proposal_Line_Item__c>>  proposalLine = new List<List<Apttus_Proposal__Proposal_Line_Item__c>>();
-        proposalLine.add([SELECT Id, Apttus_QPConfig__OptionId__c, Apttus_Proposal__Product__c,Product_for_Template__c FROM Apttus_Proposal__Proposal_Line_Item__c]);
-        List<List<Product2>> prducts_data = SLTC_TerminatedProducts_List.getProposalLineItem(proposalLine);
+        proposalLine.add([SELECT Id, Apttus_QPConfig__OptionId__c, Apttus_Proposal__Product__c,Product_for_Template__c FROM Apttus_Proposal__Proposal_Line_Item__c WHERE Apttus_Proposal__Proposal__c =: proposal_data.Id LIMIT 10]);
+        List<List<Product2>> products_data = SLTC_ProductSet_ProposalLineItem.getProposalLineItem(proposalLine);
         Test.stopTest();
         
-        System.assertEquals(5, prducts_data[0].size(), 'No duplicate product found at Proposal Line item');
+        System.assertEquals(5, products_data[0].size(), 'No duplicate product found at Proposal Line item');
         
     }
     
-
     //Pricebook entries for each products
     private static List<PricebookEntry> createPricebookEntry(List<Product2> productList){
         List<PricebookEntry> pricebookEntry = new List<PricebookEntry>();
