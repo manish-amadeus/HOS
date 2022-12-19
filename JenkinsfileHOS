@@ -141,6 +141,8 @@ node {
                     if (item.contains('Test')||item.contains('test')){
                      def ExtractedVal = item =~ /(>(.*)<)/
                      SpecifiedTestClass= ExtractedVal[0][1]
+                     SpecifiedTestClass = SpecifiedTestClass.replaceAll("[>]", "")
+                     SpecifiedTestClass = SpecifiedTestClass.replaceAll("[<]", "")
                      print "SpecifiedTestClass is :"+SpecifiedTestClass
                      }
                     }
