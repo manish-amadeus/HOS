@@ -139,7 +139,8 @@ node {
                     for (item in list){
                     print "item is :"+item
                     if (item.contains('Test')||item.contains('test')){
-                     SpecifiedTestClass = (item =~ ">(.*)<")
+                    def contentRegex = ">(.*)<"
+                     SpecifiedTestClass = (item =~ contentRegex )
                      print "SpecifiedTestClass is :"+SpecifiedTestClass
                      }
                     }
