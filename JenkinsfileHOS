@@ -139,7 +139,8 @@ node {
                     for (item in list){
                     print "item is :"+item
                     if (item.contains('Test')||item.contains('test')){
-                     SpecifiedTestClass = (item =~ />(.*)</)
+                     def ExtractedVal = item =~ /(>(.*)<)/
+                     SpecifiedTestClass= ExtractedVal[0][1]
                      print "SpecifiedTestClass is :"+SpecifiedTestClass
                      }
                     }
