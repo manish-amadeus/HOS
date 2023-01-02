@@ -138,14 +138,13 @@ node {
                     def list = readFile("${env.WORKSPACE}/manifest/${SDWORK_ID}/package.xml").readLines().collect()
                     for (item in list){
                     print "item is :"+item
-                    if (item.contains('Test')||item.contains('test')){
+                    if (item.containsIgnoreCase('Test'){
                      def ExtractedVal = item =~ /(>(.*)<)/
                      ExtractedVal =ExtractedVal[0][1]
                      ExtractedVal= SpecifiedTestClass.replaceAll("[>]", "")
                      ExtractedVal = SpecifiedTestClass.replaceAll("[<]", "")
                      if (SpecifiedTestClass = null ){
                      SpecifiedTestClass= ExtractedVal
-                                          print "SpecifiedTestClass is :"+SpecifiedTestClass
                      }
                      else {
                      SpecifiedTestClass= ","+ExtractedVal
@@ -156,18 +155,13 @@ node {
                     RunTesttype = 'RunLocalTests'
                     }
                     else{
-                    RunTesttype = 'RunSpecifiedTests'
+                    RunTesttype = 'RunSpecifiedTests -r ${SpecifiedTestClass}'
                     }
+                    //String JOB = commandOutput "sfdx force:source:deploy -u ${SF_TARGET_ENV} -l RunLocalTests -w 40 -c -x manifest/${SDWORK_ID}/package.xml"
+                    //String JOB = commandOutput "sfdx force:source:deploy -u ${SF_TARGET_ENV} -l RunSpecifiedTests -r AH_DemoCICDContlr_Test -w 40 -c -x manifest/${SDWORK_ID}/package.xml"
+                    String JOB = commandOutput "sfdx force:source:deploy -u ${SF_TARGET_ENV} -l ${RunTesttype} -w 40 -c -x manifest/${SDWORK_ID}/package.xml"
+					echo "JOB: ${JOB}"
                     
-					//echo " content is :${lines}"
-                   //String JOB = commandOutput "sfdx force:source:deploy -u ${SF_TARGET_ENV} -l RunLocalTests -w 40 -c -x manifest/${SDWORK_ID}/package.xml"
-                    String JOB = commandOutput "sfdx force:source:deploy -u ${SF_TARGET_ENV} -l RunSpecifiedTests -r AH_DemoCICDContlr_Test -w 40 -c -x manifest/${SDWORK_ID}/package.xml"
-						
-				 		
-					
-                	//String JOB = commandOutput "sfdx force:source:deploy -u ${SF_TARGET_ENV} -l RunLocalTests -w 40 -c -x manifest/${SDWORK_ID}/package.xml"
-                    //String JOB = commandOutput "sfdx force:source:deploy -u ${SF_TARGET_ENV} -l RunSpecifiedTests -r ${RunSpecifiedTests} -w 40 -c -x manifest/${SDWORK_ID}/package.xml"
-                      echo "JOB: ${JOB}"
                     def idPosition = JOB.indexOf("Job ID") + 9
                     JOBIDDEPLOY =  JOB.substring(idPosition,idPosition+15).trim()
                     echo "JOBIDDEPLOY: ${idPosition}  :  ${JOBIDDEPLOY}"
@@ -215,7 +209,7 @@ node {
         throw e
     } finally {
         // Send email. Uses the configs from Manage Jenkins > Configure System > Extended E-mail Notification
-        emailext recipientProviders: [developers()], subject: "Job '${JOB_NAME}' (${BUILD_NUMBER}) finished with result: ${BUILD_NUMBER.result}" , body: "The build #${BUILD_NUMBER} finished with status ${BUILD_NUMBER.result} and contains the logs attached.", attachLog: true
+        emailext recipientProviders: [developers()],to :'manish.kumar7@amadeus.com,geetha.amalraj@amadeus.com,sean.harris@amadeus.com', subject: "Job '${JOB_NAME}' (${BUILD_NUMBER}) finished with result: ${BUILD_NUMBER.result}" , body: "The build #${BUILD_NUMBER} finished with status ${BUILD_NUMBER.result} and contains the logs attached.", attachLog: true
         // TODO MS Teams
         //office365ConnectorSend message: "<Your message>", status:"${RESULT}", webhookUrl:'<The connector webhook url>'
         // Clean workspace (remove files used for this build)
