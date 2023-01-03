@@ -150,6 +150,7 @@ node {
                      SpecifiedTestClass= ExtractedVal
                      }
                      }
+                     echo "Specified test classes are : ${SpecifiedTestClass}"
                     }
 					if(SpecifiedTestClass){
                     RunTesttype = 'RunSpecifiedTests -r ${SpecifiedTestClass}'
@@ -157,6 +158,7 @@ node {
                     else{
                     RunTesttype = 'RunLocalTests'
                     }
+                     echo "RunTesttype is  : ${RunTesttype}"
                     //String JOB = commandOutput "sfdx force:source:deploy -u ${SF_TARGET_ENV} -l RunLocalTests -w 40 -c -x manifest/${SDWORK_ID}/package.xml"
                     //String JOB = commandOutput "sfdx force:source:deploy -u ${SF_TARGET_ENV} -l RunSpecifiedTests -r AH_DemoCICDContlr_Test -w 40 -c -x manifest/${SDWORK_ID}/package.xml"
                     String JOB = commandOutput "sfdx force:source:deploy -u ${SF_TARGET_ENV} -l ${RunTesttype} -w 40 -c -x manifest/${SDWORK_ID}/package.xml"
