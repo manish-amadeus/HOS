@@ -34,8 +34,25 @@ public class AH_APT_Agreement_TriggerHandler
         
         system.debug(' *** ENTERING AH_APT_Agreement_TriggerHandler.OnBeforeUpdate() - QUERIES ISSUED = ' + Limits.getQueries());
         
-        updateTermsOnOpportunity(newTrigger, oldMapTrigger);
+        List<Apttus__APTS_Agreement__c> newTriggerWithoutSLTC = new List<Apttus__APTS_Agreement__c>();
+
+        //Filter newTrigger list for SLTC records and convert to Map<id,Agreement>
+        Map<Id, Apttus__APTS_Agreement__c> sltcNewTriggerMap = new Map<Id, Apttus__APTS_Agreement__c>();
+
+        //Loop to filter non SLTC records and convert newTrigger list to Map
+        for(Apttus__APTS_Agreement__c record : newTrigger){
+            if(record.STLC_Is_SLTC_Record__c){
+                sltcNewTriggerMap.put(record.Id,record);
+            } else{
+                newTriggerWithoutSLTC.add(record);
+            }
+        }
+        //Sync Status and Attachment from Parent to Child Agreements
+        SLTC_AgreementTriggerHandler handler = new SLTC_AgreementTriggerHandler();
+        handler.onBeforeUpdate(sltcNewTriggerMap, oldMapTrigger);
         
+        //updateTermsOnOpportunity(newTrigger, oldMapTrigger);
+        updateTermsOnOpportunity(newTriggerWithoutSLTC, oldMapTrigger);
         system.debug(' *** EXITING AH_APT_Agreement_TriggerHandler.OnBeforeUpdate() - QUERIES ISSUED = ' + Limits.getQueries());
         
     }
