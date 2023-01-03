@@ -169,7 +169,7 @@ node {
 						JOBIDDEPLOY =  JOB.substring(idPosition,idPosition+15).trim()
                         echo "JOBIDDEPLOY: ${idPosition}  :  ${JOBIDDEPLOY}"
 					} else if ("${JOB}".contains("Failed")) {
-                        error 'Salesforce RunLocalTests failed.'
+                        error 'Salesforce Tests Run failed.'
                     }
 					
 				}
