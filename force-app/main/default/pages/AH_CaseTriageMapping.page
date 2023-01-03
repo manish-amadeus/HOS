@@ -1,0 +1,42 @@
+<apex:page standardController="AH_Case_Triage_Mapping__c" extensions="AH_CaseTriageMapping_Ctlr" showHeader="false" sidebar="false" lightningStylesheets="true" applyHtmlTag="false" applyBodyTag="false" docType="html-5.0">
+    <html xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" lang="en">
+        <head>
+            <meta charset="utf-8" />
+            <meta http-equiv="x-ua-compatible" content="ie=edge" />
+            <title></title>
+            <meta name="viewport" content="width=device-width, initial-scale=1" />
+            <apex:stylesheet value="/apexpages/slds/latest/assets/styles/salesforce-lightning-design-system-vf.css" />
+            <apex:slds />
+        </head>        
+        <div id="divMain" class="slds-scope" style="margin-top: 0px; !important;">            
+            <apex:form >                
+                <apex:outputPanel id="opQueueDDL" >
+                    <div class="slds-form-element">
+                        <label class="slds-form-element__label" for="text-input-id-1">Queue Assignment</label>
+                        <div class="slds-form-element__control">
+                            <apex:selectList id="ddlQueues" value="{!selQueue}" style="width: 340px;" size="1" multiselect="false" disabled="{!NOT(bInEdit)}">
+                                <apex:selectOptions value="{!lstQueues}" />
+                            </apex:selectList>            
+                            &nbsp;
+                            <apex:commandLink id="cmdEdit" value="Edit" action="{!toggleEdit}" rendered="{!bHasEdit && NOT(bInEdit)}" reRender="opQueueDDL" />
+                            <apex:commandButton id="cmdCancel" value="Cancel" action="{!doCancel}" rendered="{!bHasEdit && bInEdit}" reRender="redirectPanel" />
+                            <apex:commandButton id="cmdSave" value="Save" action="{!saveQueueChange}" rendered="{!bHasEdit && bInEdit}" reRender="redirectPanel" />
+                        </div>
+                    </div>
+                </apex:outputPanel> 
+                
+                <apex:outputPanel id="redirectPanel" >
+                    <apex:outputText rendered="{!shouldRedirect}">
+                        <script type="text/javascript">
+                        window.top.location.href = '{!redirectUrl}';
+                        </script>
+                    </apex:outputText>
+                </apex:outputPanel>        
+                
+            </apex:form>
+            
+        </div>
+        
+    </html>
+    
+</apex:page>

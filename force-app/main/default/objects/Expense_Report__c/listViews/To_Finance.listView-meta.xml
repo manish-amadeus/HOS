@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>To_Finance</fullName>
+    <columns>NAME</columns>
+    <columns>ADP_Record_Number__c</columns>
+    <columns>Expense_Report__c</columns>
+    <columns>Final_Approver__c</columns>
+    <columns>Status__c</columns>
+    <columns>To_Finance_Date__c</columns>
+    <columns>OWNER.ALIAS</columns>
+    <columns>LAST_UPDATE</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>Status__c</field>
+        <operation>equals</operation>
+        <value>To Finance</value>
+    </filters>
+    <label>To Finance</label>
+    <sharedTo>
+        <group>NISFDCSysAdmin</group>
+    </sharedTo>
+</ListView>

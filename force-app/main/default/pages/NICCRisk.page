@@ -1,0 +1,305 @@
+<apex:page standardController="NICC_Risk_Setup__c" extensions="NICCRiskController" showHeader="true" sidebar="true">
+
+    <style>
+       .headerRow .headerStyle{text-align: center;}    
+    </style>
+    
+    <script type="text/javascript">    
+
+        window.onload = function()
+        {
+            disableChecks();
+        };
+
+        function justCheckThis(cb)
+        {
+            
+            // PARSE ORIGINAL NAME
+            var chkName = new String(cb.id);
+        //    alert('FULLNAME: ' + chkName);
+            
+            var strName = chkName.trim().substring(37);
+        //    alert('NAME: ' + strName);
+            
+            var strPre = chkName.trim().substring(0, 37);
+        //    alert('PREFIX: ' + strPre);
+            
+            var idx = strName.substring(0, strName.indexOf(":"));
+        //    alert(idx);
+            
+            // UNCHECK ALL RELATED OPTIONS
+            var chk1 = document.getElementById(strPre + idx + ':val1');
+            var chk2 = document.getElementById(strPre + idx + ':val2');
+            var chk3 = document.getElementById(strPre + idx + ':val3');
+            var chk4 = document.getElementById(strPre + idx + ':val4');
+            
+            chk1.checked = false;
+            chk2.checked = false;
+            chk3.checked = false;
+            chk4.checked = false;
+            
+            // RECHECK ORIGINAL
+            var o = document.getElementById(cb.id);
+            o.checked = true;        
+           
+        }
+    
+        function validateForm(isQuickSave)
+        {
+                
+            var bIsValid = true; 
+            var strPre = 'j_id0:frm:pb:resultsRSView:tblRSView:';
+
+            for (var idx = 0; idx < 30; idx++) 
+            {
+
+                var chk1 = document.getElementById(strPre + idx + ':val1');
+                var chk2 = document.getElementById(strPre + idx + ':val2');
+                var chk3 = document.getElementById(strPre + idx + ':val3');
+                var chk4 = document.getElementById(strPre + idx + ':val4');            
+                
+                if (chk1 != null)
+                {
+                    if ((!chk1.checked) && (!chk2.checked) && (!chk3.checked) && (!chk4.checked))
+                    {
+                        bIsValid = false;
+                    }
+                }
+
+            }        
+        
+            if (bIsValid)
+            {
+                if (isQuickSave)
+                {
+                    callQuick();
+                }
+                else
+                {
+                    callSave();
+                }
+            }
+            else
+            {
+                if (isQuickSave)
+                {
+                    callPartialQuick();
+                }
+                else
+                {
+                    alert('You have not selected a level for all risk descriptions. You will have to return to finish your risk calculation before the risk level appears on the related RFC. You must complete this risk in order to submit the RFC for approval.');
+                    callPartialSave();
+                }
+            }
+        
+        }
+
+
+        function disableChecks()
+        {
+            
+            //sforce.connection.sessionId = '{!$Api.Session_ID}';
+            var bIsValid = true; 
+            var strPre = 'j_id0:frm:pb:resultsRSView:tblRSView:';
+            
+            for (var idx = 0; idx < 30; idx++) 
+            {
+                
+                var lbl1 = document.getElementById(strPre + idx + ':dsc1').innerHTML;
+                var lbl2 = document.getElementById(strPre + idx + ':dsc2').innerHTML;
+                var lbl3 = document.getElementById(strPre + idx + ':dsc3').innerHTML;
+                var lbl4 = document.getElementById(strPre + idx + ':dsc4').innerHTML;
+                
+                var chk1 = document.getElementById(strPre + idx + ':val1');
+                var chk2 = document.getElementById(strPre + idx + ':val2');
+                var chk3 = document.getElementById(strPre + idx + ':val3');
+                var chk4 = document.getElementById(strPre + idx + ':val4');            
+                
+                if (lbl1 == '')
+                {
+                    chk1.disabled = true;
+                }
+                
+                if (lbl2 == '')
+                {
+                    chk2.disabled = true;
+                }
+                
+                if (lbl3 == '')
+                {
+                    chk3.disabled = true;
+                }
+                
+                if (lbl4 == '')
+                {
+                    chk4.disabled = true;
+                }
+                
+            }
+        
+        }
+
+    </script>    
+    
+    <style>
+                                 
+        .vfHelpText a            {position:relative;}
+        .vfHelpText a span       {display: none;}
+        .vfHelpText a:hover span {display: block;
+                                  position:absolute;
+                                  top:2.25em;
+                                  padding:2px 5px;
+                                  left:-15em; width:15em;
+                                  z-index:100;
+                                  border:1px solid orange;
+                                  background-color:#FEFDB9;
+                                  color: black;
+                                  font-size: 9pt;
+                                  font-weight: bold;
+                                 }                                 
+        
+        .custPopup 
+        {
+            background-color: white;
+            border-width: 2px;
+            border-style: solid;
+            z-index: 9999;
+            left: 50%;
+            padding:10px;
+            position: absolute;
+            width: 500px;
+            margin-left: -250px;
+            top:100px;
+        }
+        
+        .popupBackground 
+        {
+            background-color:black;
+            opacity: 0.20;
+            filter: alpha(opacity = 20);
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: 9998;
+        } 
+                      
+    </style>
+    
+    <apex:messages style="color: red; font-size: 10pt; font-weight: bold" />
+    
+    <apex:form id="frm">
+
+        <apex:actionFunction action="{!SavePartialRiskChanges}" name="callPartialSave" />
+        <apex:actionFunction action="{!SaveRiskChanges}" name="callSave" />
+        <apex:actionFunction action="{!QuickSavePartialRiskChanges}" name="callPartialQuick" />
+        <apex:actionFunction action="{!QuickSaveRiskChanges}" name="callQuick" />
+        
+        <div class="bPageTitle" style="padding-top: 0;">
+            <div class="ptBreadcrumb">&nbsp;«&nbsp;<a href="/{!NICC_ID}">Back to NI Change Control</a></div>
+        </div>
+
+        <apex:pageBlock id="pb">
+
+            <apex:pageBlockButtons >                
+                <input type="button" value="Save" class="btn" style="width: 80px;" onclick="validateForm(false);" />
+                &nbsp;
+                <input type="button" value="Quick Save" class="btn" style="width: 80px;" onclick="validateForm(true);" />
+                &nbsp;
+                <apex:commandButton value="Cancel" action="{!CancelRiskChanges}" id="cancelSaveButton" style="width: 80px;" />
+                &nbsp;
+                <apex:commandButton value="Reset" action="{!showPopup}" id="resetButton" style="width: 80px; color: red;" rerender="tstpopup" />
+            </apex:pageBlockButtons>
+
+            <apex:pageBlockSection title="Risk Assessment" id="resultsRSView" columns="1" collapsible="false" showHeader="false">
+                <apex:pageBlockTable value="{!RiskRecord}" var="r" id="tblRSView" >
+
+                    <apex:column headerValue="Risk#" headerClass="headerStyle" style="background: #FFFFFF; text-align: center; width: 32px; font-weight: bold;">
+                        <apex:outputfield value="{!r.SortOrder__c}" id="SortOrder"/>
+                    </apex:column>     
+                    
+                    <apex:column headerValue="Risk Description" headerClass="headerStyle" style="left-align: center; width: 400px; font-size: 11pt; font-weight: bold;">
+                    
+                        <apex:outputfield style="width: 395px;" value="{!r.Description__c}" />&nbsp;&nbsp;
+                        <apex:outputPanel rendered="{!if((r.Help_Text__c != null), true, false)}">
+                        <span class="vfHelpText">
+                            <apex:outputLink value="javascript:return false;">
+                                <img src="/s.gif" alt="" class="helpOrb" />
+                                <span>{!r.Help_Text__c}</span>
+                            </apex:outputLink>
+                        </span>                     
+                        </apex:outputPanel>
+                    </apex:column>                    
+                    
+                    <apex:column headerValue="Low Level" headerClass="headerStyle" style="background: #00FF00; text-align: center; width: 200px; font-weight: bold;">
+                        <apex:outputfield value="{!r.Level1Desc__c}" id="dsc1"/>
+                        <br/>
+                        <apex:inputCheckbox value="{!r.Level1Value__c}" id="val1" onclick="justCheckThis(this)"/>
+                    </apex:column>                    
+                    
+                    <apex:column headerValue="Medium Level" headerClass="headerStyle" style="background: #FFFF00; text-align: center; width: 200px; font-weight: bold;">
+                        <apex:outputfield value="{!r.Level2Desc__c}" id="dsc2"/>
+                        <br/>
+                        <apex:inputCheckbox value="{!r.Level2Value__c}" id="val2" onclick="justCheckThis(this)"/>
+                    </apex:column>                    
+                    
+                    <apex:column headerValue="Medium-High Level" headerClass="headerStyle" style="background: #FFD700; text-align: center; width: 200px; font-weight: bold;">
+                        <apex:outputfield value="{!r.Level3Desc__c}" id="dsc3"/>
+                        <br/>
+                        <apex:inputCheckbox value="{!r.Level3Value__c}" id="val3" onclick="justCheckThis(this)"/>
+                    </apex:column>                    
+
+                    <apex:column headerValue="High Level" headerClass="headerStyle" style="background: #FF6347; text-align: center; width: 200px; font-weight: bold;">
+                        <apex:outputfield value="{!r.Level4Desc__c}" id="dsc4"/>
+                        <br/>
+                        <apex:inputCheckbox value="{!r.Level4Value__c}" id="val4" onclick="justCheckThis(this)"/>
+                    </apex:column> 
+                    
+                    
+                </apex:pageBlockTable>
+            </apex:pageBlockSection>             
+
+        </apex:pageBlock> 
+
+        <apex:outputPanel id="tstpopup">
+        <apex:outputPanel styleClass="popupBackground" layout="block" rendered="{!displayPopUp}"/>
+            <apex:outputPanel styleClass="custPopup" layout="block" rendered="{!displayPopUp}">
+                <table cellpadding="0" border="0">
+                    <tr style="background-color: red; font-weight: bold;">
+                        <td style="vertical-align:top;">     
+                            <br/>                       
+                            &nbsp;&nbsp;<font color="white">Confirm Action</font>
+                            <br/>                            
+                        </td>
+                    </tr>
+                    <tr style="text-align: center;">
+                        <td>
+                            <br/>
+                            Performing this action will clear all levels and reset risks to current setup values. This action cannot be undone.
+                            <br/>
+                        </td>
+                    </tr>
+                    <tr style="text-align: center;">
+                        <td>
+                            <br/>
+                            Do you wish to proceed?
+                            <br/>
+                            <br/>
+                        </td>
+                    </tr>
+                    <tr style="text-align: center;">
+                        <td>
+                            <apex:commandButton value="Yes" action="{!recreateRisks}" id="yesButton" style="width: 40px;" />&nbsp;&nbsp;
+                            <apex:commandButton value="No" action="{!closePopup}" id="noButton" style="width: 40px;" rerender="tstpopup" /> 
+                            <br/>
+                            <br/>
+                        </td>
+                    </tr>
+                </table>        
+            </apex:outputPanel>
+        </apex:outputPanel>
+        
+    </apex:form>
+    
+</apex:page>

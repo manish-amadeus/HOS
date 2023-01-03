@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>TDelphiSelectMPENewInstall2007</fullName>
+    <booleanFilter>1 or 2 or 3</booleanFilter>
+    <columns>NAME</columns>
+    <columns>Template_Name__c</columns>
+    <columns>Opportunity__c</columns>
+    <columns>CURRENCY_ISO_CODE</columns>
+    <columns>Quote_Amount__c</columns>
+    <columns>LAST_UPDATE</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>NAME</field>
+        <operation>equals</operation>
+        <value>,Q-00952,Q-00951,Q-00949,Q-00950,Q-00948,Q-00947,Q-00946,Q-00944,Q-00945,Q-00943</value>
+    </filters>
+    <filters>
+        <field>NAME</field>
+        <operation>equals</operation>
+        <value>,Q-00957,Q-00956,Q-00954,Q-00955,Q-00953,Q-00962,Q-00961,Q-00959,Q-00960,Q-00958</value>
+    </filters>
+    <filters>
+        <field>NAME</field>
+        <operation>equals</operation>
+        <value>,Q-00958,Q-00876,Q-00875,Q-00873,Q-00874,Q-00872</value>
+    </filters>
+    <label>T-Delphi Select MPE New Install - 2007</label>
+</ListView>

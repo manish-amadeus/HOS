@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Font_Size__c</fullName>
+    <externalId>false</externalId>
+    <label>Font Size</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>10pt</fullName>
+                <default>false</default>
+                <label>10pt</label>
+            </value>
+            <value>
+                <fullName>12pt</fullName>
+                <default>false</default>
+                <label>12pt</label>
+            </value>
+            <value>
+                <fullName>14pt</fullName>
+                <default>true</default>
+                <label>14pt</label>
+            </value>
+            <value>
+                <fullName>16pt</fullName>
+                <default>false</default>
+                <label>16pt</label>
+            </value>
+            <value>
+                <fullName>20pt</fullName>
+                <default>false</default>
+                <label>20pt</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

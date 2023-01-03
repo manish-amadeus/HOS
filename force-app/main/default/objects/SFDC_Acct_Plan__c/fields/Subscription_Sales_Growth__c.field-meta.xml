@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Subscription_Sales_Growth__c</fullName>
+    <externalId>false</externalId>
+    <formula>IF (   Last_FY_Subscription_Sales__c  = 0 , 1, (   Plan_FY_Subscription_Sales_Goal__c   -   Last_FY_Subscription_Sales__c   )  /   Last_FY_Subscription_Sales__c )</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Subscription Sales Growth</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>2</scale>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Percent</type>
+</CustomField>

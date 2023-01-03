@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Hosted_RFC_Pending_Mgr_Review</fullName>
+    <columns>NAME</columns>
+    <columns>Request_Summary__c</columns>
+    <columns>Date_Scheduled__c</columns>
+    <columns>Manager_Reviewer__c</columns>
+    <columns>NI_Change_Owner__c</columns>
+    <columns>Change_Status__c</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>RECORDTYPE</field>
+        <operation>equals</operation>
+        <value>NI_Change_Control__c.Hosted_RFC</value>
+    </filters>
+    <filters>
+        <field>Change_Status__c</field>
+        <operation>equals</operation>
+        <value>Pending Manager Approval</value>
+    </filters>
+    <label>Hosted RFC: Pending Mgr Approval</label>
+</ListView>

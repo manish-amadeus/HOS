@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Type_of_Request_c__c</fullName>
+    <externalDeveloperName>Type_of_Request__c</externalDeveloperName>
+    <externalId>false</externalId>
+    <inlineHelpText>Billable = Time and Materials, Non Billable = Bugs and Issues, Project = Cost Estimate</inlineHelpText>
+    <isFilteringDisabled>false</isFilteringDisabled>
+    <isNameField>false</isNameField>
+    <isSortingDisabled>false</isSortingDisabled>
+    <label>Type of Request</label>
+    <readOnlyProxy>true</readOnlyProxy>
+    <required>false</required>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Billable</fullName>
+                <default>false</default>
+                <label>Billable</label>
+            </value>
+            <value>
+                <fullName>Fee Waived</fullName>
+                <default>false</default>
+                <label>Fee Waived</label>
+            </value>
+            <value>
+                <fullName>Fixed Fee Maintenance</fullName>
+                <default>false</default>
+                <label>Fixed Fee Maintenance</label>
+            </value>
+            <value>
+                <fullName>Included in Standard Maintenance</fullName>
+                <default>false</default>
+                <label>Included in Standard Maintenance</label>
+            </value>
+            <value>
+                <fullName>Non Billable</fullName>
+                <default>false</default>
+                <label>Non Billable</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

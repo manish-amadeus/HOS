@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Support_Rep__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <description>Support Rep from the Users object within the Org. This will allow a Support manager to assign a Support Tier to a Support Rep.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Please use lookup feature to select Support Rep.  This lookup has a filter to find Users having the Support Rep profile, but can be overridden by typing in User name from a different profile if needed.</inlineHelpText>
+    <label>Support Rep</label>
+    <lookupFilter>
+        <active>true</active>
+        <filterItems>
+            <field>User.Profile.Name</field>
+            <operation>equals</operation>
+            <value>NI Support CSR</value>
+        </filterItems>
+        <isOptional>true</isOptional>
+    </lookupFilter>
+    <referenceTo>User</referenceTo>
+    <relationshipName>Support_Tiers</relationshipName>
+    <required>false</required>
+    <trackHistory>true</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

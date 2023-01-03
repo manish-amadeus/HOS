@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Subscriptions_Pending_DI_Updates</fullName>
+    <columns>NAME</columns>
+    <columns>Related_Account__c</columns>
+    <columns>Product_Code__c</columns>
+    <columns>Date__c</columns>
+    <columns>Quantity__c</columns>
+    <columns>Subscription_Activation_No__c</columns>
+    <columns>DI_Updated__c</columns>
+    <columns>AccountId__c</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>DI_Updated__c</field>
+        <operation>equals</operation>
+        <value>0</value>
+    </filters>
+    <filters>
+        <field>Status__c</field>
+        <operation>equals</operation>
+        <value>Live</value>
+    </filters>
+    <label>Subscriptions Pending DI Updates</label>
+    <language>en_US</language>
+    <sharedTo>
+        <allInternalUsers></allInternalUsers>
+    </sharedTo>
+</ListView>

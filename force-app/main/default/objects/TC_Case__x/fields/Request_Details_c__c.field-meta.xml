@@ -1,0 +1,853 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Request_Details_c__c</fullName>
+    <externalDeveloperName>Request_Details__c</externalDeveloperName>
+    <externalId>false</externalId>
+    <isFilteringDisabled>false</isFilteringDisabled>
+    <isNameField>false</isNameField>
+    <isSortingDisabled>false</isSortingDisabled>
+    <label>Request Details</label>
+    <readOnlyProxy>true</readOnlyProxy>
+    <required>false</required>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>3rd party user updates</fullName>
+                <default>false</default>
+                <label>3rd party user updates</label>
+            </value>
+            <value>
+                <fullName>Account Review</fullName>
+                <default>false</default>
+                <label>Account Review</label>
+            </value>
+            <value>
+                <fullName>ADA Audit</fullName>
+                <default>false</default>
+                <label>ADA Audit</label>
+            </value>
+            <value>
+                <fullName>Ad Server Checks</fullName>
+                <default>false</default>
+                <label>Ad Server Checks</label>
+            </value>
+            <value>
+                <fullName>Ad Server QC</fullName>
+                <default>false</default>
+                <label>Ad Server QC</label>
+            </value>
+            <value>
+                <fullName>Agency360</fullName>
+                <default>false</default>
+                <label>Agency360</label>
+            </value>
+            <value>
+                <fullName>Analysis</fullName>
+                <default>false</default>
+                <label>Analysis</label>
+            </value>
+            <value>
+                <fullName>Animation – Client provided Banners</fullName>
+                <default>false</default>
+                <label>Animation – Client provided Banners</label>
+            </value>
+            <value>
+                <fullName>Animation – Customized TC Banners</fullName>
+                <default>false</default>
+                <label>Animation – Customized TC Banners</label>
+            </value>
+            <value>
+                <fullName>Assessment</fullName>
+                <default>false</default>
+                <label>Assessment</label>
+            </value>
+            <value>
+                <fullName>At Risk Account</fullName>
+                <default>false</default>
+                <label>At Risk Account</label>
+            </value>
+            <value>
+                <fullName>Banner Ad</fullName>
+                <default>false</default>
+                <label>Banner Ad</label>
+            </value>
+            <value>
+                <fullName>BE 4.0 Conversion Report</fullName>
+                <default>false</default>
+                <label>BE 4.0 Conversion Report</label>
+            </value>
+            <value>
+                <fullName>BE 4.0 Photos</fullName>
+                <default>false</default>
+                <label>BE 4.0 Photos</label>
+            </value>
+            <value>
+                <fullName>Billing Assistance</fullName>
+                <default>false</default>
+                <label>Billing Assistance</label>
+            </value>
+            <value>
+                <fullName>Booking Engine 4.0</fullName>
+                <default>false</default>
+                <label>Booking Engine 4.0</label>
+            </value>
+            <value>
+                <fullName>Booking Engine 4.0 Console</fullName>
+                <default>false</default>
+                <label>Booking Engine 4.0 Console</label>
+            </value>
+            <value>
+                <fullName>Booking Engine Console</fullName>
+                <default>false</default>
+                <label>Booking Engine Console</label>
+            </value>
+            <value>
+                <fullName>Booking Engine Editing (Themes, Resizing Photos)</fullName>
+                <default>false</default>
+                <label>Booking Engine Editing (Themes, Resizing Photos)</label>
+            </value>
+            <value>
+                <fullName>Budget Forecasting Report</fullName>
+                <default>false</default>
+                <label>Budget Forecasting Report</label>
+            </value>
+            <value>
+                <fullName>Business Reviews</fullName>
+                <default>false</default>
+                <label>Business Reviews</label>
+            </value>
+            <value>
+                <fullName>Campaign Management</fullName>
+                <default>false</default>
+                <label>Campaign Management</label>
+            </value>
+            <value>
+                <fullName>Campaign Revision</fullName>
+                <default>false</default>
+                <label>Campaign Revision</label>
+            </value>
+            <value>
+                <fullName>Case Follow up</fullName>
+                <default>false</default>
+                <label>Case Follow up</label>
+            </value>
+            <value>
+                <fullName>Check Specs – Client provided Banners</fullName>
+                <default>false</default>
+                <label>Check Specs – Client provided Banners</label>
+            </value>
+            <value>
+                <fullName>Clicktrackers</fullName>
+                <default>false</default>
+                <label>Clicktrackers</label>
+            </value>
+            <value>
+                <fullName>Collections</fullName>
+                <default>false</default>
+                <label>Collections</label>
+            </value>
+            <value>
+                <fullName>Comp Set changes</fullName>
+                <default>false</default>
+                <label>Comp Set changes</label>
+            </value>
+            <value>
+                <fullName>Contract Extension</fullName>
+                <default>false</default>
+                <label>Contract Extension</label>
+            </value>
+            <value>
+                <fullName>Creative Change</fullName>
+                <default>false</default>
+                <label>Creative Change</label>
+            </value>
+            <value>
+                <fullName>Creative Swap</fullName>
+                <default>false</default>
+                <label>Creative Swap</label>
+            </value>
+            <value>
+                <fullName>Demand360</fullName>
+                <default>false</default>
+                <label>Demand360</label>
+            </value>
+            <value>
+                <fullName>Digital Media</fullName>
+                <default>false</default>
+                <label>Digital Media</label>
+            </value>
+            <value>
+                <fullName>EMA – GDS Media</fullName>
+                <default>false</default>
+                <label>EMA – GDS Media</label>
+            </value>
+            <value>
+                <fullName>EMC</fullName>
+                <default>false</default>
+                <label>EMC</label>
+            </value>
+            <value>
+                <fullName>EMC Sync issues</fullName>
+                <default>false</default>
+                <label>EMC Sync issues</label>
+            </value>
+            <value>
+                <fullName>Error</fullName>
+                <default>false</default>
+                <label>Error</label>
+            </value>
+            <value>
+                <fullName>Exposure Report</fullName>
+                <default>false</default>
+                <label>Exposure Report</label>
+            </value>
+            <value>
+                <fullName>Forecasting Spreadsheet</fullName>
+                <default>false</default>
+                <label>Forecasting Spreadsheet</label>
+            </value>
+            <value>
+                <fullName>GDS</fullName>
+                <default>false</default>
+                <label>GDS</label>
+            </value>
+            <value>
+                <fullName>GDS &amp; iHotelier Booking Engine</fullName>
+                <default>false</default>
+                <label>GDS &amp; iHotelier Booking Engine</label>
+            </value>
+            <value>
+                <fullName>GDS - AGB Landing pages</fullName>
+                <default>false</default>
+                <label>GDS - AGB Landing pages</label>
+            </value>
+            <value>
+                <fullName>GDS - Concorde Issue</fullName>
+                <default>false</default>
+                <label>GDS - Concorde Issue</label>
+            </value>
+            <value>
+                <fullName>GDS image updates</fullName>
+                <default>false</default>
+                <label>GDS image updates</label>
+            </value>
+            <value>
+                <fullName>GDS - Logo Wiki</fullName>
+                <default>false</default>
+                <label>GDS - Logo Wiki</label>
+            </value>
+            <value>
+                <fullName>GDS Look Up</fullName>
+                <default>false</default>
+                <label>GDS Look Up</label>
+            </value>
+            <value>
+                <fullName>GDS Media – Management Company Roll Up</fullName>
+                <default>false</default>
+                <label>GDS Media – Management Company Roll Up</label>
+            </value>
+            <value>
+                <fullName>GDS Media – Single Hotel</fullName>
+                <default>false</default>
+                <label>GDS Media – Single Hotel</label>
+            </value>
+            <value>
+                <fullName>GDS - NEW AGB request</fullName>
+                <default>false</default>
+                <label>GDS - NEW AGB request</label>
+            </value>
+            <value>
+                <fullName>GDS - NEW TPG request</fullName>
+                <default>false</default>
+                <label>GDS - NEW TPG request</label>
+            </value>
+            <value>
+                <fullName>GDS Placement Product Reporting – Management Company Roll Up</fullName>
+                <default>false</default>
+                <label>GDS Placement Product Reporting – Management Company Roll Up</label>
+            </value>
+            <value>
+                <fullName>GDS Placement Product Reporting – Single Hotel</fullName>
+                <default>false</default>
+                <label>GDS Placement Product Reporting – Single Hotel</label>
+            </value>
+            <value>
+                <fullName>GDS Placement Products</fullName>
+                <default>false</default>
+                <label>GDS Placement Products</label>
+            </value>
+            <value>
+                <fullName>GDS - Quality check + upload GPS</fullName>
+                <default>false</default>
+                <label>GDS - Quality check + upload GPS</label>
+            </value>
+            <value>
+                <fullName>GDS - Quality check AGB/TPG - Client provided banners</fullName>
+                <default>false</default>
+                <label>GDS - Quality check AGB/TPG - Client provided banners</label>
+            </value>
+            <value>
+                <fullName>GDS -  SABRE Customized Design Multi Property</fullName>
+                <default>false</default>
+                <label>GDS -  SABRE Customized Design Multi Property</label>
+            </value>
+            <value>
+                <fullName>GDS -  SABRE Customized Design Single Property</fullName>
+                <default>false</default>
+                <label>GDS -  SABRE Customized Design Single Property</label>
+            </value>
+            <value>
+                <fullName>GDS -  SABRE Customized Updates Multi Property</fullName>
+                <default>false</default>
+                <label>GDS -  SABRE Customized Updates Multi Property</label>
+            </value>
+            <value>
+                <fullName>GDS -  SABRE Customized Updates Single Property</fullName>
+                <default>false</default>
+                <label>GDS -  SABRE Customized Updates Single Property</label>
+            </value>
+            <value>
+                <fullName>GDS – SABRE Push Brands</fullName>
+                <default>false</default>
+                <label>GDS – SABRE Push Brands</label>
+            </value>
+            <value>
+                <fullName>GDS – SABRE Push Multi-Property</fullName>
+                <default>false</default>
+                <label>GDS – SABRE Push Multi-Property</label>
+            </value>
+            <value>
+                <fullName>GDS - Update AGB</fullName>
+                <default>false</default>
+                <label>GDS - Update AGB</label>
+            </value>
+            <value>
+                <fullName>GDS – Update JS</fullName>
+                <default>false</default>
+                <label>GDS – Update JS</label>
+            </value>
+            <value>
+                <fullName>GDS - Update TPG</fullName>
+                <default>false</default>
+                <label>GDS - Update TPG</label>
+            </value>
+            <value>
+                <fullName>General</fullName>
+                <default>false</default>
+                <label>General</label>
+            </value>
+            <value>
+                <fullName>General Inquiry</fullName>
+                <default>false</default>
+                <label>General Inquiry</label>
+            </value>
+            <value>
+                <fullName>General Investigating</fullName>
+                <default>false</default>
+                <label>General Investigating</label>
+            </value>
+            <value>
+                <fullName>GMS</fullName>
+                <default>false</default>
+                <label>GMS</label>
+            </value>
+            <value>
+                <fullName>Groups</fullName>
+                <default>false</default>
+                <label>Groups</label>
+            </value>
+            <value>
+                <fullName>HOD Assistance</fullName>
+                <default>false</default>
+                <label>HOD Assistance</label>
+            </value>
+            <value>
+                <fullName>IGT Issue</fullName>
+                <default>false</default>
+                <label>IGT Issue</label>
+            </value>
+            <value>
+                <fullName>IGT Renewal Issue</fullName>
+                <default>false</default>
+                <label>IGT Renewal Issue</label>
+            </value>
+            <value>
+                <fullName>IH Analytics</fullName>
+                <default>false</default>
+                <label>IH Analytics</label>
+            </value>
+            <value>
+                <fullName>iHotelier Admin</fullName>
+                <default>false</default>
+                <label>iHotelier Admin</label>
+            </value>
+            <value>
+                <fullName>iHotelier Analytics</fullName>
+                <default>false</default>
+                <label>iHotelier Analytics</label>
+            </value>
+            <value>
+                <fullName>iHotelier Basic Overview</fullName>
+                <default>false</default>
+                <label>iHotelier Basic Overview</label>
+            </value>
+            <value>
+                <fullName>iHotelier Booking Engine</fullName>
+                <default>false</default>
+                <label>iHotelier Booking Engine</label>
+            </value>
+            <value>
+                <fullName>iHotelier Configuration Audit</fullName>
+                <default>false</default>
+                <label>iHotelier Configuration Audit</label>
+            </value>
+            <value>
+                <fullName>iHotelier Enhancements/Packages</fullName>
+                <default>false</default>
+                <label>iHotelier Enhancements/Packages</label>
+            </value>
+            <value>
+                <fullName>iHotelier Groups</fullName>
+                <default>false</default>
+                <label>iHotelier Groups</label>
+            </value>
+            <value>
+                <fullName>iHotelier Private Offers</fullName>
+                <default>false</default>
+                <label>iHotelier Private Offers</label>
+            </value>
+            <value>
+                <fullName>iHotelier Promotions</fullName>
+                <default>false</default>
+                <label>iHotelier Promotions</label>
+            </value>
+            <value>
+                <fullName>Implementation Escalation</fullName>
+                <default>false</default>
+                <label>Implementation Escalation</label>
+            </value>
+            <value>
+                <fullName>Import Exceptions</fullName>
+                <default>false</default>
+                <label>Import Exceptions</label>
+            </value>
+            <value>
+                <fullName>Inventory</fullName>
+                <default>false</default>
+                <label>Inventory</label>
+            </value>
+            <value>
+                <fullName>Inventory Release</fullName>
+                <default>false</default>
+                <label>Inventory Release</label>
+            </value>
+            <value>
+                <fullName>Inventory Request</fullName>
+                <default>false</default>
+                <label>Inventory Request</label>
+            </value>
+            <value>
+                <fullName>Invoices</fullName>
+                <default>false</default>
+                <label>Invoices</label>
+            </value>
+            <value>
+                <fullName>Management Company - New acquisition(s)</fullName>
+                <default>false</default>
+                <label>Management Company - New acquisition(s)</label>
+            </value>
+            <value>
+                <fullName>Management Company Newsletter</fullName>
+                <default>false</default>
+                <label>Management Company Newsletter</label>
+            </value>
+            <value>
+                <fullName>Management Company Spend Report</fullName>
+                <default>false</default>
+                <label>Management Company Spend Report</label>
+            </value>
+            <value>
+                <fullName>Management Company Training Materials</fullName>
+                <default>false</default>
+                <label>Management Company Training Materials</label>
+            </value>
+            <value>
+                <fullName>Market Insight Data</fullName>
+                <default>false</default>
+                <label>Market Insight Data</label>
+            </value>
+            <value>
+                <fullName>Maximum Transactions</fullName>
+                <default>false</default>
+                <label>Maximum Transactions</label>
+            </value>
+            <value>
+                <fullName>MCC</fullName>
+                <default>false</default>
+                <label>MCC</label>
+            </value>
+            <value>
+                <fullName>Media QC</fullName>
+                <default>false</default>
+                <label>Media QC</label>
+            </value>
+            <value>
+                <fullName>Mileage</fullName>
+                <default>false</default>
+                <label>Mileage</label>
+            </value>
+            <value>
+                <fullName>MSA – BI Products</fullName>
+                <default>false</default>
+                <label>MSA – BI Products</label>
+            </value>
+            <value>
+                <fullName>New Campaign Setup</fullName>
+                <default>false</default>
+                <label>New Campaign Setup</label>
+            </value>
+            <value>
+                <fullName>NEW Dynamic Digital Banner</fullName>
+                <default>false</default>
+                <label>NEW Dynamic Digital Banner</label>
+            </value>
+            <value>
+                <fullName>NEW FB Ads</fullName>
+                <default>false</default>
+                <label>NEW FB Ads</label>
+            </value>
+            <value>
+                <fullName>NEW Standard Digital Banner</fullName>
+                <default>false</default>
+                <label>NEW Standard Digital Banner</label>
+            </value>
+            <value>
+                <fullName>Non iHotelier GDS</fullName>
+                <default>false</default>
+                <label>Non iHotelier GDS</label>
+            </value>
+            <value>
+                <fullName>On boarding assistance</fullName>
+                <default>false</default>
+                <label>On boarding assistance</label>
+            </value>
+            <value>
+                <fullName>OTA</fullName>
+                <default>false</default>
+                <label>OTA</label>
+            </value>
+            <value>
+                <fullName>OTA Sync Configuration Tool</fullName>
+                <default>false</default>
+                <label>OTA Sync Configuration Tool</label>
+            </value>
+            <value>
+                <fullName>Other</fullName>
+                <default>false</default>
+                <label>Other</label>
+            </value>
+            <value>
+                <fullName>Other requests</fullName>
+                <default>false</default>
+                <label>Other requests</label>
+            </value>
+            <value>
+                <fullName>Packages &amp; Enhancements</fullName>
+                <default>false</default>
+                <label>Packages &amp; Enhancements</label>
+            </value>
+            <value>
+                <fullName>Partner</fullName>
+                <default>false</default>
+                <label>Partner</label>
+            </value>
+            <value>
+                <fullName>PowerPoint/Document Rebranding</fullName>
+                <default>false</default>
+                <label>PowerPoint/Document Rebranding</label>
+            </value>
+            <value>
+                <fullName>Pricing Request</fullName>
+                <default>false</default>
+                <label>Pricing Request</label>
+            </value>
+            <value>
+                <fullName>Processing Files</fullName>
+                <default>false</default>
+                <label>Processing Files</label>
+            </value>
+            <value>
+                <fullName>Product Approvals</fullName>
+                <default>false</default>
+                <label>Product Approvals</label>
+            </value>
+            <value>
+                <fullName>Production Report</fullName>
+                <default>false</default>
+                <label>Production Report</label>
+            </value>
+            <value>
+                <fullName>Promo Tile</fullName>
+                <default>false</default>
+                <label>Promo Tile</label>
+            </value>
+            <value>
+                <fullName>Promotions, Room Hold, Private Offers, Revenue Management Screens</fullName>
+                <default>false</default>
+                <label>Promotions, Room Hold, Private Offers, Revenue Management Screens</label>
+            </value>
+            <value>
+                <fullName>Property List Audit</fullName>
+                <default>false</default>
+                <label>Property List Audit</label>
+            </value>
+            <value>
+                <fullName>Prospecting - Group</fullName>
+                <default>false</default>
+                <label>Prospecting - Group</label>
+            </value>
+            <value>
+                <fullName>Prospecting - Single</fullName>
+                <default>false</default>
+                <label>Prospecting - Single</label>
+            </value>
+            <value>
+                <fullName>Question - Ad Server</fullName>
+                <default>false</default>
+                <label>Question - Ad Server</label>
+            </value>
+            <value>
+                <fullName>Question - Insite</fullName>
+                <default>false</default>
+                <label>Question - Insite</label>
+            </value>
+            <value>
+                <fullName>Question - Ops/OM Process</fullName>
+                <default>false</default>
+                <label>Question - Ops/OM Process</label>
+            </value>
+            <value>
+                <fullName>Question - Product</fullName>
+                <default>false</default>
+                <label>Question - Product</label>
+            </value>
+            <value>
+                <fullName>Question - Product/Process</fullName>
+                <default>false</default>
+                <label>Question - Product/Process</label>
+            </value>
+            <value>
+                <fullName>Questions</fullName>
+                <default>false</default>
+                <label>Questions</label>
+            </value>
+            <value>
+                <fullName>Rate360</fullName>
+                <default>false</default>
+                <label>Rate360</label>
+            </value>
+            <value>
+                <fullName>Rate Parity Reports</fullName>
+                <default>false</default>
+                <label>Rate Parity Reports</label>
+            </value>
+            <value>
+                <fullName>Rate Shop Reports</fullName>
+                <default>false</default>
+                <label>Rate Shop Reports</label>
+            </value>
+            <value>
+                <fullName>Renewal Campaign Setup</fullName>
+                <default>false</default>
+                <label>Renewal Campaign Setup</label>
+            </value>
+            <value>
+                <fullName>Renewals Team – Contracting Assistance</fullName>
+                <default>false</default>
+                <label>Renewals Team – Contracting Assistance</label>
+            </value>
+            <value>
+                <fullName>Reporting</fullName>
+                <default>false</default>
+                <label>Reporting</label>
+            </value>
+            <value>
+                <fullName>Reporting - Historical</fullName>
+                <default>false</default>
+                <label>Reporting - Historical</label>
+            </value>
+            <value>
+                <fullName>Reports</fullName>
+                <default>false</default>
+                <label>Reports</label>
+            </value>
+            <value>
+                <fullName>Resize Images</fullName>
+                <default>false</default>
+                <label>Resize Images</label>
+            </value>
+            <value>
+                <fullName>Results Analysis</fullName>
+                <default>false</default>
+                <label>Results Analysis</label>
+            </value>
+            <value>
+                <fullName>Revision</fullName>
+                <default>false</default>
+                <label>Revision</label>
+            </value>
+            <value>
+                <fullName>Roll Up Request</fullName>
+                <default>false</default>
+                <label>Roll Up Request</label>
+            </value>
+            <value>
+                <fullName>Salesforce Account Changes</fullName>
+                <default>false</default>
+                <label>Salesforce Account Changes</label>
+            </value>
+            <value>
+                <fullName>Screen Capture</fullName>
+                <default>false</default>
+                <label>Screen Capture</label>
+            </value>
+            <value>
+                <fullName>Self Service Push Back</fullName>
+                <default>false</default>
+                <label>Self Service Push Back</label>
+            </value>
+            <value>
+                <fullName>Sent to Customer Care to action</fullName>
+                <default>false</default>
+                <label>Sent to Customer Care to action</label>
+            </value>
+            <value>
+                <fullName>SEO</fullName>
+                <default>false</default>
+                <label>SEO</label>
+            </value>
+            <value>
+                <fullName>Stop / Pause Campaign</fullName>
+                <default>false</default>
+                <label>Stop / Pause Campaign</label>
+            </value>
+            <value>
+                <fullName>Subscription Fix</fullName>
+                <default>false</default>
+                <label>Subscription Fix</label>
+            </value>
+            <value>
+                <fullName>Tag Creation</fullName>
+                <default>false</default>
+                <label>Tag Creation</label>
+            </value>
+            <value>
+                <fullName>Tag Implementation</fullName>
+                <default>false</default>
+                <label>Tag Implementation</label>
+            </value>
+            <value>
+                <fullName>Targeting</fullName>
+                <default>false</default>
+                <label>Targeting</label>
+            </value>
+            <value>
+                <fullName>Terminations</fullName>
+                <default>false</default>
+                <label>Terminations</label>
+            </value>
+            <value>
+                <fullName>Test Booking</fullName>
+                <default>false</default>
+                <label>Test Booking</label>
+            </value>
+            <value>
+                <fullName>Text Change</fullName>
+                <default>false</default>
+                <label>Text Change</label>
+            </value>
+            <value>
+                <fullName>Troubleshooting</fullName>
+                <default>false</default>
+                <label>Troubleshooting</label>
+            </value>
+            <value>
+                <fullName>TVS</fullName>
+                <default>false</default>
+                <label>TVS</label>
+            </value>
+            <value>
+                <fullName>UAT</fullName>
+                <default>false</default>
+                <label>UAT</label>
+            </value>
+            <value>
+                <fullName>UIO Change</fullName>
+                <default>false</default>
+                <label>UIO Change</label>
+            </value>
+            <value>
+                <fullName>Update Dynamic Digital Banner</fullName>
+                <default>false</default>
+                <label>Update Dynamic Digital Banner</label>
+            </value>
+            <value>
+                <fullName>Update FB Ads</fullName>
+                <default>false</default>
+                <label>Update FB Ads</label>
+            </value>
+            <value>
+                <fullName>Update Standard Digital Banner</fullName>
+                <default>false</default>
+                <label>Update Standard Digital Banner</label>
+            </value>
+            <value>
+                <fullName>Users that have lost access</fullName>
+                <default>false</default>
+                <label>Users that have lost access</label>
+            </value>
+            <value>
+                <fullName>Video Ad Banners</fullName>
+                <default>false</default>
+                <label>Video Ad Banners</label>
+            </value>
+            <value>
+                <fullName>Video Editing</fullName>
+                <default>false</default>
+                <label>Video Editing</label>
+            </value>
+            <value>
+                <fullName>Web</fullName>
+                <default>false</default>
+                <label>Web</label>
+            </value>
+            <value>
+                <fullName>Web 3.0</fullName>
+                <default>false</default>
+                <label>Web 3.0</label>
+            </value>
+            <value>
+                <fullName>Web 3.0 &amp; iHotelier Mobile</fullName>
+                <default>false</default>
+                <label>Web 3.0 &amp; iHotelier Mobile</label>
+            </value>
+            <value>
+                <fullName>Website</fullName>
+                <default>false</default>
+                <label>Website</label>
+            </value>
+            <value>
+                <fullName>YTD Hotel Revenue</fullName>
+                <default>false</default>
+                <label>YTD Hotel Revenue</label>
+            </value>
+            <value>
+                <fullName>Zero Delivery</fullName>
+                <default>false</default>
+                <label>Zero Delivery</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

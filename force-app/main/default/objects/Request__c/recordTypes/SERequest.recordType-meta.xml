@@ -1,0 +1,955 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<RecordType xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>SERequest</fullName>
+    <active>true</active>
+    <description>Systems Engineering Request</description>
+    <label>SE Request</label>
+    <picklistValues>
+        <picklist>Contract_Handling__c</picklist>
+        <values>
+            <fullName>N%2FA</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Non-Standard-Deliverables%2FFunctionality</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Non-Standard-Manual Contract</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Non-Standard-Payment%2FBilling Terms</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Non-Standard-Pricing%2FDiscounting</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Non-Standard-T%26C Changes</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Standard</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Contract_Type__c</picklist>
+        <values>
+            <fullName>New</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Renew</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Customer_Experience_Department__c</picklist>
+        <values>
+            <fullName>Customer Education</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Customer Support %28L1%29</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Enterprise Customer Relations</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Other</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Shared Services</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Solution Delivery</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Technical Support %28L2%29</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Location_of_Contact__c</picklist>
+        <values>
+            <fullName>APAC Remote</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Barcelona</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>EMEA Remote</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Manila</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Melbourne</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>NORAM Remote</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Orlando</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Portsmouth</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>San Jose</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Priority__c</picklist>
+        <values>
+            <fullName>Correction</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>High</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Standard</fullName>
+            <default>true</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Product_Family__c</picklist>
+        <values>
+            <fullName>Business Intelligence</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>GMS</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Media Solutions</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>PMS</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Reservation Solutions</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Sales and Catering</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Service Optimization</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Video Solutions</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Web Solutions</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Product__c</picklist>
+        <values>
+            <fullName>ACPM</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>AHD- Amadeus Diagramming</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>APMA</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>ASEM</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Advanced</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Agency Position</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Agency360</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Agency360 GDS Advertising Edition</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Amadeus Instant Preference %28AIP%29</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Basic Bundle</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Cendyn</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Channel Management</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Consortia%2FCorp RFP</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Consulting</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Corp Hotelligence</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>DRM</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Demand Position</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Demand360</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Destination Insights</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Directbook</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Display Media</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>EMA</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>EMC</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>EMS%2FRMS</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Featured Property</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Forward Vision %28CAR%29</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>FuturePace</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>GDS Media</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>GMS</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>GuestView360</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>HT360Admin</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Hotel Spotlight</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Hotelligence</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Hotelligence Lite</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>IDPMS</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>InSite</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Industry Intel</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Lanyon</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Legacy Bundle</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>MDM</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Meetingbroker</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Oracle</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Order Manager</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>PMS Integrations</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Price Position</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Price Position %28CAR%29</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>RDP</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Rate360</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>RateView%2FRV Enterprise</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>RevenueStrategy360</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>RezExchange</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>SEO</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>SMO</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>SO Peripherals and Services</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Sabre Spotlight %28SSL%29</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Sabre Weekend Spotlight</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Salesforce</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Select</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Sertifi</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Single Media Agency</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Single Media Subscription</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Standard</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Standard%2FEssentials</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>TA Helpdesk</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>TC Bundle</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>TVS</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Trip Advisor</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Web - Builder Concierge</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Web - Other</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Web - SEO %2F SMO</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Web Solutions Custom</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Web Solutions Essentials</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Webbuilder</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Website - HTK</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>iHotelier CRS</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>iTrak</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>QC_Critical_Error_Category__c</picklist>
+        <values>
+            <fullName>Inadequate preparation</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Incorrect Amadeus LE</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Incorrect Order General Terms</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Incorrect SKU</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Incorrect clauses or T%26C</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Incorrect currency</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Incorrect invoice terms</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>LE missing</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Missing Pricing Approvals for additional users</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>None</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Wrong Pricebook</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Wrong Template</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Wrong billing currency selected</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>QC_Non_Critical_Error_Category__c</picklist>
+        <values>
+            <fullName>None</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>PO Number missing</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>QC_Score__c</picklist>
+        <values>
+            <fullName>Fail</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Pass</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Reason_for_Delay__c</picklist>
+        <values>
+            <fullName>Account on Support Hold</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Contacts on Opp not updated %22can only be 1 bill to%2Fship to listed%22</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Diagram List for AHD missing</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Discount Notes not accurate</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Discounts Not Approved</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Hilton - Effective Date Missing</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Incorrect Account Owner</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Incorrect LE</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Incorrect Opportunity Record Type</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Incorrect Pricing</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Incorrect SKUS</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Incorrect Terms %28General%2C Services%2C Subscriptio%29</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Missing Account Information</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Missing Participation Agreement</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Missing approvals from Sertifo%2FCendyn</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Missing signed side letter</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Notes to Contracts -incomplete or inaccurate</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Opportunity%2FCO not on correct account</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>PO%23 Missing</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>PSR not completed or current</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Pending Finance approval</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Pending GTM%2FProduct Approval</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Pending Legal approval</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Pending PM confirmation</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Pending Pricing Approval</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Promo%2FPricing  Expired</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Related Accounts not updated for Consolidated Orders</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Signature not legible%2C Name and Title not noted or legible</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Signed contract not attached to opportunity</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Unauthorised contract edits</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Request_Status__c</picklist>
+        <values>
+            <fullName>In Progress</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>New</fullName>
+            <default>true</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Request_Type__c</picklist>
+        <values>
+            <fullName>Other</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Secondary_Reason__c</picklist>
+        <values>
+            <fullName>Account on Support Hold</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Contacts on Opp not updated %22can only be 1 bill to%2Fship to listed%22</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Diagram List for AHD missing</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Discount Notes not accurate</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Discounts Not Approved</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Hilton - Effective Date Missing</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Incorrect Account Owner</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Incorrect LE</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Incorrect Opportunity Record Type</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Incorrect Pricing</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Incorrect SKUS</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Incorrect Terms %28General%2C Services%2C Subscriptio%29</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Missing Account Information</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Missing Participation Agreement</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Missing approvals from Sertifo%2FCendyn</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Missing signed side letter</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Notes to Contracts -incomplete or inaccurate</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Opportunity%2FCO not on correct account</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>PO%23 Missing</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>PSR not completed or current</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Pending Finance approval</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Pending GTM%2FProduct Approval</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Pending Legal approval</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Pending PM confirmation</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Pending Pricing Approval</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Promo%2FPricing  Expired</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Related Accounts not updated for Consolidated Orders</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Signature not legible%2C Name and Title not noted or legible</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Signed contract not attached to opportunity</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Unauthorised contract edits</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Tertiary_Reason__c</picklist>
+        <values>
+            <fullName>Account on Support Hold</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Contacts on Opp not updated %22can only be 1 bill to%2Fship to listed%22</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Diagram List for AHD missing</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Discount Notes not accurate</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Discounts Not Approved</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Hilton - Effective Date Missing</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Incorrect Account Owner</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Incorrect LE</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Incorrect Opportunity Record Type</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Incorrect Pricing</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Incorrect SKUS</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Incorrect Terms %28General%2C Services%2C Subscriptio%29</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Missing Account Information</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Missing Participation Agreement</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Missing approvals from Sertifo%2FCendyn</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Missing signed side letter</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Notes to Contracts -incomplete or inaccurate</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Opportunity%2FCO not on correct account</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>PO%23 Missing</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>PSR not completed or current</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Pending Finance approval</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Pending GTM%2FProduct Approval</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Pending Legal approval</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Pending PM confirmation</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Pending Pricing Approval</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Promo%2FPricing  Expired</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Related Accounts not updated for Consolidated Orders</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Signature not legible%2C Name and Title not noted or legible</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Signed contract not attached to opportunity</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Unauthorised contract edits</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Within_SLA__c</picklist>
+        <values>
+            <fullName>No</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Yes</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+</RecordType>

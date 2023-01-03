@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>CannotChangeNameSKU</fullName>
+    <active>true</active>
+    <description>Prevents the changing of a SKU on a Softrax billing record because this needs to be handled by integration.</description>
+    <errorConditionFormula>AND (
+    ISCHANGED(Name) 
+)</errorConditionFormula>
+    <errorDisplayField>Name</errorDisplayField>
+    <errorMessage>A validation rule on Softrax_Asset__c has prevented the SKU &quot;Name&quot; value from being changed.</errorMessage>
+</ValidationRule>

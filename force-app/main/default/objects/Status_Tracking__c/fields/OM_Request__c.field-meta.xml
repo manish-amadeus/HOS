@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>OM_Request__c</fullName>
+    <businessOwnerUser>adavid.robinson@amadeus.com</businessOwnerUser>
+    <businessStatus>Active</businessStatus>
+    <description>NICC-051009</description>
+    <externalId>false</externalId>
+    <label>OM Request</label>
+    <referenceTo>Request__c</referenceTo>
+    <relationshipLabel>Status Tracking</relationshipLabel>
+    <relationshipName>Status_Tracking</relationshipName>
+    <relationshipOrder>0</relationshipOrder>
+    <reparentableMasterDetail>false</reparentableMasterDetail>
+    <securityClassification>Internal</securityClassification>
+    <trackTrending>false</trackTrending>
+    <type>MasterDetail</type>
+    <writeRequiresMasterRead>false</writeRequiresMasterRead>
+</CustomField>

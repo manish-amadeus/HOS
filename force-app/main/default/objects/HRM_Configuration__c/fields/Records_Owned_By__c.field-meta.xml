@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Records_Owned_By__c</fullName>
+    <externalId>false</externalId>
+    <label>Records Owned By</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Public Groups</fullName>
+                <default>false</default>
+                <label>Public Groups</label>
+            </value>
+            <value>
+                <fullName>Roles</fullName>
+                <default>false</default>
+                <label>Roles</label>
+            </value>
+            <value>
+                <fullName>Roles &amp; Subordinates</fullName>
+                <default>false</default>
+                <label>Roles &amp; Subordinates</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

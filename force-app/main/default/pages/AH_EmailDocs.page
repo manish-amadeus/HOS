@@ -1,0 +1,99 @@
+<apex:page sidebar="false" standardController="NI_Documentation__c" Extensions="AH_EmailDocs_Ext" Showheader="false">
+    <apex:pageMessages id="showmsg" />
+    <apex:form >        
+        <apex:pageblock id="pbMain" title="">
+
+            <apex:pageBlockSection showHeader="true" collapsible="false" title="Choose an Email Template">
+                <apex:selectList size="1" value="{!selectedTemplate}">
+                    <apex:selectOptions value="{!templateOptions}"/>
+                </apex:selectList>
+            </apex:pageBlockSection>
+
+            <apex:pageBlockSection showHeader="true" collapsible="false" title="Choose Recipient(s)" columns="1">
+                <apex:pageBlockTable value="{!lstContacts}" var="c">
+                    <apex:column style="text-align: center; width: 80px;">
+                        <apex:facet name="header">
+                            <apex:outputText value="Send"/> 
+                        </apex:facet>
+                        <apex:inputCheckbox value="{!c.isSelected}" id="checkedContact" />
+                    </apex:column>  
+                    <apex:column >
+                        <apex:facet name="header">Name</apex:facet>
+                        <apex:outputText value="{!c.contactName}"/>
+                    </apex:column> 
+                    <apex:column >
+                        <apex:facet name="header">Role</apex:facet>
+                        <apex:outputText value="{!c.contactRole}"/>
+                    </apex:column>    
+                </apex:pageBlockTable>
+            </apex:pageBlockSection>
+            
+            <apex:pageBlockSection showHeader="true" collapsible="false" title="Indicate Activity Line Items to be Marked as Completed" columns="1">
+                <apex:pageBlockTable value="{!lstActivityLineItems}" var="i">
+                    <apex:column style="text-align: center; width: 80px;">
+                        <apex:facet name="header">
+                            <apex:outputText value="Update"/> 
+                        </apex:facet>
+                        <apex:inputCheckbox value="{!i.isSelected}" id="checkedALI" />
+                    </apex:column>  
+                    <apex:column >
+                        <apex:facet name="header">Name</apex:facet>
+                        <apex:outputText value="{!i.ali.Name}"/>
+                    </apex:column> 
+                    <apex:column >
+                        <apex:facet name="header">Status</apex:facet>
+                        <apex:outputText value="{!i.ali.Status__c}"/>
+                    </apex:column>  
+                    <apex:column >
+                        <apex:facet name="header">Product</apex:facet>
+                        <apex:outputText value="{!i.ali.Product__r.Name}"/>
+                    </apex:column>  
+                    <apex:column >
+                        <apex:facet name="header">SKU</apex:facet>
+                        <apex:outputText value="{!i.ali.SKU__c}"/>
+                    </apex:column>  
+                    <apex:column >
+                        <apex:facet name="header">Revenue Category</apex:facet>
+                        <apex:outputText value="{!i.ali.Revenue_Category__c}"/>
+                    </apex:column>  
+                </apex:pageBlockTable>
+            </apex:pageBlockSection>            
+            
+            <apex:pageBlockSection showHeader="true" collapsible="false" title="Update Deployment Instance Status & Quantity Provisioned" columns="1">
+                <apex:pageBlockTable value="{!lstAssets}" var="dinst">
+
+                    <apex:column >
+                        <apex:facet name="header">Name</apex:facet>
+                        <apex:outputText value="{!dinst.di.Name}"/>
+                    </apex:column> 
+
+                    <apex:column >
+                        <apex:facet name="header">SKU</apex:facet>
+                        <apex:outputText value="{!dinst.di.Product2.ProductCode}"/>
+                    </apex:column>  
+
+                    <apex:column >
+                        <apex:facet name="header">Family</apex:facet>
+                        <apex:outputText value="{!dinst.di.Product2.Family}"/>
+                    </apex:column>  
+                    
+                    <apex:column >
+                        <apex:facet name="header">Status</apex:facet>
+                        <apex:inputField value="{!dinst.di.Status}"/>
+                    </apex:column>  
+
+                    <apex:column >
+                        <apex:facet name="header">Quantity Provisioned</apex:facet>
+                        <apex:inputField value="{!dinst.di.Quantity_Provisioned__c}"/>
+                    </apex:column>  
+                  
+                </apex:pageBlockTable>
+            </apex:pageBlockSection>   
+
+            <apex:pageBlockButtons location="bottom">                    
+                <apex:commandButton value=" Continue to Email Form" action="{!sendEmail}" />
+            </apex:pageBlockButtons>   
+                                   
+        </apex:pageblock>
+    </apex:form>    
+</apex:page>

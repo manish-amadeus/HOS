@@ -1,0 +1,366 @@
+<apex:page controller="AH_SINManager_Cntr" showHeader="true" sidebar="true" tabStyle="Account" lightningStylesheets="true">
+    
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+    
+    <script type="text/javascript">
+        
+        $(document).ready(function(){
+            checkAllPostFunction();
+        }); 
+        
+        function switchMenu(obj,obj1,obj2) 
+        {
+            var el = document.getElementById(obj);                                       
+            if ( el.style.display != 'none' ) {
+                el.style.display = 'none';
+            }
+            else {
+                el.style.display = '';
+            }
+            
+            var e2 = document.getElementById(obj1);                                       
+            if ( e2.style.display != 'none' ) {
+                e2.style.display = 'none';
+            }
+            else {
+                e2.style.display = '';
+            }
+            
+            var e3 = document.getElementById(obj2);                                       
+            if ( e2.style.display != 'none' ) {
+                e3.style.display = 'none';
+            }
+            else {
+                e3.style.display = '';
+            }
+            
+        }
+        
+        // LOADI MODAL FUNCTIONS
+        function showLoadingModal(){
+            $("#spinner").css({"display":"inline"});
+        }
+         
+        function hideLoadingModal(){
+            $("#spinner").css({"display":"none"});
+        }
+
+        // CHECKBOX FUNCTIONS
+        function checkAllFunction(evt)
+        {
+            var isCheckedBox = $(evt).is(':checked');
+            
+            $(evt).closest('table').find('.checkbox').each(function() 
+            {
+                var isChildDisabled = $(this).is(':disabled');
+                if (!isChildDisabled)
+                {
+                    $(this).prop('checked',isCheckedBox);
+                }
+            });
+        }
+    
+        function checkAllRecords(this1)
+        {
+            var parentVal = $(this1).is(':checked');
+            
+            $(this1).closest('table').find('.checkAll').each(function() 
+            {
+                $(this).prop('checked',parentVal);
+            });
+            
+            $(this1).closest('table').find('.checkbox').each(function() 
+            {
+                var isChildDisabled = $(this).is(':disabled');
+                if (!isChildDisabled)
+                {
+                    $(this).prop('checked',parentVal);
+                }
+            });
+        }    
+    
+
+        function checkAllPostFunction(){
+            $(".checkAllPost").on("click", function(e){
+                var isChecked = $(this).is(':checked'); 
+                $(".checkboxPost").prop('checked', isChecked);
+            });
+        }
+    
+    </script>
+    
+    <style>
+        /* Modal elements are used for indicating the form is saving when page is executed in the Service Console.
+        Sets the background to 80% white to 'grey' out input form */
+        .modal {
+            display:    none;
+            position:   fixed;
+            z-index:    1000;
+            top:        0;
+            left:       0;
+            height:     100%;
+            width:      100%;
+            background: rgba( 255, 255, 255, .8 )
+            50% 50%
+            no-repeat;
+        }
+        /* Box elements are used for indicating the form is saving when page is executed in the Service Console.
+        Box elements appear in the center of the page. */
+        .box {
+            background-color:      white;
+            border-radius:         10px;
+            -webkit-border-radius: 10px;
+            -moz-border-radius:    10px;
+            box-shadow:            0 0 20px 0 #222;
+            -webkit-box-shadow:    0 0 20px 0 #222;
+            -moz-box-shadow:       0 0 20px 0 #222;
+            position:              fixed;
+            top:                   50%;
+            left:                  50%;
+            margin-top:            -50px;
+            margin-left:           -100px;
+            height:                80px;
+            width:                 240px;
+            padding-top:           35px;
+            text-align:            center;
+        }
+        .alert-box {
+            color:#555;
+            border-radius:10px;
+            font-family:Tahoma,Geneva,Arial,sans-serif;font-size:11px;
+            padding:10px 10px 10px 36px;
+            margin:10px;
+        }
+        .alert-box span {
+            font-weight:bold;
+            text-transform:uppercase;
+        }
+        .error {
+            background:#ffecec url('images/error.png') no-repeat 10px 50%;
+            border:1px solid #f5aca6;
+        }
+        .success {
+            background:#e9ffd9 url('images/success.png') no-repeat 10px 50%;
+            border:1px solid #a6ca8a;
+        }
+        .warning {
+            background:#fff8c4 url('images/warning.png') no-repeat 10px 50%;
+            border:1px solid #f2c779;
+        }
+        .notice {
+            background:#e3f7fc url('images/notice.png') no-repeat 10px 50%;
+            border:1px solid #8ed9f6;
+        }
+    </style>
+
+    <div class="modal" id="spinner">
+        <div class="box">
+            <img src="/img/loading.gif" alt="Saving"/><i id="spinner-label" style="padding-left:5px">Loading...</i>
+        </div>
+    </div>
+    
+    <apex:form id="frm">
+         <apex:pageMessages id="topMsgs"/> 
+        
+        <apex:pageBlock title="Sales Invoice Manager" id="PB1"> 
+            
+            <!--    PAGE BLOCK BUTTONS      -->
+            <apex:pageBlockButtons >
+                <apex:outputPanel id="buttons">
+                    <apex:commandButton action="{!fetchData}" value="Load Data" id="btnFetchData" reRender="topMsgs,dataSection" onclick="showLoadingModal();" oncomplete="hideLoadingModal();"/>
+                    <apex:commandButton action="{!createInvoices}" value="Create Invoice(s)" id="btnCreateInv" reRender="dataSection,topMsgs,errHistory,invoiceSection" onclick="showLoadingModal();" oncomplete="hideLoadingModal();checkAllPostFunction();" />
+                    <apex:commandButton action="{!postInvoices}" value="Post Invoices" id="btnPostInv"  reRender="PB1,topMsgs,errHistory,pb2" onclick="showLoadingModal();" oncomplete="hideLoadingModal();" disabled="{!disablePostBtn}" />
+                    <apex:commandButton action="{!refreshInvoices}" value="Refresh List" id="btnRefreshLst" reRender="PB1,topMsgs,invoiceSection,errHistory,pb2" onclick="showLoadingModal();" oncomplete="hideLoadingModal();" />
+                    <apex:commandButton action="{!reset}" value="Reset" id="btnReset" reRender="frm" onclick="showLoadingModal();" oncomplete="hideLoadingModal();"/>
+                </apex:outputPanel>
+            </apex:pageBlockButtons>
+            <apex:outputText >
+            </apex:outputText>   
+
+            
+            <!--    FILTER AT THE TOP       -->
+            <apex:pageBlockSection title="Filters" columns="2">
+                <apex:inputField value="{!dummyBCLI.Billing_Contract__c}" required="false" label="Billing Contract" />
+                <apex:inputField value="{!dummyBC.Account__c}" required="false" label="Customer Account" />
+                <apex:inputField value="{!dummyBC.Company__c}" required="false" label="Company" />
+            </apex:pageBlockSection> 
+            
+            
+            <!--    RESULT OF THE QUERY ON BILLING CONTRACT LINE ITEM       -->
+            <apex:pageBlockSection title="Retrieved Billing Contract Line Items" id="dataSection" columns="1" >
+                <apex:outputText >
+                </apex:outputText>
+ 
+                <apex:pageBlockTable value="{!wrapList}" var="wrapper">
+                    
+                    <apex:column style="width: 60px;">
+                        
+                        <apex:facet name="header">                                        
+                            <apex:inputCheckbox value="{!isCheckAllBCs}" onclick="checkAllRecords(this);"  styleClass="checkAllRecs"/>
+                        </apex:facet>
+                        
+                        <apex:outputpanel id="plusimage">
+                            <apex:image url="{!$Resource.plusImg}" onclick="switchMenu('{!$Component.inlinetablesec}','{!$Component.minusimage}','{!$Component.plusimage}')" title="Expand - Team Member's"/> 
+                        </apex:outputpanel>
+                        <apex:outputpanel id="minusimage" style="display:none;">
+                            <apex:image url="{!$Resource.minusImg}" onclick="switchMenu('{!$Component.inlinetablesec}','{!$Component.plusimage}','{!$Component.minusimage}')" title="Collapse - Team Member's"/>
+                        </apex:outputpanel>
+                    </apex:column>
+                    
+                    <apex:column headervalue="Name" style="width: 240px;">
+                        <b><apex:outputtext value="{!wrapper.bc.Name}"/></b>
+                        
+                        <apex:outputpanel id="inlinetablesec" style="display:none;">
+                            <div>
+                                <br/>
+                            </div>
+                            <apex:variable value="{!0}" var="rowNum"/>
+                            <apex:repeat var="count" value="{!wrapper.bcliWrapperList}">
+                                <apex:variable var="rowNum" value="{!rowNum+1}"/>
+                            </apex:repeat>
+                            <apex:outputText rendered="{!rowNum=0}">  No BCLIs  </apex:outputText>
+                            <apex:pageblocktable value="{!wrapper.bcliWrapperList}" var="tm" rendered="{!rowNum>0}">
+                                <apex:column >
+                                    <apex:facet name="header">
+                                        <apex:inputCheckbox value="{!wrapper.check}" onclick="checkAllFunction(this)" styleClass="checkAll"/> 
+                                    </apex:facet>
+                                    <apex:inputCheckbox value="{!tm.check}" styleClass="checkbox" disabled="{!tm.isDisabled}"/>
+                                </apex:column>
+                                <apex:column headerValue="ID">
+                                    <apex:outputLink value="/{!tm.bcliObj.Id}" target="_blank">{!tm.bcliObj.Name}</apex:outputLink>
+                                </apex:column>
+                                <apex:column headerValue="Billing Contract">
+                                    <apex:outputLink value="/{!tm.bcliObj.Billing_Contract__r.Id}" target="_blank">{!tm.bcliObj.Billing_Contract__r.Name}</apex:outputLink>
+                                </apex:column>
+                                <apex:column headerValue="Ready to Invoice">
+                                    <apex:outputField value="{!tm.bcliObj.Ready_to_Invoice__c}" />
+                                </apex:column>
+                                <apex:column headerValue="Total Amount">
+                                    <apex:outputText value="{!tm.bcliObj.Total_Amount__c}" />
+                                </apex:column>
+                                <apex:column headerValue="Product">
+                                    <apex:outputLink value="/{!tm.bcliObj.Product__c}" target="_blank">{!tm.bcliObj.Product__r.Name}</apex:outputLink>
+                                </apex:column>
+                                <apex:column headerValue="Line Item Description">
+                                    <apex:outputText value="{!tm.bcliObj.Line_Item_Description__c}" />
+                                </apex:column>
+                                <apex:column headerValue="Invoice Date">
+                                    <apex:outputText value="{!tm.bcliObj.Invoice_Date__c}" />
+                                </apex:column>
+                            </apex:pageblocktable>
+                        </apex:outputpanel>
+                    </apex:column>
+                    <apex:column headerValue="Account">
+                        <apex:outputLink value="/{!wrapper.bc.Account__c}" target="_blank">{!wrapper.bc.Account__r.Name}</apex:outputLink>
+                    </apex:column>
+                    <apex:column headerValue="Company" style="width: 160px;"> 
+                        <apex:outputLink value="/{!wrapper.bc.Company__c}" target="_blank">{!wrapper.bc.Company__r.Name}</apex:outputLink>
+                    </apex:column>
+                    <apex:column headerValue="Billing Line Item Count" style="width: 100px;">
+                        <apex:outputText value="{!wrapper.bc.Ready_to_Invoice_Numeric__c}" />
+                    </apex:column>
+                    
+                </apex:pageBlockTable> 
+                
+                <apex:outputPanel >
+                    <div style ="text-align: right" >
+                        &nbsp;<apex:commandButton action="{!previous}" value="Previous" rendered="{!hasPrevious}"/> 
+                        &nbsp;<apex:commandButton action="{!next}" value="Next" rendered="{!hasNext}" />  
+                        &nbsp;Showing page - {!listNumber+1} of {!totalPages} &nbsp;&nbsp;&nbsp; 
+                    </div>
+                </apex:outputPanel>
+                
+            </apex:pageBlockSection>
+
+            <!----SALESINVOICE SECTION--->
+            <apex:pageBlockSection title="Sales Invoices" id="invoiceSection" columns="1">
+
+                <apex:pageBlockTable value="{!SINWrapperList}" var="wrapSIN">
+                    
+                    <apex:column >
+                        <apex:facet name="header">
+                            <apex:inputCheckbox value="{!isAllChecked}" styleClass="checkAllPost" />
+                        </apex:facet>
+                        <apex:inputCheckbox value="{!wrapSIN.check}" styleClass="checkboxPost" disabled="{!wrapSIN.isDisabled}"/>
+                    </apex:column>
+                    <apex:column headerValue="Account">
+                        <apex:outputLink value="/{!wrapSIN.SINObj.c2g__Account__c}" target="_blank">{!wrapSIN.SINObj.c2g__Account__r.Name}</apex:outputLink>
+                    </apex:column>
+                    <apex:column headerValue="Billing Contract">
+                        <apex:outputLink value="/{!wrapSIN.SINObj.Billing_Contract__c}" target="_blank">{!wrapSIN.SINObj.Billing_Contract__r.Name}</apex:outputLink>
+                    </apex:column>
+                    <apex:column headerValue="Sales Invoice">
+                        <apex:outputLink value="/{!wrapSIN.SINObj.id}" target="_blank">{!wrapSIN.SINObj.Name}</apex:outputLink>
+                    </apex:column>
+                    <apex:column headerValue="Invoice Total">
+                        <apex:outputText value="{!wrapSIN.SINObj.c2g__InvoiceTotal__c}" />
+                    </apex:column>
+                    <apex:column headerValue="Invoice Status">
+                        <apex:outputText value="{!wrapSIN.SINObj.c2g__InvoiceStatus__c}" />
+                    </apex:column>
+                    
+                </apex:pageBlockTable>
+            </apex:pageBlockSection>
+            
+        </apex:pageBlock>
+                
+        <apex:pageBlock id="pb2" title="Run History" >
+            
+            <apex:pageBlockSection title="Last 5 run" columns="1">
+                <apex:pageBlockTable value="{!apexJobsList}" var="aj" style="width:98%; margin-left:10px; margin-right:10px;" styleClass="table">
+
+                    <apex:column headerValue="Apex Class">
+                        <apex:outputLink value="/{!aj.ApexClassID}">{!aj.ApexClassName}</apex:outputLink>
+                    </apex:column> 
+                    <apex:column headerValue="Target Object">Billing Contract Line Item</apex:column>
+                    <apex:column headerValue="Status" value="{!aj.Status}"></apex:column>
+                    <apex:column headerValue="Running User" value="{!aj.CreatedByName}"></apex:column>
+                    <apex:column headerValue="Completed Run Time" value="{!aj.CompletedDate}"></apex:column>
+                    <apex:column headerValue="Status Detail" value="{!aj.ExtendedStatus}"></apex:column>
+                    <apex:column headerValue="Total Batches" value="{!aj.TotalJobItems}"></apex:column>
+                    <apex:column headerValue="Batches Processed" value="{!aj.JobItemsProcessed}"></apex:column>
+                    <apex:column headerValue="Failures" value="{!aj.NumberOfErrors}"></apex:column>
+                    <apex:column headerValue="CreatedDate" value="{!aj.CreatedDate}"></apex:column>
+
+                </apex:pageBlockTable>
+            </apex:pageBlockSection>
+            
+            <apex:pageBlockSection title="Last 5 run" columns="1">
+                <apex:pageBlockTable value="{!apexJobsList1}" var="aj1" style="width:98%; margin-left:10px; margin-right:10px;" styleClass="table">
+
+                    <apex:column headerValue="Apex Class" value="{!aj1.Apex_Class}"></apex:column>
+                    <apex:column headerValue="Target Object">Billing Contract Line Item</apex:column>
+                    <apex:column headerValue="Status" value="{!aj1.Status}"></apex:column>
+                    <apex:column headerValue="Running User" value="{!aj1.user}"></apex:column>
+                    <apex:column headerValue="Status Detail" value="{!aj1.Status_Detail}"></apex:column>
+                    <apex:column headerValue="Number of Items Processed" value="{!aj1.No_of_Items_Processed}"></apex:column>
+                    <apex:column headerValue="CreatedDate" value="{!aj1.CreatedDate}"></apex:column>
+
+                </apex:pageBlockTable>
+            </apex:pageBlockSection>
+                     
+        </apex:pageBlock>
+        
+        <!--    ERROR LOG HISTORY   -->
+        <apex:pageBlock title="NI Error Log History" >
+
+            <apex:pageBlockSection id="errHistory" title="Last 5 Errors" columns="1"> 
+                <apex:pageBlockTable value="{!errorWrapList}" var="error">
+                    
+                    <apex:column headerValue="Error Log Number">
+                        <apex:outputlink value="/{!error.errorId}">{!error.Name}</apex:outputlink>
+                    </apex:column>
+                
+                    <apex:column headerValue="Apex Class Name" value="{!error.Apex_Class_Name}"/> 
+                    <apex:column headerValue="Object Name" value="{!error.Object_Name}"/>
+                    <apex:column headerValue="Message" value="{!error.Message}"/>
+                    <apex:column headerValue="Created Date" value="{!error.CreatedDate}"/>
+                    <apex:column headerValue="Running User" value="{!error.CreatedByName}" />
+                    
+                </apex:pageBlockTable>
+            </apex:pageBlockSection>
+        </apex:pageBlock> 
+    </apex:form>  
+
+        
+</apex:page>

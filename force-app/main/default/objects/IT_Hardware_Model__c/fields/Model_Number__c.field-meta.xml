@@ -1,0 +1,822 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Model_Number__c</fullName>
+    <description>The Manufacturers series model number.</description>
+    <externalId>false</externalId>
+    <label>Model Number</label>
+    <required>false</required>
+    <trackHistory>true</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <controllingField>Series__c</controllingField>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>true</sorted>
+            <value>
+                <fullName>1</fullName>
+                <default>false</default>
+                <label>1</label>
+            </value>
+            <value>
+                <fullName>13</fullName>
+                <default>false</default>
+                <label>13</label>
+            </value>
+            <value>
+                <fullName>190s</fullName>
+                <default>false</default>
+                <label>190s</label>
+            </value>
+            <value>
+                <fullName>2014</fullName>
+                <default>false</default>
+                <label>2014</label>
+            </value>
+            <value>
+                <fullName>2015</fullName>
+                <default>false</default>
+                <label>2015</label>
+            </value>
+            <value>
+                <fullName>220</fullName>
+                <default>false</default>
+                <label>220</label>
+            </value>
+            <value>
+                <fullName>2201w</fullName>
+                <default>false</default>
+                <label>2201w</label>
+            </value>
+            <value>
+                <fullName>2202</fullName>
+                <default>false</default>
+                <label>2202</label>
+            </value>
+            <value>
+                <fullName>2202x</fullName>
+                <default>false</default>
+                <label>2202x</label>
+            </value>
+            <value>
+                <fullName>2208W</fullName>
+                <default>false</default>
+                <label>2208W</label>
+            </value>
+            <value>
+                <fullName>223</fullName>
+                <default>false</default>
+                <label>223</label>
+            </value>
+            <value>
+                <fullName>230</fullName>
+                <default>false</default>
+                <label>230</label>
+            </value>
+            <value>
+                <fullName>2330w</fullName>
+                <default>false</default>
+                <label>2330w</label>
+            </value>
+            <value>
+                <fullName>240</fullName>
+                <default>false</default>
+                <label>240</label>
+            </value>
+            <value>
+                <fullName>250</fullName>
+                <default>false</default>
+                <label>250</label>
+            </value>
+            <value>
+                <fullName>260</fullName>
+                <default>false</default>
+                <label>260</label>
+            </value>
+            <value>
+                <fullName>3</fullName>
+                <default>false</default>
+                <label>3</label>
+            </value>
+            <value>
+                <fullName>30</fullName>
+                <default>false</default>
+                <label>30</label>
+            </value>
+            <value>
+                <fullName>3540</fullName>
+                <default>false</default>
+                <label>3540</label>
+            </value>
+            <value>
+                <fullName>3550</fullName>
+                <default>false</default>
+                <label>3550</label>
+            </value>
+            <value>
+                <fullName>3560</fullName>
+                <default>false</default>
+                <label>3560</label>
+            </value>
+            <value>
+                <fullName>4</fullName>
+                <default>false</default>
+                <label>4</label>
+            </value>
+            <value>
+                <fullName>400</fullName>
+                <default>false</default>
+                <label>400</label>
+            </value>
+            <value>
+                <fullName>400s</fullName>
+                <default>false</default>
+                <label>400s</label>
+            </value>
+            <value>
+                <fullName>410</fullName>
+                <default>false</default>
+                <label>410</label>
+            </value>
+            <value>
+                <fullName>420</fullName>
+                <default>false</default>
+                <label>420</label>
+            </value>
+            <value>
+                <fullName>430</fullName>
+                <default>false</default>
+                <label>430</label>
+            </value>
+            <value>
+                <fullName>440</fullName>
+                <default>false</default>
+                <label>440</label>
+            </value>
+            <value>
+                <fullName>440 G3</fullName>
+                <default>false</default>
+                <label>440 G3</label>
+            </value>
+            <value>
+                <fullName>440s</fullName>
+                <default>false</default>
+                <label>440s</label>
+            </value>
+            <value>
+                <fullName>450</fullName>
+                <default>false</default>
+                <label>450</label>
+            </value>
+            <value>
+                <fullName>450 G1</fullName>
+                <default>false</default>
+                <label>450 G1</label>
+            </value>
+            <value>
+                <fullName>450s</fullName>
+                <default>false</default>
+                <label>450s</label>
+            </value>
+            <value>
+                <fullName>460</fullName>
+                <default>false</default>
+                <label>460</label>
+            </value>
+            <value>
+                <fullName>460s</fullName>
+                <default>false</default>
+                <label>460s</label>
+            </value>
+            <value>
+                <fullName>51</fullName>
+                <default>false</default>
+                <label>51</label>
+            </value>
+            <value>
+                <fullName>52</fullName>
+                <default>false</default>
+                <label>52</label>
+            </value>
+            <value>
+                <fullName>530</fullName>
+                <default>false</default>
+                <label>530</label>
+            </value>
+            <value>
+                <fullName>5400</fullName>
+                <default>false</default>
+                <label>5400</label>
+            </value>
+            <value>
+                <fullName>5410</fullName>
+                <default>false</default>
+                <label>5410</label>
+            </value>
+            <value>
+                <fullName>5420</fullName>
+                <default>false</default>
+                <label>5420</label>
+            </value>
+            <value>
+                <fullName>55</fullName>
+                <default>false</default>
+                <label>55</label>
+            </value>
+            <value>
+                <fullName>550s</fullName>
+                <default>false</default>
+                <label>550s</label>
+            </value>
+            <value>
+                <fullName>5570</fullName>
+                <default>false</default>
+                <label>5570</label>
+            </value>
+            <value>
+                <fullName>5580</fullName>
+                <default>false</default>
+                <label>5580</label>
+            </value>
+            <value>
+                <fullName>55s</fullName>
+                <default>false</default>
+                <label>55s</label>
+            </value>
+            <value>
+                <fullName>560</fullName>
+                <default>false</default>
+                <label>560</label>
+            </value>
+            <value>
+                <fullName>57</fullName>
+                <default>false</default>
+                <label>57</label>
+            </value>
+            <value>
+                <fullName>58p</fullName>
+                <default>false</default>
+                <label>58p</label>
+            </value>
+            <value>
+                <fullName>6005</fullName>
+                <default>false</default>
+                <label>6005</label>
+            </value>
+            <value>
+                <fullName>600 G1</fullName>
+                <default>false</default>
+                <label>600 G1</label>
+            </value>
+            <value>
+                <fullName>6305</fullName>
+                <default>false</default>
+                <label>6305</label>
+            </value>
+            <value>
+                <fullName>650 G1</fullName>
+                <default>false</default>
+                <label>650 G1</label>
+            </value>
+            <value>
+                <fullName>650 G2</fullName>
+                <default>false</default>
+                <label>650 G2</label>
+            </value>
+            <value>
+                <fullName>6510</fullName>
+                <default>false</default>
+                <label>6510</label>
+            </value>
+            <value>
+                <fullName>6520</fullName>
+                <default>false</default>
+                <label>6520</label>
+            </value>
+            <value>
+                <fullName>6560B</fullName>
+                <default>false</default>
+                <label>6560B</label>
+            </value>
+            <value>
+                <fullName>6570B</fullName>
+                <default>false</default>
+                <label>6570B</label>
+            </value>
+            <value>
+                <fullName>70</fullName>
+                <default>false</default>
+                <label>70</label>
+            </value>
+            <value>
+                <fullName>7050</fullName>
+                <default>false</default>
+                <label>7050</label>
+            </value>
+            <value>
+                <fullName>7270</fullName>
+                <default>false</default>
+                <label>7270</label>
+            </value>
+            <value>
+                <fullName>7280</fullName>
+                <default>false</default>
+                <label>7280</label>
+            </value>
+            <value>
+                <fullName>7390</fullName>
+                <default>false</default>
+                <label>7390</label>
+            </value>
+            <value>
+                <fullName>7390 2 in 1</fullName>
+                <default>false</default>
+                <label>7390 2 in 1</label>
+            </value>
+            <value>
+                <fullName>7450</fullName>
+                <default>false</default>
+                <label>7450</label>
+            </value>
+            <value>
+                <fullName>7470</fullName>
+                <default>false</default>
+                <label>7470</label>
+            </value>
+            <value>
+                <fullName>7480</fullName>
+                <default>false</default>
+                <label>7480</label>
+            </value>
+            <value>
+                <fullName>7490</fullName>
+                <default>false</default>
+                <label>7490</label>
+            </value>
+            <value>
+                <fullName>8200</fullName>
+                <default>false</default>
+                <label>8200</label>
+            </value>
+            <value>
+                <fullName>90</fullName>
+                <default>false</default>
+                <label>90</label>
+            </value>
+            <value>
+                <fullName>900</fullName>
+                <default>false</default>
+                <label>900</label>
+            </value>
+            <value>
+                <fullName>91p</fullName>
+                <default>false</default>
+                <label>91p</label>
+            </value>
+            <value>
+                <fullName>92p</fullName>
+                <default>false</default>
+                <label>92p</label>
+            </value>
+            <value>
+                <fullName>93</fullName>
+                <default>false</default>
+                <label>93</label>
+            </value>
+            <value>
+                <fullName>9360 - Dev</fullName>
+                <default>false</default>
+                <label>9360 - Dev</label>
+            </value>
+            <value>
+                <fullName>9360 - Stnd</fullName>
+                <default>false</default>
+                <label>9360 - Stnd</label>
+            </value>
+            <value>
+                <fullName>93p</fullName>
+                <default>false</default>
+                <label>93p</label>
+            </value>
+            <value>
+                <fullName>960</fullName>
+                <default>false</default>
+                <label>960</label>
+            </value>
+            <value>
+                <fullName>990</fullName>
+                <default>false</default>
+                <label>990</label>
+            </value>
+            <value>
+                <fullName>B2206</fullName>
+                <default>false</default>
+                <label>B2206</label>
+            </value>
+            <value>
+                <fullName>B2280</fullName>
+                <default>false</default>
+                <label>B2280</label>
+            </value>
+            <value>
+                <fullName>B2283</fullName>
+                <default>false</default>
+                <label>B2283</label>
+            </value>
+            <value>
+                <fullName>B2483</fullName>
+                <default>false</default>
+                <label>B2483</label>
+            </value>
+            <value>
+                <fullName>BL3200</fullName>
+                <default>false</default>
+                <label>BL3200</label>
+            </value>
+            <value>
+                <fullName>C4506E</fullName>
+                <default>false</default>
+                <label>C4506E</label>
+            </value>
+            <value>
+                <fullName>dc5850</fullName>
+                <default>false</default>
+                <label>dc5850</label>
+            </value>
+            <value>
+                <fullName>DL140 G2</fullName>
+                <default>false</default>
+                <label>DL140 G2</label>
+            </value>
+            <value>
+                <fullName>DL180 G6</fullName>
+                <default>false</default>
+                <label>DL180 G6</label>
+            </value>
+            <value>
+                <fullName>DL380 G4</fullName>
+                <default>false</default>
+                <label>DL380 G4</label>
+            </value>
+            <value>
+                <fullName>DL380 G7</fullName>
+                <default>false</default>
+                <label>DL380 G7</label>
+            </value>
+            <value>
+                <fullName>DM65E</fullName>
+                <default>false</default>
+                <label>DM65E</label>
+            </value>
+            <value>
+                <fullName>e2273</fullName>
+                <default>false</default>
+                <label>e2273</label>
+            </value>
+            <value>
+                <fullName>E231</fullName>
+                <default>false</default>
+                <label>E231</label>
+            </value>
+            <value>
+                <fullName>e2483</fullName>
+                <default>false</default>
+                <label>e2483</label>
+            </value>
+            <value>
+                <fullName>i3</fullName>
+                <default>false</default>
+                <label>i3</label>
+            </value>
+            <value>
+                <fullName>i5</fullName>
+                <default>false</default>
+                <label>i5</label>
+            </value>
+            <value>
+                <fullName>i7</fullName>
+                <default>false</default>
+                <label>i7</label>
+            </value>
+            <value>
+                <fullName>J9772A</fullName>
+                <default>false</default>
+                <label>J9772A</label>
+            </value>
+            <value>
+                <fullName>J9773A</fullName>
+                <default>false</default>
+                <label>J9773A</label>
+            </value>
+            <value>
+                <fullName>LA2306x</fullName>
+                <default>false</default>
+                <label>LA2306x</label>
+            </value>
+            <value>
+                <fullName>N7400</fullName>
+                <default>false</default>
+                <label>N7400</label>
+            </value>
+            <value>
+                <fullName>pn-E421</fullName>
+                <default>false</default>
+                <label>pn-E421</label>
+            </value>
+            <value>
+                <fullName>S22C450</fullName>
+                <default>false</default>
+                <label>S22C450</label>
+            </value>
+            <value>
+                <fullName>S22C650</fullName>
+                <default>false</default>
+                <label>S22C650</label>
+            </value>
+            <value>
+                <fullName>VS15562</fullName>
+                <default>false</default>
+                <label>VS15562</label>
+            </value>
+            <value>
+                <fullName>x2283</fullName>
+                <default>false</default>
+                <label>x2283</label>
+            </value>
+            <value>
+                <fullName>x2783</fullName>
+                <default>false</default>
+                <label>x2783</label>
+            </value>
+            <value>
+                <fullName>Z230</fullName>
+                <default>false</default>
+                <label>Z230</label>
+            </value>
+            <value>
+                <fullName>Z400</fullName>
+                <default>false</default>
+                <label>Z400</label>
+            </value>
+            <value>
+                <fullName>Z420</fullName>
+                <default>false</default>
+                <label>Z420</label>
+            </value>
+        </valueSetDefinition>
+        <valueSettings>
+            <controllingFieldValue>Thinkpad E</controllingFieldValue>
+            <controllingFieldValue>ThinkCentre M</controllingFieldValue>
+            <valueName>93</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Thinkpad P</controllingFieldValue>
+            <valueName>70</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Thinkstation S</controllingFieldValue>
+            <valueName>30</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Latitude E</controllingFieldValue>
+            <valueName>5400</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Latitude E</controllingFieldValue>
+            <valueName>5410</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Latitude E</controllingFieldValue>
+            <valueName>5420</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Latitude E</controllingFieldValue>
+            <valueName>5570</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Latitude E</controllingFieldValue>
+            <valueName>5580</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Latitude E</controllingFieldValue>
+            <valueName>6510</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Latitude E</controllingFieldValue>
+            <valueName>6520</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Latitude E</controllingFieldValue>
+            <valueName>7270</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Latitude E</controllingFieldValue>
+            <valueName>7280</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Latitude E</controllingFieldValue>
+            <valueName>7390</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Latitude E</controllingFieldValue>
+            <valueName>7390 2 in 1</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Latitude E</controllingFieldValue>
+            <valueName>7450</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Latitude E</controllingFieldValue>
+            <valueName>7470</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Latitude E</controllingFieldValue>
+            <valueName>7480</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Latitude E</controllingFieldValue>
+            <valueName>7490</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>ThinkCentre M</controllingFieldValue>
+            <valueName>51</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>ThinkCentre M</controllingFieldValue>
+            <valueName>52</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>ThinkCentre M</controllingFieldValue>
+            <valueName>55</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>ThinkCentre M</controllingFieldValue>
+            <valueName>55s</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>ThinkCentre M</controllingFieldValue>
+            <valueName>57</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>ThinkCentre M</controllingFieldValue>
+            <valueName>58p</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>ThinkCentre M</controllingFieldValue>
+            <valueName>90</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>ThinkCentre M</controllingFieldValue>
+            <valueName>900</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>ThinkCentre M</controllingFieldValue>
+            <valueName>91p</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>ThinkCentre M</controllingFieldValue>
+            <valueName>92p</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>ThinkCentre M</controllingFieldValue>
+            <valueName>93p</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>ThinkPad T</controllingFieldValue>
+            <valueName>400</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>ThinkPad T</controllingFieldValue>
+            <valueName>400s</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>ThinkPad T</controllingFieldValue>
+            <valueName>410</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>ThinkPad T</controllingFieldValue>
+            <valueName>420</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>ThinkPad T</controllingFieldValue>
+            <valueName>430</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>ThinkPad T</controllingFieldValue>
+            <valueName>440</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>ThinkPad T</controllingFieldValue>
+            <valueName>440s</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>ThinkPad T</controllingFieldValue>
+            <valueName>450</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>ThinkPad T</controllingFieldValue>
+            <valueName>450s</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>ThinkPad T</controllingFieldValue>
+            <valueName>460</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>ThinkPad T</controllingFieldValue>
+            <valueName>460s</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>ThinkPad T</controllingFieldValue>
+            <valueName>560</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>ThinkPad W</controllingFieldValue>
+            <valueName>530</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>ThinkPad W</controllingFieldValue>
+            <valueName>550s</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>ThinkPad X</controllingFieldValue>
+            <valueName>1</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>ThinkPad X</controllingFieldValue>
+            <valueName>220</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>ThinkPad X</controllingFieldValue>
+            <valueName>230</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>ThinkPad X</controllingFieldValue>
+            <valueName>240</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>ThinkPad X</controllingFieldValue>
+            <valueName>250</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>ThinkPad X</controllingFieldValue>
+            <valueName>260</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>MacBook Pro</controllingFieldValue>
+            <valueName>2014</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>MacBook Pro</controllingFieldValue>
+            <valueName>2015</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>MacMini</controllingFieldValue>
+            <controllingFieldValue>Viewsonic</controllingFieldValue>
+            <valueName>VS15562</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Optiplex</controllingFieldValue>
+            <valueName>7050</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Optiplex</controllingFieldValue>
+            <valueName>960</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Optiplex</controllingFieldValue>
+            <valueName>990</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>XPS</controllingFieldValue>
+            <valueName>13</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>XPS</controllingFieldValue>
+            <valueName>9360 - Dev</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>XPS</controllingFieldValue>
+            <valueName>9360 - Stnd</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Surface Pro</controllingFieldValue>
+            <valueName>3</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Surface Pro</controllingFieldValue>
+            <valueName>4</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Precision</controllingFieldValue>
+            <valueName>3540</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Precision</controllingFieldValue>
+            <valueName>3550</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Precision</controllingFieldValue>
+            <valueName>3560</valueName>
+        </valueSettings>
+    </valueSet>
+</CustomField>

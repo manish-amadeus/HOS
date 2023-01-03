@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Ref_Id__c</fullName>
+    <externalId>false</externalId>
+    <formula>&quot;[ref:_&quot; &amp; MID($Organization.Id, 1, 4) &amp; MID($Organization.Id, 10, 6) &amp; &quot;._&quot; &amp; MID(Id, 1, 4) &amp; MID(Id, 10, 6) &amp; &quot;:ref]&quot;</formula>
+    <inlineHelpText>When this value is present in an email subject or body the email will not generate a new Internal IT Request. It will append it to an existing request</inlineHelpText>
+    <label>Ref Id</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

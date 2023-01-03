@@ -1,0 +1,127 @@
+<apex:page standardController="NI_Change_Control__c" id="thePage" >
+
+    <style>
+        body {
+            font-family: Arial Unicode MS;
+        }
+        .message {
+            font-weight: bold;
+            font-size: 30px;
+            color: red
+        }
+    </style>
+    
+    <table>
+        <tr>
+            <td>
+                <Span style="font-weight: bold; color:red; font-size: 13pt;">This RFC does not meet the requirements to enter the Approval Process</Span>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <b>The following fields must be completed for all RFCs with a "Standard" Priority:</b>
+                <br/>
+                Assigned Production Date
+                <br/>
+                Deployment Owner
+                <br/>
+                Compiler
+                <br/>
+                Manager Reviewer
+                <br/>
+                Peer Reviewer *This is not required for "Product: RFP Toolkit" Change Type
+                <br/>
+                Peer Reviewer Approved *This is not required for "Product: RFP Toolkit" Change Type
+                <br/>
+                Outage Required
+                <br/>
+                Data Change
+                <br/>
+                Risk Calculator Completed (Risk Indicator is not "Undefined")
+                <br/>
+                Account(must have at least one related Account record)
+                <br/>
+                Related RFC (must have a Related RFC)
+                <br/>
+                <br/>
+                Update the fields in the <b>Missing Information</b> secton below and click <b>Save</b>.  Once you are on the View page
+                for the RFC, click the <b>Submit for Approval</b> button.
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <br/>
+                <br/>
+                <apex:form id="theForm">
+                               
+                    <apex:pageMessages />
+                    
+                    <apex:pageBlock id="thePageBlock" title="Missing Information">
+                    
+                        <apex:pageBlockButtons >                        
+                            <apex:commandButton value="Save" action="{!save}" id="saveButton" />
+                            <apex:commandButton value="Cancel" action="{!cancel}" id="cancelButton" />
+                        </apex:pageBlockButtons> 
+                        
+                        <apex:pageBlockSection columns="1" id="block1">
+                            <apex:pageBlockSectionItem rendered="{!ISBLANK(NI_Change_Control__c.Date_Scheduled__c)}" >
+                                <apex:outputLabel value="Assigned Production Date" for="prodDate"/>
+                                <apex:inputField value="{!NI_Change_Control__c.Date_Scheduled__c}" id="prodDate" />
+                            </apex:pageBlockSectionItem>
+                            <apex:pageBlockSectionItem rendered="{!ISBLANK(NI_Change_Control__c.Manager_Reviewer__c)}" >
+                                <apex:outputLabel value="Manager Reviewer" for="MgrReviewer"/>
+                                <apex:inputField value="{!NI_Change_Control__c.Manager_Reviewer__c}" id="MgrReviewer" />           
+                            </apex:pageBlockSectionItem>
+                            <apex:pageBlockSectionItem rendered="{!ISBLANK(NI_Change_Control__c.NI_Change_Owner__c)}" >
+                                <apex:outputLabel value="Deployment Owner" for="DplOwner"/>
+                                <apex:inputField value="{!NI_Change_Control__c.NI_Change_Owner__c}" id="DplOwner" />           
+                            </apex:pageBlockSectionItem>
+                            <apex:pageBlockSectionItem rendered="{!ISBLANK(NI_Change_Control__c.Developer_Compiler__c)}" >
+                                <apex:outputLabel value="Compiler" for="cmplr"/>
+                                <apex:inputField value="{!NI_Change_Control__c.Developer_Compiler__c}" id="cmplr" />           
+                            </apex:pageBlockSectionItem>
+                            <apex:pageBlockSectionItem rendered="{!ISBLANK(NI_Change_Control__c.Peer_Reviewer__c)}" >
+                                <apex:outputLabel value="Peer Reviewer" for="peerReviewer"/>
+                                <apex:inputField value="{!NI_Change_Control__c.Peer_Reviewer__c}" id="peerReviewer" />           
+                            </apex:pageBlockSectionItem>
+                            <apex:pageBlockSectionItem rendered="{!ISBLANK(NI_Change_Control__c.Peer_Reviewer_Approved__c)}" >
+                                <apex:outputLabel value="Peer Reviewer Approved" for="peerRevApproved"/>
+                                <apex:inputField value="{!NI_Change_Control__c.Peer_Reviewer_Approved__c}" id="peerRevApproved" />           
+                            </apex:pageBlockSectionItem>
+                            <apex:pageBlockSectionItem rendered="{!ISBLANK(NI_Change_Control__c.Related_Hosted_RFC__c)}" >
+                                <apex:outputLabel value="Related Hosted RFC" for="relatedHRFC"/>
+                                <apex:inputField value="{!NI_Change_Control__c.Related_Hosted_RFC__c}" id="relatedHRFC" />           
+                            </apex:pageBlockSectionItem>
+                            <apex:pageBlockSectionItem rendered="{!ISBLANK(NI_Change_Control__c.Outage_Required__c)}" >
+                                <apex:outputLabel value="Outage Required" for="OutageRqd"/>
+                                <apex:inputField value="{!NI_Change_Control__c.Outage_Required__c}" id="OutageRqd" />           
+                            </apex:pageBlockSectionItem>
+                            <apex:pageBlockSectionItem rendered="{!ISBLANK(NI_Change_Control__c.Data_Change__c)}" >
+                                <apex:outputLabel value="Data Change" for="DataChange"/>
+                                <apex:inputField value="{!NI_Change_Control__c.Data_Change__c}" id="DataChange" />           
+                            </apex:pageBlockSectionItem> 
+                            
+                            <apex:pageBlockSectionItem rendered="{!ISBLANK(NI_Change_Control__c.Risk_Level__c)||NI_Change_Control__c.Risk_Level__c!=null}" >
+                                <apex:outputLabel value="Risk Level Indicator" for="riskLevelIndicator"/>
+                                <apex:inputField value="{!NI_Change_Control__c.Risk_Level_Indicator__c}" id="riskLevelIndicator" /> 
+                            </apex:pageBlockSectionItem>   
+                            
+                            <apex:pageBlockSectionItem rendered="{!ISBLANK(NI_Change_Control__c.Risk_Level__c)||NI_Change_Control__c.Risk_Level__c!=null}" >
+                                <apex:outputLabel value="" for="calcRiskLink"/>
+                                <apex:outputLink value="{!if(NI_Change_Control__c.RecordTypeId == '0126000000016TJAAY', '/servlet/servlet.Integration?lid=00b60000000pb4F&eid=' + NI_Change_Control__c.Id + '&ic=1', '/servlet/servlet.Integration?lid=00b60000000pb4E&eid=' + NI_Change_Control__c.Id + '&ic=1')}" id="calcRiskLink">Calculate Risk</apex:outputLink> 
+                            </apex:pageBlockSectionItem>   
+                            
+                           
+                            
+                        </apex:pageBlockSection>
+                    </apex:pageBlock>
+                </apex:form>
+                
+                <apex:relatedlist list="NICCRequestAccountJunction__r" rendered="{!NI_Change_Control__c.Related_Account_Summary__c <1}"/>   
+                <br/>                
+                Click <a href="/{!NI_Change_Control__c.Id}">here</a> to return to the Hosted RFC.
+            </td>
+        </tr>
+    </table>
+
+</apex:page>

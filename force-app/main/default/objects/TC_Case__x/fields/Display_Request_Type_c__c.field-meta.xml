@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Display_Request_Type_c__c</fullName>
+    <externalDeveloperName>Display_Request_Type__c</externalDeveloperName>
+    <externalId>false</externalId>
+    <isFilteringDisabled>false</isFilteringDisabled>
+    <isNameField>false</isNameField>
+    <isSortingDisabled>false</isSortingDisabled>
+    <label>Display Request Type</label>
+    <readOnlyProxy>true</readOnlyProxy>
+    <required>false</required>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Templated Banners</fullName>
+                <default>false</default>
+                <label>Templated Banners</label>
+            </value>
+            <value>
+                <fullName>Personalized Banners</fullName>
+                <default>false</default>
+                <label>Personalized Banners</label>
+            </value>
+            <value>
+                <fullName>Custom Designed Banners</fullName>
+                <default>false</default>
+                <label>Custom Designed Banners</label>
+            </value>
+            <value>
+                <fullName>6 sec non skippable</fullName>
+                <default>false</default>
+                <label>6 sec non skippable</label>
+            </value>
+            <value>
+                <fullName>6 sec and Story</fullName>
+                <default>false</default>
+                <label>6 sec and Story</label>
+            </value>
+            <value>
+                <fullName>6 sec and 15 sec non skippable</fullName>
+                <default>false</default>
+                <label>6 sec and 15 sec non skippable</label>
+            </value>
+            <value>
+                <fullName>15 sec and Story</fullName>
+                <default>false</default>
+                <label>15 sec and Story</label>
+            </value>
+            <value>
+                <fullName>15-20 sec non skippable</fullName>
+                <default>false</default>
+                <label>15-20 sec non skippable</label>
+            </value>
+            <value>
+                <fullName>Story</fullName>
+                <default>false</default>
+                <label>Story</label>
+            </value>
+            <value>
+                <fullName>All</fullName>
+                <default>false</default>
+                <label>All</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

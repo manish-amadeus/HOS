@@ -1,0 +1,205 @@
+<apex:page Controller="NI_CendynOrders"  showHeader="false"  sidebar="false" standardStylesheets="false">
+<apex:stylesheet value="{!$Resource.PartnerCSS}" />
+<apex:pageBlock >
+<table style="width:100%"  class="cendynDetailHeader" >
+ <tr >
+ <td style="width:10%"><apex:image value="{!$Resource.NewmarketLogoAnAmadeusCo}" style="max-width:100%; height:auto;" /></td>
+ <td style="text-align:center; width:80%; ">Cendyn Sales Order</td>
+ <td style="width:10%"></td>
+ </tr>
+ </table>
+ <br/>
+ <br/>
+ 
+<table class="cendynDetailClass" width="100%;">
+
+<tr>
+<td class="cendynDetailLabel" >Account:</td>
+<td><apex:OutputText id="AccountName" value="{!opp.Account.Name}" label="Account" /></td>
+<td class="cendynDetailLabel" >Account Street:</td>
+<td><apex:OutputText id="AccountStreet" value="{!opp.Account.BillingStreet}" label="Address" /></td>
+</tr>
+
+<tr>
+<td class="cendynDetailLabel" >Customer Id: </td>
+<td><apex:OutputText id="AccountNumber" value="{!opp.Account.AccountNumber}" label="Customer ID" /></td>
+<td class="cendynDetailLabel" >City: </td>
+<td><apex:OutputText id="AccountCity" value="{!opp.Account.BillingCity}" label="City" /></td>
+</tr>
+
+
+<tr>
+<td class="cendynDetailLabel" >Status:</td>
+<td><apex:OutputText id="Status" value="{!opp.StageName}" label="Status" /></td>
+<td class="cendynDetailLabel" >State:</td>
+<td><apex:OutputText id="AccountState" value="{!opp.Account.BillingState}" label="State" /></td>
+</tr>
+
+
+<tr>
+<td class="cendynDetailLabel" >Order Date:</td>
+<td><apex:OutputText id="OrderDate" value="{0, date, MMMM d','  yyyy}" label="Order Date" ><apex:Param value="{!orderDate}"/></apex:OutputText></td>
+<td class="cendynDetailLabel" >Country:</td>
+<td><apex:OutputText id="AccountCountry" value="{!opp.Account.BillingCountry}" label="Country" /></td>
+</tr>
+
+
+<tr>
+<td class="cendynDetailLabel" >Sales Manager:</td>
+<td><apex:OutputText id="SalesManager" value="{!opp.Owner.Name}" label="Sales Manager" /></td>
+<td class="cendynDetailLabel" >Postal Code:</td>
+<td><apex:OutputText id="AccountPostal" value="{!opp.Account.BillingPostalCode}" label="Postal Code" /></td>
+</tr>
+
+
+<tr>
+<td class="cendynDetailLabel" >Project Manager:</td>
+<td><apex:OutputText id="ProjectManager" value="{!ProjectManager}" label="Project Manager" /></td>
+<td class="cendynDetailLabel" >Phone:</td>
+<td> <apex:OutputText id="AccountPhone" value="{!opp.Account.Phone}" label="Phone" /></td>
+</tr>
+
+
+<tr>
+<td class="cendynDetailLabel" >Install Type:</td>
+<td><apex:OutputText id="InstallType" value="New Install/Upgrade" label="Install Type" /></td>
+<td class="cendynDetailLabel" >Fax:</td>
+<td><apex:OutputText id="AccountFax" value="{!opp.Account.Fax}" label="Fax" /></td>
+</tr>
+
+<tr>
+<td class="cendynDetailLabel" >Management Co.</td>
+<td><apex:OutputText id="ManagementCo" value="{!opp.Account.Parent.Name}" label="Management Co." /></td>
+<td class="cendynDetailLabel" ></td>
+<td></td>
+</tr>
+
+<tr>
+
+<td class="cendynDetailLabel" >Franchisor</td>
+<td><apex:OutputText id="Franchisor" value="{!Opp.Account.Franchisor__c}" label="Franchisor" /></td>
+<td class="cendynDetailLabel" ></td>
+<td></td>
+</tr>
+
+
+
+<tr>
+<td class="cendynDetailLabel" >Web Site</td>
+<td><apex:OutputText id="Website" value="{!Opp.Account.Website}" label="Web Site" /></td>
+<td class="cendynDetailLabel" ></td>
+<td></td>
+</tr>
+
+<tr>
+<td class="cendynDetailLabel" >Number of Rooms</td>
+<td><apex:OutputText id="GuestRooms" value="{!Opp.Account.Guest_Rooms__c}" label="Number of Rooms" /></td>
+<td class="cendynDetailLabel" ></td>
+<td></td>
+</tr>
+
+
+
+<tr> <td><br/></td></tr>
+
+<tr>
+<td class="cendynDetailLabel" >Ship To Contact:</td>
+<td> <apex:OutputText id="ShipToName" value="{!ShipTo.Contact.Name}" label="Ship To Contact" /></td>
+<td class="cendynDetailLabel" >Client Services Contact:</td>
+<td> <apex:OutputText id="ClientServicesContact" value="{!ProjectContact.Contact.Name}" label="Client Services Contact" /></td>
+
+
+</tr>
+
+<tr>
+<td class="cendynDetailLabel" >Title:</td>
+<td> <apex:OutputText id="ShipToTitle" value="{!ShipTo.Contact.Title}" label="Title" /></td>
+<td class="cendynDetailLabel" >Title:</td>
+<td> <apex:OutputText id="ClientServicesTitle" value="{!ProjectContact.Contact.Title}" label="Title" /></td>
+</tr>
+
+<tr>
+<td class="cendynDetailLabel" >Email:</td>
+<td> <apex:OutputText id="ShipToEmail" value="{!ShipTo.Contact.Email}" label="Email" /></td>
+<td class="cendynDetailLabel" >Email:</td>
+<td><apex:OutputText id="ClientServicesEmail" value="{!ProjectContact.Contact.Email}" label="Email" /></td>
+</tr>
+
+<tr>
+<td class="cendynDetailLabel" >Phone:</td>
+<td> <apex:OutputText id="ShipToPhone" value="{!ShipTo.Contact.Phone}" label="Phone" /></td>
+<td class="cendynDetailLabel" >Phone:</td>
+<td><apex:OutputText id="ClientServicesPhone" value="{!ProjectContact.Contact.Phone}" label="Phone" /></td>
+</tr>
+</table>
+ 
+<br/>
+<hr/>        
+              
+<table class="cendynDetailItemsTable">
+<tr ><td colspan="5" class="cendynTableHeader">Detail Line Items</td></tr>
+
+<tr>
+<td>Quantity</td>
+<td>SKU</td>
+<td>Description</td>
+<td>Rate</td>
+<td>Price</td>
+</tr>
+
+ <apex:repeat value="{!OppLineItems}" var="o">
+ <tr>
+ <td><apex:OutputText value="{!o.Quantity}" id="Quantity"/></td>
+ <td><apex:OutputText value="{!o.PricebookEntry.ProductCode}" id="Sku"/></td>
+ <td><apex:OutputText value="{!o.Product2.Name}" id="Description"/></td>
+ <td><apex:OutputText value="{!o.UnitPrice}" id="Rate"/></td>
+ <td><apex:OutputText value="{!o.TotalPrice}" id="Price"/></td>
+
+ </tr>
+</apex:repeat>
+</table>              
+
+
+
+<br />
+<hr/>
+
+
+<apex:form >        
+<table class="cendynDetailItemsTable">
+<tr><td colspan="2"  class="cendynTableHeader">Notes</td></tr>
+<tr><td><apex:OutputText value="{!opp.Notes_to_Partners__c}"/></td></tr>
+<apex:repeat value="{!Opp.Notes}" var="notes">
+    
+    <tr><td> <apex:OutputText value="{!notes.Body}" id="NoteBody" style="width:100%; padding:5"/></td></tr>
+</apex:repeat>
+
+<tr>
+<td colspan="2"><apex:inputTextarea id="newNoteBody" value="{!newNoteBody}" style="width:100%; padding:5; height:100px; overflow-y: scroll;" /></td>
+</tr>
+
+<tr>
+<td style="text-align:right; width:50%">
+      <apex:commandButton action="{!SaveOrder}" value="Save" disabled="{!disableSaveButton}"/> 
+</td>
+<td style="text-align:left; width:50%">
+      <apex:commandButton onClick="window.top.close();"  value="Close" />         
+</td>
+</tr>
+</table>
+ 
+</apex:form>        
+<br/>   
+<hr/>
+<table class="cendynDetailClass" width="100%;">
+
+<tr>
+<td >Opportunity #: <apex:OutputText id="OppNumber" value="{!Opp.Opportunity_Number__c}" label="Opportunity Number" /></td>
+
+</tr>
+
+</table>
+
+</apex:pageBlock>    
+<apex:pageMessages />
+</apex:page>

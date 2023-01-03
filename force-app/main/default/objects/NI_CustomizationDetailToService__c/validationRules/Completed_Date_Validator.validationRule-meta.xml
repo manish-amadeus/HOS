@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Completed_Date_Validator</fullName>
+    <active>false</active>
+    <description>To ensure that the completed date entered falls within the starting &amp; ending date of the selected services hours work allocation</description>
+    <errorConditionFormula>NOT AND (  
+    CompletedDate__c &gt;= Period_Starting__c,  
+    CompletedDate__c &lt;=  Period_Ending__c 
+)</errorConditionFormula>
+    <errorDisplayField>CompletedDate__c</errorDisplayField>
+    <errorMessage>The completed date entered does not fall within the starting &amp; ending dates of the selected Service Hour Period.</errorMessage>
+</ValidationRule>

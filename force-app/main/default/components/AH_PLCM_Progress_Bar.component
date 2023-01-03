@@ -1,0 +1,403 @@
+<apex:component >
+    <!-- Common Meta Tag for All Pages for Responsive Design -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Common Loader for All Pages -->
+    <div class="loader" style="display:block;">
+        <div class="spinner"></div>
+    </div>
+    <apex:attribute name="IsPropertyUpdated" type="boolean" required="true" description="Property Updated or Not"  />
+    <apex:attribute name="IsUsersCreated" type="boolean" required="true" description="User Created or Not"  />
+    <apex:attribute name="IsXrefCompleted" type="boolean" required="true" description="Xref Completed or Not"  />
+    <apex:attribute name="PerecentageCompleted" type="integer" required="true" description="Number of Perecentage Completed"  />
+    <table style="width:100%">
+        <tbody>
+            <tr>
+                <td>
+                    <ul id="progressbar">
+                        <li class="{!IF(IsPropertyUpdated == true, 'active', '')}">Update Property Information</li>
+                        <li class="{!IF(IsPropertyUpdated == true, 'active', '')}">Create User for Migration</li>
+                        <li class="{!IF(IsUsersCreated == true, 'active', '')}">Transfer User Records</li>
+                        <li class="{!IF(IsXrefCompleted == true, 'active', '')}">Completed</li>
+                    </ul>
+                </td>
+                <td class="percentage-text">{!PerecentageCompleted}%</td>
+            </tr>
+        </tbody>
+    </table>
+    <script type="text/javascript">
+        var gblFlagBubbleSkipped = false;
+
+        $(document).ready(function () {
+            var strUrl = window.location.href;
+            if(strUrl.indexOf('customers') > -1) { //Only for customers Central Community
+                $("body").removeClass("brandQuaternaryBgr");
+            }
+
+            var script = window.parent.document.createElement("script");
+            script.type = "text/javascript";
+            script.src = "{!$Resource.AH_PLCM_Bind_Warning_Message}";
+            window.parent.document.body.appendChild(script); //Inject js library to bind navigation warning message
+
+            if($('#divTable table').length > 0) { //Only for the pagse which contains grid
+                //Close the dropdown if the user clicks outside of it
+                window.onclick = function(event) {
+                    if (!$(event.target).hasClass('menu-btn')) {
+                        var dropdowns = document.getElementsByClassName("menu-options");
+                        var i;
+                        for (i = 0; i < dropdowns.length; i++) {
+                            var openDropdown = dropdowns[i];
+                            $(openDropdown).hide();
+                        }
+                    }
+                }
+
+                $(window).resize(function() {
+                    setTimeout(function() {
+                        //$(".floatThead-container").css("width", "100%");
+                        $(".floatThead-table").css("width", "100%");
+                    }, 500);
+                });
+
+                var $table = $('#divTable table');
+                $table.floatThead({ //Apply floatThead on grid to fix headers
+                    scrollContainer: function ($table) {
+                        return $("#divTable");
+                    }
+                });
+                
+                var parentDiv = document.getElementById("divTable");
+                if(parentDiv.clientHeight >= parentDiv.scrollHeight) { //Only if grid don't have scroll bar
+                    setTimeout(function() {
+                        //$(".floatThead-container").css("width", "100%");
+                        $(".floatThead-table").css("width", "100%");
+                    }, 500);
+                }
+
+                var currentHeight = $('.main-div').outerHeight() - $(".help-title").outerHeight() - 20;
+                $(".help-text").css('height', currentHeight);
+                $("body").addClass("help-show"); //Help show default
+                $(".btn-common").removeClass("btn");
+                if($(".sidebarCollapsed").length == 0 && !$("body").hasClass("homeTab")) { //Left bar is displaying
+                    $("body").addClass("left-bar-show");
+                }
+                else {
+                    $("body").removeClass("left-bar-show");
+                }
+
+                //CS7 - Use entire screen for Transformer pages
+                var centralPanel = window.parent.document.body.getElementsByClassName('cCenterPanel');
+                if(centralPanel != null && centralPanel.length > 0) {
+                    centralPanel[0].style.maxWidth = "100%"; 
+                }
+
+                //Bind events of controlls
+                bindEvents();
+            }            
+
+            //Hide loader
+            showHideLoader(false);
+        });
+
+        //Set form action url
+        function setFormAction($form) {
+            var strUrl = window.location.href;
+            if(strUrl.indexOf('customers') > -1) { //Only for customers Central Community
+                $form.attr("action", strUrl);
+            }
+            else {
+                //Split url to get query string parameters
+                var arr = decodeURIComponent(window.location).split('?');
+                if(arr.length >= 2) {
+                    //Form action url
+                    var strOldValue = $form.attr('action');
+
+                    //Update form action url by adding query string parameters
+                    $form.attr('action', strOldValue + '?' + arr[1]);
+                }
+            }
+        }
+
+        function bindEvents() {
+            $(".handlebarContainer").click(function() { //On show/hide of default left side bar
+                setTimeout(function() { 
+                    if($("body").hasClass("left-bar-show")) { //Left bar is already displaying
+                        $("body").removeClass("left-bar-show");
+                        $("#divMainContent").animate({
+                            width: $("body").hasClass("help-show") ? "1040px" : "100%"
+                        });
+                    }
+                    else {
+                        $("body").addClass("left-bar-show");
+                        if($("body").hasClass("help-show")) {
+                            $("#divMainContent").animate({
+                                width: "832px"
+                            });
+                        }
+                    }
+                }, 20);
+
+                //Reinit floatThead JS
+                reInitFixedHeaders(500);                    
+            });
+
+            $("#btnHelp").on("click", function() {
+                var strUrl = window.location.href;
+                var intDelay = strUrl.indexOf('neighborhood') > -1 ? 0 : 800;
+
+                if($("body").hasClass("help-show")) {
+                    $(".help-wrapper").animate({width: "0%"}, intDelay);
+                    $(".main-div").animate({width: "99%"}, intDelay);
+                    $("body").removeClass("help-show");
+                    setTimeout(function() { $(".help-box").hide(); }, intDelay);
+                    $("#btnHelp").text("Show Help");
+                }
+                else {
+                    $(".help-box").show();
+                    $(".help-wrapper").animate({width: "24%"}, intDelay);
+                    $(".main-div").animate({width: "75%"}, intDelay);
+                    $("body").addClass("help-show");
+                    $("#btnHelp").text("Hide Help");
+                }
+                //Reinit floatThead JS
+                reInitFixedHeaders(intDelay + 200);
+
+                if($("body").hasClass("homeTab")) { //Only if Customer Central community
+                    setTimeout(function() {
+                        var intWidth = $(".ddl-currency:first").parents("td").outerWidth();
+                        $(".header-row th:last").width(intWidth); //Fix table header column issue
+                    }, 900);
+                }
+            });
+        }
+
+        //CS 7 - Display warning message while moving to other tab
+        function bindNavigationWaring() {
+            try {
+                var logo = window.parent.document.body.getElementsByClassName('cBrandingLogo');
+                window.parent.addNavigationWarning(logo); //for search logo
+                
+                var divParent = window.parent.document.body.getElementsByClassName('cNavBarCon');
+                if(divParent != null && divParent.length > 0) {
+                    var arr = divParent[0].getElementsByTagName("a");
+                    window.parent.addNavigationWarning(arr); //for main menu <a> tags
+                }
+
+                var divNotification = window.parent.document.body.getElementsByClassName('unsNotificationsPanel');
+                if(divNotification != null && divNotification.length > 0) {
+                    var arr = divNotification[0].getElementsByTagName("a");
+                    window.parent.addNavigationWarning(arr); //for notifications menu <a> tags
+                }
+                
+                var searchButton = window.parent.document.body.getElementsByClassName('search-button');
+                window.parent.addNavigationWarning(searchButton); //for search button
+
+                var searchField = window.parent.document.body.getElementsByClassName('search-field'); //Search text box
+                window.parent.addNavigationWarning(searchField); //for search button
+                // if(searchField != null && searchField.length > 0) {
+                //     searchField[0].onchange = function() {
+                //         bindWarningOnSearchBox();
+                //     }
+
+                //     searchField[0].onfocus = function() {
+                //         bindWarningOnSearchBox();
+                //     }
+
+                //     //Add onkeypress event on search box
+                //     window.parent.navigationWarningOnEnter(searchField, false);
+                // }
+
+                var ddlUseProfile = window.parent.document.body.getElementsByClassName("trigger-link");//User dropdown settings menu
+                if(ddlUseProfile != null && ddlUseProfile.length > 0) {                
+                    ddlUseProfile[0].onclick = function() {
+                        bindWarningForProfileMenus();
+                    };
+                }
+
+                var profileIcon = window.parent.document.body.getElementsByClassName("cProfileCon");//User dropdown settings menu
+                if(profileIcon != null && profileIcon.length > 0) {                
+                    profileIcon[0].onclick = function() {
+                        bindWarningForProfileMenus();
+                    };
+                }
+            }
+            catch(ex) { }
+        }
+
+        function bindWarningForProfileMenus() {
+            setTimeout(function() {
+                var divParent = window.parent.document.body.getElementsByClassName('cHeaderLine');
+                if(divParent != null && divParent.length > 0) {
+                    var arr = divParent[0].getElementsByTagName("a");
+                    window.parent.addNavigationWarning(arr); //for profile menu
+                }
+            }, 500);
+        }
+
+        // function bindWarningOnSearchBox() {
+        //     setTimeout(function() {
+        //         var suggestionBox = window.parent.document.body.getElementsByClassName('lookup__list');
+        //         if(suggestionBox != null && suggestionBox.length > 0) {
+        //             var suggestions = suggestionBox[0].getElementsByClassName('lookup__item');
+        //             if(suggestions != null && suggestions.length > 0) {
+        //                 suggestions.forEach(function(obj, idx) {
+        //                     var links = obj.getElementsByClassName('suggestion');
+        //                     window.parent.addNavigationWarning(links); //for search suggestion click
+        //                 });
+        //             }
+        //         }
+        //     }, 1000);
+        // }
+
+        function unbindNavigationWaring() {
+            try {
+                var logo = window.parent.document.body.getElementsByClassName('cBrandingLogo');
+                window.parent.removeNavigationWarning(logo); //for search logo
+
+                var divParent = window.parent.document.body.getElementsByClassName('cNavBarCon');
+                if(divParent != null && divParent.length > 0) {
+                    var arr = divParent[0].getElementsByTagName("a");
+                    window.parent.removeNavigationWarning(arr); //for main menu <a> tags
+                }
+
+                var divNotification = window.parent.document.body.getElementsByClassName('unsNotificationsPanel');
+                if(divNotification != null && divNotification.length > 0) {
+                    var arr = divNotification[0].getElementsByTagName("a");
+                    window.parent.removeNavigationWarning(arr); //for notifications menu <a> tags
+                }
+
+                var searchButton = window.parent.document.body.getElementsByClassName('search-button');
+                window.parent.removeNavigationWarning(searchButton); //for search button
+
+                var searchField = window.parent.document.body.getElementsByClassName('search-field'); //Search text box
+                window.parent.removeNavigationWarning(searchField); //for search textbox
+                // if(searchField != null && searchField.length > 0) {
+                //     searchField[0].onchange = null;
+                //     searchField[0].onfocus = null;
+                //     window.parent.navigationWarningOnEnter(searchField, true); //Remove onkeypress event from search box
+                // }
+
+                var ddlUseProfile = window.parent.document.body.getElementsByClassName("trigger-link");//User dropdown settings menu
+                if(ddlUseProfile != null && ddlUseProfile.length > 0) {
+                    ddlUseProfile[0].onclick = null;
+                }
+
+                var profileIcon = window.parent.document.body.getElementsByClassName("cProfileCon");//User dropdown settings menu
+                if(profileIcon != null && profileIcon.length > 0) {                
+                    profileIcon[0].onclick = null;
+                }
+
+                var divParent = window.parent.document.body.getElementsByClassName('cHeaderLine');
+                if(divParent != null && divParent.length > 0) {
+                    var arr = divParent[0].getElementsByTagName("a");
+                    window.parent.removeNavigationWarning(arr); //for profile menu
+                }
+            }
+            catch(ex) { }
+        }
+
+        function showHideLoader(flagShow) {
+            if(flagShow) {
+                $("body").addClass("loader-visible");
+                $(".loader").show();
+            }
+            else {
+                $(".loader").hide();
+                $("body").removeClass("loader-visible");
+            }
+        }
+
+        //Being used to make control disabled using css
+        function disableControl(elem, flagDisable) {
+            if(flagDisable) {
+                $(elem).addClass('disabled-control');
+                //$(elem).parent().addClass('disabled-wrapper'); //For IE 11.0 and lower version browsers
+                $(elem).attr('tabindex', '-1'); //Do not allow focus in element
+            }
+            else {
+                $(elem).removeClass('disabled-control');
+                $(elem).parent().removeClass('disabled-wrapper');
+                $(elem).removeAttr('tabindex'); //Allow focus in element
+            }
+        }
+
+        //Reinit floatThead JS
+        function reInitFixedHeaders(intDelay) {
+            var $table = $('#divTable table');
+            var reinit = $table.floatThead('destroy'); //Destroy floatThead JS
+            setTimeout(function() {
+                reinit(); //Apply floatTHead JS
+
+                var parentDiv = document.getElementById("divTable");
+                if(parentDiv.clientHeight >= parentDiv.scrollHeight) { //Only if grid don't have scroll bar
+                    //$(".floatThead-container").css("width", "100%");
+                    $(".floatThead-table").css("width", "100%");
+                }
+            }, intDelay);
+        }
+
+        //Export report in pdf and excel
+        function exportReport(projectId, recordType, reportType) {
+            var baseUrl = window.location.protocol + window.location.port + "//" + window.location.host;
+            var ifrm = document.createElement("IFRAME");
+            var strPageName = "";
+            if(reportType == 'pdf') {
+                strPageName = "AH_PLCM_Export_Report_Pdf";
+            }
+            else {
+                switch(recordType.toLowerCase()) {
+                    case 'properties':
+                    strPageName = "AH_PLCM_Export_Excel_Properties";
+                        break;
+                    case 'users':
+                        strPageName = "AH_PLCM_Export_Excel_Users";
+                        break;
+                    case 'xref':
+                        strPageName = "AH_PLCM_Export_Excel_Xref";
+                        break;
+                }
+            }
+            ifrm.setAttribute("src", baseUrl + "{!$Site.Prefix}/" + strPageName + "?ProjectId=" + projectId + "&RecordType=" + recordType + "&ReportType=" + reportType);
+            ifrm.style.width = "0px";
+            ifrm.style.height = "0px";
+            ifrm.style.display = "none";
+            document.body.appendChild(ifrm);
+        }
+
+        //Update bubble help popup flag in NI Doc record
+        function updateBubbleFlag(projectId, pageName) {
+            if(gblFlagBubbleSkipped) {
+                return; //If skip bubble button already clicked then do not process again
+            }
+
+            var callback = {
+                onSuccess: function(data) {
+                    //If already skipped, then do not update
+                    if(data != null && typeof(data.records) != "undefined" && data.records != null) {
+                        var objProjStatus = data.records;
+                        switch(pageName.toLowerCase()) {
+                            case 'property':
+                                objProjStatus.AH_PLCM_Is_Property_Bubble_Help_Skipped__c = true;
+                                break;
+                            case 'create user':
+                                objProjStatus.AH_PLCM_Is_User_Bubble_Help_Skipped__c = true;
+                                break;
+                            case 'user mapping':
+                                objProjStatus.AH_PLCM_Is_User_XRef_Bubble_Help_Skipped__c = true;
+                                break;
+                        }
+                        result = sforce.connection.update([objProjStatus]); //Update bubble status flag
+                        gblFlagBubbleSkipped = true;
+                    }
+                    showHideLoader(false); //Hide loader
+                },
+                onFailure: function(error) {
+                    showHideLoader(false); //Hide loader
+                },
+            };
+
+            showHideLoader(true); //Show loader
+            //Fetch bubble help popup flag status from NI Doc record
+            sforce.connection.query("SELECT Id, AH_PLCM_Is_Property_Bubble_Help_Skipped__c, AH_PLCM_Is_User_Bubble_Help_Skipped__c, AH_PLCM_Is_User_XRef_Bubble_Help_Skipped__c FROM NI_Documentation__c WHERE Id = '" + projectId + "'", callback);
+        }
+    </script>
+</apex:component>

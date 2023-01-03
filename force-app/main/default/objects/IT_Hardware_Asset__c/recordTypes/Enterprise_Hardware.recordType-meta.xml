@@ -1,0 +1,429 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<RecordType xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Enterprise_Hardware</fullName>
+    <active>true</active>
+    <description>Hardware or device which is used or shared by multiple users, teams, or departments</description>
+    <label>Enterprise Hardware</label>
+    <picklistValues>
+        <picklist>Asset_Location__c</picklist>
+        <values>
+            <fullName>Atlanta Office</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Bayring Hosted</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Breda Office</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>CTS Hosted</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Celebration Office</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Disposed</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>IT Lab</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>London Office</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Miami Office</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Portsmouth Hosted</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Portsmouth Office</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Shanghai Office</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Singapore Office</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Technician Desk</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Walnut Creek Office</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Bit_Level__c</picklist>
+        <values>
+            <fullName>32</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>64</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Deployment_Type__c</picklist>
+        <values>
+            <fullName>Physical</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Virtual</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Hardware_Type__c</picklist>
+        <values>
+            <fullName>Firewall</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>LCD Monitor</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Mailing Machine</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Network Switch</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Phone Equipment</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Printer</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Projector</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Router</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>SAN</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>SAN Switch</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Server</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Storage</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>UPS</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>USB Hard Drive</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Video Audio I%2FO</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Wireless Card</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Operating_System__c</picklist>
+        <values>
+            <fullName>Linux</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>OSX 10%2E7</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>VMWare ESX</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>VMWare ESXi</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Windows 10</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Windows 2000</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Windows 7</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Windows 8</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Windows Server 2003 Enterprise R2 Sp1</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Windows Server 2003 Enterprise R2 Sp2</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Windows Server 2003 Enterprise Sp1</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Windows Server 2003 Enterprise Sp2</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Windows Server 2003 Standard R2 Sp1</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Windows Server 2003 Standard R2 Sp2</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Windows Server 2003 Standard Sp1</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Windows Server 2003 Standard Sp2</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Windows Server 2003 Web Sp1</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Windows Server 2003 Web Sp2</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Windows Server 2008 Enterprise R2</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Windows Server 2008 Enterprise R2 Sp1</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Windows Server 2008 Enterprise Sp1</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Windows Server 2008 Enterprise Sp2</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Windows Server 2008 Standard R2</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Windows Server 2008 Standard R2 Sp1</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Windows Server 2008 Standard Sp1</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Windows Server 2008 Standard Sp2</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Windows Server 2008 Web R2</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Windows Server 2008 Web Sp2</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Windows Server 2012 Enterprise</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Windows Server 2012 Standard</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Windows Server 2012 Standard R2</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Windows Server 2016 Enterprise</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Windows Server 2016 Standard</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Platform_Environment__c</picklist>
+        <values>
+            <fullName>DC2</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>DCC</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>DR</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Enterprise</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Lab</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>M-Tech%2EDev</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>NHosted</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Shared</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Retirement_Method__c</picklist>
+        <values>
+            <fullName>Donated</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Recycled</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>User Purchase</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>SQL__c</picklist>
+        <values>
+            <fullName>SQL 2005 Enterprise</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>SQL 2005 Standard</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>SQL 2008 Enterprise</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>SQL 2008 Standard</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>SQL 2012 Enterprise</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>SQL 2012 Standard</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>SQL 2014 Enterprise</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>SQL 2014 Standard</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>SQL 2016 Enterprise</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>SQL 2016 Standard</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>SQL Express</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Status__c</picklist>
+        <values>
+            <fullName>Deployed</fullName>
+            <default>true</default>
+        </values>
+        <values>
+            <fullName>Retired</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Warranty_Type__c</picklist>
+        <values>
+            <fullName>24x7x4</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>24x7x6</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>24x7xNBD</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>9x5xNBD</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Custom %28see notes section%29</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>No warranty</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+</RecordType>

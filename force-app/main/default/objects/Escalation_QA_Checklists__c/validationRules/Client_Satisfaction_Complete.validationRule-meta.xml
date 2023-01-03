@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Client_Satisfaction_Complete</fullName>
+    <active>true</active>
+    <description>Value can not be 2,3 or 4.</description>
+    <errorConditionFormula>Or(
+Client_Satisfaction_Completed__c = 2,
+Client_Satisfaction_Completed__c = 3,
+Client_Satisfaction_Completed__c = 4,
+Client_Satisfaction_Completed__c &gt; 5
+
+)</errorConditionFormula>
+    <errorDisplayField>Client_Satisfaction_Completed__c</errorDisplayField>
+    <errorMessage>Please update your value to 0 for N/A, 1 for NO or 5 for YES.</errorMessage>
+</ValidationRule>

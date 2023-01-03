@@ -1,0 +1,1088 @@
+<apex:page standardController="NI_Trust__c" extensions="NITrustStatus" showHeader="false" sidebar="false" lightningStylesheets="true" applyHtmlTag="false" applyBodyTag="false" docType="html-5.0">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+    <apex:stylesheet value="{!URLFOR($Resource.ntrust, '/styles/ntrust-common.css')}"/>
+    <apex:stylesheet value="{!URLFOR($Resource.ntrust, '/styles/ntrust-platforms.css')}"/>
+    <apex:stylesheet value="{!URLFOR($Resource.ntrust, '/styles/ntrust-platforms-index.css')}"/>
+    <apex:stylesheet value="{!URLFOR($Resource.ntrust, '/styles/ntrust-calendar.css')}"/>
+    <apex:stylesheet value="{!URLFOR($Resource.ntrust, '/styles/ntrust-font-awesome.min.css')}"/>
+    <apex:stylesheet value="{!URLFOR($Resource.ntrust, '/styles/ntrust-history.css')}"/>
+
+    <script>
+        $(document).ready(function()
+        {
+            
+            $(".popup").hide();    
+        
+            $('#calendar-info-opener').hover( 
+                function(e) {
+                    $('.calendar-info-popup').show();
+                },
+                function(e) {
+                    $('.calendar-info-popup').hide();
+                }
+            );
+            
+        });
+        
+        $(document).on("click",".instance-trigger", function (event) {
+            var divClickId = event.target.id;
+            var popupId = divClickId.replace('inc', 'popup');
+            $("#"+popupId).toggle();
+        });
+        $(document).on("click",".popup", function (event) {
+            $(".popup").hide();
+        });
+        
+        $(document).on("click",".platform-calendar-date", function (event) {
+            $(".platform-calendar-date-selected").removeClass('platform-calendar-date-selected');
+            $(this).addClass('platform-calendar-date-selected');
+            $(".platform-calendar-info").hide();
+            //show the matching info
+            infoId = $(this).attr('id').replace('day', 'popup') ;
+            $('#'+infoId).show();
+        });
+    
+        function launchWindow()
+        {
+            var url = document.location.href;
+            var lastChar = url[url.length -1];
+            if(lastChar == '#')
+            {
+                url = url.substring(0, url.length-1);
+            }
+            window.open(url,"_self");
+        }
+    
+    </script>
+<!--    
+<apex:slds />
+<div id="divMain" class="slds-scope">
+-->        
+    
+    <apex:form id="NITrustStatus" accept="btnClose">
+        
+        <apex:outputPanel id="platformstatus">
+            
+                <!-- COMMENTED ON 09/04/2020 
+                    THIS AUTO PAGE REFRESH WILL BE ENABLED IN FUTURE PROJECT
+            <apex:actionPoller action="{!showPlatformStatus}" rerender="platformstatus" interval="60" rendered="{!IF(showStatus == true, True, False)}"/> 
+                -->
+            
+            <div class="page-content-padding" style="{!IF(showStatus == true, '', 'display:none;')}">
+                <div class="componentHeader">
+                    <h2 style="font-size:26px !important;">
+                        {!$Label.Platform_Status}
+                    </h2>
+                    <div style="font-size:13px !important;">
+                        <em>All times shown are GMT/UTC</em>
+                    </div> 
+                    
+                    <div class="platform-table-controls" style="top: 0px;float:right;padding-top: 7px;">
+                            <!-- COMMENTED ON 09/04/2020 
+                            THIS PAGE REFRESH WILL BE ENABLED IN FUTURE PROJECT
+                        <span id="refresh-button" class="toggle-buttons">
+                            <apex:commandLink action="{!showPlatformStatus}" status="status" style="color: inherit"  rerender="platformstatus" >    
+                                <span id="daily-button" class="button loaded" title="Refresh Platforms">
+                                    <span>Refresh</span>
+                                </span>
+                            </apex:commandLink>
+                        </span>
+                        &nbsp;&nbsp;
+                        -->
+                        <span id="scale-buttons" class="toggle-buttons">
+                            <apex:commandLink action="{!displayHistory}" status="status" style="color: inherit" reRender="platformstatus, calender, history1" >    
+                                <span id="daily-button" class="button loaded" title="View History">
+                                    <span>History</span>
+                                </span>
+                            </apex:commandLink>
+                        </span>
+                    </div>
+                    
+                </div>
+                <table class="platform-table platform-table-recent">
+                    <tbody>
+                        <tr class="platform-table-timeline-header">
+                            
+                                <td id="timeline-header-hourly" colspan="60"> 
+                                <div>
+                                    <span style="margin-left: 29.5%; ">
+                                        <apex:commandLink styleClass="btn" action="{!previousDay}" status="status" style="color: inherit; " reRender="platformstatus,calender" >
+                                            <apex:image id="prev_Img" value="https://img.icons8.com/office/18/000000/sort-left.png" width="18" height="14" style="padding-bottom:2px;"/> 
+                                        </apex:commandLink>
+                                    </span>
+                                                
+                                    <span style="margin-left: 5%;">
+                                        <apex:outputText id="curDatetime">{!minus_24_hours_time1} &nbsp;&nbsp;&nbsp; - &nbsp;&nbsp;&nbsp; {!currentDatetimeStr}</apex:outputText>
+                                    </span>
+                                    <span style="{!IF(dayMinus == 0, '', 'display:none;')}"></span>
+                                    <span style="{!IF(dayMinus != 0, '', 'display:none;')}; margin-left: 5%;padding-right: 20px; "> <!--  border:1.5px solid grey;border-radius: 7px; padding: 2px;-->
+                                        <apex:commandLink styleClass="btn"  action="{!nextDay}" status="status" style="color: inherit" reRender="platformstatus,calender" >
+                                            <apex:image id="next_Img" value="https://img.icons8.com/office/18/000000/sort-right.png" width="18" height="14" style="padding-bottom:2px;"/> 
+                                        </apex:commandLink> 
+                                    </span>
+                                </div>
+                            </td>
+                            <td colspan="1">Current Time: {!currentTime} </td> <!-- Now -->
+                        </tr>
+                        <tr id="platform-table-timeline" class="platform-table-timeline">
+                            
+                                <th class="platform-table-timeline-hour" colspan="15" style="text-align:left;padding-left:3px;color:darkslateblue;">{!minus_24_hours_time1}</th><!-- -6h</th>  --> 
+                                <th class="platform-table-timeline-hour" colspan="15" style="text-align:left;padding-left:3px;color:darkslateblue">{!minus_18_hours_time}</th><!-- -12h</th>  -->
+                                <th class="platform-table-timeline-hour" colspan="15" style="text-align:left;padding-left:3px;color:darkslateblue;">{!minus_12_hours_time}</th><!-- -18h</th>  -->
+                                <th class="platform-table-timeline-hour" colspan="15" style="text-align:left;padding-left:3px;color:darkslateblue;">{!minus_6_hours_time}</th><!-- -24h</th>  -->
+                            <th colspan="1" class="platform-table-timeline-now" style="text-align:left;padding-left:3px;color:darkslateblue;"   >
+                                
+                                <div style="{!IF(dayMinus == 0, '', 'display:none;')}">NOW</div>
+                                <div style="{!IF(dayMinus != 0, '', 'display:none;')}">{!currentDatetimeStr}</div>
+                                
+                            </th>
+                        </tr>
+                    </tbody>
+                    <tbody class="platform-table-group" id="platformRender">
+                        <apex:repeat value="{!platformsList}" var="p">
+                            <tr class="platform-table-row">
+                                
+                                    <td class="column-recent" colspan="60" style="border-bottom: 1px solid #e3deb8;">
+                                    
+                                    <div class="platform-table-instance-line">
+                                        <apex:repeat value="{!p.incidenceList}" var="inc">
+                                            
+                                            <span id="{!inc.incId}" class="instance-trigger" style="width: {!inc.width}%; right: {!inc.right}%; left: {!inc.left}%; min-width: 0%;">
+                                            </span>
+                                            <span class="{!inc.cssClass} instance-span" style="width: {!inc.width}%; right: {!inc.right}%; left: {!inc.left}%; min-width: 0%;">
+                                                <i class="instance-severity-indicator fa 
+                                                          fa-exclamation 
+                                                          instance-trigger"></i>
+                                                
+                                            </span>
+                                            
+                                        </apex:repeat>
+                                    </div>
+                                </td>
+                                
+                                <td class="column-now {!p.statusClass}" style="border-bottom: 1px solid #e3deb8;">
+                                        <apex:commandLink action="{!showPlatformDetails}" status="status" style="color: inherit" styleClass="column-now-inner" reRender="platformstatus, calender,time">
+                                            <span class="column-status" style="{!IF(p.hasOngoingIncidence == true, 'display:inline-block;', 'display:none;')}"><i class="fa fa-times-circle"></i></span>
+                                            <span class="column-status" style="{!IF(p.hasOngoingIncidence == false, 'display:inline-block;', 'display:none;')}"><i class="fa fa-check"></i></span>
+                                        
+                                        <span class="column-name" style="text-align:center;">
+                                            <span class="platform-name" >{!p.platformName}</span>
+                                            <!-- <span class="platform-label">&nbsp;</span> -->
+                                        </span>
+                                        <apex:param name="platformId" value="{!p.platformId}"/>
+                                    </apex:commandLink>
+                                </td>
+                            </tr>
+                        </apex:repeat>
+                    </tbody>
+                </table>
+                <div id="icon-key">
+                    <span>
+                        <span><i class="fa fa-square platform-status-up"></i>{!$Label.Platform_Status_Available}</span>
+                        <span><i class="fa fa-square platform-status-info"></i> {!$Label.Platform_Status_System_Upgrade}</span>
+                        <span><i class="fa fa-square platform-status-maintenance"></i>{!$Label.Platform_Status_Maintenance}</span>
+                        <span><i class="fa fa-square platform-status-slow"></i>{!$Label.Platform_Status_Performance_Degradation}</span>
+                        <span><i class="fa fa-square platform-status-down"></i>{!$Label.Platform_Status_Service_Disruption}</span>
+                    </span>
+                </div>
+            </div>
+            
+            <!-- Right Panel -->
+            <apex:repeat value="{!platformsList}" var="p">
+                <apex:repeat value="{!p.incidenceList}" var="inc">
+                    <div class="popup instance-popup instance-popup-actual instance-popup-slow" id="{!inc.popupDivId}" style="display: none;">
+                        <span class="popup-button instance-popup-closer instance-popup-closer-x fa fa-times"></span>
+                        <span class="instance-popup-closer instance-popup-closer-slider" style="width: 0.75em;"><i class="fa fa-chevron-right"></i></span>
+                        <span class="instance-popup-closer-hover-area"></span>
+                        <span class="popup-button instance-popup-back fa fa-reply"></span>
+                        <div class="instance-popup-header-div">
+                            <div class="instance-popup-header">
+                                <span class="instance-popup-header-content">
+                                    <i class="fa fa-2x fa-exclamation"></i>
+                                    <span class="instance-popup-header-text">{!inc.incidenceType}</span>
+                                    <i class="fa fa-2x fa-exclamation"></i>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="instance-popup-body">
+                            <div class="instance-popup-body-inner">
+                                <h4>
+                                    {!inc.platformName} {!inc.incidenceName} - {!inc.incidenceType}
+                                </h4>
+                                
+                                <p><b>Severity:</b> {!inc.Severity}<br/><br/>
+                                    <b>Affected Service:</b> Amadeus Hospitality {!inc.platformName} {!inc.HotSOSApplication}</p><br/>
+                                <p><b>_Case Number:</b> {!inc.CaseNumber}<br/>
+                                    <b>_Start Time:</b> {!inc.startDtTime}<br/>
+                                    <b>_End Time:</b> {!IF(inc.isOngoing == true, "Ongoing", inc.endDtTime+" GMT")}<br/>
+                                    <b>{!IF(ISBLANK(inc.EditableDuration), "", "_Total Duration: ")}</b>
+                                    {!IF(ISBLANK(inc.EditableDuration), "", inc.EditableDuration+" Minutes")}<br/>
+                                    <b>{!IF(ISBLANK(inc.EstimatedDuration), "", "_Estimated Duration:")}</b> 
+                                    {!IF(ISBLANK(inc.EstimatedDuration), "", inc.EstimatedDuration+" Minutes")}
+                                </p>
+                                <br/>
+                                <div id="unplannedRecord" style="display:{!IF(inc.RecordTypeName=='Unplanned','block','none')};">
+                                    <div><p><b>Incident Description:</b><br/>
+                                        {!inc.IncidentDescription}</p>
+                                    </div>
+                                    <div><p><b>Customer Impact:</b><br/>
+                                        {!inc.CustomerImpact}</p>
+                                    </div>
+                                    <div style="display:{!IF(inc.WorkaroundInformation=='','none','block')};">
+                                        <p><b>Workaround Information:</b><br/>
+                                            {!inc.WorkaroundInformation}</p>
+                                    </div>
+                                    <div style="display:{!IF(inc.AmadeusInvestigativeAction=='','none','block')};">
+                                        <p><b>Amadeus Investigative Action:</b><br/>
+                                            {!inc.AmadeusInvestigativeAction}</p>
+                                    </div>
+                                    <div style="display:{!IF(inc.rootCause=='','none','block')};">
+                                        <p><b>Root Cause Analysis:</b><br/>
+                                            {!inc.rootCause}</p>
+                                    </div>       
+                                </div>
+                                
+                                <div id="plannedRecord" style="display:{!IF(inc.RecordTypeName=='Planned','block','none')};">
+                                    <p><b>Maintenance Description:</b><br/>
+                                        {!inc.IncidentDescription}</p>
+                                    
+                                </div>
+                                
+                            </div>
+                        </div>
+                    </div>
+                </apex:repeat>
+            </apex:repeat>
+        </apex:outputPanel>
+        <br/><br/>
+        
+        <apex:outputPanel id="calender">
+            <!-- CALENDER -->
+            <div class="page-content-padding" style="{!IF(showCalendar == true, '', 'display:none;')}">
+                <div class="componentHeader">
+                    <h2 style="font-size:26px !important;">
+                        {!$Label.Platform_Status} <!-- Maintenance Calendar -->
+                    </h2>
+                    <div style="font-size:13px !important;">
+                        <em>All times shown are GMT/UTC</em>
+                    </div> 
+                    
+                    <div class="platform-table-controls" style="top: 0px;float:right;padding-top: 7px;">
+                        <span id="b-button" class="toggle-buttons">
+                            <!-- <apex:commandLink action="{!showPlatformStatus}" status="status" style="color: inherit" reRender="platformstatus, calender" >    -->
+                            <apex:commandLink status="status" style="color: inherit" reRender="platformstatus, calender" onclick="launchWindow();">
+                                <span id="back-button" class="button loaded" title="Past 33 Days (UTC)">
+                                    <span>Back</span>
+                                </span>
+                            </apex:commandLink>
+                        </span>
+                        <span  id="h-button" class="toggle-buttons">
+                            <apex:commandLink action="{!displayHistory}" status="status" style="color: inherit" reRender="platformstatus, calender, history1" >    
+                                <span id="hist-button" class="button loaded" title="Past 33 Days (UTC)">
+                                    <span>History</span>
+                                </span>
+                            </apex:commandLink>
+                        </span>
+                    </div>
+                </div>
+                
+                <table class="platform-table platform-table-recent">
+                    <tbody>
+                        <tr class="platform-table-timeline-header">
+                            
+                            <td id="timeline-header-hourly" colspan="24"> 
+                                <div>
+                                    <span style="margin-left: 29.5%; ">
+                                        <apex:commandLink styleClass="btn" action="{!previousDay1}" status="status" style="color: inherit; " reRender="calender" >
+                                            <apex:image id="prev_Img1" value="https://img.icons8.com/office/18/000000/sort-left.png" width="18" height="14" style="padding-bottom:2px;"/> 
+                                        </apex:commandLink>
+                                    </span>
+                                                
+                                    <span style="margin-left: 5%;">
+                                        <apex:outputText id="curDatetime1">{!minus_24_hours_time1} &nbsp;&nbsp;&nbsp; - &nbsp;&nbsp;&nbsp; {!currentDatetimeStr}</apex:outputText>
+                                    </span>
+                                    <span style="{!IF(dayMinus == 0, '', 'display:none;')}"></span>
+                                    <span style="{!IF(dayMinus != 0, '', 'display:none;')}; margin-left: 5%;padding-right: 20px; ">
+                                        <apex:commandLink styleClass="btn"  action="{!nextDay1}" status="status" style="color: inherit" reRender="calender" >
+                                            <apex:image id="next_Img1" value="https://img.icons8.com/office/18/000000/sort-right.png" width="18" height="14" style="padding-bottom:2px;"/> 
+                                        </apex:commandLink> 
+                                    </span>
+                                </div>
+                            </td>
+                            <td colspan="1">Current Time: {!currentTime} </td> 
+                        </tr>
+                        <tr id="platform-table-timeline" class="platform-table-timeline">
+                            
+                            <th class="platform-table-timeline-hour" colspan="6" style="text-align:left;padding-left:3px;color:darkslateblue;">{!minus_24_hours_time1}</th>
+                            <th class="platform-table-timeline-hour" colspan="6" style="text-align:left;padding-left:3px;color:darkslateblue;">{!minus_18_hours_time}</th>
+                            <th class="platform-table-timeline-hour" colspan="6" style="text-align:left;padding-left:3px;color:darkslateblue;">{!minus_12_hours_time}</th>
+                            <th class="platform-table-timeline-hour" colspan="6" style="text-align:left;padding-left:3px;color:darkslateblue;">{!minus_6_hours_time}</th>
+                            <th class="platform-table-timeline-now" colspan="1" style="text-align:left;padding-left:3px;color:darkslateblue;">
+                                
+                                <div style="{!IF(dayMinus == 0, '', 'display:none;')}">NOW</div>
+                                <div style="{!IF(dayMinus != 0, '', 'display:none;')}">{!currentDatetimeStr}</div>
+                                
+                            </th>
+                        </tr>
+                    </tbody>
+                    <tbody class="platform-table-group">
+                        <apex:repeat value="{!platformsList}" var="p">
+                            <tr class="platform-table-row" id="instance_row">
+                                
+                                <td class="column-recent" colspan="24">
+                                    <div class="platform-table-instance-line">
+                                        <apex:repeat value="{!p.incidenceList}" var="inc">
+                                            <span id="{!inc.incId}" class="instance-trigger" style="width: {!inc.width}%; 
+                                                                                                    right: {!inc.right}%; 
+                                                                                                    left: {!inc.left}%; 
+                                                                                                    min-width: 0%;">
+                                            </span>
+                                            <span class="{!inc.cssClass} instance-span" style="width: {!inc.width}%; 
+                                                                                               right: {!inc.right}%; 
+                                                                                               left: {!inc.left}%; 
+                                                                                               min-width: 0%;">
+                                                <i class="instance-severity-indicator fa 
+                                                          fa-exclamation 
+                                                          instance-trigger"></i>
+                                                
+                                            </span>
+                                        </apex:repeat>
+                                    </div>
+                                </td>
+                                
+                                <td class="column-now {!p.statusClass}">
+                                    <a style="color: inherit" href="#" class="column-now-inner">
+                                            
+                                            <span class="column-status" style="{!IF(p.hasOngoingIncidence == true, 'display:inline-block;', 'display:none;')}"><i class="fa fa-times-circle"></i></span>
+                                            <span class="column-status" style="{!IF(p.hasOngoingIncidence == false, 'display:inline-block;', 'display:none;')}"><i class="fa fa-check"></i></span>
+
+                                        <span class="column-name" style="text-align:center;">
+                                            <span class="platform-name">{!p.platformName}</span>
+                                            <span class="platform-label">&nbsp;</span>
+                                        </span>
+                                        
+                                        <apex:param name="platformId" value="{!p.platformId}"/>
+                                    </a>
+                                </td>
+                                
+                            </tr>
+                            <script>
+                            $('.column-now > a').click( function (e) {
+                                //e.stopPropogation();
+                            });
+                            </script>
+                        </apex:repeat>
+                    </tbody>
+                </table>
+                
+                <div id="icon-key">
+                    <span>
+                        
+                        <span><i class="fa fa-square platform-status-up"></i>{!$Label.Platform_Status_Available}</span>&nbsp;&nbsp;&nbsp;
+                        <span><i class="fa fa-square platform-status-info"></i> {!$Label.Platform_Status_System_Upgrade}</span>&nbsp;&nbsp;&nbsp;
+                        <span><i class="fa fa-square platform-status-maintenance"></i>{!$Label.Platform_Status_Maintenance}</span>&nbsp;&nbsp;&nbsp;
+                        <span><i class="fa fa-square platform-status-slow"></i>{!$Label.Platform_Status_Performance_Degradation}</span>&nbsp;&nbsp;&nbsp;
+                        <span><i class="fa fa-square platform-status-down"></i>{!$Label.Platform_Status_Service_Disruption}</span>
+                        
+                    </span>
+                </div>
+                <br/><br/><br/>
+                <div class="schedule-container" style="margin-top: 0px;">
+                    <h2 style="font-size:26px !important;">
+                        <span> {!$Label.Maintenance_Calendar}</span>
+                    </h2>
+                    
+                    <span class="month-select" style="visibility: visible; margin-left: 20%">
+                        <apex:commandLink action="{!todayDate}" status="status" styleClass="button" style="text-decoration:none;margin-right: 5px;border-radius: 5px;padding: 7px;color: white;" reRender="calender">
+                            Today
+                        </apex:commandLink>
+                        <apex:commandLink action="{!previousMonth}" rendered="{!displayPrev}" status="status" styleClass="prev-month cycle-months button" style="visibility: visible;margin-right: 5px;border-radius: 5px;padding: 4px 8px 3px 5px;color: white;" reRender="calender">
+                            <i class="fa fa-chevron-left "> </i>
+                        </apex:commandLink>
+                        <apex:selectList styleClass="select-overlay-container" value="{!selectedMonth}" size="1" style="padding: 5px;margin-right: 5px;border-radius: 5px;">
+                            <apex:selectOptions value="{!monthsOptionList}"></apex:selectOptions>
+                            <apex:actionSupport action="{!changeMonth}" status="status" event="onchange" reRender="calender" />
+                        </apex:selectList>
+                        <apex:commandLink action="{!nextMonth}" rendered="{!displayNext}" status="status" styleClass="next-month cycle-months button" style="visibility: visible;border-radius: 5px;padding: 4px 5px 3px 8px;color: white;" reRender="calender">
+                            <i class="fa fa-chevron-right "></i>
+                        </apex:commandLink>
+                    </span>
+                    
+                    <div class="platform-calendar-container">
+                        <ol class="platform-calendar-header">
+                            <li style="margin-left: 0;">S</li>
+                            <li style="margin-left: 0;">M</li>
+                            <li style="margin-left: 0;">T</li>
+                            <li style="margin-left: 0;">W</li>
+                            <li style="margin-left: 0;">Th</li>
+                            <li style="margin-left: 0;">F</li>
+                            <li style="margin-left: 0;">S</li>
+                        </ol>
+                        
+                        <ol id="{!monthlyData.monthId}" class="platform-calendar platform-calendar-month" style="display: block;">
+                            <apex:repeat value="{!monthlyData.daysList}" var="day">
+                                <li style="{!IF(day.dayId == null, '', 'display:none;')}">
+                                    <div class="platform-calendar-date-inner"></div>
+                                </li>
+                                
+                                <li id="{!day.dayId}" class="platform-calendar-date platform-calendar-date-empty {!day.cssClassToday} {!day.isSelectedClass}" style="{!IF(day.dayId != null, '', 'display:none;')}">
+                                    <div class="platform-calendar-date-inner">
+                                        <div class="platform-calendar-date-number">{!day.dayName}</div>
+                                        <div class="platform-calendar-event-type">{!day.dayIncidence}</div>
+                                    </div>
+                                </li>
+                            </apex:repeat>
+                        </ol>
+                        
+                        <div id="instance_calendar_info_pane">
+                            <apex:repeat value="{!monthlyData.daysList}" var="day">
+                                
+                                <div id="{!day.popupDivId}" class="platform-calendar-info" style="{!day.popupDisplay}">
+                                    <h4>{!day.dayDate}</h4>
+                                    <div class="platform-calendar-info-body">
+                                        <apex:repeat value="{!day.incidenceList}" var="inc">
+                                            <div class="platform-calendar-info-event">
+                                                <h3>{!inc.incidenceName}</h3>
+                                                <p class="platform-calendar-info-time">
+                                                    {!inc.startTime} - {!inc.endTime}
+                                                </p>
+                                                <p class="platform-calendar-info-instances">
+                                                    {!inc.platformName}
+                                                </p>
+                                                <p>
+                                                    {!inc.incidenceDetails}
+                                                </p>
+                                            </div>
+                                        </apex:repeat>
+                                    </div>
+                                </div>
+                            </apex:repeat>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- CALENDER -->
+        </apex:outputPanel>
+        
+        
+        <!-- History -->
+        <apex:outputPanel id="history1">
+            <div class="page-content-padding" style="{!IF(showHistory == true, '', 'display:none;')}">
+                <div class="componentHeader">
+                    <h2 style="font-size: 26px !important; margin-left: 8%;">
+                        {!$Label.History_Title}
+                    </h2>
+                    <div style="font-size:15px !important; margin-left: 8%;">
+                        <em>Previous 90 days shown</em>
+                    </div>
+                    <div class="platform-table-controls" style="top: 0px;float:right;padding-top: 7px;margin-right: 10%;">
+                        <span id="scale-buttons" class="toggle-buttons" style="margin-right: 10%;">
+                            <!-- <apex:commandLink action="{!showPlatformStatus}" status="status" style="color: inherit" reRender="platformstatus, calender, history1">     -->
+                            <apex:commandLink status="status" style="color: inherit" reRender="platformstatus, calender, history1" onclick="launchWindow();">
+                                <span id="back-button" class="button loaded" title="Past 33 Days (UTC)">
+                                    <span>{!$Label.Button_Back}</span>
+                                </span>
+                            </apex:commandLink>
+                        </span>
+                    </div>
+                </div>
+                
+                <c:NI_StatusHistory strName="{!selectedPlatformId}" />
+                
+            </div>
+            <apex:actionStatus id="status">
+                <apex:facet name="start">
+                    <div style="position: fixed; top: 0; left: 0; right: 0; bottom: 0; opacity: 0.75; z-index: 1000; background-color: black;">
+                        &nbsp;
+                    </div>
+                    <div style="position: fixed; left: 0; top: 0; bottom: 0; right: 0; z-index: 1001; margin: 30% 50%">
+                        <img src="http://upload.wikimedia.org/wikipedia/commons/e/ed/Cursor_Windows_Vista.gif" /> 
+                    </div>
+                </apex:facet>
+            </apex:actionStatus>
+        </apex:outputPanel>
+        <!-- /History -->
+
+    </apex:form>
+<!--
+</div>
+-->    
+    <style type="text/css">   
+        body
+        {
+            background-color:#FFFFFF;
+        }        
+        img
+        {
+            outline: none;
+            border: none;
+            -ms-interpolation-mode: bicubic;
+            vertical-align: middle;
+        }
+        .custPopup
+        {
+            background-color: #EFF5F9;
+            border-width: 1px;
+            border-style: solid;
+            z-index: 9999;
+            left: 50%;
+            padding:10px;
+            position: absolute;
+            /* These are the 3 css properties you will need to change so the popup 
+            displays in the center of the screen. First set the width. Then set 
+            margin-left to negative half of what the width is. You can add 
+            the height property for a fixed size pop up if you want.*/
+            width: 500px;
+            height: 400px;
+            margin-left: -250px;
+            top:100px;
+        }
+        .popupBackground
+        {
+            background-color:black;
+            opacity: 0.0;
+            filter: alpha(opacity = 0);
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: 9998;
+        }
+        .mpStyle
+        {
+            width: 100%;
+        }
+        .mpTrStyle
+        {
+            background:#DBE7F2;
+            height: 50px;
+        }
+        .mpMsgStyle
+        {
+            height: 98%;
+            word-wrap: break-word;
+        }
+        .mpBtnStyle
+        {
+            text-align: center;
+        }
+        .headerclass
+        {
+            text-align: center;
+            background-color:#DDDDDD;
+        }
+        .tinynav 
+        { 
+            display: none 
+        }
+        img
+        {
+            outline:none;
+            border:none;
+            -ms-interpolation-mode:bicubic;
+            vertical-align:middle;
+        }
+        #Container
+        {
+            width:970px;
+            margin-top:0px;
+            margin-right:auto;
+            margin-bottom:0px;
+            margin-left:auto;
+        }
+        #Header
+        {
+            height:100px;
+            margin-top:10px;
+        }
+        #HRM
+        {
+            height:175px;
+            width:225px;
+            background-color:#F0F1F2;
+            border:1px solid #AAAAAB;
+            -moz-border-radius:10px;
+            border-radius:10px;
+            text-align:center;
+            float:left;
+            margin-top:16px;
+            margin-right:6px;
+            margin-bottom:16px;
+            margin-left:6px;
+        }
+        #HRM_body
+        {
+            font-family:Verdana;
+            font-size:12px;
+            line-height:18px;
+            color:#484848;
+            margin-top:10px;
+            margin-bottom:5px;
+            min-height:75px;
+            position:relative;
+            padding:5px;
+        }
+        #btn_learn
+        {
+            width:200px;
+            height:38px;
+            z-index:5;
+            padding-left:15px;
+            display:block;
+            position:absolute;
+        }
+        #slideshow
+        {
+            height:349px;
+            position:relative;
+            width:970px;
+            margin-top:0px;
+            margin-right:auto;
+            margin-bottom:0;
+            margin-left:auto;
+            background-image:url(../images/Slideshow_BG.jpg);
+            background-repeat:repeat-x;
+        }
+        #slideshow ul
+        {
+            height:349px;
+            list-style:none outside none;
+            overflow:hidden;
+            position:absolute;
+            width:970px;
+        }
+        #slideshow .arrow
+        {
+            height:86px;
+            width:60px;
+            position:absolute;
+            top:50%;
+            margin-top:-43px;
+            cursor:pointer;
+            z-index:5000;
+            background-image:url(../images/arrows.png);
+            background-repeat:no-repeat;
+        }
+        #MainNav
+        {
+            float:left;
+        }
+        #Logo
+        {
+            float:left;
+            width:300px;
+        }
+        #NewsArea
+        {
+            background-image:url(../images/news_bg.jpg);
+            background-repeat:repeat-x;
+            height:37px;
+            padding-top:18px;
+        }
+        #MainArea
+        {
+            background-image:url(../images/MainArea_bg.jpg);
+            background-repeat:repeat-y;
+            border-right-width:1px;
+            border-left-width:1px;
+            border-right-style:solid;
+            border-left-style:solid;
+            border-right-color:#787878;
+            border-left-color:#787878;
+        }
+        #MainAreaTwoColumn 
+        {
+            margin-top: 10px;
+        }
+        #MainAreaTwoColumnWhite 
+        {
+            background-color: #fff;
+        }
+        #MainLft
+        {
+            float:left;
+            width:680px;
+            color:#484848;
+            padding-left:22px;
+            font-size:14px;
+            line-height:22px;
+            padding-top:22px;
+            position:relative;
+            text-shadow: 1px 1px 1px #FFF;
+            -webkit-transform: translateZ(0);
+        }
+        #MainLftTwoColumnWhite
+        {
+            float:left;
+            width:680px;
+            color:#484848;
+            padding: 22px;
+            font-size:14px;
+            line-height:22px;
+            position:relative;
+            text-shadow: 1px 1px 1px #FFF;
+            -webkit-transform: translateZ(0);
+        }
+        #MainRgt
+        {
+            float:right;
+            width:240px;
+            background-color:#C8C8C8;
+            padding-top:22px;
+            margin-left:12px;
+            position:relative;
+            text-align:center;
+        }
+        #MainRgtTwoColumn
+        {
+            float:right;
+            width:236px;
+            background-color:#C8C8C8;
+            padding: 22px 5px 0 5px;
+            margin: 0;
+            position:relative;
+            text-align:center;
+        }
+        #MainRgtTwoColumn .content-area
+        {
+            padding: 10px;
+        }
+        #Breadcrumbs
+        {
+            font-size:11px;
+            color:#484848;
+            text-align:right;
+            padding-top:5px;
+        }
+        #SecHeader_Img
+        {
+            height:280px;
+            background-image:url(../images/SecHeader_BG.jpg);
+            background-repeat:repeat-x;
+        }
+        #Success_Lft
+        {
+            text-align:center;
+            float:left;
+            width:420px;
+            color:#FFFFFF;
+            padding-right:15px;
+            padding-left:15px;
+            padding-top:20px;
+            margin-right:12px;
+        }
+        #Success_Rgt
+        {
+            float:left;
+            padding-top:40px;
+        }
+        #StudyOne
+        {
+            height:190px;
+            width:237px;
+            border:1px solid #C1C1C3;
+            float:left;
+            margin-left:1px;
+            margin-right:2px;
+            margin-bottom:4px;
+        }
+        #Success_Rgt img
+        {
+            border:3px solid #FFFFFF;
+            -moz-box-shadow:5px 5px 5px #333333;
+            -webkit-box-shadow:5px 5px 5px #333333;
+            box-shadow:5px 5px 5px #333333;
+        }
+        #navlist
+        {
+            padding-left:0;
+            margin-left:0;
+            width:200px;
+            background-color:#F7F7F7;
+            -moz-border-radius:5px;
+            border-radius:5px;
+            border:1px solid gray;
+        }
+        #Newslist
+        {
+            padding-left:0;
+            margin-left:0;
+            width:200px;
+            background-color:#F7F7F7;
+            -moz-border-radius:5px;
+            border-radius:5px;
+            border:1px solid gray;
+        }
+        #Newslist li a
+        {
+            text-decoration:none;
+            font-size:12px;
+            font-weight:normal;
+            color:#005C6F;
+            text-align:left;
+            width:100px;
+            padding-right:23px;
+        }
+        #Search
+        {
+            float:left;
+            width:140px;
+            height:19px;
+            margin-top:8px;
+        }        
+        #Social
+        {
+            float:right;
+            font-size:14px;
+            padding-top:36px;
+        }
+        #Phone
+        {
+            font-size:12px;
+            float:left;
+            width:345px;
+            padding-top:8px;
+        }
+        #Address
+        {
+            float:left;
+            font-size:12px;
+            padding-top:8px;
+        }
+        #Foot_Logo
+        {
+            float:left;
+        }
+        #Case_Img
+        {
+            height:130px;
+            width:237px;
+        }
+        #Address
+        {
+            float:right;
+        }
+        #case_Text
+        {
+            height:60px;
+            width:237px;
+            background-image:url(../images/Case_Grad_BG.jpg);
+            background-repeat:no-repeat;
+            color:#FFFFFF;
+            text-align:center;
+        }
+        #case_Text p
+        {
+            margin-bottom:5px;
+            line-height:24px;
+        }
+        #case_Text h3
+        {
+            font-size:18px;
+            padding-top:7px;
+            text-shadow:2px 2px 2px #484848;
+        }
+        #case_Text a
+        {
+            color:#FFFFFF;
+            text-decoration:none;
+        }
+        #ConnectForm form.FormWidgettheme
+        {
+            margin:20px 0 0 0;
+            padding:0 0 20px 0;
+            position:relative;
+        }
+        .contactButton input
+        {
+            width:105px;
+            height:37px;
+            background:transparent url(/images/btn_submit.png) no-repeat;
+            border:none;
+            margin-left: 25px;
+        }
+        #Search .gsc-input-box
+        {
+            border-radius:15px;
+            border:1px solid #D0D0D1;
+            background-color:#DEDEDE;
+            padding-left:20px;
+        }
+        #Search input.gsc-search-button-v2
+        {
+            width:11px;
+            height:11px;
+            min-width:11px;
+            padding:5px;
+        }
+        #Search .gsc-search-button
+        {
+            margin-left:-138px;
+        }
+        .topBlockContent
+        {
+            margin-top:20px;
+        }
+        #___gcse_1 .gs-result img.gs-image, #___gcse_1 .gs-result img.gs-promotion-image
+        {
+            padding-left:8px;
+        }
+        #___gcse_1 .gsc-table-cell-snippet-close, #___gcse_1 .gsc-table-cell-snippet-open
+        {
+            padding-left:8px;
+        }
+        #___gcse_1 a.gs-title
+        {
+            color:#005C6F;
+            text-decoration:none;
+            font-family:Verdana;
+            font-size:14px;
+        }
+        #___gcse_1 a.gs-title b
+        {
+            color:#00333D;
+            font-size:14px;
+        }
+        #___gcse_1 .gs-webResult div.gs-visibleUrl, #___gcse_1 .gs-imageResult div.gs-visibleUrl
+        {
+            color:#000000;
+            font-family:Verdana;
+        }
+        #___gcse_1 .gsc-cursor-page
+        {
+            color:#005C6F;
+            background-color:#DDDDDD;
+        }
+        #___gcse_1 .gsc-cursor-current-page
+        {
+            color:#005C6F;
+            background-color:#DDDDDD;
+        }
+        #___gcse_1 .gcs-above-wrapper-area
+        {
+            border-bottom:none;
+        }
+        
+        .flex-container a:active, .flexslider a:active
+        {
+            outline:none;
+        }
+        .slides, .flex-control-nav, .flex-direction-nav
+        {
+            margin:0;
+            padding:0;
+            list-style:none;
+        }
+        .flexslider
+        {
+            width:100%;
+            margin:0;
+            padding:0;
+        }
+        .flexslider .slides > li
+        {
+            display:none;
+        }
+        .flexslider .slides img
+        {
+            max-width:100%;
+            display:block;
+        }
+        .flex-pauseplay span
+        {
+            text-transform:capitalize;
+        }
+        .slides:after
+        {
+            display:block;
+            clear:both;
+            visibility:hidden;
+            line-height:0;
+            height:0;
+        }
+        html[xmlns].slides
+        {
+            display:block;
+        }
+        * html .slides
+        {
+            height:1%;
+        }
+        .no-js .slides > li:first-child
+        {
+            display:block;
+        }
+        .flexslider
+        {
+            position:relative;
+            zoom:1;
+        }
+        .flexslider .slides
+        {
+            zoom:1;
+            margin-left: 10px;
+        }
+        .flexslider .slides > li
+        {
+            position:relative;
+        }
+        .flex-container
+        {
+            zoom:1;
+            position:relative;
+            width:940px;
+            margin-right:auto;
+            margin-left:auto;
+        }
+        .flex-direction-nav li a
+        {
+            width:20px;
+            height:30px;
+            margin:0px 0 0;
+            display:block;
+            position:absolute;
+            top:0;
+            cursor:pointer;
+            text-indent:-9999px;
+        }
+        .flex-direction-nav li .flex-next
+        {
+            right:-18px;
+            background:url(../images/news_arrow_rgt.png) no-repeat 0 0;
+        }
+        .flex-direction-nav li .flex-prev
+        {
+            left: -10px;
+            background:url(../images/news_arrow_lft.png) no-repeat 0 0;
+        }
+        .flex-direction-nav li .flex-disabled
+        {
+            opacity:0.3;
+            cursor:default;
+        }
+        .flex-control-nav
+        {
+            display:none;
+        }        
+
+    </style>
+    
+    <script type="text/javascript">
+    function replaceEnter(e){
+          if (e.keyCode == 13){
+            var allElements = document.getElementsByTagName('*');
+            for (var i = 0; i < allElements.length; i++){
+              if (allElements[i].id.indexOf("btnClose") !=-1){
+                allElements[i].click();
+              }
+            }
+            return false;
+          }else{
+            return true;
+          }
+        }
+        window.onkeypress = replaceEnter;
+    </script>    
+    
+</apex:page>

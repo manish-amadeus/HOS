@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Active_R_D_IT_Software_Assets</fullName>
+    <columns>Assigned_Department_Name__c</columns>
+    <columns>NAME</columns>
+    <columns>License_Status__c</columns>
+    <columns>Assigned_User__c</columns>
+    <columns>Assigned_User_Phone__c</columns>
+    <columns>Software_Package_Name__c</columns>
+    <columns>Date_Purchased__c</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>Assigned_Department_Name__c</field>
+        <operation>notEqual</operation>
+        <value>Development,QA,Product Management,Program Management</value>
+    </filters>
+    <label>Active R&amp;D IT Software Assets</label>
+</ListView>

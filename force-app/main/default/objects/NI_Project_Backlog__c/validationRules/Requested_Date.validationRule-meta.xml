@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Requested_Date</fullName>
+    <active>true</active>
+    <errorConditionFormula>AND(ISPICKVAL(Requested_Date_is__c,&quot;Mandatory&quot;), 
+ISBLANK(Requested_Completion_Date__c))</errorConditionFormula>
+    <errorDisplayField>Requested_Completion_Date__c</errorDisplayField>
+    <errorMessage>Please enter a requested completion date, or change the &quot;Requested Date Is&quot; field to a value other than Mandatory.</errorMessage>
+</ValidationRule>

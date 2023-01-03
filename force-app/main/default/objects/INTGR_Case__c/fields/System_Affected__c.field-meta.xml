@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>System_Affected__c</fullName>
+    <description>NICC-030216 - Restricted picklist value of Type of environment impacted by issue.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Type of environment impacted by issue.</inlineHelpText>
+    <label>System Affected</label>
+    <required>false</required>
+    <trackFeedHistory>true</trackFeedHistory>
+    <trackHistory>true</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Production</fullName>
+                <default>false</default>
+                <label>Production</label>
+            </value>
+            <value>
+                <fullName>Training</fullName>
+                <default>false</default>
+                <label>Training</label>
+            </value>
+            <value>
+                <fullName>Internal Test System</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Internal Test System</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

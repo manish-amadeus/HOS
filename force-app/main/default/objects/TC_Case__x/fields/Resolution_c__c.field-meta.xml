@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Resolution_c__c</fullName>
+    <externalDeveloperName>Resolution__c</externalDeveloperName>
+    <externalId>false</externalId>
+    <isFilteringDisabled>false</isFilteringDisabled>
+    <isNameField>false</isNameField>
+    <isSortingDisabled>false</isSortingDisabled>
+    <label>Resolution</label>
+    <readOnlyProxy>true</readOnlyProxy>
+    <required>false</required>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Agent Confirmed</fullName>
+                <default>false</default>
+                <label>Agent Confirmed</label>
+            </value>
+            <value>
+                <fullName>Contract Updated/Created and Sent</fullName>
+                <default>false</default>
+                <label>Contract Updated/Created and Sent</label>
+            </value>
+            <value>
+                <fullName>Customer Confirmed</fullName>
+                <default>false</default>
+                <label>Customer Confirmed</label>
+            </value>
+            <value>
+                <fullName>Customer Unconfirmed</fullName>
+                <default>false</default>
+                <label>Customer Unconfirmed</label>
+            </value>
+            <value>
+                <fullName>No Action Required</fullName>
+                <default>false</default>
+                <label>No Action Required</label>
+            </value>
+            <value>
+                <fullName>Non-Issue</fullName>
+                <default>false</default>
+                <label>Non-Issue</label>
+            </value>
+            <value>
+                <fullName>Report Sent</fullName>
+                <default>false</default>
+                <label>Report Sent</label>
+            </value>
+            <value>
+                <fullName>Request Cancelled</fullName>
+                <default>false</default>
+                <label>Request Cancelled</label>
+            </value>
+            <value>
+                <fullName>Transition to Another Department</fullName>
+                <default>false</default>
+                <label>Transition to Another Department</label>
+            </value>
+            <value>
+                <fullName>Permanent</fullName>
+                <default>false</default>
+                <label>Permanent</label>
+            </value>
+            <value>
+                <fullName>Temporary</fullName>
+                <default>false</default>
+                <label>Temporary</label>
+            </value>
+            <value>
+                <fullName>Unable to reproduce</fullName>
+                <default>false</default>
+                <label>Unable to reproduce</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

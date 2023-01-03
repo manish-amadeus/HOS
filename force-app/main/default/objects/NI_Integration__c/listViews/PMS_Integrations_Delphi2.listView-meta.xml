@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>PMS_Integrations_Delphi2</fullName>
+    <columns>RECORDTYPE</columns>
+    <columns>NAME</columns>
+    <columns>Vendor_Name__c</columns>
+    <columns>Vendor_Minimum_Version__c</columns>
+    <columns>Parent_Product_Group__c</columns>
+    <columns>Integration_Product_Type__c</columns>
+    <columns>Status_Comments__c</columns>
+    <columns>Active__c</columns>
+    <columns>Unicode_Compliant__c</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>Integration_Type__c</field>
+        <operation>equals</operation>
+        <value>Digital Signage (EMS)</value>
+    </filters>
+    <filters>
+        <field>Product_Group__c</field>
+        <operation>notContain</operation>
+        <value>fdc</value>
+    </filters>
+    <label>Digital Signage - Delphi</label>
+    <sharedTo>
+        <allInternalUsers></allInternalUsers>
+    </sharedTo>
+</ListView>

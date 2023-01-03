@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Contact__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <description>NICC-036706</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Resource for this day</inlineHelpText>
+    <label>Resource</label>
+    <referenceTo>Contact</referenceTo>
+    <relationshipLabel>Resource Planner Overbookings</relationshipLabel>
+    <relationshipName>Resource_Planner_Overbookings</relationshipName>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

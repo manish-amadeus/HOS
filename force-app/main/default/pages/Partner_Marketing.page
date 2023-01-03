@@ -1,0 +1,47 @@
+<apex:page Controller="NI_PartnerMarketingController" showHeader="true"  sidebar="false" standardStylesheets="false">
+<apex:PageBlock >
+<apex:stylesheet value="{!$Resource.PartnerCSS}" />
+<table width="100%">
+
+
+ <tr >
+ <td colspan="2"><apex:sectionHeader title="Marketing" />
+ </td>
+
+ </tr>
+ </table>
+
+ 
+ <table>
+      <tr>
+      <td>
+       <p>All you need for marketing with Newmarket.</p>
+       <p></p>
+      </td>
+      </tr>
+     
+     <tr>
+     
+     <td>
+         <ul>
+         <li><p><apex:outputLink value="/apex/Partner_Uploads" target="_top" >Marketing Collateral</apex:outputLink> - Update Logo, Company name or Company description for the Newmarket Website.</p></li>
+         <li><p><apex:outputLink value="/apex/Partner_Uploads" target="_blank">Press Release</apex:outputLink> – Submit a press release for review. </p></li>
+         <li><p><apex:outputLink value="http://www.newmarketinc.com/media-kit" target="_blank">Media Kit</apex:outputLink> – Be sure to check our Media kit for logos and branding.</p></li>        
+         <li><p><apex:OutputLInk value="{!URLFOR($Resource.PartnerConference)}" target="_blank">Customer Conference</apex:OutputLink> - Learn more about our upcoming Customer Conference and become a Sponsor! Contact a <apex:OutputLInk value="/apex/Partner_Contacts?sfdc.tabName=01r32000000ERO4" > Partner Account Manager</apex:OutputLink> to get involved.</p></li>
+        
+        </ul>
+    </td>
+    <td><apex:Image Id="solutions" value="{!$Resource.PartnerMarketing}"></apex:Image></td>
+    </tr>
+    <tr>
+    <td>
+     <p></p>
+    </td>
+    </tr>
+     
+    
+      
+ </table>
+
+</apex:PageBlock> 
+</apex:page>

@@ -1,0 +1,545 @@
+<apex:page sidebar="false" standardController="Opportunity" Extensions="NI_InternalOppCommFormController" RenderAs="pdf" Showheader="false">
+<apex:stylesheet value="{!URLFOR($Resource.RenderAsPDF2)}"/>
+
+     <div class="header">
+            <apex:image url="{!$Resource.AmadeusMBFormLogo}" width="150px" />
+            <h3>Amadeus Hospitality Internal Opportunity Communication Form</h3>                              
+     </div>
+  
+     <div class="footer">
+            <div style="font-size: 11px;">Page <span class="pagenumber"/> of <span class="pagecount"/></div>
+     </div>
+                
+    
+           <table width="800">
+                <tr>
+                    <td style="text-align: right; width: 133px;">
+                        <apex:outputText value="Report Date:" styleClass="labelText"/>
+                    </td>
+                    <td>
+                        <apex:outputText value="{0,date,MM'/'dd'/'yyyy}" styleClass="fieldText">
+                           <!-- <apex:param value="{!NOW()}" /> -->
+                           <apex:param value="{!currDate}" /> 
+                        </apex:outputText>                
+                    </td>
+                </tr>
+                <p></p>
+                
+                <tr>
+                    <td style="text-align: right; width: 133px;">
+                        <apex:outputText value="Opportunity Number: " styleClass="labelText"/>
+                    </td>
+                    
+                    <td>
+                        &nbsp; <apex:outputText value="{!Opportunity.Opportunity_Number__c}" styleClass="fieldText"/>
+                    </td>
+                    
+                    <td style="text-align: right; width: 133px;">
+                        <apex:outputText value="Opportunity Name: " styleClass="labelText"/>
+                    </td>
+                    <td>
+                        &nbsp; <apex:outputText value="{!Opportunity.Name}" styleClass="fieldText"/>
+                    </td>
+                </tr>
+                <tr>
+                <td style="text-align: right; width: 133px;">
+                        <apex:outputText value="Opportunity Close Date:" styleClass="labelText"/>
+                    </td>
+                    <td>
+                        <apex:outputText value="{0,date,MM'/'dd'/'yyyy}" styleClass="fieldText">
+                            <apex:param value="{!Opportunity.CloseDate}" />
+                        </apex:outputText>                
+                    </td>
+                   </tr> 
+                 <tr>
+                    <td style="text-align: right; width: 133px;">
+                        <apex:outputText value="Account Name: " styleClass="labelText"/>
+                    </td>
+                    <td>
+                        &nbsp; <apex:outputText value="{!Opportunity.Account.Name}" styleClass="fieldText"/>
+                    </td>
+                       <td style="text-align: right; width: 133px;">
+                        <apex:outputText value="Account Industry: " styleClass="labelText"/>
+                    </td>
+                    <td>
+                        &nbsp; <apex:outputText value="{!Opportunity.Account.Industry}" styleClass="fieldText"/>
+                    </td>
+                </tr>
+               <tr>
+                    <td style="text-align: right; width: 133px;">
+                        <apex:outputText value="Legal Entity Name: " styleClass="labelText"/>
+                    </td>
+                    <td>
+                        &nbsp; <apex:outputText value="{!Opportunity.Account.Legal_Entity_Name__c}" styleClass="fieldText"/>
+                    </td>
+                       <td style="text-align: left; width: 140px;">
+                        <apex:outputText value="Account Current MPE Cluster: " styleClass="labelText"/>
+                    </td>
+                    <td>
+                        &nbsp; <apex:outputText value="{!Opportunity.Account.Current_MPE_Cluster__r.Name}" styleClass="fieldText"/>
+                    </td>
+                </tr>
+                 <tr>
+                    <td style="text-align: right; width: 133px;">
+                        <apex:outputText value="Oppty Target MPE Cluster: " styleClass="labelText"/>
+                    </td>
+                    <td>
+                        &nbsp; <apex:outputText value="{!Opportunity.MPE_Cluster__r.Name}" styleClass="fieldText"/>
+                    </td>
+                       <td style="text-align: right; width: 133px;">
+                        <apex:outputText value="Oppty Source MPE Cluster: " styleClass="labelText"/>
+                    </td>
+                    <td>
+                        &nbsp; <apex:outputText value="{!Opportunity.Source_MPE_Cluster__r.Name}" styleClass="fieldText"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="text-align: right; width: 133px;">
+                        <apex:outputText value="Sales Rep: " styleClass="labelText"/>
+                    </td>
+                    <td>
+                        &nbsp; <apex:outputText value="{!Opportunity.Owner.Name}" styleClass="fieldText"/>
+                    </td>
+                        <td style="text-align: right; width: 133px;">
+                        <apex:outputText value="Sales Rep Email: " styleClass="labelText"/>
+                    </td>
+                    <td>
+                        &nbsp; <apex:outputText value="{!Opportunity.Owner.Email}" styleClass="fieldText"/>
+                    </td>
+                </tr>             
+                 <tr>
+                    <td style="text-align: right; width: 133px;">
+                        <apex:outputText value="Newmarket Web Services Agreement:" styleClass="labelText"/>
+                    </td>
+                    <td>
+                        <apex:outputText value="{!Opportunity.Newmarket_Web_Services_Agreement__c}" styleClass="fieldText"/>              
+                    </td>
+                    <td style="text-align: right; width: 133px;">
+                <apex:outputText value="Target HRM Org Number:" styleClass="labelText"/>
+            </td>              
+            <td>
+                <apex:outputText value="{!Opportunity.Target_HRM_Org__r.Name}" styleClass="fieldText"/>
+            </td> 
+        </tr>
+        <tr>
+            <td style="text-align: right; width: 133px;">
+                <apex:outputText value="Target HRM Org Name:" styleClass="labelText"/>
+            </td>
+            <td>
+                <apex:outputText value="{!Opportunity.Target_HRM_Org__r.Org_Name__c}" styleClass="fieldText"/>              
+            </td>
+            <td style="text-align: right; width: 133px;">
+                <apex:outputText value="Annual Salesforce Renewal Date:" styleClass="labelText"/>
+            </td>              
+            <td>
+                <apex:outputText value="{0,date,MM'/'dd'/'yyyy}" styleClass="fieldText">
+                    <apex:param value="{!Opportunity.Annual_Salesforce_Renewal_Date__c}" />
+                </apex:outputText>
+            </td> 
+                </tr>
+                <tr>
+                    <td style="text-align: right; width: 133px;">
+                        &nbsp;
+                    </td>
+                    <td>
+                        &nbsp;
+                    </td>
+                </tr>
+            </table>
+            
+            <hr class="hrstyle"/>
+            
+            <table width="800">
+                <tr>
+                    <td>
+                        <apex:outputText value="Missing Pieces:" styleClass="labelText"/>
+                    </td>
+                </tr>
+                <tr>                    
+                    <td>
+                    <div style="width: 700px; word-wrap: break-word">
+                    <apex:outputText value="{!Opportunity.Missing_Pieces__c}" styleClass="fieldText"/>
+                    </div>
+                    </td>
+                </tr>
+            </table>
+                         
+            <hr class="hrstyle"/>
+            
+             <div style="">
+             <h5> Financial Details</h5> 
+             
+             <table width="800">
+                <tr>
+                    <td style="text-align: right; width: 133px;">
+                        <apex:outputText value="Rev Rec Issues?:" styleClass="labelText"/>
+                    </td>              
+                    <td>
+                    <apex:outputText value="{!Opportunity.Rev_Rec_Issue__c}" styleClass="fieldText"/>
+                    </td>
+                    <td style="text-align: right; width: 133px;">
+                        <apex:outputText value="Revenue Deferral?:" styleClass="labelText"/>
+                    </td>              
+                    <td>
+                    <apex:outputText value="{!Opportunity.Revenue_Deferral__c}" styleClass="fieldText"/>
+                    </td>     
+                </tr>
+                <tr>
+                    <td style="text-align: right; width: 133px;">
+                        <apex:outputText value="Future Deliverables?:" styleClass="labelText"/>
+                    </td>              
+                    <td>
+                    <apex:outputText value="{!Opportunity.Future_Deliverables__c}" styleClass="fieldText"/>
+                    </td>
+                    <td style="text-align: Right; width: 150px;">
+                        <apex:outputText value="Non-Standard Payment Terms?:" styleClass="labelText"/>
+                    </td>              
+                    <td>
+                    <apex:outputText value="{!Opportunity.Non_Standard_Payment_Terms__c}" styleClass="fieldText"/>
+                    </td>     
+                </tr>
+                <tr>
+                    <td style="text-align: right; width: 133px;">
+                        <apex:outputText value="Acceptance Terms:" styleClass="labelText"/>
+                    </td>              
+                    <td>
+                    <apex:outputText value="{!Opportunity.Acceptance_Terms__c}" styleClass="fieldText"/>
+                    </td>
+                    <td style="text-align: right; width: 133px;">
+                        <apex:outputText value="Trade Out Agreement:" styleClass="labelText"/>
+                    </td>              
+                    <td>
+                    <apex:outputText value="{!Opportunity.Trade_Out_Agreement__c}" styleClass="fieldText"/>
+                    </td>  
+                    </tr>
+                    <tr>
+                    <td style="text-align: right; width: 133px;">
+                        <apex:outputText value="Installment Billing:" styleClass="labelText"/>
+                    </td>              
+                    <td>
+                    <apex:outputText value="{!Opportunity.Installment_Billing__c}" styleClass="fieldText"/>
+                    </td>
+                    </tr>
+                    <tr>                           
+                    <td style="text-align: right; width: 133px;">
+                        <apex:outputText value="Explanation:" styleClass="labelText"/>
+                    </td>              
+                    <td colspan="3">
+                    <div style="width: 150px; word-wrap: break-word">
+                        <apex:outputText value="{!Opportunity.Special_Terms_Requested__c}" styleClass="fieldText"/>
+                    </div>                    
+                    </td> 
+                </tr>     
+            </table>
+            </div>             
+                         
+            <hr class="hrstyle"/>     
+  
+            <div style="page-break-after:always;">
+            <h5> Opportunity Contact Roles</h5> 
+
+        <!--  Opportunity Contact Roles-->
+        <apex:dataTable value="{!lstOppContactRole}" var="r" id="cRolesTable" headerClass="tablehead" rowClasses="odd,even" cellpadding="1" style="font-size: 10px;" 
+              columnsWidth="50px, 80px, 60px, 80px, 30px, 10px, 20px, 20px, 50px">
+                      <apex:column > 
+                          <apex:facet name="header">Contact Name</apex:facet>
+                          <apex:outputText value="{!r.Contact.Name}"/>
+                      </apex:column>
+                      <apex:column >
+                          <apex:facet name="header">Account Name</apex:facet>
+                          <apex:outputText value="{!r.Contact.Account.Name}"/>
+                      </apex:column>   
+                      <apex:column > 
+                          <apex:facet name="header">Contact Title</apex:facet>
+                          <apex:outputText value="{!r.Contact.Title}"/>
+                      </apex:column>
+                      <apex:column >
+                          <apex:facet name="header" >Mailing Street</apex:facet>
+                          <apex:outputField value="{!r.Contact.MailingStreet}"/>
+                      </apex:column>
+                      <apex:column >
+                          <apex:facet name="header" >Mailing City</apex:facet>
+                          <apex:outputField value="{!r.Contact.MailingCity}"/>
+                      </apex:column>
+                      <apex:column >
+                          <apex:facet name="header" >Mailing State</apex:facet>
+                          <apex:outputField value="{!r.Contact.MailingState}"/>
+                      </apex:column>
+                      <apex:column >
+                          <apex:facet name="header" >Mailing Country</apex:facet>
+                          <apex:outputField value="{!r.Contact.MailingCountry}"/>
+                      </apex:column>
+                      <apex:column >
+                          <apex:facet name="header" >Postal Code</apex:facet>
+                          <apex:outputField value="{!r.Contact.MailingPostalCode}"/>
+                      </apex:column>
+                      <apex:column >
+                          <apex:facet name="header" >Contact Role</apex:facet>
+                          <apex:outputField value="{!r.Role}"/>
+                      </apex:column>                       
+          </apex:dataTable>
+        </div>
+            
+         <div style="">
+            <h5> Opportunity Line Items</h5> 
+
+        <!--  Opportunity Line Items-->
+        <apex:dataTable value="{!rows}" var="row" id="OppLineItemsTableSub" headerClass="tablehead" rowClasses="odd,even" cellpadding="1" style="font-size: 10px;" 
+              columnsWidth="300px,80px,40px,80px,80px,75px,80px">
+                      <apex:column > 
+                          <apex:facet name="header">Product</apex:facet>
+                          <apex:outputText value="{!row.rowProduct.Name}" rendered="{!row.rowType='item'}"/>
+                      </apex:column>
+                      <apex:column >
+                          <apex:facet name="header">Product Code</apex:facet>
+                          <apex:outputText value="{!row.oppLineItem.PriceBookEntry.ProductCode}"/>
+                      </apex:column>
+                      <apex:column >
+                          <apex:facet name="header">Quantity</apex:facet>
+                          <apex:outputText value="{!row.oppLineItem.Quantity}"/>
+                      </apex:column>
+                      <apex:column >
+                          <apex:facet name="header">Sales Price</apex:facet>
+                          <apex:outputtext value="{!row.oppLineItem.Opportunity.CurrencyISOCode}" />
+                          <apex:outputText value="{0, number, ###,###,###.00}">
+                          <apex:param value="{!row.oppLineItem.UnitPrice}" />
+                          </apex:outputText>                          
+                      
+                      </apex:column>
+                     
+                      <apex:column >
+                          <apex:facet name="header">List Price</apex:facet>
+                          <apex:outputtext value="{!row.oppLineItem.Opportunity.CurrencyISOCode}" />
+                          <apex:outputText value="{0, number, ###,###,###.00}">
+                          <apex:param value="{!row.oppLineItem.ListPrice}"/>
+                          </apex:outputText>                          
+                      </apex:column> 
+                      <apex:column >
+                      <apex:facet name="header">Product Family</apex:facet>  
+                      <apex:outputText value="{!row.rowProduct.Family}"/>
+                      <apex:outputText value="<b>{!row.prodFamily} Total:</b>" escape="false" rendered="{!row.rowType='sub'}" style="text-align: right;"/>
+                      <apex:outputText value="<b>Grand Total:</b>" escape="false" rendered="{!row.rowType='grand'}" style="text-align: right;"/>
+                      </apex:column>        
+                      
+                      <apex:column >
+                          <apex:facet name="header">Total Price</apex:facet>
+                          <apex:outputtext value="{!row.oppLineItem.Opportunity.CurrencyISOCode}"/>  
+                          <apex:outputText value="{0, number, ###,###,###.00}" rendered="{!row.rowType='item'}"> 
+                          <apex:param value="{!row.rowAmount}"/>
+                          </apex:outputText> 
+                        <apex:outputtext value="<b>{!row.curIso}</b>" escape="false" rendered="{!row.rowType='sub'}"/>
+                        <apex:outputText value="<b>{0, number, ###,###,###.00}</b>" escape="false" rendered="{!row.rowType='sub'}" style="font: bold;"> 
+                        <apex:param value="{!row.rowAmount}"/>
+                        </apex:outputText> 
+                        <apex:outputtext value="<b>{!row.curIso}</b>" escape="false" rendered="{!row.rowType='grand'}"/>
+                        <apex:outputText value="<b>{0, number, ###,###,###.00}</b>" escape="false" rendered="{!row.rowType='grand'}" style="font: bold;"> 
+                        <apex:param value="{!row.rowAmount}"/>
+                        </apex:outputText>
+                        
+                      </apex:column>     
+                      
+          </apex:dataTable>
+        </div>
+        
+         <div style="page-break-after:auto;">
+         
+         <hr class="hrstyle"/>
+            
+            <table width="800">
+                <tr>
+                    <td>
+                    <apex:outputText value="Notes to Contracts: " styleClass="labelText"/>                       
+                    </td>
+                </tr>
+                <tr>                    
+                    <td>
+                    <div style="width: 700px; word-wrap: break-word">
+                    <apex:outputText value="{!Opportunity.Contracts_Description__c}" styleClass="fieldText"/>
+                    </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                    </td>
+                </tr>                   
+                <tr>
+                    <td>
+                        <apex:outputText value="Notes to Fulfillment: " styleClass="labelText"/>
+                    </td>
+                </tr>
+                <tr>                    
+                    <td>
+                    <div style="width: 700px; word-wrap: break-word">
+                    <apex:outputText value="{!Opportunity.Notes_to_Fulfillment__c}" styleClass="fieldText"/>
+                    </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                    </td>
+                </tr>       
+                <tr>
+                    <td>
+                        <apex:outputText value="Notes to Services: " styleClass="labelText"/>
+                    </td>
+                </tr>
+                <tr>                    
+                    <td>
+                    <div style="width: 700px; word-wrap: break-word">
+                    <apex:outputText value="{!Opportunity.Service_Booking_Notes__c}" styleClass="fieldText"/>
+                    </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                    </td>
+                </tr>                        
+                <tr>
+                    <td>
+                        <apex:outputText value="Discount Notes: " styleClass="labelText"/>
+                    </td>
+                 </tr>
+                 <tr>                    
+                    <td>
+                    <div style="width: 700px; word-wrap: break-word">
+                    <apex:outputText value="{!Opportunity.Discount_Notes__c}" styleClass="fieldText"/>
+                    </div>
+                    </td>
+                </tr>
+            </table>
+            </div>   
+            
+            <hr class="hrstyle"/>
+         
+        <div style="page-break-after:auto;">
+           
+            <h5> Activity Line Items </h5>
+            <!-- RENDER THIS MESSAGE IF THERE ARE NO ACTIVE SOFTRAX ASSETS -->
+            <apex:outputText value="(There are no Active Activity Line Item records for this Account)" style="font-size: 10px;" rendered="{!bDisplayNoAssetsMsg}"/>
+            
+        <!--  Softrax Assets-->
+        <apex:dataTable value="{!lstAliAsset}" var="al" id="StxAssetTable" headerClass="tablehead" rowClasses="odd,even" cellpadding="1" style="font-size: 10px;" 
+              columnsWidth="10px,30px,350px,60px,60px,10px,20px" rendered="{!bDisplayAssets}">
+                       <apex:column >
+                              <apex:facet name="header">
+                              <apex:outputText value="Cancel"/> 
+                              </apex:facet>                             
+                              <apex:image value="/img/checkbox_checked.gif" width="18" height="13" rendered="{!al.isSelected}"/>
+                              
+                          </apex:column>
+                      <apex:column > 
+                          <apex:facet name="header">Number</apex:facet>
+                          <apex:outputText value="{!al.ali.Name}"/>
+                      </apex:column>
+             <apex:column >
+                          <apex:facet name="header">Description</apex:facet>
+                          <apex:outputText value="{!al.ali.Product__r.Name}"/>
+                      </apex:column>
+                      <apex:column >
+                          <apex:facet name="header">
+                          <apex:outputText value="Start Date"/>
+                          </apex:facet>             
+                          <apex:outputText value="{0,date,MM'/'dd'/'yyyy}">
+                          <apex:param value="{!al.ali.Contract_Start_Date__c}"/>
+                          </apex:outputText> 
+                      </apex:column>
+                      <apex:column >
+                          <apex:facet name="header">
+                          <apex:outputText value="End Date"/>
+                          </apex:facet>
+                          <apex:outputText value="{0,date,MM'/'dd'/'yyyy}">
+                          <apex:param value="{!al.ali.Contract_End_Date__c}"/>
+                          </apex:outputText> 
+                      </apex:column>
+                      <apex:column >
+                          <apex:facet name="header">Quantity</apex:facet>
+                          <apex:outputText value="{!al.ali.Units__c}"/>       
+                      </apex:column>
+                      <apex:column >
+                          <apex:facet name="header">Status</apex:facet>
+                          <apex:outputText value="{!al.ali.Status__c}"/>       
+                      </apex:column>                    
+            </apex:dataTable>
+            
+            
+            
+        <!--<apex:dataTable value="{!lstStxAsset}" var="sa" id="StxAssetTable" headerClass="tablehead" rowClasses="odd,even" cellpadding="1" style="font-size: 10px;" 
+              columnsWidth="10px,30px,350px,60px,60px,10px,20px" rendered="{!bDisplayAssets}">
+                       <apex:column >
+                              <apex:facet name="header">
+                              <apex:outputText value="Cancel"/> 
+                              </apex:facet>                             
+                              <apex:image value="/img/checkbox_checked.gif" width="18" height="13" rendered="{!sa.isSelected}"/>
+                              
+                          </apex:column>
+                      <apex:column > 
+                          <apex:facet name="header">SKU</apex:facet>
+                          <apex:outputText value="{!sa.stx.Name}"/>
+                      </apex:column>
+                      <apex:column >
+                          <apex:facet name="header">Description</apex:facet>
+                          <apex:outputText value="{!sa.stx.Description__c}"/>
+                      </apex:column>
+                      <apex:column >
+                          <apex:facet name="header">
+                          <apex:outputText value="Start Date"/>
+                          </apex:facet>             
+                          <apex:outputText value="{0,date,MM'/'dd'/'yyyy}">
+                          <apex:param value="{!sa.stx.Start_Date__c}"/>
+                          </apex:outputText> 
+                      </apex:column>
+                      <apex:column >
+                          <apex:facet name="header">
+                          <apex:outputText value="End Date"/>
+                          </apex:facet>
+                          <apex:outputText value="{0,date,MM'/'dd'/'yyyy}">
+                          <apex:param value="{!sa.stx.End_Date__c}"/>
+                          </apex:outputText> 
+                      </apex:column>
+                      <apex:column >
+                          <apex:facet name="header">Quantity</apex:facet>
+                          <apex:outputText value="{!sa.stx.Quantity__c}"/>       
+                      </apex:column>
+                      <apex:column >
+                          <apex:facet name="header">Status</apex:facet>
+                          <apex:outputText value="{!sa.stx.Status__c}"/>       
+                      </apex:column>                                   
+          </apex:dataTable>   -->
+        </div>
+                 
+        <div style="">
+           
+            <h5> Approval History</h5> 
+             <!-- RENDER THIS MESSAGE IF THERE ARE NO APPROVAL RECORDS -->
+            <apex:outputText value="(There are no Approval records for this Opportunity)" style="font-size: 10px;" rendered="{!bDisplayNoApprovalsMsg}"/>
+        
+        <apex:dataTable value="{!lstApprovalHistory}" var="h" id="appHistory" headerClass="tablehead" rowClasses="odd,even" cellpadding="1" style="font-size: 10px;" 
+              columnsWidth="50px,50px,100px,100px,300px" rendered="{!bDisplayApprovals}">
+                      <apex:column >
+                          <apex:facet name="header">
+                          <apex:outputText value="Date"/>
+                          </apex:facet>             
+                          <apex:outputText value="{0,date,MM'/'dd'/'yyyy}">
+                          <apex:param value="{!h.SystemModstamp}"/>
+                          </apex:outputText> 
+                      </apex:column>
+                      <apex:column >
+                          <apex:facet name="header">Status</apex:facet>
+                          <apex:outputText value="{!h.StepStatus}"/>
+                      </apex:column>
+                      <apex:column > 
+                          <apex:facet name="header">Assigned To</apex:facet>
+                          <apex:outputText value="{!h.OriginalActor.Name}"/>
+                      </apex:column>
+                      <apex:column >
+                          <apex:facet name="header">Actual Approver</apex:facet>
+                          <apex:outputText value="{!h.Actor.Name}"/>
+                      </apex:column>
+                      <apex:column >
+                          <apex:facet name="header">Comments</apex:facet>
+                          <apex:outputText value="{!h.Comments}"/>       
+                      </apex:column>                                 
+          </apex:dataTable>  
+        </div>
+          
+</apex:page>

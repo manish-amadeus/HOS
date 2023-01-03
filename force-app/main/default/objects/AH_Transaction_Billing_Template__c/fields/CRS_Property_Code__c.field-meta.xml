@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>CRS_Property_Code__c</fullName>
+    <description>Property identifier in the CRS billing data</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Property identifier in the CRS billing data</inlineHelpText>
+    <label>CRS Property Code</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>MultiselectPicklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>001</fullName>
+                <default>false</default>
+                <label>001</label>
+            </value>
+            <value>
+                <fullName>IHGPROP01</fullName>
+                <default>false</default>
+                <label>IHGPROP01</label>
+            </value>
+            <value>
+                <fullName>IHGPROP02</fullName>
+                <default>false</default>
+                <label>IHGPROP02</label>
+            </value>
+            <value>
+                <fullName>IHGPROP03</fullName>
+                <default>false</default>
+                <label>IHGPROP03</label>
+            </value>
+            <value>
+                <fullName>JZPROP01</fullName>
+                <default>false</default>
+                <label>JZPROP01</label>
+            </value>
+            <value>
+                <fullName>JZPROP02</fullName>
+                <default>false</default>
+                <label>JZPROP02</label>
+            </value>
+            <value>
+                <fullName>JZPROP03</fullName>
+                <default>false</default>
+                <label>JZPROP03</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+    <visibleLines>5</visibleLines>
+</CustomField>

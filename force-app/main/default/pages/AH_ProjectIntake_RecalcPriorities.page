@@ -1,0 +1,9 @@
+<apex:page standardController="NI_Project_Backlog__c" extensions="AH_ProjectIntake_Functions" action="{!doRecalc}">
+    <br/>
+    <apex:pageMessages />
+    <br/>
+    <apex:form >
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <apex:commandButton id="cmdBack" value="Back" action="{!goBack}" style="width:60px;" />
+    </apex:form>
+</apex:page>

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<RecordType xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Vendor_Agreement</fullName>
+    <active>true</active>
+    <label>Vendor Agreement</label>
+    <picklistValues>
+        <picklist>Product_Family__c</picklist>
+        <values>
+            <fullName>Services</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Subscription</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Royalty_Distribution_Trigger__c</picklist>
+        <values>
+            <fullName>Installed</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Installed AND Receipt of Payment</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Installed OR Receipt of Payment</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Receipt of Payment</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+</RecordType>

@@ -1,0 +1,356 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<RecordType xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Workflow</fullName>
+    <active>true</active>
+    <description>Workflows and Approval Processes</description>
+    <label>Workflow</label>
+    <picklistValues>
+        <picklist>Configuration_Action__c</picklist>
+        <values>
+            <fullName>Activate</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Check</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Create</fullName>
+            <default>true</default>
+        </values>
+        <values>
+            <fullName>De-activate</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Delete</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Do Not Activate</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Edit</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Edit%2FActivate</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Remove</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Configuration_Type__c</picklist>
+        <values>
+            <fullName>Alternate Language</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Approval Process</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Availability Settings</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Booking Check</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Button%2C Links and Actions</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>E-proposal</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Email Alert</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Email Template</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Field Update</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Flow</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Group Resume %28Booking Check%29</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>List View</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Merge Document</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Package</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Process Builder</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Record</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Report Type</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Task</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Taxes %26 Inclusive Pricing</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Trigger</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Workflow Rule</fullName>
+            <default>true</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Field_Type__c</picklist>
+        <values>
+            <fullName>Auto-Number</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Checkbox</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Currency</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Date</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Date%2FTime</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Email</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>External Lookup Relationship</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Formula</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Geolocation</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Lookup Relationship</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Master-Detail Lookup Relationship</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Number</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Percent</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Phone</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Picklist</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Picklist %28Multi-Select%29</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Roll-Up Summary</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Text</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Text Area</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Text Area %28Encrypted%29</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Text Area %28Long%29</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Text Area %28Rich%29</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>URL</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Level_Of_Access__c</picklist>
+        <values>
+            <fullName>Read Only</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Read%2FWrite</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Out_of_Scope_Reason__c</picklist>
+        <values>
+            <fullName>Application Limitation</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Insufficient Time</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Platform Limitation</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Requires Custom Code</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Records_Owned_By__c</picklist>
+        <values>
+            <fullName>Public Groups</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Roles</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Roles %26 Subordinates</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Rule_Type__c</picklist>
+        <values>
+            <fullName>Based on Criteria</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Based on Record Owner</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Share_With__c</picklist>
+        <values>
+            <fullName>Public Groups</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Roles</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Roles %26 Subordinates</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Status__c</picklist>
+        <values>
+            <fullName>Client to Complete</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Completed</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Created in Trialforce</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>On Hold</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Out of Scope</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Planned for Configuration Days</fullName>
+            <default>true</default>
+        </values>
+        <values>
+            <fullName>QA Completed</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Workflow_Action_Time_Trigger__c</picklist>
+        <values>
+            <fullName>Immediate</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Time-Dependent</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Workflow_Evaluation_Criteria__c</picklist>
+        <values>
+            <fullName>Created</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Created%2C and every time it%27s edited</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Created%2C and every time it%27s edited to subsequently meet criteria</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+</RecordType>

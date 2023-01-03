@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Task_Level_LOE__c</fullName>
+    <externalId>false</externalId>
+    <inlineHelpText>LOE based on sum of each individual project task estimate.  This estimate should be considered more reliable than the Project-Level LOE.</inlineHelpText>
+    <label>Estimated LOE (Project)</label>
+    <summarizedField>NI_Project_Backlog_Tasks__c.Task_Estimate_hrs__c</summarizedField>
+    <summaryForeignKey>NI_Project_Backlog_Tasks__c.NI_Project_Backlog_Item__c</summaryForeignKey>
+    <summaryOperation>sum</summaryOperation>
+    <trackHistory>false</trackHistory>
+    <type>Summary</type>
+</CustomField>

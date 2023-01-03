@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>AH_UDC_AllWorkbooksSent</fullName>
+    <columns>NAME</columns>
+    <columns>Product__c</columns>
+    <columns>CREATEDBY_USER</columns>
+    <columns>SentDate__c</columns>
+    <columns>SentStatus__c</columns>
+    <columns>CompletedDate__c</columns>
+    <columns>WorkbookSentDueDate__c</columns>
+    <columns>RelatedToDocName__c</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>RECORDTYPE</field>
+        <operation>equals</operation>
+        <value>AH_UDC_Workbook__c.AH_UDC_WorkbookSent</value>
+    </filters>
+    <label>All Workbooks Sent</label>
+</ListView>

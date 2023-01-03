@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>PeripheralProduct_Validation</fullName>
+    <active>true</active>
+    <description>Peripheral DI Product field should not be empty</description>
+    <errorConditionFormula>IF( ISBLANK(Peripheral_DI_Product__c ) , true, false)</errorConditionFormula>
+    <errorDisplayField>Peripheral_DI_Product__c</errorDisplayField>
+    <errorMessage>Please select a Peripheral DI Product.</errorMessage>
+</ValidationRule>

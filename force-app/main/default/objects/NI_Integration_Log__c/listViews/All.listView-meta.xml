@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>All</fullName>
+    <columns>NAME</columns>
+    <columns>Status__c</columns>
+    <columns>LAST_UPDATE</columns>
+    <columns>UpdateFor__c</columns>
+    <columns>Case__c</columns>
+    <columns>Transaction_Type__c</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>Retries_Performed__c</field>
+        <operation>greaterThan</operation>
+        <value>1</value>
+    </filters>
+    <label>All</label>
+    <language>en_US</language>
+</ListView>

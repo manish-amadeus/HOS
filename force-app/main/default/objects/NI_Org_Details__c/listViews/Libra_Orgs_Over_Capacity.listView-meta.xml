@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Libra_Orgs_Over_Capacity</fullName>
+    <columns>NAME</columns>
+    <columns>Primary_Account_Owner__c</columns>
+    <columns>Org_Name__c</columns>
+    <columns>Reseller__c</columns>
+    <columns>Data_Storage_Percent_Used__c</columns>
+    <columns>Data_Storage__c</columns>
+    <columns>Data_Storage_Limit__c</columns>
+    <columns>PackageVersion__c</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>Product_Type__c</field>
+        <operation>equals</operation>
+        <value>Libra</value>
+    </filters>
+    <filters>
+        <field>Data_Storage_Percent_Used__c</field>
+        <operation>greaterThan</operation>
+        <value>100</value>
+    </filters>
+    <label>Out of Compliance Orgs - Libra Storage</label>
+    <sharedTo>
+        <allInternalUsers></allInternalUsers>
+    </sharedTo>
+</ListView>

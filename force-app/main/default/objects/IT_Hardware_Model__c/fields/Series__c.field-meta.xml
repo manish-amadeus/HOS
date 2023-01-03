@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Series__c</fullName>
+    <description>Series the equipment belongs to from manufacturer.</description>
+    <externalId>false</externalId>
+    <label>Series</label>
+    <required>false</required>
+    <trackHistory>true</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <controllingField>Manufacturer__c</controllingField>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>true</sorted>
+            <value>
+                <fullName>Brix</fullName>
+                <default>false</default>
+                <label>Brix</label>
+            </value>
+            <value>
+                <fullName>Compaq</fullName>
+                <default>false</default>
+                <label>Compaq</label>
+            </value>
+            <value>
+                <fullName>Latitude E</fullName>
+                <default>false</default>
+                <label>Latitude E</label>
+            </value>
+            <value>
+                <fullName>MacBook Pro</fullName>
+                <default>false</default>
+                <label>MacBook Pro</label>
+            </value>
+            <value>
+                <fullName>MacMini</fullName>
+                <default>false</default>
+                <label>MacMini</label>
+            </value>
+            <value>
+                <fullName>Optiplex</fullName>
+                <default>false</default>
+                <label>Optiplex</label>
+            </value>
+            <value>
+                <fullName>Precision</fullName>
+                <default>false</default>
+                <label>Precision</label>
+            </value>
+            <value>
+                <fullName>Probook</fullName>
+                <default>false</default>
+                <label>Probook</label>
+            </value>
+            <value>
+                <fullName>ProDesk</fullName>
+                <default>false</default>
+                <label>ProDesk</label>
+            </value>
+            <value>
+                <fullName>Surface Book</fullName>
+                <default>false</default>
+                <label>Surface Book</label>
+            </value>
+            <value>
+                <fullName>Surface Pro</fullName>
+                <default>false</default>
+                <label>Surface Pro</label>
+            </value>
+            <value>
+                <fullName>ThinkCentre M</fullName>
+                <default>false</default>
+                <label>ThinkCentre M</label>
+            </value>
+            <value>
+                <fullName>Thinkpad E</fullName>
+                <default>false</default>
+                <label>Thinkpad E</label>
+            </value>
+            <value>
+                <fullName>Thinkpad P</fullName>
+                <default>false</default>
+                <label>Thinkpad P</label>
+            </value>
+            <value>
+                <fullName>ThinkPad T</fullName>
+                <default>false</default>
+                <label>ThinkPad T</label>
+            </value>
+            <value>
+                <fullName>ThinkPad W</fullName>
+                <default>false</default>
+                <label>ThinkPad W</label>
+            </value>
+            <value>
+                <fullName>ThinkPad X</fullName>
+                <default>false</default>
+                <label>ThinkPad X</label>
+            </value>
+            <value>
+                <fullName>Thinkstation S</fullName>
+                <default>false</default>
+                <label>Thinkstation S</label>
+            </value>
+            <value>
+                <fullName>Viewsonic</fullName>
+                <default>false</default>
+                <label>Viewsonic</label>
+            </value>
+            <value>
+                <fullName>Workstation</fullName>
+                <default>false</default>
+                <label>Workstation</label>
+            </value>
+            <value>
+                <fullName>XPS</fullName>
+                <default>false</default>
+                <label>XPS</label>
+            </value>
+        </valueSetDefinition>
+        <valueSettings>
+            <controllingFieldValue>Toshiba</controllingFieldValue>
+            <controllingFieldValue>Lenovo</controllingFieldValue>
+            <controllingFieldValue>Sony</controllingFieldValue>
+            <valueName>ThinkCentre M</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Toshiba</controllingFieldValue>
+            <controllingFieldValue>Lenovo</controllingFieldValue>
+            <controllingFieldValue>Sony</controllingFieldValue>
+            <valueName>ThinkPad T</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Toshiba</controllingFieldValue>
+            <controllingFieldValue>Lenovo</controllingFieldValue>
+            <controllingFieldValue>Sony</controllingFieldValue>
+            <valueName>ThinkPad W</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Lenovo</controllingFieldValue>
+            <valueName>Thinkpad E</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Lenovo</controllingFieldValue>
+            <valueName>Thinkpad P</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Lenovo</controllingFieldValue>
+            <valueName>ThinkPad X</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Lenovo</controllingFieldValue>
+            <valueName>Thinkstation S</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Viewsonic</controllingFieldValue>
+            <valueName>Viewsonic</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Hewlett-Packard</controllingFieldValue>
+            <valueName>Probook</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Apple</controllingFieldValue>
+            <valueName>MacBook Pro</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Apple</controllingFieldValue>
+            <valueName>MacMini</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Dell</controllingFieldValue>
+            <valueName>Latitude E</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Dell</controllingFieldValue>
+            <valueName>Optiplex</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Dell</controllingFieldValue>
+            <valueName>Precision</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Dell</controllingFieldValue>
+            <valueName>XPS</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Microsoft</controllingFieldValue>
+            <valueName>Surface Book</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Microsoft</controllingFieldValue>
+            <valueName>Surface Pro</valueName>
+        </valueSettings>
+    </valueSet>
+</CustomField>

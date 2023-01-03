@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Regulatory__c</fullName>
+    <description>Used to assess the Regulatory exposure of an Asset (Risk Assessment)</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Legislation, standards or regulations are:
+4: Global (PCI, SSAE)
+3. Continental (GDPR, APEC privacy, EU regulations)
+2. Country-specific (data protection, encryption regulations)
+1. Regional  (local ordinances and regulatory reporting)</inlineHelpText>
+    <label>Regulatory</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>4. High/Global</fullName>
+                <default>false</default>
+                <label>4. High/Global</label>
+            </value>
+            <value>
+                <fullName>3. Medium/Regional</fullName>
+                <default>false</default>
+                <label>3. Medium/Regional</label>
+            </value>
+            <value>
+                <fullName>2. Low/Local</fullName>
+                <default>false</default>
+                <label>2. Low/Local</label>
+            </value>
+            <value>
+                <fullName>1. Basic</fullName>
+                <default>false</default>
+                <label>1. Basic</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

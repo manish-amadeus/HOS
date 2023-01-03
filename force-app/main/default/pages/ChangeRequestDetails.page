@@ -1,0 +1,88 @@
+<apex:page standardController="SFDC_CSP_Development_Request__c" extensions="ChangeRequestDetailsExtension">
+    <apex:form id="frmNewCR">
+
+    <apex:sectionHeader subtitle="New Change Request" title="NI Support"></apex:sectionHeader>
+
+        <apex:pageBlock title="CRDetail" mode="edit">
+            
+            <apex:pageMessages />
+            
+            <apex:pageBlockButtons >
+                <apex:commandButton action="{!save}" value="Save"/>
+                <apex:commandButton action="{!cancel}" value="Cancel"/>
+            </apex:pageBlockButtons>       
+        
+            <apex:pageBlockSection title="Change Request Information" collapsible="False" columns="2"> 
+ 
+                <apex:pageBlockSectionItem id="CRType">
+                    <apex:outputLabel >Type</apex:outputLabel>
+                    <apex:outputPanel layout="block" styleClass="requiredInput">
+                    <apex:outputPanel layout="block" styleClass="requiredBlock"/>
+                        <apex:inputField id="txtCR00" value="{!SFDC_CSP_Development_Request__c.Type__c}"/>
+                    </apex:outputPanel>
+                </apex:pageBlockSectionItem> 
+                                         
+                <apex:pageBlockSectionItem id="CRSupportPriority">
+                    <apex:outputLabel >Customer Priority</apex:outputLabel>
+                    <apex:outputPanel layout="block" styleClass="requiredInput">
+                    <apex:outputPanel layout="block" styleClass="requiredBlock"/>
+                        <apex:inputField id="txtCR09" value="{!SFDC_CSP_Development_Request__c.Support_Priority__c}"/>
+                    </apex:outputPanel>
+                </apex:pageBlockSectionItem>
+                                 
+                <apex:inputField id="txtCR01" value="{!SFDC_CSP_Development_Request__c.Child_Solution__c}"/>                                        
+                <apex:pageBlockSectionItem />                  
+                 
+                <apex:pageBlockSectionItem id="CRProductGroup">
+                    <apex:outputLabel >Product Group</apex:outputLabel>
+                    <apex:outputPanel layout="block" styleClass="requiredInput">
+                    <apex:outputPanel layout="block" styleClass="requiredBlock"/>
+                        <apex:inputField id="txtCR04" value="{!SFDC_CSP_Development_Request__c.Product_Group__c}"/>
+                    </apex:outputPanel>
+                </apex:pageBlockSectionItem>
+                <apex:pageBlockSectionItem />
+                
+                <apex:pageBlockSectionItem id="CRVersion">
+                    <apex:outputLabel >Version</apex:outputLabel>
+                    <apex:outputPanel layout="block" styleClass="requiredInput">
+                    <apex:outputPanel layout="block" styleClass="requiredBlock"/>
+                        <apex:inputField id="txtCR05" value="{!SFDC_CSP_Development_Request__c.Version__c}"/>
+                    </apex:outputPanel>
+                </apex:pageBlockSectionItem>
+                <apex:pageBlockSectionItem />                   
+                
+                <apex:pageBlockSectionItem id="CRPart">
+                    <apex:outputLabel >Part</apex:outputLabel>
+                    <apex:outputPanel layout="block" styleClass="requiredInput">
+                    <apex:outputPanel layout="block" styleClass="requiredBlock"/>
+                        <apex:inputField id="txtCR06" value="{!SFDC_CSP_Development_Request__c.Part__c}"/>
+                    </apex:outputPanel>
+                </apex:pageBlockSectionItem>
+                <apex:pageBlockSectionItem />                   
+                
+                <apex:inputField id="txtCR07" value="{!SFDC_CSP_Development_Request__c.Requestor__c}"/>                
+                <apex:pageBlockSectionItem />                            
+                    
+            </apex:pageBlockSection>
+                        
+                        
+            <apex:pageBlockSection title="Change Request Description" collapsible="False" columns="1">
+                <apex:pageBlockSectionItem id="CRTitle">
+                    <apex:outputLabel >Title</apex:outputLabel>
+                    <apex:outputPanel layout="block" styleClass="requiredInput">
+                    <apex:outputPanel layout="block" styleClass="requiredBlock"/>
+                        <apex:inputField value="{!SFDC_CSP_Development_Request__c.Title__c}" style="width: 90%;"/>
+                    </apex:outputPanel>
+                </apex:pageBlockSectionItem>
+                
+                <apex:inputField value="{!SFDC_CSP_Development_Request__c.Description__c}" style="width: 90%;" />
+                
+                <apex:inputField value="{!SFDC_CSP_Development_Request__c.Notes__c}" style="width: 90%;" />
+                
+            </apex:pageBlockSection>
+            
+        </apex:pageBlock>
+        
+    </apex:form>
+    
+</apex:page>

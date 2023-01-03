@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Peer_Reviewer__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <description>This is the peer of the Assigned to person that is assigned to do the change</description>
+    <externalId>false</externalId>
+    <inlineHelpText>This is the peer of the Assigned to person that is assigned to do the change</inlineHelpText>
+    <label>Peer Reviewer</label>
+    <referenceTo>User</referenceTo>
+    <relationshipName>NI_Change_Control_Requests3</relationshipName>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

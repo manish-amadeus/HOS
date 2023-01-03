@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Completed_Record_Must_Have_Acutal_Hours</fullName>
+    <active>true</active>
+    <errorConditionFormula>AND ( 
+    ISPICKVAL(State__c, &quot;Complete&quot;),  
+    ActualHours__c = 0
+)</errorConditionFormula>
+    <errorMessage>A record marked complete must have Actual Hours specified.</errorMessage>
+</ValidationRule>

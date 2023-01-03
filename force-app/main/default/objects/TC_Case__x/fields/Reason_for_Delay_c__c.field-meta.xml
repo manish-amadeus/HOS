@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Reason_for_Delay_c__c</fullName>
+    <externalDeveloperName>Reason_for_Delay__c</externalDeveloperName>
+    <externalId>false</externalId>
+    <isFilteringDisabled>false</isFilteringDisabled>
+    <isNameField>false</isNameField>
+    <isSortingDisabled>false</isSortingDisabled>
+    <label>Reason for Delay</label>
+    <readOnlyProxy>true</readOnlyProxy>
+    <required>false</required>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Account on Credit Hold</fullName>
+                <default>false</default>
+                <label>Account on Credit Hold</label>
+            </value>
+            <value>
+                <fullName>Assistance needed from other internal area</fullName>
+                <default>false</default>
+                <label>Assistance needed from other internal area</label>
+            </value>
+            <value>
+                <fullName>Awaiting approval from Revenue</fullName>
+                <default>false</default>
+                <label>Awaiting approval from Revenue</label>
+            </value>
+            <value>
+                <fullName>Awaiting approvals from Preference Management</fullName>
+                <default>false</default>
+                <label>Awaiting approvals from Preference Management</label>
+            </value>
+            <value>
+                <fullName>Awaiting on approvals from Product</fullName>
+                <default>false</default>
+                <label>Awaiting on approvals from Product</label>
+            </value>
+            <value>
+                <fullName>Bid mapping/maintenance</fullName>
+                <default>false</default>
+                <label>Bid mapping/maintenance</label>
+            </value>
+            <value>
+                <fullName>Bundle Review - pending BI/IH termination approval</fullName>
+                <default>false</default>
+                <label>Bundle Review - pending BI/IH termination approval</label>
+            </value>
+            <value>
+                <fullName>Incomplete/Inaccurate Information</fullName>
+                <default>false</default>
+                <label>Incomplete/Inaccurate Information</label>
+            </value>
+            <value>
+                <fullName>Incomplete ITD/DFA Details</fullName>
+                <default>false</default>
+                <label>Incomplete ITD/DFA Details</label>
+            </value>
+            <value>
+                <fullName>Missing Bundle Calculator or BP Approval</fullName>
+                <default>false</default>
+                <label>Missing Bundle Calculator or BP Approval</label>
+            </value>
+            <value>
+                <fullName>Missing Product Approval</fullName>
+                <default>false</default>
+                <label>Missing Product Approval</label>
+            </value>
+            <value>
+                <fullName>Need Termination Information</fullName>
+                <default>false</default>
+                <label>Need Termination Information</label>
+            </value>
+            <value>
+                <fullName>On Hold - Case Not Urgent</fullName>
+                <default>false</default>
+                <label>On Hold - Case Not Urgent</label>
+            </value>
+            <value>
+                <fullName>Other</fullName>
+                <default>false</default>
+                <label>Other</label>
+            </value>
+            <value>
+                <fullName>Pending Affiliation changes by Data mapping</fullName>
+                <default>false</default>
+                <label>Pending Affiliation changes by Data mapping</label>
+            </value>
+            <value>
+                <fullName>Pending assistance from Billing team</fullName>
+                <default>false</default>
+                <label>Pending assistance from Billing team</label>
+            </value>
+            <value>
+                <fullName>Pending assistance from Implementation</fullName>
+                <default>false</default>
+                <label>Pending assistance from Implementation</label>
+            </value>
+            <value>
+                <fullName>Pending Assistance from Legal</fullName>
+                <default>false</default>
+                <label>Pending Assistance from Legal</label>
+            </value>
+            <value>
+                <fullName>Pending assistance from OM</fullName>
+                <default>false</default>
+                <label>Pending assistance from OM</label>
+            </value>
+            <value>
+                <fullName>Pending assistance from Preference Management</fullName>
+                <default>false</default>
+                <label>Pending assistance from Preference Management</label>
+            </value>
+            <value>
+                <fullName>Pending assistance from Salesforce information</fullName>
+                <default>false</default>
+                <label>Pending assistance from Salesforce information</label>
+            </value>
+            <value>
+                <fullName>Pending Billing Information</fullName>
+                <default>false</default>
+                <label>Pending Billing Information</label>
+            </value>
+            <value>
+                <fullName>Pending CHD review</fullName>
+                <default>false</default>
+                <label>Pending CHD review</label>
+            </value>
+            <value>
+                <fullName>Pending info from DOS/RVP</fullName>
+                <default>false</default>
+                <label>Pending info from DOS/RVP</label>
+            </value>
+            <value>
+                <fullName>Pending information from Billing/Finance</fullName>
+                <default>false</default>
+                <label>Pending information from Billing/Finance</label>
+            </value>
+            <value>
+                <fullName>Pending information from Collections</fullName>
+                <default>false</default>
+                <label>Pending information from Collections</label>
+            </value>
+            <value>
+                <fullName>Pending information from DOS/Customer</fullName>
+                <default>false</default>
+                <label>Pending information from DOS/Customer</label>
+            </value>
+            <value>
+                <fullName>Pending information from ICS/SSA</fullName>
+                <default>false</default>
+                <label>Pending information from ICS/SSA</label>
+            </value>
+            <value>
+                <fullName>Pending information from L3_Insite/L3_EBSSupport</fullName>
+                <default>false</default>
+                <label>Pending information from L3_Insite/L3_EBSSupport</label>
+            </value>
+            <value>
+                <fullName>Pending information from Media Planning</fullName>
+                <default>false</default>
+                <label>Pending information from Media Planning</label>
+            </value>
+            <value>
+                <fullName>Pending invoice/credit memo delivery on EMC</fullName>
+                <default>false</default>
+                <label>Pending invoice/credit memo delivery on EMC</label>
+            </value>
+            <value>
+                <fullName>Pending OM/ST Handling</fullName>
+                <default>false</default>
+                <label>Pending OM/ST Handling</label>
+            </value>
+            <value>
+                <fullName>Pending on Implementation Team</fullName>
+                <default>false</default>
+                <label>Pending on Implementation Team</label>
+            </value>
+            <value>
+                <fullName>Pending on SSA team</fullName>
+                <default>false</default>
+                <label>Pending on SSA team</label>
+            </value>
+            <value>
+                <fullName>Pending opty owner confirmation from account owner</fullName>
+                <default>false</default>
+                <label>Pending opty owner confirmation from account owner</label>
+            </value>
+            <value>
+                <fullName>Pending revenue impact</fullName>
+                <default>false</default>
+                <label>Pending revenue impact</label>
+            </value>
+            <value>
+                <fullName>Pending Team Lead clarification</fullName>
+                <default>false</default>
+                <label>Pending Team Lead clarification</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

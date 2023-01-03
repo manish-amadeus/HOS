@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>IHG_Prioritized_Requests1</fullName>
+    <columns>NAME</columns>
+    <columns>Description__c</columns>
+    <columns>Request_Category__c</columns>
+    <columns>Priority__c</columns>
+    <columns>Target_Due_Date__c</columns>
+    <columns>CPR_Phase__c</columns>
+    <columns>Market_Problem__c</columns>
+    <columns>Commited__c</columns>
+    <columns>Total_Age__c</columns>
+    <columns>CREATED_DATE</columns>
+    <columns>Plan_Date__c</columns>
+    <columns>Develop_Date__c</columns>
+    <columns>Deploy_Date__c</columns>
+    <columns>Closed_Date__c</columns>
+    <columns>Cancelled_Date__c</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>CPR_Account__c</field>
+        <operation>startsWith</operation>
+        <value>Intercontinental</value>
+    </filters>
+    <filters>
+        <field>Priority__c</field>
+        <operation>equals</operation>
+        <value>High,Urgent/Critical</value>
+    </filters>
+    <filters>
+        <field>CPR_Phase__c</field>
+        <operation>equals</operation>
+        <value>Analysis,Plan,Develop,Deploy</value>
+    </filters>
+    <filters>
+        <field>Type__c</field>
+        <operation>equals</operation>
+        <value>Product</value>
+    </filters>
+    <label>IHG Prioritized Requests - Product</label>
+</ListView>

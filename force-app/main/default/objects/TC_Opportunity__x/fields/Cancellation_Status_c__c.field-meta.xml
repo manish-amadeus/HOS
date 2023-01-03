@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Cancellation_Status_c__c</fullName>
+    <externalDeveloperName>Cancellation_Status__c</externalDeveloperName>
+    <externalId>false</externalId>
+    <isFilteringDisabled>false</isFilteringDisabled>
+    <isNameField>false</isNameField>
+    <isSortingDisabled>false</isSortingDisabled>
+    <label>Cancellation Status</label>
+    <required>false</required>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>No Risk</fullName>
+                <default>false</default>
+                <label>No Risk</label>
+            </value>
+            <value>
+                <fullName>At Risk of Cancellation</fullName>
+                <default>false</default>
+                <label>At Risk of Cancellation</label>
+            </value>
+            <value>
+                <fullName>Pending Cancellation</fullName>
+                <default>false</default>
+                <label>Pending Cancellation</label>
+            </value>
+            <value>
+                <fullName>Unable to Save</fullName>
+                <default>false</default>
+                <label>Unable to Save</label>
+            </value>
+            <value>
+                <fullName>Saved</fullName>
+                <default>false</default>
+                <label>Saved</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

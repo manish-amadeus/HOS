@@ -1,0 +1,7 @@
+<apex:page standardController="Opportunity" title="Create New Task for Contracts">
+    <flow:interview name="ProcessOrderTaskCreate" finishLocation="/{!Opportunity.Id}">
+        <apex:param name="OpportunityID" value="{!Opportunity.Id}"/>
+        <apex:param name="OpportunityName" value="{!Opportunity.Name}"/>        
+        <apex:param name="OppOwnerID" value="{!Opportunity.OwnerId}"/>
+    </flow:interview>
+</apex:page>

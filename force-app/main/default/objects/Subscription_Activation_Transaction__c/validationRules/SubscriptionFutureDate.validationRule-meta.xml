@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>SubscriptionFutureDate</fullName>
+    <active>true</active>
+    <description>Subscription Activations cannot be created more than 1 day in the future.
+Updated NICC 047839</description>
+    <errorConditionFormula>AND(
+Date__c &gt; TODAY() + 1, 
+ISBLANK( Service_Order__c ), Subscription_Activation_No__r.Group__r.Name &lt;&gt; &apos;BI&apos;
+)</errorConditionFormula>
+    <errorMessage>Subscription Activation Transactions cannot be created more than 1 day in the future as this affects billing and DI updates. Please use the forecast live date field on the Subscription Activation object to track future activations.</errorMessage>
+</ValidationRule>

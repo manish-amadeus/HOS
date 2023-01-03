@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>US_TAC_A_Today</fullName>
+    <columns>NAME</columns>
+    <columns>Saleforce_User__c</columns>
+    <columns>LoginTime__c</columns>
+    <columns>LogoutTime__c</columns>
+    <columns>ACDCount__c</columns>
+    <columns>NonACDCount__c</columns>
+    <columns>OutCount__c</columns>
+    <columns>MakeBusyCount__c</columns>
+    <columns>MakeBusyDuration__c</columns>
+    <columns>User_Team__c</columns>
+    <columns>Snapshot_Day__c</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>User_Team__c</field>
+        <operation>equals</operation>
+        <value>SPT US Analyst</value>
+    </filters>
+    <filters>
+        <field>Snapshot_Day__c</field>
+        <operation>equals</operation>
+        <value>TODAY</value>
+    </filters>
+    <label>SPT US Analyst - Today</label>
+</ListView>

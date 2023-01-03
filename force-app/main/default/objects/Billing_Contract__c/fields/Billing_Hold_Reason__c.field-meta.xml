@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Billing_Hold_Reason__c</fullName>
+    <businessOwnerUser>robert.quigley@amadeus.com</businessOwnerUser>
+    <businessStatus>Active</businessStatus>
+    <description>Reason why Billing Contract is placed on Billing Hold. NICC-042151</description>
+    <externalId>false</externalId>
+    <inlineHelpText>The reason why this Billing Contract is being placed on Billing Hold.</inlineHelpText>
+    <label>Billing Hold Reason</label>
+    <required>false</required>
+    <securityClassification>Internal</securityClassification>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>HSC- Pending Sub Activation</fullName>
+                <default>false</default>
+                <label>HSC- Pending Sub Activation</label>
+            </value>
+            <value>
+                <fullName>Manual Billing Agreement</fullName>
+                <default>false</default>
+                <label>Manual Billing Agreement</label>
+            </value>
+            <value>
+                <fullName>Pending a Change Order</fullName>
+                <default>false</default>
+                <label>Pending a Change Order</label>
+            </value>
+            <value>
+                <fullName>Pending Research/Correction</fullName>
+                <default>false</default>
+                <label>Pending Research/Correction</label>
+            </value>
+            <value>
+                <fullName>Request from Sales</fullName>
+                <default>false</default>
+                <label>Request from Sales</label>
+            </value>
+            <value>
+                <fullName>Services Billed upon Activation</fullName>
+                <default>false</default>
+                <label>Services Billed upon Activation</label>
+            </value>
+            <value>
+                <fullName>Previously On Hold</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Previously On Hold</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

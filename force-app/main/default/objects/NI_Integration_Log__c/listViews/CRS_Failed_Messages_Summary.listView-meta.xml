@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>CRS_Failed_Messages_Summary</fullName>
+    <columns>NAME</columns>
+    <columns>UpdateFor__c</columns>
+    <columns>Case__c</columns>
+    <columns>Integration_Name__c</columns>
+    <columns>Transaction_Type__c</columns>
+    <columns>Retries_Performed__c</columns>
+    <columns>Do_Retries__c</columns>
+    <columns>OWNER.FIRST_NAME</columns>
+    <columns>OWNER.LAST_NAME</columns>
+    <columns>CREATED_DATE</columns>
+    <columns>LAST_UPDATE</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>Status__c</field>
+        <operation>equals</operation>
+        <value>Failed</value>
+    </filters>
+    <label>CRS Failed Messages Summary</label>
+    <sharedTo>
+        <allInternalUsers></allInternalUsers>
+    </sharedTo>
+</ListView>

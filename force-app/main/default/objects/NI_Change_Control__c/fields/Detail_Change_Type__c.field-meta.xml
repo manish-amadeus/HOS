@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Detail_Change_Type__c</fullName>
+    <description>This is a further classification of the change that is being made</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Further classification of the change that is being made</inlineHelpText>
+    <label>Detail Change Type</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>MultiselectPicklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Append</fullName>
+                <default>false</default>
+                <label>Append</label>
+            </value>
+            <value>
+                <fullName>Firewall Change</fullName>
+                <default>false</default>
+                <label>Firewall Change</label>
+            </value>
+            <value>
+                <fullName>New Install</fullName>
+                <default>false</default>
+                <label>New Install</label>
+            </value>
+            <value>
+                <fullName>Upgrade</fullName>
+                <default>false</default>
+                <label>Upgrade</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+    <visibleLines>4</visibleLines>
+</CustomField>

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Subscription_Edition_c__c</fullName>
+    <externalDeveloperName>Subscription_Edition__c</externalDeveloperName>
+    <externalId>false</externalId>
+    <inlineHelpText>What is the Edition type subscription?</inlineHelpText>
+    <isFilteringDisabled>false</isFilteringDisabled>
+    <isNameField>false</isNameField>
+    <isSortingDisabled>false</isSortingDisabled>
+    <label>Subscription Edition</label>
+    <readOnlyProxy>true</readOnlyProxy>
+    <required>false</required>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>PRO</fullName>
+                <default>false</default>
+                <label>PRO</label>
+            </value>
+            <value>
+                <fullName>PROPLUS</fullName>
+                <default>false</default>
+                <label>PROPLUS</label>
+            </value>
+            <value>
+                <fullName>PROPERTY</fullName>
+                <default>false</default>
+                <label>PROPERTY</label>
+            </value>
+            <value>
+                <fullName>PREMIUM</fullName>
+                <default>false</default>
+                <label>PREMIUM</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

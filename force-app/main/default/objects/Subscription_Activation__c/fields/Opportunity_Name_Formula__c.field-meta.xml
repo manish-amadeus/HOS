@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Opportunity_Name_Formula__c</fullName>
+    <description>NICC-024063
+***THIS FIELD IS DISPLAYED IN THE PARTNER COMMUNITY***
+Originally created to display the name of the opportinity record related to the Subscription Activation record to Partner Community users. This allows the Partner Community users to see the opportunity name without giving them access to the opportunity object.</description>
+    <externalId>false</externalId>
+    <formula>Opportunity__r.Name</formula>
+    <inlineHelpText>The name of the opportunity related to this subscription activation record</inlineHelpText>
+    <label>Opportunity Name</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

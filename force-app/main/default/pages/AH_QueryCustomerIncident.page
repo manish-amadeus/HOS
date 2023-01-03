@@ -1,0 +1,34 @@
+<apex:page sidebar="false" standardController="Case" Extensions="AH_QueryCustomerIncident_Ctlr" Showheader="false">
+    
+    <apex:form >
+        
+        <apex:outputLabel value="{!Case.INTGR_Customer_Ticket_System_Id__c}" rendered="false" />
+        <apex:outputLabel value="{!Case.Customer_Ticket_Number__c}" rendered="false" />
+        
+        <apex:pageblock id="pbMain" title="">
+            
+            <apex:pageMessages ></apex:pageMessages>
+            
+            <apex:pageBlockButtons location="Top">                    
+                <apex:outputPanel id="idButtons">
+                    <apex:commandButton value=" Query " action="{!doQuery}" reRender="response"/>
+                </apex:outputPanel>   
+            </apex:pageBlockButtons>
+            
+            <apex:outputPanel id="response">
+                <apex:pageMessages ></apex:pageMessages>
+                <apex:pageBlockSection columns="2">
+                 <apex:outputText label="Incident Number:" value="{!strIncidentNumber}" rendered="true" />    
+                <apex:outputText label="State:" value="{!strState}" rendered="true" />
+                <apex:outputText label="Priority:" value="{!strPriority}" rendered="true" />
+                <apex:outputText label="Short Description:" value="{!strShortDescription}" rendered="true" />
+                <apex:outputText label="Assignment Group:" value="{!strAssignmentGroup}" rendered="true" />     
+                <apex:outputText value="{!strResBody}" rendered="false" />
+                </apex:pageBlockSection>  
+            </apex:outputPanel>
+                
+        </apex:pageblock> 
+        
+    </apex:form> 
+    
+</apex:page>

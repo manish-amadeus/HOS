@@ -1,0 +1,45 @@
+<apex:page showHeader="true"  sidebar="false" standardStylesheets="false">
+<apex:PageBlock >
+<apex:stylesheet value="{!$Resource.PartnerCSS}" />
+<table width="100%">
+ <tr >
+ <td colspan="2"><apex:sectionHeader title="Overview" />
+ </td>
+ </tr>
+ </table>
+ <table>
+      <tr>
+      <td>
+       <p>The Partner Community is designed to help our partners through the lifecycle of building integrations with our NWS APIs.</p>
+       <p>Review each tab in the lifecycle for important training and topics, and take advantage of the many features offered through the community:</p>
+      </td>
+      </tr>
+     
+     <tr>
+     
+     <td>
+         <ul>
+         <li><p><apex:OutputLink value="/apex/Partner_Chatter?sfdc.tabName=01r32000000ERTq" >Collaboration</apex:OutputLink> - collaborate with other partners and Salesforce in our Chatter community</p></li>
+         <li><p><apex:OutputLInk value="http://www.newmarketinc.com/newmarket-news/digest" target="_blank" > News And Events </apex:OutputLink> – stay up to date on news, events and alerts just for partners</p></li>
+         <li><p><apex:OutputLInk value="/apex/PartnerCaseCustomListView?sfdc.tabName=01r32000000ERTr" > Support </apex:OutputLink> - submit cases for support from Salesforce</p></li>
+        </ul>
+    </td>
+    <td><apex:Image Id="solutions" value="{!$Resource.PartnerSolutionImage}"></apex:Image></td>
+    </tr>
+    <tr>
+    <td>
+     <p>The Partner Community is the primary resource for all Newmarket partners.</p>
+    </td>
+    </tr>
+     
+    
+      
+ </table>
+
+
+
+
+
+
+</apex:PageBlock> 
+</apex:page>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Action__c</fullName>
+    <externalId>false</externalId>
+    <formula>if( TEXT(YEAR(Date_Taken__c)) = &quot;&quot;, if(Account__c&lt;&gt;&quot;&quot;, HYPERLINK(&quot;/appex/cscript/call.htm?page=account_ex&amp;sid=&quot; &amp; Script__c&amp; &quot;&amp;eid=&quot; &amp; Account__c &amp; &quot;&amp;rid=&quot; &amp;Id , &quot;Take Script&quot;), if(Opportunity__c&lt;&gt;&quot;&quot;, HYPERLINK(&quot;/appex/cscript/call.htm?page=opportunity_ex&amp;sid=&quot; &amp; Script__c&amp; &quot;&amp;eid=&quot; &amp; Opportunity__c &amp; &quot;&amp;rid=&quot; &amp;Id , &quot;Take Script&quot;), if(Lead__c&lt;&gt;&quot;&quot;, HYPERLINK(&quot;/appex/cscript/call.htm?page=lead_ex&amp;sid=&quot; &amp; Script__c&amp; &quot;&amp;eid=&quot; &amp; Lead__c &amp; &quot;&amp;rid=&quot; &amp;Id , &quot;Take Script&quot;), if(Case__c&lt;&gt;&quot;&quot;, HYPERLINK(&quot;/appex/cscript/call.htm?page=case_ex&amp;sid=&quot; &amp; Script__c&amp; &quot;&amp;eid=&quot; &amp; Case__c &amp; &quot;&amp;rid=&quot; &amp;Id , &quot;Take Script&quot;), if(Contact__c&lt;&gt;&quot;&quot;, HYPERLINK(&quot;/appex/cscript/call.htm?page=contact_ex&amp;sid=&quot; &amp; Script__c&amp; &quot;&amp;eid=&quot; &amp; Contact__c &amp; &quot;&amp;rid=&quot; &amp;Id , &quot;Take Script&quot;),&quot;&quot;) )))), HYPERLINK(&quot;/&quot; &amp; Id, &quot;View Results&quot;) )</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Action</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

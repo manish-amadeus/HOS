@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Main_Hardware__c</fullName>
+    <description>Main Hardware for the employee</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Main Hardware for the employee</inlineHelpText>
+    <label>Main Hardware</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>true</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Mac Desktop</fullName>
+                <default>false</default>
+                <label>Mac Desktop</label>
+            </value>
+            <value>
+                <fullName>Mac Laptop</fullName>
+                <default>false</default>
+                <label>Mac Laptop</label>
+            </value>
+            <value>
+                <fullName>No Hardware Needed</fullName>
+                <default>false</default>
+                <label>No Hardware Needed</label>
+            </value>
+            <value>
+                <fullName>Windows Desktop</fullName>
+                <default>false</default>
+                <label>Windows Desktop</label>
+            </value>
+            <value>
+                <fullName>Windows Laptop</fullName>
+                <default>false</default>
+                <label>Windows Laptop</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

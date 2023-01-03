@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Role_c__c</fullName>
+    <externalDeveloperName>Role__c</externalDeveloperName>
+    <externalId>false</externalId>
+    <isFilteringDisabled>false</isFilteringDisabled>
+    <isNameField>false</isNameField>
+    <isSortingDisabled>false</isSortingDisabled>
+    <label>Role</label>
+    <readOnlyProxy>true</readOnlyProxy>
+    <required>false</required>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Customer Care</fullName>
+                <default>false</default>
+                <label>Customer Care</label>
+            </value>
+            <value>
+                <fullName>Customer Success Manager</fullName>
+                <default>false</default>
+                <label>Customer Success Manager</label>
+            </value>
+            <value>
+                <fullName>Pooled Customer Success Managers</fullName>
+                <default>false</default>
+                <label>Pooled Customer Success Managers</label>
+            </value>
+            <value>
+                <fullName>Renewal Manager</fullName>
+                <default>false</default>
+                <label>Renewal Manager</label>
+            </value>
+            <value>
+                <fullName>Sales Specialist</fullName>
+                <default>false</default>
+                <label>Sales Specialist</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

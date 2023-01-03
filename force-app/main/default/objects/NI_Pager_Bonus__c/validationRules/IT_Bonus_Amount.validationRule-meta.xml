@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>IT_Bonus_Amount</fullName>
+    <active>false</active>
+    <description>Prevents the Bonus Amount from being changed for IT Pager Bonus records</description>
+    <errorConditionFormula>AND(RecordType.Name = &quot;IT Pager Bonus&quot;, Bonus_Amount__c != 200)</errorConditionFormula>
+    <errorDisplayField>Bonus_Amount__c</errorDisplayField>
+    <errorMessage>You cannot change the Bonus Amount. Nice Try!</errorMessage>
+</ValidationRule>

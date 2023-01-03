@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Purchase_Order_Line_Item__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <externalId>false</externalId>
+    <label>Purchase Order Line Item</label>
+    <lookupFilter>
+        <active>true</active>
+        <filterItems>
+            <field>SCMC__Purchase_Order_Line_Item__c.SCMC__Purchase_Order__c</field>
+            <operation>equals</operation>
+            <valueField>$Source.Purchase_Order__c</valueField>
+        </filterItems>
+        <isOptional>false</isOptional>
+    </lookupFilter>
+    <referenceTo>SCMC__Purchase_Order_Line_Item__c</referenceTo>
+    <relationshipLabel>IT Hardware Assets</relationshipLabel>
+    <relationshipName>IT_Hardware_Assets</relationshipName>
+    <required>false</required>
+    <trackHistory>true</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

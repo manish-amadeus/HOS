@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Employee_Name__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <description>The employee who should receive the pager bonus.  This field will be automatically updated with the Owner of the record if it is left blank when the record is created.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>The employee who should receive the pager bonus.  This field will be automatically updated with the Owner of the record if it is left blank when the record is created.</inlineHelpText>
+    <label>Employee Name</label>
+    <referenceTo>User</referenceTo>
+    <relationshipName>NI_Pager_Bonus</relationshipName>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>true</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

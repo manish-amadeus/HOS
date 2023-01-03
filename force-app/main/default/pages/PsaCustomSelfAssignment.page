@@ -1,0 +1,121 @@
+<apex:page id="pgSA" controller="PsaCustomSelfAssignmentController" >
+ <script>
+    
+    function validate()
+    {
+        var resourceTag = document.getElementById('pgSA:frmSA:pbSA:pbs1:resource');
+        var projectNameTag = document.getElementById('pgSA:frmSA:pbSA:pbs1:project');
+        var milestoneNameTag = document.getElementById('pgSA:frmSA:pbSA:pbs1:milestone');
+        
+        if(resourceTag != null && resourceTag.value == '')
+        {
+            alert('Please select a resource');
+            return false;
+        }
+        
+        if((projectNameTag != null && projectNameTag.value == '') || (milestoneNameTag != null && milestoneNameTag.value == ''))
+        {
+            alert('You must select a Project and Milestone.');
+            return false;
+        }
+        
+        return true;    
+    }
+    
+    function OpenChildWindow(url)
+    {
+        var projectNameTag = document.getElementById('pgSA:frmSA:pbSA:pbs1:project');
+        if(projectNameTag != null && projectNameTag.value != '')
+        {
+            url += '?projectName='+projectNameTag.value;
+        } 
+        newwindow=window.open(url,'name','width=850,height=550,top=50,scrollbars=yes,toolbar=no,personalbar=no,location=no,directories=no,statusbar=no,menubar=no,status=no,re sizable=yes,left=60,screenX=60,top=100,screenY=100');
+        if (window.focus){newwindow.focus()}
+    }
+    
+    function setProjectValue(pageId,lookupId,lookupName,id,name)
+    {
+        var idComp = document.getElementById(lookupId);
+        var nameComp = document.getElementById(lookupName);
+        var projectNameTag = document.getElementById('pgSA:frmSA:pbSA:pbs1:project');
+        if(idComp != null)
+        {
+            idComp.value = id;
+        }
+        if(nameComp != null)
+        {
+            nameComp.value=name;
+        }
+        if(projectNameTag != null)
+        {
+            projectNameTag.value = name;
+        }
+    }
+ 
+    function setMilestoneValue(pageId,lookupId,lookupName,id,name)
+    {
+        var idComp = document.getElementById(lookupId);
+        var nameComp = document.getElementById(lookupName);
+        var milestoneNameTag = document.getElementById('pgSA:frmSA:pbSA:pbs1:milestone');
+        if(idComp != null)
+        {
+            idComp.value = id;
+        }
+        if(nameComp != null)
+        {
+            nameComp.value=name;
+        }
+        if(milestoneNameTag != null)
+        {
+            milestoneNameTag.value = name;
+        }
+    }
+ 
+ 
+ </script>
+  <apex:form id="frmSA"> 
+    <apex:pageBlock id="pbSA" title="Self Assignment">
+      <apex:pageBlockButtons location="bottom" >
+        <apex:commandButton value="Create Assignment" action="{!createAssignment}" onClick="return validate();"/>
+        <apex:commandButton value="Cancel" action="{!cancel}"/>
+      </apex:pageBlockButtons>
+      <apex:messages style="color:red;" />
+      <apex:pageBlockSection id="pbs1" title="Assignment Information">
+         <apex:inputField id="resource" value="{!assignment.pse__Resource__c}" />
+         <apex:outputLabel />
+         <apex:inputField id="project" value="{!assignment.pse__Project__c}"  />
+         <apex:inputField id="milestone" value="{!assignment.pse__Milestone__c}"  />
+         <apex:inputField id="startdate" value="{!schedule.pse__Start_Date__c}" />
+         <apex:inputField id="enddate" value="{!schedule.pse__End_Date__c}" />
+      </apex:pageBlockSection>
+    </apex:pageBlock>
+  </apex:form>
+
+  <script>
+    // Disable the lookup icon on Resource field
+    var resourceImage = document.getElementById('pgSA:frmSA:pbSA:pbs1:resource_lkwgt');
+    if(resourceImage != null)
+    {
+        resourceImage.style.display = 'none';
+    }
+
+    // Disable the lookup icon on Milestone field
+    var milestoneImage = document.getElementById('pgSA:frmSA:pbSA:pbs1:milestone_lkwgt');
+    if(milestoneImage != null)
+    {
+        milestoneImage.style.display = 'none';
+    }
+    
+    var aTag = document.getElementById('pgSA:frmSA:pbSA:pbs1:project_lkwgt');
+    if(aTag != null)
+    {
+        aTag.href = "javascript:OpenChildWindow('/apex/psaCustomProjectLookup')";
+    }
+    
+    var bTag = document.getElementById('pgSA:frmSA:pbSA:pbs1:milestone_lkwgt');
+    if(bTag != null)
+    {
+        bTag.href = "javascript:OpenChildWindow('/apex/psaCustomProjectLookup')";
+    }
+  </script>
+</apex:page>

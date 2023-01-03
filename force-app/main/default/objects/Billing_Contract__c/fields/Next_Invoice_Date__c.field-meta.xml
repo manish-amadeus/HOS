@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Next_Invoice_Date__c</fullName>
+    <externalId>false</externalId>
+    <inlineHelpText>Displays the max invoice date from billing line items that are eligible for invoicing</inlineHelpText>
+    <label>Next Invoice Date</label>
+    <summarizedField>Billing_Contract_Line_Item__c.Invoice_Date__c</summarizedField>
+    <summaryFilterItems>
+        <field>Billing_Contract_Line_Item__c.Invoiced__c</field>
+        <operation>equals</operation>
+        <value>False</value>
+    </summaryFilterItems>
+    <summaryFilterItems>
+        <field>Billing_Contract_Line_Item__c.Ready_to_Invoice__c</field>
+        <operation>equals</operation>
+        <value>True</value>
+    </summaryFilterItems>
+    <summaryFilterItems>
+        <field>Billing_Contract_Line_Item__c.Type__c</field>
+        <operation>equals</operation>
+        <value>Invoice</value>
+    </summaryFilterItems>
+    <summaryForeignKey>Billing_Contract_Line_Item__c.Billing_Contract__c</summaryForeignKey>
+    <summaryOperation>max</summaryOperation>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Summary</type>
+</CustomField>

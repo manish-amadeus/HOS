@@ -1,0 +1,197 @@
+<apex:page standardController="Case" extensions="AH_Rally_CommentList_Ctlr" sidebar="false" showHeader="false" lightningStylesheets="true"> 
+    
+    <apex:form >
+        
+        <!-- set session -->
+        <script type="text/javascript"> var  __sfdcSessionId = '{!GETSESSIONID()}'; </script> 
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.0/jquery.min.js"></script>
+        <script src="../../soap/ajax/40.0/connection.js"></script>
+        <script type="text/javascript" src="../../soap/ajax/40.0/apex.js"></script>
+        <script>
+        
+        window.onload = function()
+        {
+            
+            sforce.connection.sessionId = __sfdcSessionId;
+            var Defecturl = '{!Case.Rally_Artifact_Ref__c}';
+            var commentsToBeChecked = sforce.connection.query("SELECT Id, Sf_Comment_Id__c, To_be_Send__c FROM Case_Comment_Relation__c WHERE To_be_Send__c = true AND Case_Id__c='" + "{!Case.Id}" + "'"); 
+            var attTodisabled = commentsToBeChecked.getArray("records");
+            
+            if (attTodisabled != null)
+            {
+                for (var i=0; i<attTodisabled.length;i++)
+                {           
+                    document.getElementById(attTodisabled[i].Sf_Comment_Id__c).checked=attTodisabled[i].To_be_Send__c;
+                }
+                
+            }   
+            
+        };
+        
+        var result;
+        var ccr;
+        var caseId ='{!Case.Id}';
+        
+        function checkAndInsert(commentId)
+        {
+            var operation =$('#'+commentId).is(':checked');
+            if (operation)
+            {
+                ccr = new sforce.SObject("Case_Comment_Relation__c");
+                ccr.Sf_Comment_Id__c = commentId;
+                var s=caseId.toString().substring(0,15);
+                ccr.Case_Id__c = s;
+                ccr.To_be_Send__c = true;
+                result = sforce.connection.create([ccr]);
+                if (result[0].getBoolean("success")) {
+                    //alert("new ccr created with id " + result[0].id);
+                    ccr.Id = result[0].id;
+                } 
+                else {
+                    //alert("failed to create ccr " + result[0]);
+                }
+            }  
+            //now delete the example ccr
+            else
+            {
+                var ccstoBeDeleted = sforce.connection.query("select id from Case_Comment_Relation__c where Sf_Comment_Id__c='"+commentId+"'"); 
+                var ccsIdToDel = ccstoBeDeleted.getArray("records"); 
+                var delResult = sforce.connection.deleteIds([ccsIdToDel[0].Id]); 
+                if (delResult[0].getBoolean("success")) 
+                {
+                    //alert("ccr with id deleted");
+                } 
+                else 
+                {
+                    alert("failed to delete ccr ");
+                } 
+            }
+        }
+        
+        
+        //function which will do callout
+        function Callout(methodtype,endpoint,body,username,password)
+        {          
+            
+            var res;
+            var json = JSON.stringify(eval("(" + body+ ")"));                 
+            var b64Str = new sforce.Base64Binary(username + ':' + password);
+            var authStr = "Basic " + b64Str.toString();
+            var rallyHeader =
+                {
+                    "Authorization": authStr,
+                    "Content-Type": "text/javascript",
+                    "Content-Encoding":"gzip",                  
+                };
+            var remoteResult = sforce.connection.remoteFunction( {
+                url:endpoint,
+                mimeType:"text/plain",
+                method:methodtype,
+                requestHeaders:rallyHeader,
+                requestData:json,
+                async:false,
+                onSuccess:function(response){res=response;},
+                onFailure:function(error) { alert(error);},timeout:3000
+            });
+            return res;
+        } 
+        
+        function sendComment(casecommentId)
+        {
+            console.log('Comment ID: '+ casecommentId)
+            try
+            {
+                var res;
+                var body="";
+                var def_id;  
+                var UserStoryurl="{!Case.Rally_Artifact_Ref__c}";
+                var UserStoryurl=UserStoryurl.toString().substr(72,11);
+                //var endpoint = "https://rally1.rallydev.com/slm/webservice/1.43/conversationpost/create.js";  
+                var jsonval={caseId:"{!Case.Id}",commentid:casecommentId};
+                var rallyCommentid=sforce.apex.execute("AH_Rally_Library","insertCaseComment", { caseId: "{!Case.Id}", commentId: casecommentId });   
+                console.log('rallyCommentid: '+ rallyCommentid);
+                var jval={caseId:"{!Case.id}",defectId:UserStoryurl,commentId:rallyCommentid,SalesforceCommentId:casecommentId};
+                console.log('jsonval: ' + jval);
+                var check=sforce.apex.execute("AH_Rally_InsertIntoDB","insertDataInCaseComment", jval);
+                
+            }
+            catch(error)
+            {   
+                console.log('Error with sending rally comments');
+                console.log(error);
+                alert("Comment not Send,Try Again");
+            }
+        }
+
+        function refreshFunction()
+        {
+            var currentURL = '{!urlInstance}'+'/'+'{!Case.Id}'; 
+            top.location.href = currentURL;     
+        }  
+
+        </script>
+        
+        <apex:pageBlock >
+            
+            <apex:pageBlockButtons location="top">
+                <apex:commandLink value="New"  style="text-decoration: none;" styleClass="btn" target="_parent" action="{!createNewComment}"/>
+            </apex:pageBlockButtons>
+            <apex:outputText rendered="{!myCmmList.size==0}">No records to display</apex:outputText>
+            <apex:pageBlockSection columns="1" id="ref" rendered="{!myCmmList.size>0}">
+                <apex:pageMessage summary="You can select the Comments which needs to be sent to rally and click on Create User Story button, discussions will be created along with User Story in rally" severity="info" strength="1" id="pm" rendered="{!IF(myCmmList.size>0 && Case.Rally_Artifact_Ref__c == null, true, false)}">
+                </apex:pageMessage>
+                <apex:pageMessage summary="Please click on send link in order to send comment to associated User Story in rally" severity="info" strength="1" id="pm1" rendered="{!IF(myCmmList.size>0 && Case.Rally_Artifact_Ref__c != null, true, false)}">
+                </apex:pageMessage>
+                <apex:pageBlockTable value="{!myCmmList}" var="comment" rendered="{!myCmmList.size>0}">
+                    <apex:column headerValue="Action">
+                        <apex:outputPanel rendered="{!Case.Rally_Artifact_Ref__c == null}">
+                            <input type="checkbox" id="{!comment.cmt.Id}" onclick="checkAndInsert('{!comment.cmt.Id}');"/>
+                        </apex:outputPanel>
+                        <!--<apex:inputCheckbox id="commentId" onclick="checkAndInsert('{!comment.cmt.Id}');" disabled="{!IF(comment.ccr.Status__c == 'Sent' || comment.ccr.Status__c == 'Received',true,false)}"/>-->
+                        <apex:commandLink value="Edit" action="{!editCaseComment}" target="_parent" style="text-decoration: none;" rendered="{!IF(comment.ccr.Status__c == 'Sent' || comment.ccr.Status__c == 'Received',false,true)}">
+                            <apex:param value="{!comment.cmt.Id}" name="editCommentId"/>
+                        </apex:commandLink>
+                        <apex:commandLink value="Edit"  style="text-decoration: none; color: grey; pointer-events: none;" rendered="{!IF((comment.ccr.Status__c == 'Sent' || comment.ccr.Status__c == 'Received'),true,false)}">
+                        </apex:commandLink>
+                        <apex:outputText >&nbsp;|&nbsp;</apex:outputText>
+                        <apex:commandLink value="Del" style="text-decoration: none;" action="{!deleteComment}" oncomplete="refreshFunction();">
+                            <apex:param value="{!comment.cmt.Id}" name="deleteCmtId"/>
+                        </apex:commandLink>
+                        <apex:outputText rendered="{!IF(Case.Rally_Artifact_Ref__c != '',true,false)}">&nbsp;|&nbsp;</apex:outputText>
+                        <apex:commandLink value="Send" style="text-decoration: none;" title="Send to Rally" id="sendLink" action="{!init1}" rendered="{!IF(comment.ccr.Status__c == 'Sent' || comment.ccr.Status__c == 'Received' || Case.Rally_Artifact_Ref__c == '',false,true)}" reRender="ref"  onclick="var r=confirm('Do you want to send selected comments to Rally?'); var rallyDefectArtifact = '{!Case.Rally_Artifact_Ref__c}'; if(r==true){ if(rallyDefectArtifact != ''){ $(this).css('text-decoration','none'); $(this).css('color','grey'); $(this).css('pointer-events','none'); sendComment('{!comment.cmt.Id}');} else{alert('Please Create User Story')} }else{$(this).css('text-decoration','none');}"> 
+                        </apex:commandLink>
+                        <apex:commandLink value="Send"  style="text-decoration: none; color: grey; pointer-events: none;" title="Send to Rally" id="sendLink1" rendered="{!IF((comment.ccr.Status__c == 'Sent' || comment.ccr.Status__c == 'Received'),true,false)}">
+                        </apex:commandLink>
+                        
+                    </apex:column>
+                    <apex:column headerValue="Comment">
+                        <apex:outputText ><b>Created By: </b></apex:outputText>
+                        <apex:outputText >{!comment.cmt.CreatedBy.Name}</apex:outputText>&nbsp;
+                        <!--<apex:outputText >{!comment.cmt.CreatedDate}</apex:outputText>-->
+                        <apex:outputText value="{0,date,MM/dd/yyyy HH:mm a}">
+                            <apex:param value="{!comment.cmt.CreatedDate}"/>
+                        </apex:outputText>
+                        
+                        
+                        
+                        <apex:outputPanel rendered="{!comment.cmt.CreatedDate != comment.cmt.LastModifiedDate}">
+                            <apex:outputText ><b>&nbsp;|&nbsp;</b><b>Last Modified By: </b></apex:outputText>
+                            <apex:outputText >{!comment.cmt.LastModifiedBy.Name}</apex:outputText>&nbsp;
+                            <apex:outputText >{!comment.cmt.LastModifiedDate}</apex:outputText><br/>
+                        </apex:outputPanel><br/>
+                        <apex:outputText value="{!SUBSTITUTE(comment.content,'href','target=\'_blank\' href')}" escape="false"></apex:outputText>
+                        &nbsp;&nbsp;
+                        <!-- req 2 code 10/10--> 
+                        <apex:commandLink value=" More..." rendered="{!len(comment.cmtBody) > 3500 || len(comment.cmtBody) ==1300 ||len(comment.cmtBody) ==1299 ||len(comment.cmtBody) ==1301 || len(comment.cmtBody) ==1298}" action ="{!ViewHistory}">
+                            <!--<apex:commandLink value="{!len(comment.cmtBody)}  More..." rendered="{!len(comment.cmtBody) > 10}" action ="{!ViewHistory}">  -->
+                            <apex:param value="{!comment.cmt.Id}" name="HistoryCmtId"/>
+                        </apex:commandLink>
+                        
+                    </apex:column>
+                    <apex:column value="{!comment.ccr.Status__c}" headerValue="Status" style="{!IF(comment.ccr.Status__c=="Sent","color:green;","color:red;")}"/>
+                </apex:pageBlockTable>
+            </apex:pageBlockSection>
+        </apex:pageBlock>
+    </apex:form>
+    
+</apex:page>

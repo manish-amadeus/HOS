@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Deploy_Age_Formula__c</fullName>
+    <externalId>false</externalId>
+    <formula>IF(AND(NOT(ISBLANK(Deploy_Date__c)), ISBLANK(Deploy_End_Date__c)) , TODAY() - Deploy_Date__c, 
+IF(AND(NOT(ISBLANK(Deploy_Date__c)),NOT(ISBLANK(Deploy_End_Date__c))) , Deploy_End_Date__c - Deploy_Date__c,0))</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <inlineHelpText>The number of days between the Deploy Start Date and Deploy End Date. If the Deploy End Date is blank, this field shows the number of days between the Deploy Start Date and the today&apos;s date.</inlineHelpText>
+    <label>Deploy Age (Formula)</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>0</scale>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Number</type>
+    <unique>false</unique>
+</CustomField>

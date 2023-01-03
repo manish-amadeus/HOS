@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Financialforce_PSA_License_Type__c</fullName>
+    <externalId>false</externalId>
+    <inlineHelpText>Full PSA User: typically assigned to Project Managers and Professional Services Management
+Time &amp; Expense User: Assigned to users who need to create PSA Time &amp; Expense records
+360° PSA Account View for CRM User:  Grants &quot;View&quot; access to PSA Projects</inlineHelpText>
+    <label>Financialforce - PSA License Type</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Full PSA User</fullName>
+                <default>false</default>
+                <label>Full PSA User</label>
+            </value>
+            <value>
+                <fullName>Time &amp; Expense User</fullName>
+                <default>false</default>
+                <label>Time &amp; Expense User</label>
+            </value>
+            <value>
+                <fullName>360° PSA Account View for CRM User</fullName>
+                <default>false</default>
+                <label>360° PSA Account View for CRM User</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

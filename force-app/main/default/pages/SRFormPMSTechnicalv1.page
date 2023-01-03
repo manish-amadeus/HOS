@@ -1,0 +1,315 @@
+<apex:page standardController="StatusReport__c" extensions="StatusReportForm">
+
+    <apex:form id="SRForm">
+
+        <apex:sectionHeader subtitle="New Status Report" title="Amadeus Hospitality Support"></apex:sectionHeader>
+
+        <apex:pageBlock title="PMS Technical (v1) Status Report Form" mode="edit">
+            
+            <apex:pageMessages />
+            
+            <apex:pageBlockButtons >
+                <apex:commandButton action="{!save}" value="Save"/>
+                <apex:commandButton action="{!cancel}" value="Cancel"/>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <apex:outputPanel rendered="{!displayHelperReportLink}" >
+                    <a href="http://vas008/Support/StatusReportHelper.aspx?USERID={!StatusReport__c.Associate__c}" Target="_blank">
+                    <img src="/img/icon/custom51_100/books16.png" alt="Helper Report" border="0" />Helper Report (Internal Resource)</a>                
+                </apex:outputPanel>                
+            </apex:pageBlockButtons>   
+        
+            <apex:pageBlockSection title="Associate Details:" collapsible="False" columns="1">         
+
+                <apex:pageBlockSectionItem id="Associate">
+                    <apex:outputLabel >Associate Name:</apex:outputLabel>
+                    <apex:outputPanel layout="block" styleClass="requiredInput">
+                    <apex:outputPanel layout="block" styleClass="requiredBlock"/>
+                        <apex:inputField id="txtAssociate" value="{!StatusReport__c.Associate__c}">
+                            <apex:actionSupport event="onchange" action="{!initForm}">
+                                <apex:param name="AssociateParam" value="{!StatusReport__c.Associate__c}" assignTo="{!strAssociateID}"/>
+                            </apex:actionSupport>
+                        </apex:inputField>
+                    </apex:outputPanel>
+                </apex:pageBlockSectionItem>
+                
+                <apex:pageBlockSectionItem id="LastReportDate">
+                    <apex:outputLabel >Last Report Date:</apex:outputLabel>
+                    <apex:outputLabel id="txtLastReportDate" value="{!LastReportDate}" />
+                </apex:pageBlockSectionItem>
+                
+                <apex:pageBlockSectionItem id="lblRecordTypeId">
+                    <apex:outputLabel >Record Type:</apex:outputLabel>
+                    <apex:outputField id="txtRecordTypeId" value="{!StatusReport__c.RecordTypeId}" />
+                </apex:pageBlockSectionItem>
+                
+            </apex:pageBlockSection>
+
+<!-- SECTION 1 
+=====================================================================================================================================================================
+-->
+
+            <apex:pageBlockSection title="1. Customer updates (% all cases):" collapsible="False" columns="1"> 
+                <apex:outputLabel value="Do 90% of your cases on average, have an update to your customer within the last 48 hours?" style="font-style: italic;" />
+            </apex:pageBlockSection>
+            
+            <apex:pageBlockSection id="section01" title="1. Details:" collapsible="False" columns="2" showHeader="false">  
+
+                <apex:pageBlockSectionItem id="Value01">
+                    <apex:outputLabel >Customer updates %:</apex:outputLabel>
+                    <apex:inputField id="txtValue01" value="{!StatusReport__c.Value01__c}" />
+                </apex:pageBlockSectionItem>
+
+                <apex:outputLabel />
+
+                <apex:pageBlockSectionItem id="DidNotMeet01">
+                    <apex:outputLabel >Below 87% did not meet:</apex:outputLabel>
+                    <apex:inputField id="txtDidNotMeet01" value="{!StatusReport__c.Missed01__c}">
+                        <apex:actionSupport event="onclick" action="{!S1MissedCheckbox}" reRender="sectionTotals,section01" />
+                    </apex:inputField>
+                </apex:pageBlockSectionItem>
+                
+                <apex:pageBlockSectionItem id="Score01">
+                    <apex:outputLabel >Score:</apex:outputLabel>
+                    <apex:outputField id="txtScore01" value="{!StatusReport__c.Score01__c}" style="width: 30px;" />
+                </apex:pageBlockSectionItem>                        
+                
+                <apex:pageBlockSectionItem id="Meets01">
+                    <apex:outputLabel >87% - 90% meets:</apex:outputLabel>
+                    <apex:inputField id="txtMeets01" value="{!StatusReport__c.Meets01__c}">
+                        <apex:actionSupport event="onclick" action="{!S1MeetsCheckbox}" reRender="sectionTotals,section01" />
+                    </apex:inputField>
+                </apex:pageBlockSectionItem>
+                
+                <apex:outputLabel />
+                                
+                <apex:pageBlockSectionItem id="Exceeds01">
+                    <apex:outputLabel >91% and above Exceeds:</apex:outputLabel>
+                    <apex:inputField id="txtExceeds01" value="{!StatusReport__c.Exceeds01__c}">
+                        <apex:actionSupport event="onclick" action="{!S1ExceedsCheckbox}" reRender="sectionTotals,section01" />
+                    </apex:inputField>
+                </apex:pageBlockSectionItem>
+                      
+                <apex:outputLabel />
+                                                
+            </apex:pageBlockSection>
+
+<!-- SECTION 2 
+=====================================================================================================================================================================
+-->
+
+            <apex:pageBlockSection title="2. Transactional Surveys:" collapsible="False" columns="1"> 
+                <apex:outputLabel value="Are your customers giving survey scores based on your performance averaging 8.0 or above?" style="font-style: italic;" />
+            </apex:pageBlockSection>
+            
+            <apex:pageBlockSection id="section02" title="2. Details:" collapsible="False" columns="2" showHeader="false">                
+                
+                <apex:pageBlockSectionItem id="Value02">
+                    <apex:outputLabel >Survey Score:</apex:outputLabel>
+                    <apex:inputField id="txtValue02" value="{!StatusReport__c.Value02__c}" />
+                </apex:pageBlockSectionItem>
+
+                <apex:pageBlockSectionItem id="Score02">
+                    <apex:outputLabel >Score:</apex:outputLabel>
+                    <apex:outputField id="txtScore02" value="{!StatusReport__c.Score02__c}" style="width: 30px;" />
+                </apex:pageBlockSectionItem>  
+
+                <apex:pageBlockSectionItem id="Exceeds02">
+                    <apex:outputLabel >Above 8.0 Exceeds:</apex:outputLabel>
+                    <apex:inputField id="txtExceeds02" value="{!StatusReport__c.Exceeds02__c}">
+                        <apex:actionSupport event="onclick" action="{!S2ExceedsCheckbox}" reRender="sectionTotals,section02" />
+                    </apex:inputField>
+                </apex:pageBlockSectionItem> 
+                
+                <apex:outputLabel />
+                                
+            </apex:pageBlockSection>            
+
+<!-- SECTION 3 
+=====================================================================================================================================================================
+-->
+
+            <apex:pageBlockSection title="3. Cases closed within 5 business days after assignment (% of cases assigned):" collapsible="False" columns="1"> 
+                <apex:outputLabel value="Are you able to close at least 90% of your cases within 5 business days after assignment?" style="font-style: italic;" />
+            </apex:pageBlockSection>
+            
+            <apex:pageBlockSection id="section03" title="3. Details:" collapsible="False" columns="2" showHeader="false">                
+                
+                <apex:pageBlockSectionItem id="Value03">
+                    <apex:outputLabel >Cases closed within 5 days after assignment %:</apex:outputLabel>
+                    <apex:inputField id="txtValue03" value="{!StatusReport__c.Value03__c}" />
+                </apex:pageBlockSectionItem>
+
+                <apex:outputLabel />
+                                
+                <apex:pageBlockSectionItem id="DidNotMeet03">
+                    <apex:outputLabel >Below 87% did not meet:</apex:outputLabel>
+                    <apex:inputField id="txtDidNotMeet03" value="{!StatusReport__c.Missed03__c}">
+                        <apex:actionSupport event="onclick" action="{!S3MissedCheckbox}" reRender="sectionTotals,section03" />
+                    </apex:inputField>
+                </apex:pageBlockSectionItem>
+    
+                <apex:pageBlockSectionItem id="Score03">
+                    <apex:outputLabel >Score:</apex:outputLabel>
+                        <apex:outputField id="txtScore03" value="{!StatusReport__c.Score03__c}" style="width: 30px;" />
+                </apex:pageBlockSectionItem>
+                
+                <apex:pageBlockSectionItem id="Meets03">
+                    <apex:outputLabel >87% - 90% meets:</apex:outputLabel>
+                    <apex:inputField id="txtMeets03" value="{!StatusReport__c.Meets03__c}">
+                        <apex:actionSupport event="onclick" action="{!S3MeetsCheckbox}" reRender="sectionTotals,section03" />
+                    </apex:inputField>
+                </apex:pageBlockSectionItem> 
+                
+                <apex:outputLabel />
+                
+                <apex:pageBlockSectionItem id="Exceeds03">
+                    <apex:outputLabel >91% and above Exceeds:</apex:outputLabel>
+                    <apex:inputField id="txtExceeds03" value="{!StatusReport__c.Exceeds03__c}">
+                        <apex:actionSupport event="onclick" action="{!S3ExceedsCheckbox}" reRender="sectionTotals,section03" />
+                    </apex:inputField>
+                </apex:pageBlockSectionItem> 
+                
+            </apex:pageBlockSection>            
+
+<!-- SECTION 4 
+=====================================================================================================================================================================
+-->
+            
+            <apex:pageBlockSection title="4. Case notes structure/contents:" collapsible="False" columns="1">                 
+                <apex:outputLabel value="Are you documenting action steps so others can easily follow up?" style="font-style: italic;" />
+            </apex:pageBlockSection>
+            
+            <apex:pageBlockSection id="section04" title="4. Details:" collapsible="False" columns="2" showHeader="false">  
+                
+                <apex:pageBlockSectionItem id="DidNotMeet04">
+                    <apex:outputLabel >Did not meet:</apex:outputLabel>
+                    <apex:inputField id="txtDidNotMeet04" value="{!StatusReport__c.Missed04__c}">
+                        <apex:actionSupport event="onclick" action="{!S4MissedCheckbox}" reRender="sectionTotals,section04" />
+                    </apex:inputField>
+                </apex:pageBlockSectionItem>
+                
+                <apex:pageBlockSectionItem id="Score04">
+                    <apex:outputLabel >Score:</apex:outputLabel>
+                    <apex:outputField id="txtScore04" value="{!StatusReport__c.Score04__c}" style="width: 30px;" />
+                </apex:pageBlockSectionItem>                
+                
+                <apex:pageBlockSectionItem id="Meets04">
+                    <apex:outputLabel >Meets:</apex:outputLabel>
+                    <apex:inputField id="txtMeets04" value="{!StatusReport__c.Meets04__c}">
+                        <apex:actionSupport event="onclick" action="{!S4MeetsCheckbox}" reRender="sectionTotals,section04" />
+                    </apex:inputField>
+                </apex:pageBlockSectionItem> 
+                
+                <apex:outputLabel />
+
+                <apex:pageBlockSectionItem id="Comment04">
+                    <apex:outputLabel >Comments:</apex:outputLabel>
+                    <apex:inputField id="txtComment04" style="width: 90%;" value="{!StatusReport__c.Comment04__c}" />
+                </apex:pageBlockSectionItem>                
+
+            </apex:pageBlockSection>     
+
+<!-- SECTION 5 
+=====================================================================================================================================================================
+-->
+
+            <apex:pageBlockSection title="5. Case Closure Confirmation:" collapsible="False" columns="1">
+                <apex:outputLabel value="Does each closed case indicate direct communication with client on resolution or workaround?" style="font-style: italic;" />
+            </apex:pageBlockSection>
+            
+            <apex:pageBlockSection id="section05" title="5. Details:" collapsible="False" columns="2" showHeader="false">                
+                
+                <apex:pageBlockSectionItem id="DidNotMeet05">
+                    <apex:outputLabel >Did not meet:</apex:outputLabel>
+                    <apex:inputField id="txtDidNotMeet05" value="{!StatusReport__c.Missed05__c}">
+                        <apex:actionSupport event="onclick" action="{!S5MissedCheckbox}" reRender="sectionTotals,section05" />
+                    </apex:inputField>
+                </apex:pageBlockSectionItem>
+                
+                <apex:pageBlockSectionItem id="Score05">
+                    <apex:outputLabel >Score:</apex:outputLabel>
+                        <apex:outputField id="txtScore05" value="{!StatusReport__c.Score05__c}" style="width: 30px;" />
+                </apex:pageBlockSectionItem>
+
+                <apex:pageBlockSectionItem id="Meets05">
+                    <apex:outputLabel >Meets:</apex:outputLabel>
+                    <apex:inputField id="txtMeets05" value="{!StatusReport__c.Meets05__c}">
+                        <apex:actionSupport event="onclick" action="{!S5MeetsCheckbox}" reRender="sectionTotals,section05" />
+                    </apex:inputField>
+                </apex:pageBlockSectionItem> 
+
+                <apex:outputLabel />
+                
+            </apex:pageBlockSection>         
+
+<!-- SUMMARY SECTION  
+=====================================================================================================================================================================
+-->
+
+            <apex:pageBlockSection id="sectionTotals" title="Overall Results:" collapsible="False" columns="2"> 
+                                
+                <apex:pageBlockSectionItem id="FinalStatus">
+                    <apex:outputLabel >Final Status:</apex:outputLabel>                
+                    <apex:inputField value="{!StatusReport__c.FinalStatus__c}"/>
+                </apex:pageBlockSectionItem>   
+                
+                <apex:pageBlockSectionItem id="FinalScore">
+                    <apex:outputLabel >Final Score:</apex:outputLabel>
+                    <apex:outputPanel layout="block" styleClass="requiredInput">
+                    <apex:outputPanel layout="block" styleClass="requiredBlock"/>
+                        <apex:inputField id="txtResults" value="{!StatusReport__c.Score_Final__c}" style="width: 30px;" />
+                    </apex:outputPanel>
+                </apex:pageBlockSectionItem>                
+                
+            </apex:pageBlockSection>
+
+            <apex:pageBlockSection title="Final Comments:" collapsible="False" columns="1" showHeader="false">  
+
+                <apex:pageBlockSectionItem id="CommentFinal">
+                    <apex:outputLabel >Manager Comments:</apex:outputLabel>
+                    <apex:inputField id="txtCommentFinal" style="width: 90%;" value="{!StatusReport__c.CommentFinal__c}" />
+                </apex:pageBlockSectionItem>
+                
+            </apex:pageBlockSection>            
+
+
+
+            <apex:pageBlockSection title="Scoring Legend:" collapsible="False" columns="1" showHeader="true">
+
+                <apex:outputLabel value="Exceeds Expectations (EX) – Exceeded goal measures and timelines; performance consistently exceeds expectations; contribution is at above expected levels in quality and quantity of work. (Anything above {!iScoreLabel5})" />
+
+                <apex:outputLabel value="Demonstrates (D) – Demonstrates and meets goal measures and timelines; good performance; employee is consistently performing the duties of the job to the expectations. ({!iScoreLabel4} - {!iScoreLabel5})" />
+
+                <apex:outputLabel value="Needs Development (ND) – Performance partially meets expectations but needs development; not necessarily a negative thing – could refer to new employee, new role, new product. ({!iScoreLabel2} - {!iScoreLabel3})" />
+
+                <apex:outputLabel value="Does Not Demonstrate (DND) – Did not meet goal measures and timelines; performance did not meet expectations. ({!iScoreLabel1} and below)" />
+
+            </apex:pageBlockSection> 
+            
+            
+            <apex:outputPanel id="UserCases">
+                <br/>
+                <h1><u>Last 100 Cases Created (Since Last Status Report)</u></h1>
+                <br/><br/>            
+                <apex:pageBlock >
+                    <apex:pageBlockTable value="{!userCases}" var="c">
+                    
+                        <apex:column headerValue="Action">
+                            <apex:commandLink action="{!selectCase}" value="{!c.CaseNumber}" target="_blank">
+                                <apex:param name="a" assignTo="{!CaseId}" value="{!c.Id}"/>
+                            </apex:commandLink>
+                        </apex:column>                    
+                    
+                        <apex:column value="{!c.Subject}"/>
+                        <apex:column value="{!c.CreatedDate}"/>
+                        <apex:column value="{!c.ClosedDate}"/>
+                    </apex:pageBlockTable>
+                </apex:pageBlock>
+
+            </apex:outputPanel> 
+
+        </apex:pageBlock>
+  
+    </apex:form>
+
+</apex:page>

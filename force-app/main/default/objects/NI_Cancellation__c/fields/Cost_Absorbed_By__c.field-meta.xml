@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Cost_Absorbed_By__c</fullName>
+    <description>Department(s) absorbing the cost of retaining this account as a customer</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Department(s) absorbing the cost of retaining this account as a customer</inlineHelpText>
+    <label>Cost Absorbed By</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>true</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>MultiselectPicklist</type>
+    <valueSet>
+        <controllingField>Status__c</controllingField>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Support - 500</fullName>
+                <default>false</default>
+                <label>Support - 500</label>
+            </value>
+            <value>
+                <fullName>Project Office - 530</fullName>
+                <default>false</default>
+                <label>Project Office - 530</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+    <visibleLines>4</visibleLines>
+</CustomField>

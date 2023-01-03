@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Status_c__c</fullName>
+    <externalDeveloperName>Status__c</externalDeveloperName>
+    <externalId>false</externalId>
+    <inlineHelpText>What status is this request in?</inlineHelpText>
+    <isFilteringDisabled>false</isFilteringDisabled>
+    <isNameField>false</isNameField>
+    <isSortingDisabled>false</isSortingDisabled>
+    <label>Status</label>
+    <readOnlyProxy>true</readOnlyProxy>
+    <required>false</required>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Initiated</fullName>
+                <default>false</default>
+                <label>Initiated</label>
+            </value>
+            <value>
+                <fullName>Pending Finance Approval</fullName>
+                <default>false</default>
+                <label>Pending Finance Approval</label>
+            </value>
+            <value>
+                <fullName>Pending Product Approval</fullName>
+                <default>false</default>
+                <label>Pending Product Approval</label>
+            </value>
+            <value>
+                <fullName>Internally Approved</fullName>
+                <default>false</default>
+                <label>Internally Approved</label>
+            </value>
+            <value>
+                <fullName>Rejected</fullName>
+                <default>false</default>
+                <label>Rejected</label>
+            </value>
+            <value>
+                <fullName>Customer Accepted</fullName>
+                <default>false</default>
+                <label>Customer Accepted</label>
+            </value>
+            <value>
+                <fullName>In Progress</fullName>
+                <default>false</default>
+                <label>In Progress</label>
+            </value>
+            <value>
+                <fullName>Pending Info</fullName>
+                <default>false</default>
+                <label>Pending Info</label>
+            </value>
+            <value>
+                <fullName>Ok_to_Implement</fullName>
+                <default>false</default>
+                <label>Ready to Process-Finance</label>
+            </value>
+            <value>
+                <fullName>Pending Reactivation</fullName>
+                <default>false</default>
+                <label>Pending Reactivation</label>
+            </value>
+            <value>
+                <fullName>Reactivation Complete</fullName>
+                <default>false</default>
+                <label>Reactivation Complete</label>
+            </value>
+            <value>
+                <fullName>Reopening Date Renegotiation</fullName>
+                <default>false</default>
+                <label>Reopening Date Renegotiation</label>
+            </value>
+            <value>
+                <fullName>Reopening Dates Approved</fullName>
+                <default>false</default>
+                <label>Reopening Dates Approved</label>
+            </value>
+            <value>
+                <fullName>Reopening Dates Rejected</fullName>
+                <default>false</default>
+                <label>Reopening Dates Rejected</label>
+            </value>
+            <value>
+                <fullName>Confirmed Termination</fullName>
+                <default>false</default>
+                <label>Confirmed Termination</label>
+            </value>
+            <value>
+                <fullName>Pending Signed Amendment</fullName>
+                <default>false</default>
+                <label>Pending Signed Amendment</label>
+            </value>
+            <value>
+                <fullName>Complete</fullName>
+                <default>false</default>
+                <label>Complete</label>
+            </value>
+            <value>
+                <fullName>Payment Plan Approved</fullName>
+                <default>false</default>
+                <label>Payment Plan Approved</label>
+            </value>
+            <value>
+                <fullName>Payment Plan Rejected</fullName>
+                <default>false</default>
+                <label>Payment Plan Rejected</label>
+            </value>
+            <value>
+                <fullName>Payment Plan Validated</fullName>
+                <default>false</default>
+                <label>Payment Plan Validated</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

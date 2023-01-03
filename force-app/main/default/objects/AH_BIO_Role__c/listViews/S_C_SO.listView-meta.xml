@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>S_C_SO</fullName>
+    <booleanFilter>1 OR 2 OR 3</booleanFilter>
+    <columns>NAME</columns>
+    <columns>Assigned_To__c</columns>
+    <columns>Department__c</columns>
+    <columns>Notes__c</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>Assessment_Scope__c</field>
+        <operation>includes</operation>
+        <value>Sales_Catering</value>
+    </filters>
+    <filters>
+        <field>Assessment_Scope__c</field>
+        <operation>includes</operation>
+        <value>Service Optimization</value>
+    </filters>
+    <filters>
+        <field>Assessment_Scope__c</field>
+        <operation>includes</operation>
+        <value>PMS</value>
+    </filters>
+    <label>S&amp;C/SO</label>
+</ListView>

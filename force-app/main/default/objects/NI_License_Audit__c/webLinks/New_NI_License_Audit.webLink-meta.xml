@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<WebLink xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>New_NI_License_Audit</fullName>
+    <availability>online</availability>
+    <description>Salesforce.com Change Request: NICC-014431
+
+Custom button to pre-populate fields</description>
+    <displayType>massActionButton</displayType>
+    <linkType>javascript</linkType>
+    <masterLabel>New NI License Audit</masterLabel>
+    <openType>onClickJavaScript</openType>
+    <protected>false</protected>
+    <requireRowSelection>false</requireRowSelection>
+    <url>{!REQUIRESCRIPT(&quot;/soap/ajax/32.0/connection.js&quot;)}
+
+// GET THE OBJECT PREFIX OF THE PARENT RECORD
+var strRecordId = window.sfdcPage.entityId;
+var strObjId = strRecordId.substring(0, 3);
+
+//****DEPLOYMENT INSTANCE LOGIC
+//POPULATE THE ACCOUNT FIELD WITH THE DEPLOYMENT INSTANCE ACCOUNT NAME.
+//POPULATE THE DEPLOYMENT INSTANCE FIELD WITH THE DEPLOYMENT INSTANCE NAME.
+if(strObjId == &quot;02i&quot;)
+{
+// QUERY ACCOUNT NAME TO DO REPLACE ON APOSTROPHES
+var a = sforce.connection.query(&quot;SELECT Id, Name FROM Account WHERE Id = &apos;{!Asset.AccountId}&apos;&quot;);
+var records = a.getArray(&quot;records&quot;);
+var strAccountName = records[0].Name;
+strAccountName = encodeURIComponent(strAccountName);
+strAccountName = strAccountName.replace(&quot;\&apos;&quot;, &quot;%27&quot;);
+window.open(&apos;/a8O/e?CF00N32000002zl7Q={!Asset.Name}&amp;CF00N32000002zl7Q_lkid={!Asset.Id}&amp;retURL=%2F{!Asset.Id}&amp;CF00N32000002zl7P=&apos;+strAccountName+&apos;&amp;00N32000002zl7P_lkid={!Asset.AccountId}&apos;);
+}
+
+//****CLUSTER LOGIC
+//POPULATE THE MPE CLUSTER FIELD WITH THE CLUSTER NAME.
+//POPULATE THE ACCOUNT FIELD WITH THE MANAGEMENT COMPANY FROM THE CLUSTER RECORD
+//SET THE HAS NO DI FIELD TO TRUE
+else if(strObjId == &quot;a00&quot;)
+{
+window.open(&apos;/a8O/e?CF00N32000002zl7S={!Cluster__c.Name}&amp;CF00N32000002zl7S_lkid={!Cluster__c.Id}&amp;retURL=%2F{!Cluster__c.Id}&amp;CF00N32000002zl7P={!Cluster__c.Management_Company__c}&amp;00N32000002zl7P_lkid={!Cluster__c.Management_CompanyId__c}&amp;00N32000002zl7W=1&apos;);
+}
+
+else
+
+{
+window.open(&apos;/a8O/e?retURL=%2Fa8O%2Fo&apos;);
+}</url>
+</WebLink>

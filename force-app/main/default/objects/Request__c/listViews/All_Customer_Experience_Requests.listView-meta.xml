@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>All_Customer_Experience_Requests</fullName>
+    <columns>RECORDTYPE</columns>
+    <columns>NAME</columns>
+    <columns>Request_Title__c</columns>
+    <columns>Request_Status__c</columns>
+    <columns>Request_Type__c</columns>
+    <columns>Request_Contact__c</columns>
+    <columns>OWNER.ALIAS</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>Request_Status__c</field>
+        <operation>notEqual</operation>
+        <value>Closed,Closed - Contract Processed,Closed - Incorrect Mailbox,Closed - Info/Admin Opty Processed,Closed - Unresolved,Rejected,Duplicate,Closed Blocked,Closed Cancelled,Closed Fulfilled,Close Duplicate</value>
+    </filters>
+    <filters>
+        <field>RECORDTYPE</field>
+        <operation>equals</operation>
+        <value>Request__c.Shared_Services_Request,Request__c.Support_Global_Ops_Request</value>
+    </filters>
+    <label>All - Open Customer Experience Requests</label>
+</ListView>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Royalty_Payment__c</fullName>
+    <externalId>false</externalId>
+    <formula>IF(Royalty_Base_Amount__c + ((Sale_Price__c  - Royalty_Base_Amount__c) * Royalty_Percentage__c) &lt;  Minimum_Royalty__c, Minimum_Royalty__c, Royalty_Base_Amount__c + ((Sale_Price__c  - Royalty_Base_Amount__c) * Royalty_Percentage__c)
+)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Royalty Payment</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>2</scale>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Currency</type>
+</CustomField>

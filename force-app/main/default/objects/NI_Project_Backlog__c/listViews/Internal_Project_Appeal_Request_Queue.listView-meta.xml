@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Internal_Project_Appeal_Request_Queue</fullName>
+    <columns>NAME</columns>
+    <columns>Appeal_Request_Reason__c</columns>
+    <columns>Appeal_Request_Status__c</columns>
+    <columns>Sponsor__c</columns>
+    <columns>Priority__c</columns>
+    <columns>CREATED_DATE</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>RECORDTYPE</field>
+        <operation>equals</operation>
+        <value>NI_Project_Backlog__c.Commercial_Operation_Projects</value>
+    </filters>
+    <filters>
+        <field>Appeal_Requested__c</field>
+        <operation>equals</operation>
+        <value>1</value>
+    </filters>
+    <filters>
+        <field>Appeal_Request_Status__c</field>
+        <operation>equals</operation>
+        <value>Pending Review</value>
+    </filters>
+    <label>Internal Project Appeals Pending Review</label>
+    <sharedTo>
+        <allInternalUsers></allInternalUsers>
+    </sharedTo>
+</ListView>

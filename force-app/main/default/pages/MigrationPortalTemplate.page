@@ -1,0 +1,49 @@
+<apex:page showHeader="false" id="SiteTemplate" controller="MigrationPortalController" standardStylesheets="false">
+<html>
+<head>
+    <title>Newmarket International Inc. - Delphi.Net To Delphi.fdc Upgrade Portal</title>
+    <link rel="stylesheet" type="text/css" href="{!URLFOR($Resource.MigrationPortalResources,'css.css')}" />
+    
+</head>
+ 
+<body>
+<div align="center" class="outerdiv">
+<table class="toptable">
+<tr>
+<td class="top">
+<a href="/migrationportal?authkey={!$CurrentPage.parameters.authkey}">Home</a>
+</td></tr></table>
+<table class="headertable">
+<tr>
+<td style="height:58px;text-align:left;border:0;padding-top:5px;vertical-align:top;">
+<a href="http://www.newmarketinc.com" target="_new"><img src="{!URLFOR($Resource.MigrationPortalResources,'newmarket-international.gif')}" style="margin-top:0px;border:0;"/></a>
+</td>
+<td style="text-align:center;border:0;padding-top:2px;padding-bottom:5px;vertical-align:middle;">
+
+</td>
+<td style="text-align:right;border:0;padding-top:9px;vertical-align:top;">
+<img src="{!URLFOR($Resource.MigrationPortalResources,'delphi-fdc-logo.png')}" style="margin-top:0px;border:0px;"/>
+</td>
+</tr>
+</table>
+<table class="headlinetable" >
+<tr><td class="headline">
+<h3>Delphi.Net to Delphi.fdc Upgrade Portal</h3>
+</td></tr>
+</table>
+<table class="contenttable" >
+<tr><td class="content">
+<apex:insert name="body"/>
+</td>
+</tr>
+</table>
+<table class="footertable" >
+<tr><td class="footer">
+© 2012 Newmarket International. All Rights Reserved.
+</td>
+</tr>
+</table>
+</div>
+</body>
+</html>
+</apex:page>

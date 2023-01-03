@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Remove_Users_2017</fullName>
+    <columns>NAME</columns>
+    <columns>Employee_to_Disable__c</columns>
+    <columns>Employee_Disable_Date__c</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>RECORDTYPE</field>
+        <operation>equals</operation>
+        <value>NI_Job_Requisition__c.Standard_Remove_User</value>
+    </filters>
+    <filters>
+        <field>Employee_Disable_Date__c</field>
+        <operation>greaterOrEqual</operation>
+        <value>1/1/2020 12:00 AM</value>
+    </filters>
+    <label>ICFR - Remove Users - 2019</label>
+    <sharedTo>
+        <group>Internal_IT</group>
+    </sharedTo>
+</ListView>

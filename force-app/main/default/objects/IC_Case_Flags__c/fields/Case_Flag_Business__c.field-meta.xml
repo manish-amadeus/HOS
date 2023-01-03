@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Case_Flag_Business__c</fullName>
+    <description>This should be used  to display the Case Flag if your organization is using business hours.</description>
+    <externalId>false</externalId>
+    <formula>IF (ISNULL(ViewedFlag__c), null, 
+
+  IF (Case_Flag_Business_Age__c &gt; (IF(ISBLANK(CaseTimeOffset4__c), $Setup.AH_CaseFlagPreferences__c.Age_4_Hours__c, CaseTimeOffset4__c)), 
+  IMAGE(&quot;/servlet/servlet.FileDownload?file=&quot; &amp; $Setup.AH_CaseFlagPreferences__c.Age_4_Image__c, &quot;L4&quot;, 16, 16),
+
+    IF (Case_Flag_Business_Age__c &gt;= (IF(ISBLANK(CaseTimeOffset3__c), $Setup.AH_CaseFlagPreferences__c.Age_3_Hours__c, CaseTimeOffset3__c)), 
+    IMAGE(&quot;/servlet/servlet.FileDownload?file=&quot; &amp; $Setup.AH_CaseFlagPreferences__c.Age_3_Image__c, &quot;L3&quot;, 16, 16),
+
+      IF (Case_Flag_Business_Age__c &gt;= (IF(ISBLANK(CaseTimeOffset2__c), $Setup.AH_CaseFlagPreferences__c.Age_2_Hours__c, CaseTimeOffset2__c)), 
+      IMAGE(&quot;/servlet/servlet.FileDownload?file=&quot; &amp; $Setup.AH_CaseFlagPreferences__c.Age_2_Image__c, &quot;L2&quot;, 16, 16),
+
+        IF (Case_Flag_Business_Age__c &gt;= (IF(ISBLANK(CaseTimeOffset1__c), $Setup.AH_CaseFlagPreferences__c.Age_1_Hours__c, CaseTimeOffset1__c)), 
+        IMAGE(&quot;/servlet/servlet.FileDownload?file=&quot; &amp; $Setup.AH_CaseFlagPreferences__c.Age_1_Image__c, &quot;L1&quot;,16,16),
+        IMAGE(&quot;/servlet/servlet.FileDownload?file=&quot; &amp; $Setup.AH_CaseFlagPreferences__c.AH_Blank_Image__c, &quot;L0&quot;,16,16)
+
+        )
+      )
+    ) 
+  )
+)</formula>
+    <label>Flag (BH)</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

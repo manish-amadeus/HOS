@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>TAM_Task_Type_c__c</fullName>
+    <externalDeveloperName>TAM_Task_Type__c</externalDeveloperName>
+    <externalId>false</externalId>
+    <inlineHelpText>What is the TAM Task performed?</inlineHelpText>
+    <isFilteringDisabled>false</isFilteringDisabled>
+    <isNameField>false</isNameField>
+    <isSortingDisabled>false</isSortingDisabled>
+    <label>TAM Task Type</label>
+    <required>false</required>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Retention</fullName>
+                <default>false</default>
+                <label>Retention</label>
+            </value>
+            <value>
+                <fullName>Pre-Sales</fullName>
+                <default>false</default>
+                <label>Pre-Sales</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

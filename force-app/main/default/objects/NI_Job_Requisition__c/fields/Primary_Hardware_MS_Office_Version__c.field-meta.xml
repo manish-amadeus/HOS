@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Primary_Hardware_MS_Office_Version__c</fullName>
+    <externalId>false</externalId>
+    <label>Primary Hardware MS Office Version</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <controllingField>Hardware_Required__c</controllingField>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Office 2007</fullName>
+                <default>false</default>
+                <label>Office 2007</label>
+            </value>
+            <value>
+                <fullName>Office 2010</fullName>
+                <default>false</default>
+                <label>Office 2010</label>
+            </value>
+            <value>
+                <fullName>Office 2013</fullName>
+                <default>false</default>
+                <label>Office 2013</label>
+            </value>
+        </valueSetDefinition>
+        <valueSettings>
+            <controllingFieldValue>Yes</controllingFieldValue>
+            <valueName>Office 2007</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Yes</controllingFieldValue>
+            <valueName>Office 2010</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Yes</controllingFieldValue>
+            <valueName>Office 2013</valueName>
+        </valueSettings>
+    </valueSet>
+</CustomField>

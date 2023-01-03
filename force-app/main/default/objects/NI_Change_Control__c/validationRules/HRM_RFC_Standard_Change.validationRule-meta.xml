@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>HRM_RFC_Standard_Change</fullName>
+    <active>true</active>
+    <description>Only HRM RFC CRB Members can update this field</description>
+    <errorConditionFormula>AND(RecordType.Name = &apos;HRM RFC&apos;,Standard_Change__c = true,$User.HRM_RFC_CRB_Member__c = false, $Profile.Name &lt;&gt; &apos;System Administrator&apos;)
+||
+(AND(ISCHANGED(Standard_Change__c ),
+RecordType.Name = &apos;HRM RFC&apos;,$User.HRM_RFC_CRB_Member__c = false,$Profile.Name &lt;&gt; &apos;System Administrator&apos;))</errorConditionFormula>
+    <errorDisplayField>Standard_Change__c</errorDisplayField>
+    <errorMessage>You cannot update the Standard Change check box unless you are a member of the HRM RFC CRB Board</errorMessage>
+</ValidationRule>

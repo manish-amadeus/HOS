@@ -1,0 +1,128 @@
+<apex:page showHeader="false" controller="NI_ICEController" action="{!prepareacceptterms}" cache="false">
+
+    <apex:composition template="NIVFTemplate">
+    
+        <apex:define name="body">
+            <div class="bPageTitle" style="padding-top: 0; text-align: left;">
+                <div class="ptBreadcrumb">&nbsp;«&nbsp;<a href="NI_ICE_Home?authkey={!authkey}">Back to Checklist</a></div>
+            </div>
+            <apex:outputPanel rendered="{!authenticated}" style="text-align: left;">
+                
+                <h1>Accept On-line Terms</h1>
+
+                <apex:outputPanel rendered="{!iceSub.AcceptOnlineTermsCompleted__c}" style="text-align: left;">
+                    <span style="font-weight: bold; color: #F4911E">
+                        You have already completed this step. Below you can review the data you provided when accepting the Agreement terms.
+                    </span>
+                </apex:outputPanel>
+                
+                <br/>
+                <apex:form >
+                    <table style="width: 600px; border: 0; border-collapse: collapse;">
+                        <tr>
+                            <td style="font-weight: bold; width: 120px; text-align: right; padding-right: 5px;">
+                                Name:
+                            </td>
+                            <td style="text-align: left;">
+                                <apex:inputText value="{!iceSub.ContactName__c}" style="width:450px;" disabled="{!iceSub.AcceptOnlineTermsCompleted__c}"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="font-weight: bold; width: 120px; text-align: right; padding-right: 5px;">
+                                Title:
+                            </td>
+                            <td style="text-align: left;">
+                                <apex:inputText value="{!iceSub.ContactTitle__c}" style="width:450px;" disabled="{!iceSub.AcceptOnlineTermsCompleted__c}"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="font-weight: bold; width: 120px; text-align: right; padding-right: 5px;">
+                                Email:
+                            </td>
+                            <td style="text-align: left;">
+                                <apex:inputText value="{!iceSub.ContactEmail__c}" style="width:450px;" disabled="{!iceSub.AcceptOnlineTermsCompleted__c}"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="font-weight: bold; width: 120px; text-align: right; padding-right: 5px;">
+                                Subscription:
+                            </td>
+                            <td style="text-align: left;">
+                                <apex:inputText value="{!iceSub.ContactVenue__c}" style="width: 450px;" disabled="true"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="font-weight: bold; width: 120px; text-align: right; padding-right: 5px;">
+                                Street:
+                            </td>
+                            <td style="text-align: left;">
+                                <apex:inputText value="{!iceSub.ContactStreetAddress__c}" style="width:450px;" disabled="true"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="font-weight: bold; width: 120px; text-align: right; padding-right: 5px;">
+                                City, State, Zip:
+                            </td>
+                            <td style="text-align: left;">
+                                <apex:inputText value="{!iceSub.ContactCityStateZip__c}" style="width: 450px;" disabled="true"/>
+                            </td>
+                        </tr>
+                    </table>
+                    
+                    <br/>
+                    
+                    <script type="text/javascript">
+                        
+                        function enableiagreebutton(checkbox) 
+                        {
+                            var submitbutton = document.getElementById("{!$Component.iagreebutton}");
+                            if (checkbox.checked) 
+                            {
+                                submitbutton.className = "formsubmit";
+                            } 
+                            else 
+                            {
+                                submitbutton.className = "formsubmitdisabled";
+                            }
+                        }
+                        
+                    </script>
+                    
+                    <apex:outputPanel rendered="{! !iceSub.AcceptOnlineTermsCompleted__c}">
+                        <apex:inputCheckbox value="{!agreementread}" onchange="enableiagreebutton(this);" disabled="{!iceSub.AcceptOnlineTermsCompleted__c}"/> I acknowledge that I have read the <a href="https://c.na26.content.force.com/servlet/servlet.FileDownload?file=01560000000UO8p" target="_new">Agreement</a> and I have the authority to accept the terms of the agreement on behalf of the Delphi.net subscription.
+                        <br/>
+                        <br/>
+                        <apex:outputPanel id="agreementread"> 
+                            <apex:outputPanel rendered="{!agreementnotread}"> 
+                                <span style="color:#f00;">Please check the checkbox above before clicking I Agree button</span> 
+                                <br/> 
+                                <br/> 
+                            </apex:outputPanel> 
+                        </apex:outputPanel> 
+                        
+                        <apex:commandButton id="iagreebutton" action="{!acceptTerms}" value="I Agree" styleClass="formsubmitdisabled" />&nbsp;&nbsp;&nbsp;
+                        <apex:commandButton action="{!backtohome}" value="Cancel" styleClass="formsubmit"/>
+                    
+                    </apex:outputPanel>
+                    
+                    <br/>
+                    <br/>
+                    
+                    <apex:outputPanel rendered="{!iceSub.AcceptOnlineTermsCompleted__c}">
+                        <a href="https://c.na26.content.force.com/servlet/servlet.FileDownload?file=01560000000UO8p" target="_new">The text of agreement terms that has been accepted</a>
+                    </apex:outputPanel>
+                
+                </apex:form>
+        
+            </apex:outputPanel>
+        
+            <apex:outputPanel rendered="{! !authenticated}">
+                You are not authenticated to view this page. Please contact <a href="mailto:support@newmarketinc.com">support@newmarketinc.com</a> if you are a Newmarket International Inc. customer.
+                <br/>        
+            </apex:outputPanel>
+        
+        </apex:define>
+    
+    </apex:composition>
+    
+</apex:page>

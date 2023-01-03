@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>COVID_Awaiting_Final_Verification</fullName>
+    <columns>NAME</columns>
+    <columns>Account__c</columns>
+    <columns>Relief_Request_Type__c</columns>
+    <columns>Relief_Status__c</columns>
+    <columns>CREATED_DATE</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>Relief_Request_Type__c</field>
+        <operation>equals</operation>
+        <value>Payment Plan</value>
+    </filters>
+    <filters>
+        <field>Relief_Status__c</field>
+        <operation>equals</operation>
+        <value>Payment Plan Validated</value>
+    </filters>
+    <filters>
+        <field>Relief_Status__c</field>
+        <operation>equals</operation>
+    </filters>
+    <label>COVID - Payment Plan Validated</label>
+    <language>en_US</language>
+    <sharedTo>
+        <allInternalUsers></allInternalUsers>
+    </sharedTo>
+</ListView>

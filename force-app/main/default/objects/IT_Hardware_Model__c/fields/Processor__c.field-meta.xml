@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Processor__c</fullName>
+    <externalId>false</externalId>
+    <label>Processor</label>
+    <required>false</required>
+    <trackHistory>true</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>i3</fullName>
+                <default>false</default>
+                <label>i3</label>
+            </value>
+            <value>
+                <fullName>i5</fullName>
+                <default>false</default>
+                <label>i5</label>
+            </value>
+            <value>
+                <fullName>i7</fullName>
+                <default>false</default>
+                <label>i7</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Apex_Classes</fullName>
+    <columns>NAME</columns>
+    <columns>API_Name__c</columns>
+    <columns>IsTestClass__c</columns>
+    <columns>State__c</columns>
+    <columns>CREATED_DATE</columns>
+    <columns>Active_Errors__c</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>Salesforce_Source_Type__c</field>
+        <operation>equals</operation>
+        <value>Apex Class</value>
+    </filters>
+    <filters>
+        <field>State__c</field>
+        <operation>notEqual</operation>
+        <value>Inactive,Flagged for Deletion,Deleted</value>
+    </filters>
+    <label>Apex Classes</label>
+    <language>en_US</language>
+</ListView>

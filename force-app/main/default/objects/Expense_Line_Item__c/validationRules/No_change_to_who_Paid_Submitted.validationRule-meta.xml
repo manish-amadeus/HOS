@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>No_change_to_who_Paid_Submitted</fullName>
+    <active>true</active>
+    <errorConditionFormula>and(or(   ISPICKVAL(Expense_Report__r.Status__c, &quot;Submitted&quot;) ,ISPICKVAL(Expense_Report__r.Status__c, &quot;Approved&quot;) ), ISCHANGED(  Who_Paid__c  ))</errorConditionFormula>
+    <errorMessage>You can not change the field &quot;Who Paid&quot; in Line Items once the expense report has been submitted or approved. Please recall the approval in order to make the changes.</errorMessage>
+</ValidationRule>

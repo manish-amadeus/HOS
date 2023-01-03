@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Todays_Polling_Results</fullName>
+    <columns>NAME</columns>
+    <columns>DateTime__c</columns>
+    <columns>AccountId__c</columns>
+    <columns>OrgName__c</columns>
+    <columns>DataStorageAllocation__c</columns>
+    <columns>DataStorageRemaining__c</columns>
+    <columns>DataStorageUsage__c</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>DateTime__c</field>
+        <operation>equals</operation>
+        <value>TODAY</value>
+    </filters>
+    <label>Today&apos;s Polling Results</label>
+    <language>en_US</language>
+    <sharedTo>
+        <allInternalUsers></allInternalUsers>
+    </sharedTo>
+</ListView>

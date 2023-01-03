@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Today_s_Scrum</fullName>
+    <columns>NAME</columns>
+    <columns>CREATEDBY_USER</columns>
+    <columns>Date_of_Pull__c</columns>
+    <columns>Group__c</columns>
+    <columns>Region_Name__c</columns>
+    <columns>Service_Group__c</columns>
+    <columns>Target_Period__c</columns>
+    <columns>Scheduled_Amount__c</columns>
+    <columns>Actual_Amount__c</columns>
+    <columns>Backlog_Amount__c</columns>
+    <columns>Budget_Amount__c</columns>
+    <columns>Comp_Amount__c</columns>
+    <columns>Upside_Amount__c</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>Date_of_Pull__c</field>
+        <operation>equals</operation>
+        <value>TODAY</value>
+    </filters>
+    <filters>
+        <field>Scheduled_Amount__c</field>
+        <operation>greaterOrEqual</operation>
+        <value>USD 1</value>
+    </filters>
+    <label>Today&apos;s Scrum</label>
+    <sharedTo>
+        <role>ClientServices</role>
+    </sharedTo>
+</ListView>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>PropertyCodeLength</fullName>
+    <active>true</active>
+    <description>For IHG IMT properties, the property code must be 5 characters and not contain any numbers</description>
+    <errorConditionFormula>AND(OR( LEN( Property_Code__c ) &lt;&gt; 5,
+ CONTAINS(Property_Code__c, &quot;1&quot;),
+ CONTAINS(Property_Code__c, &quot;2&quot;),
+ CONTAINS(Property_Code__c, &quot;3&quot;),
+ CONTAINS(Property_Code__c, &quot;4&quot;),
+ CONTAINS(Property_Code__c, &quot;5&quot;),
+ CONTAINS(Property_Code__c, &quot;6&quot;),
+ CONTAINS(Property_Code__c, &quot;7&quot;),
+ CONTAINS(Property_Code__c, &quot;8&quot;),
+ CONTAINS(Property_Code__c, &quot;9&quot;),
+ CONTAINS(Property_Code__c, &quot;0&quot;)),
+ RecordType.Name = &apos;InterContinental Hotels Group&apos;
+)</errorConditionFormula>
+    <errorMessage>The property code must be 5 characters only and cannot contain numbers</errorMessage>
+</ValidationRule>

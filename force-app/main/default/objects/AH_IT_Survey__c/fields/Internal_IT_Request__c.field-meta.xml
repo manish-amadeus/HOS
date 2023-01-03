@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Internal_IT_Request__c</fullName>
+    <externalId>false</externalId>
+    <label>Internal IT Request</label>
+    <referenceTo>AH_Internal_IT_Request__c</referenceTo>
+    <relationshipLabel>IT Surveys</relationshipLabel>
+    <relationshipName>IT_Surveys</relationshipName>
+    <relationshipOrder>0</relationshipOrder>
+    <reparentableMasterDetail>false</reparentableMasterDetail>
+    <trackTrending>false</trackTrending>
+    <type>MasterDetail</type>
+    <writeRequiresMasterRead>false</writeRequiresMasterRead>
+</CustomField>

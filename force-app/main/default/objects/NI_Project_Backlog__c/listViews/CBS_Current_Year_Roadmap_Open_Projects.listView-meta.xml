@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>CBS_Current_Year_Roadmap_Open_Projects</fullName>
+    <columns>NAME</columns>
+    <columns>Sponsor__c</columns>
+    <columns>Project_Contact__c</columns>
+    <columns>Master_Project__c</columns>
+    <columns>Corporate_Initiative_Lookup__c</columns>
+    <columns>Priority__c</columns>
+    <columns>Request_Status__c</columns>
+    <columns>Phase__c</columns>
+    <columns>TShirt_Meter__c</columns>
+    <columns>Requested_Completion_Date__c</columns>
+    <columns>Systems__c</columns>
+    <columns>Unplanned__c</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>RECORDTYPE</field>
+        <operation>equals</operation>
+        <value>NI_Project_Backlog__c.Business_Systems</value>
+    </filters>
+    <filters>
+        <field>Corporate_Initiative_Lookup__c</field>
+        <operation>contains</operation>
+        <value>Roadmap</value>
+    </filters>
+    <filters>
+        <field>Request_Status__c</field>
+        <operation>notEqual</operation>
+        <value>Completed</value>
+    </filters>
+    <label>CBS - Current Year Roadmap Open Projects</label>
+    <sharedTo>
+        <allInternalUsers></allInternalUsers>
+    </sharedTo>
+</ListView>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Billing_Lines_Locked</fullName>
+    <active>true</active>
+    <description>Prevents certain updates when the Billing Contract field is checked</description>
+    <errorConditionFormula>ISNEW() = False
+&amp;&amp;
+ Billing_Contract__r.Lock_Billing_Contract_Lines__c = True
+&amp;&amp;
+ (
+  ISCHANGED( Unit_Price__c )
+  ||
+  ISCHANGED( Quantity__c ) 
+  ||
+  ISCHANGED( Invoice_Date__c ) 
+  )</errorConditionFormula>
+    <errorMessage>Error: The Billing Lines are Locked, you cannot change the unit price, quantity, or invoice date</errorMessage>
+</ValidationRule>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>UDCCustomerNotificationOptIn__c</fullName>
+    <description>Will show if the notifications have been opted in.</description>
+    <externalId>false</externalId>
+    <formula>Document__r.AH_UDC_CustomerNotificationOptIn__c</formula>
+    <inlineHelpText>Will show if the notifications have been opted in.</inlineHelpText>
+    <label>UDC Customer Notification Opt In</label>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

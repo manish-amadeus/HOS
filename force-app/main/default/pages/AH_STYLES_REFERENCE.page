@@ -1,0 +1,114 @@
+<apex:page sidebar="false" showHeader="false">
+    
+    <apex:stylesheet value="{!URLFOR($Resource.AmadeusStyles, 'Amadeus.css')}"/>
+    <style type="text/css">
+        .pCls1 
+        {
+        	font-family: AmadeusRegular !important;
+        	font-size: 12pt;
+        }   
+        .pCls2 
+        {
+        	font-family: AmadeusThinItalic !important;
+        	font-size: 12pt;
+        }    
+        
+    </style>
+    
+    <apex:slds rendered="true"/>
+    
+    <div class="slds-scope" style="width: 90% !important;margin: auto !important;">        
+        
+<!-- HEADER WITH LOGOUT LINK -->    
+        <div style="background:linear-gradient(90deg,#00ace3,#0060bc);border:none;color:#FFFFFF;padding-top:40px;padding-bottom:40px;padding-left:100px;padding-right:100px;">
+            <table width="100%">  
+                <tr>
+                    <td style="text-align:left;">
+                        <apex:image alt="Amadeus Hospitality" value="{!$Resource.AmadeusHospitalityWhiteLogo}" style="height:40x !important;" />
+                    </td>
+                    <td>
+                        <p></p>
+                    </td>
+                    <td style="text-align: right;">
+                        <a href="/neighborhood/secur/logout.jsp" style="color:white;visited:white;">Logout</a>
+                    </td>
+                </tr>
+            </table>            
+        </div>
+        
+<!-- AMADEUS FONTS -->    
+        <div style="padding:50px">
+            <br/>
+            <br/>
+            <apex:outputText value="Amadeus Regular Font" styleClass="AHRegular" style="font-size: 20pt;color:#005eb8;" /> 
+            <br/>
+            <br/>
+            <apex:outputText value="Amadeus Bold Font" styleClass="AHBold" style="font-size: 20pt;color:#005eb8;" /> 
+            <br/>
+            <br/>
+            <apex:outputText value="Amadeus Bold Italic Font" styleClass="AHBoldItalic" style="font-size: 20pt;color:#005eb8;" /> 
+            <br/>
+            <br/>
+            <apex:outputText value="Amadeus Italic Font" styleClass="AHItalic" style="font-size: 20pt;color:#005eb8;" /> 
+            <br/>
+            <br/>
+            <apex:outputText value="Amadeus Light Font" styleClass="AHLight" style="font-size: 20pt;color:#005eb8;" /> 
+            <br/>
+            <br/>
+            <apex:outputText value="Amadeus Light Italic Font" styleClass="AHLightItalic" style="font-size: 20pt;color:#005eb8;" /> 
+            <br/>
+            <br/>
+            <apex:outputText value="Amadeus Thin Font" styleClass="AHThin" style="font-size: 20pt;color:#005eb8;" /> 
+            <br/>
+            <br/>
+            <apex:outputText value="Amadeus Thin Italic Font" styleClass="AHThinItalic" style="font-size: 20pt;color:#005eb8;" /> 
+            <br/>
+            <br/>
+        </div>
+        
+        <p class="pCls1">
+            With more than 48,000 installs in over 150 countries, Amadeus delivers mission-critical sales and catering solutions that hospitality organizations need to efficiently and profitably sell and manage group events.
+        </p>
+        
+        <p class="pCls2">
+            With the emergence of millennial customers, attendees, and staff, delivering exceptional experiences that generate repeat business gets harder. Amadeus solutions exceed demands. Comprehensive capabilities, intuitive interfaces, automation of core processes and personalized experiences set you apart from the competition, boost revenue and maximize profits.
+        </p>
+        
+<!-- FOOTER -->            
+        <br />
+        <br />
+        
+        <div style="text-align:right;background:linear-gradient(#00ace3,#0060bc);border:none;color:#FFFFFF;padding:20px;">
+            <apex:image alt="Amadeus Hospitality" value="{!$Resource.AmadeusWhiteLogo}" />
+            <br/>
+            <apex:outputText value="Amadeus" style="font-family: AmadeusRegular !important;font-weight:bold;font-size: 14pt" />
+            <br/>
+            <apex:outputText value="Worldwide: +1 603.436.7500" style="font-family: AmadeusRegular !important;font-size: 12pt" />
+            <br/>
+            <apex:outputText value="US Toll Free: 888.829.8871" style="font-family: AmadeusRegular !important;font-size: 12pt" />
+            <br/>
+            <a href="https://www.facebook.com/Amadeus-Hospitality-134907143595508/" target="_blank"> 
+                <apex:image alt="Facebook" value="{!$Resource.SocMedFacebookTranspBg}" height="48" width="48" />
+            </a>
+            <a href="https://twitter.com/amadeushosp" target="_blank">
+                <apex:image alt="Twitter" value="{!$Resource.SocMedTwitterTranspBg}" height="48" width="48" />
+            </a>
+            <a href="https://www.linkedin.com/groups/724107/profile" target="_blank">
+                <apex:image alt="Linked In" value="{!$Resource.SocMedLinkedInTranspBg}" height="48" width="48" />
+            </a> 
+            <a href="https://plus.google.com/+Newmarketinc/posts" target="_blank">  
+                <apex:image alt="Google Plus" value="{!$Resource.SocMedGoogleTranspBg}" height="48" width="48" />
+            </a>
+        </div>
+        <div style="padding:10px;text-align:center;">
+            <p>{!$Label.Amadeus_Copyright_Line}&nbsp;
+                <u><a href="https://www.amadeus-hospitality.com/privacy-policy" target="_blank"> Privacy Policy</a></u>
+                &nbsp;
+                <u><a href="https://www.amadeus-hospitality.com/terms-conditions" target="_blank"> Terms and Conditions</a></u>
+            </p>                    
+        </div>      
+        
+    </div> 
+
+    
+</apex:page>

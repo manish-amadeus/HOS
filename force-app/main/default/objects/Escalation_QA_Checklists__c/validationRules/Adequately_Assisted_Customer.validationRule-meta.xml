@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Adequately_Assisted_Customer</fullName>
+    <active>true</active>
+    <description>Value can not be 2,3 or 4.</description>
+    <errorConditionFormula>Or(
+Adequately_Assisted_Customer__c = 2,
+Adequately_Assisted_Customer__c = 3,
+Adequately_Assisted_Customer__c = 4,
+Adequately_Assisted_Customer__c &gt; 5
+)</errorConditionFormula>
+    <errorDisplayField>Adequately_Assisted_Customer__c</errorDisplayField>
+    <errorMessage>Please update your value to 0 for N/A, 1 for NO or 5 for YES.</errorMessage>
+</ValidationRule>

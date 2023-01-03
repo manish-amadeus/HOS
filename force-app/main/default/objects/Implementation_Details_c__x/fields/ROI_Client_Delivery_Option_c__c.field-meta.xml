@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>ROI_Client_Delivery_Option_c__c</fullName>
+    <externalDeveloperName>ROI_Client_Delivery_Option__c</externalDeveloperName>
+    <externalId>false</externalId>
+    <inlineHelpText>Select an option to send the ROI report directly to the client</inlineHelpText>
+    <isFilteringDisabled>false</isFilteringDisabled>
+    <isNameField>false</isNameField>
+    <isSortingDisabled>false</isSortingDisabled>
+    <label>ROI Client Delivery Option</label>
+    <required>false</required>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>ONLY if result is POSITIVE</fullName>
+                <default>false</default>
+                <label>ONLY if result is POSITIVE</label>
+            </value>
+            <value>
+                <fullName>ALWAYS, regardless of result</fullName>
+                <default>false</default>
+                <label>ALWAYS, regardless of result</label>
+            </value>
+            <value>
+                <fullName>NEVER send to Client</fullName>
+                <default>false</default>
+                <label>NEVER send to Client</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

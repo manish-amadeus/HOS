@@ -1,0 +1,79 @@
+<apex:page showHeader="true" sidebar="true" lightningStylesheets="true" docType="html-5.0">
+    
+    <div id="divMain" class="slds-scope" style="margin: 10px 10px 10px 10px; !important;">
+        
+        <apex:sectionHeader subtitle="Custom Administrator Functions for non-System Administrators" title="Administrator Functions" />
+
+        <apex:form > 
+            
+            <apex:messages id="msgErrors" />
+            
+            <div class="roundedContainer">
+                
+                <div style="height:54px;background:linear-gradient(to right, #00ace3,#80ffff);color:#FFFFFF;padding: 15px 5px 0px 25px;border-radius:3px; !important;">
+                    <apex:outputLabel value="Finance Management" style="font-size:12pt;!important;" />
+                </div>
+                <br/>
+                <div style="padding:15px; !important;">
+                    <table>
+                        <tr>
+                            <td>
+                                <apex:outputLink value="/apex/NI_UserFinanceFieldsUpdate" target="_blank" rendered="{!$Permission.Update_User_ADP_Numbers_Link}"> 
+                                    Update User ADP Numbers
+                                </apex:outputLink>  
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <apex:outputLink value="/apex/AH_CostControlUpdate" target="_blank" rendered="{!$Permission.User_Cost_Center_Link}"> 
+                                    User Cost Center
+                                </apex:outputLink>   
+                            </td>
+                        </tr>                    
+                    </table>
+                </div>
+                <br/>
+            </div>   
+            
+            <br/>
+            
+            <div class="roundedContainer">
+                
+                <div style="height:54px;background:linear-gradient(to right, #00ace3,#80ffff);color:#FFFFFF;padding: 15px 5px 0px 25px;border-radius:3px; !important;">
+                    <apex:outputLabel value="User Management" style="font-size:12pt;!important;" />
+                </div>
+                <br/>
+                <div style="padding:15px; !important;">
+                    <table>
+                        <tr>
+                            <td>
+                                <apex:outputLink value="/apex/AH_UTIL_ResetPassword" target="_blank" rendered="{!$Permission.Reset_Salesforce_User_Passwords}">
+                                    Reset Salesforce User Passwords
+                                </apex:outputLink> 
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                            </td>
+                        </tr>                    
+                    </table>
+                </div>
+                <br/>
+            </div>
+            
+        </apex:form>
+        
+    </div>
+    
+    <style type="text/css">         
+        .roundedContainer
+        {
+            width: 98%;
+            border: 1px solid lightgrey;
+            padding: 10px;
+            border-radius: 5px;
+            !important;
+        } 
+    </style>
+    
+</apex:page>

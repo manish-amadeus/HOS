@@ -1,0 +1,180 @@
+<!---
+    DESCRIPTION: Creation of a Workbook - Cloning Workbooks
+    Created By:  Tushar Gupta
+    Created On: 25/01/2021
+    User Story ID: 574902
+    Change History:
+                     1. 590046 - Refactoring Code - Changed by Ravi Shah on 5-Feb-2021
+                     2. 594855 - Refactoring Code - Changed by Tushar Gupta on 23-Feb-2021
+-->
+<apex:page standardcontroller="AH_UDC_Workbook__c" extensions="AH_UDC_CloneWorkbook" cache="false" showheader="false" standardstylesheets="false" sidebar="false">
+   <apex:slds />
+   <style>
+      .messageCell {
+         color: red;
+      }
+
+      .wrapword {
+         white-space: -moz-pre-wrap !important;
+         white-space: -webkit-pre-wrap;
+         white-space: -pre-wrap;
+         white-space: -o-pre-wrap;
+         white-space: pre-wrap;
+         word-wrap: break-word;
+         word-break: break-all;
+         white-space: normal;
+      }
+   </style>
+   <body>
+      <apex:includescript value="{!$Resource.AH_UDC_Jquery}" /> <!--JQuery Library-->
+      <!-- Display error message if any error in page -->
+      <apex:form >
+         <apex:pagemessages id="pageErrorMsg" rendered="{!(IsAnyError && IsWorkbookNameValid == false && (AccessMessage != null && AccessMessage != ''))}" />
+          <div style="font-weight:bold;
+{ !IF(AccessMessage != null && AccessMessage != '', '', 'display:none'); }">
+                  {!AccessMessage}
+          </div>
+         <!--This action function is used to log entries that occurred on loading of the page-->
+         <apex:actionfunction name="actionfunction_LogMessages" action="{!ServerLogMessages}" oncomplete="return false;" />
+          
+      </apex:form>
+       <!--Display Message when  user don't have Modify access of Workbook-->
+       
+      <div id="mainDiv" style="{!IF(IsAnyError && !IsWorkbookNameValid, 'display:none;', '')}">
+         <apex:form id="frmClone">
+            <section aria-describedby="dialog-body-id-98" aria-labelledby="dialog-heading-id-5" id="workbookCloneId" class="slds-popover slds-popover_prompt slds-popover_prompt_top popup-custom popup-custom-border" role="dialog" style="border-color: #0171C0; border-width: 4px; border-radius: 25px;">
+               <div class="slds-popover__body" id="dialog-body-id-98">
+                  <div class="slds-media">
+                     <div class="slds-media__body">
+                        <h2 id="dialog-heading-id-5" class="slds-popover_prompt__heading slds-align_absolute-center slds-text-align--center wrapword">{!$Label.AH_UDC_Workbook_Clone_Message} <br /> "{!WorkbookName}"</h2>
+                        <div class="slds-var-p-around_xx-small"></div>
+                        <div class="slds-form-element" id="formElement">
+                           <label class="slds-form-element__label slds-text-align--center" for="WorkbookName">
+                              <abbr class="slds-required" title="required">*</abbr><b> {!$Label.AH_UDC_Workbook_Clone_Input_Label} </b>
+                           </label>
+                           <div class="slds-form-element__control">
+                              <apex:inputtext value="{!Workbook.Name}" styleclass="slds-input" id="txtWorkbookName" />
+                           </div>
+                           <!-- This is for validation error -->
+                           <div class="slds-form-element__help" id="error-message-txtWorkbookName" style="display:none;"></div>
+                           <!-- Dispaly validation error message -->
+                           <apex:pagemessages rendered="true" id="errMsg" showdetail="false" />
+                        </div>
+                     </div>
+                  </div>
+               </div>
+               <!-- Spinner -->
+               <div id="spinner" style="height:0rem;display: none">
+                  <div class="slds-spinner_container" style="border-radius:9%">
+                     <div role="status" class="slds-spinner slds-spinner_medium slds-spinner_brand">
+                        <span class="slds-assistive-text">Loading</span>
+                        <div class="slds-spinner__dot-a"></div>
+                        <div class="slds-spinner__dot-b"></div>
+                     </div>
+                  </div>
+               </div>
+               <div class="slds-grid slds-align_absolute-center">
+                  <!--Action for clone the workbook -->
+                  <apex:actionfunction name="cloneWorkbook" action="{!CloneWorkbook}" oncomplete="hideSpinner(); closeAndRefresh(false);" rerender="renderJS, errMsg, pageErrorMsg"></apex:actionfunction>
+                  <button class="slds-button slds-button_brand" type="submit" onclick="showSpinner(); checkValidations(); return false;" id="btnConfirm">{!$Label.AH_UDC_Continue}</button>
+                  <button class="slds-button slds-button_brand" onclick="closeAndRefresh(true);" id="btnCancel">{!$Label.AH_UDC_Cancel}</button>
+               </div>
+               <div class="slds-var-p-around_small"></div>
+            </section>
+         </apex:form>
+      </div>
+      <apex:outputpanel id="renderJS">
+         <!-- Declare javascripts code -->
+         <script language="JavaScript" type="text/javascript">
+            //Navigate to the layout page
+            function closeAndRefresh(isCancel) {
+                var id = isCancel == true?'{!$CurrentPage.parameters.id}': '{!NewWorkbookId}';
+                if('{!IsAnyError}' == 'true') {
+                    return false;
+                }
+
+                if(!isCancel){
+                    var errorMsg = document.getElementById("error-message-txtWorkbookName");
+                    var frmElement = document.getElementById("formElement");
+                    var workbookNameIsValid = '{!IsWorkbookNameValid}';
+                    //Check duplicate vailadtion
+                    if(workbookNameIsValid == 'false') {
+                        errorMsg.style.display = "block";
+                        errorMsg.innerText = '{!$Label.AH_UDC_Workbook_Clone_Duplicate_Error_Message}';
+                        frmElement.className += " slds-has-error";
+                        return false;
+                    } else {
+                        errorMsg.style.display = "none";
+                        frmElement.classList.remove("slds-has-error");
+                    }
+                }
+
+                if((typeof sforce != 'undefined') && sforce && (!!sforce.one)){
+                    sforce.one.navigateToSObject(id);
+                } else {
+                    if(isCancel) {
+                        window.top.close();
+                        return false;
+                    }
+                    else {
+                        window.opener.location.href="/"+id;
+                        window.top.close();
+                    }
+                 }
+            }
+         </script>
+      </apex:outputpanel>
+   </body>
+   <script language="JavaScript" type="text/javascript">
+        //Resize the window
+        window.resizeTo(500,350);
+
+        $(document).ready(function() {
+            //Log Any Messages
+            if ('{!HasPageLoadLogMessages}'.toLowerCase() == 'true') {
+               setTimeout(actionfunction_LogMessages, 500);
+            }
+         });
+
+        //Check validation
+        function checkValidations() {
+            var errorMsg = document.getElementById("error-message-txtWorkbookName");
+            var frmElement = document.getElementById("formElement");
+            var txtWorkbookName = document.getElementById("{!$Component.frmClone.txtWorkbookName}");
+
+            //Check required vailadtion
+            if(!txtWorkbookName.value) {
+                errorMsg.style.display = "block";
+                errorMsg.innerText = '{!$Label.AH_UDC_Workbook_Clone_Required_Error_Message}';
+                frmElement.className += " slds-has-error";
+                hideSpinner();
+                return false;
+            }
+
+            var workbookLength = txtWorkbookName.value.length;
+            //Check length vailadtion
+            if(workbookLength > 80) {
+                errorMsg.style.display = "block";
+                errorMsg.innerText = '{!$Label.AH_UDC_Workbook_Clone_Length_Error_Message}';
+                frmElement.className += " slds-has-error";
+                hideSpinner();
+                return false;
+            }
+
+            //Call the method for clone the workbook
+            cloneWorkbook();
+          }
+
+          //Show the spinner
+          function showSpinner() {
+              var spinner = document.getElementById("spinner");
+              spinner.style.display = "block";
+          }
+
+          //Hide the spinner
+          function hideSpinner() {
+              var spinner = document.getElementById("spinner");
+              spinner.style.display = "none";
+          }
+   </script>
+</apex:page>

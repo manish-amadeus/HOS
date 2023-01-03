@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Run_As_Scheduled_Batch__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>This is set to true when run as a scheduled job, and false when run from the UI.  This allows a trigger on the PSA 411 Report to determine whether it is being run manually and will take custom date inputs.</description>
+    <externalId>false</externalId>
+    <label>Run As Scheduled Batch</label>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

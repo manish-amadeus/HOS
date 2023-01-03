@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<RecordType xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Requirement_Assessment</fullName>
+    <active>true</active>
+    <description>Used for assessing requirements related to Corporate Security Policies and Standards, or other requirement sources</description>
+    <label>Requirement Assessment</label>
+    <picklistValues>
+        <picklist>Assessment_Location__c</picklist>
+        <values>
+            <fullName>Miami</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Portsmouth</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Assessment_Scope__c</picklist>
+        <values>
+            <fullName>PMS</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Sales_Catering</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Service Optimization</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>TravelClick</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Assessment__c</picklist>
+        <values>
+            <fullName>0%2E Non-existent</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>1%2E Initial %2F Ad hoc</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>2%2E Repeatable but intuitive</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>3%2E Defined</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>4%2E Managed and measurable</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>5%2E Optimized</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Availability__c</picklist>
+        <values>
+            <fullName>1%2E Basic</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>2%2E Important</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>3%2E Critical</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>4%2E High Critical</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Confidentiality__c</picklist>
+        <values>
+            <fullName>1%2E Public</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>2%2E Confidential %26 Restricted</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>3%2E Strictly Confidential</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>4%2E Confidential %26 Secret</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Financial__c</picklist>
+        <values>
+            <fullName>1%2E Low</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>2%2E Medium</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>3%2E High</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>4%2E Extreme</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Integrity__c</picklist>
+        <values>
+            <fullName>1%2E Negligible</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>2%2E Basic</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>3%2E Standard</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>4%2E Special</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Regulatory__c</picklist>
+        <values>
+            <fullName>1%2E Basic</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>2%2E Low%2FLocal</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>3%2E Medium%2FRegional</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>4%2E High%2FGlobal</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Reputation__c</picklist>
+        <values>
+            <fullName>1%2E Basic</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>2%2E Low</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>3%2E Medium</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>4%2E High</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Risk_Likelihood__c</picklist>
+        <values>
+            <fullName>0%2E N%2FA</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>1%2E Very Low</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>2%2E Low</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>3%2E Medium</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>4%2E High</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>5%2E Very High</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+</RecordType>

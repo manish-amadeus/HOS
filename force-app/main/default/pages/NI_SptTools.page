@@ -1,0 +1,367 @@
+<apex:page >
+    <br />
+    <div style="text-align: left;">
+        <table border="0" width="100%">
+            <tr>
+                <td style="text-align: left; vertical-align: bottom;">
+                    &nbsp;&nbsp;&nbsp;
+                    <img src="/img/icon/wrench32.png" alt="Tools" />&nbsp;&nbsp;
+                    <font color="#005eb8" size="5"><b>Support Tools Page</b></font>
+                </td>
+                <td style="text-align: right; vertical-align: bottom;">
+                    
+                </td>
+            </tr>
+        </table>
+    </div>
+
+    <br />
+    <div class="datagrid">
+        <table>
+            <thead>
+                <tr>
+                    <th>
+                        Reports Links (Inside VPN/Network)
+                    </th>
+                    <th>
+                        Resource Links (Inside VPN/Network)
+                    </th>
+                    <th>
+                        Resource Links
+                    </th>
+                </tr>
+            </thead>
+            <tfoot>
+                <tr>
+                    <td colspan="3">
+                        <div id="paging">
+                            <img src="/img/icon/personal_tag16.gif" alt="Personal Tag" width="16" height="16" title="Personal Tag" />
+                            <a class="sptLnx" href="https://na26.salesforce.com/search/TagSearchResults?scopeMode=personal" target="_blank">Personal Tags</a>
+                            &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp; 
+                            <img src="/img/func_icons/util/recycle.gif" alt="Recycle Bin" width="16" height="16" title="Recycle Bin" />
+                            <a class="sptLnx" href="https://na26.salesforce.com/search/UndeletePage" target="_blank">Recycle Bin</a>
+                            &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;                     
+                        </div>
+                    </td>
+                </tr>
+            </tfoot>
+            <tbody>
+                <tr>
+                    <td width="33%">
+                        <a class="sptLnx" href="http://vas024/ReportServer/Pages/ReportViewer.aspx?%2fSalesForce%2fMy+Open+Case+Report&OWNERALIAS={!$User.Alias}&rc:Parameters=false&rs:Command=Render"
+                            target="_blank"><img src="/img/icon/cases16.png" alt="Icon" border="0" /> My Open Cases Report</a>
+                    </td>
+                    <td width="34%">
+                        <a class="sptLnx" href="https://newmarketinc-portal2.sharepoint.com/default.aspx" target="_blank"><img src="/img/icon/custom51_100/compass16.png" alt="Icon" border="0" /> Intranet</a> 
+                    </td>
+                    <td width="33%">
+                        <a class="sptLnx" href="/a0B" target="_Blank"><img src="/img/icon/custom51_100/pencil16.png" alt="Icon" border="0" /> Training Tracker</a>
+                    </td>
+                </tr>
+                <tr class="alt">
+                    <td>
+                        <a class="sptLnx" href="http://vas024/ReportServer/Pages/ReportViewer.aspx?%2fSalesForce%2fMy+Open+Case+Checklist&OWNERALIAS={!$User.Alias}&rc:Parameters=false&rs:Command=Render"
+                            target="_blank"><img src="/img/icon/cases16.png" alt="Icon" border="0" /> My Open Cases Checklist</a>
+                    </td>                    
+                    <td>                        
+                        <a class="sptLnx" href="https://amadeusworkplace.sharepoint.com/sites/SCSupportSupervisorsandSRM/Lists/Support%20Calendar/All%20Support%20no%20filter.aspx" target="_blank">
+                            <img src="/img/func_icons/util/datePicker16.gif" alt="Icon" border="0" /> Support Calendar</a>                         
+                    </td>
+                    <td>
+                        <a class="sptLnx" href="/a3B" target="_Blank"><img src="/img/icon/trophy16.png" alt="Icon" border="0" /> Status Reports</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <a class="sptLnx" href="http://VAS008/Support/TheCaseReport.aspx" target="_blank"><img src="/img/icon/cases16.png" alt="Icon" border="0" /> &#034;The&#034; Case Report</a>                        
+                    </td>
+                    <td>
+                        <a class="sptLnx" href="https://myservicedesk.amadeus.com"
+                            target="_blank"><img src="/img/icon/custom51_100/redcross16.png" alt="Icon" border="0" /> IT Helpdesk</a>                    
+                    </td>
+                    <td>
+                        <a class="sptLnx" href="/a4H" target="_Blank"><img src="/img/icon/entitlements16.png" alt="Icon" border="0" /> Accolades</a>
+                    </td>
+                </tr>
+                <tr class="alt">
+                    <td>                    
+                        <a class="sptLnx" href="http://vas008/Support/CRUsageReport.aspx" target="_blank"><img src="/img/icon/documents16.png" alt="Icon" border="0" /> CR Usage Report</a>                        
+                    </td>
+                    <td>
+                        <a class="sptLnx" href="/apex/AH_SolutionSearch" target="_blank"><img src="/img/icon/solutions16.png" alt="Icon" border="0" /> Salesforce
+                            Solution Finder</a>
+                    </td>
+                    <td>
+                        <a class="sptLnx" href="../a7C/o" target="_blank"><img src="/img/icon/people16.png" alt="Icon" border="0" /> Performance Evaluations</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <a class="sptLnx" href="http://VAS008/Support/HostedAudit2016.aspx" target="_blank">
+                            <img src="/img/icon/documents16.png" alt="Icon" border="0" /> ASP Subscription Management Report</a>
+                    </td>
+                    <td>
+                        <a class="sptLnx" href="http://vas008/dataservices/pidlookup.asp" target="_blank"><img src="/s.gif" class="lookupIcon" alt="Icon" border="0" /> PID Lookup</a>
+                    </td>
+                    <td>
+                        <a class="sptLnx" href="../00U/c?cType=1&cal=HR+Training+Calendar&cal_lkid=02360000000m0oA&cal_lkold=HR+Training+Calendar&cal_lspf=1"
+                            target="_blank"><img src="/img/func_icons/util/datePicker16.gif" alt="Icon" border="0" /> HR Training Calendar</a>
+                    </td>
+                </tr>
+                <tr class="alt">
+                    <td>
+                        <a class="sptLnx" href="http://vas024/Reports/Pages/Report.aspx?ItemPath=/SalesForce/MV+Attribute+Lookup" target="_blank"><img src="/s.gif" class="lookupIcon" alt="Icon" border="0" /> MV Attribute Lookup</a>
+                    </td>
+                    <td>
+                        <a class="sptLnx" href="../sfc/#search?shepherdToken=n8Tj.nz3qcaEWtH.o72cML_Qze5elVBDtP0NaSil3BcnDIBXboS0jdo9GLGwjWtVmmv10kPJvqx5W7Eaf6n94M_YdVshLnttYuo3YAhS4aNruToFTLNpV1OjAXdUT0U8Ji7qbSdCCiHoIX_uNvPmFJsZ9no%3D&searchPageNum=0&searchWorkspaceIds=%5B%22058600000004ZFu%22%5D&masterWorkspaceId=058600000004ZFu"
+                            target="_blank"><img src="/img/icon/custom51_100/books16.png" alt="Icon" border="0" /> Newmarket University</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <a class="sptLnx" href="http://vas024/Reports/Pages/Report.aspx?ItemPath=%2fSalesForce%2fCrystal+Dictionary+Lookup" target="_blank"><img src="/s.gif" class="lookupIcon" alt="Icon" border="0" /> Crystal Dictionary Lookup</a>
+                    </td>
+                    <td>
+                        <a class="sptLnx" href="http://trust.salesforce.com/trust/instances" target="_blank"><img src="/img/icon/files16.png" alt="Icon" border="0" /> Salesforce Trust</a>
+                    </td>
+                </tr>
+                <tr class="alt">
+                    <td>
+                        &nbsp;
+                    </td>
+                    <td>
+                        <a class="sptLnx" href="http://vas008/Support/DBRef/index.htm" target="_blank"><img src="/s.gif" class="lookupIcon" alt="Icon" border="0" /> Delphi Field Lookup</a> 
+                    </td>
+                    <td>
+                        <a class="sptLnx" href="https://reportal.us.confirmit.com/reportal/login.aspx?ReturnUrl=http%3a%2f%2fad.us.confirmit.com%2fdashboard%2fConfirmitLanding.action%3f__ca" target="_blank"><img src="/img/icon/trophy16.png" alt="Icon" border="0" />ConfirmIt Surveys</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        &nbsp;
+                    </td>
+                    <td>
+                        <a class="sptLnx" href="http://vas024/Reports/Pages/Report.aspx?ItemPath=%2fSalesForce%2fCompatibility+Grid" target="_blank"><img src="/img/icon/products16.png" alt="Icon" border="0" /> Compatibility Grid</a>
+                    </td>
+                    <td>
+                        <a class="sptLnx" href="https://portal.adp.com/public/index.htm" target="_blank"><img src="/img/icon/people16.png" alt="Icon" border="0" /> ADP Portal</a>
+                    </td>
+                </tr>
+                <tr class="alt">
+                    <td>
+                        &nbsp;
+                    </td>
+                    <td>
+                        <a class="sptLnx" href="https://amadeusworkplace.sharepoint.com/sites/HOS_intranet/Departments/ondemand/OnDemandShared/Lists/DAAS%20Subscriptions/AllItems.aspx" target="_blank"><img src="/img/icon/hands16.png" alt="Icon" border="0" /> ASP LIVE Subscriptions</a>
+                    </td>
+                    <td>
+                        <a class="sptLnx" href="/a7W/o" target="_blank"><img src="/img/icon/people16.png" alt="Icon" border="0" /> Job Requisitions</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        &nbsp;
+                    </td>
+                    <td>
+                        <a class="sptLnx" href="http://vas008/ODr2/HostedServerCustomers.aspx" target="_blank"><img src="/img/icon/computer16.png" alt="Icon" border="0" /> Hosted Servers By Customer</a>  
+                    </td>
+                    <td>
+                        &nbsp;
+                    </td>
+                </tr>
+                <tr class="alt">
+                    <td>
+                        &nbsp;
+                    </td>
+                    <td>
+                        <a class="sptLnx" href="http://vas087/USSupport/Bonus%20Sheets/Forms/byTechnician.aspx" target="_blank"><img src="/img/icon/cash16.png" alt="Icon" border="0" /> Overtime/Pager Entry</a>
+                    </td>
+                    <td>
+                        &nbsp;
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        &nbsp;
+                    </td>
+                    <td>
+                        &nbsp;
+                    </td>
+                    <td>
+                        &nbsp;
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div> 
+
+
+
+
+    <style type="text/css">
+        body
+        {
+            background-image: url('"{!$Resource.SupportToolsBackground}"');
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+        }        
+        
+        /* unvisited link */
+        a.sptLnx:link
+        {
+            color: #005eb8;
+            font-family: Verdana;
+            font-size: 11pt;
+            text-decoration: none;
+        }
+        
+        /* visited link */
+        a.sptLnx:visited
+        {
+            color: #005eb8;
+            font-family: Verdana;
+            font-size: 11pt;
+            text-decoration: none;
+        }
+        
+        /* mouse over link */
+        a.sptLnx:hover
+        {
+            color: #CE0058;
+            font-family: Verdana;
+            font-size: 11pt;
+            text-decoration: none;
+        }
+        
+        /* selected link */
+        a.sptLnx:active
+        {
+            color: #CE0058;
+            font-family: Verdana;
+            font-size: 11pt;
+            text-decoration: none;
+        }
+        
+        /* Header Row */
+        tr.rowHeader
+        {
+            background-color: #CE0058;
+            font-family: Verdana;
+            font-size: 12pt;
+            font-weight: bold;
+            text-align: left;
+            text-decoration: underline;
+        }
+        
+        .datagrid table
+        {
+            border-collapse: collapse;
+            text-align: left;
+            width: 100%;
+            padding: 4px;
+        }
+        .datagrid
+        {
+            font: normal 12px/150% Verdana, Arial, Helvetica, sans-serif;
+            background: #fff;
+            overflow: hidden;
+            border: 1px solid #005EB8;
+            -webkit-border-radius: 3px;
+            -moz-border-radius: 3px;
+            border-radius: 3px;
+            padding: 4px;
+        }
+        .datagrid table td, .datagrid table th
+        {
+            padding: 3px 10px;
+        }
+        .datagrid table thead th
+        {
+            background: -webkit-gradient( linear, left top, left bottom, color-stop(0.05, #005EB8), color-stop(1, #00557F) );
+            background: -moz-linear-gradient( center top, #005EB8 5%, #00557F 100% );
+            filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#005EB8', endColorstr='#00557F');
+            background-color: #005EB8;
+            color: #FFFFFF;
+            font-size: 15px;
+            font-weight: bold;
+            border-left: 1px solid #0070A8;
+        }
+        .datagrid table thead th:first-child
+        {
+            border: none;
+        }
+        .datagrid table tbody td
+        {
+            color: #005EB8;
+            border-left: 1px solid #E1EEF4;
+            font-size: 12px;
+            font-weight: normal;
+        }
+        .datagrid table tbody .alt td
+        {
+            background: #E1EEF4;
+            color: #00496B;
+        }
+        .datagrid table tbody td:first-child
+        {
+            border-left: none;
+        }
+        .datagrid table tbody tr:last-child td
+        {
+            border-bottom: none;
+        }
+        .datagrid table tfoot td div
+        {
+            border-top: 1px solid #005EB8;
+            background: #E1EEF4;
+        }
+        .datagrid table tfoot td
+        {
+            padding: 0;
+            font-size: 12px;
+        }
+        .datagrid table tfoot td div
+        {
+            padding: 2px;
+        }
+        .datagrid table tfoot td ul
+        {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+            text-align: right;
+        }
+        .datagrid table tfoot li
+        {
+            display: inline;
+        }
+        .datagrid table tfoot li a
+        {
+            text-decoration: none;
+            display: inline-block;
+            padding: 2px 8px;
+            margin: 1px;
+            color: #FFFFFF;
+            border: 1px solid #005EB8;
+            -webkit-border-radius: 3px;
+            -moz-border-radius: 3px;
+            border-radius: 3px;
+            background: -webkit-gradient( linear, left top, left bottom, color-stop(0.05, #005eb8), color-stop(1, #00557F) );
+            background: -moz-linear-gradient( center top, #005eb8 5%, #00557F 100% );
+            filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#005eb8', endColorstr='#00557F');
+            background-color: #005eb8;
+        }
+        .datagrid table tfoot ul.active, .datagrid table tfoot ul a:hover
+        {
+            text-decoration: none;
+            border-color: #005EB8;
+            color: #FFFFFF;
+            background: none;
+            background-color: #00557F;
+        }
+        div.dhtmlx_window_active, div.dhx_modal_cover_dv
+        {
+            position: fixed !important;
+        }
+    </style>
+</apex:page>

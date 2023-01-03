@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Hosted_RFC_DataChange_Custom_Script</fullName>
+    <active>false</active>
+    <description>If Data Change is set to &quot;Yes&quot; you must choose a value in the Custom Script field
+Updated 11/5/2019 per NICC-038406</description>
+    <errorConditionFormula>AND(OR(RecordType.Name = &apos;Hosted RFC&apos;,RecordType.Name = &apos;HRM RFC&apos;,RecordType.Name = &apos;PMS RFC&apos;),ISPICKVAL( Data_Change__c ,&quot;Yes&quot;),ISBLANK(TEXT( Custom_Script__c  )))
+
+/*
+RecordTypeId = &quot;0126000000016TJ&quot; &amp;&amp; ISPICKVAL( Data_Change__c ,&quot;Yes&quot;) &amp;&amp;
+ISBLANK(TEXT( Custom_Script__c  ))
+*/</errorConditionFormula>
+    <errorDisplayField>Custom_Script__c</errorDisplayField>
+    <errorMessage>You must select a value for the Custom Script field</errorMessage>
+</ValidationRule>

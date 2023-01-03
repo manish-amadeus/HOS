@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Security_Next_Sprint</fullName>
+    <columns>Assigned_To__c</columns>
+    <columns>NAME</columns>
+    <columns>NI_Project_Backlog_Item__c</columns>
+    <columns>Hours__c</columns>
+    <columns>Status__c</columns>
+    <columns>Sprint__c</columns>
+    <columns>Sprint_Completion_Date__c</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>Sprint_Start_Date__c</field>
+        <operation>lessOrEqual</operation>
+        <value>NEXT_N_DAYS:14</value>
+    </filters>
+    <filters>
+        <field>RECORDTYPE</field>
+        <operation>equals</operation>
+        <value>NI_Project_Backlog_Tasks__c.Security_Project_Task</value>
+    </filters>
+    <filters>
+        <field>Team__c</field>
+        <operation>equals</operation>
+        <value>Security</value>
+    </filters>
+    <filters>
+        <field>Sprint_Start_Date__c</field>
+        <operation>greaterThan</operation>
+        <value>TODAY</value>
+    </filters>
+    <label>Security - Next Sprint</label>
+</ListView>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Related_CR__c</fullName>
+    <businessOwnerUser>abencivenga@newmarketinc.com</businessOwnerUser>
+    <businessStatus>Active</businessStatus>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <description>NICC-046348</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Change Request record related to this Lightning Knowledge article.</inlineHelpText>
+    <label>Related CR</label>
+    <referenceTo>SFDC_CSP_Development_Request__c</referenceTo>
+    <relationshipLabel>Lightning Knowledge</relationshipLabel>
+    <relationshipName>Lightning_Knowledge</relationshipName>
+    <required>false</required>
+    <securityClassification>Internal</securityClassification>
+    <trackHistory>false</trackHistory>
+    <type>Lookup</type>
+</CustomField>

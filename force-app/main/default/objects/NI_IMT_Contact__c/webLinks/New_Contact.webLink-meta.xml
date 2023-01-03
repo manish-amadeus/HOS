@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<WebLink xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>New_Contact</fullName>
+    <availability>online</availability>
+    <description>Create a new IMT Contact</description>
+    <displayType>massActionButton</displayType>
+    <encodingKey>UTF-8</encodingKey>
+    <linkType>url</linkType>
+    <masterLabel>New Contact</masterLabel>
+    <openType>replace</openType>
+    <protected>false</protected>
+    <requireRowSelection>true</requireRowSelection>
+    <url>../a0w/e?CF00N55000000Ykfr={!NI_IMT_Property__c.Name}&amp;CF00N55000000Ykfr_lkid={!NI_IMT_Property__c.Id}&amp;
+retURL=/{!NI_IMT_Property__c.Id}&amp;
+00N55000000Ykfr_lkid={!NI_IMT_Property__c.Id}&amp;
+00N55000000Yi0M={!NI_IMT_Property__c.State__c}&amp;
+00N55000000Yi0N={!NI_IMT_Property__c.Street__c}&amp;
+00N55000000Yi0E={!NI_IMT_Property__c.Country__c}&amp;
+00N55000000Yi0K={!NI_IMT_Property__c.Postal_Code__c}&amp;
+00N55000000Yi0D={!NI_IMT_Property__c.City__c}</url>
+</WebLink>

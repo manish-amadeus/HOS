@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Benefits_EnterCalculationReveneue</fullName>
+    <active>false</active>
+    <description>NICC-053541
+
+DISABLED BY STUART EMERY ON 09/27/2021 BECAUSE IT IS CAUSING ISSUES FOR CBS PROJECTS</description>
+    <errorConditionFormula>AND(
+OR(
+RecordTypeId = &quot;0120d000000JOpsAAG&quot;,
+This_Project_Will_Increase_Revenue__c = True,
+NOT(ISBLANK(Estimated_Annual_Revenue_Increase__c )),
+NOT(ISBLANK(Annual_Revenue_Increase_Confidence__c))),
+ISBLANK( RIC_How_did_you_arrive_at_this_number__c ))</errorConditionFormula>
+    <errorDisplayField>RIC_How_did_you_arrive_at_this_number__c</errorDisplayField>
+    <errorMessage>Please Enter Details</errorMessage>
+</ValidationRule>

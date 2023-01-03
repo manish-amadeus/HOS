@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>All_Ready_to_Invoice</fullName>
+    <columns>NAME</columns>
+    <columns>Company__c</columns>
+    <columns>Account__c</columns>
+    <columns>Opportunity__c</columns>
+    <columns>Next_Invoice_Date__c</columns>
+    <columns>Ready_to_Invoice__c</columns>
+    <columns>Exclude_Automated_Invoicing__c</columns>
+    <columns>Ready_to_Invoice_Numeric__c</columns>
+    <columns>Total_Contract_Amount__c</columns>
+    <columns>Software_Revenue__c</columns>
+    <columns>Subscription_Revenue__c</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>Ready_to_Invoice__c</field>
+        <operation>equals</operation>
+        <value>1</value>
+    </filters>
+    <filters>
+        <field>Company__c</field>
+        <operation>contains</operation>
+        <value>CHINA</value>
+    </filters>
+    <filters>
+        <field>Exclude_Automated_Invoicing__c</field>
+        <operation>notEqual</operation>
+        <value>1</value>
+    </filters>
+    <filters>
+        <field>Billing_Hold__c</field>
+        <operation>notEqual</operation>
+        <value>1</value>
+    </filters>
+    <label>All Ready to Invoice</label>
+    <language>en_US</language>
+</ListView>

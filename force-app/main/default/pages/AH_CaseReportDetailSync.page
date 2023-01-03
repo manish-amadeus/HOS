@@ -1,0 +1,470 @@
+<apex:page standardController="AH_Case_Report_Detail__c" recordSetVar="x" extensions="AH_CaseReportDetailSync_Ctlr" >
+    
+    <html xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" lang="en">
+        <head>
+            <meta charset="utf-8" />
+            <meta http-equiv="x-ua-compatible" content="ie=edge" />
+            <title>Sync Case Report Details</title>
+            <meta name="viewport" content="width=device-width, initial-scale=1" />
+            <apex:stylesheet value="/apexpages/slds/latest/assets/styles/salesforce-lightning-design-system-vf.css" />
+            <apex:stylesheet value="{!URLFOR($Resource.AmadeusHospitalityStyles)}" />  
+            <apex:includeScript value="{!$Resource.Toast}"/>
+            <apex:slds />
+        </head>
+        
+        <div class="slds-scope" style="margin: 10px 10px 10px 10px; !important;">
+            
+            <apex:form id="frmMain">
+
+                <div id="divCaseDetails" class="roundedContainer">
+                    
+                    <span class="slds-icon_container slds-icon-standard-event"> 
+                        <svg aria-hidden="false" class="slds-icon">    
+                            <use xlink:href="/apexpages/slds/latest/assets/icons/utility-sprite/svg/symbols.svg#refresh"></use>
+                        </svg> 
+                        <span class="slds-assistive-text">Sync Case Report Details</span> 
+                    </span> 
+                    &nbsp;&nbsp; 
+                    <apex:outputLabel id="lblTitle1" value="Case Report Detail Sync Utility" styleClass="slds-text-heading_medium slds-text-title_bold" />
+                    
+                    <div style="background:linear-gradient(#00ace3,#0060bc);height:3px;margin-top:10px;margin-bottom:10px;">
+                    </div> 
+
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  
+                    <apex:outputLabel id="lblTitle2" value="{!c.CaseNumber}: {!c.Subject}" styleClass="slds-text-heading_medium slds-text-title_bold" />
+                    <br/>
+                    <table style="width:760px;border-collapse: separate;border-spacing: 10px;">
+                        <tr>
+                            <td style="width:120px;text-align:right;">
+                                <apex:outputText id="lblCaseStatus" value="Case Status:" style="font-weight:bold;"/> 
+                            </td>
+                            <td style="width:120px;">
+                                <apex:outputText id="txtCaseStatus" value="{!c.Status}" /> 
+                            </td>
+                            <td style="width:140px;text-align:right;">
+                                <apex:outputText id="lblCaseResolvedDT" value="Resolved Date:" style="font-weight:bold;"/>  
+                            </td>
+                            <td style="width:120px;">
+                                <apex:outputText id="txtCaseResolvedDT" value="{!c.Resolved_Date_and_Time__c}" />
+                            </td>
+                            <td style="width:140px;text-align:right;">
+                                <apex:outputText id="lblCaseRecordType" value="Record Type:" style="font-weight:bold;"/>  
+                            </td>
+                            <td style="width:120px;">
+                                <apex:outputText id="txtCaseRecordType" value="{!c.RecordType.Name}" />  
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="width:120px;text-align:right;">
+                                <apex:outputText id="lblCaseOwner" value="Case Owner:" style="font-weight:bold;"/> 
+                            </td>
+                            <td style="width:120px;">
+                                <apex:outputText id="txtCaseOwner" value="{!c.Owner.Name}" /> 
+                            </td>
+                            <td style="width:140px;text-align:right;">
+                                <apex:outputText id="lblCaseSupportTier" value="Support Tier:" style="font-weight:bold;"/>  
+                            </td>
+                            <td style="width:120px;">
+                                <apex:outputText id="txtCaseSupportTier" value="{!c.Support_Tier__c}" /> 
+                            </td>
+                        </tr>                   
+                    </table>
+                    
+                    <div style="background:linear-gradient(#00ace3,#0060bc);height:3px;margin-bottom:10px">
+                    </div> 
+                    
+                    <apex:outputLabel id="lblTimes" value="Case Detail Rollups" styleClass="slds-text-heading_medium slds-text-title_bold" />
+                    
+                    <apex:outputPanel id="opCaseDetails">
+                        <table style="width:540px;border-collapse: separate;border-spacing: 10px;">
+                            <tr>
+                                <td style="width:140px;text-align:right;">
+                                    <apex:outputText id="lblL1T1Time" value="L1T1 Time:" style="font-weight:bold;"/> 
+                                </td>
+                                <td style="width:120px;text-align:right;">
+                                    <apex:outputText id="txtL1T1Time" value="{!c.L1T1_Time__c}" /> 
+                                </td>
+                                <td style="width:20px;">
+                                    &nbsp;
+                                </td>
+                                <td style="width:140px;text-align:right;">
+                                    <apex:outputText id="lblL1Time" value="L1 Time:" style="font-weight:bold;"/>  
+                                </td>
+                                <td style="width:120px;text-align:right;">
+                                    <apex:outputText id="txtL1Time" value="{!c.L1_Time__c}" /> 
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="width:140px;text-align:right;">
+                                    <apex:outputText id="lblL1T2Time" value="L1T2 Time:" style="font-weight:bold;"/>  
+                                </td>
+                                <td style="width:120px;text-align:right;">
+                                    <apex:outputText id="txtL1T2Time" value="{!c.L1T2_Time__c}" /> 
+                                </td>
+                                <td style="width:20px;">
+                                    &nbsp;
+                                </td>
+                                <td style="width:140px;text-align:right;">
+                                    <apex:outputText id="lblL2Time" value="L2 Time:" style="font-weight:bold;"/>  
+                                </td>
+                                <td style="width:120px;text-align:right;">
+                                    <apex:outputText id="txtL2Time" value="{!c.L2T1_Time__c}" /> 
+                                </td>
+                            </tr>
+                            <tr>                        	
+                                <td style="width:140px;text-align:right;">
+                                    <apex:outputText id="lblL1T3Time" value="L1T3 Time:" style="font-weight:bold;"/>  
+                                </td>
+                                <td style="width:120px;text-align:right;">
+                                    <apex:outputText id="txtL1T3Time" value="{!c.L1T3_Time__c}" /> 
+                                </td>
+                                <td style="width:20px;">
+                                    &nbsp;
+                                </td>
+                                <td style="width:140px;text-align:right;">
+                                    <apex:outputText id="lblContractorTime" value="Contractor Time:" style="font-weight:bold;"/>  
+                                </td>
+                                <td style="width:120px;text-align:right;">
+                                    <apex:outputText id="txtContractorTime" value="{!c.Contractor_Time__c}" /> 
+                                </td>                           
+                            </tr> 
+                            <tr>
+                                <td style="width:140px;text-align:right;">
+                                </td>
+                                <td style="width:120px;text-align:right;">
+                                </td>
+                                <td style="width:20px;">
+                                    &nbsp;
+                                </td>
+                                <td style="width:140px;text-align:right;">
+                                    <apex:outputText id="lblNonSupportTime" value="Non-Support Time:" style="font-weight:bold;"/>  
+                                </td>
+                                <td style="width:120px;text-align:right;">
+                                    <apex:outputText id="txtNonSupportTime" value="{!c.NonSupport_Time__c}" /> 
+                                </td>
+                            </tr> 
+                            <tr>
+                                <td style="width:140px;text-align:right;">                               
+                                </td>
+                                <td style="width:120px;text-align:right;">
+                                </td>
+                                <td style="width:20px;">
+                                    &nbsp;
+                                </td>
+                                <td style="width:140px;text-align:right;">
+                                    <apex:outputText id="lblTotalWorkTime" value="Total Work Time:" style="font-weight:bold;"/>  
+                                </td>
+                                <td style="width:120px;text-align:right;">
+                                    <apex:outputText id="txtTotalWorkTime" value="{!c.Total_Work_Time__c}" /> 
+                                </td>
+                            </tr> 
+                            <tr>
+                                <td style="width:140px;text-align:right;">                               
+                                </td>
+                                <td style="width:120px;text-align:right;">
+                                </td>
+                                <td style="width:20px;">
+                                    &nbsp;
+                                </td>
+                                <td style="width:140px;text-align:right;">                              
+                                </td>
+                                <td style="width:120px;text-align:right;">
+                                </td>
+                            </tr> 
+                        </table>
+                        
+                    </apex:outputPanel>
+                    
+                </div>
+                                   
+                <br/>
+                <div id="divButtons" class="roundedContainer" style="text-align:center;padding-top:20px;padding-bottom:20px;!important;">
+                    <apex:commandButton action="{!backToCase}" value="Go Back To Case" styleClass="slds-button slds-button_outline-brand" style="width:200px;!important;" status="asStatus" />&nbsp;&nbsp;
+                    <apex:commandButton action="{!doRollupRecalc}" value="Rollup To Case" reRender="txtL1T1Time,txtL1T2Time,txtL1T3Time,txtL1Time,txtL2Time,txtContractorTime,txtNonSupportTime,txtTotalWorkTime" styleClass="slds-button slds-button_brand" style="width:200px;!important;" status="asStatus" />&nbsp;&nbsp;
+                    <apex:commandButton action="{!rebuildFromCaseHistory}" value="Rebuild From CaseHistory" styleClass="slds-button slds-button_brand" style="width:200px;!important;" status="asStatus" />
+                </div>
+                <br/>
+                
+                <apex:outputpanel id="opCurrents">
+                    <div id="divCurrents" class="roundedContainer">
+                        
+                        <apex:outputLabel id="lblTitle3" value="Case Report Detail Records - (Current)" styleClass="slds-text-heading_medium slds-text-title_bold" />
+                        <br/>
+                        <br/>
+                        <apex:dataTable value="{!lstCaseRptDetsCurrent}" var="crd" styleClass="slds-table slds-table_bordered slds-table_striped" rendered="true">
+                            
+                            <apex:column rendered="false" >                           
+                                <apex:outputText ></apex:outputText> value="{!crd.Id}" />  
+                            </apex:column> 
+                            
+                            <apex:column >
+                                <apex:facet name="header"> 
+                                    <apex:commandLink id="cmdSortCol1" 
+                                                      value="Record Name {!IF(sortByField=='Name', IF(sortByDirection='ASC','▲','▼'), '')}" 
+                                                      action="{!doSort}" 
+                                                      status="asStatus"                                                           
+                                                      reRender="opCurrents">
+                                        <apex:param value="Name" name="prm1" assignTo="{!sortByField}" />
+                                    </apex:commandLink>
+                                </apex:facet> 
+                                <apex:outputText value="{!crd.Name}" />  
+                            </apex:column>
+                            
+                            <apex:column >
+                                <apex:facet name="header"> 
+                                    <apex:commandLink id="cmdSortCol2" 
+                                                      value="Event Type {!IF(sortByField=='Event_Type__c', IF(sortByDirection='ASC','▲','▼'), '')}" 
+                                                      action="{!doSort}" 
+                                                      status="asStatus"                                                           
+                                                      reRender="opCurrents">
+                                        <apex:param value="Event_Type__c" name="prm2" assignTo="{!sortByField}" />
+                                    </apex:commandLink>
+                                </apex:facet> 
+                                <apex:outputText value="{!crd.Event_Type__c}" />  
+                            </apex:column> 
+                            
+                            <apex:column >
+                                <apex:facet name="header"> 
+                                    <apex:commandLink id="cmdSortCol3" 
+                                                      value="Log Date/Time {!IF(sortByField=='Log_DateTime__c', IF(sortByDirection='ASC','▲','▼'), '')}" 
+                                                      action="{!doSort}" 
+                                                      status="asStatus"                                                           
+                                                      reRender="opCurrents">
+                                        <apex:param value="Log_DateTime__c" name="prm3" assignTo="{!sortByField}" />
+                                    </apex:commandLink>  
+                                </apex:facet> 
+                                <apex:outputText value="{0}">
+                                    <apex:param value="{!crd.Log_DateTime__c}" />
+                                </apex:outputText>
+                            </apex:column> 
+                            
+                            <apex:column >
+                                <apex:facet name="header"> 
+                                    <apex:commandLink id="cmdSortCol4" 
+                                                      value="Old Value {!IF(sortByField=='Old_Value__c', IF(sortByDirection='ASC','▲','▼'), '')}" 
+                                                      action="{!doSort}" 
+                                                      status="asStatus"                                                           
+                                                      reRender="opCurrents">
+                                        <apex:param value="Old_Value__c" name="prm4" assignTo="{!sortByField}" />
+                                    </apex:commandLink>
+                                </apex:facet> 
+                                <apex:outputText value="{!crd.Old_Value__c}" />  
+                            </apex:column> 
+                            
+                            <apex:column >
+                                <apex:facet name="header"> 
+                                    <apex:commandLink id="cmdSortCol5" 
+                                                      value="New Value {!IF(sortByField=='New_Value__c', IF(sortByDirection='ASC','▲','▼'), '')}" 
+                                                      action="{!doSort}" 
+                                                      status="asStatus"                                                           
+                                                      reRender="opCurrents">
+                                        <apex:param value="New_Value__c" name="prm5" assignTo="{!sortByField}" />
+                                    </apex:commandLink>
+                                </apex:facet> 
+                                <apex:outputText value="{!crd.New_Value__c}" />  
+                            </apex:column>
+                            
+                            <apex:column >
+                                <apex:facet name="header"> 
+                                    <apex:commandLink id="cmdSortCol6" 
+                                                      value="Time Elapsed {!IF(sortByField=='Time_Elapsed__c', IF(sortByDirection='ASC','▲','▼'), '')}" 
+                                                      action="{!doSort}" 
+                                                      status="asStatus"                                                           
+                                                      reRender="opCurrents">
+                                        <apex:param value="Time_Elapsed__c" name="prm6" assignTo="{!sortByField}" />
+                                    </apex:commandLink>
+                                </apex:facet> 
+                                <apex:outputText value="{!crd.Time_Elapsed__c}" />  
+                            </apex:column>    
+
+                            <apex:column >
+                                <apex:facet name="header">   
+                                    <apex:outputText value="Details" />
+                                </apex:facet> 
+                                <apex:outputText value="{!crd.Detail__c}" />  
+                            </apex:column>  
+                            
+                        </apex:dataTable>
+                        
+                    </div>
+                    
+                </apex:outputpanel>
+                
+                <br/>
+                <br/>
+
+                <apex:outputpanel id="opRebuilds" rendered="{!showRebuild}">
+                    <div id="divRebuilds" class="roundedContainer">
+ 
+                        <apex:outputLabel id="lblTitle4" value="Case Report Detail Records - (Rebuilt from Case History)" styleClass="slds-text-heading_medium slds-text-title_bold" />
+                        &nbsp;&nbsp;&nbsp;&nbsp;
+                        <apex:commandButton id="cmdPrompt" value="Replace Current With Rebuilt" action="{!rebuildPrompt}" styleClass="slds-button slds-button_brand" status="asStatus" />
+                        &nbsp;&nbsp;
+                        <apex:commandButton id="cmdCloseView" value="Close Rebuilt View" action="{!closeRebuildView}" styleClass="slds-button slds-button_outline-brand" />
+                        <br/>
+<!--
+                        <apex:outputText id="txtTotalTimeElapsed" value="Total Work Time: {!dTotalTimeElapsed}" />
+                        <br/> 
+-->
+                        <br/>
+                        <apex:dataTable value="{!lstCaseRptDetInserts}" var="crd2" styleClass="slds-table slds-table_bordered slds-table_striped" rendered="true">
+
+                            <apex:column >
+                                <apex:facet name="header">   
+                                    <apex:outputText value="Event Type" />
+                                </apex:facet> 
+                                <apex:outputText value="{!crd2.Event_Type__c}" />  
+                            </apex:column> 
+                            <apex:column >
+                                <apex:facet name="header">   
+                                    <apex:outputText value="Log Date/Time" />
+                                </apex:facet> 
+                                <apex:outputText value="{0}">
+                                    <apex:param value="{!crd2.Log_DateTime__c}" />
+                                </apex:outputText>
+                            </apex:column> 
+                            <apex:column >
+                                <apex:facet name="header">   
+                                    <apex:outputText value="Old Value" />
+                                </apex:facet> 
+                                <apex:outputText value="{!crd2.Old_Value__c}" />  
+                            </apex:column> 
+                            <apex:column >
+                                <apex:facet name="header">   
+                                    <apex:outputText value="New Value" />
+                                </apex:facet> 
+                                <apex:outputText value="{!crd2.New_Value__c}" />  
+                            </apex:column>
+                            <apex:column >
+                                <apex:facet name="header">   
+                                    <apex:outputText value="Time Elapsed" />
+                                </apex:facet> 
+                                <apex:outputText value="{!crd2.Time_Elapsed__c}" />  
+                            </apex:column>    
+                            <apex:column >
+                                <apex:facet name="header">   
+                                    <apex:outputText value="Details" />
+                                </apex:facet> 
+                                <apex:outputText value="{!crd2.Detail__c}" />  
+                            </apex:column>                            
+                        </apex:dataTable>
+                        <br/>
+                    </div>
+                </apex:outputpanel>
+
+                <!-- CONFIRMATION DIALOG -->                
+                <apex:outputPanel id="opConfirm">
+                    <apex:outputPanel styleClass="popupBackground" layout="block" rendered="{!displayConfirm}" />
+                    <apex:outputPanel styleClass="popupConfirmationBox" layout="block" rendered="{!displayConfirm}">
+                        
+                        <!-- (SPINNER) -->  
+                        <apex:actionstatus id="asRebuildStatus">
+                            <apex:facet name="start">
+                                <div class="slds-spinner_container">
+                                    <div role="status" class="slds-spinner slds-spinner_medium slds-spinner_brand">
+                                        <span class="slds-assistive-text">Saving</span>
+                                        <div class="slds-spinner__dot-a"></div>
+                                        <div class="slds-spinner__dot-b"></div>
+                                    </div>
+                                </div>
+                            </apex:facet>
+                        </apex:actionstatus>                         
+                        
+                        <div style="text-align: center;">
+                            <br />
+                            <br />
+                            <apex:outputText value="This process will DELETE all Case Detail Report Records for Case: {!c.CaseNumber} " />
+                            <br />
+                            <apex:outputText value="and create new Case Detail Report Records from case history." />
+                            <br />
+                            <apex:outputText value="This process CANNOT be reversed via this utility." />
+                            <br />
+                            <br />
+                            <apex:outputText value="Do you want to build all Case Detail Report Records from case history?" />
+                            <br />
+                            <br />
+                            <apex:commandButton id="cmdNo" value="No" action="{!hideConfirmation}" rerender="opCaseDetails,opConfirm,opCurrents" styleClass="slds-button slds-button_outline-brand" status="asRebuildStatus" />&nbsp;
+                            <apex:commandButton id="cmdYes" value="Yes" action="{!doRebuild}" rerender="opCaseDetails,opConfirm,opCurrents" styleClass="slds-button slds-button_brand" status="asRebuildStatus" />
+                            <br />
+                            <br />
+                        </div>
+                    </apex:outputPanel>
+                </apex:outputPanel> 
+                
+                <!-- SPINNER -->  
+                <apex:actionstatus id="asStatus" >
+                    <apex:facet name="start">
+                        <div class="slds-spinner_container">
+                            <div role="status" class="slds-spinner slds-spinner_medium slds-spinner_brand">
+                                <span class="slds-assistive-text">Loading</span>
+                                <div class="slds-spinner__dot-a"></div>
+                                <div class="slds-spinner__dot-b"></div>
+                            </div>
+                        </div>
+                    </apex:facet>
+                </apex:actionstatus>                    
+
+            </apex:form>
+            
+        </div>
+        
+        <style type="text/css"> 
+            .popupDialogBox 
+            {      
+                position: absolute;
+                background-color: white;
+                border-width: 2px;
+                border-style: solid;
+                border-color: gray;
+                border-radius: 5px;
+                top: 60px;
+                left: 50%;
+                width: 1000px;
+                margin-left: -500px;
+                z-index: 9999;
+                padding: 10px; 
+            }                
+            .popupBackground 
+            {          
+                position: fixed;
+                width: 100%;
+                height: 500%;
+                top: 0;
+                right: 0;
+                bottom: 0;
+                left: 0;
+                z-index: calc(9000 + 2);
+                background-color: rgba(0,0,0,.1);
+                visibility: visible;
+                opacity: 1;
+                transition: opacity .2s ease,visibility 0s;
+                transition-delay: 0s,.3s; 
+            }
+            .roundedContainer
+            {
+                width: 100%;
+                border: 2px solid lightgrey;
+                padding: 10px;
+                border-radius: 5px;
+                !important;
+            }
+            .slds-spinner_container {
+                position: relative;
+                width: 100%;
+                height: 100%;
+                top: 0;
+                right: 0;
+                bottom: 0;
+                left: 0;
+                z-index: calc(9000 + 2);
+                background-color: rgba(255,255,255,.75);
+                visibility: visible;
+                opacity: 1;
+                transition: opacity .2s ease,visibility 0s;
+                transition-delay: 0s,.3s;
+            }            
+        </style>
+        
+    </html>
+    
+</apex:page>

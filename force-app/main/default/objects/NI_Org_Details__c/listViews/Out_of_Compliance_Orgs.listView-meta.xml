@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Out_of_Compliance_Orgs</fullName>
+    <booleanFilter>1 AND 2 AND 3 AND( 4 OR 5) AND 6 AND 7 AND 8 AND 9</booleanFilter>
+    <columns>NAME</columns>
+    <columns>Primary_Account_Owner__c</columns>
+    <columns>Org_Name__c</columns>
+    <columns>License_Type_Compliant__c</columns>
+    <columns>Data_Storage_Compliant__c</columns>
+    <columns>Data_Storage_Percent_Used__c</columns>
+    <columns>Data_Storage__c</columns>
+    <columns>Data_Storage_Limit__c</columns>
+    <columns>License_Type__c</columns>
+    <columns>Required_License_Type__c</columns>
+    <columns>Custom_Apps__c</columns>
+    <columns>Custom_Objects__c</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>Org_Status__c</field>
+        <operation>equals</operation>
+        <value>Provisioned</value>
+    </filters>
+    <filters>
+        <field>Org_Type__c</field>
+        <operation>equals</operation>
+        <value>Salesforce Production</value>
+    </filters>
+    <filters>
+        <field>Data_Storage_Limit__c</field>
+        <operation>notEqual</operation>
+    </filters>
+    <filters>
+        <field>Data_Storage_Compliant__c</field>
+        <operation>equals</operation>
+        <value>0</value>
+    </filters>
+    <filters>
+        <field>License_Type_Compliant__c</field>
+        <operation>equals</operation>
+        <value>0</value>
+    </filters>
+    <filters>
+        <field>Reseller__c</field>
+        <operation>notEqual</operation>
+        <value>MTech</value>
+    </filters>
+    <filters>
+        <field>Product_Type__c</field>
+        <operation>notEqual</operation>
+        <value>Connex,Libra</value>
+    </filters>
+    <filters>
+        <field>PackageVersion__c</field>
+        <operation>notContain</operation>
+        <value>1.43,1.44,1.45,1.46,1.47,1.489,1.483</value>
+    </filters>
+    <filters>
+        <field>Delphi_Net_Upgrade_Customer__c</field>
+        <operation>equals</operation>
+        <value>0</value>
+    </filters>
+    <label>Out of Compliance Orgs</label>
+    <sharedTo>
+        <allInternalUsers></allInternalUsers>
+    </sharedTo>
+</ListView>

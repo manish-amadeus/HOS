@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Reporting_Effective_Date_Month_Year__c</fullName>
+    <description>USED FOR CORPORATE REPORTS. DO NOT CHANGE!
+
+NICC-028037
+This field is used for Cancellation Reporting by the Business Systems Team.</description>
+    <externalId>false</externalId>
+    <formula>/*Text(Month(Effective_Date__c))&amp; &apos;/&apos; &amp; text(Year(Effective_Date__c))*/
+
+/*Text(Year(Effective_Date__c))&amp; &apos; - &apos; &amp; text(Month(Effective_Date__c))*/
+
+Text(Year(Effective_Date__c))&amp; &apos; - &apos; &amp;
+CASE(MONTH(Effective_Date__c),
+1,&quot;01&quot;,
+2,&quot;02&quot;,
+3,&quot;03&quot;,
+4,&quot;04&quot;,
+5,&quot;05&quot;,
+6,&quot;06&quot;,
+7,&quot;07&quot;,
+8,&quot;08&quot;,
+9,&quot;09&quot;,
+10,&quot;10&quot;,
+11,&quot;11&quot;,
+12,&quot;12&quot;,
+&quot;None&quot;)</formula>
+    <inlineHelpText>The month and year of the Effective Date. This field is used for Corporate reporting by the Business Systems Team.</inlineHelpText>
+    <label>Effective Month &amp; Year</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

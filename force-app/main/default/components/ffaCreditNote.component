@@ -1,0 +1,339 @@
+<apex:component access="global" controller="ffaCreditNoteController" layout="none" >
+<apex:attribute name="creditNoteID" type="String" required="false" assignTo="{!scnId}" description="The id of the Invoice that is being rendered."/> 
+	<html>
+		<!-- Styles -->
+	    <apex:variable var="styleFontColor"                         value="#000000" />
+	    <apex:variable var="styleHeaderBGColor"                     value="#E4EAF4" />
+	    <apex:variable var="styleHeaderFontColor"                   value="#000000" />
+	    <apex:variable var="styleLineColor"                         value="#3B5E91" />
+	   	<head>
+			<style type="text/css">
+
+			body,td,th, h1 {
+                font-family:Arial, sans-serif;
+                font-size:8pt;
+                color:{!styleFontColor};
+            }
+            table{
+            	table-layout: auto;
+            }
+
+            @page{
+            	margin-bottom: 2in;
+            	margin-top: 2in;
+                @bottom-center {content: element(footer);}
+                @top-center {content: element(header);}
+            }
+            /*.headerText{
+            	font-family:Arial, sans-serif;
+                font-size:8pt;
+                text-align: center;
+                margin-left: 30px;
+            }*/
+            .footerText{
+            	font-family:Arial, sans-serif;
+                font-size:8pt;
+                text-align: center;
+                vertical-align: top;
+            }
+
+            .pagenumber:before {
+				content: counter(page);
+			}
+			.pagecount:before {
+				content: counter(pages);
+			}
+
+            div.footer {
+	            padding: 2px;
+				display: block;
+	            position: running(footer);
+            }
+            div.header {
+				margin-left:8px;
+				margin-top: 20px;
+				position: running(header);
+			}
+			div.addressInfo{
+				padding-top: 0px;
+			}
+
+			.roundedBorderBox{
+				border:1px solid black;
+			}
+
+			.summaryTable{
+				margin-top:30px;
+				font-size:8pt;
+			}
+			.lineData{
+				padding: 5px;
+				margin: 5px;
+			}
+			.lineHeader{
+				padding: 2px;
+			}
+
+			.totalTable{
+				border:1px solid black;
+				float:left;
+				text-align:right;
+				width:350px;
+				margin: 0px;
+				padding: 0px;
+			}
+			.totalTD{
+				text-align: right;
+				margin: 5px;
+				padding: 5px;
+			}
+			.totalLabel{
+				text-align: right;
+				margin: 2px;
+				padding: 2px;
+				font-weight: bold;
+			}
+
+			.linesTable{
+                -fs-table-paginate: paginate;
+                border-collapse: collapse;
+                border-spacing: 0;
+          	}
+
+			.headerTable{
+				height: 250%;
+				width: auto;
+				margin-left: 25px;
+				margin-top: 10px;
+				padding: 1px;
+				float: right;
+			}
+			.footerTable{
+				margin: 0px;
+				padding: 0px;
+				position: relative;
+				left: 400px;
+			}
+			tr.lineData > td
+			{
+			  padding-bottom: 1em;
+			}
+
+			.shadowedBox{
+				box-shadow: 20px 20px 0px 0px rgba(0,0,0,0.75);
+				border:1px solid black;
+			}
+
+			</style>
+		</head>
+		<body>
+			<div>
+				<!-- <div class="roundedBorderBox">testing this div</div> -->
+				<div class="header">
+			        <table>
+			            <tr>
+			                <!-- <td valign="top"><apex:image id="theImage" url="{!URLFOR($Resource.Newmarket_Invoice_Resources, 'NMInvoice/Invoice_Logo.png')}" width="180px" height="50px"/></td> -->
+			                <td valign="top"><apex:image id="compLogo" value="{!creditNote.Remittance_Info__r.Company_Logo__c}" width="180px" height="50px"/></td>
+			                <td align="center" width="300px">
+			                	<apex:image id="invHeader" rendered="{!renderHeaderImage}" value="{!creditNote.Remittance_Info__r.Invoice_Header__c}"  width="270px" height="160px" style="margin-left:15px"/>
+			                	<apex:outputText styleClass="headerText" style="font-family: 'Arial Unicode MS';" escape="false" rendered="{!!renderHeaderImage}" value="{!creditNote.Remittance_Info__r.Invoice_Header_Text__c}"/>fpa
+			                </td>
+			                <td valign="top"><apex:outputPanel >
+			                    <b style="font-size:20px;margin-left:90px;">Credit Note</b>
+		                        <table class="roundedBorderBox headerTable">
+		                            <tr>
+		                                <th style="padding: 1px">Doc Number</th>
+		                                <th style="padding: 1px">Date</th>
+		                                <th style="padding: 1px;width: 50px;">Page</th><!-- =====ADD PAGE COUNT====== -->
+		                            </tr>
+		                            <tr>
+		                                <td style="padding: 1px">{!creditNote.Name}</td>
+		                                <td style="padding: 1px"><apex:outputField value="{!creditNote.c2g__CreditNoteDate__c}"></apex:outputField></td>
+		                                <td style="padding: 1px;width: 60px;"><div><span style="width: 60px" class="pagenumber"/> of <span class="pagecount"/></div></td>
+		                            </tr>
+		                            <tr>
+		                                <th style="padding: 1px">Order Number: </th>
+		                                <td style="padding: 1px">{!orderNumber}</td>
+		                            </tr>
+		                        </table>
+			                </apex:outputPanel></td>
+			            </tr>
+			         </table>
+		         </div>
+
+		         <div class="addressInfo">
+			         <br/>
+			         <table>
+			             <tr>
+			                 <th valign="top">Bill To :&nbsp;&nbsp; </th>
+			                 <td valign="top">{!creditNote.c2g__Account__r.Name}<br/>
+			                     {!creditNote.c2g__Account__r.BillingStreet},<br/>
+			                     {!creditNote.c2g__Account__r.BillingCity}, {!creditNote.c2g__Account__r.BillingState} {!creditNote.c2g__Account__r.BillingPostalCode}<br/>
+			                     {!creditNote.c2g__Account__r.BillingCountry}<br/>
+			                     <apex:outputText rendered="{!!sutInvoice}">Tax Id : {!taxRegistrationNumber}</apex:outputText></td>
+			                 <th valign="top" style="padding-left:100px">Ship To :&nbsp;&nbsp; </th>
+			                 <td valign="top">{!creditNote.c2g__Account__r.Name}<br/>
+			                     {!creditNote.c2g__Account__r.ShippingStreet},<br/>
+			                     {!creditNote.c2g__Account__r.ShippingCity}, {!creditNote.c2g__Account__r.ShippingState} {!creditNote.c2g__Account__r.ShippingPostalCode}<br/>
+			                     {!creditNote.c2g__Account__r.ShippingCountry}</td>
+			             </tr>
+			         </table>
+			    </div>
+		         
+	             <table width="100%" class="summaryTable roundedBorderBox" cellspacing="6px">
+	                 <tr>
+	                     <th>Customer No.</th>
+	                     <th>Customer Name</th>
+	                     <th>Customer PO Number</th>
+	                     <th>Currency</th>
+	                     <th>Terms</th>
+	                     <th>Due Date</th>
+	                 </tr>
+	                 <tr>
+	                     <td><apex:outputField value="{!creditNote.c2g__Account__r.AccountNumber}"></apex:outputField></td>
+	                     <td><apex:outputField value="{!creditNote.c2g__Account__r.Name}"></apex:outputField></td>
+	                     <td></td><!-- WHERE DOES THE PO NUMBER COME FROM?? -->
+	                     <td><apex:outputField value="{!creditNote.c2g__CreditNoteCurrency__r.Name}"></apex:outputField></td>
+	                     <td><apex:outputField value="{!creditNote.c2g__Account__r.c2g__CODADescription1__c}"></apex:outputField></td>
+	                     <td><apex:outputField value="{!creditNote.c2g__DueDate__c}"></apex:outputField></td>
+	                 </tr>
+	             </table> 
+
+		         <table style="border-color:#fff;margin-top:20px;page-break-inside:auto" class="linesTable" width="100%" border="0" cellspacing="9px" cellpadding="0px">
+		         	<thead>
+			            <tr>
+			                <th width="400px" >SKU Code/Description/Comments</th>
+			                <th>Ref #</th>
+			                <th align="right">Units</th>
+			                <th align="right">Rate</th>
+			                <th align="right">Extended Price</th>
+			            </tr>
+			            <tr class="lineHeader">
+			                <td colspan="8">
+			                    <hr/>
+			                </td>
+			            </tr>
+		            </thead>
+		            <tbody>
+			            <apex:repeat value="{!creditNoteLines}" var="line">
+				            <tr class="lineData">
+				                <td width="400px">
+				                	<apex:outputText value="{!line.productSku}"></apex:outputText><br/>
+				                	<apex:outputText value="{!line.productName}"></apex:outputText><br/>
+				                	<apex:outputText value="{!line.lineDescription}"></apex:outputText>
+				                	<!-- <apex:outputText value="{!line.periodDescription}" rendered="{!line.renderPeriodDescription}"></apex:outputText> -->
+				                </td>
+				                <td>
+				                	<apex:outputText value="{0,number,#,###,###,###,###,###}">
+	                                    <apex:param value="{!line.lineNumber}"/>
+	                                </apex:outputText>
+				                </td>
+				                <td align="right">
+				                	<apex:outputText value="{0,number,#,###,###,###,###,###}">
+	                                    <apex:param value="{!line.quantity}"/>
+	                                </apex:outputText>
+				                </td>
+				                <td align="right">
+				                	<apex:outputText value="{0,number,#,###,###,###,###,###.00}">
+	                                    <apex:param value="{!line.unitPrice}"/>
+	                                </apex:outputText>
+				                </td>
+				                <td align="right"> 
+				                	<apex:outputText value="{0,number,#,###,###,###,###,###.00}">
+	                                    <apex:param value="{!line.netValue}"/>
+	                                </apex:outputText>
+				                </td>
+				            </tr>
+				        </apex:repeat>
+			        </tbody>
+			        <!-- <apex:repeat value="{!taxLines}" var="tax">
+			            <tr>
+			                <td>
+			                	<apex:outputText value="{!tax.description}"></apex:outputText>
+			                </td>
+			                <td></td>
+			                <td></td>
+			                <td align="right">
+			                	<apex:outputText value="{!tax.taxRate}"></apex:outputText>
+			                </td>
+			                <td align="right">
+			                	<apex:outputText value="{0,number,#,###,###,###,###,###.00}">
+			                		<apex:param value="{!tax.totalTax}"/>
+			                	</apex:outputText>
+			                </td>
+			            </tr>
+			        </apex:repeat> -->
+			    </table>
+			   <table style="border-color:#fff;margin-top:20px;" width="100%" border="0" cellspacing="9px" cellpadding="0px">
+			    	<th >Tax Description</th>
+	                <th></th>
+	                <th align="right"></th>
+	                <th align="right">Rate</th>
+	                <th align="right">Tax Value</th>
+			        <apex:repeat value="{!taxLines}" var="tax">
+			            <tr>
+			                <td>
+			                	<apex:outputText value="{!tax.description}"></apex:outputText>
+			                </td>
+			                <td></td>
+			                <td></td>
+			                <td align="right">
+			                	<apex:outputText value="{!tax.taxRate}"></apex:outputText>
+			                </td>
+			                <td align="right">
+			                	<apex:outputText value="{0,number,#,###,###,###,###,###.00}">
+			                		<apex:param value="{!tax.totalTax}"/>
+			                	</apex:outputText>
+			                </td>
+			            </tr>
+			        </apex:repeat>
+		        </table>
+
+		        <div class="footer" align="right">
+                    <table class="totalTable" style="width:100%;">
+                      	<tr>
+                      		<td class="totalLabel">
+                      			Subtotal in {!creditNote.c2g__CreditNoteCurrency__r.Name}:
+                      		</td>
+                      		<td class="totalTD">
+                      			<apex:outputField value="{!creditNote.c2g__NetTotal__c}"></apex:outputField>
+                      		</td>
+                      	</tr>
+                      	<tr>
+                      		<td class="totalLabel" >
+                      			Sales Tax in {!creditNote.c2g__CreditNoteCurrency__r.Name}:
+                      		</td>
+                      		<td class="totalTD">
+                      			<apex:outputField value="{!creditNote.c2g__TaxTotal__c}"></apex:outputField>
+                      		</td>
+                      	</tr>
+                      	<tr>
+                      		<td class="totalLabel" >
+                      			Credit Total in {!creditNote.c2g__CreditNoteCurrency__r.Name}:
+                      		</td>
+                      		<td class="totalTD">
+                      			<apex:outputField value="{!creditNote.c2g__CreditNoteTotal__c}"></apex:outputField>
+                      		</td>
+                      	</tr>
+                      	<!-- <tr>
+                      		<td class="totalLabel" >
+                      			Payment Received in {!creditNote.c2g__CreditNoteCurrency__r.Name}:
+                      		</td>
+                      		<td class="totalTD">
+                      			<apex:outputField value="{!creditNote.Amount_Paid__c}"></apex:outputField>
+                      		</td>
+                      	</tr> -->
+                      	<!-- <tr>
+                      		<td class="totalLabel" >
+                      			Balance in {!creditNote.c2g__CreditNoteCurrency__r.Name}:
+                      		</td>
+                      		<td class="totalTD">
+                      			<apex:outputField value="{!creditNote.Outstanding_Total_Display__c}"></apex:outputField>
+                      		</td>
+                      	</tr> -->
+                    </table>
+			    </div>
+		    </div>
+		</body>
+	</html>
+</apex:component>

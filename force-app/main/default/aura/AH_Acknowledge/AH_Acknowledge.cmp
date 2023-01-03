@@ -1,0 +1,16 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access="global"  controller="AH_Acknowledge_Cntlr" >
+	
+    <aura:handler event="force:showToast" action="{!c.redirectToCaserec}"/>
+    
+     <!-- HEADER -->
+    <div class="slds-col modal-header slds-modal__header">
+        <h1 class="title slds-text-heading--medium"><b> Case will be Acknowledge Here</b></h1>
+    </div>
+  
+    <br></br>
+	<lightning:button label="Acknowledge" 
+                                  class="slds-m-top--medium"
+                                  variant="brand"
+                                  onclick="{!c.acknowledgedCase}" />
+       
+</aura:component>

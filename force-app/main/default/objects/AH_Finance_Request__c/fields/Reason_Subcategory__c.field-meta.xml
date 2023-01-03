@@ -1,0 +1,359 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Reason_Subcategory__c</fullName>
+    <businessOwnerGroup>DEPT_Finance</businessOwnerGroup>
+    <businessStatus>Active</businessStatus>
+    <description>updated values NICC-042151</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Further detail of the reason for the Sales Credit Note</inlineHelpText>
+    <label>Reason Subcategory</label>
+    <required>false</required>
+    <securityClassification>Internal</securityClassification>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <controllingField>Credit_Note_Reason__c</controllingField>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>true</sorted>
+            <value>
+                <fullName>Activation Date</fullName>
+                <default>false</default>
+                <label>Activation Date</label>
+            </value>
+            <value>
+                <fullName>Activity Line Setup</fullName>
+                <default>false</default>
+                <label>Activity Line Setup</label>
+            </value>
+            <value>
+                <fullName>Billing Error</fullName>
+                <default>false</default>
+                <label>Billing Error</label>
+            </value>
+            <value>
+                <fullName>Change in Billing Frequency</fullName>
+                <default>false</default>
+                <label>Change in Billing Frequency</label>
+            </value>
+            <value>
+                <fullName>Change in Ownership</fullName>
+                <default>false</default>
+                <label>Change in Ownership</label>
+            </value>
+            <value>
+                <fullName>Change in Pricing</fullName>
+                <default>false</default>
+                <label>Change in Pricing</label>
+            </value>
+            <value>
+                <fullName>Change in Start Date</fullName>
+                <default>false</default>
+                <label>Change in Start Date</label>
+            </value>
+            <value>
+                <fullName>Change of Billing Delivery</fullName>
+                <default>false</default>
+                <label>Change of Billing Delivery</label>
+            </value>
+            <value>
+                <fullName>Change Order</fullName>
+                <default>false</default>
+                <label>Change Order</label>
+            </value>
+            <value>
+                <fullName>Concession</fullName>
+                <default>false</default>
+                <label>Concession</label>
+            </value>
+            <value>
+                <fullName>Contractual Issue</fullName>
+                <default>false</default>
+                <label>Contractual Issue</label>
+            </value>
+            <value>
+                <fullName>Conversion</fullName>
+                <default>false</default>
+                <label>Conversion</label>
+            </value>
+            <value>
+                <fullName>COVID -19</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>COVID -19</label>
+            </value>
+            <value>
+                <fullName>COVID - 19</fullName>
+                <default>false</default>
+                <label>COVID - 19</label>
+            </value>
+            <value>
+                <fullName>Currency</fullName>
+                <default>false</default>
+                <label>Currency</label>
+            </value>
+            <value>
+                <fullName>Data Conversion</fullName>
+                <default>false</default>
+                <label>Data Conversion</label>
+            </value>
+            <value>
+                <fullName>Dunning</fullName>
+                <default>false</default>
+                <label>Dunning</label>
+            </value>
+            <value>
+                <fullName>Duplicate Invoice</fullName>
+                <default>false</default>
+                <label>Duplicate Invoice</label>
+            </value>
+            <value>
+                <fullName>Expense Compliance</fullName>
+                <default>false</default>
+                <label>Expense Compliance</label>
+            </value>
+            <value>
+                <fullName>Fulfillment Issue</fullName>
+                <default>false</default>
+                <label>Fulfillment Issue</label>
+            </value>
+            <value>
+                <fullName>Goodwill</fullName>
+                <default>false</default>
+                <label>Goodwill</label>
+            </value>
+            <value>
+                <fullName>hange of Billing Delivery</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>hange of Billing Delivery</label>
+            </value>
+            <value>
+                <fullName>Late Cancellation</fullName>
+                <default>false</default>
+                <label>Late Cancellation</label>
+            </value>
+            <value>
+                <fullName>Mgmt &lt;- &gt; Prop. Billing</fullName>
+                <default>false</default>
+                <label>Mgmt &lt;- &gt; Prop. Billing</label>
+            </value>
+            <value>
+                <fullName>Migration</fullName>
+                <default>false</default>
+                <label>Migration</label>
+            </value>
+            <value>
+                <fullName>Moved to Bundled Pricing</fullName>
+                <default>false</default>
+                <label>Moved to Bundled Pricing</label>
+            </value>
+            <value>
+                <fullName>Natural Disaster</fullName>
+                <default>false</default>
+                <label>Natural Disaster</label>
+            </value>
+            <value>
+                <fullName>None</fullName>
+                <default>false</default>
+                <label>None</label>
+            </value>
+            <value>
+                <fullName>On-time Cancellation</fullName>
+                <default>false</default>
+                <label>On-time Cancellation</label>
+            </value>
+            <value>
+                <fullName>Order Management Error</fullName>
+                <default>false</default>
+                <label>Order Management Error</label>
+            </value>
+            <value>
+                <fullName>Ownership Change</fullName>
+                <default>false</default>
+                <label>Ownership Change</label>
+            </value>
+            <value>
+                <fullName>Previous cancellation not processed</fullName>
+                <default>false</default>
+                <label>Previous cancellation not processed</label>
+            </value>
+            <value>
+                <fullName>Product Migration</fullName>
+                <default>false</default>
+                <label>Product Migration</label>
+            </value>
+            <value>
+                <fullName>Product Sunset</fullName>
+                <default>false</default>
+                <label>Product Sunset</label>
+            </value>
+            <value>
+                <fullName>Sunset</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Sunset</label>
+            </value>
+            <value>
+                <fullName>System Issue</fullName>
+                <default>false</default>
+                <label>System Issue</label>
+            </value>
+            <value>
+                <fullName>Tax</fullName>
+                <default>false</default>
+                <label>Tax</label>
+            </value>
+            <value>
+                <fullName>Trade</fullName>
+                <default>false</default>
+                <label>Trade</label>
+            </value>
+            <value>
+                <fullName>User Reduction</fullName>
+                <default>false</default>
+                <label>User Reduction</label>
+            </value>
+            <value>
+                <fullName>Write Off</fullName>
+                <default>false</default>
+                <label>Write Off</label>
+            </value>
+        </valueSetDefinition>
+        <valueSettings>
+            <controllingFieldValue>Cancellation</controllingFieldValue>
+            <valueName>Change Order</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Cancellation</controllingFieldValue>
+            <valueName>Dunning</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Cancellation</controllingFieldValue>
+            <valueName>Late Cancellation</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Cancellation</controllingFieldValue>
+            <valueName>Mgmt &lt;- &gt; Prop. Billing</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Cancellation</controllingFieldValue>
+            <valueName>Migration</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Cancellation</controllingFieldValue>
+            <valueName>Moved to Bundled Pricing</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Cancellation</controllingFieldValue>
+            <valueName>On-time Cancellation</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Cancellation</controllingFieldValue>
+            <valueName>Ownership Change</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Cancellation</controllingFieldValue>
+            <valueName>Product Sunset</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Cancellation</controllingFieldValue>
+            <valueName>Trade</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Contract Change</controllingFieldValue>
+            <valueName>Change in Billing Frequency</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Contract Change</controllingFieldValue>
+            <valueName>Change in Ownership</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Contract Change</controllingFieldValue>
+            <valueName>Change in Pricing</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Contract Change</controllingFieldValue>
+            <valueName>Change in Start Date</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Contract Change</controllingFieldValue>
+            <valueName>Change of Billing Delivery</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Contract Change</controllingFieldValue>
+            <valueName>Product Migration</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Contract Change</controllingFieldValue>
+            <valueName>User Reduction</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Concession</controllingFieldValue>
+            <controllingFieldValue>Customer Service - Goodwill</controllingFieldValue>
+            <valueName>COVID - 19</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Concession</controllingFieldValue>
+            <valueName>Fulfillment Issue</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Concession</controllingFieldValue>
+            <valueName>Goodwill</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Customer Service - Goodwill</controllingFieldValue>
+            <valueName>Concession</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Customer Service - Goodwill</controllingFieldValue>
+            <valueName>Natural Disaster</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Invoice Correction</controllingFieldValue>
+            <valueName>Activation Date</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Invoice Correction</controllingFieldValue>
+            <valueName>Activity Line Setup</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Invoice Correction</controllingFieldValue>
+            <valueName>Billing Error</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Invoice Correction</controllingFieldValue>
+            <valueName>Contractual Issue</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Invoice Correction</controllingFieldValue>
+            <valueName>Currency</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Invoice Correction</controllingFieldValue>
+            <valueName>Data Conversion</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Invoice Correction</controllingFieldValue>
+            <valueName>Duplicate Invoice</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Invoice Correction</controllingFieldValue>
+            <valueName>Expense Compliance</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Invoice Correction</controllingFieldValue>
+            <valueName>Order Management Error</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Invoice Correction</controllingFieldValue>
+            <valueName>System Issue</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Invoice Correction</controllingFieldValue>
+            <valueName>Tax</valueName>
+        </valueSettings>
+    </valueSet>
+</CustomField>

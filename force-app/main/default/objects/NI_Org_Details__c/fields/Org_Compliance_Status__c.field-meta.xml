@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Org_Compliance_Status__c</fullName>
+    <externalId>false</externalId>
+    <formula>IF(  Org_Compliant__c = false, 
+IMAGE(&quot;/img/samples/flag_red.gif&quot;,&quot;Red&quot;),
+IMAGE(&quot;/img/samples/flag_green.gif&quot;,&quot;Green&quot;)
+)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Org Compliance Status</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

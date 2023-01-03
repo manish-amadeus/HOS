@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>EOM_FR_s_that_need_approved</fullName>
+    <columns>NAME</columns>
+    <columns>Account__c</columns>
+    <columns>Status__c</columns>
+    <columns>Approval_Status__c</columns>
+    <columns>Billing_Contract__c</columns>
+    <columns>Company__c</columns>
+    <columns>Date_Submitted_for_Approval__c</columns>
+    <columns>CREATEDBY_USER</columns>
+    <columns>CREATED_DATE</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>RECORDTYPE</field>
+        <operation>equals</operation>
+        <value>AH_Finance_Request__c.Sales_Credit_Note_Request</value>
+    </filters>
+    <filters>
+        <field>Approval_Status__c</field>
+        <operation>notEqual</operation>
+        <value>Not Submitted,Approved,Rejected,Complete</value>
+    </filters>
+    <filters>
+        <field>Status__c</field>
+        <operation>notEqual</operation>
+        <value>Completed,Cancelled</value>
+    </filters>
+    <label>EOM: FR&apos;s that need approved</label>
+    <language>en_US</language>
+    <sharedTo>
+        <group>Finance_Billing_Team</group>
+    </sharedTo>
+</ListView>

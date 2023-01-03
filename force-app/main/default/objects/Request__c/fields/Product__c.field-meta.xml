@@ -1,0 +1,604 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Product__c</fullName>
+    <businessOwnerUser>adavid.robinson@amadeus.com</businessOwnerUser>
+    <businessStatus>Active</businessStatus>
+    <description>NICC-051009</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Shows which Product(s) the Contract is for. Dependent on which Product Family is chosen.</inlineHelpText>
+    <label>Product</label>
+    <required>false</required>
+    <securityClassification>Internal</securityClassification>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>MultiselectPicklist</type>
+    <valueSet>
+        <controllingField>Product_Family__c</controllingField>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>ACPM</fullName>
+                <default>false</default>
+                <label>ACPM</label>
+            </value>
+            <value>
+                <fullName>Advanced</fullName>
+                <default>false</default>
+                <label>Advanced</label>
+            </value>
+            <value>
+                <fullName>Agency360</fullName>
+                <default>false</default>
+                <label>Agency360</label>
+            </value>
+            <value>
+                <fullName>Agency360 GDS Advertising Edition</fullName>
+                <default>false</default>
+                <label>Agency360 GDS Advertising Edition</label>
+            </value>
+            <value>
+                <fullName>Agency Position</fullName>
+                <default>false</default>
+                <label>Agency Position</label>
+            </value>
+            <value>
+                <fullName>AHD- Amadeus Diagramming</fullName>
+                <default>false</default>
+                <label>AHD- Amadeus Diagramming</label>
+            </value>
+            <value>
+                <fullName>Amadeus Instant Preference (AIP)</fullName>
+                <default>false</default>
+                <label>Amadeus Instant Preference (AIP)</label>
+            </value>
+            <value>
+                <fullName>APMA</fullName>
+                <default>false</default>
+                <label>APMA</label>
+            </value>
+            <value>
+                <fullName>ASEM</fullName>
+                <default>false</default>
+                <label>ASEM</label>
+            </value>
+            <value>
+                <fullName>Basic Bundle</fullName>
+                <default>false</default>
+                <label>Basic Bundle</label>
+            </value>
+            <value>
+                <fullName>Cendyn</fullName>
+                <default>false</default>
+                <label>Cendyn</label>
+            </value>
+            <value>
+                <fullName>Channel Management</fullName>
+                <default>false</default>
+                <label>Channel Management</label>
+            </value>
+            <value>
+                <fullName>Consortia/Corp RFP</fullName>
+                <default>false</default>
+                <label>Consortia/Corp RFP</label>
+            </value>
+            <value>
+                <fullName>Consulting</fullName>
+                <default>false</default>
+                <label>Consulting</label>
+            </value>
+            <value>
+                <fullName>Corp Hotelligence</fullName>
+                <default>false</default>
+                <label>Corp Hotelligence</label>
+            </value>
+            <value>
+                <fullName>Demand360</fullName>
+                <default>false</default>
+                <label>Demand360</label>
+            </value>
+            <value>
+                <fullName>Demand Position</fullName>
+                <default>false</default>
+                <label>Demand Position</label>
+            </value>
+            <value>
+                <fullName>Destination Insights</fullName>
+                <default>false</default>
+                <label>Destination Insights</label>
+            </value>
+            <value>
+                <fullName>Directbook</fullName>
+                <default>false</default>
+                <label>Directbook</label>
+            </value>
+            <value>
+                <fullName>Display Media</fullName>
+                <default>false</default>
+                <label>Display Media</label>
+            </value>
+            <value>
+                <fullName>DRM</fullName>
+                <default>false</default>
+                <label>DRM</label>
+            </value>
+            <value>
+                <fullName>EMA</fullName>
+                <default>false</default>
+                <label>EMA</label>
+            </value>
+            <value>
+                <fullName>EMC</fullName>
+                <default>false</default>
+                <label>EMC</label>
+            </value>
+            <value>
+                <fullName>EMS/RMS</fullName>
+                <default>false</default>
+                <label>EMS/RMS</label>
+            </value>
+            <value>
+                <fullName>Featured Property</fullName>
+                <default>false</default>
+                <label>Featured Property</label>
+            </value>
+            <value>
+                <fullName>Forward Vision (CAR)</fullName>
+                <default>false</default>
+                <label>Forward Vision (CAR)</label>
+            </value>
+            <value>
+                <fullName>FuturePace</fullName>
+                <default>false</default>
+                <label>FuturePace</label>
+            </value>
+            <value>
+                <fullName>GDS Media</fullName>
+                <default>false</default>
+                <label>GDS Media</label>
+            </value>
+            <value>
+                <fullName>GMS</fullName>
+                <default>false</default>
+                <label>GMS</label>
+            </value>
+            <value>
+                <fullName>GuestView360</fullName>
+                <default>false</default>
+                <label>GuestView360</label>
+            </value>
+            <value>
+                <fullName>Hotelligence</fullName>
+                <default>false</default>
+                <label>Hotelligence</label>
+            </value>
+            <value>
+                <fullName>Hotelligence Lite</fullName>
+                <default>false</default>
+                <label>Hotelligence Lite</label>
+            </value>
+            <value>
+                <fullName>Hotel Spotlight</fullName>
+                <default>false</default>
+                <label>Hotel Spotlight</label>
+            </value>
+            <value>
+                <fullName>HT360Admin</fullName>
+                <default>false</default>
+                <label>HT360Admin</label>
+            </value>
+            <value>
+                <fullName>IDPMS</fullName>
+                <default>false</default>
+                <label>IDPMS</label>
+            </value>
+            <value>
+                <fullName>iHotelier CRS</fullName>
+                <default>false</default>
+                <label>iHotelier CRS</label>
+            </value>
+            <value>
+                <fullName>Industry Intel</fullName>
+                <default>false</default>
+                <label>Industry Intel</label>
+            </value>
+            <value>
+                <fullName>InSite</fullName>
+                <default>false</default>
+                <label>InSite</label>
+            </value>
+            <value>
+                <fullName>iTrak</fullName>
+                <default>false</default>
+                <label>iTrak</label>
+            </value>
+            <value>
+                <fullName>Lanyon</fullName>
+                <default>false</default>
+                <label>Lanyon</label>
+            </value>
+            <value>
+                <fullName>Legacy Bundle</fullName>
+                <default>false</default>
+                <label>Legacy Bundle</label>
+            </value>
+            <value>
+                <fullName>MDM</fullName>
+                <default>false</default>
+                <label>MDM</label>
+            </value>
+            <value>
+                <fullName>Meetingbroker</fullName>
+                <default>false</default>
+                <label>Meetingbroker</label>
+            </value>
+            <value>
+                <fullName>Oracle</fullName>
+                <default>false</default>
+                <label>Oracle</label>
+            </value>
+            <value>
+                <fullName>Order Manager</fullName>
+                <default>false</default>
+                <label>Order Manager</label>
+            </value>
+            <value>
+                <fullName>PMS Integrations</fullName>
+                <default>false</default>
+                <label>PMS Integrations</label>
+            </value>
+            <value>
+                <fullName>Price Position</fullName>
+                <default>false</default>
+                <label>Price Position</label>
+            </value>
+            <value>
+                <fullName>Price Position (CAR)</fullName>
+                <default>false</default>
+                <label>Price Position (CAR)</label>
+            </value>
+            <value>
+                <fullName>Rate360</fullName>
+                <default>false</default>
+                <label>Rate360</label>
+            </value>
+            <value>
+                <fullName>RateView/RV Enterprise</fullName>
+                <default>false</default>
+                <label>RateView/RV Enterprise</label>
+            </value>
+            <value>
+                <fullName>RDP</fullName>
+                <default>false</default>
+                <label>RDP</label>
+            </value>
+            <value>
+                <fullName>RevenueStrategy360</fullName>
+                <default>false</default>
+                <label>RevenueStrategy360</label>
+            </value>
+            <value>
+                <fullName>RezExchange</fullName>
+                <default>false</default>
+                <label>RezExchange</label>
+            </value>
+            <value>
+                <fullName>Sabre Spotlight (SSL)</fullName>
+                <default>false</default>
+                <label>Sabre Spotlight (SSL)</label>
+            </value>
+            <value>
+                <fullName>Sabre Weekend Spotlight</fullName>
+                <default>false</default>
+                <label>Sabre Weekend Spotlight</label>
+            </value>
+            <value>
+                <fullName>Salesforce</fullName>
+                <default>false</default>
+                <label>Salesforce</label>
+            </value>
+            <value>
+                <fullName>Select</fullName>
+                <default>false</default>
+                <label>Select</label>
+            </value>
+            <value>
+                <fullName>SEO</fullName>
+                <default>false</default>
+                <label>SEO</label>
+            </value>
+            <value>
+                <fullName>Sertifi</fullName>
+                <default>false</default>
+                <label>Sertifi</label>
+            </value>
+            <value>
+                <fullName>Single Media Agency</fullName>
+                <default>false</default>
+                <label>Single Media Agency</label>
+            </value>
+            <value>
+                <fullName>Single Media Subscription</fullName>
+                <default>false</default>
+                <label>Single Media Subscription</label>
+            </value>
+            <value>
+                <fullName>SMO</fullName>
+                <default>false</default>
+                <label>SMO</label>
+            </value>
+            <value>
+                <fullName>SO Peripherals and Services</fullName>
+                <default>false</default>
+                <label>SO Peripherals and Services</label>
+            </value>
+            <value>
+                <fullName>Standard</fullName>
+                <default>false</default>
+                <label>Standard</label>
+            </value>
+            <value>
+                <fullName>Standard/Essentials</fullName>
+                <default>false</default>
+                <label>Standard/Essentials</label>
+            </value>
+            <value>
+                <fullName>TA Helpdesk</fullName>
+                <default>false</default>
+                <label>TA Helpdesk</label>
+            </value>
+            <value>
+                <fullName>TC Bundle</fullName>
+                <default>false</default>
+                <label>TC Bundle</label>
+            </value>
+            <value>
+                <fullName>Trip Advisor</fullName>
+                <default>false</default>
+                <label>Trip Advisor</label>
+            </value>
+            <value>
+                <fullName>TVS</fullName>
+                <default>false</default>
+                <label>TVS</label>
+            </value>
+            <value>
+                <fullName>Webbuilder</fullName>
+                <default>false</default>
+                <label>Webbuilder</label>
+            </value>
+            <value>
+                <fullName>Web - Builder Concierge</fullName>
+                <default>false</default>
+                <label>Web - Builder Concierge</label>
+            </value>
+            <value>
+                <fullName>Web - Other</fullName>
+                <default>false</default>
+                <label>Web - Other</label>
+            </value>
+            <value>
+                <fullName>Web - SEO / SMO</fullName>
+                <default>false</default>
+                <label>Web - SEO / SMO</label>
+            </value>
+            <value>
+                <fullName>Website - HTK</fullName>
+                <default>false</default>
+                <label>Website - HTK</label>
+            </value>
+            <value>
+                <fullName>Web Solutions Custom</fullName>
+                <default>false</default>
+                <label>Web Solutions Custom</label>
+            </value>
+            <value>
+                <fullName>Web Solutions Essentials</fullName>
+                <default>false</default>
+                <label>Web Solutions Essentials</label>
+            </value>
+        </valueSetDefinition>
+        <valueSettings>
+            <controllingFieldValue>Business Intelligence</controllingFieldValue>
+            <valueName>Agency360</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Business Intelligence</controllingFieldValue>
+            <valueName>Agency360 GDS Advertising Edition</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Business Intelligence</controllingFieldValue>
+            <valueName>Corp Hotelligence</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Business Intelligence</controllingFieldValue>
+            <valueName>Demand360</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Business Intelligence</controllingFieldValue>
+            <valueName>Price Position</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Business Intelligence</controllingFieldValue>
+            <valueName>Price Position (CAR)</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Business Intelligence</controllingFieldValue>
+            <valueName>Rate360</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>GMS</controllingFieldValue>
+            <valueName>GMS</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Media Solutions</controllingFieldValue>
+            <valueName>Amadeus Instant Preference (AIP)</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Media Solutions</controllingFieldValue>
+            <valueName>DRM</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Media Solutions</controllingFieldValue>
+            <valueName>EMA</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Media Solutions</controllingFieldValue>
+            <valueName>Featured Property</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Media Solutions</controllingFieldValue>
+            <valueName>GDS Media</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Media Solutions</controllingFieldValue>
+            <valueName>Hotel Spotlight</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Media Solutions</controllingFieldValue>
+            <valueName>Sabre Spotlight (SSL)</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Media Solutions</controllingFieldValue>
+            <valueName>Sabre Weekend Spotlight</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Media Solutions</controllingFieldValue>
+            <valueName>Single Media Agency</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Media Solutions</controllingFieldValue>
+            <valueName>Single Media Subscription</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Media Solutions</controllingFieldValue>
+            <valueName>Trip Advisor</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Reservation Solutions</controllingFieldValue>
+            <valueName>Basic Bundle</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Reservation Solutions</controllingFieldValue>
+            <valueName>Channel Management</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Reservation Solutions</controllingFieldValue>
+            <valueName>Consortia/Corp RFP</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Reservation Solutions</controllingFieldValue>
+            <valueName>iHotelier CRS</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Reservation Solutions</controllingFieldValue>
+            <valueName>iTrak</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Video Solutions</controllingFieldValue>
+            <valueName>TVS</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Web Solutions</controllingFieldValue>
+            <valueName>Webbuilder</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Web Solutions</controllingFieldValue>
+            <valueName>Web - Builder Concierge</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Web Solutions</controllingFieldValue>
+            <valueName>Web - Other</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Web Solutions</controllingFieldValue>
+            <valueName>Web - SEO / SMO</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Web Solutions</controllingFieldValue>
+            <valueName>Website - HTK</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Web Solutions</controllingFieldValue>
+            <valueName>Web Solutions Custom</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Web Solutions</controllingFieldValue>
+            <valueName>Web Solutions Essentials</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Sales and Catering</controllingFieldValue>
+            <valueName>AHD- Amadeus Diagramming</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Sales and Catering</controllingFieldValue>
+            <valueName>ASEM</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Sales and Catering</controllingFieldValue>
+            <valueName>Cendyn</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Sales and Catering</controllingFieldValue>
+            <valueName>Directbook</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Sales and Catering</controllingFieldValue>
+            <valueName>EMS/RMS</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Sales and Catering</controllingFieldValue>
+            <valueName>Meetingbroker</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Sales and Catering</controllingFieldValue>
+            <valueName>PMS Integrations</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Sales and Catering</controllingFieldValue>
+            <valueName>Sertifi</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Sales and Catering</controllingFieldValue>
+            <valueName>Standard/Essentials</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Service Optimization</controllingFieldValue>
+            <valueName>Advanced</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Service Optimization</controllingFieldValue>
+            <valueName>Legacy Bundle</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Service Optimization</controllingFieldValue>
+            <valueName>Select</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Service Optimization</controllingFieldValue>
+            <valueName>SO Peripherals and Services</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Service Optimization</controllingFieldValue>
+            <valueName>Standard</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>PMS</controllingFieldValue>
+            <valueName>ACPM</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>PMS</controllingFieldValue>
+            <valueName>APMA</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>PMS</controllingFieldValue>
+            <valueName>IDPMS</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>PMS</controllingFieldValue>
+            <valueName>RezExchange</valueName>
+        </valueSettings>
+    </valueSet>
+    <visibleLines>3</visibleLines>
+</CustomField>

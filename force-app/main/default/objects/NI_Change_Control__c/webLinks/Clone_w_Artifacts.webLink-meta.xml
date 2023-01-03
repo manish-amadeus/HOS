@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<WebLink xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Clone_w_Artifacts</fullName>
+    <availability>online</availability>
+    <description>Clone with Artifacts</description>
+    <displayType>button</displayType>
+    <linkType>javascript</linkType>
+    <masterLabel>Clone w/Artifacts</masterLabel>
+    <openType>onClickJavaScript</openType>
+    <protected>false</protected>
+    <url>if (Modal.confirm(&apos;Once you clone this record, a new Hosted RFC will be created along with the related Artifacts. You will be redirected to the Edit page of the new record. Click &quot;OK&quot; to proceed with the clone and create the new record. Click &quot;Cancel&quot; to return to the existing RFC&apos;))
+ { 
+navigateToUrl(&apos;/apex/NICCcloneWithArtifacts?id={!NI_Change_Control__c.Id}&apos;); 
+}</url>
+</WebLink>

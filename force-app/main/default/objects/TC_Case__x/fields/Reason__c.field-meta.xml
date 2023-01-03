@@ -1,0 +1,808 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Reason__c</fullName>
+    <externalDeveloperName>Reason</externalDeveloperName>
+    <externalId>false</externalId>
+    <isFilteringDisabled>false</isFilteringDisabled>
+    <isNameField>false</isNameField>
+    <isSortingDisabled>false</isSortingDisabled>
+    <label>Case Reason</label>
+    <readOnlyProxy>true</readOnlyProxy>
+    <required>false</required>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Admin Request</fullName>
+                <default>false</default>
+                <label>*Admin Request</label>
+            </value>
+            <value>
+                <fullName>*Alternative Accommodations Adjustments</fullName>
+                <default>false</default>
+                <label>*Alternative Accommodations Adjustments</label>
+            </value>
+            <value>
+                <fullName>Bundle Conversion</fullName>
+                <default>false</default>
+                <label>*Bundle Conversion</label>
+            </value>
+            <value>
+                <fullName>CHD Process</fullName>
+                <default>false</default>
+                <label>*CHD Process</label>
+            </value>
+            <value>
+                <fullName>Daily Reconciliation Reports</fullName>
+                <default>false</default>
+                <label>*Daily Reconciliation Reports</label>
+            </value>
+            <value>
+                <fullName>EMA Review</fullName>
+                <default>false</default>
+                <label>*EMA Review</label>
+            </value>
+            <value>
+                <fullName>*Fixing Blank Sales Credit</fullName>
+                <default>false</default>
+                <label>*Fixing Blank Sales Credit</label>
+            </value>
+            <value>
+                <fullName>Goal Change Request</fullName>
+                <default>false</default>
+                <label>*Goal Change Request</label>
+            </value>
+            <value>
+                <fullName>Monthly RES Transactional Process</fullName>
+                <default>false</default>
+                <label>*Monthly RES Transactional Process</label>
+            </value>
+            <value>
+                <fullName>New/Renew Uplift</fullName>
+                <default>false</default>
+                <label>*New/Renew Uplift</label>
+            </value>
+            <value>
+                <fullName>*Renewal_Base_Maintenance</fullName>
+                <default>false</default>
+                <label>*Renewal Base Maintenance</label>
+            </value>
+            <value>
+                <fullName>SMA Adjustment</fullName>
+                <default>false</default>
+                <label>*SMA Adjustment</label>
+            </value>
+            <value>
+                <fullName>*Special Project</fullName>
+                <default>false</default>
+                <label>*Special Project</label>
+            </value>
+            <value>
+                <fullName>Spend Report</fullName>
+                <default>false</default>
+                <label>*Spend Report</label>
+            </value>
+            <value>
+                <fullName>Territory Management</fullName>
+                <default>false</default>
+                <label>*Territory Mgmt-Adhoc</label>
+            </value>
+            <value>
+                <fullName>Territory Management - Automated emails</fullName>
+                <default>false</default>
+                <label>*Territory Mgmt-Automated Emails</label>
+            </value>
+            <value>
+                <fullName>Territory Management - New CPL</fullName>
+                <default>false</default>
+                <label>*Territory Mgmt-New CPL</label>
+            </value>
+            <value>
+                <fullName>Web Lead Assignment</fullName>
+                <default>false</default>
+                <label>*Web Lead Assignment</label>
+            </value>
+            <value>
+                <fullName>Accelerated Invoice request</fullName>
+                <default>false</default>
+                <label>Accelerated Invoice request</label>
+            </value>
+            <value>
+                <fullName>Account Reconciliation</fullName>
+                <default>false</default>
+                <label>Account Reconciliation</label>
+            </value>
+            <value>
+                <fullName>Activation Date</fullName>
+                <default>false</default>
+                <label>Activation Date</label>
+            </value>
+            <value>
+                <fullName>Addendums issued -  rebill with  changes</fullName>
+                <default>false</default>
+                <label>Addendums issued -  rebill with  changes</label>
+            </value>
+            <value>
+                <fullName>Adjustment</fullName>
+                <default>false</default>
+                <label>Adjustment</label>
+            </value>
+            <value>
+                <fullName>Admin/Config Request</fullName>
+                <default>false</default>
+                <label>Admin/Config Request</label>
+            </value>
+            <value>
+                <fullName>Application</fullName>
+                <default>false</default>
+                <label>Application</label>
+            </value>
+            <value>
+                <fullName>Back Billing Credit</fullName>
+                <default>false</default>
+                <label>Back Billing Credit</label>
+            </value>
+            <value>
+                <fullName>Bad Debt</fullName>
+                <default>false</default>
+                <label>Bad Debt</label>
+            </value>
+            <value>
+                <fullName>Basic Bundle</fullName>
+                <default>false</default>
+                <label>Basic Bundle</label>
+            </value>
+            <value>
+                <fullName>BID/Contact Mgmt</fullName>
+                <default>false</default>
+                <label>BID/Contact Mgmt</label>
+            </value>
+            <value>
+                <fullName>Billing/Service Questions</fullName>
+                <default>false</default>
+                <label>Billing/Service Questions</label>
+            </value>
+            <value>
+                <fullName>Billing Assistance</fullName>
+                <default>false</default>
+                <label>Billing Assistance</label>
+            </value>
+            <value>
+                <fullName>Billing Dispute</fullName>
+                <default>false</default>
+                <label>Billing Dispute</label>
+            </value>
+            <value>
+                <fullName>Billing Error</fullName>
+                <default>false</default>
+                <label>Billing Error</label>
+            </value>
+            <value>
+                <fullName>Billing Error (Manual File)</fullName>
+                <default>false</default>
+                <label>Billing Error (Manual File)</label>
+            </value>
+            <value>
+                <fullName>Billing Error (Other)</fullName>
+                <default>false</default>
+                <label>Billing Error (Other)</label>
+            </value>
+            <value>
+                <fullName>Billing Request</fullName>
+                <default>false</default>
+                <label>Billing Request</label>
+            </value>
+            <value>
+                <fullName>Bug/Defect</fullName>
+                <default>false</default>
+                <label>Bug/Defect</label>
+            </value>
+            <value>
+                <fullName>Bundle</fullName>
+                <default>false</default>
+                <label>Bundle</label>
+            </value>
+            <value>
+                <fullName>Bundle Review and Submit</fullName>
+                <default>false</default>
+                <label>Bundle Review and Submit</label>
+            </value>
+            <value>
+                <fullName>Calling for Payment</fullName>
+                <default>false</default>
+                <label>Calling for Payment</label>
+            </value>
+            <value>
+                <fullName>Cancellation-Management Change</fullName>
+                <default>false</default>
+                <label>Cancellation-Management Change</label>
+            </value>
+            <value>
+                <fullName>Cancellation-Nonpayment Auto Suspension</fullName>
+                <default>false</default>
+                <label>Cancellation-Nonpayment Auto Suspension</label>
+            </value>
+            <value>
+                <fullName>Cancellation – Outside of Contract Term</fullName>
+                <default>false</default>
+                <label>Cancellation – Outside of Contract Term</label>
+            </value>
+            <value>
+                <fullName>Cancellation-Within Contract Terms</fullName>
+                <default>false</default>
+                <label>Cancellation-Within Contract Terms</label>
+            </value>
+            <value>
+                <fullName>Cash Applications</fullName>
+                <default>false</default>
+                <label>Cash Applications</label>
+            </value>
+            <value>
+                <fullName>Cash Applications – CAD Payments</fullName>
+                <default>false</default>
+                <label>Cash Applications – CAD Payments</label>
+            </value>
+            <value>
+                <fullName>CC Charge</fullName>
+                <default>false</default>
+                <label>CC Charge</label>
+            </value>
+            <value>
+                <fullName>Change in Billing Delivery</fullName>
+                <default>false</default>
+                <label>Change in Billing Delivery</label>
+            </value>
+            <value>
+                <fullName>Change in Billing Frequency</fullName>
+                <default>false</default>
+                <label>Change in Billing Frequency</label>
+            </value>
+            <value>
+                <fullName>Change in Pricing</fullName>
+                <default>false</default>
+                <label>Change in Pricing</label>
+            </value>
+            <value>
+                <fullName>Change in Start Date</fullName>
+                <default>false</default>
+                <label>Change in Start Date</label>
+            </value>
+            <value>
+                <fullName>Configuration</fullName>
+                <default>false</default>
+                <label>Configuration</label>
+            </value>
+            <value>
+                <fullName>Contact Change</fullName>
+                <default>false</default>
+                <label>Contact Change</label>
+            </value>
+            <value>
+                <fullName>Contract Assistance</fullName>
+                <default>false</default>
+                <label>Contract Assistance</label>
+            </value>
+            <value>
+                <fullName>Contract Edits/Changes</fullName>
+                <default>false</default>
+                <label>Contract Edits/Changes</label>
+            </value>
+            <value>
+                <fullName>Contract Extension</fullName>
+                <default>false</default>
+                <label>Contract Extension</label>
+            </value>
+            <value>
+                <fullName>Contract Issue</fullName>
+                <default>false</default>
+                <label>Contract Issue</label>
+            </value>
+            <value>
+                <fullName>Contract Request - Corporate</fullName>
+                <default>false</default>
+                <label>Contract Request - Corporate</label>
+            </value>
+            <value>
+                <fullName>Contract Request - Individual</fullName>
+                <default>false</default>
+                <label>Contract Request - Individual</label>
+            </value>
+            <value>
+                <fullName>Contract Search</fullName>
+                <default>false</default>
+                <label>Contract Search</label>
+            </value>
+            <value>
+                <fullName>Covid-19</fullName>
+                <default>false</default>
+                <label>Covid-19</label>
+            </value>
+            <value>
+                <fullName>Covid Relief</fullName>
+                <default>false</default>
+                <label>Covid Relief</label>
+            </value>
+            <value>
+                <fullName>Credit Card Charge</fullName>
+                <default>false</default>
+                <label>Credit Card Charge</label>
+            </value>
+            <value>
+                <fullName>Customer Change-Ownership Change</fullName>
+                <default>false</default>
+                <label>Customer Change-Ownership Change</label>
+            </value>
+            <value>
+                <fullName>Customer Change –Start Date</fullName>
+                <default>false</default>
+                <label>Customer Change –Start Date</label>
+            </value>
+            <value>
+                <fullName>Customer Duplicate payment Response</fullName>
+                <default>false</default>
+                <label>Customer Duplicate payment Response</label>
+            </value>
+            <value>
+                <fullName>Customer Refund Status Inquiry</fullName>
+                <default>false</default>
+                <label>Customer Refund Status Inquiry</label>
+            </value>
+            <value>
+                <fullName>Data Synch</fullName>
+                <default>false</default>
+                <label>Data Synch</label>
+            </value>
+            <value>
+                <fullName>Demand Letter</fullName>
+                <default>false</default>
+                <label>Demand Letter</label>
+            </value>
+            <value>
+                <fullName>DOS Assistance</fullName>
+                <default>false</default>
+                <label>DOS Assistance</label>
+            </value>
+            <value>
+                <fullName>Dupe Case/Incorrect Mailbox</fullName>
+                <default>false</default>
+                <label>Dupe Case/Incorrect Mailbox</label>
+            </value>
+            <value>
+                <fullName>Duplicate Billing</fullName>
+                <default>false</default>
+                <label>Duplicate Billing</label>
+            </value>
+            <value>
+                <fullName>Duplicate Opty</fullName>
+                <default>false</default>
+                <label>Duplicate Opty</label>
+            </value>
+            <value>
+                <fullName>EMA</fullName>
+                <default>false</default>
+                <label>EMA</label>
+            </value>
+            <value>
+                <fullName>Enhancement Request</fullName>
+                <default>false</default>
+                <label>Enhancement Request</label>
+            </value>
+            <value>
+                <fullName>Enterprise or M&amp;O contracts</fullName>
+                <default>false</default>
+                <label>Enterprise or M&amp;O contracts</label>
+            </value>
+            <value>
+                <fullName>Error Message Recieved</fullName>
+                <default>false</default>
+                <label>Error Message Recieved</label>
+            </value>
+            <value>
+                <fullName>Fee Waiver</fullName>
+                <default>false</default>
+                <label>Fee Waiver</label>
+            </value>
+            <value>
+                <fullName>Free Product</fullName>
+                <default>false</default>
+                <label>Free Product</label>
+            </value>
+            <value>
+                <fullName>Fulfillment Issue</fullName>
+                <default>false</default>
+                <label>Fulfillment Issue</label>
+            </value>
+            <value>
+                <fullName>Functioning as Designed</fullName>
+                <default>false</default>
+                <label>Functioning as Designed</label>
+            </value>
+            <value>
+                <fullName>GDS Sales Type</fullName>
+                <default>false</default>
+                <label>GDS Sales Type</label>
+            </value>
+            <value>
+                <fullName>Generate Salesforce Report</fullName>
+                <default>false</default>
+                <label>Generate Salesforce Report</label>
+            </value>
+            <value>
+                <fullName>Goodwill</fullName>
+                <default>false</default>
+                <label>Goodwill</label>
+            </value>
+            <value>
+                <fullName>Hardware Error</fullName>
+                <default>false</default>
+                <label>Hardware Error</label>
+            </value>
+            <value>
+                <fullName>Implementation Inquiry</fullName>
+                <default>false</default>
+                <label>Implementation Inquiry</label>
+            </value>
+            <value>
+                <fullName>Incorrect Mailbox</fullName>
+                <default>false</default>
+                <label>Incorrect Mailbox</label>
+            </value>
+            <value>
+                <fullName>Invoice Dispute</fullName>
+                <default>false</default>
+                <label>Invoice Dispute</label>
+            </value>
+            <value>
+                <fullName>Invoice Inquiry / questions</fullName>
+                <default>false</default>
+                <label>Invoice Inquiry / questions</label>
+            </value>
+            <value>
+                <fullName>Invoice Request</fullName>
+                <default>false</default>
+                <label>Invoice Request</label>
+            </value>
+            <value>
+                <fullName>Late Cancellation</fullName>
+                <default>false</default>
+                <label>Late Cancellation</label>
+            </value>
+            <value>
+                <fullName>Manual Addendum Request</fullName>
+                <default>false</default>
+                <label>Manual Addendum Request</label>
+            </value>
+            <value>
+                <fullName>Manual Invoice Request</fullName>
+                <default>false</default>
+                <label>Manual Invoice Request</label>
+            </value>
+            <value>
+                <fullName>Mgmt / Ownership Group Assistance</fullName>
+                <default>false</default>
+                <label>Mgmt/Ownership Group Assistance</label>
+            </value>
+            <value>
+                <fullName>Miscellaneous</fullName>
+                <default>false</default>
+                <label>Miscellaneous</label>
+            </value>
+            <value>
+                <fullName>Missing Invoice</fullName>
+                <default>false</default>
+                <label>Missing Invoice</label>
+            </value>
+            <value>
+                <fullName>Network/Communication Error</fullName>
+                <default>false</default>
+                <label>Network/Communication Error</label>
+            </value>
+            <value>
+                <fullName>No Action Needed</fullName>
+                <default>false</default>
+                <label>No Action Needed</label>
+            </value>
+            <value>
+                <fullName>Not an Issue/Unable to Reproduce</fullName>
+                <default>false</default>
+                <label>Not an Issue/Unable to Reproduce</label>
+            </value>
+            <value>
+                <fullName>On-Time Cancellation</fullName>
+                <default>false</default>
+                <label>On-Time Cancellation</label>
+            </value>
+            <value>
+                <fullName>Opty Maintenance</fullName>
+                <default>false</default>
+                <label>Opty Maintenance</label>
+            </value>
+            <value>
+                <fullName>Order Management Error</fullName>
+                <default>false</default>
+                <label>Order Management Error</label>
+            </value>
+            <value>
+                <fullName>Other</fullName>
+                <default>false</default>
+                <label>Other</label>
+            </value>
+            <value>
+                <fullName>Ownership Change</fullName>
+                <default>false</default>
+                <label>Ownership Change</label>
+            </value>
+            <value>
+                <fullName>P2G</fullName>
+                <default>false</default>
+                <label>P2G</label>
+            </value>
+            <value>
+                <fullName>Payment Remittance</fullName>
+                <default>false</default>
+                <label>Payment Remittance</label>
+            </value>
+            <value>
+                <fullName>Pricing Issue</fullName>
+                <default>false</default>
+                <label>Pricing Issue</label>
+            </value>
+            <value>
+                <fullName>Pricing Request</fullName>
+                <default>false</default>
+                <label>Pricing Request</label>
+            </value>
+            <value>
+                <fullName>Product Conversion</fullName>
+                <default>false</default>
+                <label>Product Conversion</label>
+            </value>
+            <value>
+                <fullName>Product Downgrade</fullName>
+                <default>false</default>
+                <label>Product Downgrade</label>
+            </value>
+            <value>
+                <fullName>Production Problem</fullName>
+                <default>false</default>
+                <label>Production Problem</label>
+            </value>
+            <value>
+                <fullName>Product Migration</fullName>
+                <default>false</default>
+                <label>Product Migration</label>
+            </value>
+            <value>
+                <fullName>Product Sunset</fullName>
+                <default>false</default>
+                <label>Product Sunset</label>
+            </value>
+            <value>
+                <fullName>Product Upgrade</fullName>
+                <default>false</default>
+                <label>Product Upgrade</label>
+            </value>
+            <value>
+                <fullName>Provide Pricing</fullName>
+                <default>false</default>
+                <label>Provide Pricing</label>
+            </value>
+            <value>
+                <fullName>QA Addendum</fullName>
+                <default>false</default>
+                <label>QA Addendum</label>
+            </value>
+            <value>
+                <fullName>QA Multi Property Contract</fullName>
+                <default>false</default>
+                <label>QA Multi Property Contract</label>
+            </value>
+            <value>
+                <fullName>QA Single Contract</fullName>
+                <default>false</default>
+                <label>QA Single Contract</label>
+            </value>
+            <value>
+                <fullName>QA Termination</fullName>
+                <default>false</default>
+                <label>QA Termination</label>
+            </value>
+            <value>
+                <fullName>RDOS Data</fullName>
+                <default>false</default>
+                <label>RDOS Data</label>
+            </value>
+            <value>
+                <fullName>Reduction of Users</fullName>
+                <default>false</default>
+                <label>Reduction of Users</label>
+            </value>
+            <value>
+                <fullName>Referred to Billing</fullName>
+                <default>false</default>
+                <label>Referred to Billing</label>
+            </value>
+            <value>
+                <fullName>Referred to Collections</fullName>
+                <default>false</default>
+                <label>Referred to Collections</label>
+            </value>
+            <value>
+                <fullName>Refund Request</fullName>
+                <default>false</default>
+                <label>Refund Request</label>
+            </value>
+            <value>
+                <fullName>Refund Request - From BCN</fullName>
+                <default>false</default>
+                <label>Refund Request - From BCN</label>
+            </value>
+            <value>
+                <fullName>Remittance</fullName>
+                <default>false</default>
+                <label>Remittance</label>
+            </value>
+            <value>
+                <fullName>Renewal/Auto Renewal</fullName>
+                <default>false</default>
+                <label>Renewal/Auto Renewal</label>
+            </value>
+            <value>
+                <fullName>Renewal Data Maintenance</fullName>
+                <default>false</default>
+                <label>Renewal Data Maintenance</label>
+            </value>
+            <value>
+                <fullName>Renewal Pricing Project</fullName>
+                <default>false</default>
+                <label>Renewal Pricing Project</label>
+            </value>
+            <value>
+                <fullName>RGL Letter</fullName>
+                <default>false</default>
+                <label>RGL Letter</label>
+            </value>
+            <value>
+                <fullName>Sales Concession</fullName>
+                <default>false</default>
+                <label>Sales Concession</label>
+            </value>
+            <value>
+                <fullName>Salesforce Change Request</fullName>
+                <default>false</default>
+                <label>Salesforce Change Request</label>
+            </value>
+            <value>
+                <fullName>Sales Presentation/Sales Project</fullName>
+                <default>false</default>
+                <label>Sales Presentation/Project</label>
+            </value>
+            <value>
+                <fullName>Sent to Contract Support</fullName>
+                <default>false</default>
+                <label>Sent to Contract Support</label>
+            </value>
+            <value>
+                <fullName>Sent to Proper Department</fullName>
+                <default>false</default>
+                <label>Sent to Proper Department</label>
+            </value>
+            <value>
+                <fullName>Service Suspension</fullName>
+                <default>false</default>
+                <label>Service Suspension</label>
+            </value>
+            <value>
+                <fullName>SF Help/Updates</fullName>
+                <default>false</default>
+                <label>SF Help/Updates</label>
+            </value>
+            <value>
+                <fullName>SF Issue</fullName>
+                <default>false</default>
+                <label>SF Issue</label>
+            </value>
+            <value>
+                <fullName>Signed contract configuration &amp; Submit</fullName>
+                <default>false</default>
+                <label>Signed contract configuration &amp; Submit</label>
+            </value>
+            <value>
+                <fullName>Software Problem</fullName>
+                <default>false</default>
+                <label>Software Problem</label>
+            </value>
+            <value>
+                <fullName>Spend Reports</fullName>
+                <default>false</default>
+                <label>Spend Reports</label>
+            </value>
+            <value>
+                <fullName>Statement Request</fullName>
+                <default>false</default>
+                <label>Statement Request</label>
+            </value>
+            <value>
+                <fullName>Submitted to OM</fullName>
+                <default>false</default>
+                <label>Submit to OM</label>
+            </value>
+            <value>
+                <fullName>System Issue</fullName>
+                <default>false</default>
+                <label>System Issue</label>
+            </value>
+            <value>
+                <fullName>TC Bundle</fullName>
+                <default>false</default>
+                <label>TC Bundle</label>
+            </value>
+            <value>
+                <fullName>Term/Rebuild</fullName>
+                <default>false</default>
+                <label>Term/Rebuild</label>
+            </value>
+            <value>
+                <fullName>Terminate Service</fullName>
+                <default>false</default>
+                <label>Terminate Service</label>
+            </value>
+            <value>
+                <fullName>Termination</fullName>
+                <default>false</default>
+                <label>Termination</label>
+            </value>
+            <value>
+                <fullName>Termination Request</fullName>
+                <default>false</default>
+                <label>Termination Request</label>
+            </value>
+            <value>
+                <fullName>Terminations</fullName>
+                <default>false</default>
+                <label>Terminations</label>
+            </value>
+            <value>
+                <fullName>Training</fullName>
+                <default>false</default>
+                <label>Training</label>
+            </value>
+            <value>
+                <fullName>Trip Advisor</fullName>
+                <default>false</default>
+                <label>Trip Advisor</label>
+            </value>
+            <value>
+                <fullName>UAT</fullName>
+                <default>false</default>
+                <label>UAT</label>
+            </value>
+            <value>
+                <fullName>Under Deliver</fullName>
+                <default>false</default>
+                <label>Under Deliver</label>
+            </value>
+            <value>
+                <fullName>Upgrade/Downgrade</fullName>
+                <default>false</default>
+                <label>Upgrade/Downgrade</label>
+            </value>
+            <value>
+                <fullName>User Error</fullName>
+                <default>false</default>
+                <label>User Error</label>
+            </value>
+            <value>
+                <fullName>Work Order</fullName>
+                <default>false</default>
+                <label>Work Order</label>
+            </value>
+            <value>
+                <fullName>Wrong Term Date Used</fullName>
+                <default>false</default>
+                <label>Wrong Term Date Used</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

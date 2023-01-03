@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>X01_Billing_Contract_for_ACT</fullName>
+    <columns>NAME</columns>
+    <columns>Account__c</columns>
+    <columns>Opportunity__c</columns>
+    <columns>CREATEDBY_USER</columns>
+    <columns>Invoice_Date__c</columns>
+    <columns>Next_Invoice_Date__c</columns>
+    <columns>Ready_to_Invoice__c</columns>
+    <columns>Ready_to_Invoice_Numeric__c</columns>
+    <columns>CURRENCY_ISO_CODE</columns>
+    <columns>Total_Contract_Amount__c</columns>
+    <columns>Bill_to_Contact__c</columns>
+    <columns>Effective_Date__c</columns>
+    <columns>CREATED_DATE</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>NAME</field>
+        <operation>equals</operation>
+        <value>BC - 3158386</value>
+    </filters>
+    <label>01 - Billing Contract for ACT</label>
+    <language>en_US</language>
+</ListView>

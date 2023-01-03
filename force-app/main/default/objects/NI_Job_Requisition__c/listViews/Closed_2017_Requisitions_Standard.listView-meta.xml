@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Closed_2017_Requisitions_Standard</fullName>
+    <booleanFilter>1 AND 2 AND 3</booleanFilter>
+    <columns>NAME</columns>
+    <columns>Employee_First_Name__c</columns>
+    <columns>Employee_Last_Name__c</columns>
+    <columns>Employee_Preferred_Name__c</columns>
+    <columns>Employee_Start_Date__c</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>RECORDTYPE</field>
+        <operation>equals</operation>
+        <value>NI_Job_Requisition__c.Standard_Closed</value>
+    </filters>
+    <filters>
+        <field>Status__c</field>
+        <operation>equals</operation>
+        <value>Closed</value>
+    </filters>
+    <filters>
+        <field>Employee_Start_Date__c</field>
+        <operation>greaterOrEqual</operation>
+        <value>12/31/2017</value>
+    </filters>
+    <label>ICFR - 2018 Job Reqs</label>
+    <sharedTo>
+        <group>Internal_IT</group>
+    </sharedTo>
+</ListView>

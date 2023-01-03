@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>SQL__c</fullName>
+    <description>SQL version pick list</description>
+    <externalId>false</externalId>
+    <inlineHelpText>SQL version options for assets that have SQL installed.</inlineHelpText>
+    <label>SQL</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>SQL 2005 Enterprise</fullName>
+                <default>false</default>
+                <label>SQL 2005 Enterprise</label>
+            </value>
+            <value>
+                <fullName>SQL 2005 Standard</fullName>
+                <default>false</default>
+                <label>SQL 2005 Standard</label>
+            </value>
+            <value>
+                <fullName>SQL 2008 Enterprise</fullName>
+                <default>false</default>
+                <label>SQL 2008 Enterprise</label>
+            </value>
+            <value>
+                <fullName>SQL 2008 Standard</fullName>
+                <default>false</default>
+                <label>SQL 2008 Standard</label>
+            </value>
+            <value>
+                <fullName>SQL 2012 Enterprise</fullName>
+                <default>false</default>
+                <label>SQL 2012 Enterprise</label>
+            </value>
+            <value>
+                <fullName>SQL 2012 Standard</fullName>
+                <default>false</default>
+                <label>SQL 2012 Standard</label>
+            </value>
+            <value>
+                <fullName>SQL 2014 Enterprise</fullName>
+                <default>false</default>
+                <label>SQL 2014 Enterprise</label>
+            </value>
+            <value>
+                <fullName>SQL 2014 Standard</fullName>
+                <default>false</default>
+                <label>SQL 2014 Standard</label>
+            </value>
+            <value>
+                <fullName>SQL 2016 Enterprise</fullName>
+                <default>false</default>
+                <label>SQL 2016 Enterprise</label>
+            </value>
+            <value>
+                <fullName>SQL 2016 Standard</fullName>
+                <default>false</default>
+                <label>SQL 2016 Standard</label>
+            </value>
+            <value>
+                <fullName>SQL Express</fullName>
+                <default>false</default>
+                <label>SQL Express</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

@@ -1,0 +1,32 @@
+<apex:page standardController="Case" extensions="AH_SetFlagController" showHeader="false" sidebar="false">
+    <script  language="javascript">
+    window.onload = function(){
+        setFlag();
+    };
+    </script>
+    <apex:form id="textt">
+    <apex:pageBlock >
+    
+        <apex:pageMessages />
+        <apex:outputpanel >
+            <apex:actionstatus id="stat">
+                <apex:facet name="start">
+                    <div class="waitingSearchDiv" id="el_loading" style="background-color: #fbfbfb; height: 100%; opacity:0.75; width:100%;"> 
+                        <div class="waitingHolder" style="top: 150px; width: 91px;">
+                            <img class="waitingImage" src="/img/loading.gif" title="Please Wait..." />
+                            <span class="waitingDescription">Setting flag..</span>
+                        </div>
+                    </div>
+                </apex:facet>
+            </apex:actionstatus>
+        </apex:outputpanel>
+        
+        <apex:actionFunction name="setFlag" action="{!setFlagNow}" reRender="textt" rendered="true" status="stat"/>
+        
+        <apex:pageBlockButtons location="bottom" rendered="{!showButton}">
+            <apex:commandButton value="Back" action="/{!caseToSet.Id}" />
+        </apex:pageBlockButtons>
+   
+        </apex:pageBlock>
+         </apex:form>
+</apex:page>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>TDelphiUpgrade2007</fullName>
+    <booleanFilter>1 or 2</booleanFilter>
+    <columns>NAME</columns>
+    <columns>Template_Name__c</columns>
+    <columns>Opportunity__c</columns>
+    <columns>CURRENCY_ISO_CODE</columns>
+    <columns>Quote_Amount__c</columns>
+    <columns>LAST_UPDATE</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>NAME</field>
+        <operation>equals</operation>
+        <value>,Q-00992,Q-00991,Q-00989,Q-00990,Q-00988,Q-00997,Q-00996,Q-00994,Q-00995,Q-00993</value>
+    </filters>
+    <filters>
+        <field>NAME</field>
+        <operation>equals</operation>
+        <value>,Q-00905,Q-00904,Q-00902,Q-00903,Q-00901,Q-00987,Q-00986,Q-00984,Q-00985,Q-00983</value>
+    </filters>
+    <label>T-Delphi Upgrade - 2007</label>
+</ListView>

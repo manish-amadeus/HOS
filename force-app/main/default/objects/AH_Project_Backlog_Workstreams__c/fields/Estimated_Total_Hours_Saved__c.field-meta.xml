@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Estimated_Total_Hours_Saved__c</fullName>
+    <description>NICC-047197</description>
+    <externalId>false</externalId>
+    <formula>First_Year_Efficiencies_Savings_hrs__c * 3</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <inlineHelpText>First Year Efficiencies Savings (hrs) multiplied by 3. The total hours saved by this project over 3 years</inlineHelpText>
+    <label>Estimated Total Hours Saved</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>2</scale>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Number</type>
+    <unique>false</unique>
+</CustomField>

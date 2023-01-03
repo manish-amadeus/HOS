@@ -1,0 +1,136 @@
+<apex:page Controller="NI_PartnerOrders" showHeader="false" sidebar="false" standardStylesheets="true">
+    
+    <script language="JavaScript" type="text/javascript">
+        function noenter(ev)  
+        {
+            if (window.event && window.event.keyCode == 13 || ev.which == 13) 
+            {
+                doSearchAF();
+                return false;
+            } 
+            else 
+            {
+                return true;
+            }
+        }
+	</script>
+    
+    <apex:slds rendered="true"/>
+    
+    <div class="slds-scope" style="width:90%;">
+        
+        <apex:form >
+        <br/>
+        <apex:actionFunction name="doSearchAF" action="{!runSearch}" status="status" rerender="pbTP,myPanel" />
+                    
+            <apex:pageBlock id="pageBlockProducts" mode="maindetail">
+                <div class="slds-form-element" style="background-color: #FFFFFF !important">
+                    
+                    <div class="slds-form-element__control slds-input-has-fixed-addon">
+                        <apex:inputText Styleclass="slds-input" id="searchText" value="{!searchText}" label="Search Text" onkeypress="return noenter(event);" />
+                        <apex:commandButton value="Search" action="{!runSearch}" rerender="pbTP,myPanel" status="status" styleclass="slds-button slds-button--neutral" />
+                        
+                    </div>
+                </div>
+                
+                <div style="position: relative;">
+                    
+                    <apex:outputpanel >
+                        <apex:actionstatus id="status">
+                            <apex:facet name="start">
+                                <div class="waitingSearchDiv" id="el_loading" style="background-color: #fbfbfb; height: 100%; opacity:0.65; width:100%;"> 
+                                    <div class="waitingHolder" style="top: 74.2px; width: 91px;">
+                                        <img class="waitingImage" src="/img/loading.gif" title="Please Wait..." />
+                                        <span class="waitingDescription"></span>
+                                    </div>
+                                </div>
+                            </apex:facet>
+                        </apex:actionstatus>
+                    </apex:outputpanel>                
+                    
+                    <apex:outputPanel id="myPanel">
+                        
+                        <apex:outputLabel value="{!countWarning}" rendered="{!IF(countWarning=='',false,true)}" style="color:red;font-style:italic;margin-left:30px;" />
+                        <br/>
+                        <div style="text-align:center;">
+                            <apex:outputText value="{!iRecCount}" />
+                            <apex:outputLabel value=" Opporunitity records found ( with Closed Date greater than " />
+                            <apex:outputText value=" {0, date, MM/dd/yyyy}">
+                                <apex:param value="{!dtClosedDateStart}" /> 
+                            </apex:outputText>
+                            <apex:outputLabel value=")" />
+                        </div>
+                        <apex:pageBlockSection title="Projects" columns="1" collapsible="false" showHeader="false">
+                            <apex:dataTable value="{!lineItemResults}" var="lir" id="pbTP" styleclass="slds-table slds-table_bordered slds-table_cell-buffer" >
+                                
+                                <apex:column >
+                                    <apex:outputLink value="/apex/AH_PartnerOrderDetail" target="_blank" >View
+                                        <apex:param name="OppId" value="{!lir.OpportunityId}" />
+                                    </apex:outputLink>
+                                </apex:column>
+                                
+                                <apex:column >
+                                    <apex:facet name="header"> 
+                                        <apex:commandLink action="{!ViewData}" status="status" value="Account Name{!IF(sortExpression=='Opportunity.Account.Name',IF(sortDirection='ASC','▼','▲'),'')}" id="cmdSort" reRender="pbTP">
+                                            <apex:param value="Opportunity.Account.Name" name="column1" assignTo="{!sortExpression}" />
+                                        </apex:commandLink>
+                                    </apex:facet>
+                                    <apex:outputText value="{!lir.AccountName}" id="AccountName"/>
+                                </apex:column>
+                                
+                                <apex:column >
+                                    <apex:facet name="header">   
+                                        <apex:commandLink action="{!ViewData}" status="status" value="Product Name{!IF(sortExpression=='Product2.Name',IF(sortDirection='ASC','▼','▲'),'')}" id="cmdSortProduct" reRender="pbTP">
+                                            <apex:param value="Product2.Name" name="column2" assignTo="{!sortExpression}" />
+                                        </apex:commandLink> 
+                                    </apex:facet>
+                                    
+                                    <apex:outputText value="{!lir.ProductName}" id="ProductName"/>
+                                </apex:column>
+                                
+                                <apex:column >
+                                    <apex:facet name="header">   
+                                        <apex:commandLink action="{!ViewData}" status="status" value="Account Number{!IF(sortExpression=='Opportunity.Account.AccountNumber',IF(sortDirection='ASC','▼','▲'),'')}" id="cmdSortAccountNumber" reRender="pbTP">
+                                            <apex:param value="Opportunity.Account.AccountNumber" name="column3" assignTo="{!sortExpression}" />
+                                        </apex:commandLink>
+                                    </apex:facet>
+                                    <apex:outputText value="{!lir.AccountNumber}" id="AccountNumber"/>
+                                </apex:column>
+                                
+                                <apex:column >
+                                    <apex:facet name="header">   
+                                        <apex:commandLink action="{!ViewData}" status="status" value="Opportunity Number{!IF(sortExpression=='Opportunity.Opportunity_Number__c',IF(sortDirection='ASC','▼','▲'),'')}" id="cmdSortOppNum" reRender="pbTP">
+                                            <apex:param value="Opportunity.Opportunity_Number__c" name="column4" assignTo="{!sortExpression}" />
+                                        </apex:commandLink>
+                                    </apex:facet>
+                                    <apex:outputText value="{!lir.OpportunityNumber}" id="OppNumb"/>
+                                </apex:column>
+                                
+                                <apex:column >
+                                    <apex:facet name="header">   
+                                        <apex:commandLink action="{!ViewData}" status="status" value="Opportunity Close Date{!IF(sortExpression=='Opportunity.CloseDate',IF(sortDirection='ASC','▼','▲'),'')}" id="cmdSortOppCloseDate" reRender="pbTP">
+                                            <apex:param value="Opportunity.CloseDate" name="column5" assignTo="{!sortExpression}" />
+                                        </apex:commandLink>
+                                    </apex:facet>
+                                    <apex:outputText value=" {0,date, MM/dd/yyyy}" id="OppCloseDate">
+                                        <apex:param value="{!lir.OpportunityCloseDate}" />
+                                    </apex:outputText>
+                                </apex:column> 
+                                
+                            </apex:dataTable>
+                            
+                        </apex:pageBlockSection>
+                        
+                    </apex:outputPanel>
+                    
+                </div>
+                
+            </apex:pageBlock>    
+            
+        </apex:form>
+        
+        <apex:pageMessages />
+        
+    </div>
+    
+</apex:page>

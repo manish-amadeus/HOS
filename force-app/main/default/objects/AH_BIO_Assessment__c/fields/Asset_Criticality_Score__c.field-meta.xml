@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Asset_Criticality_Score__c</fullName>
+    <description>Based on formula defined in Corporate Standard CS1.3.  If two CIA scores are 4, then Criticality is 5, otherwise it is the MAX of the CIA scores.</description>
+    <externalId>false</externalId>
+    <formula>IF(
+  Availability_Score__c + Confidentiality_Score__c + Integrity_Score__c - MIN(Availability_Score__c, Confidentiality_Score__c, Integrity_Score__c) = 8, 5,
+  MAX(Availability_Score__c, Confidentiality_Score__c, Integrity_Score__c)
+)</formula>
+    <inlineHelpText>Highest of the Confidentiality, Integrity and Availability assessments.</inlineHelpText>
+    <label>Asset Criticality Score</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>0</scale>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Number</type>
+    <unique>false</unique>
+</CustomField>

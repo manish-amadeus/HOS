@@ -1,0 +1,442 @@
+<apex:page standardController="StatusReport__c" extensions="StatusReportForm" renderAs="{!if($CurrentPage.parameters.p == null, null, 'pdf')}">
+
+    <apex:form id="SRReport">
+
+        <apex:sectionHeader subtitle="Status Report" title="NI Support"></apex:sectionHeader>
+
+        <apex:pageBlock title="US BRT v1 Status Report" mode="edit">
+            
+            <apex:pageMessages />    
+
+            <apex:pageBlockButtons id="pbButtons" rendered="{!ShowButtons}">
+                <apex:commandButton action="{!edit}" value="Edit"/>
+                <apex:commandButton action="{!cancel}" value="Cancel"/>
+                <apex:commandButton action="{!send}" value="Email Associate" />
+            </apex:pageBlockButtons>
+
+            <a href="{!$CurrentPage.name}?p=pdf&id={!$CurrentPage.parameters.id}" Target="_blank">
+                <apex:image url="{!$Resource.PDFIcon}" width="24" height="24" />&nbsp;View As PDF
+            </a>
+
+            <apex:pageBlockSection title="Associate Details:" collapsible="False" columns="2">         
+
+                <apex:pageBlockSectionItem id="Subject">
+                    <apex:outputLabel >Subject:</apex:outputLabel>
+                    <apex:outputField id="txtSubject" value="{!StatusReport__c.Subject__c}" />
+                </apex:pageBlockSectionItem>
+                
+                <apex:outputLabel />
+                 
+                <apex:pageBlockSectionItem id="Associate">
+                    <apex:outputLabel >Associate Name:</apex:outputLabel>
+                    <apex:outputField id="txtAssociate" value="{!StatusReport__c.Associate__c}" />
+                </apex:pageBlockSectionItem>
+                
+                <apex:pageBlockSectionItem id="lblRecordTypeId">
+                    <apex:outputLabel >Record Type:</apex:outputLabel>
+                    <apex:outputField id="txtRecordTypeId" value="{!StatusReport__c.RecordTypeId}" />
+                </apex:pageBlockSectionItem>
+
+                <apex:pageBlockSectionItem id="StartDate">
+                    <apex:outputLabel >Start Date:</apex:outputLabel>
+                    <apex:outputField id="txtStartDate" value="{!StatusReport__c.StartDate__c}" />
+                </apex:pageBlockSectionItem>
+
+                <apex:pageBlockSectionItem id="EndDate">
+                    <apex:outputLabel >End Date:</apex:outputLabel>
+                    <apex:outputField id="txtEndDate" value="{!StatusReport__c.EndDate__c}" />
+                </apex:pageBlockSectionItem>
+
+                <apex:pageBlockSectionItem id="LastReportDate">
+                    <apex:outputLabel >Last Report Date:</apex:outputLabel>
+                    <apex:outputLabel id="txtLastReportDate" value="{!LastReportDate}" />
+                </apex:pageBlockSectionItem>      
+
+                <apex:outputLabel />
+            
+            </apex:pageBlockSection>
+ 
+ 
+ 
+            
+            <apex:pageBlockSection title="1. Customer Updates (Overdues):" collapsible="False" columns="1"> 
+                <apex:outputLabel value="Contracting a minimum of 75% of open cases within the past 48 hours to advise of status?" style="font-style: italic;" />
+            </apex:pageBlockSection>
+            
+            <apex:pageBlockSection title="1. Details:" collapsible="False" columns="2" showHeader="false">  
+
+                <apex:pageBlockSectionItem id="Value01">
+                    <apex:outputLabel >Average Updated Case %:</apex:outputLabel>
+                    <apex:outputField id="txtValue01" value="{!StatusReport__c.Value01__c}" />
+                </apex:pageBlockSectionItem>
+
+                <apex:outputLabel />
+
+                <apex:pageBlockSectionItem id="DidNotMeet01">
+                    <apex:outputLabel >Below 75% Did Not Meet:</apex:outputLabel>
+                    <apex:outputField id="txtDidNotMeet01" value="{!StatusReport__c.Missed01__c}" />
+                </apex:pageBlockSectionItem>
+                
+                <apex:pageBlockSectionItem id="Score01">
+                    <apex:outputLabel >Score:</apex:outputLabel>
+                    <apex:outputField id="txtScore01" value="{!StatusReport__c.Score01__c}" style="width: 30px;" />
+                </apex:pageBlockSectionItem>                        
+                
+                <apex:pageBlockSectionItem id="Meets01">
+                    <apex:outputLabel >70% - 74% Meets:</apex:outputLabel>
+                    <apex:outputField id="txtMeets01" value="{!StatusReport__c.Meets01__c}" />
+                </apex:pageBlockSectionItem>
+                
+                <apex:outputLabel />
+                                
+                <apex:pageBlockSectionItem id="Exceeds01">
+                    <apex:outputLabel >Above 75% Exceeds:</apex:outputLabel>
+                    <apex:outputField id="txtExceeds01" value="{!StatusReport__c.Exceeds01__c}" />
+                </apex:pageBlockSectionItem>
+                      
+                <apex:outputLabel />
+                                                
+            </apex:pageBlockSection>
+
+
+
+            
+            <apex:pageBlockSection title="2. Make Busy Time:" collapsible="False" columns="1"> 
+                <apex:outputLabel value="Does time spent on Make Busy exceed 2 hours a day?" style="font-style: italic;" />
+            </apex:pageBlockSection>
+            
+            <apex:pageBlockSection title="2. Details:" collapsible="False" columns="2" showHeader="false">  
+
+                <apex:pageBlockSectionItem id="Value02">
+                    <apex:outputLabel >Make Busy Average:</apex:outputLabel>
+                    <apex:outputField id="txtValue02" value="{!StatusReport__c.Value02__c}" />
+                </apex:pageBlockSectionItem>
+
+                <apex:outputLabel />
+
+                <apex:pageBlockSectionItem id="DidNotMeet02">
+                    <apex:outputLabel >No:</apex:outputLabel>
+                    <apex:outputField id="txtDidNotMeet02" value="{!StatusReport__c.Missed02__c}" />
+                </apex:pageBlockSectionItem>
+                
+                <apex:pageBlockSectionItem id="Score02">
+                    <apex:outputLabel >Score:</apex:outputLabel>
+                    <apex:outputField id="txtScore02" value="{!StatusReport__c.Score02__c}" style="width: 30px;" />
+                </apex:pageBlockSectionItem>                        
+                
+                <apex:pageBlockSectionItem id="Meets02">
+                    <apex:outputLabel >Yes:</apex:outputLabel>
+                    <apex:outputField id="txtMeets02" value="{!StatusReport__c.Meets02__c}" />
+                </apex:pageBlockSectionItem>
+                
+                <apex:outputLabel />
+                
+            </apex:pageBlockSection>
+
+
+
+
+            <apex:pageBlockSection title="3. Average Escalated Case Timeframe:" collapsible="False" columns="1"> 
+                <apex:outputLabel value="Are you working, closing or escalating cases escalated to you within a 2 week timeframe?" style="font-style: italic;" />
+            </apex:pageBlockSection>
+            
+            <apex:pageBlockSection title="3. Details:" collapsible="False" columns="2" showHeader="false">                
+                
+                <apex:pageBlockSectionItem id="Value03">
+                    <apex:outputLabel >Average Case Age Since Ownership Began (days) :</apex:outputLabel>
+                    <apex:outputField id="txtValue03" value="{!StatusReport__c.Value03__c}" />
+                </apex:pageBlockSectionItem>
+
+                <apex:outputLabel />
+                                
+                <apex:pageBlockSectionItem id="DidNotMeet03">
+                    <apex:outputLabel >Above 14 days Did Not Meet:</apex:outputLabel>
+                    <apex:outputField id="txtDidNotMeet03" value="{!StatusReport__c.Missed03__c}" />
+                </apex:pageBlockSectionItem>
+    
+                <apex:pageBlockSectionItem id="Score03">
+                    <apex:outputLabel >Score:</apex:outputLabel>
+                        <apex:outputField id="txtScore03" value="{!StatusReport__c.Score03__c}" style="width: 30px;" />
+                </apex:pageBlockSectionItem>
+                
+                <apex:pageBlockSectionItem id="Meets03">
+                    <apex:outputLabel >7 to 14 days Meets:</apex:outputLabel>
+                    <apex:outputField id="txtMeets03" value="{!StatusReport__c.Meets03__c}" />
+                </apex:pageBlockSectionItem> 
+                
+                <apex:outputLabel />
+                
+                <apex:pageBlockSectionItem id="Exceeds03">
+                    <apex:outputLabel >6 days or below Exceeds:</apex:outputLabel>
+                    <apex:outputField id="txtExceeds03" value="{!StatusReport__c.Exceeds03__c}" />
+                </apex:pageBlockSectionItem> 
+                
+            </apex:pageBlockSection>
+
+
+
+
+            <apex:pageBlockSection title="4. Availability:" collapsible="False" columns="1">                 
+                <apex:outputLabel value="Were you logged into the queue for an average of 40 hours for time period of report?" style="font-style: italic;" />
+            </apex:pageBlockSection>
+            
+            <apex:pageBlockSection title="4. Details:" collapsible="False" columns="2" showHeader="false">                
+
+                <apex:pageBlockSectionItem id="Value04">
+                    <apex:outputLabel >Hours Logged In:</apex:outputLabel>
+                    <apex:outputField id="txtValue04" value="{!StatusReport__c.Value04__c}" />
+                </apex:pageBlockSectionItem>
+
+                <apex:outputLabel />
+                                
+                <apex:pageBlockSectionItem id="DidNotMeet04">
+                    <apex:outputLabel >No:</apex:outputLabel>
+                    <apex:outputField id="txtDidNotMeet04" value="{!StatusReport__c.Missed04__c}" />
+                </apex:pageBlockSectionItem>
+
+                <apex:pageBlockSectionItem id="Score04">
+                    <apex:outputLabel >Score:</apex:outputLabel>
+                        <apex:outputField id="txtScore04" value="{!StatusReport__c.Score04__c}" style="width: 30px;" />
+                </apex:pageBlockSectionItem>
+                
+                <apex:pageBlockSectionItem id="Meets04">
+                    <apex:outputLabel >Yes:</apex:outputLabel>
+                    <apex:outputField id="txtMeets04" value="{!StatusReport__c.Meets04__c}" />
+                </apex:pageBlockSectionItem> 
+
+                <apex:outputLabel />
+                
+            </apex:pageBlockSection>
+
+            <apex:pageBlockSection title="4. Comments:" collapsible="False" columns="1" showHeader="false">  
+
+                <apex:pageBlockSectionItem id="Comment04">
+                    <apex:outputLabel >Comments:</apex:outputLabel>
+                    <apex:outputField id="txtComment04" style="width: 90%;" value="{!StatusReport__c.Comment04__c}" />
+                </apex:pageBlockSectionItem>
+                
+            </apex:pageBlockSection>    
+
+
+
+
+            <apex:pageBlockSection title="5. Transactional Surveys:" collapsible="False" columns="1"> 
+                <apex:outputLabel value="Are your customers giving survey scorces based on your performance averaging 4.3% or above?" style="font-style: italic;" />
+            </apex:pageBlockSection>
+            
+            <apex:pageBlockSection title="5. Details:" collapsible="False" columns="2" showHeader="false">                
+
+                <apex:pageBlockSectionItem id="Value05">
+                    <apex:outputLabel >Survey Score:</apex:outputLabel>
+                    <apex:outputField id="txtValue05" value="{!StatusReport__c.Value05__c}" />
+                </apex:pageBlockSectionItem>
+
+                <apex:outputLabel />
+                                
+                <apex:pageBlockSectionItem id="DidNotMeet05">
+                    <apex:outputLabel >Below 4.3% Did Not Meet:</apex:outputLabel>
+                    <apex:outputField id="txtDidNotMeet05" value="{!StatusReport__c.Missed05__c}" />
+                </apex:pageBlockSectionItem>
+
+                <apex:pageBlockSectionItem id="Score05">
+                    <apex:outputLabel >Score:</apex:outputLabel>
+                        <apex:outputField id="txtScore05" value="{!StatusReport__c.Score05__c}" style="width: 30px;" />
+                </apex:pageBlockSectionItem>
+                
+                <apex:pageBlockSectionItem id="Meets05">
+                    <apex:outputLabel >4.3% Meets:</apex:outputLabel>
+                    <apex:outputField id="txtMeets05" value="{!StatusReport__c.Meets05__c}" />
+                </apex:pageBlockSectionItem> 
+
+                <apex:outputLabel />
+                
+                <apex:pageBlockSectionItem id="Exceeds05">
+                    <apex:outputLabel >Above 4.3% Exceeds:</apex:outputLabel>
+                    <apex:outputField id="txtExceeds05" value="{!StatusReport__c.Exceeds05__c}" />
+                </apex:pageBlockSectionItem>    
+                
+            </apex:pageBlockSection>
+
+
+
+
+            <apex:pageBlockSection title="6. Case Notes Structure/Contents:" collapsible="False" columns="1">                 
+                <apex:outputLabel value="Are you documenting action steps so others can easily follow up?" style="font-style: italic;" />
+            </apex:pageBlockSection>
+            
+            <apex:pageBlockSection title="6. Details:" collapsible="False" columns="2" showHeader="false">  
+                
+                <apex:pageBlockSectionItem id="DidNotMeet06">
+                    <apex:outputLabel >No:</apex:outputLabel>
+                    <apex:outputField id="txtDidNotMeet06" value="{!StatusReport__c.Missed06__c}" />
+                </apex:pageBlockSectionItem>
+                
+                <apex:pageBlockSectionItem id="Score06">
+                    <apex:outputLabel >Score:</apex:outputLabel>
+                    <apex:outputField id="txtScore06" value="{!StatusReport__c.Score06__c}" style="width: 30px;" />
+                </apex:pageBlockSectionItem>                
+                
+                <apex:pageBlockSectionItem id="Meets06">
+                    <apex:outputLabel >Yes:</apex:outputLabel>
+                    <apex:outputField id="txtMeets06" value="{!StatusReport__c.Meets06__c}" />
+                </apex:pageBlockSectionItem> 
+
+                <apex:outputLabel />
+
+            </apex:pageBlockSection>
+
+            <apex:pageBlockSection title="6. Comments:" collapsible="False" columns="1" showHeader="false">  
+
+                <apex:pageBlockSectionItem id="Comment06">
+                    <apex:outputLabel >Comments:</apex:outputLabel>
+                    <apex:outputField id="txtComment06" style="width: 90%;" value="{!StatusReport__c.Comment06__c}" />
+                </apex:pageBlockSectionItem>
+                
+            </apex:pageBlockSection>   
+            
+
+
+
+            <apex:pageBlockSection title="7. Case Closure Confirmation:" collapsible="False" columns="1">
+                <apex:outputLabel value="Does each closed case indicate direct communication with client on resolution or workaround?" style="font-style: italic;" />
+            </apex:pageBlockSection>
+            
+            <apex:pageBlockSection title="7. Details:" collapsible="False" columns="2" showHeader="false">                
+                
+                <apex:pageBlockSectionItem id="DidNotMeet07">
+                    <apex:outputLabel >No:</apex:outputLabel>
+                    <apex:outputField id="txtDidNotMeet07" value="{!StatusReport__c.Missed07__c}" />
+                </apex:pageBlockSectionItem>
+                
+                <apex:pageBlockSectionItem id="Score07">
+                    <apex:outputLabel >Score:</apex:outputLabel>
+                        <apex:outputField id="txtScore07" value="{!StatusReport__c.Score07__c}" style="width: 30px;" />
+                </apex:pageBlockSectionItem>
+                
+                <apex:pageBlockSectionItem id="Meets07">
+                    <apex:outputLabel >Yes:</apex:outputLabel>
+                    <apex:outputField id="txtMeets07" value="{!StatusReport__c.Meets07__c}" />
+                </apex:pageBlockSectionItem> 
+
+                <apex:outputLabel />
+
+            </apex:pageBlockSection>
+
+            <apex:pageBlockSection title="7. Comments:" collapsible="False" columns="1" showHeader="false">  
+
+                <apex:pageBlockSectionItem id="Comment07">
+                    <apex:outputLabel >Comments:</apex:outputLabel>
+                    <apex:outputField id="txtComment07" style="width: 90%;" value="{!StatusReport__c.Comment07__c}" />
+                </apex:pageBlockSectionItem>
+                
+            </apex:pageBlockSection>   
+            
+
+
+
+            <apex:pageBlockSection title="8. Open Case Progression:" collapsible="False" columns="1">
+                <apex:outputLabel value="Was effort made to progress another team member's case when speaking with the customer?" style="font-style: italic;" />
+            </apex:pageBlockSection>
+            
+            <apex:pageBlockSection title="8. Details:" collapsible="False" columns="2" showHeader="false">                
+                
+                <apex:pageBlockSectionItem id="DidNotMeet08">
+                    <apex:outputLabel >No:</apex:outputLabel>
+                    <apex:outputField id="txtDidNotMeet08" value="{!StatusReport__c.Missed08__c}" />
+                </apex:pageBlockSectionItem>
+                
+                <apex:pageBlockSectionItem id="Score08">
+                    <apex:outputLabel >Score:</apex:outputLabel>
+                        <apex:outputField id="txtScore08" value="{!StatusReport__c.Score08__c}" style="width: 30px;" />
+                </apex:pageBlockSectionItem>
+                
+                <apex:pageBlockSectionItem id="Meets08">
+                    <apex:outputLabel >Yes:</apex:outputLabel>
+                    <apex:outputField id="txtMeets08" value="{!StatusReport__c.Meets08__c}" />
+                </apex:pageBlockSectionItem> 
+
+                <apex:outputLabel />
+
+            </apex:pageBlockSection>
+
+
+
+
+            <apex:pageBlockSection title="9. Appropriate Solution Utilization:" collapsible="False" columns="1">                 
+                <apex:outputLabel value="Are you linking your cases to a solution that relates to the case issue?" style="font-style: italic;" />
+            </apex:pageBlockSection>
+            
+            <apex:pageBlockSection title="9. Details:" collapsible="False" columns="2" showHeader="false">
+                                
+                <apex:pageBlockSectionItem id="DidNotMeet09">
+                    <apex:outputLabel >No:</apex:outputLabel>
+                    <apex:outputField id="txtDidNotMeet09" value="{!StatusReport__c.Missed09__c}" />
+                </apex:pageBlockSectionItem>
+
+                <apex:pageBlockSectionItem id="Score09">
+                    <apex:outputLabel >Score:</apex:outputLabel>
+                    <apex:outputField id="txtScore09" value="{!StatusReport__c.Score09__c}" style="width: 30px;" />
+                </apex:pageBlockSectionItem>
+                
+                <apex:pageBlockSectionItem id="Meets09">
+                    <apex:outputLabel >Yes:</apex:outputLabel>
+                    <apex:outputField id="txtMeets09" value="{!StatusReport__c.Meets09__c}" />
+                </apex:pageBlockSectionItem> 
+
+                <apex:outputLabel />
+                
+            </apex:pageBlockSection>
+
+            <apex:pageBlockSection title="9. Comments:" collapsible="False" columns="1" showHeader="false">  
+
+                <apex:pageBlockSectionItem id="CommentFinal">
+                    <apex:outputLabel >If No, List case numbers here:</apex:outputLabel>
+                    <apex:outputField id="txtComment09" style="width: 90%;" value="{!StatusReport__c.Comment09__c}" />
+                </apex:pageBlockSectionItem>
+                
+            </apex:pageBlockSection>  
+
+
+
+            <apex:pageBlockSection title="Overall Results:" collapsible="False" columns="2"> 
+                                
+                <apex:pageBlockSectionItem id="FinalStatus">
+                    <apex:outputLabel >Final Status:</apex:outputLabel>                
+                    <apex:outputField value="{!StatusReport__c.FinalStatus__c}"/>
+                </apex:pageBlockSectionItem>   
+                
+                <apex:pageBlockSectionItem id="FinalScore">
+                    <apex:outputLabel >Final Score:</apex:outputLabel>
+                    <apex:outputField id="txtResults" value="{!StatusReport__c.Score_Final__c}" style="width: 30px;" />
+                </apex:pageBlockSectionItem>                
+                
+            </apex:pageBlockSection>
+
+            <apex:pageBlockSection title="Final Comments:" collapsible="False" columns="1" showHeader="false">  
+
+                <apex:pageBlockSectionItem id="CommentFinal">
+                    <apex:outputLabel >Manager Comments:</apex:outputLabel>
+                    <apex:outputField id="txtCommentFinal" style="width: 90%;" value="{!StatusReport__c.CommentFinal__c}" />
+                </apex:pageBlockSectionItem>
+                
+            </apex:pageBlockSection>
+            
+
+            <apex:pageBlockSection title="Scoring Legend:" collapsible="False" columns="1" showHeader="true">
+
+                <apex:outputLabel value="Exceeds Expectations (EX) – Exceeded goal measures and timelines; performance consistently exceeds expectations; contribution is at above expected levels in quality and quantity of work. (Anything above {!iScoreLabel5})"></apex:outputLabel>
+                
+                <apex:outputLabel value="Demonstrates (D) – Demonstrates and meets goal measures and timelines; good performance; employee is consistently performing the duties of the job to the expectations. ({!iScoreLabel4} - {!iScoreLabel5})"></apex:outputLabel>
+                  
+                <apex:outputLabel value="Needs Development (ND) – Performance partially meets expectations but needs development; not necessarily a negative thing – could refer to new employee, new role, new product. ({!iScoreLabel2} - {!iScoreLabel3})"></apex:outputLabel>
+                
+                <apex:outputLabel value="Does Not Demonstrate (DND) – Did not meet goal measures and timelines; performance did not meet expectations. ({!iScoreLabel1} and below)"></apex:outputLabel>
+                
+            </apex:pageBlockSection> 
+            
+
+        </apex:pageBlock>
+  
+    </apex:form>
+
+</apex:page>

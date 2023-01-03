@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<WebLink xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>New_NICC_Request</fullName>
+    <availability>online</availability>
+    <description>Create a new NICC request from NI Documents and pre-populate NI Doc #, Project Name and Account Name</description>
+    <displayType>massActionButton</displayType>
+    <encodingKey>UTF-8</encodingKey>
+    <linkType>url</linkType>
+    <masterLabel>New NICC Request</masterLabel>
+    <openType>replace</openType>
+    <protected>false</protected>
+    <requireRowSelection>false</requireRowSelection>
+    <url>/setup/ui/recordtypeselect.jsp?ent=01I600000006SsE&amp;retURL=%2F{!NI_Documentation__c.Id}&amp;save_new_url=%2Fa0s%2Fe%3FCF00Ng0000000gdwh%3D{!NI_Documentation__c.Name}%26CF00Ng0000000gdwh_lkid%3D{!NI_Documentation__c.Id}%26retURL%3D%252F{!NI_Documentation__c.Id}&amp;
+CF00Ng0000001GbRv={!NI_Documentation__c.Name}&amp;
+CF00Ng0000001GbRv_lkid={!NI_Documentation__c.Id}&amp;
+CF00N60000002fb8k={!NI_Documentation__c.Project__c}&amp;
+CF00N60000002fb8k_lkid={!NI_Documentation__c.ProjectId__c}&amp;
+CF00N60000002fb8p={!NI_Documentation__c.Milestone__c}&amp;
+CF00N60000002fb8p_lkid={!NI_Documentation__c.MilestoneId__c}</url>
+</WebLink>

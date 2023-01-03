@@ -1,0 +1,401 @@
+<apex:component >
+    <head>
+        <style type="text/css">
+            html .brandSecondaryBrd { /*Make blue border on top of page block*/
+                border-color: #1797c0 !important;
+            }
+        </style>
+
+        <!-- Common Meta Tag for All Pages for Responsive Design -->
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    </head>
+    
+    <!-- Common Loader for All Pages -->
+    <div class="loader" style="display:block;">
+        <div class="spinner"></div>
+    </div>
+    <apex:attribute name="BaseUrl" type="string" required="true" description="Base URL for JS reference"  />
+    <apex:attribute name="IsFunctionRoomInfomationProvided" type="boolean" required="true" description="Function Room Information Provided"  />
+    <apex:attribute name="IsRoomCapacityInformationProvided" type="boolean" required="true" description="Room Capacity Information Provided"  />
+    <apex:attribute name="IsInventoryInformationProvided" type="boolean" required="true" description="Inventory Information Provided"  />
+    <apex:attribute name="PerecentageCompleted" type="integer" required="true" description="Number of Perecentage Completed"  />
+    <table style="width:100%">
+        <tbody>
+            <tr>
+                <td>
+                    <ul id="progressbar">
+                        <li class="{!IF(IsFunctionRoomInfomationProvided == true, 'active', '')}">Add Function Rooms</li>
+                        <li class="{!IF(IsFunctionRoomInfomationProvided == true, 'active', '')}">Room Capacities</li>
+                        <li class="{!IF(IsRoomCapacityInformationProvided == true, 'active', '')}">Inventory</li>
+                        <li class="{!IF(IsInventoryInformationProvided == true, 'active', '')}">Completed</li>
+                    </ul>
+                </td>
+                <td id="tdPercentage" class="percentage-text">{!PerecentageCompleted}%</td>
+            </tr>
+        </tbody>
+    </table>
+    <script type="text/javascript">
+        var gblFlagBubbleSkipped = false;
+
+        $(document).ready(function () {
+            $("body").addClass("help-show"); //Help show default
+            var strUrl = window.location.href;
+            if(strUrl.indexOf('customers') > -1) { //Only for customers Central Community
+                $("body").removeClass("brandQuaternaryBgr");
+            }
+
+            var script = window.parent.document.createElement("script");
+            script.type = "text/javascript";
+            script.src = "{!$Resource.AH_PLCM_Bind_Warning_Message}";
+            window.parent.document.body.appendChild(script); //Inject js library to bind navigation warning message
+            
+            //Bind events of controls
+            bindEvents();
+            
+            //Bind text input events
+            bindInputEvents();
+
+            //Hide loader
+            showHideLoader(false);
+        });
+        
+        //This function will call automatically by visualforce page
+        function setFocusOnLoad() {
+            //Fix issue - Page is getting scroll automatically to focus input textbox while loading
+            window.focus();
+        }
+
+        function setHelpHeight(intDelay) {
+            setTimeout(function() {
+                var intHeight = $('.main-div').height() - 55;
+                $('.help-text').height(intHeight);
+            }, intDelay);
+        }
+
+        function bindEvents() {
+            //Click event used for hide the export toggles
+            window.onclick = function(event) {
+                if (!$(event.target).hasClass('menu-btn')) {
+                    var dropdowns = document.getElementsByClassName("menu-options");
+                    var i;
+                    for (i = 0; i < dropdowns.length; i++) {
+                        var openDropdown = dropdowns[i];
+                        $(openDropdown).hide();
+                    }
+                }
+            }
+
+            $("#btnHelp").on("click", function() {
+                if($("body").hasClass("help-show")) {
+                    $(".help-wrapper").animate({width: "0%"}, 800);
+                    $(".main-div").animate({width: "99%"}, 800);
+                    $("body").removeClass("help-show");
+                    setTimeout(function() { $(".help-box").hide(); }, 800);
+                    $("#btnHelp").text("Show Help");
+                }
+                else {
+                    $(".help-box").show();
+                    $(".help-wrapper").animate({width: "24%"}, 800);
+                    $(".main-div").animate({width: "75%"}, 800);
+                    $("body").addClass("help-show");
+                    $("#btnHelp").text("Hide Help");
+                }
+
+                //Set in line help text height
+                setHelpHeight(800);
+            });
+        }
+        
+        function bindInputEvents() {
+            $('input[type=text], input[type=checkbox]').unbind('keypress');
+            $('input[type=text], input[type=checkbox]').bind('keypress', function(event) {
+                var keyCode = (event.keyCode ? event.keyCode : event.which);
+                if (keyCode == 13) { //Enter pressed
+                    callSaveButton();
+                    event.preventDefault();
+                }
+            });
+
+            $('.num-input').unbind('keypress');
+            $('.num-input').bind('keypress', function(event) { //Prevent other characters than numbers
+                var keyCode = (event.keyCode ? event.keyCode : event.which);
+                if (keyCode == 13) { //Enter pressed
+                    callSaveButton();
+                    event.preventDefault();
+                }
+                else if (keyCode == 46) {  //Dot pressed
+                    if($(this).val().indexOf('.') > -1) { //More than one dots exist
+                        event.preventDefault();
+                    }
+                }
+                else if (keyCode < 48 || keyCode > 57) { //Other characters pressed
+                    event.preventDefault();
+                }
+                
+                var maxLength = $(this).data('maxlength');
+                if(typeof(maxLength) != 'undefined' && maxLength != null && maxLength != '') {
+                    var arrLength = maxLength.toString().split(',');
+                    if(arrLength.length == 1 && event.key == '.') { //Do not allow dot if decimal point length is not provided
+                        event.preventDefault();
+                    }
+                }
+            });
+            
+            $('.num-input').unbind('paste');
+            $('.num-input').bind('paste', function(event) {
+                //Do not allow to paste text in numbers field
+                return isNaN(event.originalEvent.clipboardData.getData('Text')) == false;
+            });
+            
+            $('.num-input').unbind('keyup');
+            $('.num-input').bind('keyup', function(event) {
+                //Save previous value in data-value attribute
+                $(this).data('value', $(this).val());
+            });
+
+            $('.num-input').unbind('input');
+            $('.num-input').bind('input', function(event) {
+                var maxLength = $(this).data('maxlength');
+                var strValue = $(this).val().toString();
+                if(strValue != '' && typeof(maxLength) != 'undefined' && maxLength != null && maxLength != '') {
+                    var flagError = false;
+                    var arrValues = this.value.toString().split('.');
+                    var arrLength = maxLength.toString().split(',');
+                    
+                    if(arrValues.length > 0 && arrLength.length > 0) {
+                        var fractValue = arrValues[0];
+                        var fractLength = parseInt(arrLength[0]);
+                        
+                        if(arrLength.length > 1) {
+                            if(fractValue.length > fractLength) {
+                                flagError = true;
+                            }
+                            else if(arrValues.length > 1) { //Dot is added in textbox value
+                                var decValue = arrValues[arrValues.length - 1];
+                                var decLength = parseInt(arrLength[arrLength.length - 1]);
+                                if(decValue.toString().length > decLength) {
+                                    flagError = true;
+                                }
+                            }
+                        }
+                        else if (strValue.length > fractLength) {
+                            flagError = true;
+                        }
+                        
+                        if(flagError) {
+                            //Add previous value if text are getting overlenth
+                            $(this).val($(this).data('value'));
+                        }
+                        else {
+                            //Save previous value in data-value attribute
+                            $(this).data('value', $(this).val());
+                        }
+                    }
+                }
+            });
+        }
+        
+        function callSaveButton() {
+            $('input[type=submit]').each(function() {
+                if($(this).val().toLowerCase() == 'save') {
+                    //Trigger Save button click
+                    $(this).click();
+                    return false; // breaks
+                }
+            });
+        }
+
+        function bindNavigationWarning() {
+            try {
+                var logo = window.parent.document.body.getElementsByClassName('cBrandingLogo');
+                window.parent.addNavigationWarning(logo); //for search logo
+                
+                var divParent = window.parent.document.body.getElementsByClassName('cNavBarCon');
+                if(divParent != null && divParent.length > 0) {
+                    var arr = divParent[0].getElementsByTagName("a");
+                    window.parent.addNavigationWarning(arr); //for main menu <a> tags
+                }
+
+                var divNotification = window.parent.document.body.getElementsByClassName('unsNotificationsPanel');
+                if(divNotification != null && divNotification.length > 0) {
+                    var arr = divNotification[0].getElementsByTagName("a");
+                    window.parent.addNavigationWarning(arr); //for notifications menu <a> tags
+                }
+                
+                var searchButton = window.parent.document.body.getElementsByClassName('search-button');
+                window.parent.addNavigationWarning(searchButton); //for search button
+
+                var searchField = window.parent.document.body.getElementsByClassName('search-field'); //Search text box
+                window.parent.addNavigationWarning(searchField); //for search button
+
+                var ddlUseProfile = window.parent.document.body.getElementsByClassName("trigger-link");//User dropdown settings menu
+                if(ddlUseProfile != null && ddlUseProfile.length > 0) {                
+                    ddlUseProfile[0].onclick = function() {
+                        bindWarningForProfileMenus();
+                    };
+                }
+
+                var profileIcon = window.parent.document.body.getElementsByClassName("cProfileCon");//User dropdown settings menu
+                if(profileIcon != null && profileIcon.length > 0) {                
+                    profileIcon[0].onclick = function() {
+                        bindWarningForProfileMenus();
+                    };
+                }
+            }
+            catch(ex) { }
+        }
+
+        function bindWarningForProfileMenus() {
+            setTimeout(function() {
+                var divParent = window.parent.document.body.getElementsByClassName('cHeaderLine');
+                if(divParent != null && divParent.length > 0) {
+                    var arr = divParent[0].getElementsByTagName("a");
+                    window.parent.addNavigationWarning(arr); //for profile menu
+                }
+            }, 500);
+        }
+
+        function unbindNavigationWarning() {
+            try {
+                var logo = window.parent.document.body.getElementsByClassName('cBrandingLogo');
+                window.parent.removeNavigationWarning(logo); //for search logo
+
+                var divParent = window.parent.document.body.getElementsByClassName('cNavBarCon');
+                if(divParent != null && divParent.length > 0) {
+                    var arr = divParent[0].getElementsByTagName("a");
+                    window.parent.removeNavigationWarning(arr); //for main menu <a> tags
+                }
+
+                var divNotification = window.parent.document.body.getElementsByClassName('unsNotificationsPanel');
+                if(divNotification != null && divNotification.length > 0) {
+                    var arr = divNotification[0].getElementsByTagName("a");
+                    window.parent.removeNavigationWarning(arr); //for notifications menu <a> tags
+                }
+
+                var searchButton = window.parent.document.body.getElementsByClassName('search-button');
+                window.parent.removeNavigationWarning(searchButton); //for search button
+
+                var searchField = window.parent.document.body.getElementsByClassName('search-field'); //Search text box
+                window.parent.removeNavigationWarning(searchField); //for search textbox
+              
+                var ddlUseProfile = window.parent.document.body.getElementsByClassName("trigger-link");//User dropdown settings menu
+                if(ddlUseProfile != null && ddlUseProfile.length > 0) {
+                    ddlUseProfile[0].onclick = null;
+                }
+
+                var profileIcon = window.parent.document.body.getElementsByClassName("cProfileCon");//User dropdown settings menu
+                if(profileIcon != null && profileIcon.length > 0) {                
+                    profileIcon[0].onclick = null;
+                }
+
+                var divParent = window.parent.document.body.getElementsByClassName('cHeaderLine');
+                if(divParent != null && divParent.length > 0) {
+                    var arr = divParent[0].getElementsByTagName("a");
+                    window.parent.removeNavigationWarning(arr); //for profile menu
+                }
+            }
+            catch(ex) { }
+        }
+
+        function showHideLoader(flagShow) {
+            if(flagShow) {
+                $("body").addClass("loader-visible");
+                $(".loader").show();
+            }
+            else {
+                $(".loader").hide();
+                $("body").removeClass("loader-visible");
+            }
+        }
+
+        //Being used to make control disabled using css
+        function disableControl(elem, flagDisable) {
+            if(flagDisable) {
+                $(elem).addClass('disabled-control');
+                //$(elem).parent().addClass('disabled-wrapper'); //For IE 11.0 and lower version browsers
+                $(elem).attr('tabindex', '-1'); //Do not allow focus in element
+            }
+            else {
+                $(elem).removeClass('disabled-control');
+                $(elem).parent().removeClass('disabled-wrapper');
+                $(elem).removeAttr('tabindex'); //Allow focus in element
+            }
+        }
+
+        //Export report in pdf and excel
+        function exportReport(projectId, recordType, reportType) {
+            var baseUrl = window.location.protocol + window.location.port + "//" + window.location.host;
+            var ifrm = document.createElement("IFRAME");
+            var strPageName = "";
+            if(reportType == 'pdf') {
+                switch(recordType.toLowerCase()) {
+                    case 'functionroom':
+                        strPageName = "AH_PLCM_MM_Export_Pdf_Function_Room";
+                        break;
+                    case 'roomcapacities':
+                        strPageName = "AH_PLCM_MM_Export_PDF_Room_Capacities";
+                        break;
+                    case 'inventory':
+                        strPageName = "AH_PLCM_MM_Export_Pdf_Inventory";
+                        break;
+                }
+            }
+            else {
+                switch(recordType.toLowerCase()) {
+                    case 'functionroom':
+                        strPageName = "AH_PLCM_MM_Export_Excel_Function_Room";
+                        break;
+                    case 'roomcapacities':
+                        strPageName = "AH_PLCM_MM_Export_Excel_Room_Capacities";
+                        break;
+                    case 'inventory':
+                        strPageName = "AH_PLCM_MM_Export_Excel_Inventory";
+                        break;
+                }
+            }
+            // apex will have to remove from url, when it will go for deploy
+            ifrm.setAttribute("src", baseUrl + "{!$Site.Prefix}/apex/" + strPageName + "?ProjectId=" + projectId + "&RecordType=" + recordType + "&ReportType=" + reportType);
+            ifrm.style.width = "0px";
+            ifrm.style.height = "0px";
+            ifrm.style.display = "none";
+            document.body.appendChild(ifrm);
+        }
+
+        //Update bubble help popup flag in NI Doc record
+        function updateBubbleFlag(projectId, pageName) {
+            if(gblFlagBubbleSkipped) {
+                return; //If skip bubble button already clicked then do not process again
+            }
+
+            var callback = {
+                onSuccess: function(data) {
+                    //If already skipped, then do not update
+                    if(data != null && typeof(data.records) != "undefined" && data.records != null) {
+                        var objProjStatus = data.records;
+                        switch(pageName.toLowerCase()) {
+                            case 'functionroom':
+                                objProjStatus.AH_PLCM_MM_Is_Function_Room_Bubble_Skip__c = true;
+                                break;
+                            case 'roomcapacities':
+                                objProjStatus.AH_PLCM_MM_Is_Room_Capacity_Bubble_Skip__c = true;
+                                break;
+                            case 'inventory':
+                                objProjStatus.AH_PLCM_MM_Is_Inventory_Bubble_Skip__c = true;
+                                break;
+                        }
+                        result = sforce.connection.update([objProjStatus]); //Update bubble status flag
+                        gblFlagBubbleSkipped = true;
+                    }
+                    showHideLoader(false); //Hide loader
+                },
+                onFailure: function(error) {
+                    showHideLoader(false); //Hide loader
+                },
+            };
+
+            showHideLoader(true); //Show loader
+            //Fetch bubble help popup flag status from NI Doc record
+            sforce.connection.query("SELECT Id, AH_PLCM_MM_Is_Function_Room_Bubble_Skip__c, AH_PLCM_MM_Is_Room_Capacity_Bubble_Skip__c, AH_PLCM_MM_Is_Inventory_Bubble_Skip__c FROM NI_Documentation__c WHERE Id = '" + projectId + "'", callback);
+        }
+    </script>
+</apex:component>

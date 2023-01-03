@@ -1,0 +1,165 @@
+<apex:page controller="NI_ICEController" showHeader="false" cache="false">
+
+    <apex:composition template="NIVFTemplate">
+    
+        <apex:define name="body">
+
+            <apex:outputPanel rendered="{!authenticated}">
+            
+                <script type="text/javascript">
+                
+                    function togglesection(header, sectionid) 
+                    {
+                        if (header.className == 'expandedsectionheader') 
+                        {
+                            header.className = 'collapsedsectionheader';
+                            document.getElementById(sectionid).style.display = 'none';
+                        } 
+                        else 
+                        {
+                            header.className = 'expandedsectionheader';
+                            document.getElementById(sectionid).style.display = 'block';
+                        }                        
+                    }
+        
+                    function toggleproperty(checkbox) 
+                    {
+                        var cbclassname = checkbox.className;
+                        var allinputs = document.getElementsByTagName("input"); 
+                        for (var i = 0; i < allinputs.length; i++) 
+                        { 
+                            el = allinputs[i];
+                            if (el.className == 'usercheckbox ' + cbclassname)
+                            {
+                                el.checked = checkbox.checked;
+                            }
+                        }
+                    }
+                    
+                </script>
+                <div class="bPageTitle" style="padding-top: 0; text-align: left;">
+                    <div class="ptBreadcrumb">&nbsp;«&nbsp;<a href="NI_ICE_Home?authkey={!authkey}">Back to Checklist</a></div>
+                </div>
+                <div style="text-align: left;">
+                    <h1>Select Properties and Users:</h1>
+                    Below you will find a list of properties and a list of users from your current Delphi.Net subscription.<br/>
+                    Please be sure to scroll to the bottom of the page and save after checking properties and users.
+                </div>
+                
+                <apex:outputPanel rendered="{! usersselectionlocked}">                
+                    <div style="font-weight: bold; color: red; font-size: 14px; text-align: left;">These lists are locked and cannot be changed.</div>
+                </apex:outputPanel>
+                <br/>
+                
+                <apex:form >
+                
+                    <apex:outputPanel rendered="{! !usersselectionlocked}">
+                        PROPERTIES: Please select which properties you would like to maintain in your upgrade to Delphi.fdc.
+                    </apex:outputPanel>
+                    <apex:outputPanel rendered="{! usersselectionlocked}">
+                        PROPERTIES: Please select which properties you would like to maintain in your upgrade to Delphi.fdc.
+                    </apex:outputPanel>
+
+                    <apex:pageBlock id="pbP">
+                        <apex:pageBlockSection title="Properties" id="pbSP" columns="1" collapsible="false" showHeader="false">
+                            <apex:pageBlockTable value="{!ICEProperties}" var="p" id="pbTP" >
+            
+                                <apex:column headerValue="Active" style="text-align: center;">
+                                    <apex:inputfield value="{!p.SelectedForMigration__c}" />
+                                </apex:column>                    
+                                
+                                <apex:column headerValue="Property" style="text-align: left; width: 600px; font-weight: bold;">
+                                    <apex:outputfield value="{!p.PropertyName__c}" id="tZone"/>
+                                </apex:column>                    
+                                
+                                <apex:column headerValue="Address" >
+                                    <apex:outputfield value="{!p.StreetAddress__c}" id="addr"/>
+                                </apex:column>
+                                
+                                <apex:column headerValue="City">
+                                    <apex:outputfield value="{!p.City__c}" id="city"/>
+                                </apex:column>
+                                
+                                <apex:column headerValue="State">
+                                    <apex:outputfield value="{!p.State__c}" id="stat"/>
+                                </apex:column>
+                                
+                                <apex:column headerValue="Zip Code">
+                                    <apex:outputfield value="{!p.Zip__c}" id="zipc"/>
+                                </apex:column>
+                                
+                            </apex:pageBlockTable>
+                        </apex:pageBlockSection> 
+                    </apex:pageBlock>                    
+
+                    <br/>
+
+                    <apex:outputPanel rendered="{!!usersselectionlocked}">
+                        USERS: Please select the users who will be active in Delphi.fdc after your upgrade.
+                    </apex:outputPanel>
+                    <apex:outputPanel rendered="{!usersselectionlocked}">
+                        USERS: Please select the users who will be active in Delphi.fdc after your upgrade.
+                    </apex:outputPanel>
+
+                    <apex:pageBlock id="pbU">
+                        <apex:pageBlockSection title="Users" id="pbSU" columns="1" collapsible="false" showHeader="false">
+                            <apex:pageBlockTable value="{!ICEUsers}" var="u" id="pbTU" >
+            
+                                <apex:column headerValue="Active" style="text-align: center;">
+                                    <apex:inputfield value="{!u.SelectedForMigration__c}" />
+                                </apex:column>                    
+                                
+                                <apex:column headerValue="User Name" style="text-align: left; width: 600px; font-weight: bold;">
+                                    <apex:outputfield value="{!u.UserName__c}" />
+                                </apex:column>                    
+                                
+                                <apex:column headerValue="Email">
+                                    <apex:outputfield value="{!u.Email__c}" />
+                                </apex:column>
+                                
+                                <apex:column headerValue="Login Name">
+                                    <apex:outputfield value="{!u.LoginName__c}" id="city"/>
+                                </apex:column>
+                                
+                            </apex:pageBlockTable>
+                        </apex:pageBlockSection> 
+                    </apex:pageBlock>
+      
+                    <apex:outputPanel rendered="{! !usersselectionlocked}">
+                        <div style="margin: 0 0 0 30px;">
+                            <table style="width: 600px; border: 0; margin: 15px 0; border-collapse: collapse;">
+                                <tr>
+                                    <td style="text-align: left; vertical-align: middle; width: 100px; padding:0;">
+                                        <apex:commandButton action="{!submitReviewPropertiesUsers}" value="Save" styleClass="formsubmit" />
+                                    </td>
+                                    <td style="text-align: left; vertical-align: middle; width: 130px; padding:0;">
+                                        <apex:commandButton action="{!completeReviewPropertiesUsers}" value="Complete This Step" styleClass="formsubmit" />
+                                    </td>
+                                    <td style="text-align: left; vertical-align: middle; width: 470px; padding: 0 20px;">
+                                        When you click Complete This Step this step will be marked as completed. However, if you change your mind, you will be able to change the selection until&nbsp;
+                                        <apex:outputText value="{0,date,MM'/'dd'/'yyyy}">
+                                            <apex:param value="{!iceSub.ScheduledMigrationDate__c-10}" /> 
+                                        </apex:outputText> when this selection will be locked.
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </apex:outputPanel>                    
+                    
+                </apex:form>
+
+            </apex:outputPanel>
+            
+            <apex:outputPanel rendered="{! !authenticated}">            
+                You are not authenticated to view this page. Please contact <a href="mailto:support@newmarketinc.com">support@newmarketinc.com</a> if you are a Newmarket International Inc. customer.                
+                <br/>            
+            </apex:outputPanel>
+            
+            <div class="bPageTitle" style="padding-top: 0;">
+                <div class="ptBreadcrumb">&nbsp;«&nbsp;<a href="NI_ICE_Home?authkey={!authkey}">Back to Checklist</a></div>
+            </div>
+        </apex:define>
+        
+    </apex:composition>
+
+</apex:page>

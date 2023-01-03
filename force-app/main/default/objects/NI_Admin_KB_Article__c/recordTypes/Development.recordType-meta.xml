@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<RecordType xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Development</fullName>
+    <active>true</active>
+    <description>Record type used for Salesforce development topics</description>
+    <label>Development</label>
+    <picklistValues>
+        <picklist>Category__c</picklist>
+        <values>
+            <fullName>Apex Class</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Apex Trigger</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Code Snippet</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Documentation</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Formula</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>General Article</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Project</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Standard Apex Test Class</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Template</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Visualforce Page</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Salesforce_App__c</picklist>
+        <values>
+            <fullName>Apttus</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Salesforce - All</fullName>
+            <default>true</default>
+        </values>
+        <values>
+            <fullName>Site%2Ecom</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+</RecordType>

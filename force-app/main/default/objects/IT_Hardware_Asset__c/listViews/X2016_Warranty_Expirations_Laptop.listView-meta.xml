@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>X2016_Warranty_Expirations_Laptop</fullName>
+    <columns>Warranty_Expires__c</columns>
+    <columns>NAME</columns>
+    <columns>Asset_Tag_Number__c</columns>
+    <columns>User__c</columns>
+    <columns>Custodian_Phone__c</columns>
+    <columns>Hardware_Type__c</columns>
+    <columns>Model_Description__c</columns>
+    <columns>Status__c</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>User__c</field>
+        <operation>notEqual</operation>
+    </filters>
+    <filters>
+        <field>Status__c</field>
+        <operation>equals</operation>
+        <value>Deployed</value>
+    </filters>
+    <label>Active Devices</label>
+</ListView>

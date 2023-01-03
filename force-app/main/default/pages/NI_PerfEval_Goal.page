@@ -1,0 +1,48 @@
+<apex:page standardcontroller="NI_PerfEval_Goals__c" extensions="NI_PerfEval_Goal_Ext" tabstyle="NI_Employee_Performance_Evaluation__c" title="Edit Goal">
+        
+    <script>
+        function confirmDelete() 
+        {
+            if(confirm('Are you sure that you want to delete this goal?')) 
+            {
+                callDeleteGoal();
+                return false;
+            }
+            return false;
+        }
+    </script>
+
+    <apex:form >
+        
+        <apex:actionFunction action="{!deleteGoal}" name="callDeleteGoal"/>
+        
+        <apex:pageBlock title="Performance Goal {!NI_PerfEval_Goals__c.Name}"> 
+            
+            <apex:pageBlockButtons > 
+                <apex:commandButton action="{!saveGoal}" value="Save"/> 
+                <apex:commandButton action="{!doSaveAndNew}" value="Save & New"/>
+                <apex:commandButton onclick="return confirmDelete();" value="Delete"/> 
+                <apex:commandButton action="{!cancel}" value="Cancel"/> 
+            </apex:pageBlockButtons> 
+            
+            <apex:pageBlockSection title="Goal Details" columns="1" collapsible="false"> 
+        
+                <apex:inputField value="{!NI_PerfEval_Goals__c.Category__c}" rendered="{!inEditMode}" required="true" />
+                <apex:inputField value="{!NI_PerfEval_Goals__c.Current_Previous_Year__c}" rendered="{!inEditMode}" required="true" />
+                <apex:inputField value="{!NI_PerfEval_Goals__c.Status__c}" rendered="{!inEditMode}" required="true" />   
+                <apex:inputField value="{!NI_PerfEval_Goals__c.Goal__c}" rendered="{!inEditMode}" required="true" />               
+                <apex:outputField value="{!NI_PerfEval_Goals__c.Employee_Performance_Evaluation__c}" rendered="{!inEditMode}"/>  
+                
+                <apex:outputField value="{!NI_PerfEval_Goals__c.Name}" rendered="{!NOT(inEditMode)}"/>
+                <apex:outputField value="{!NI_PerfEval_Goals__c.Category__c}" rendered="{!NOT(inEditMode)}"/>                
+                <apex:outputField value="{!NI_PerfEval_Goals__c.Current_Previous_Year__c}" rendered="{!NOT(inEditMode)}"/>
+                <apex:outputField value="{!NI_PerfEval_Goals__c.Status__c}" rendered="{!NOT(inEditMode)}"/> 
+                <apex:outputField value="{!NI_PerfEval_Goals__c.Goal__c}" rendered="{!NOT(inEditMode)}"/>                   
+                <apex:outputField value="{!NI_PerfEval_Goals__c.Employee_Performance_Evaluation__c}" rendered="{!NOT(inEditMode)}"/>  
+                
+            </apex:pageBlockSection> 
+        </apex:pageBlock> 
+                
+    </apex:form> 
+    
+</apex:page>

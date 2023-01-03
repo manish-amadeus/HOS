@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Benefits_EnterCalculations_ESI</fullName>
+    <active>false</active>
+    <description>NICC-053541
+
+09/29/2021 - TEMPORARILY DISABLED BY STUART EMERY.  CAUSING ISSUES CREATING NEW INTERNAL PROJECTS</description>
+    <errorConditionFormula>AND(
+OR
+(NOT(ISBLANK(Annual_Efficiencies_Savings_hrs__c )),
+NOT(ISBLANK(Annual_Efficiencies_Savings_Confidence__c ))),
+ISBLANK(ESI_How_did_you_arrive_at_this_number__c ))</errorConditionFormula>
+    <errorDisplayField>ESI_How_did_you_arrive_at_this_number__c</errorDisplayField>
+    <errorMessage>Please Enter Details</errorMessage>
+</ValidationRule>

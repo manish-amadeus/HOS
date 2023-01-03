@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Hosted_RFC_Pending_CRB_Approval</fullName>
+    <columns>RECORDTYPE</columns>
+    <columns>NAME</columns>
+    <columns>Request_Summary__c</columns>
+    <columns>Change_Type__c</columns>
+    <columns>Date_Scheduled__c</columns>
+    <columns>Requester__c</columns>
+    <columns>NI_Change_Owner__c</columns>
+    <columns>Deployment_Owner_Manager__c</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>RECORDTYPE</field>
+        <operation>equals</operation>
+        <value>NI_Change_Control__c.Hosted_RFC,NI_Change_Control__c.HRM_RFC</value>
+    </filters>
+    <filters>
+        <field>Change_Status__c</field>
+        <operation>equals</operation>
+        <value>Pending CRB Approval</value>
+    </filters>
+    <label>Pending CRB Approval</label>
+</ListView>

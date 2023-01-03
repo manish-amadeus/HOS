@@ -1,0 +1,18 @@
+<apex:page standardController="NI_IMT_Contact__c" extensions="NI_LocalTime_IMTContactCtrl" showHeader="false" sidebar="false">
+<apex:outputText value="{!NI_IMT_Contact__c.Country__c}" rendered="false"/>
+<apex:outputText value="{!NI_IMT_Contact__c.State__c}" rendered="false"/>
+<apex:outputText value="{!NI_IMT_Contact__c.City__c}" rendered="false"/>
+<apex:outputText value="{!NI_IMT_Contact__c.Phone__c}" rendered="false"/>
+
+<apex:form >  
+    <apex:actionFunction name="rTime" action="{!refreshTime}" rerender="theTime" />
+</apex:form>
+<apex:outputText id="theTime" value="{!ctTime}" styleClass="dataCol col02" />
+<script>
+function showtime() {
+setTimeout(rTime,{!freq});
+setTimeout('showtime();',{!freq});
+}
+showtime();
+</script>
+</apex:page>

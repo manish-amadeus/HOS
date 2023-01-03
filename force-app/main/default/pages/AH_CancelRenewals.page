@@ -1,0 +1,1014 @@
+<apex:page Controller="AH_CancelRenewals" showHeader="false" sidebar="false" lightningStylesheets="true" applyHtmlTag="false" applyBodyTag="false" docType="html-5.0">
+    
+    <html xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" lang="en">
+        <head>
+            <meta charset="utf-8" />
+            <meta http-equiv="x-ua-compatible" content="ie=edge" />
+            <title>Subscription Renewal Cancellations</title>
+            <meta name="viewport" content="width=device-width, initial-scale=1" />
+            <apex:stylesheet value="/apexpages/slds/latest/assets/styles/salesforce-lightning-design-system-vf.css" />
+            <apex:stylesheet value="{!URLFOR($Resource.AmadeusHospitalityStyles)}" />  
+            <apex:includeScript value="{!$Resource.Toast}"/>
+            <apex:slds />
+        </head>
+        
+        <script language="JavaScript" type="text/javascript">
+            
+            function isAuthorized(chk) 
+            {
+                spn = document.getElementById('spanAcceptBtn');
+                spn.style.display = 'none';
+                if (chk.checked)
+                {
+                    spn.style.display = 'inline';
+                }    
+            }   
+            
+            function noenter(ev)  
+            {
+                if (window.event && window.event.keyCode == 13 || ev.which == 13) 
+                {
+                    callDoSearch();
+                    return false;
+                } 
+                else 
+                {
+                    return true;
+                }
+            } 
+            
+            function saveCxl(btn)  
+            {
+                btn.disabled = true;
+                btn.classList.add("btnDisabled"); 
+                callDoSave();
+            }
+            
+            function doRefresh() 
+            {
+                refreshReasons();  
+            }      
+            
+        </script>
+        
+        <div id="divMain" class="slds-scope" style="padding-top:10px;">   
+            
+            <apex:form >
+                
+                <apex:pageMessages />
+                
+                <apex:actionFunction action="{!saveChanges}" name="callDoSave" /> 
+                <apex:actionFunction action="{!doSearch}" name="callDoSearch" />   
+                <apex:actionFunction action="{!closeCxlDialog}" name="cxlCloseDialog" />
+				
+                
+                <!-- SUCCESS TOAST POPUP -->
+                <apex:outputPanel id="opSuccess" styleClass="popupSuccessFade fadeOut">
+                    <apex:outputPanel styleClass="popupSuccess" layout="block" rendered="{!isSuccess}">
+                        <div class="slds-notify_container slds-is-relative">
+                            <div class="slds-notify slds-notify_toast slds-theme_success" role="alert">
+                                <span class="slds-assistive-text">success</span>
+                                <span class="slds-icon_container slds-icon-utility-success slds-m-right_small slds-no-flex slds-align-top" title="">
+                                    <svg class="slds-icon slds-icon_small" aria-hidden="true">
+                                        <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/apexpages/slds/latest/assets/icons/utility-sprite/svg/symbols.svg#success" />
+                                    </svg>
+                                </span>
+                                <div class="slds-notify__content">
+                                    <h2 class="slds-text-heading_small ">
+                                        <apex:outputLabel id="lblToastMsg" value="{!toastMsg}" />
+                                    </h2>
+                                </div>
+                            </div>
+                        </div>            
+                    </apex:outputPanel>
+                </apex:outputPanel> 
+				
+                
+                <!-- SPINNER -->  
+                <apex:actionstatus id="asStatus">
+                    <apex:facet name="start">
+                        <div class="slds-spinner_container">
+                            <div role="status" class="slds-spinner slds-spinner_medium slds-spinner_brand" style="top:300px;!important;">
+                                <span class="slds-assistive-text">Saving</span>
+                                <div class="slds-spinner__dot-a"></div>
+                                <div class="slds-spinner__dot-b"></div>
+                            </div>
+                        </div>
+                    </apex:facet>
+                </apex:actionstatus> 
+				
+                
+                <!-- HEADER SECTION -->
+                <apex:outputPanel id="opHeader" rendered="{!showMainDetails}">                
+                    <div id="divHeader" class="roundedContainer">
+                        <table style="font-size:16px;">        
+                            <tr>
+                                <td colspan="4" style="text-align:center !important;">
+                                    <apex:outputText value="MANAGE MY RENEWALS" style="font-size:20px;!important;" /> 
+                                    <br/>
+                                    <apex:outputText value="Questions? Try this" style="font-size:14px;!important;" />&nbsp; 
+                                    <apex:outputlink id="hypGuide" value="{!URLFOR($Resource.CancelRenewalsGuide)}" target="_blank">USER GUIDE</apex:outputlink>&nbsp;
+                                    <apex:outputText value="or contact us" style="font-size:14px;!important;" />&nbsp; 
+                                    <apex:outputlink value="mailto:renewals@amadeus.com" style="font-size:14px;!important;">renewals@amadeus.com</apex:outputlink>
+                                    <br/>
+                                    
+                                    <br/>
+                                </td>
+                            </tr> 
+                            <tr>
+                                <td colspan="2" style="text-align:left;padding:15px;">
+                                    <apex:outputText value="ACCOUNT NAME: " />&nbsp;&nbsp;
+                                    <apex:outputField value="{!a.Name}" />
+                                </td>
+                                <td colspan="4" style="text-align:right;padding:15px;">
+                                    <apex:outputText value="ACCOUNT NUMBER: " />&nbsp;&nbsp;
+                                    <apex:outputField value="{!a.AccountNumber}" />
+                                </td>
+                            </tr>                      
+                        </table> 
+                    </div>
+                    <br />
+                    <div style="text-align:center;">
+                        <apex:outputLabel value="{!$Label.Cancellation_Policy_Text}" style="font-style: italic;" />
+                    </div>
+                </apex:outputPanel>
+				
+                
+                <!-- DETAILS SECTION -->
+                <apex:outputPanel id="opDetails" rendered="{!showMainDetails}">   
+
+                	<br/>
+                    
+                    <div id="divDetails" class="roundedContainer">
+                        
+                        <apex:dataTable id="dtProducts" value="{!lstActivityLineItems}" var="dt1" styleClass="slds-table slds-table_striped" rendered="{!hasRenewableProducts}">
+                            
+                            <apex:column rendered="{!isInternalUser}">  
+                                <apex:facet name="header">   
+                                    <apex:outputText value="ACT LINE ITEM" />
+                                </apex:facet>                            
+                                <apex:outputLink value="../{!dt1.ActivityLineItemId}" target="_blank">
+                                    {!dt1.ActivityLineItemName}
+                                </apex:outputLink> 
+                            </apex:column> 
+                            
+                            <apex:column > 
+                                <apex:facet name="header">   
+                                    <apex:commandLink id="cmdSortProduct" 
+                                                      value="PRODUCT{!IF(sortExpression=='Product__r.Name',IF(sortDirection='ASC',' ▼ ',' ▲ '),'')}" 
+                                                      action="{!sortData}" 
+                                                      status="asStatus" 
+                                                      rerender="dtProducts">
+                                        <apex:param value="Product__r.Name" name="column" assignTo="{!sortExpression}"></apex:param>
+                                    </apex:commandLink>
+                                </apex:facet>
+                                <apex:outputText value="{!dt1.ProductName}"/>
+                            </apex:column>
+                            
+                            <apex:column >
+                                <apex:facet name="header">   
+                                    <apex:commandLink id="cmdSortOrderNum" 
+                                                      value="ORDER#{!IF(sortExpression=='Opportunity__r.Opportunity_Number__c',IF(sortDirection='ASC',' ▼ ',' ▲ '),'')}" 
+                                                      action="{!sortData}" 
+                                                      status="asStatus" 
+                                                      rerender="dtProducts">
+                                        <apex:param value="Opportunity__r.Opportunity_Number__c" name="column" assignTo="{!sortExpression}"></apex:param>
+                                    </apex:commandLink>
+                                </apex:facet>
+                                <apex:outputText value="{!dt1.OpportunityNumber}"/>
+                            </apex:column> 
+                            
+                            <apex:column >
+                                <apex:facet name="header">   
+                                    <apex:commandLink id="cmdSortSKU" 
+                                                      value="SKU{!IF(sortExpression=='SKU__c',IF(sortDirection='ASC',' ▼ ',' ▲ '),'')}" 
+                                                      action="{!sortData}" 
+                                                      status="asStatus" 
+                                                      rerender="dtProducts">
+                                        <apex:param value="SKU__c" name="column" assignTo="{!sortExpression}"></apex:param>
+                                    </apex:commandLink>
+                                </apex:facet>
+                                <apex:outputText value="{!dt1.ProductSKU}"/>
+                            </apex:column> 
+                            
+                            <apex:column > 
+                                <apex:facet name="header"> 
+                                    <apex:commandLink id="cmdSortContractStartDate" title="SUBSCRIPTION START DATE (MM/DD/YYY FORMAT)"
+                                                      value="STARTDATE{!IF(sortExpression=='Contract_Start_Date__c',IF(sortDirection='ASC',' ▼ ',' ▲ '),'')}" 
+                                                      action="{!sortData}" 
+                                                      status="asStatus" 
+                                                      rerender="dtProducts"> 
+                                        <apex:param value="Contract_Start_Date__c" name="column" assignTo="{!sortExpression}"></apex:param> 
+                                    </apex:commandLink> 
+                                </apex:facet> 
+                                <apex:outputText value="{0, date, MM/dd/yyyy}"> 
+                                    <apex:param value="{!dt1.ContractStartDate}" /> 
+                                </apex:outputText> 
+                            </apex:column> 
+                            
+                            <apex:column >
+                                <apex:facet name="header">   
+                                    <apex:commandLink id="cmdSortContractEndDate" title="SUBSCRIPTION END DATE (MM/DD/YYYY FORMAT)" 
+                                                      value="ENDDATE{!IF(sortExpression=='Contract_End_Date__c',IF(sortDirection='ASC',' ▼ ',' ▲ '),'')}" 
+                                                      action="{!sortData}" 
+                                                      status="asStatus" 
+                                                      rerender="dtProducts">
+                                        <apex:param value="Contract_End_Date__c" name="column" assignTo="{!sortExpression}"></apex:param>
+                                    </apex:commandLink>
+                                </apex:facet>
+                                <apex:outputText value="{0, date, MM/dd/yyyy}">
+                                    <apex:param value="{!dt1.ContractEndDate}" />
+                                </apex:outputText>
+                            </apex:column>                     
+                            
+                            <apex:column >
+                                <apex:facet name="header">   
+                                    <apex:outputText value="DEADLINE" title="DEADLINE TO CANCEL AUTO-RENEWAL (MM/DD/YYYY FORMAT)" />
+                                </apex:facet>
+                                <apex:outputText value="{0, date, MM/dd/yyyy}">
+                                    <apex:param value="{!dt1.DeadlineDate}" />
+                                </apex:outputText>
+                            </apex:column> 
+                            
+                            <apex:column >
+                                <apex:facet name="header">   
+                                    <apex:commandLink id="cmdSortQtyContracted" title="SUBSCRIBED QUANTITY"
+                                                      value="QUANTITY{!IF(sortExpression=='Units__c',IF(sortDirection='ASC',' ▼ ',' ▲ '),'')}" 
+                                                      action="{!sortData}" 
+                                                      status="asStatus" 
+                                                      rerender="dtProducts">
+                                        <apex:param value="Units__c" name="column" assignTo="{!sortExpression}"></apex:param>
+                                    </apex:commandLink>
+                                </apex:facet>
+                                <apex:outputText value="{!dt1.QuantityContracted}"/>
+                            </apex:column>  
+                            
+                            <apex:column >
+                                <apex:facet name="header">   
+                                    <apex:commandLink id="cmdSortQtyRemaining" title="QUANTITY PENDING RENEWAL" 
+                                                      value="PENDING{!IF(sortExpression=='Units_Remaining__c',IF(sortDirection='ASC',' ▼ ',' ▲ '),'')}" 
+                                                      action="{!sortData}" 
+                                                      status="asStatus" 
+                                                      rerender="dtProducts">
+                                        <apex:param value="Units_Remaining__c" name="column" assignTo="{!sortExpression}"></apex:param>
+                                    </apex:commandLink>
+                                </apex:facet>
+                                <apex:outputText value="{!dt1.QuantityRemaining}"/>
+                            </apex:column> 
+                            
+                            <apex:column > 
+                                <apex:facet name="header">   
+                                    <apex:outputText value="ACTION" />
+                                </apex:facet>
+                                <apex:commandLink value="{!dt1.strInternalEditLabel}" style="{!dt1.strInternalEditLabelStyle}" action="{!openForm}" rendered="{! !dt1.bUserChangeAllowed}" status="asStatus"> 
+                                    <apex:param name="p1" assignTo="{!iALIIndex}" value="{!dt1.iIndex}" />
+                                    <apex:param name="p2" assignTo="{!aliId}" value="{!dt1.ActivityLineItemId}" />
+                                </apex:commandLink>   
+                                <apex:outputText value="{!dt1.strInternalEditLabel}" style="text-align:center;color:red;" rendered="{!dt1.bUserChangeAllowed}">                          
+                                    <c:toolTip helpText="{!dt1.strToolTiptext}" />
+                                </apex:outputText>  
+                            </apex:column>                         
+                            
+                            <apex:column > 
+                                <apex:facet name="header">   
+                                    <apex:outputText value="OOD" />
+                                </apex:facet>
+                                <apex:outputText value="{!dt1.OrderOfDelivery}" />
+                            </apex:column> 
+                           
+                        </apex:dataTable>
+                        
+                    </div> 
+                    
+                </apex:outputPanel> 
+                
+                
+                
+                <!-- MODAL DIALOGS --> 
+                
+                
+				
+                <!-- CONFIRMATION DIALOG -->                
+                <apex:outputPanel id="opConfirm">
+                    <apex:outputPanel styleClass="popupBackground" layout="block" rendered="{!displayConfirm}" />
+                    <apex:outputPanel styleClass="popupConfirmationBox" layout="block" rendered="{!displayConfirm}">
+                        <div style="text-align: center;">
+                            <br />
+                            <br />
+                            <apex:outputText value="Do you really want to retract this renewal cancellation request?" />
+                            <br />
+                            <br />
+                            <apex:commandButton id="cmdNo" value="No" action="{!hideConfirmation}" rerender="opEditCxl,opViewCxl,opConfirm" styleClass="slds-button slds-button_outline-brand" />&nbsp;
+                            <apex:commandButton id="cmdYes" value="Yes" action="{!cancelChanges}" rerender="opEditCxl,opViewCxl,opConfirm" styleClass="slds-button slds-button_brand" />
+                            <br />
+                            <br />
+                        </div>
+                    </apex:outputPanel>
+                </apex:outputPanel> 
+				
+                
+                <!-- RENEWAL CANCELLATION DETAILS DIALOG -->                 
+                <apex:outputPanel id="opViewCxl">
+                    <apex:outputPanel styleClass="popupBackground" layout="block" rendered="{!displayViewCxl}" />
+                    <apex:outputPanel styleClass="popupDialogBox" layout="block" rendered="{!displayViewCxl}">
+                                                
+                        <!-- (DIALOG CLOSE) --> 
+                        <apex:commandButton id="cmdViewCxlXBtn" value="X" action="{!hideCancellation}" status="asViewCxlStatus" 
+                                            rerender="opEditCxl,opViewCxl,opConfirm" 
+                                            style="position:absolute;left:1170px;top:-40px;font-size:24px;border:3px solid white;border-radius: 5px;box-shadow: 5px 5px 5px #888888;!important;" 
+                                            styleClass="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" />
+
+                        <!-- (SPINNER) -->  
+                        <apex:actionstatus id="asViewCxlStatus">
+                            <apex:facet name="start">
+                                <div class="slds-spinner_container">
+                                    <div role="status" class="slds-spinner slds-spinner_medium slds-spinner_brand">
+                                        <span class="slds-assistive-text">Saving</span>
+                                        <div class="slds-spinner__dot-a"></div>
+                                        <div class="slds-spinner__dot-b"></div>
+                                    </div>
+                                </div>
+                            </apex:facet>
+                        </apex:actionstatus>  
+                        
+                        <!-- (DIALOG HEADER) --> 
+                        <header class="slds-modal__header">
+                            <h2 class="slds-text-heading_medium slds-hyphenate" id="modal-heading-01">
+                                <apex:outputText value="CANCELLATION DETAILS" rendered="{! !cxlEditMode}" /> 
+                                <apex:outputText value="Change or Retract a Pending Renewal Cancellation" rendered="{!cxlEditMode}" style="color:red;" />                            
+                            </h2>
+                        </header> 
+                            
+                        <!-- (PRODUCT DETAILS) --> 
+                        <apex:outputPanel id="opViewCxlDetails">
+                            <table class="slds-table slds-no-row-hover">  
+                                <tr>
+                                    <td style="font-weight: bold; width: 200px;">
+                                        <apex:outputText value="Product Name:" />
+                                    </td>
+                                    <td>
+                                        <apex:outputText value="{!lstCancellations[iCxlIndex].ProductName}" />                                
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="font-weight: bold; width: 200px;">
+                                        <apex:outputText value="SKU:" />
+                                    </td>
+                                    <td>
+                                        <apex:outputText value="{!lstCancellations[iCxlIndex].ActivityLineItemSKU}" />                                
+                                    </td>
+                                </tr>                            
+                                <tr>
+                                    <td style="font-weight: bold; width: 200px;">
+                                        <apex:outputText value="Contract Start Date:" />
+                                    </td>
+                                    <td>
+                                        <apex:outputText value="{0, date, MM/dd/yyyy}" style="text-align:right;">
+                                            <apex:param value="{!lstCancellations[iCxlIndex].ContractStartDate}" />
+                                        </apex:outputText>  
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="font-weight: bold; width: 200px;">
+                                        <apex:outputText value="Contract End Date:" />
+                                    </td>
+                                    <td>
+                                        <apex:outputText value="{0, date, MM/dd/yyyy}" style="text-align:right;">
+                                            <apex:param value="{!lstCancellations[iCxlIndex].ContractEndDate}" />
+                                        </apex:outputText>  
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="font-weight: bold; width: 200px;">
+                                        <apex:outputText value="Account Name:" />
+                                    </td>
+                                    <td>
+                                        <apex:outputText value="{!lstCancellations[iCxlIndex].AccountName}" />                                
+                                    </td>
+                                </tr>                            
+                                <tr>
+                                    <td style="font-weight: bold; width: 200px;">
+                                        <apex:outputText value="Current Subscribed Quantity:" />
+                                    </td>
+                                    <td>
+                                        <apex:outputText value="{!lstCancellations[iCxlIndex].ContractedQuantity}" />                               
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="font-weight: bold; width: 200px;">
+                                        <apex:outputText value="Amount Pending Cancellation:" />
+                                    </td>
+                                    <td>
+                                        <apex:outputText value="{!lstCancellations[iCxlIndex].CancellationRequested}" />                               
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="font-weight: bold; width: 200px;">
+                                        <apex:outputText value="Revised Quantity to Cancel:" />
+                                    </td>
+                                    <td>
+                                        <apex:inputText value="{!lstCancellations[iCxlIndex].CancellationQuantity}" rendered="{!cxlEditMode}" /> 
+                                        <apex:outputText value="{!lstCancellations[iCxlIndex].CancellationQuantity}" rendered="{! !cxlEditMode}" /> 
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="font-weight: bold; width: 200px;">
+                                        <apex:outputText value="Reason:" />
+                                    </td>
+                                    <td>
+                                        <apex:outputText value="{!lstCancellations[iCxlIndex].GeneralReason}" />                            
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="font-weight: bold; width: 200px;">
+                                        <apex:outputText value="Requested By:" />
+                                    </td>
+                                    <td>
+                                        <apex:outputText value="{!lstCancellations[iCxlIndex].CancellationRequesterName}" />                                
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="font-weight: bold; width: 200px;">
+                                        <apex:outputText value="Date Requested:" />
+                                    </td>
+                                    <td>
+                                        <apex:outputText value="{0, date, MM/dd/yyyy}" style="text-align:right;">
+                                            <apex:param value="{!lstCancellations[iCxlIndex].CancellationRequestedDate}" />
+                                        </apex:outputText>  
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="font-weight: bold; width: 200px;">
+                                        <apex:outputText value="Order #:" />
+                                    </td>
+                                    <td>
+                                        <apex:outputText value="{!lstCancellations[iCxlIndex].OpportunityNumber}" />                                
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="font-weight: bold; width: 200px;">
+                                        <apex:outputText value="Specific User Names:" />
+                                    </td>
+                                    <td>
+                                        <apex:inputText value="{!lstCancellations[iCxlIndex].SpecificUserNames}" rendered="{!cxlEditMode}" /> 
+                                        <apex:outputText value="{!lstCancellations[iCxlIndex].SpecificUserNames}" rendered="{! !cxlEditMode}" />  
+                                    </td>
+                                </tr> 
+                                <tr>
+                                    <td style="font-weight: bold; width: 200px;">
+                                        <apex:outputText value="Additional Notes:" rendered="{!isInternalUser}" />
+                                    </td>
+                                    <td>
+                                        &nbsp;
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2">
+                                        <apex:inputTextarea value="{!lstCancellations[iCxlIndex].CancellationNote}" rows="4" style="width: 100%;" readonly="{! !cxlEditMode}" rendered="{!isInternalUser}" />
+                                    </td>
+                                </tr>                             
+                                <tr>
+                                    <td style="font-weight: bold; width: 200px;">
+                                        <apex:outputText value="Cancellation # (Internal):" rendered="{!isInternalUser}" />  
+                                    </td>
+                                    <td>
+                                        <apex:outputLink value="../{!lstCancellations[iCxlIndex].CancellationId}" target="_blank" rendered="{!isInternalUser}">
+                                            {!lstCancellations[iCxlIndex].CancellationName}
+                                        </apex:outputLink>                                    
+                                    </td>
+                                </tr>                            
+                                <tr>
+                                    <td style="font-weight: bold; width: 200px;">
+                                        <apex:outputText value="Activity Line # (Internal):" rendered="{!isInternalUser}" />  
+                                    </td>
+                                    <td>
+                                        <apex:outputLink value="../{!lstCancellations[iCxlIndex].ActivityLineItemId}" target="_blank" rendered="{!isInternalUser}">
+                                            {!lstCancellations[iCxlIndex].ActivityLineItemName}
+                                        </apex:outputLink>
+                                    </td>
+                                </tr> 
+                            </table>
+                            <br />
+                        </apex:outputPanel>    
+                            
+                        <!-- (CHANGE BUTTONS) --> 
+                        <apex:outputPanel id="opViewCxlBtns">
+                            <div style="text-align:center;">
+                                <apex:commandButton id="cmdCloseCxl" value="Cancel Changes" action="{!hideCancellation}" status="asViewCxlStatus" 
+                                                    rerender="opEditCxl,opViewCxl,opConfirm" 
+                                                    rendered="{!cxlEditMode}" 
+                                                    styleClass="slds-button slds-button_outline-brand" />
+                                &nbsp;&nbsp;
+                                <apex:commandButton id="cmdEditCxl" value="Save Changes" action="{!saveCancellationEdit}" status="asViewCxlStatus" 
+                                                    rerender="opEditCxl,opViewCxl,opConfirm" 
+                                                    rendered="{!cxlEditMode}" 
+                                                    styleClass="slds-button slds-button_brand" />
+                                <br/>
+                                <hr/>
+                                <apex:commandButton id="cmdRetractCxl" value="Retract This Renewal Cancellation Request" action="{!retractCancellation}" status="asViewCxlStatus" 
+                                                    rerender="opEditCxl,opViewCxl,opConfirm" 
+                                                    rendered="{! AND(cxlEditMode, !hasChildren)}" 
+                                                    styleClass="slds-button slds-button_success" />
+                            </div> 
+                            <br/>
+                        </apex:outputPanel>
+                        
+                    </apex:outputPanel>
+                </apex:outputPanel> 
+                
+                
+                <!-- RENEWAL CANCELLATION DIALOG --> 
+                <apex:outputPanel id="opEditCxl">
+                    <apex:outputPanel styleClass="popupBackground" layout="block" rendered="{!displayEditCxl}" />
+                    <apex:outputPanel styleClass="popupDialogBox" layout="block" rendered="{!displayEditCxl}">
+                        
+                        <!-- (DIALOG CLOSE) --> 
+                        <apex:commandButton id="cmdXBtn1" value="X" action="{!closeEditCxl}" status="asEditCxlStatus" 
+                                            rerender="opHeader,opDetails,opEditCxl" 
+                                            style="position:absolute;left:1170px;top:-40px;font-size:24px;border:3px solid white;border-radius: 5px;box-shadow: 5px 5px 5px #888888;!important;" 
+                                            styleClass="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" />
+
+                        <!-- (SPINNER) -->  
+                        <apex:actionstatus id="asEditCxlStatus">
+                            <apex:facet name="start">
+                                <div class="slds-spinner_container">
+                                    <div role="status" class="slds-spinner slds-spinner_medium slds-spinner_brand">
+                                        <span class="slds-assistive-text">Saving</span>
+                                        <div class="slds-spinner__dot-a"></div>
+                                        <div class="slds-spinner__dot-b"></div>
+                                    </div>
+                                </div>
+                            </apex:facet>
+                        </apex:actionstatus>  
+                        
+                        <!-- (DIALOG HEADER) --> 
+                        <header class="slds-modal__header">
+                            <h2 class="slds-text-heading_medium slds-hyphenate" id="modal-heading-01">Manage My Renewals</h2>
+                        </header>                        
+
+                        <!-- (PRODUCT DETAILS) -->                          
+                        <apex:outputPanel id="opEditCxlDetails">
+                            <br /> 
+                            <div id="divEditCxlDetails" class="roundedContainer">
+
+                                <table class="slds-table slds-no-row-hover">
+                                    <tr>
+                                        <td style="font-weight:bold;text-align:right;" >
+                                            <apex:outputText value="PRODUCT:" />
+                                        </td>
+                                        <td colspan="3">
+                                            <apex:outputText value="{!lstActivityLineItems[iALIIndex].ProductName}" /> 
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="font-weight:bold;text-align:right;width:80px;">
+                                            <apex:outputText value="ORDER NUMBER:" />
+                                        </td>
+                                        <td>
+                                            <apex:outputText value="{!lstActivityLineItems[iALIIndex].OpportunityNumber}" /> 
+                                        </td>
+                                        <td style="font-weight:bold;text-align:right;width:200px;">
+                                            <apex:outputText value="CURRENT SUBSCRIBED QUANTITY: " />
+                                        </td>
+                                        <td>
+                                            <apex:outputText value="{!lstActivityLineItems[iALIIndex].QuantityContracted}" />
+                                        </td>
+                                    </tr>                            
+                                    <tr>
+                                        <td style="font-weight:bold;text-align:right;width:200px;">
+                                            <apex:outputText value="START DATE:" />
+                                        </td>
+                                        <td>
+                                            <apex:outputText value="{0, date, MM/dd/yyyy}">
+                                                <apex:param value="{!lstActivityLineItems[iALIIndex].ContractStartDate}" />
+                                            </apex:outputText>     
+                                        </td>
+                                        <td style="font-weight:bold;text-align:right;width:200px;">
+                                            <apex:outputText value="QUANTITY CANCELLED:" />
+                                        </td>
+                                        <td>
+                                            <apex:outputText value="{!lstActivityLineItems[iALIIndex].QuantityCancelled}" /> 
+                                        </td>
+                                    </tr>                              
+                                    <tr>
+                                        <td style="font-weight:bold;text-align:right;width:200px;">
+                                            <apex:outputText value="END DATE:" />
+                                        </td>
+                                        <td>
+                                            <apex:outputText value="{0, date, MM/dd/yyyy}" style="text-align:right;">
+                                                <apex:param value="{!lstActivityLineItems[iALIIndex].ContractEndDate}" />
+                                            </apex:outputText>    
+                                        </td>
+                                        <td style="font-weight:bold;text-align:right;width:200px;">
+                                            <apex:outputText value="QUANTITY PENDING RENEWAL:" />
+                                        </td>
+                                        <td>
+                                            <apex:outputText value="{!lstActivityLineItems[iALIIndex].QuantityRemaining}" />
+                                        </td> 
+                                    </tr>                             
+                                    <tr>
+                                        <td style="font-weight:bold;text-align:right;width:200px;">
+                                            <apex:outputText value="DEADLINE TO CANCEL AUTO-RENEWAL:" />
+                                        </td>
+                                        <td>
+                                            <apex:outputText value="{0, date, MM/dd/yyyy}" style="text-align:right;">
+                                                <apex:param value="{!lstActivityLineItems[iALIIndex].DeadlineDate}" />
+                                            </apex:outputText>    
+                                        </td>
+                                        <td style="font-weight:bold;text-align:right;width:200px;">
+                                            &nbsp;
+                                        </td>
+                                        <td>
+                                            &nbsp;
+                                        </td> 
+                                    </tr> 
+                                </table> 
+                                
+                            </div>
+                            <br /> 
+                            
+                        </apex:outputPanel>
+
+                        <!-- (CHANGE BUTTONS) --> 
+                        <apex:outputPanel id="opEditCxlChangeBtns" style="{!IF(AND(!bShowCxlDialog, hasRemainingQty), 'display:block;', 'display:none;')}">
+                            <div id="divEditCxlBtns" class="roundedContainer" style="padding:15px;text-align:center;">
+                                <apex:commandButton action="{!showCxlDialog}" value="Make Changes to Master Account" 
+                                                    rendered="{! !bShowCxlDialog}" 
+                                                    rerender="opEditCxl" 
+                                                    status="asEditCxlStatus" 
+                                                    styleClass="slds-button slds-button_outline-brand" />
+                                &nbsp;&nbsp;
+                                <apex:commandButton action="{!showCxlDialogForDiffAcct}" value="Make Changes to Individual Property(ies)" 
+                                                    rendered="{! AND(bHasChildAccts, !bShowCxlDialog)}" 
+                                                    rerender="opEditCxl"
+                                                    status="asEditCxlStatus" 
+                                                    styleClass="slds-button slds-button_outline-brand" />
+                            </div>
+                        </apex:outputPanel>                        
+						                        
+                        <!-- (CANCELLED PRODUCTS GRID) --> 
+                        <apex:outputPanel id="opEditCxlProducts" rendered="{! AND(hasCancellations, NOT(bShowCxlDialog))}">
+                            <br/>
+                            <div id="divEditCxlProducts" class="roundedContainer" style="padding:5px;">
+                                <apex:dataTable value="{!lstCancellations}" var="dt2" styleClass="slds-table slds-table_cell-buffer">
+                                    
+                                    <apex:column rendered="{!isInternalUser}" >
+                                        <apex:facet name="header">   
+                                            <apex:outputText value="CANCELLATION" rendered="{!isInternalUser}" />
+                                        </apex:facet>
+                                        <apex:outputLink value="../{!dt2.CancellationId}" target="_blank" rendered="{!isInternalUser}">
+                                            {!dt2.CancellationName}
+                                        </apex:outputLink>                                     
+                                    </apex:column> 
+                                    
+                                    <apex:column >
+                                        <apex:facet name="header">   
+                                            <apex:outputText value="REQUESTED BY" />
+                                        </apex:facet>
+                                        <apex:outputText value="{!dt2.CancellationRequesterName}" style="text-align:left;" />   
+                                    </apex:column> 
+                                    
+                                    <apex:column >
+                                        <apex:facet name="header">   
+                                            <apex:outputText value="DATE REQUESTED" />
+                                        </apex:facet>
+                                        <apex:outputText value="{0, date, MM/dd/yyyy}" style="text-align:right;">
+                                            <apex:param value="{!dt2.CancellationRequestedDate}" />
+                                        </apex:outputText>   
+                                    </apex:column> 
+                                    
+                                    <apex:column styleClass="slds-cell-wrap">
+                                        <apex:facet name="header">   
+                                            <apex:outputText value="ACCOUNT" />
+                                        </apex:facet>
+                                        <apex:outputText value="{!dt2.AccountName}" style="text-align:left;" />    
+                                    </apex:column>  
+                                    
+                                    <apex:column >
+                                        <apex:facet name="header">   
+                                            <apex:outputText value="REASON" />
+                                        </apex:facet>
+                                        <apex:outputText value="{!dt2.GeneralReason}" style="text-align:left;" />    
+                                    </apex:column> 
+                                    
+                                    <apex:column >
+                                        <apex:facet name="header">   
+                                            <apex:outputText value="QTY CANCELLED" />
+                                        </apex:facet>
+                                        <apex:outputText value="{!dt2.CancellationQuantity}" style="text-align:center;" />    
+                                    </apex:column> 
+                                    
+                                    <apex:column >
+                                        <apex:facet name="header">   
+                                            <apex:outputText value="STATUS" />
+                                        </apex:facet>
+                                        <apex:outputText value="{!dt2.CancellationStatus}" style="text-align:right;" />    
+                                    </apex:column> 
+                                    
+                                    <apex:column >
+                                        <apex:facet name="header">   
+                                            <apex:outputText value="ACTION" />
+                                        </apex:facet>
+                                        <apex:commandLink value="View" action="{!showCancellation}" style="text-align:center;">
+                                            <apex:param name="mode1" assignTo="{!cxlEditMode}" value="false" />
+                                            <apex:param name="idx1" assignTo="{!iCxlIndex}" value="{!dt2.iIndex}" />
+                                        </apex:commandLink>   
+                                        <apex:outputLabel value=" | " rendered="{! !dt2.bUserChangeAllowed}" />                                
+                                        <apex:commandLink value="Edit" action="{!showCancellation}" style="text-align:center;" rendered="{! !dt2.bUserChangeAllowed}">
+                                            <apex:param name="mode2" assignTo="{!cxlEditMode}" value="true" />
+                                            <apex:param name="idx2" assignTo="{!iCxlIndex}" value="{!dt2.iIndex}" />
+                                        </apex:commandLink>   
+                                        <apex:outputLabel value=" | " rendered="{!dt2.bUserChangeAllowed}" />
+                                        <apex:outputText value="RENEWED" style="text-align:center;color:red;" rendered="{!dt2.bUserChangeAllowed}">                          
+                                            <c:toolTip helpText="This product recently automatically renewed per the terms of your agreement. If you would like additional details, please contact your sales manager."/>
+                                        </apex:outputText> 
+                                    </apex:column> 
+                                    
+                                </apex:dataTable> 
+                            </div>
+                            <br/>
+                        </apex:outputPanel>
+
+                        <!-- (FILE ATTACHMENTS) -->                                
+                        <apex:outputPanel id="opCxlFiles" rendered="{! AND(bShowCxlDialog, isInternalUser)}">
+                            <div id="divEditCxlBtns" class="roundedContainer" style="padding:5px;">
+                                <apex:commandButton id="btnAttachFiles" value="Attach Files" action="{!showAttachFiles}" status="asEditCxlStatus" reRender="opAttachFiles" style="position:relative;left:1065px;top:5px;!important;" styleClass="slds-button slds-button_brand" />
+                                <table> 
+                                    <tr> 
+                                        <td colspan="2" style="padding: 16px 0px 8px;"> 
+                                            <apex:dataTable id="dtCVs" value="{!lstCVs}" var="cv" styleClass="slds-table slds-table_bordered slds-table_striped" rendered="true">
+                                                <apex:column headerValue="Current Doc" rendered="false">
+                                                    <apex:outputText value="{!cv.ContentDocumentId}" />
+                                                </apex:column>
+                                                <apex:column headerValue="Action" headerClass="headerStyle" style="width:100px;">
+                                                    <apex:commandLink action="{!deleteFile}" value="Delete" status="asEditCxlStatus" reRender="opCxlFiles">
+                                                        <apex:param name="cvID" value="{!cv.Id}" assignTo="{!delCVerId}"/>
+                                                        <apex:param name="cdID" value="{!cv.ContentDocumentId}" assignTo="{!delCDocId}"/>
+                                                    </apex:commandLink>
+                                                </apex:column>                                            
+                                                <apex:column headerValue="File Name">
+                                                    <apex:outputLink value="../{!cv.Id}" target="_blank">
+                                                        {!cv.Title}
+                                                    </apex:outputLink>                                    
+                                                </apex:column>                                            
+                                            </apex:dataTable> 
+                                        </td> 
+                                    </tr> 
+                                </table> 
+                            </div>
+                        </apex:outputPanel>    
+                        
+                        <!-- (CANCELLATION DIALOG) -->     
+                        <apex:outputPanel id="opCxlDialog" rendered="{!bShowCxlDialog}"> 
+                            <br/>
+                            <div id="divCxlDialog" class="roundedContainer" style="padding:5px;">
+                                <table class="slds-table slds-no-row-hover">  
+                                    <tr>
+                                        <td style="font-weight: bold; width: 200px;">
+                                            <apex:outputText value="Reason:" />
+                                        </td>
+                                        <td>
+                                            <div class="AHRequiredInput">
+                                                <div class="AHRequiredBlock"></div>
+                                                <apex:selectList id="ddlGenReasons" value="{!selGenReason}" style="width: 340px;" size="1" multiselect="false">
+                                                    <apex:selectOptions value="{!lstGenReasons}" />
+                                                </apex:selectList>
+                                            </div>                                    
+                                        </td>
+                                    </tr>
+                                    <tr style="{!IF(isLate, '', 'display:none')}">
+                                        <td style="font-weight: bold; width: 200px;">
+                                            <apex:outputText value="Late Cancellation Reason:" />
+                                        </td>
+                                        <td>
+                                            <div class="AHRequiredInput">
+                                                <div class="AHRequiredBlock"></div>
+                                                <apex:selectList id="ddlLateReasons" value="{!selLateReason}" style="width: 340px;" size="1" multiselect="false">
+                                                    <apex:selectOptions value="{!lstLateReasons}" />
+                                                </apex:selectList>
+                                            </div>                                    
+                                        </td>
+                                    </tr>                                
+                                    <tr>
+                                        <td style="font-weight: bold; width: 200px;">
+                                            <apex:outputText value="Quantity to Cancel:" />
+                                        </td>
+                                        <td>
+                                            <div class="AHRequiredInput">
+                                                <div class="AHRequiredBlock"></div>
+                                                <apex:inputText value="{!iQuantityToCancel}" style="width: 40px;" />
+                                            </div> 
+                                        </td>
+                                    </tr>
+                                    <tr style="{!IF(isCxlForDiffAcct, '', 'display:none')}">
+                                        <td style="font-weight: bold; width: 200px;">
+                                            <apex:outputText value="Property:" />
+                                        </td>
+                                        <td>
+                                            <div class="AHRequiredInput">
+                                                <div class="AHRequiredBlock"></div>
+                                                
+                                                <apex:outputPanel id="accSelect" layout="block" rendered="{!bActiveSearch}">                                                
+                                                    <apex:selectList id="ddlAccounts" value="{!selAccId}" style="width: 340px;height24px;" size="1" multiselect="false">
+                                                        <apex:selectOptions value="{!lstSearchResults}" />
+                                                    </apex:selectList> 
+                                                    &nbsp;&nbsp;
+                                                    <apex:commandButton id="cmdAccNewSearch" value="New Search" action="{!showSearch}" status="asEditCxlStatus" />
+                                                </apex:outputPanel>
+                                                
+                                                <apex:outputPanel id="accSearch" layout="block" rendered="{! !bActiveSearch}">
+                                                    <apex:inputText id="txtKeyword" style="width: 200px;" value="{!accKeyword}" onkeypress="return noenter(event);" />
+                                                    &nbsp;&nbsp;
+                                                    <apex:commandButton id="cmdAccSearch" value="Search" action="{!doSearch}" status="asEditCxlStatus" />
+                                                </apex:outputPanel>
+                                                
+                                            </div> 
+                                            <apex:outputText id="lblSearchMsg" value="{!strSearchMsg}" style="color: {!msgColor};" />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="font-weight: bold; width: 200px;">
+                                            <apex:outputText value="User(s) to Cancel:" />
+                                        </td>
+                                        <td>
+                                            <apex:inputTextarea value="{!strSpecificUserNames}" rows="2" style="width: 340px;"  />                                 
+                                        </td>
+                                    </tr>
+                                    <tr style="{! IF(isInternalUser, '', 'display: none;')}">
+                                        <td style="font-weight: bold; width: 200px;">
+                                            <apex:outputText value="Contact:" rendered="{!isInternalUser}" />
+                                        </td>
+                                        <td>
+                                            
+                                            <apex:outputPanel rendered="{!isInternalUser}" >
+                                                
+                                                <apex:inputHidden id="txtTargetContact_lkid" value="{!contactId}" />
+                                                <apex:inputHidden id="txtTargetContact_lkold" value="{!contactName}" />
+                                                <apex:inputHidden id="txtTargetContact_lktp" value="{!Contact_lktp}" />
+                                                <apex:inputHidden id="txtTargetContact_mod" value="{!Contact_mod}" />
+
+                                                <span class="lookupInput">
+                                                    
+                                                    <apex:inputText id="txtTargetContact" value="{!contactName}" size="20" 
+                                                                    onchange="getElementByIdCS('j_id0:j_id7:txtTargetContact_lkid').value='';getElementByIdCS('j_id0:j_id7:txtTargetContact_mod').value='1';" />
+                                                    
+                                                    <a id="j_id0:j_id7:txtTargetContact_lkwgt" 
+                                                       href="javascript:%20openLookup%28%27%2F_ui%2Fcommon%2Fdata%2FLookupPage%3Flkfm%3Dj_id0%253Aj_id7%26lknm%3Dj_id0%253Aj_id7%253AtxtTargetContact%26lktp%3D%27%20%2B%20getElementByIdCS%28%27j_id0%3Aj_id7%3AtxtTargetContact_lktp%27%29.value%2C670%2C%271%27%2C%27%26lksrch%3D%27%20%2B%20escapeUTF%28getElementByIdCS%28%27j_id0%3Aj_id7%3AtxtTargetContact%27%29.value.substring%280%2C%2080%29%29%29"
+                                                       onclick="setLastMousePosition(event)"
+                                                       title="Contact Name Lookup (New Window)">  
+                                                        
+                                                        <img src="/img/s.gif" 
+                                                             alt="Contact Name Lookup (New Window)" 
+                                                             class="lookupIcon" 
+                                                             onblur="this.className = 'lookupIcon';"
+                                                             onfocus="this.className = 'lookupIconOn';" 
+                                                             onmouseout="this.className = 'lookupIcon';this.className = 'lookupIcon';"
+                                                             onmouseover="this.className = 'lookupIconOn';this.className = 'lookupIconOn';"
+                                                             title="Contact Name Lookup (New Window)" />
+                                                    </a>
+                                                    
+                                                </span>                                       
+                                                
+                                            </apex:outputPanel>
+                                            
+                                        </td>
+                                    </tr>                               
+                                    <tr style="{! IF(isInternalUser, '', 'display: none;')}">
+                                        <td style="font-weight: bold; width: 200px;">
+                                            <apex:outputText value="Additional Notes:" rendered="{!isInternalUser}" />
+                                        </td>
+                                        <td>
+                                            &nbsp;
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2">
+                                            <div class="{!IF(isLate, 'AHRequiredInput', '')} "> 
+                                                <div class="{!IF(isLate, 'AHRequiredBlock', '')} "></div>                                        
+                                                <apex:inputTextarea value="{!strRenewalCancellationNote}" rows="4" style="width: 100%;" rendered="{!isInternalUser}" />
+                                            </div>
+                                        </td>
+                                    </tr> 
+                                </table>
+                            </div>
+                            <br/>
+                        </apex:outputPanel>
+
+                        <!-- (DIALOG MESSAGES) --> 
+                        <apex:outputPanel id="opEditCxlMsgs" rendered="{!showSaveError}">
+                            <div id="divEditCxlMsgs" class="roundedContainer" style="color:white;background-color:#CC0000;border-style:solid;border-color:red;border-width:1px;padding-top:5px;padding-right:20px;padding-bottom:5px;padding-left:10px;">
+                                <span class="slds-icon_container"> 
+                                    <svg aria-hidden="false" class="slds-icon">    
+                                        <use xlink:href="/apexpages/slds/latest/assets/icons/utility-sprite/svg/symbols.svg#error"></use>
+                                    </svg>
+                                </span>
+                                &nbsp;&nbsp;                                 
+                                <apex:outputText id="lblSaveError" value="{!saveError}" />
+                            </div>
+                            <br/>
+                        </apex:outputPanel>
+                        
+                        <!-- (ACCEPT BUTTONS) --> 
+                        <apex:outputPanel id="opEditCxlAcceptBtns" rendered="{!bShowCxlDialog}"> 
+                            <br />
+                            <div style="text-align: center;">
+                                <span id="spanAmAuthed" style="{!IF(isAccepted, 'display:none', 'display:inline')}">
+                                    <input type="checkbox" name="chkAuthed" value="" onClick="isAuthorized(this);" /> I am authorized to request changes to this product
+                                    <br />
+                                </span>  
+                                <br />
+                                <apex:commandButton value="Close" action="{!closeCxlDialog}" status="asEditCxlStatus" reRender="opEditCxl" styleClass="slds-button slds-button_outline-brand" />
+                                &nbsp; 
+                                <span id="spanAcceptBtn" style="display: none">
+                                    <apex:commandButton id="cmdAccept" value="Submit Change" status="asEditCxlStatus" reRender="opEditCxl" action="{!saveChanges}" rendered="{!IF(isAccepted, false, true)}" styleClass="slds-button slds-button_brand" />
+                                </span>
+                                <br/>
+                            </div> 
+                            <br />
+                        </apex:outputPanel>     
+
+                    </apex:outputPanel> 
+                </apex:outputPanel> 
+                                                                               
+                <!-- ATTACH FILES -->                                
+                <apex:outputPanel id="opAttachFiles">
+                    <apex:outputPanel styleClass="attachFileBackground" layout="block" rendered="{!displayAttachFiles}" />
+                    <apex:outputPanel styleClass="popupDialogBox" layout="block" rendered="{!displayAttachFiles}" style="z-index:10002;top:150px;width:900px;margin-left: -450px;border: 1px solid lightgrey;!important;">                    
+                    <div id="divAttachFiles" class="roundedContainer" style="padding:15px;text-align:center;">
+
+                        <table>       
+                            <tr> 
+                                <td colspan="2"> 
+                                    <table >
+                                        <tr>
+                                            <td>
+                                                <strong>Step 1: Choose File from Computer</strong>
+                                            </td>
+                                            <td>
+                                                <strong>Step 2: Click the &quot;Add File&quot; button</strong>
+                                            </td>                        
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                Type the path of the file or click the Browse button to find the file.
+                                            </td>
+                                            <td>
+                                                Repeat steps 1 and 2 to attach multiple files.
+                                            </td>
+                                        </tr>    
+                                        <tr>
+                                            <td>
+                                                &nbsp;
+                                            </td>
+                                            <td>
+                                                (When the upload is complete the file information will appear below.)
+                                            </td>
+                                        </tr>                    
+                                        <tr>
+                                            <td> 
+                                                <apex:inputFile id="inpFile" value="{!upFileBlob}" fileName="{!upFileName}" fileSize="{!upFileSize}" style="width: 500px;" />
+                                            </td>
+                                            <td>
+                                                <apex:commandbutton action="{!uploadFile}" value="Add File" styleClass="slds-button slds-button_outline-brand" />&nbsp;&nbsp;
+                                                <apex:outputLabel value="{!strFileMsg}" />
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>  
+                        </table> 
+                        <hr/>
+                        <apex:commandButton id="btnAttachFilesDone" value="Done" action="{!hideAttachFiles}" styleClass="slds-button slds-button_brand" />
+                        <br/>
+                    </div>
+                    </apex:outputPanel> 
+                </apex:outputPanel>    
+                
+                <apex:outputLabel id="lblQuery" value="{!strQuery}" style="color:white;" rendered="{!isInternalUser}" />
+                
+            </apex:form>
+            
+        </div>
+        
+        <style type="text/css">               
+            .attachFileBackground 
+            {          
+            	position: fixed;
+                width: 100%;
+                height: 100%;
+                top: 0;
+                right: 0;
+                bottom: 0;
+                left: 0;
+                z-index: 10001;
+                background-color: rgba(0,0,0,.1);
+                visibility: visible;
+                opacity: 1;
+                transition: opacity .2s ease,visibility 0s;
+                transition-delay: 0s,.3s; 
+            }
+        </style>
+        
+    </html>
+    
+</apex:page>

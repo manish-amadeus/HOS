@@ -1,0 +1,94 @@
+.bubble-popup {
+	display: none;
+	font-size: 12px;
+	color: #000;
+}
+
+.bubble-popup > div {
+	text-align: left !important;
+	background-color: #ffe853;
+	-webkit-box-shadow: 5px 5px 15px 7px #ccc;
+	-moz-box-shadow: 5px 5px 15px 7px #ccc;
+	box-shadow: 5px 5px 15px 7px #ccc;
+	border: 3px solid white;
+	position: absolute;
+	padding: 20px;
+	white-space: normal;
+	font-weight: normal;
+	cursor: auto;
+	z-index: 999;
+}
+
+.bubble-popup .popup-center {
+	left: 30%;
+	padding: 10px;
+	width: 500px;
+	top: 15%;
+	z-index: 999;
+}
+
+.bubble-popup .popup-arrow { width: 450px; }
+
+.bubble-popup .popup-arrow:before {
+	content: "";
+	position: absolute;
+	top: -11%;    
+	width: 0;
+	height: 0;
+	border-style: solid;
+	border-width: 0 15px 15px 15px;
+	border-color: transparent transparent #ffe853 transparent;
+}
+
+.bubble-header-text {
+	font-weight: bold;
+	font-size: 15px;
+}
+
+.tbl-bubble-buttons {
+	width: 100%;
+	margin: 0px;
+	margin-top: 20px;
+}
+
+.tbl-bubble-buttons td {
+	padding: 0px;
+	border: none;
+	width: 33.33%;
+}
+
+.lbl-bbl-numbers {
+	width: 56%;
+	display: inline-block;
+	margin-top: 3px;
+	font-size: 13px;
+	font-weight: bold;
+	text-align: center;
+}
+
+.btn-close-bubble {
+	width: 21px;
+    height: 17px;
+	text-align: center;
+    padding-top: 3px;
+	margin-top: 3px;
+	margin-right: 2px;
+	position: absolute;
+	top: 0;
+	right: 0;
+	background-color: transparent;
+	border: none;
+	outline:none;
+	cursor: pointer;
+	background-image: radial-gradient(circle at center , #fffff6 50%, transparent 50%);
+	background-repeat: no-repeat;
+	transition: background-size .5s, color .5s;
+	background-size: 0 0;
+	background-position: 50% 50%;
+	border-radius: 50%;
+}
+
+.btn-close-bubble:hover {
+    background-color: white;
+	text-decoration: none;
+}

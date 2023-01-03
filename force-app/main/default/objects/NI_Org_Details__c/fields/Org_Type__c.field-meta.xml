@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Org_Type__c</fullName>
+    <description>Salesforce.com Change Request: NICC-007567
+
+Used to identify the type of environment that the org detail record represents. There can be a Production Org and various Sandbox Orgs.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Type of environment</inlineHelpText>
+    <label>Org Type</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>true</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Salesforce Production</fullName>
+                <default>false</default>
+                <label>Salesforce Production</label>
+            </value>
+            <value>
+                <fullName>Salesforce Sandbox - Configuration Only</fullName>
+                <default>false</default>
+                <label>Salesforce Sandbox - Configuration Only</label>
+            </value>
+            <value>
+                <fullName>Salesforce Sandbox - Developer</fullName>
+                <default>false</default>
+                <label>Salesforce Sandbox - Developer</label>
+            </value>
+            <value>
+                <fullName>Salesforce Sandbox - Full</fullName>
+                <default>false</default>
+                <label>Salesforce Sandbox - Full</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

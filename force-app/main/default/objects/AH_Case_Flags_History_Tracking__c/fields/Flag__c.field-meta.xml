@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Flag__c</fullName>
+    <description>NICC-026092</description>
+    <externalId>false</externalId>
+    <formula>IF(NOT(Flag_Set__c),null,IF(Hours_Offset__c+Hours_Elapsed__c &gt;= Case_Flags_Age_4_Hours__c, 
+IMAGE( &quot;/servlet/servlet.FileDownload?flagsort=&quot; &amp; Case__r.AH_Case_Flag_Age_Text__c &amp; &quot;&amp;file=&quot; &amp; $Setup.AH_CaseFlagPreferences__c.Age_4_Image__c, &quot;L4&quot;, 16, 16), 
+IF(Hours_Offset__c+	Hours_Elapsed__c &gt;= Case_Flags_Age_3_Hours__c, 
+IMAGE( &quot;/servlet/servlet.FileDownload?flagsort=&quot; &amp; Case__r.AH_Case_Flag_Age_Text__c &amp; &quot;&amp;file=&quot; &amp; $Setup.AH_CaseFlagPreferences__c.Age_3_Image__c, &quot;L3&quot;, 16, 16), 
+IF(Hours_Offset__c+	Hours_Elapsed__c &gt;= Case_Flags_Age_2_Hours__c, 
+IMAGE( &quot;/servlet/servlet.FileDownload?flagsort=&quot; &amp; Case__r.AH_Case_Flag_Age_Text__c &amp; &quot;&amp;file=&quot; &amp; $Setup.AH_CaseFlagPreferences__c.Age_2_Image__c, &quot;L2&quot;, 16, 16),
+IF(Hours_Offset__c+	Hours_Elapsed__c &gt;= Case_Flags_Age_1_Hours__c,
+IMAGE( &quot;/servlet/servlet.FileDownload?flagsort=&quot; &amp; Case__r.AH_Case_Flag_Age_Text__c &amp; &quot;&amp;file=&quot; &amp; $Setup.AH_CaseFlagPreferences__c.Age_1_Image__c, &quot;L1&quot;,16,16),
+IMAGE( &quot;/servlet/servlet.FileDownload?flagsort=&quot; &amp; Case__r.AH_Case_Flag_Age_Text__c &amp; &quot;&amp;file=&quot; &amp; $Setup.AH_CaseFlagPreferences__c.Age_1_Image__c, &quot;L0&quot;,16,16))
+))))</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Flag</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

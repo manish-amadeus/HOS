@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Proof_of_Occupancy__c</fullName>
+    <description>NICC-042019 - Sales to indicate the level of occupancy</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Sales to indicate the level of occupancy</inlineHelpText>
+    <label>Proof of Occupancy</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Closed Hotel</fullName>
+                <default>false</default>
+                <label>Closed Hotel</label>
+            </value>
+            <value>
+                <fullName>Single Digit Occupancy</fullName>
+                <default>false</default>
+                <label>Single Digit Occupancy</label>
+            </value>
+            <value>
+                <fullName>10% Occupancy or Greater</fullName>
+                <default>false</default>
+                <label>10% Occupancy or Greater</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

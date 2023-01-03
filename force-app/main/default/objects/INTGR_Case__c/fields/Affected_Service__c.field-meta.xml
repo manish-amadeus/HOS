@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Affected_Service__c</fullName>
+    <description>NICC-030216 - Picklist value for customer to set that denotes what service has an issue.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Picklist value for customer to set that denotes what service has an issue.</inlineHelpText>
+    <label>Affected Service</label>
+    <required>false</required>
+    <trackFeedHistory>true</trackFeedHistory>
+    <trackHistory>true</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Admin Portal</fullName>
+                <default>false</default>
+                <label>Admin Portal</label>
+            </value>
+            <value>
+                <fullName>CRS Solution</fullName>
+                <default>false</default>
+                <label>CRS Solution</label>
+            </value>
+            <value>
+                <fullName>CRS Administration Portal</fullName>
+                <default>false</default>
+                <label>CRS Administration Portal</label>
+            </value>
+            <value>
+                <fullName>Payment Platform</fullName>
+                <default>false</default>
+                <label>Payment Platform</label>
+            </value>
+            <value>
+                <fullName>Call Center</fullName>
+                <default>false</default>
+                <label>Call Center</label>
+            </value>
+            <value>
+                <fullName>Channel Manager</fullName>
+                <default>false</default>
+                <label>Channel Manager</label>
+            </value>
+            <value>
+                <fullName>Content Manager or ACPMS</fullName>
+                <default>false</default>
+                <label>Content Manager or ACPMS</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

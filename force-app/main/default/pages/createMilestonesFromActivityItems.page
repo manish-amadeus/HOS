@@ -1,0 +1,189 @@
+<apex:page standardController="Billing_Contract__c" extensions="createMSfromActivityLinesController" showHeader="true" sidebar="true">
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+	<script src="//cdn.datatables.net/1.10.4/js/jquery.dataTables.min.js"></script>
+	<apex:stylesheet value="//cdn.datatables.net/1.10.4/css/jquery.dataTables.css" />
+	<script type="text/javascript">
+	    j$ = jQuery.noConflict();
+	    j$(document).ready( function () {
+
+	        j$('#select_all').on('click',function(){
+	        if(this.checked){
+	            j$('.checkbox').each(function(){
+	                this.checked = true;
+	            });
+	        }else{
+	             j$('.checkbox').each(function(){
+	                this.checked = false;
+	            });
+	            }
+	        });
+	        
+	        j$('.checkbox').on('click',function(){
+	            if(j$('.checkbox:checked').length == j$('.checkbox').length){
+	                j$('#select_all').prop('checked',true);
+	            }else{
+	                j$('#select_all').prop('checked',false);
+	            }
+	            });
+	        });
+
+	    function checkLine(obj){
+	        j$('#'+obj+' input').prop('checked',true);
+	    }
+
+	    //Modal
+         j$(document).ready(function(){
+             hideLoadingModal(); 
+         });
+         function showLoadingModal(){
+             j$("#spinner").css({"display":"inline"}); 
+         }
+         function hideLoadingModal(){
+            j$("#spinner").css({"display":"none"}); 
+         }
+
+	</script>
+	
+	<style>
+         .modal {
+                display:    none;
+                position:   fixed;
+                z-index:    1000;
+                top:        0;
+                left:       0;
+                height:     100%;
+                width:      100%;
+                background: rgba( 255, 255, 255, .8 )
+                            50% 50%
+                            no-repeat;
+            }
+            
+            .box {
+                background-color:      white;
+                border-radius:         10px;
+                -webkit-border-radius: 10px;
+                -moz-border-radius:    10px;
+                box-shadow:            0 0 20px 0 #222;
+                -webkit-box-shadow:    0 0 20px 0 #222;
+                -moz-box-shadow:       0 0 20px 0 #222;
+                position:              fixed;
+                top:                   50%;
+                left:                  50%;
+                margin-top:            -50px;
+                margin-left:           -100px;
+                height:                80px;
+                width:                 240px;
+                padding-top:           35px;
+                text-align:            center;
+            }
+            .alert-box {
+            color:#555;
+            border-radius:10px;
+            font-family:Tahoma,Geneva,Arial,sans-serif;font-size:11px;
+            padding:10px 10px 10px 36px;
+            margin:10px;
+            }
+            .alert-box span {
+                font-weight:bold;
+                text-transform:uppercase;
+            }
+            .error {
+                background:#ffecec url('images/error.png') no-repeat 10px 50%;
+                border:1px solid #f5aca6;
+            }
+            .success {
+                background:#e9ffd9 url('images/success.png') no-repeat 10px 50%;
+                border:1px solid #a6ca8a;
+            }
+            .warning {
+                background:#fff8c4 url('images/warning.png') no-repeat 10px 50%;
+                border:1px solid #f2c779;
+            }
+            .notice {
+                background:#e3f7fc url('images/notice.png') no-repeat 10px 50%;
+                border:1px solid #8ed9f6;
+            }
+    </style>
+
+    <!-- HTML Loading Div -->
+    <div class="modal" id="spinner">
+        <div class="box">
+           <img src="/img/loading.gif" alt="Loading"/><i id="spinner-label" style="padding-left:5px">Processing...</i>
+        </div>
+    </div>
+
+	<apex:form id="theForm">
+		<apex:pageBlock id="info_pb" title="Billing Contract Info">
+			<apex:pageBlockButtons location="top">
+		        <apex:commandButton value="Back to Billing Contract" action="{!backToBC}" />
+		    </apex:pageBlockButtons>
+		        <apex:pageBlockSection >
+	                <p>ADD BILLING CONTRACT HEADER FIELDS</p>   
+	            </apex:pageBlockSection>
+
+		</apex:pageBlock>
+
+		<apex:pageBlock id="select_Proj" title="Select Project">
+			<div class="alert-box notice"><span>Step 1: </span>Select the appropriate PSA Project to add milestones. If an existing project does not exist use the link above to create one.</div>
+
+		    <apex:pageBlockButtons location="top" >
+		        <apex:commandLink value="Create New PSA Project and Budget" action="{!openCreateProjPage}" target="_blank"/> 
+		    </apex:pageBlockButtons>
+
+	        <apex:pageBlockSection >
+                <apex:selectList value="{!projectID}" multiselect="false" size="1">
+        			<apex:selectOptions value="{!Proj_Options}"/>
+    			</apex:selectList>
+            </apex:pageBlockSection>
+            <div class="alert-box notice"><span>Note: </span>You may need to refresh this page to see any newly created PSA Projects</div>
+		</apex:pageBlock>
+
+		<apex:pageBlock id="open_pb" title="Service Activity Lines">
+
+	    	<apex:pageMessages />
+	    	<div class="alert-box notice"><span>Step 2: </span>Select the lines to create PSA Project Milestones. A corresponding budget record will also be created and attached to the project.</div>
+		    <apex:pageBlockButtons location="top">
+		        <apex:commandButton value="Create Project Milestones" reRender="theForm" action="{!createPSAMilestone}" onclick="showLoadingModal();" immediate="false" onComplete="hideLoadingModal();"/>
+		    </apex:pageBlockButtons>
+
+		    <!-- Open Line Items Table -->
+	        <apex:pageBlockTable id="theTable" var="ali" value="{!activitylineItems}">
+	        	<apex:column >
+	            	<!-- Select All Checkbox -->
+	            	<apex:facet name="header">
+                    	<input type="checkbox" id="select_all" title="select all" checked="true" />
+                	</apex:facet>
+	                <span id='{!ali.ali_object.id}'><apex:inputCheckbox disabled="{!ali.disabled}" styleClass="checkbox" value="{!ali.check}"/></span>
+	            </apex:column>
+	            
+	            <apex:column headerValue="Activity Line">
+	            	<apex:outputField value="{!ali.ali_object.Name}"/>		
+	            </apex:column>
+	            <apex:column style="width:300px" headerValue="Milestone Name">
+	            	<apex:inputText style="width:300px" value="{!ali.msName}"/>		
+	            </apex:column>
+	            <apex:column headerValue="Product">
+	            	<apex:outputField value="{!ali.ali_object.Product__c}"/>		
+	            </apex:column>
+	            <apex:column headerValue="SKU">
+	            	<apex:outputField value="{!ali.ali_object.SKU__c}"/>		
+	            </apex:column>
+	            <apex:column headerValue="Revenue Amount">
+	            	<apex:outputField value="{!ali.ali_object.Adjusted_Revenue_Amount__c}"/>		
+	            </apex:column>
+	            <apex:column headerValue="Contract Amount">
+	            	<apex:outputField value="{!ali.ali_object.Contract_Amount__c}"/>		
+	            </apex:column>
+
+	            <!-- <apex:column headerValue="PSA Milestone" rendered="{!ali.ali_object.PSA_Milestone__r.pse__Project__c = null}">
+	            	<apex:inputField value="{!ali.ali_object.PSA_Milestone__c}" rendered="{!ali.ali_object.PSA_Milestone__r.pse__Project__c == null}"/>		
+	            </apex:column> -->
+	            <apex:column headerValue="PSA Milestone" >
+	            	<apex:outputField value="{!ali.ali_object.PSA_Milestone__c}"/>		
+	            </apex:column>
+	            
+	        </apex:pageBlockTable>
+
+	    </apex:pageBlock>
+	</apex:form>
+</apex:page>

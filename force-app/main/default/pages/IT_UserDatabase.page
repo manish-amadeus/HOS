@@ -1,0 +1,62 @@
+<apex:page standardcontroller="User" extensions="IT_UserDatabaseCtrlr" tabstyle="User" title="IT User Database">
+    
+    <apex:sectionHeader title="User" subtitle="{!User.Name}"/>
+    <apex:outputLink value="/apex/IT_UserDatabaseHome">IT User Database Home Page 
+         </apex:outputLink>
+    <br></br>
+   <br></br>
+    <apex:pageBlock title="User Detail">
+            <apex:pageBlockSection title="General Information" columns="2">
+                <apex:repeat value="{!$ObjectType.User.fieldsets.IT_Fields}" var="UsrInfo">
+                    <apex:Outputfield value="{!User[UsrInfo]}"/>
+                </apex:repeat>    
+            </apex:pageBlockSection>
+            <apex:pageBlockSection title="Salesforce Information" columns="2">
+                <apex:repeat value="{!$ObjectType.User.fieldsets.Salesforce_Fields}" var="SfInfo">
+                    <apex:Outputfield value="{!User[SfInfo]}"/>
+                </apex:repeat>    
+            </apex:pageBlockSection>
+            <apex:pageblocksection title="Hardware Information" columns="1">
+            <apex:pageBlockTable value="{!lstHardware}" var="hw">
+                <apex:column headerValue="Hardware Id">
+                <apex:outputLink value="/{!hw.id}">{!hw.name}
+                </apex:outputLink>
+                </apex:column>    
+                <apex:column value="{!hw.Asset_Tag_Number__c}"/>
+                <apex:column value="{!hw.Manufacturer__c}"/>                
+                <apex:column value="{!hw.Model_Description__c}"/>
+                <apex:column value="{!hw.HardwareType__c}"/>   
+                <apex:column value="{!hw.Lifecycle_Date__c}"/> 
+                <apex:column value="{!hw.Status__c}"/> 
+            </apex:pageBlockTable>
+                </apex:pageblocksection>
+        <apex:pageblocksection title="Software Information" columns="1">
+            <apex:pageBlockTable value="{!lstSoftware}" var="sw">
+                <apex:column headerValue="Software Id">
+                <apex:outputLink value="/{!sw.id}">{!sw.name}
+                </apex:outputLink>
+                </apex:column>    
+                <apex:column value="{!sw.Date_Purchased__c}"/>
+                <apex:column value="{!sw.Software_Package_Name__c}"/> 
+                <apex:column value="{!sw.Vendor__c}"/>
+                <apex:column value="{!sw.License_Status__c}"/>
+            </apex:pageBlockTable>
+                </apex:pageblocksection>
+        <!--
+        <apex:pageblocksection title="Force.com Applications" columns="1">
+            <apex:pageBlockTable value="{!lstUserPackageLicense}" var="f">
+                <apex:column value="{!f.PackageLicense.NamespacePrefix}" headerValue="Package NameSpace Prefix"/>
+                <apex:column value="{!f.PackageLicense.Status}" headerValue="Package License Status"/>
+                <apex:column >
+                          <apex:facet name="header">
+                          <apex:outputText value="Package License Expiration Date"/>
+                          </apex:facet>             
+                          <apex:outputText value="{0,date,MM'/'dd'/'yyyy}">
+                          <apex:param value="{!f.PackageLicense.ExpirationDate}"/>
+                          </apex:outputText> 
+                      </apex:column>
+            </apex:pageBlockTable>
+                </apex:pageblocksection>
+         -->       
+    </apex:pageBlock>
+</apex:page>

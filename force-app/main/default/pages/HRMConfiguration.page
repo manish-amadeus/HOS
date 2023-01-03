@@ -1,0 +1,471 @@
+<apex:page controller="NI_HRM_Configuration" showChat="true" showHeader="true" sidebar="false" id="thePage" cache="false">
+    <head>
+        <apex:stylesheet value="/sCSS/21.0/sprites/1297816277000/Theme3/default/gc/versioning.css"/>   
+        <apex:stylesheet value="/sCSS/21.0/sprites/1297816277000/Theme3/default/gc/extended.css"/>
+        <style type="text/css">
+            .pbSubheader {color: black !important; padding: 6px 10px !important;}
+            .rich-tabpanel-content {border-bottom-style: solid !important;}
+            
+            td.dataCell {vertical-align: top !important;}
+            td.dataCell selsect, td.dataCell select:disabled {width: 100% !important;}
+            .reqButtons {text-align: right;}
+            .htmlDetailElementTable td {border: none !important;}
+            .bPageBlock .detailList .data2Col {padding-left: 0 !important;}
+            .actionLink {color: #015ba7 !important; text-decoration: none; font-weight: normal; display: block;}
+            .pagination {white-space: nowrap; text-align: center; width: 200px; margin: 10px auto; display: block;}
+            .pagination a, .pagination a:hover {margin: 0 2px; text-decoration: none !important; color: #333;}
+            .pagination img {background-image: url(/img/paginationArrows.gif); background-repeat: no-repeat; margin: 0; padding: 0; width: 9px; height: 10px;}
+            .pagination .linkoff {pointer-events: none; cursor: default;}
+            .pagination .linkoff span {color: #a8a8a8 !important;}
+            .pagination .first {background-position: 0 1px;}
+            .pagination .prev {background-position: -10px 1px;}
+            .pagination .next {background-position: -17px 1px;}
+            .pagination .last {background-position: -27px 1px;}
+            .pagination .linkoff .first {background-position: 0 -10px;}
+            .pagination .linkoff .prev {background-position: -10px -10px;}
+            .pagination .linkoff .next {background-position: -17px -10px;}
+            .pagination .linkoff .last {background-position: -27px -10px;}
+            .pagination .left {position: absolute; left: 0; margin-left: 25px;}
+            .pagination .left select {margin: 0 3px;}
+            .pagination .right {position: absolute; right: 0; margin-right: 25px;}
+            
+            .ui-widget-content {border: none; background: none;}
+            .ui-tabs .ui-tabs-panel {border: 1px solid #eee;}
+            .ui-tabs-panel th {white-space: pre-wrap;}
+        </style>
+        
+        <apex:includeScript value="{!urlFor($Resource.jQueryTabs, '/jquery-ui-1.11.4.custom/external/jquery/jquery.js')}"/>
+        <apex:includeScript value="{!urlFor($Resource.jQueryTabs, '/jquery-ui-1.11.4.custom/jquery-ui.js')}"/>
+        <apex:stylesheet value="{!urlFor($Resource.jQueryTabs, '/jquery-ui-1.11.4.custom/jquery-ui.css')}"/>
+        <apex:outputPanel id="jsScript">
+            <script>
+                jQuery.noConflict();
+                jQuery(document).ready(function(){
+                    var rId = '{!reqId}';
+                    if(rId == '')
+                        jQuery('.reqTextarea').val('');
+                });
+            </script>   
+            <script>
+                function setFocusOnLoad(){}
+                function changeItemsInPage(e,selTab){
+                    if(selTab == 'General Configuration')
+                        changeItemsOnPageG(e.value,selTab);
+                    else if(selTab == 'Security')
+                        changeItemsOnPageS(e.value,selTab);
+                    else changeItemsOnPageW(e.value,selTab);
+                }
+            </script>
+        </apex:outputPanel>
+    </head>
+    <body>
+        <apex:form id="formWrapper">
+            <apex:pageBlock title="Configuration Requirements" id="allBlock">
+                <apex:pageMessages id="messageInfo"/>
+                
+                <apex:actionStatus id="status">
+                    <apex:facet name="start">
+                        <div class="waitingSearchDiv" id="el_loading" style="background-color: #DCD6D6; height: 100%; opacity:0.65;width:100%;"> 
+                            <div class="waitingHolder" style="top: 74.2px; width: 91px;">
+                                <img class="waitingImage" src="/img/loading.gif" title="Please Wait..." />
+                                <span class="waitingDescription">Processing...</span>
+                            </div>
+                        </div>
+                    </apex:facet>
+                </apex:actionStatus>
+                
+                <apex:pageBlockSection title="HRM Requirement" columns="2" id="theRequirementSection" collapsible="false">
+                    <apex:pageBlockSectionItem >
+                        <apex:outputLabel value="{!$ObjectType.HRM_Requirement__c.fields.HRM_Configuration_Document__c.Label}" for="configDoc"/>
+                        <apex:outputPanel layout="block">
+                            <apex:inputField value="{!requirement.HRM_Configuration_Document__c}" rendered="{!(reqId==null || (reqId!=null && isEditRequirement))}" id="configDoc"/>
+                            <apex:outputField value="{!requirement.HRM_Configuration_Document__c}" rendered="{!(reqId!=null && !isEditRequirement)}"/>
+                        </apex:outputPanel>
+                    </apex:pageBlockSectionItem>
+                    <apex:pageBlockSectionItem >
+                        <apex:outputLabel value="{!$ObjectType.HRM_Requirement__c.fields.Name.Label}" for="ReqName"/>
+                        <apex:outputPanel layout="block">
+                            <!-- apex:inputField value="{!requirement.Name}" rendered="{!(reqId==null || (reqId!=null && isEditRequirement))}" id="configDoc"/ -->
+                            <apex:outputField value="{!requirement.Name}"/> <!-- rendered="{!(reqId!=null && !isEditRequirement)}"/ -->
+                        </apex:outputPanel>
+                    </apex:pageBlockSectionItem>
+                    <apex:pageBlockSectionItem >
+                        <apex:outputLabel value="{!$ObjectType.HRM_Requirement__c.fields.Object_or_Function__c.Label}" for="objectOrFunction"/>
+                        <apex:outputPanel layout="block">
+                            <apex:inputField value="{!requirement.Object_or_Function__c}" rendered="{!(reqId==null || (reqId!=null && isEditRequirement))}" id="objectOrFunction"/>
+                            <apex:outputField value="{!requirement.Object_or_Function__c}" rendered="{!(reqId!=null && !isEditRequirement)}"/>
+                        </apex:outputPanel>
+                    </apex:pageBlockSectionItem>
+                    <apex:pageBlockSectionItem >
+                        <apex:outputLabel value="{!$ObjectType.HRM_Requirement__c.fields.Purpose__c.Label}" for="purpose"/>
+                        <apex:outputPanel layout="block">
+                            <apex:inputTextarea value="{!requirement.Purpose__c}" rendered="{!(reqId==null || (reqId!=null && isEditRequirement))}" id="purpose" styleClass="reqTextarea"/>
+                            <apex:outputField value="{!requirement.Purpose__c}" rendered="{!(reqId!=null && !isEditRequirement)}"/>
+                        </apex:outputPanel>
+                    </apex:pageBlockSectionItem>
+                    <apex:pageBlockSectionItem >
+                        <apex:outputLabel value="{!$ObjectType.HRM_Requirement__c.fields.Assumptions__c.Label}" for="assumptions"/>
+                        <apex:outputPanel layout="block">
+                            <apex:inputTextarea value="{!requirement.Assumptions__c}" rendered="{!(reqId==null || (reqId!=null && isEditRequirement))}" id="assumptions" styleClass="reqTextarea"/>
+                            <apex:outputField value="{!requirement.Assumptions__c}" rendered="{!(reqId!=null && !isEditRequirement)}"/>
+                        </apex:outputPanel>
+                    </apex:pageBlockSectionItem>
+                    <apex:pageBlockSectionItem >
+                        <apex:outputLabel value="{!$ObjectType.HRM_Requirement__c.fields.Out_of_Scope__c.Label}" for="outOfScope"/>
+                        <apex:outputPanel layout="block">
+                            <apex:inputTextarea value="{!requirement.Out_of_Scope__c}" rendered="{!(reqId==null || (reqId!=null && isEditRequirement))}" id="outOfScope" styleClass="reqTextarea"/>
+                            <apex:outputField value="{!requirement.Out_of_Scope__c}" rendered="{!(reqId!=null && !isEditRequirement)}"/>
+                        </apex:outputPanel>
+                    </apex:pageBlockSectionItem>
+                    <apex:pageBlockSectionItem id="btnSection">
+                        <apex:outputPanel layout="block" styleClass="reqButtons">
+                            <apex:commandButton action="{!editReq}" value="Edit" rendered="{!(reqId!=null && !isEditRequirement)}" status="status" rerender="allBlock" id="editBtn"/>
+                            <apex:commandButton action="{!addReq}" value="Save" rendered="{!(reqId==null || (reqId!=null && isEditRequirement))}" status="status" rerender="allBlock" id="addBtn"/>
+                            <apex:commandButton action="{!cancelReq}" value="Cancel" rendered="{!(reqId==null || (reqId!=null && isEditRequirement))}" status="status" rerender="allBlock,theRequirementSection,jsScript" id="cancelBtn" immediate="true"/>
+                        </apex:outputPanel>
+                    </apex:pageBlockSectionItem>
+                </apex:pageBlockSection>
+                
+                <apex:variable var="general" value="General Configuration"/>
+                <apex:variable var="security" value="Security"/>
+                <apex:variable var="workflow" value="Workflow"/>
+
+                <apex:actionFunction name="changeItemsOnPageG" action="{!changeItemsOnPage}" rerender="allBlock,jsScript" immediate="true" status="status">
+                    <apex:param assignTo="{!tab_content[general].itemsOnPage}" name="selectedItemsOnPage" value=""/>
+                    <apex:param assignTo="{!selectedTab}" name="selectedTab" value=""/>
+                </apex:actionFunction>
+                <apex:actionFunction name="changeItemsOnPageS" action="{!changeItemsOnPage}" rerender="allBlock,jsScript" immediate="true" status="status">
+                    <apex:param assignTo="{!tab_content[security].itemsOnPage}" name="selectedItemsOnPage" value=""/>
+                    <apex:param assignTo="{!selectedTab}" name="selectedTab" value=""/>
+                </apex:actionFunction>
+                <apex:actionFunction name="changeItemsOnPageW" action="{!changeItemsOnPage}" rerender="allBlock,jsScript" immediate="true" status="status">
+                    <apex:param assignTo="{!tab_content[workflow].itemsOnPage}" name="selectedItemsOnPage" value=""/>
+                    <apex:param assignTo="{!selectedTab}" name="selectedTab" value=""/>
+                </apex:actionFunction>
+                
+                <apex:pageBlockSection title="HRM Configurations" columns="1" id="theConfigSection" rendered="{!reqId!=null}" collapsible="false">
+                    <apex:tabPanel switchType="ajax" selectedTab="{!selectedTab}" id="theTabPanel" >
+                    
+                        <!-- General Configuration -->
+                        <apex:tab label="General Configuration" name="General Configuration" id="tab1"><!--  ontabenter="switchTab('{!general}');" -->
+                            <apex:pageBlockTable value="{!tab_content[general].sortIds}" var="key" id="GCPageBlock">
+                                <apex:column >
+                                    <apex:commandLink value="{!IF(CONTAINS(key,'new'),'Add','Edit')}" rendered="{!(key!=editId)}" action="{!init}" rerender="theRequirementSection,theConfigSection,messageInfo,footerG,footerS,footerW,jsScript" status="status" oncomplete="javascript:jQuery('[id$=focusFirstG]').focus();" styleClass="actionLink">
+                                        <apex:param assignTo="{!editId}" name="editId" value="{!key}"/>
+                                        <apex:param assignTo="{!selectedTab}" name="selectedTab" value="{!general}"/>
+                                        <apex:param assignTo="{!isEditRequirement}" name="isEditRequirement" value="false"/>
+                                    </apex:commandLink>
+                                    <apex:commandLink value="Delete" rendered="{!(key!=editId && NOT(CONTAINS(key,'new')))}" action="{!deleteConf}" rerender="theRequirementSection,theConfigSection,messageInfo,footerG,footerS,footerW,jsScript" status="status" styleClass="actionLink">
+                                        <apex:param assignTo="{!editId}" name="editId" value="{!key}"/>
+                                        <apex:param assignTo="{!selectedTab}" name="selectedTab" value="{!general}"/>
+                                    </apex:commandLink>
+                                    <apex:commandLink value="Save" rendered="{!(key==editId && general==selectedTab)}" action="{!saveConf}" rerender="theRequirementSection,theConfigSection,messageInfo,footerG,footerS,footerW,jsScript" status="status" styleClass="actionLink"/>
+                                    <apex:commandLink value="Cancel" rendered="{!(key==editId && general==selectedTab)}" action="{!cancelConf}" rerender="theRequirementSection,theConfigSection,messageInfo,footerG,footerS,footerW,jsScript" immediate="true" status="status" styleClass="actionLink"/>
+                                </apex:column>
+                                <apex:column headerValue="Configuration Action">
+                                    <apex:outputField value="{!tab_content[general].items[key].Configuration_Action__c}" rendered="{!(NOT(CONTAINS(key,'new')) && key!=editId)}"/>
+                                    <apex:inputField id="focusFirstG" value="{!tab_content[general].items[key].Configuration_Action__c}" rendered="{!(key==editId && general==selectedTab)}"/>
+                                </apex:column>
+                                <apex:column headerValue="Configuration Type">
+                                    <apex:outputField value="{!tab_content[general].items[key].Configuration_Type__c}" rendered="{!(NOT(CONTAINS(key,'new')) && key!=editId)}"/>
+                                    <apex:actionRegion >        
+                                        <apex:inputField value="{!tab_content[general].items[key].Configuration_Type__c}" rendered="{!(key==editId && general==selectedTab)}">
+                                            <apex:actionSupport event="onchange" rerender="fieldType"/>
+                                        </apex:inputField>
+                                    </apex:actionRegion>
+                                </apex:column>
+                                <apex:column headerValue="Field Type" width="155">
+                                    <apex:outputField value="{!tab_content[general].items[key].Field_Type__c}" rendered="{!(NOT(CONTAINS(key,'new')) && key!=editId)}"/>
+                                    <apex:inputField value="{!tab_content[general].items[key].Field_Type__c}" rendered="{!(key==editId && general==selectedTab)}"/>
+                                </apex:column>
+                                <apex:column headerValue="Configuration Name">
+                                    <apex:outputField value="{!tab_content[general].items[key].Configuration_Name__c}" rendered="{!(NOT(CONTAINS(key,'new')) && key!=editId)}"/>
+                                    <apex:inputField value="{!tab_content[general].items[key].Configuration_Name__c}" rendered="{!(key==editId && general==selectedTab)}"/>
+                                </apex:column>
+                                <apex:column headerValue="Business Reason">
+                                    <apex:outputField value="{!tab_content[general].items[key].Business_Reason__c}" rendered="{!(NOT(CONTAINS(key,'new')) && key!=editId)}"/>
+                                    <apex:inputTextarea value="{!tab_content[general].items[key].Business_Reason__c}" rendered="{!(key==editId && general==selectedTab)}" styleClass="textareas"/>
+                                </apex:column>
+                                <apex:column headerValue="Configuration Details">
+                                    <apex:outputField value="{!tab_content[general].items[key].Configuration_Details__c}" rendered="{!(NOT(CONTAINS(key,'new')) && key!=editId)}"/>
+                                    <apex:inputTextarea value="{!tab_content[general].items[key].Configuration_Details__c}" rendered="{!(key==editId && general==selectedTab)}" styleClass="textareas"/>
+                                </apex:column>
+                                <apex:column headerValue="Status">
+                                    <apex:outputField value="{!tab_content[general].items[key].Status__c}" rendered="{!(NOT(CONTAINS(key,'new')) && key!=editId)}"/>
+                                    <apex:inputField value="{!tab_content[general].items[key].Status__c}" rendered="{!(key==editId && general==selectedTab)}"/>
+                                </apex:column>
+                                <!--FG Added Case 001539705-->
+                                <apex:column >
+                                    <apex:commandLink value="Save and Add" rendered="{!(key==editId && general==selectedTab)}" action="{!saveAndNewConf}" rerender="theRequirementSection,theConfigSection,messageInfo,footerG,footerS,footerW,jsScript" status="status" oncomplete="javascript:jQuery('[id$=focusFirstG]').focus();" styleClass="actionLink">
+                                        <apex:param assignTo="{!editId}" name="editId" value="{!key}"/>
+                                        <apex:param assignTo="{!selectedTab}" name="selectedTab" value="{!general}"/>
+                                        <apex:param assignTo="{!isEditRequirement}" name="isEditRequirement" value="false"/>
+                                    </apex:commandLink>
+                                </apex:column>   
+                                <apex:column headerValue="HRM Configuration">
+                                    <apex:outputField value="{!tab_content[general].items[key].Name}" rendered="{!(NOT(CONTAINS(key,'new')) && key!=editId)}"/>
+                                    <apex:inputField value="{!tab_content[general].items[key].Name}" rendered="{!(key==editId && general==selectedTab)}"/>
+                                </apex:column>
+                                 <!--End of FG Added Case 001539705-->
+                                <apex:column headerValue="Time to Complete">
+                                    <apex:outputField value="{!tab_content[general].items[key].Time_to_Complete__c}" rendered="{!(NOT(CONTAINS(key,'new')) && key!=editId)}"/>
+                                    <apex:inputField value="{!tab_content[general].items[key].Time_to_Complete__c}" rendered="{!(key==editId && general==selectedTab)}" style="width:100px"/>
+                                </apex:column>
+                                <apex:column headerValue="Reason For Hold">
+                                    <apex:outputField value="{!tab_content[general].items[key].Reason_For_Hold__c}" rendered="{!(NOT(CONTAINS(key,'new')) && key!=editId)}"/>
+                                    <apex:inputTextarea value="{!tab_content[general].items[key].Reason_For_Hold__c}" rendered="{!(key==editId && general==selectedTab)}" styleClass="textareas"/>
+                                </apex:column>
+                                <apex:column headerValue="Out of Scope Reason">
+                                    <apex:outputField value="{!tab_content[general].items[key].Out_of_Scope_Reason__c}" rendered="{!(NOT(CONTAINS(key,'new')) && key!=editId)}"/>
+                                    <apex:inputField value="{!tab_content[general].items[key].Out_of_Scope_Reason__c}" rendered="{!(key==editId && general==selectedTab)}" style="width:100px"/>
+                                </apex:column>
+                            </apex:pageBlockTable>
+                            
+                            <apex:outputPanel rendered="{!!noRecords}" styleClass="pagination" id="footerG">
+                                <span class="left">
+                                    Display
+                                    <apex:actionRegion >
+                                        <apex:selectList value="{!tab_content[general].itemsOnPage}" size="1" multiselect="false" onchange="changeItemsInPage(this,'{!general}');">
+                                            <apex:selectOptions value="{!ItemsOnPageOptions}"/>
+                                        </apex:selectList>
+                                    </apex:actionRegion>
+                                    records per page
+                                </span>
+                                <apex:actionRegion >
+                                <apex:commandLink action="{!first}" immediate="true" styleClass="link{!IF(tab_content[general].currentPage==1,'off','on')}" rerender="allBlock,jsScript" status="status"><apex:param assignTo="{!selectedTab}" name="selectedTab" value="{!general}"/><img src="/s.gif" class="first" alt="First Page"/></apex:commandlink>
+                                <apex:commandLink action="{!previous}" immediate="true" styleClass="link{!IF(tab_content[general].currentPage>1,'on','off')}" rerender="allBlock,jsScript" status="status"><apex:param assignTo="{!selectedTab}" name="selectedTab" value="{!general}"/><img src="/s.gif" class="prev" alt="Previous"/><span>Previous</span></apex:commandlink>
+                                <apex:commandLink action="{!next}" immediate="true" styleClass="link{!IF(tab_content[general].currentPage<tab_content[general].totalPages,'on','off')}" rerender="allBlock,jsScript" status="status"><apex:param assignTo="{!selectedTab}" name="selectedTab" value="{!general}"/><span>Next</span><img src="/s.gif" class="next" alt="Next"/></apex:commandlink>
+                                <apex:commandLink action="{!last}" immediate="true" styleClass="link{!IF(tab_content[general].currentPage==tab_content[general].totalPages,'off','on')}" rerender="allBlock,jsScript" status="status"><apex:param assignTo="{!selectedTab}" name="selectedTab" value="{!general}"/><img src="/s.gif" class="last" alt="Last Page"/></apex:commandlink>
+                                </apex:actionRegion>
+                                
+                                <span class="right">
+                                    Page {!tab_content[general].currentPage} of {!tab_content[general].totalPages}
+                                </span>
+                            </apex:outputPanel>
+                        </apex:tab>
+                        
+                        <!-- Security -->
+                        <apex:tab label="Security" name="Security" id="tab2"><!--  ontabenter="switchTab('Security');" -->
+                            <apex:pageBlockTable value="{!tab_content[security].sortIds}" var="key">
+                                <apex:column >
+                                    <apex:commandLink value="{!IF(CONTAINS(key,'new'),'Add','Edit')}" rendered="{!(key!=editId)}" action="{!init}" rerender="allBlock,jsScript" status="status" oncomplete="javascript:jQuery('[id$=focusFirstS]').focus();" styleClass="actionLink">
+                                        <apex:param assignTo="{!editId}" name="editId" value="{!key}"/>
+                                        <apex:param assignTo="{!selectedTab}" name="selectedTab" value="{!security}"/>
+                                        <apex:param assignTo="{!isEditRequirement}" name="isEditRequirement" value="false"/>
+                                    </apex:commandLink>
+                                    <apex:commandLink value="Delete" rendered="{!(key!=editId && NOT(CONTAINS(key,'new')))}" action="{!deleteConf}" rerender="allBlock,jsScript" status="status" styleClass="actionLink">
+                                        <apex:param assignTo="{!editId}" name="editId" value="{!key}"/>
+                                        <apex:param assignTo="{!selectedTab}" name="selectedTab" value="{!security}"/>
+                                    </apex:commandLink>
+                                    <apex:commandLink value="Save" rendered="{!(key==editId && security==selectedTab)}" action="{!saveConf}" rerender="allBlock,jsScript" status="status" styleClass="actionLink"/>
+                                    <apex:commandLink value="Cancel" rendered="{!(key==editId && security==selectedTab)}" action="{!cancelConf}" rerender="allBlock,jsScript" immediate="true" status="status" styleClass="actionLink"/>
+                                </apex:column>
+                                <apex:column headerValue="Configuration Action">
+                                    <apex:outputField value="{!tab_content[security].items[key].Configuration_Action__c}" rendered="{!(NOT(CONTAINS(key,'new')) && key!=editId)}"/>
+                                    <apex:inputField id="focusFirstS" value="{!tab_content[security].items[key].Configuration_Action__c}" rendered="{!(key==editId && security==selectedTab)}"/>
+                                </apex:column>
+                                <apex:column headerValue="Configuration Type">
+                                    <apex:outputField value="{!tab_content[security].items[key].Configuration_Type__c}" rendered="{!(NOT(CONTAINS(key,'new')) && key!=editId)}"/>
+                                    <apex:actionRegion >        
+                                        <apex:inputField value="{!tab_content[security].items[key].Configuration_Type__c}" rendered="{!(key==editId && security==selectedTab)}">
+                                            <apex:actionSupport event="onchange" rerender="fieldType"/>
+                                        </apex:inputField>
+                                    </apex:actionRegion>
+                                </apex:column>
+                                <apex:column headerValue="Rule Type">
+                                    <apex:outputField value="{!tab_content[security].items[key].Rule_Type__c}" rendered="{!(NOT(CONTAINS(key,'new')) && key!=editId)}"/>
+                                    <apex:inputField value="{!tab_content[security].items[key].Rule_Type__c}" rendered="{!(key==editId && security==selectedTab)}"/>
+                                </apex:column>
+                                <apex:column headerValue="Configuration Name">
+                                    <apex:outputField value="{!tab_content[security].items[key].Configuration_Name__c}" rendered="{!(NOT(CONTAINS(key,'new')) && key!=editId)}"/>
+                                    <apex:inputField value="{!tab_content[security].items[key].Configuration_Name__c}" rendered="{!(key==editId && security==selectedTab)}"/>
+                                </apex:column>
+                                <apex:column headerValue="Business Reason">
+                                    <apex:outputField value="{!tab_content[security].items[key].Business_Reason__c}" rendered="{!(NOT(CONTAINS(key,'new')) && key!=editId)}"/>
+                                    <apex:inputTextarea value="{!tab_content[security].items[key].Business_Reason__c}" rendered="{!(key==editId && security==selectedTab)}" styleClass="textareas"/>
+                                </apex:column>
+                                <apex:column headerValue="Configuration Details">
+                                    <apex:outputField value="{!tab_content[security].items[key].Configuration_Details__c}" rendered="{!(NOT(CONTAINS(key,'new')) && key!=editId)}"/>
+                                    <apex:inputTextarea value="{!tab_content[security].items[key].Configuration_Details__c}" rendered="{!(key==editId && security==selectedTab)}" styleClass="textareas"/>
+                                </apex:column>
+                                <apex:column headerValue="Status">
+                                    <apex:outputField value="{!tab_content[security].items[key].Status__c}" rendered="{!(NOT(CONTAINS(key,'new')) && key!=editId)}"/>
+                                    <apex:inputField value="{!tab_content[security].items[key].Status__c}" rendered="{!(key==editId && security==selectedTab)}"/>
+                                </apex:column>
+                                 <!--FG Added Case 001539705-->
+                                <apex:column > 
+                                    <apex:commandLink value="Save and Add" rendered="{!(key==editId && security==selectedTab)}" action="{!saveAndNewConf}" rerender="theRequirementSection,theConfigSection,messageInfo,footerG,footerS,footerW,jsScript" status="status" oncomplete="javascript:jQuery('[id$=focusFirstS]').focus();" styleClass="actionLink">
+                                            <apex:param assignTo="{!editId}" name="editId" value="{!key}"/>
+                                            <apex:param assignTo="{!selectedTab}" name="selectedTab" value="{!security}"/>
+                                            <apex:param assignTo="{!isEditRequirement}" name="isEditRequirement" value="false"/>
+                                    </apex:commandLink>
+                                </apex:column>
+                                <apex:column headerValue="HRM Configuration">
+                                    <apex:outputField value="{!tab_content[security].items[key].Name}" rendered="{!(NOT(CONTAINS(key,'new')) && key!=editId)}"/>
+                                    <apex:inputField value="{!tab_content[security].items[key].Name}" rendered="{!(key==editId && security==selectedTab)}"/>
+                                </apex:column>
+                                 <!--End of FG Added Case 001539705-->
+                                <apex:column headerValue="Time to Complete">
+                                    <apex:outputField value="{!tab_content[security].items[key].Time_to_Complete__c}" rendered="{!(NOT(CONTAINS(key,'new')) && key!=editId)}"/>
+                                    <apex:inputField value="{!tab_content[security].items[key].Time_to_Complete__c}" rendered="{!(key==editId && security==selectedTab)}" style="width:100px"/>
+                                </apex:column>
+                                <apex:column headerValue="Reason For Hold">
+                                    <apex:outputField value="{!tab_content[security].items[key].Reason_For_Hold__c}" rendered="{!(NOT(CONTAINS(key,'new')) && key!=editId)}"/>
+                                    <apex:inputTextarea value="{!tab_content[security].items[key].Reason_For_Hold__c}" rendered="{!(key==editId && security==selectedTab)}" styleClass="textareas"/>
+                                </apex:column>
+                                <apex:column headerValue="Out of Scope Reason">
+                                    <apex:outputField value="{!tab_content[security].items[key].Out_of_Scope_Reason__c}" rendered="{!(NOT(CONTAINS(key,'new')) && key!=editId)}"/>
+                                    <apex:inputField value="{!tab_content[security].items[key].Out_of_Scope_Reason__c}" rendered="{!(key==editId && security==selectedTab)}" style="width:100px"/>
+                                </apex:column>
+                                <apex:column headerValue="Level Of Access">
+                                    <apex:outputField value="{!tab_content[security].items[key].Level_Of_Access__c}" rendered="{!(NOT(CONTAINS(key,'new')) && key!=editId)}"/>
+                                    <apex:inputField value="{!tab_content[security].items[key].Level_Of_Access__c}" rendered="{!(key==editId && security==selectedTab)}"/>
+                                </apex:column>
+                                <apex:column headerValue="Records Owned By">
+                                    <apex:outputField value="{!tab_content[security].items[key].Records_Owned_By__c}" rendered="{!(NOT(CONTAINS(key,'new')) && key!=editId)}"/>
+                                    <apex:inputField value="{!tab_content[security].items[key].Records_Owned_By__c}" rendered="{!(key==editId && security==selectedTab)}"/>
+                                </apex:column>
+                                <apex:column headerValue="Owned By Role Name">
+                                    <apex:outputField value="{!tab_content[security].items[key].Owned_By_Role_Name__c}" rendered="{!(NOT(CONTAINS(key,'new')) && key!=editId)}"/>
+                                    <apex:inputField value="{!tab_content[security].items[key].Owned_By_Role_Name__c}" rendered="{!(key==editId && security==selectedTab)}"/>
+                                </apex:column>
+                                <apex:column headerValue="Share With">
+                                    <apex:outputField value="{!tab_content[security].items[key].Share_With__c}" rendered="{!(NOT(CONTAINS(key,'new')) && key!=editId)}"/>
+                                    <apex:inputField value="{!tab_content[security].items[key].Share_With__c}" rendered="{!(key==editId && security==selectedTab)}"/>
+                                </apex:column>
+                                <apex:column headerValue="Shared To Role Name">
+                                    <apex:outputField value="{!tab_content[security].items[key].Shared_to_Role_Name__c}" rendered="{!(NOT(CONTAINS(key,'new')) && key!=editId)}"/>
+                                    <apex:inputField value="{!tab_content[security].items[key].Shared_to_Role_Name__c}" rendered="{!(key==editId && security==selectedTab)}"/>
+                                </apex:column>
+                            </apex:pageBlockTable>
+                            
+                            <apex:outputPanel rendered="{!!noRecords}" styleClass="pagination" id="footerS">
+                                <span class="left">
+                                    Display
+                                    <apex:actionRegion >
+                                        <apex:selectList value="{!tab_content[security].itemsOnPage}" size="1" multiselect="false" onchange="changeItemsInPage(this,'{!security}');">
+                                            <apex:selectOptions value="{!ItemsOnPageOptions}"/>
+                                        </apex:selectList>
+                                    </apex:actionRegion>
+                                    records per page
+                                </span>
+                                <apex:actionRegion >
+                                <apex:commandLink action="{!first}" immediate="true" styleClass="link{!IF(tab_content[security].currentPage==1,'off','on')}" rerender="allBlock,jsScript" status="status"><apex:param assignTo="{!selectedTab}" name="selectedTab" value="{!security}"/><img src="/s.gif" class="first" alt="First Page"/></apex:commandlink>
+                                <apex:commandLink action="{!previous}" immediate="true" styleClass="link{!IF(tab_content[security].currentPage>1,'on','off')}" rerender="allBlock,jsScript" status="status"><apex:param assignTo="{!selectedTab}" name="selectedTab" value="{!security}"/><img src="/s.gif" class="prev" alt="Previous"/><span>Previous</span></apex:commandlink>
+                                <apex:commandLink action="{!next}" immediate="true" styleClass="link{!IF(tab_content[security].currentPage<tab_content[security].totalPages,'on','off')}" rerender="allBlock,jsScript" status="status"><apex:param assignTo="{!selectedTab}" name="selectedTab" value="{!security}"/><span>Next</span><img src="/s.gif" class="next" alt="Next"/></apex:commandlink>
+                                <apex:commandLink action="{!last}" immediate="true" styleClass="link{!IF(tab_content[security].currentPage==tab_content[security].totalPages,'off','on')}" rerender="allBlock,jsScript" status="status"><apex:param assignTo="{!selectedTab}" name="selectedTab" value="{!security}"/><img src="/s.gif" class="last" alt="Last Page"/></apex:commandlink>
+                                </apex:actionRegion>
+                                
+                                <span class="right">
+                                    Page {!tab_content[security].currentPage} of {!tab_content[security].totalPages}
+                                </span>
+                            </apex:outputPanel>
+                        </apex:tab>
+                        
+                        <!-- Workflow -->
+                        <apex:tab label="Workflow" name="Workflow" id="tab3">
+                            <apex:pageBlockTable value="{!tab_content[workflow].sortIds}" var="key">
+                                <apex:column >
+                                    <apex:commandLink value="{!IF(CONTAINS(key,'new'),'Add','Edit')}" rendered="{!(key!=editId)}" action="{!init}" rerender="theRequirementSection,theConfigSection,messageInfo,footerG,footerS,footerW,jsScript" status="status" oncomplete="javascript:jQuery('[id$=focusFirstW]').focus();" styleClass="actionLink">
+                                        <apex:param assignTo="{!editId}" name="editId" value="{!key}"/>
+                                        <apex:param assignTo="{!selectedTab}" name="selectedTab" value="{!workflow}"/>
+                                        <apex:param assignTo="{!isEditRequirement}" name="isEditRequirement" value="false"/>
+                                    </apex:commandLink>
+                                    <apex:commandLink value="Delete" rendered="{!(key!=editId && NOT(CONTAINS(key,'new')))}" action="{!deleteConf}" rerender="theRequirementSection,theConfigSection,messageInfo,footerG,footerS,footerW,jsScript" status="status" styleClass="actionLink">
+                                        <apex:param assignTo="{!editId}" name="editId" value="{!key}"/>
+                                        <apex:param assignTo="{!selectedTab}" name="selectedTab" value="{!workflow}"/>
+                                    </apex:commandLink>
+                                    <apex:commandLink value="Save" rendered="{!(key==editId && workflow==selectedTab)}" action="{!saveConf}" rerender="theRequirementSection,theConfigSection,messageInfo,footerG,footerS,footerW,jsScript" status="status" styleClass="actionLink"/>
+                                    <apex:commandLink value="Cancel" rendered="{!(key==editId && workflow==selectedTab)}" action="{!cancelConf}" rerender="theRequirementSection,theConfigSection,messageInfo,footerG,footerS,footerW,jsScript" immediate="true" status="status" styleClass="actionLink"/>
+                                </apex:column>
+                                <apex:column headerValue="Configuration Action">
+                                    <apex:outputField value="{!tab_content[workflow].items[key].Configuration_Action__c}" rendered="{!(NOT(CONTAINS(key,'new')) && key!=editId)}"/>
+                                    <apex:inputField id="focusFirstW" value="{!tab_content[workflow].items[key].Configuration_Action__c}" rendered="{!(key==editId && workflow==selectedTab)}"/>
+                                </apex:column>
+                                <apex:column headerValue="Configuration Type">
+                                    <apex:outputField value="{!tab_content[workflow].items[key].Configuration_Type__c}" rendered="{!(NOT(CONTAINS(key,'new')) && key!=editId)}"/>
+                                    <apex:actionRegion >        
+                                        <apex:inputField value="{!tab_content[workflow].items[key].Configuration_Type__c}" rendered="{!(key==editId && workflow==selectedTab)}">
+                                            <apex:actionSupport event="onchange" rerender="fieldType"/>
+                                        </apex:inputField>
+                                    </apex:actionRegion>
+                                </apex:column>
+                                <apex:column headerValue="Workflow Evaluation Criteria">
+                                    <apex:outputField value="{!tab_content[workflow].items[key].Workflow_Evaluation_Criteria__c}" rendered="{!(NOT(CONTAINS(key,'new')) && key!=editId)}"/>
+                                    <apex:inputField value="{!tab_content[workflow].items[key].Workflow_Evaluation_Criteria__c}" rendered="{!(key==editId && workflow==selectedTab)}"/>
+                                </apex:column>
+                                 <apex:column headerValue="Workflow Action Time Trigger">
+                                    <apex:outputField value="{!tab_content[workflow].items[key].Workflow_Action_Time_Trigger__c}" rendered="{!(NOT(CONTAINS(key,'new')) && key!=editId)}"/>
+                                    <apex:inputField value="{!tab_content[workflow].items[key].Workflow_Action_Time_Trigger__c}" rendered="{!(key==editId && workflow==selectedTab)}"/>
+                                </apex:column>
+                                <apex:column headerValue="Configuration Name">
+                                    <apex:outputField value="{!tab_content[workflow].items[key].Configuration_Name__c}" rendered="{!(NOT(CONTAINS(key,'new')) && key!=editId)}"/>
+                                    <apex:inputField value="{!tab_content[workflow].items[key].Configuration_Name__c}" rendered="{!(key==editId && workflow==selectedTab)}"/>
+                                </apex:column>
+                                <apex:column headerValue="Business Reason">
+                                    <apex:outputField value="{!tab_content[workflow].items[key].Business_Reason__c}" rendered="{!(NOT(CONTAINS(key,'new')) && key!=editId)}"/>
+                                    <apex:inputTextarea value="{!tab_content[workflow].items[key].Business_Reason__c}" rendered="{!(key==editId && workflow==selectedTab)}" styleClass="textareas"/>
+                                </apex:column>
+                                <apex:column headerValue="Configuration Details">
+                                    <apex:outputField value="{!tab_content[workflow].items[key].Configuration_Details__c}" rendered="{!(NOT(CONTAINS(key,'new')) && key!=editId)}"/>
+                                    <apex:inputTextarea value="{!tab_content[workflow].items[key].Configuration_Details__c}" rendered="{!(key==editId && workflow==selectedTab)}" styleClass="textareas"/>
+                                </apex:column>
+                                <apex:column headerValue="Status">
+                                    <apex:outputField value="{!tab_content[workflow].items[key].Status__c}" rendered="{!(NOT(CONTAINS(key,'new')) && key!=editId)}"/>
+                                    <apex:inputField value="{!tab_content[workflow].items[key].Status__c}" rendered="{!(key==editId && workflow==selectedTab)}"/>
+                                </apex:column>
+                                 <!--FG Added Case 001539705-->
+                                 <apex:column >
+                                     <apex:commandLink value="Save and Add" rendered="{!(key==editId && workflow==selectedTab)}" action="{!saveAndNewConf}" rerender="theRequirementSection,theConfigSection,messageInfo,footerG,footerS,footerW,jsScript" status="status" oncomplete="javascript:jQuery('[id$=focusFirstW]').focus();" styleClass="actionLink">
+                                            <apex:param assignTo="{!editId}" name="editId" value="{!key}"/>
+                                            <apex:param assignTo="{!selectedTab}" name="selectedTab" value="{!workflow}"/>
+                                            <apex:param assignTo="{!isEditRequirement}" name="isEditRequirement" value="false"/>
+                                    </apex:commandLink>
+                                </apex:column> 
+                                <apex:column headerValue="HRM Configuration">
+                                    <apex:outputField value="{!tab_content[workflow].items[key].Name}" rendered="{!(NOT(CONTAINS(key,'new')) && key!=editId)}"/>
+                                    <apex:inputField value="{!tab_content[workflow].items[key].Name}" rendered="{!(key==editId && workflow==selectedTab)}"/>
+                                </apex:column>
+                                 <!--End of FG Added Case 001539705-->
+                                <apex:column headerValue="Time to Complete">
+                                    <apex:outputField value="{!tab_content[workflow].items[key].Time_to_Complete__c}" rendered="{!(NOT(CONTAINS(key,'new')) && key!=editId)}"/>
+                                    <apex:inputField value="{!tab_content[workflow].items[key].Time_to_Complete__c}" rendered="{!(key==editId && workflow==selectedTab)}" style="width:100px"/>
+                                </apex:column>
+                                <apex:column headerValue="Reason For Hold">
+                                    <apex:outputField value="{!tab_content[workflow].items[key].Reason_For_Hold__c}" rendered="{!(NOT(CONTAINS(key,'new')) && key!=editId)}"/>
+                                    <apex:inputTextarea value="{!tab_content[workflow].items[key].Reason_For_Hold__c}" rendered="{!(key==editId && workflow==selectedTab)}" styleClass="textareas"/>
+                                </apex:column>
+                                <apex:column headerValue="Out of Scope Reason">
+                                    <apex:outputField value="{!tab_content[workflow].items[key].Out_of_Scope_Reason__c}" rendered="{!(NOT(CONTAINS(key,'new')) && key!=editId)}"/>
+                                    <apex:inputField value="{!tab_content[workflow].items[key].Out_of_Scope_Reason__c}" rendered="{!(key==editId && workflow==selectedTab)}" style="width:100px"/>
+                                </apex:column>
+                            </apex:pageBlockTable>
+                            
+                            <apex:outputPanel rendered="{!!noRecords}" styleClass="pagination" id="footerW">
+                                <span class="left">
+                                    Display
+                                    <apex:actionRegion >
+                                        <apex:selectList value="{!tab_content[workflow].itemsOnPage}" size="1" multiselect="false" onchange="changeItemsInPage(this,'{!workflow}');">
+                                            <apex:selectOptions value="{!ItemsOnPageOptions}"/>
+                                        </apex:selectList>
+                                    </apex:actionRegion>
+                                    records per page
+                                </span>
+                                <apex:actionRegion >
+                                <apex:commandLink action="{!first}" immediate="true" styleClass="link{!IF(tab_content[workflow].currentPage==1,'off','on')}" rerender="allBlock,jsScript" status="status"><apex:param assignTo="{!selectedTab}" name="selectedTab" value="{!workflow}"/><img src="/s.gif" class="first" alt="First Page"/></apex:commandlink>
+                                <apex:commandLink action="{!previous}" immediate="true" styleClass="link{!IF(tab_content[workflow].currentPage>1,'on','off')}" rerender="allBlock,jsScript" status="status"><apex:param assignTo="{!selectedTab}" name="selectedTab" value="{!workflow}"/><img src="/s.gif" class="prev" alt="Previous"/><span>Previous</span></apex:commandlink>
+                                <apex:commandLink action="{!next}" immediate="true" styleClass="link{!IF(tab_content[workflow].currentPage<tab_content[workflow].totalPages,'on','off')}" rerender="allBlock,jsScript" status="status"><apex:param assignTo="{!selectedTab}" name="selectedTab" value="{!workflow}"/><span>Next</span><img src="/s.gif" class="next" alt="Next"/></apex:commandlink>
+                                <apex:commandLink action="{!last}" immediate="true" styleClass="link{!IF(tab_content[workflow].currentPage==tab_content[workflow].totalPages,'off','on')}" rerender="allBlock,jsScript" status="status"><apex:param assignTo="{!selectedTab}" name="selectedTab" value="{!workflow}"/><img src="/s.gif" class="last" alt="Last Page"/></apex:commandlink>
+                                </apex:actionRegion>
+                                
+                                <span class="right">
+                                    Page {!tab_content[workflow].currentPage} of {!tab_content[workflow].totalPages}
+                                </span>
+                            </apex:outputPanel>
+                        </apex:tab>
+                    </apex:tabPanel>
+                </apex:pageBlockSection>    
+            </apex:pageBlock>
+        </apex:form>
+    </body>
+</apex:page>

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Renewal_Close_Date_c__c</fullName>
+    <externalDeveloperName>Renewal_Close_Date__c</externalDeveloperName>
+    <externalId>false</externalId>
+    <isFilteringDisabled>false</isFilteringDisabled>
+    <isNameField>false</isNameField>
+    <isSortingDisabled>false</isSortingDisabled>
+    <label>Renewal Close Date</label>
+    <readOnlyProxy>true</readOnlyProxy>
+    <required>false</required>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Prior Close Date</fullName>
+                <default>false</default>
+                <label>Prior Close Date</label>
+            </value>
+            <value>
+                <fullName>Prior End Date - 30 Days</fullName>
+                <default>false</default>
+                <label>Prior End Date - 30 Days</label>
+            </value>
+            <value>
+                <fullName>Prior Close Date + 1 Year</fullName>
+                <default>false</default>
+                <label>Prior Close Date + 1 Year</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

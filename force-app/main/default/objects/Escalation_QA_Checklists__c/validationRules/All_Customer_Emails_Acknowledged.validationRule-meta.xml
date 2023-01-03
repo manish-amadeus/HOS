@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>All_Customer_Emails_Acknowledged</fullName>
+    <active>true</active>
+    <description>Value can not be 2,3 or 4.</description>
+    <errorConditionFormula>Or(
+All_Client_Emails_Answered_And_Actioned__c = 2,
+All_Client_Emails_Answered_And_Actioned__c = 3,
+All_Client_Emails_Answered_And_Actioned__c = 4,
+All_Client_Emails_Answered_And_Actioned__c &gt; 5
+)</errorConditionFormula>
+    <errorDisplayField>All_Client_Emails_Answered_And_Actioned__c</errorDisplayField>
+    <errorMessage>Please update your value to 0 for N/A, 1 for NO or 5 for YES.</errorMessage>
+</ValidationRule>

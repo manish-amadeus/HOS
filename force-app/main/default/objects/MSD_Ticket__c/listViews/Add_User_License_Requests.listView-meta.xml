@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Add_User_License_Requests</fullName>
+    <columns>NAME</columns>
+    <columns>Affected_user__c</columns>
+    <columns>Request_Type__c</columns>
+    <columns>Status__c</columns>
+    <columns>Opening_Date__c</columns>
+    <columns>Last_Contact__c</columns>
+    <columns>Detail__c</columns>
+    <columns>Assigned_admin__c</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>Status__c</field>
+        <operation>notEqual</operation>
+        <value>Cancelled,Closed,Closed in 1st contact,Completed,Solved,Solved in 1st Contact</value>
+    </filters>
+    <filters>
+        <field>Request_Type__c</field>
+        <operation>equals</operation>
+        <value>Add User,Licensing</value>
+    </filters>
+    <label>User &amp; License Requests</label>
+    <sharedTo>
+        <group>Business_Systems_Internal</group>
+    </sharedTo>
+</ListView>

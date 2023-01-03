@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Project_Completion</fullName>
+    <active>false</active>
+    <description>Inactivated per Stu S request 8-6-2014
+
+A project can only be marked as &quot;Completed&quot; when ALL tasks have been marked as &quot;Completed&quot;.</description>
+    <errorConditionFormula>AND( ISPICKVAL(Request_Status__c, &quot;Completed&quot;),
+Project_Tasks_Completed__c &lt;&gt; Total_Project_Tasks__c )</errorConditionFormula>
+    <errorMessage>The Status of one or more Tasks related to this Project have not been set to &quot;Completed&quot;.  
+A project can only be marked as &quot;Completed&quot; when ALL tasks have been marked as &quot;Completed&quot;.</errorMessage>
+</ValidationRule>

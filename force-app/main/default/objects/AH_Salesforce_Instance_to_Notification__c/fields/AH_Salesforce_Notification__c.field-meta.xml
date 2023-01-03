@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>AH_Salesforce_Notification__c</fullName>
+    <description>NICC-031037</description>
+    <externalId>false</externalId>
+    <label>AH Salesforce Notification</label>
+    <referenceTo>AH_Salesforce_Trust_Notification__c</referenceTo>
+    <relationshipLabel>AH Salesforce Instances</relationshipLabel>
+    <relationshipName>AH_Salesforce_Instance_to_Notification</relationshipName>
+    <relationshipOrder>0</relationshipOrder>
+    <reparentableMasterDetail>false</reparentableMasterDetail>
+    <trackTrending>false</trackTrending>
+    <type>MasterDetail</type>
+    <writeRequiresMasterRead>false</writeRequiresMasterRead>
+</CustomField>
