@@ -140,12 +140,13 @@ node {
                     print "item is :"+item
                     if (item.contains('Test')||item.contains('test')||item.contains('TesT')||item.contains('TEST')){
                      def ExtractedVal = item =~ /(>(.*)<)/
+                     echo "ExtractedVal before format is :${ExtractedVal}"
                      ExtractedVal =ExtractedVal[0][1]
                      ExtractedVal= SpecifiedTestClass.replaceAll("[>]", "")
                      ExtractedVal = SpecifiedTestClass.replaceAll("[<]", "")
+                     echo "ExtractedVal after format is :${ExtractedVal}"
                      if (SpecifiedTestClass == null){
-                     //SpecifiedTestClass= ","+ExtractedVal
-                     SpecifiedTestClass= ExtractedVal
+                      SpecifiedTestClass= ExtractedVal
                      echo "specified test class is :${SpecifiedTestClass}"
                      }
                      else {
