@@ -138,7 +138,7 @@ node {
                     def list = readFile("${env.WORKSPACE}/manifest/${SDWORK_ID}/package.xml").readLines().collect()
                     for (item in list){
                     print "item is :"+item
-                    if (item.containsIgnoreCase('Test')){
+                    if (item.contains('Test')||item.contains('test')||item.contains('TesT')||item.contains('TEST')){
                      def ExtractedVal = item =~ /(>(.*)<)/
                      ExtractedVal =ExtractedVal[0][1]
                      ExtractedVal= SpecifiedTestClass.replaceAll("[>]", "")
