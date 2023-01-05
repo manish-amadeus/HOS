@@ -172,12 +172,15 @@ node {
                     //String JOB = commandOutput "sfdx force:source:deploy -u ${SF_TARGET_ENV} -l RunSpecifiedTests -r AH_DemoCICDContlr_Test -w 40 -c -x manifest/${SDWORK_ID}/package.xml"
                     String JOB = commandOutput "sfdx force:source:deploy -u ${SF_TARGET_ENV} -l ${RunTesttype} -w 40 -c -x manifest/${SDWORK_ID}/package.xml"
 					echo "JOB: ${JOB}"
+                    echo "JOB is : ${JOB}"
                     
                     def idPosition = JOB.indexOf("Job ID") + 9
+                     echo "idPosition is : ${idPosition}"
                     JOBIDDEPLOY =  JOB.substring(idPosition,idPosition+15).trim()
                     echo "JOBIDDEPLOY: ${idPosition}  :  ${JOBIDDEPLOY}"
                     if ("${JOB}".contains("Success")) {
 						JOBIDDEPLOY =  JOB.substring(idPosition,idPosition+15).trim()
+                        echo "JOBIDDEPLOY is :  ${idPosition}  :  ${JOBIDDEPLOY}"
                         echo "JOBIDDEPLOY: ${idPosition}  :  ${JOBIDDEPLOY}"
 					} else if ("${JOB}".contains("Failed")) {
                         error 'Salesforce Tests Run failed.'
