@@ -139,13 +139,13 @@ node {
                     for (item in list){
                     print "item is :"+item
                     if (item.contains('Test')||item.contains('test')||item.contains('TesT')||item.contains('TEST')){
-                     def ExtractedVal = (item =~ /(>(.*)<)/)
-                     echo "ExtractedVal before format is :${ExtractedVal}"
-                     ExtractedVal =ExtractedVal[0][1]
-                      echo "ExtractedVal after format 1 is :${ExtractedVal}"
-                     ExtractedVal= SpecifiedTestClass.replace(">", "")
-                     echo "ExtractedVal after format 2 is :${ExtractedVal}"
-                     ExtractedVal = SpecifiedTestClass.replace("<", "")
+                     def ExtractedVal = (item =~ />(.*)</)
+                     //echo "ExtractedVal before format is :${ExtractedVal}"
+                     //ExtractedVal =ExtractedVal[0][1]
+                     // echo "ExtractedVal after format 1 is :${ExtractedVal}"
+                     //ExtractedVal= SpecifiedTestClass.replace(">", "")
+                     //echo "ExtractedVal after format 2 is :${ExtractedVal}"
+                     //ExtractedVal = SpecifiedTestClass.replace("<", "")
                      echo "ExtractedVal after format is :${ExtractedVal}"
                      if (SpecifiedTestClass == null){
                       SpecifiedTestClass= ExtractedVal
