@@ -143,9 +143,9 @@ node {
                      echo "ExtractedVal before format is :${ExtractedVal}"
                      ExtractedVal =ExtractedVal[0][1]
                       echo "ExtractedVal after format 1 is :${ExtractedVal}"
-                     ExtractedVal= SpecifiedTestClass.replaceAll("[>]", "")
+                     ExtractedVal= SpecifiedTestClass.replace(/>/, "")
                      echo "ExtractedVal after format 2 is :${ExtractedVal}"
-                     ExtractedVal = SpecifiedTestClass.replaceAll("[<]", "")
+                     ExtractedVal = SpecifiedTestClass.replace(/</, "")
                      echo "ExtractedVal after format is :${ExtractedVal}"
                      if (SpecifiedTestClass == null){
                       SpecifiedTestClass= ExtractedVal
