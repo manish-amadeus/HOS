@@ -143,20 +143,26 @@ node {
                      ExtractedVal =ExtractedVal[0][1]
                      ExtractedVal= SpecifiedTestClass.replaceAll("[>]", "")
                      ExtractedVal = SpecifiedTestClass.replaceAll("[<]", "")
-                     if (SpecifiedTestClass){
-                     SpecifiedTestClass= ","+ExtractedVal
+                     if (SpecifiedTestClass == null){
+                     //SpecifiedTestClass= ","+ExtractedVal
+                     SpecifiedTestClass= ExtractedVal
+                     echo "specified test class is :${SpecifiedTestClass}"
                      }
                      else {
-                     SpecifiedTestClass= ExtractedVal
+                     SpecifiedTestClass= ","+ExtractedVal
+                     echo "specified test class is :${SpecifiedTestClass}"
+                     //SpecifiedTestClass= ExtractedVal
                      }
                      }
                      echo "Specified test classes are : ${SpecifiedTestClass}"
                     }
-					if(SpecifiedTestClass){
-                    RunTesttype = 'RunSpecifiedTests -r ${SpecifiedTestClass}'
+					if(SpecifiedTestClass == null){
+                    //RunTesttype = 'RunSpecifiedTests -r ${SpecifiedTestClass}'
+                    RunTesttype = 'RunLocalTests'
                     }
                     else{
-                    RunTesttype = 'RunLocalTests'
+                    //RunTesttype = 'RunLocalTests'
+                    RunTesttype = 'RunSpecifiedTests -r ${SpecifiedTestClass}'
                     }
                      echo "RunTesttype is  : ${RunTesttype}"
                     //String JOB = commandOutput "sfdx force:source:deploy -u ${SF_TARGET_ENV} -l RunLocalTests -w 40 -c -x manifest/${SDWORK_ID}/package.xml"
