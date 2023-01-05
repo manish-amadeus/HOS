@@ -140,8 +140,8 @@ node {
                     print "item is :"+item
                     if (item.contains('Test')||item.contains('test')||item.contains('TesT')||item.contains('TEST')){
                      def ExtractedVal = (item =~ />(.*)</)
-                     //echo "ExtractedVal before format is :${ExtractedVal}"
-                     //ExtractedVal =ExtractedVal[0][1]
+                     echo "ExtractedVal before format is :${ExtractedVal}"
+                     ExtractedVal =ExtractedVal[0][1]
                      // echo "ExtractedVal after format 1 is :${ExtractedVal}"
                      //ExtractedVal= SpecifiedTestClass.replace(">", "")
                      //echo "ExtractedVal after format 2 is :${ExtractedVal}"
@@ -161,11 +161,11 @@ node {
                     }
 					if(SpecifiedTestClass == null){
                     //RunTesttype = 'RunSpecifiedTests -r ${SpecifiedTestClass}'
-                    RunTesttype = 'RunLocalTests'
+                    RunTesttype = "RunLocalTests"
                     }
                     else{
                     //RunTesttype = 'RunLocalTests'
-                    RunTesttype = 'RunSpecifiedTests -r ${SpecifiedTestClass}'
+                    RunTesttype = "RunSpecifiedTests -r ${SpecifiedTestClass}"
                     }
                      echo "RunTesttype is  : ${RunTesttype}"
                     //String JOB = commandOutput "sfdx force:source:deploy -u ${SF_TARGET_ENV} -l RunLocalTests -w 40 -c -x manifest/${SDWORK_ID}/package.xml"
