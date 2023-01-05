@@ -16,7 +16,7 @@ node {
     def INSTANCEURL = "https://test.salesforce.com"
     env.LANG    = "en_US.UTF-8"
     try {
-         rc = commandStatus"set +e"
+         //rc = commandStatus"set +e"
 		// ----------------------------------------------------------------------------------
         // Run all the enclosed stages with access to the Salesforce
         // JWT key credentials.
@@ -212,7 +212,7 @@ node {
 			}
 			
 		}
-	rc = commandStatus"set -e"
+	//rc = commandStatus"set -e"
 	} catch (e) {
         throw e
     } finally {
