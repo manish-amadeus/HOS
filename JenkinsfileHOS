@@ -152,7 +152,7 @@ node {
                      echo "specified test class is :${SpecifiedTestClass}"
                      }
                      else {
-                     SpecifiedTestClass= ","+ExtractedVal
+                     SpecifiedTestClass= SpecifiedTestClass+","+ExtractedVal
                      echo "specified test class is :${SpecifiedTestClass}"
                      //SpecifiedTestClass= ExtractedVal
                      }
