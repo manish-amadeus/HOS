@@ -137,50 +137,33 @@ node {
                     env.WORKSPACE = pwd()
                     def list = readFile("${env.WORKSPACE}/manifest/${SDWORK_ID}/package.xml").readLines().collect()
                     for (item in list){
-                    print "item is :"+item
                     if (item.contains('Test')||item.contains('test')||item.contains('TesT')||item.contains('TEST')){
                      def ExtractedVal = (item =~ />(.*)</)
-                     echo "ExtractedVal before format is :${ExtractedVal}"
                      ExtractedVal =ExtractedVal[0][1]
-                     // echo "ExtractedVal after format 1 is :${ExtractedVal}"
-                     //ExtractedVal= SpecifiedTestClass.replace(">", "")
-                     //echo "ExtractedVal after format 2 is :${ExtractedVal}"
-                     //ExtractedVal = SpecifiedTestClass.replace("<", "")
-                     echo "ExtractedVal after format is :${ExtractedVal}"
                      if (SpecifiedTestClass == null){
-                      SpecifiedTestClass= ExtractedVal
-                     echo "specified test class is :${SpecifiedTestClass}"
-                     }
+                        SpecifiedTestClass= ExtractedVal
+                      }
                      else {
                      SpecifiedTestClass= SpecifiedTestClass+","+ExtractedVal
-                     echo "specified test class is :${SpecifiedTestClass}"
-                     //SpecifiedTestClass= ExtractedVal
-                     }
+                      }
                      }
                      echo "Specified test classes are : ${SpecifiedTestClass}"
                     }
 					if(SpecifiedTestClass == null){
-                    //RunTesttype = 'RunSpecifiedTests -r ${SpecifiedTestClass}'
                     RunTesttype = "RunLocalTests"
                     }
                     else{
-                    //RunTesttype = 'RunLocalTests'
                     RunTesttype = "RunSpecifiedTests -r ${SpecifiedTestClass}"
                     }
-                     echo "RunTesttype is  : ${RunTesttype}"
                     //String JOB = commandOutput "sfdx force:source:deploy -u ${SF_TARGET_ENV} -l RunLocalTests -w 40 -c -x manifest/${SDWORK_ID}/package.xml"
                     //String JOB = commandOutput "sfdx force:source:deploy -u ${SF_TARGET_ENV} -l RunSpecifiedTests -r AH_DemoCICDContlr_Test -w 40 -c -x manifest/${SDWORK_ID}/package.xml"
                     String JOB = commandOutput "sfdx force:source:deploy -u ${SF_TARGET_ENV} -l ${RunTesttype} -w 40 -c -x manifest/${SDWORK_ID}/package.xml"
 					echo "JOB: ${JOB}"
-                    echo "JOB is : ${JOB}"
                     
                     def idPosition = JOB.indexOf("Job ID") + 9
-                     echo "idPosition is : ${idPosition}"
                     JOBIDDEPLOY =  JOB.substring(idPosition,idPosition+15).trim()
-                    echo "JOBIDDEPLOY: ${idPosition}  :  ${JOBIDDEPLOY}"
                     if ("${JOB}".contains("Success")) {
 						JOBIDDEPLOY =  JOB.substring(idPosition,idPosition+15).trim()
-                        echo "JOBIDDEPLOY is :  ${idPosition}  :  ${JOBIDDEPLOY}"
                         echo "JOBIDDEPLOY: ${idPosition}  :  ${JOBIDDEPLOY}"
 					} else if ("${JOB}".contains("Failed")) {
                         error 'Salesforce Tests Run failed.'
@@ -225,7 +208,7 @@ node {
         // Send email. Uses the configs from Manage Jenkins > Configure System > Extended E-mail Notification
         //def mailRecipients = 'manish.kumar7@amadeus.com,geetha.amalraj@amadeus.com,sean.harris@amadeus.com'
         //emailext recipientProviders: [developers()],to:"${mailRecipients}", subject: "Job '${JOB_NAME}' (${BUILD_NUMBER}) finished with result: ${BUILD_NUMBER.result}" , body: "The build #${BUILD_NUMBER} finished with status ${BUILD_NUMBER.result} and contains the logs attached.", attachLog: true
-        emailext recipientProviders: [developers()], subject: "Job '${JOB_NAME}' (${BUILD_NUMBER}) finished with result: ${currentBuild.currentResult}" , to:'manishku@cybage.com,manish.kumar7@amadeus.com,geetha.amalraj@amadeus.com,sean.harris@amadeus.com',body: "The build #${BUILD_NUMBER} finished with status ${currentBuild.currentResult} and contains the logs attached.", attachLog: true
+        emailext recipientProviders: [developers()], subject: "Job '${JOB_NAME}' (${BUILD_NUMBER}) finished with result: ${currentBuild.currentResult}" , to:'manish.kumar7@amadeus.com,geetha.amalraj@amadeus.com,sean.harris@amadeus.com',body: "The build #${BUILD_NUMBER} finished with status ${currentBuild.currentResult} and contains the logs attached.", attachLog: true
         // TODO MS Teams
         //office365ConnectorSend message: "<Your message>", status:"${RESULT}", webhookUrl:'<The connector webhook url>'
         // Clean workspace (remove files used for this build)
