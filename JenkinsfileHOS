@@ -223,7 +223,7 @@ node {
         throw e
     } finally {
         // Send email. Uses the configs from Manage Jenkins > Configure System > Extended E-mail Notification
-        def mailRecipients = "manish.kumar7@amadeus.com,geetha.amalraj@amadeus.com,sean.harris@amadeus.com"
+        def mailRecipients = 'manish.kumar7@amadeus.com,geetha.amalraj@amadeus.com,sean.harris@amadeus.com'
         emailext recipientProviders: [developers()],to:"${mailRecipients}", subject: "Job '${JOB_NAME}' (${BUILD_NUMBER}) finished with result: ${BUILD_NUMBER.result}" , body: "The build #${BUILD_NUMBER} finished with status ${BUILD_NUMBER.result} and contains the logs attached.", attachLog: true
         // TODO MS Teams
         //office365ConnectorSend message: "<Your message>", status:"${RESULT}", webhookUrl:'<The connector webhook url>'
