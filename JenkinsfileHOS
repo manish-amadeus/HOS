@@ -225,7 +225,7 @@ node {
         // Send email. Uses the configs from Manage Jenkins > Configure System > Extended E-mail Notification
         //def mailRecipients = 'manish.kumar7@amadeus.com,geetha.amalraj@amadeus.com,sean.harris@amadeus.com'
         //emailext recipientProviders: [developers()],to:"${mailRecipients}", subject: "Job '${JOB_NAME}' (${BUILD_NUMBER}) finished with result: ${BUILD_NUMBER.result}" , body: "The build #${BUILD_NUMBER} finished with status ${BUILD_NUMBER.result} and contains the logs attached.", attachLog: true
-        emailext recipientProviders: [developers()], subject: "Job '${JOB_NAME}' (${BUILD_NUMBER}) finished with result: ${currentBuild.result}" , to:'manishku@cybage.com,manish.kumar7@amadeus.com,geetha.amalraj@amadeus.com,sean.harris@amadeus.com',body: "The build #${BUILD_NUMBER} finished with status ${currentBuild.result} and contains the logs attached.", attachLog: true
+        emailext recipientProviders: [developers()], subject: "Job '${JOB_NAME}' (${BUILD_NUMBER}) finished with result: ${currentBuild.currentResult}" , to:'manishku@cybage.com,manish.kumar7@amadeus.com,geetha.amalraj@amadeus.com,sean.harris@amadeus.com',body: "The build #${BUILD_NUMBER} finished with status ${currentBuild.currentResult} and contains the logs attached.", attachLog: true
         // TODO MS Teams
         //office365ConnectorSend message: "<Your message>", status:"${RESULT}", webhookUrl:'<The connector webhook url>'
         // Clean workspace (remove files used for this build)
