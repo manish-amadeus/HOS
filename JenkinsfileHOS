@@ -29,11 +29,7 @@ node {
                 SF_CONSUMER_KEY = "ENV_HOS_SF_CONSUMERKEY"
                 SF_CONSUMER_SERVER_KEY = "ENV_HOS_SF_SECRETKEY"
             } else {
-                echo "Build is with result is at Build :${BUILD_NUMBER.result}"
-                echo "Build is with current  result is at Build :${BUILD_NUMBER.currentResult}"
-                echo "current Build is with current result is :${currentBuild.currentResult}"
-                echo "current Build is with current result is :${currentBuild.result}"
-              error 'Please check the branches on your PR. (source branch should be: feature/*, bugfix/*, promotion/*, release or hotfix/*) (target branch should be: develop, release or master)'
+                 error 'Please check the branches on your PR. (source branch should be: feature/*, bugfix/*, promotion/*, release or hotfix/*) (target branch should be: develop, release or master)'
             }
 			String CURRENT_BRANCH   = "${env.BITBUCKET_SOURCE_BRANCH}"
             SDWORK_ID = CURRENT_BRANCH.substring(CURRENT_BRANCH.indexOf('/') + 1, CURRENT_BRANCH.length())
@@ -49,11 +45,7 @@ node {
                 // Set the target org, instance URL to be used. Clone the repo and authorize 
                 // connection to SF org.
                 // ----------------------------------------------------------------------------------
-                //echo "Build is with result is at Build :${BUILD_NUMBER.result}"
-                //echo "Build is with current  result is at Build :${BUILD_NUMBER.currentResult}"
-                //echo "current Build is with current result is :${currentBuild.currentResult}"
-                //echo "current Build is with current result is :${currentBuild.result}"
-                
+               
                 stage('Prepare (current build, target org, instance url)') {
 					// Define target org/env and instance URL
                     if ( ("${env.BITBUCKET_SOURCE_BRANCH}".contains("feature/") || "${env.BITBUCKET_SOURCE_BRANCH}".contains("bugfix/") ) && "${env.BITBUCKET_TARGET_BRANCH}".contains("develop")) {
@@ -219,7 +211,7 @@ node {
         //def mailRecipients = 'manish.kumar7@amadeus.com,geetha.amalraj@amadeus.com,sean.harris@amadeus.com'
         //emailext recipientProviders: [developers()],to:"${mailRecipients}", subject: "Job '${JOB_NAME}' (${BUILD_NUMBER}) finished with result: ${BUILD_NUMBER.result}" , body: "The build #${BUILD_NUMBER} finished with status ${BUILD_NUMBER.result} and contains the logs attached.", attachLog: true
         //emailext recipientProviders: [developers()], subject: "Job '${JOB_NAME}' (${BUILD_NUMBER}) finished with result: ${currentBuild.currentResult}" , to:'manish.kumar7@amadeus.com,geetha.amalraj@amadeus.com,sean.harris@amadeus.com',body: "The build #${BUILD_NUMBER} finished with status ${currentBuild.currentResult} and contains the logs attached.", attachLog: true
-        emailext recipientProviders: [developers()], subject: "Job '${JOB_NAME}' (${BUILD_NUMBER}) finished with result: ${currentBuild.currentResult}" , body: "The build #${BUILD_NUMBER} finished with status ${currentBuild.currentResult} and contains the logs attached.", attachLog: true
+        emailext recipientProviders: [developers()], subject: "Job '${JOB_NAME}' (${BUILD_NUMBER}) finished with result: ${BUILD_NUMBER.result}" , body: "The build #${BUILD_NUMBER} finished with status ${currentBuild.currentResult} and contains the logs attached.", attachLog: true
         // TODO MS Teams
         //office365ConnectorSend message: "<Your message>", status:"${RESULT}", webhookUrl:'<The connector webhook url>'
         // Clean workspace (remove files used for this build)
