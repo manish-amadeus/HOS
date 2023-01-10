@@ -44,6 +44,9 @@ node {
                 // Set the target org, instance URL to be used. Clone the repo and authorize 
                 // connection to SF org.
                 // ----------------------------------------------------------------------------------
+                echo "Build is with result is at Build :${BUILD_NUMBER.result}"
+                echo "Build is with currentresult is :${BUILD_NUMBER.currentResult}"
+                
                 stage('Prepare (current build, target org, instance url)') {
 					// Define target org/env and instance URL
                     if ( ("${env.BITBUCKET_SOURCE_BRANCH}".contains("feature/") || "${env.BITBUCKET_SOURCE_BRANCH}".contains("bugfix/") ) && "${env.BITBUCKET_TARGET_BRANCH}".contains("develop")) {
@@ -78,6 +81,8 @@ node {
                         error 'Salesforce org authorization failed.'
                     }
 				}
+                 echo "Build is with result is at stage 2 :${BUILD_NUMBER.result}"
+                echo "Build is with currentresult is :${BUILD_NUMBER.currentResult}"
 				// ----------------------------------------------------------------------------------
                 // Perform static analisys on the code using Sonarqube-runner
                 // This assumes that there's a 'sonar-project.properties' file on git.
@@ -95,6 +100,8 @@ node {
 				// ----------------------------------------------------------------------------------
                 // Wait and react to SonarQube results
                 // ----------------------------------------------------------------------------------
+                 echo "Build is with result is at Build stage 3 :${BUILD_NUMBER.result}"
+                echo "Build is with currentresult is :${BUILD_NUMBER.currentResult}"
                 stage('SonarQube: Quality Gate') {
 				    def qg
                     timeout(time: 20 , unit: 'MINUTES') {
@@ -106,6 +113,8 @@ node {
                       }
 					}
 				}
+                 echo "Build is with result is at Build stage 4:${BUILD_NUMBER.result}"
+                echo "Build is with currentresult is :${BUILD_NUMBER.currentResult}"
 				// Checkout to target branch and merge source into target. This helps making sure that we're validating/deploying the components without 
                 // overriding anything 
                 // E.g.: Deployed PR 790 and then 792. Both changes the same file but no conflicts were reported. During deployment, 792 overwrited the 
@@ -170,6 +179,8 @@ node {
                     }
 					
 				}
+                 echo "Build is with result is at Build stage 5:${BUILD_NUMBER.result}"
+                echo "Build is with currentresult is :${BUILD_NUMBER.currentResult}"
 				// ----------------------------------------------------------------------------------
                 // Deploy the package previously validated on stage "Run Test (RunLocalTests, jest)"
                 // ----------------------------------------------------------------------------------
@@ -201,6 +212,8 @@ node {
 			}
 			
 		}
+        echo "Build is with result is at Build stage 6:${BUILD_NUMBER.result}"
+                echo "Build is with currentresult is :${BUILD_NUMBER.currentResult}"
 	
 	} catch (e) {
         throw e
