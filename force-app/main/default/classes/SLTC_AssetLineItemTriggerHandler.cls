@@ -11,17 +11,19 @@ Description     : This class create the line items for the renewal quote from th
 public class SLTC_AssetLineItemTriggerHandler {
     
     public void onAfterUpdate(Map <Id, Apttus_Config2__AssetLineItem__c> triggerNewmap, Map <Id, Apttus_Config2__AssetLineItem__c> triggeroldmap, List <Apttus_Config2__AssetLineItem__c> assetList) {
-        List<Id> AccountId = new List<Id>();
-        List <Id> assetIds = new List <Id> ();
-        for (Apttus_Config2__AssetLineItem__c assetLine : assetList) {
-            if (((assetLine.Apttus_Config2__AssetStatus__c == SLTC_Global_Constant.ACTIVATED || assetLine.Apttus_Config2__AssetStatus__c == SLTC_Global_Constant.CANCELED) && assetLine.Apttus_Config2__AssetStatus__c != triggeroldmap.get(assetLine.ID).Apttus_Config2__AssetStatus__c &&  assetLine.Apttus_Config2__AutoRenew__c == false ) || (assetLine.Apttus_Config2__AutoRenew__c == false && assetLine.Apttus_Config2__AutoRenew__c != triggeroldmap.get(assetLine.ID).Apttus_Config2__AutoRenew__c)) 
-            {
-                AccountId.add(assetLine.Apttus_Config2__AccountId__c);
-                assetIds.add(assetLine.Id);
+        if(SLTC_checkRecursive.runOnce() || Test.isRunningTest()){
+            List<Id> AccountId = new List<Id>();
+            List <Id> assetIds = new List <Id> ();
+            for (Apttus_Config2__AssetLineItem__c assetLine : assetList) {
+                if (((assetLine.Apttus_Config2__AssetStatus__c == SLTC_Global_Constant.ACTIVATED || assetLine.Apttus_Config2__AssetStatus__c == SLTC_Global_Constant.CANCELED) && assetLine.Apttus_Config2__AssetStatus__c != triggeroldmap.get(assetLine.ID).Apttus_Config2__AssetStatus__c &&  assetLine.Apttus_Config2__AutoRenew__c == false ) || (assetLine.Apttus_Config2__AutoRenew__c == false && assetLine.Apttus_Config2__AutoRenew__c != triggeroldmap.get(assetLine.ID).Apttus_Config2__AutoRenew__c)) 
+                {
+                    AccountId.add(assetLine.Apttus_Config2__AccountId__c);
+                    assetIds.add(assetLine.Id);
+                }
             }
-        }
-        if(!assetIds.isEmpty()){
-            createRenewalline(assetIds, AccountId);
+            if(!assetIds.isEmpty()){
+                createRenewalline(assetIds, AccountId);
+            }
         }
     }
 

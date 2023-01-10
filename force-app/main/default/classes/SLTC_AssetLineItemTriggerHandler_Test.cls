@@ -14,7 +14,6 @@ Description 	: Test class for SLTC_AssetLineItemTriggerHandler
 public class SLTC_AssetLineItemTriggerHandler_Test {
     
     @testSetup static void createTestData(){
-        INSERT new NI_TriggerBypassSwitches__c(Name ='Bypass Control Panel', BypassOpportunity_ON__c = true, BypassAccount_ON__c = true, Bypass_AH_Opportunity_Related_Account__c = true, Bypass_Contact__c = true, BypassContactSunsetContact__c =true, BypassApttusAgreement_ON__c = true);
         
         List<User> user_data = new List<User>();
         user_data.add(SLTC_TestDataFactory.createuser('SLTC Sales','Business Development','Manager','WWSales'));
@@ -25,6 +24,8 @@ public class SLTC_AssetLineItemTriggerHandler_Test {
         List<PermissionSet> requirePermission_data = new List<PermissionSet>();
         List<PermissionSetAssignment> permissionassignment_data= new List<PermissionSetAssignment>();
         System.runAs(new User(Id=UserInfo.getUserId())){
+            INSERT new NI_TriggerBypassSwitches__c(Name ='Bypass Control Panel', BypassOpportunity_ON__c = true, BypassAccount_ON__c = true, Bypass_AH_Opportunity_Related_Account__c = true, Bypass_Contact__c = true, BypassContactSunsetContact__c =true, BypassApttusAgreement_ON__c = true);
+        
             //stop running old legacy trigger code and Assign the Required permission set to user.
             requirePermission_data.Add(SLTC_TestDataFactory.getpermissionset('SLTC_Opportunity_Create_Modify_View'));
             requirePermission_data.Add(SLTC_TestDataFactory.getpermissionset('SLTC_Account_Create_Modify_View'));
