@@ -134,7 +134,19 @@ public class AH_APT_Agreement_TriggerHandler_Test
         
         //CREATE TEST ACCOUNT RECORD 
         Account a = NI_TestClassData.createTestAccount(1);
+
+        //Address field value should match with state and country picklist
         a.Name = 'AH_APT_Agreement_TriggerHandler_Test Account';
+        a.ShippingCountry = 'Canada';
+        a.ShippingState = 'Alberta';
+        a.ShippingStreet = 'N12/237 street';
+        a.ShippingCity = 'India';
+        a.ShippingPostalCode = '22101';
+        a.BillingCountry = 'Canada';
+        a.BillingState = 'Alberta';
+        a.BillingStreet = 'N12/237 street';
+        a.BillingCity = 'India';
+        a.BillingPostalCode = '22101';
         insert a;     
         
         //CREATE TEST OPPORTUNITY RECORD  
