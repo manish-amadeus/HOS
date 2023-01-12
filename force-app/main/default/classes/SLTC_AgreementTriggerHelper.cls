@@ -16,7 +16,7 @@ public without sharing class SLTC_AgreementTriggerHelper {
             //SLTC Agreement is activated and has no parent, meaning this is the parent
             if(objAgreement.Apttus__Status__c == 'Activated' && objAgreement.Apttus__Status_Category__c == 'In Effect' &&
               mapOldAgreements.get(objAgreement.Id).Apttus__Status__c != 'Activated' && mapOldAgreements.get(objAgreement.Id).Apttus__Status_Category__c != 'In Effect' &&
-              objAgreement.Apttus__Parent_Agreement__c == null && objAgreement.STLC_Is_SLTC_Record__c){
+              objAgreement.Apttus__Parent_Agreement__c == null && objAgreement.SLTC_Is_SLTC_Record__c){
                 setParentAgreementIds.add(objAgreement.Id);
             }
         }
@@ -80,7 +80,7 @@ public without sharing class SLTC_AgreementTriggerHelper {
             //SLTC Agreement is Fully Signed and has no parent
             if(objAgreement.Apttus__Status__c == 'Fully Signed' && objAgreement.Apttus__Status_Category__c == 'In Signatures' &&
             mapOldAgreements.get(objAgreement.Id).Apttus__Status__c != 'Fully Signed' &&
-            objAgreement.Apttus__Parent_Agreement__c == null && objAgreement.STLC_Is_SLTC_Record__c && !objAgreement.SLTC_Is_Date_Calculation_required__c){
+            objAgreement.Apttus__Parent_Agreement__c == null && objAgreement.SLTC_Is_SLTC_Record__c && !objAgreement.SLTC_Is_Date_Calculation_required__c){
                 setFullySignedAgreementIds.add(objAgreement.Id);
             }
         }

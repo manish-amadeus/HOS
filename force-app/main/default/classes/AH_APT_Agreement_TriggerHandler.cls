@@ -41,7 +41,7 @@ public class AH_APT_Agreement_TriggerHandler
 
         //Loop to filter non SLTC records and convert newTrigger list to Map
         for(Apttus__APTS_Agreement__c record : newTrigger){
-            if(record.STLC_Is_SLTC_Record__c){
+            if(record.SLTC_Is_SLTC_Record__c){
                 sltcNewTriggerMap.put(record.Id,record);
             } else{
                 newTriggerWithoutSLTC.add(record);
