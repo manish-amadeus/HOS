@@ -1,0 +1,61 @@
+<template>
+    <template if:true={orderStatus}>
+        <lightning-card title="Zuora Order Status" icon-name="standard:strategy" class="colorChange">
+            <div class="demo-only" style="height: 6rem;">
+                <div role="status" class="slds-spinner slds-spinner_large slds-spinner_brand">
+                    <span class="slds-assistive-text">Loading</span>
+                    <div class="slds-spinner__dot-a"></div>
+                    <div class="slds-spinner__dot-b"></div>
+                </div>
+            </div>
+        </lightning-card>
+    </template>
+
+    <template if:true={orderStatusSuccess}>
+        <lightning-card title="Zuora Order Status" icon-name="utility:success" variant="success">
+            <div class="slds-align_absolute-center">
+                <lightning-badge label="The Zuora Order was successfully created!" class="slds-theme_success">
+                </lightning-badge>
+            </div>
+            <div>
+                <div class="slds-p-horizontal_small">
+                    <lightning-input type="search" label="Search Zuora Subscription or Order" onchange={handleSearch}>
+                    </lightning-input>
+                    <p><small>Displaying records: <code>{tempZuoraRecords.length}</code> of
+                            <code>{initialRecords.length}</code> </small></p>
+                </div>
+            </div>
+            <div class="slds-box" style={setDatatableHeight}>
+                <lightning-datatable key-field="Id" data={displayList} columns={columns} enable-infinite-loading
+                    hide-checkbox-column>
+                </lightning-datatable>
+            </div>
+        </lightning-card>
+    </template>
+
+    <template if:true={orderStatusError}>
+        <lightning-card title="Zuora Order Status" icon-name="utility:error" variant="error">
+            <div class="slds-align_absolute-center">
+                <lightning-badge label="The Zuora Order was not created!" class="slds-theme_error"></lightning-badge>
+            </div>
+            <div>
+                <div class="slds-p-horizontal_small">
+                    <lightning-input type="search" label="Search Error Messages" onchange={handleSearch}
+                        autocomplete="on"></lightning-input>
+                    <p><small>Displaying records: <code>{tempZuoraRecords.length}</code> of
+                            <code>{initialRecords.length}</code> </small></p>
+                </div>
+            </div>
+            <div class="slds-box" style={setDatatableHeight}>
+                <lightning-datatable key-field="Id" data={displayList} columns={columnsErr} load-more-offset="20"
+                    enable-infinite-loading hide-checkbox-column wrap-text-max-lines="5" column-widths-mode="auto">
+                </lightning-datatable>
+            </div>
+            <div class="slds-align_absolute-center slds-p-top_xx-small">
+                <p><br><br></p>
+                <lightning-button variant="brand" onclick={handleConfirmClick} label="Retry Order Sync">
+                </lightning-button>
+            </div>
+        </lightning-card>
+    </template>
+</template>
