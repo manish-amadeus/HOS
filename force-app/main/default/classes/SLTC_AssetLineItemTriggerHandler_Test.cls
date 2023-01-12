@@ -3,11 +3,10 @@
 Name 			: SLTC_AssetLineItemTriggerHandler_Test
 Author 			: Srividya
 Created Date 	: 6/12/22
-Last Mod Date 	: 6/12/22
-Last Mod By 	: Srividya
+Last Mod Date 	: 01/12/23
+Last Mod By 	: Japtej Lamba
 NICC Reference 	: 
 Description 	: Test class for SLTC_AssetLineItemTriggerHandler
-: 
 *******************************************************************************************
 *******************************/
 @isTest
@@ -61,10 +60,7 @@ public class SLTC_AssetLineItemTriggerHandler_Test {
             INSERT opportunity_data;
             
             //New Price List
-            Apttus_Config2__PriceList__c price_list = new Apttus_Config2__PriceList__c();
-            price_list.Name = 'Global US Pricelist';
-            price_list.Apttus_Config2__Type__c = 'Standard';
-            price_list.Apttus_Config2__Active__c = true;
+            Apttus_Config2__PriceList__c price_list = SLTC_TestDataFactory.createPriceList();
             price_list.CurrencyIsoCode = liCT.IsoCode;
             INSERT price_list;
             
@@ -96,33 +92,18 @@ public class SLTC_AssetLineItemTriggerHandler_Test {
             insert pbe;
             
             //Product Configuration
-            Apttus_Config2__ProductConfiguration__c prod_config = new Apttus_Config2__ProductConfiguration__c();
-            prod_config.Apttus_QPConfig__Proposald__c = proposal_data1.id;
-            prod_config.Name = 'Test product configuration';
-            //prod_config.Apttus_Proposal__Account__c = account_data[0].id;
-            prod_config.Apttus_Config2__Status__c = 'Finalized';
+            Apttus_Config2__ProductConfiguration__c prod_config= SLTC_TestDataFactory.createProductConfig(proposal_data1);
             prod_config.CurrencyIsoCode = liCT.IsoCode;
             prod_config.Apttus_Config2__PriceListId__c = price_list.id;
-            prod_config.Apttus_Config2__SummaryGroupType__c = 'Category';
-            prod_config.Apttus_Config2__EffectiveDate__c = proposal_data1.Apttus_Proposal__ExpectedStartDate__c;
-            prod_config.Apttus_Config2__ExpectedStartDate__c = proposal_data1.Apttus_Proposal__ExpectedStartDate__c;
-            prod_config.Apttus_Config2__ExpectedEndDate__c = proposal_data1.Apttus_Proposal__ExpectedEndDate__c;
             prod_config.Apttus_Config2__EffectivePriceListId__c = price_list.id;
-            prod_config.Apttus_Config2__FinalizedDate__c = proposal_data1.Apttus_Proposal__ExpectedStartDate__c;
             INSERT prod_config;
+
             //New LineItem
             List<Apttus_Config2__LineItem__c> lineItemList = new List<Apttus_Config2__LineItem__c>();
-            Apttus_Config2__LineItem__c lineItem = new Apttus_Config2__LineItem__c();
-            lineItem.Apttus_Config2__ConfigurationId__c = prod_config.id;
-            lineItem.Apttus_Config2__ProductId__c = product[0].id;
-            lineItem.Apttus_Config2__LineStatus__c = 'New';
-            lineItem.Apttus_Config2__ItemSequence__c = 1;
-            lineItem.Apttus_Config2__LineNumber__c = 1;
+            Apttus_Config2__LineItem__c lineItem = SLTC_TestDataFactory.createProductConfigLine(prod_config.id, product[0].id);
             lineItemList.add(lineItem);
-            Apttus_Config2__LineItem__c lineItem1 = new Apttus_Config2__LineItem__c();
-            lineItem1.Apttus_Config2__ConfigurationId__c = prod_config.id;
-            lineItem1.Apttus_Config2__ProductId__c = product[1].id;
-            lineItem1.Apttus_Config2__LineStatus__c = 'New';
+
+            Apttus_Config2__LineItem__c lineItem1 = SLTC_TestDataFactory.createProductConfigLine(prod_config.id, product[1].id);
             lineItem1.Apttus_Config2__ItemSequence__c = 2;
             lineItem1.Apttus_Config2__LineNumber__c = 2;
             lineItemList.add(lineItem1);
@@ -141,18 +122,10 @@ public class SLTC_AssetLineItemTriggerHandler_Test {
             
             //New Agreement Line Item
             List<Apttus__AgreementLineItem__c> AgreementLIList = new List<Apttus__AgreementLineItem__c>();
-            Apttus__AgreementLineItem__c AgreementLI = new Apttus__AgreementLineItem__c();
-            AgreementLI.Apttus__AgreementId__c = agreement_data.id;
-            AgreementLI.Apttus_CMConfig__PriceGroup__c = 'Price Ramp';
-            AgreementLI.Apttus_CMConfig__LineStatus__c = 'New';
-            AgreementLI.Apttus_CMConfig__DerivedFromId__c = lineItemList[0].id;
+            Apttus__AgreementLineItem__c AgreementLI = SLTC_TestDataFactory.createAgreementLine(agreement_data.id,lineItemList[0].id);
             AgreementLIList.add(AgreementLI);
             
-            Apttus__AgreementLineItem__c AgreementLI1 = new Apttus__AgreementLineItem__c();
-            AgreementLI1.Apttus__AgreementId__c = agreement_data.id;
-            AgreementLI1.Apttus_CMConfig__PriceGroup__c = 'Price Ramp';
-            AgreementLI1.Apttus_CMConfig__LineStatus__c = 'New';
-            AgreementLI1.Apttus_CMConfig__DerivedFromId__c = lineItemList[1].id;
+            Apttus__AgreementLineItem__c AgreementLI1 = SLTC_TestDataFactory.createAgreementLine(agreement_data.id,lineItemList[1].id);
             AgreementLIList.add(AgreementLI1);
             INSERT AgreementLIList;
             

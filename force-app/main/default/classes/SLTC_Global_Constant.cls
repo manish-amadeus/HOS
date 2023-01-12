@@ -1,3 +1,13 @@
+/****************************************************************************************
+Name            : SLTC_Global_Constant 
+Author          : Heema solanki
+Created Date    : 2/22/2022
+Last Mod Date   : 
+Last Mod By     : Jaswanth
+NICC Reference  : 
+Description     : Class for Global Constants
+****************************************************************************************/
+
 public class SLTC_Global_Constant { 
     public static final STRING RENEWAL= 'Renewal';
     public static final STRING RENEWED= 'Renewed'; 
