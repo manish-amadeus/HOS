@@ -10,7 +10,7 @@ Description : Helper Class for SLTC_AgreementTriggerHandler. Update Child Effect
 public without sharing class SLTC_AgreementTriggerHelper {
 
     //Method to Filter Activated and Fully Signed SLTC Agreement Records
-	public void activateChildAgreements(Map<Id, Apttus__APTS_Agreement__c> mapNewAgreements, Map<Id,Apttus__APTS_Agreement__c> mapOldAgreements){
+    public void activateChildAgreements(Map<Id, Apttus__APTS_Agreement__c> mapNewAgreements, Map<Id,Apttus__APTS_Agreement__c> mapOldAgreements){
         Set<Id> setParentAgreementIds = new Set<Id>();
         for(Apttus__APTS_Agreement__c objAgreement : mapNewAgreements.values()){
             //SLTC Agreement is activated and has no parent, meaning this is the parent
@@ -70,7 +70,7 @@ public without sharing class SLTC_AgreementTriggerHelper {
                 }
             }
         }
-   	}
+    }
 
     //Method to Filter Fully Signed SLTC Agreement Records
     public void updateAgreementDates(Map<Id, Apttus__APTS_Agreement__c> mapNewAgreements, Map<Id,Apttus__APTS_Agreement__c> mapOldAgreements){
