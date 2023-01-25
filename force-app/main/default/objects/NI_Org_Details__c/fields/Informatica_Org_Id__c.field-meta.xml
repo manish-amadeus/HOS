@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Informatica_Org_Id__c</fullName>
+    <complianceGroup>Normal</complianceGroup>
     <description>Salesforce.com Change Request: NICC-009978
 
 The Informatica Org Id for Delphi.fdc customers that use Informatica for integration</description>
@@ -10,6 +11,7 @@ The Informatica Org Id for Delphi.fdc customers that use Informatica for integra
     <label>Informatica Org Id</label>
     <length>40</length>
     <required>false</required>
+    <securityClassification>Internal</securityClassification>
     <trackFeedHistory>false</trackFeedHistory>
     <trackHistory>false</trackHistory>
     <trackTrending>false</trackTrending>
