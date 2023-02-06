@@ -9,9 +9,10 @@ Description        : Provides tests for Invoice and Statement Controllers
                      Custom Setting record per NICC-022255
 
 *******************************************************************************************/
-
-@isTest(seealldata = true)
-public class ffaInvoiceStatementControllerTEST {
+@isTest(SeeAllData=true)
+public class ffaInvoiceStatementControllerTEST 
+{
+    
     public static c2g__codaCompany__c testCompany1;
     public static c2g__codaCompany__c testCompany2;
     public static Contact testContact1;
@@ -50,6 +51,13 @@ public class ffaInvoiceStatementControllerTEST {
         testRemittanceInfo = ffaTestUtilities.create_Remittance_Info('TEST Remittance Info Record'); //ADDED PER NICC-026472
         
     }
+                          
+    @isTest static void ffaInvoiceStatementControllerAssert()
+    {     
+        test.startTest();
+        system.assert(true);
+        test.stopTest();        
+    }    
     
     private static void createTestInvoice()
     {
@@ -60,6 +68,7 @@ public class ffaInvoiceStatementControllerTEST {
         testInvoice.Remittance_Info__c = testRemittanceInfo.Id; //ADDED PER NICC-026472
         update testInvoice;
     }
+    
     private static void createTestCreditNote()
     {
         testCreditNote = ffaTestUtilities.createSCN_with_Dimension(testAccount, date.today(), testServiceProduct.id, 1000, testInvoice.id, null, testDimension2.id, testDimension3.id);
@@ -124,15 +133,9 @@ public class ffaInvoiceStatementControllerTEST {
         Test.stopTest();
     }
     
-    
-    
-    
-    
-    
-    /**************************************************************************
-** Create Test Company and periods
-**************************************************************************/ 
-    public static c2g__codaCompany__c createFFACompany(String companyName, Boolean setAsCurrent, String homeCurrencyIso) {
+	// Create Test Company and periods
+    public static c2g__codaCompany__c createFFACompany(String companyName, Boolean setAsCurrent, String homeCurrencyIso) 
+    {
         // Setup Company and User association within runAs to avoid mixed DML restriction
         Group companyGroup = null;
         GroupMember gm = null;

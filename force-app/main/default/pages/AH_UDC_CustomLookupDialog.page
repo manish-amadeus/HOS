@@ -7,10 +7,89 @@
     User Story ID :
     Change History:
 -->
-<apex:page standardcontroller="AH_UDC_WorkbookStep__c" extensions="AH_UDC_CustomLookupDialog" showheader="false" applybodytag="false" applyhtmltag="false">
+<apex:page lightningstylesheets="true" standardcontroller="AH_UDC_WorkbookStep__c" extensions="AH_UDC_CustomLookupDialog" showheader="false" applybodytag="false" applyhtmltag="false">
    <html>
    <head>
+      <apex:slds />
       <style type="text/css">
+         /*SLDS Button CSS :: Start*/
+         .slds-button {
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+            padding-top: 0;
+            padding-right: 0;
+            padding-bottom: 0;
+            padding-left: 0;
+            margin-left: 0.25rem;
+            background: none;
+            background-color: transparent;
+            background-clip: border-box;
+            border-color: transparent;
+            border-style: solid;
+            border-width: 1px;
+            border-radius: 0.25rem;
+            box-shadow: var(--sds-c-button-shadow);
+            line-height: 1.875rem;
+            text-decoration: none;
+            color: rgba(1, 118, 211, 1);
+            -webkit-appearance: none;
+            white-space: normal;
+            user-select: none;
+            cursor: pointer;
+         }
+
+            .slds-button:hover,
+            .slds-button:focus,
+            .slds-button:active,
+            .slds-button:visited {
+               text-decoration: none;
+            }
+
+            .slds-button:hover,
+            .slds-button:focus {
+               color: rgba(53, 93, 150, 1);
+            }
+
+            .slds-button:focus {
+               outline: 0;
+               box-shadow: 0 0 3px #0176d3;
+            }
+
+            .slds-button:active {
+               color: rgba(53, 93, 150, 1);
+            }
+
+         .slds-button_brand,
+         .slds-button--brand {
+            padding-left: 1rem;
+            padding-right: 1rem;
+            text-align: center;
+            vertical-align: middle;
+            justify-content: center;
+            transition: border 0.15s linear;
+            background-color: rgba(1, 118, 211, 1);
+            border-color: rgba(1, 118, 211, 1);
+            color: rgb(255, 255, 255);
+         }
+
+            .slds-button_brand:hover,
+            .slds-button_brand:focus,
+            .slds-button--brand:hover,
+            .slds-button--brand:focus {
+               background-color: rgba(53, 93, 150, 1);
+               border-color: rgba(53, 93, 150, 1);
+               color: rgb(255, 255, 255);
+            }
+
+            .slds-button_brand:active,
+            .slds-button--brand:active {
+               background-color: rgba(53, 93, 150, 1);
+               border-color: rgba(53, 93, 150, 1);
+               color: rgb(255, 255, 255);
+            }
+         /*SLDS Button CSS :: End*/
+
          .cuf-content {
             padding: 0 0rem !important;
          }
@@ -208,22 +287,20 @@
          }
          /*Spinner CSS :: End*/
 
-         .lookupTab {
-            background: #fff url(/img/alohaSkin/lookup_bg.png);
+         .lookupTab .bPageTitle {
+            padding: 0 !important;
          }
 
-            .lookupTab .bPageTitle {
-               padding: 0 !important;
+            .lookupTab .bPageTitle h1 {
+               font-size: 1.8em;
+               color: #333435;
+               margin: 0.1em;
+               padding-left: 1rem;
             }
-
-               .lookupTab .bPageTitle h1 {
-                  font-size: 1.8em;
-                  color: #333435;
-                  margin: 8px 0 4px;
-               }
 
          .bPageBlock.apexDefaultPageBlock .pbBody {
             margin: 0 !important;
+            padding: 0.75rem 0 !important;
          }
 
          .pagination-button {
@@ -237,13 +314,30 @@
          .text-center {
             text-align: center;
          }
+
+         .col1 {
+            width: 35%;
+         }
+
+         .col2 {
+            width: 50%;
+         }
+
+         .col3 {
+            width: 15%;
+         }
       </style>
-      <apex:includescript value="{!$Resource.AH_UDC_Jquery}" />
+      <apex:includescript value="{!URLFOR($Resource.AH_UDC_Jquery)}" />
    </head>
    <body>
       <apex:form >
-         <!--Section for showing errors-->
-         <apex:pagemessages id="pageMessage" />
+         <!-- Display error message and OK button in case of exception-->
+         <apex:outputpanel id="opErrorMessage">
+            <apex:pagemessages id="pageMessage" />
+            <center style="{!IF(IsErrorOccurred, '', 'display:none')}">
+               <button type="button" class="slds-button slds-button_brand" onclick="window.close(); return false;" id="btnOK">{!$Label.AH_UDC_OK}</button>
+            </center>
+         </apex:outputpanel>
          <!--This action function is used to log entries that occurred on loading of the page-->
          <apex:actionfunction name="actionfunction_LogMessages" action="{!ServerLogMessages}" oncomplete="return false;" />
          <div id="divMain" style="{!IF(IsErrorOccurred, 'display:none', '')}">
@@ -252,7 +346,7 @@
             <div style="font-weight:bold;{!IF(ValidationMessage != null && ValidationMessage != '', '', 'display:none')}">
                {!ValidationMessage}
             </div>
-            <apex:actionfunction rendered="{!IsWorkbookStepLookup}" name="setPrerequisiteStep" action="{!SetPrerequisiteStep}" rerender="pageMessage,scriptPanel" oncomplete="javascript:actionCompleted(true);">
+            <apex:actionfunction rendered="{!IsWorkbookStepLookup}" name="setPrerequisiteStep" action="{!SetPrerequisiteStep}" rerender="opErrorMessage,scriptPanel" oncomplete="javascript:actionCompleted(true);">
                <apex:param name="prerequisiteStepId" value="" />
             </apex:actionfunction>
             <div style="position:relative;{!IF(ValidationMessage != null && ValidationMessage != '', 'display:none', '')}">
@@ -265,42 +359,49 @@
                   </div>
                </div>
                <div style="margin:0; padding:0;{!IF(IsErrorOccurred, 'display:none;', '')}">
-                  <apex:actionfunction name="fillDataTableGrid" action="{!FillDataTableGrid}" rerender="pageMessage,pbLookupResult,scriptPanel" oncomplete="javascript: actionCompleted();"></apex:actionfunction>
-                  <apex:actionfunction name="resetPageNumber" action="{!Beginning}" rerender="pageMessage,pbLookupResult,scriptPanel" oncomplete="javascript: actionCompleted();"></apex:actionfunction>
+                  <apex:actionfunction name="fillDataTableGrid" action="{!FillDataTableGrid}" rerender="opErrorMessage,pbLookupResult,scriptPanel" oncomplete="javascript: actionCompleted();"></apex:actionfunction>
+                  <apex:actionfunction name="resetPageNumber" action="{!Beginning}" rerender="opErrorMessage,pbLookupResult,scriptPanel" oncomplete="javascript: actionCompleted();"></apex:actionfunction>
                   <div class="{!IF(IsWorkbookStepLookup && $User.UIThemeDisplayed == 'Theme4d', '', 'lookupTab')}">
                      <!--Do not display background color blue for Workbook Step Lookup-->
+
                      <div class="lookup">
                         <div class="bPageTitle" style="{!IF(IsWorkbookStepLookup && $User.UIThemeDisplayed == 'Theme4d', 'display:none', '')}">
                            <!--Hide lookup text and search icon for Workbook Step Lookup-->
                            <div class="ptBody secondaryPalette">
                               <div class="content">
-                                 <img src="{!URLFOR($Resource.AH_UDC_Empty_Image)}" alt="" class="pageTitleIcon" />
-                                 <h1>{!$Label.AH_UDC_Custom_Lookup_Lookup_Text}</h1>
+                                 <h1>
+                                    <span class="slds-icon_container slds-icon-utility-search slds-align-content-center" title="Lookup">
+                                       <svg class="slds-icon slds-icon-text-default slds-icon_xx-small" style="height:1em; width:1em" aria-hidden="true">
+                                          <use xmlns:xlink="http://www.w3.org/1999/xlink"
+                                               xlink:href="/apexpages/slds/latest/assets/icons/utility-sprite/svg/symbols.svg#search"></use>
+                                       </svg>
+                                       <span class="slds-assistive-text">{!$Label.AH_UDC_Custom_Lookup_Lookup_Text}</span>
+                                    </span>
+                                 </h1>
                               </div>
                            </div>
                         </div>
-                        <div class="pBody">
-                           <apex:inputtext id="txtSearchText" value="{!SearchText}" html-placeholder="{!$Label.AH_UDC_Custom_Lookup_Search_Placeholder_Text}" maxlength="80" size="20" />
-                           <input type="submit" value=" {!$Label.AH_UDC_Go_Button_Text} " class="btn" onclick="javascript: $('#spinner').show(); resetPageNumber(); return false;" />
+                        <div class="pBody" style="padding-left: 1rem; padding-bottom: 0.5rem">
+                           <apex:inputtext id="txtSearchText" value="{!SearchText}" html-placeholder="{!$Label.AH_UDC_Custom_Lookup_Search_Placeholder_Text}" maxlength="80" size="40" />
+                           <input type="submit" id="btnGo" style="color:white; background-color: rgba(1, 118, 211, 1);" value=" {!$Label.AH_UDC_Go_Button_Text} " class="btn" onclick="javascript: $('#spinner').show(); resetPageNumber(); return false;" />
                            <input type="button" value="{!$Label.AH_UDC_RemovePrerequisiteButtonText}" style="{!IF(IsWorkbookStepLookup && PrequisiteStepId != null && PrequisiteStepId != '', '', 'display: none;')}" class="btn" onclick="javascript: $('#spinner').show(); setPrerequisiteStep(''); return false;" />
                         </div>
                      </div>
                   </div>
                   <div class="lookup">
-                     <div class="listRelatedObject lookupBlock brandSecondaryBrd secondaryPalette">
+                     <div class="listRelatedObject lookupBlock brandSecondaryBrd secondaryPalette" style="padding-left: 0">
                         <!--Display note text for Workbook Step Lookup Page-->
                         <span style="{!IF(IsWorkbookStepLookup, '', 'display:none')}">{!$Label.AH_UDC_WorkbookStepCustomLookupNoteText}</span>
                         <apex:pageblock id="pbLookupResult">
                            <!--Pagination :: Start-->
-                           <apex:panelgrid rendered="{!TotalRecords > 25}" columns="3" columnclasses="{!IF(TotalPages > 0, 'width-1,text-center,width-1', 'text-center')}" style="width:100%; white-space:nowrap;">
-                              <apex:outputpanel rendered="{!TotalPages > 0}">
+                           <apex:panelgrid rendered="{!TotalRecords > 25}" columns="3" columnclasses="{!IF(TotalPages > 0, 'col1, text-center, col3', 'text-center')}" style="width:100%; white-space:nowrap;">
+                              <apex:outputpanel style="display:inline" rendered="{!TotalPages > 0}">
                                  <apex:outputtext value="{!$Label.AH_UDC_Pagination_Showing_Page_Label_Text} " />
                                  <apex:selectlist id="ddlPageNumbers" size="1" value="{!PageNumber}" onchange="javascript: $('#spinner').show(); fillDataTableGrid();" style="padding: 2px;">
                                     <apex:selectoptions value="{!PageNumbersList}"></apex:selectoptions>
                                  </apex:selectlist>
-                                 <apex:outputtext value=" {!$Label.AH_UDC_Pagination_Of_Label_Text} {!TotalPages + 1}" />
+                                 <apex:outputtext value="{!$Label.AH_UDC_Pagination_Of_Label_Text} {!TotalPages + 1}" />
                               </apex:outputpanel>
-
                               <apex:outputpanel >
                                  <apex:outputtext value="{!$Label.AH_UDC_Pagination_Showing_Records_Label_Text} " />
                                  <apex:selectlist id="ddlChangePageSize" size="1" value="{!RecordsPerPage}" onchange="javascript: $('#spinner').show(); resetPageNumber();" style="padding: 2px;">
@@ -308,14 +409,13 @@
                                     <apex:selectoption itemlabel="50" itemvalue="50" />
                                     <apex:selectoption itemlabel="100" itemvalue="100" />
                                  </apex:selectlist>
-                                 <apex:outputtext value=" {!$Label.AH_UDC_Pagination_Per_Page_Label_Text}" />
+                                 <apex:outputtext value="{!$Label.AH_UDC_Pagination_Per_Page_Label_Text}" />
                               </apex:outputpanel>
-
                               <apex:panelgrid columns="4" style="float:right;">
-                                 <apex:commandlink styleclass="pagination-button" value="{!$Label.AH_UDC_Pagination_First_Button_Text}" rerender="pageMessage,pbLookupResult,scriptPanel" action="{!Beginning}" rendered="{!PageNumber > 0}" onclick="javascript: $('#spinner').show();" oncomplete="javascript:actionCompleted();" />
-                                 <apex:commandlink styleclass="pagination-button" value="{!$Label.AH_UDC_Pagination_Previous_Button_Text}" rerender="pageMessage,pbLookupResult,scriptPanel" action="{!Previous}" rendered="{!PageNumber > 0}" onclick="javascript: $('#spinner').show();" oncomplete="javascript:actionCompleted();" />
-                                 <apex:commandlink styleclass="pagination-button" value="{!$Label.AH_UDC_Pagination_Next_Button_Text}" rerender="pageMessage,pbLookupResult,scriptPanel" action="{!Next}" rendered="{!PageNumber < TotalPages}" onclick="javascript: $('#spinner').show();" oncomplete="javascript:actionCompleted();" />
-                                 <apex:commandlink styleclass="pagination-button" value="{!$Label.AH_UDC_Pagination_Last_Button_Text}" rerender="pageMessage,pbLookupResult,scriptPanel" action="{!End}" rendered="{!PageNumber < TotalPages}" onclick="javascript: $('#spinner').show();" oncomplete="javascript:actionCompleted();" />
+                                 <apex:commandlink styleclass="pagination-button" value="{!$Label.AH_UDC_Pagination_First_Button_Text}" rerender="opErrorMessage,pbLookupResult,scriptPanel" action="{!Beginning}" rendered="{!PageNumber > 0}" onclick="javascript: $('#spinner').show();" oncomplete="javascript:actionCompleted();" />
+                                 <apex:commandlink styleclass="pagination-button" value="{!$Label.AH_UDC_Pagination_Previous_Button_Text}" rerender="opErrorMessage,pbLookupResult,scriptPanel" action="{!Previous}" rendered="{!PageNumber > 0}" onclick="javascript: $('#spinner').show();" oncomplete="javascript:actionCompleted();" />
+                                 <apex:commandlink styleclass="pagination-button" value="{!$Label.AH_UDC_Pagination_Next_Button_Text}" rerender="opErrorMessage,pbLookupResult,scriptPanel" action="{!Next}" rendered="{!PageNumber < TotalPages}" onclick="javascript: $('#spinner').show();" oncomplete="javascript:actionCompleted();" />
+                                 <apex:commandlink styleclass="pagination-button" value="{!$Label.AH_UDC_Pagination_Last_Button_Text}" rerender="opErrorMessage,pbLookupResult,scriptPanel" action="{!End}" rendered="{!PageNumber < TotalPages}" onclick="javascript: $('#spinner').show();" oncomplete="javascript:actionCompleted();" />
                               </apex:panelgrid>
                            </apex:panelgrid>
                            <!--Pagination :: End-->
@@ -327,6 +427,16 @@
                               <apex:column headervalue="{!$ObjectType.NI_Documentation__c.fields.Document_Name__c.Label}" value="{!NIDoc.DocumentName}" />
                               <apex:column headervalue="{!$ObjectType.AH_UDC_PropertyAccount__c.fields.PropertyName__c.Label}" value="{!NIDoc.UDCPropertyName}" />
                               <apex:column headervalue="{!$ObjectType.Account.fields.Name.Label}" value="{!NIDoc.AccountName}" />
+                           </apex:pageblocktable>
+                           <!--Account Grid-->
+                           <apex:pageblocktable id="pbtAccount" value="{!AccountRecordsList}" var="Account" rendered="{!IsAccountLookup}">
+                              <apex:column headervalue="{!$ObjectType.Account.fields.Name.Label}" style="white-space:nowrap;">
+                                 <a class="lookup-action" data-lookupname="{!Account.Name}" data-lookupid="{!Account.Id}" href="javascript:void(0);" onclick="javascript:return false;">{!Account.Name}</a>
+                              </apex:column>
+                              <apex:column headervalue="{!$ObjectType.Account.fields.AccountNumber.Label}" value="{!Account.AccountNumber}" />
+                              <apex:column headervalue="{!$ObjectType.Account.fields.ShippingStreet.Label}" value="{!Account.ShippingStreet}" />
+                              <apex:column headervalue="{!$ObjectType.Account.fields.ShippingCity.Label}" value="{!Account.ShippingCity}" />
+                              <apex:column headervalue="{!$ObjectType.Account.fields.Phone.Label}" value="{!Account.Phone}" />
                            </apex:pageblocktable>
                            <!--Contact Grid-->
                            <apex:pageblocktable id="pbtContact" value="{!ContactRecordsList}" var="Contact" rendered="{!IsContactLookup}">
@@ -345,8 +455,20 @@
                               <apex:column headervalue="{!$ObjectType.AH_UDC_WorkbookStep__c.fields.Prerequisite_Step__c.Label}" value="{!Step.PreRequisiteStep}" />
                               <apex:column headervalue="{!$ObjectType.AH_UDC_WorkbookStep__c.fields.SortOrder__c.Label}" value="{!Step.SortOrder}" />
                            </apex:pageblocktable>
+                           <!--Project Grid-->
+                           <apex:pageblocktable id="pbtProject" value="{!ProjectRecordsList}" var="Project" rendered="{!IsProjectLookup}">
+                              <apex:column headervalue="{!$ObjectType.pse__Proj__c.fields.Name.Label}" style="white-space:nowrap;">
+                                 <a class="lookup-action" data-lookupname="{!Project.Name}" data-lookupid="{!Project.Id}" href="javascript:void(0);" onclick="javascript:return false;">{!Project.Name}</a>
+                              </apex:column>
+                              <apex:column headervalue="{!$ObjectType.pse__Proj__c.fields.pse__Project_Manager__c.Label}" value="{!Project.ProjectManager}" />
+                              <apex:column headervalue="{!$ObjectType.pse__Proj__c.fields.pse__Project_Status__c.Label}" value="{!Project.ProjectStatus}" />
+                           </apex:pageblocktable>
                            <!--No Data Section-->
-                           <table style="{!IF((IsNIDocLookup && NIDocRecordsList.size > 0) || (IsContactLookup && ContactRecordsList.size > 0) || (IsWorkbookStepLookup && WorkbookStepRecordsList.size > 0), 'display:none;', '')}" class="list" border="0" cellspacing="0" cellpadding="0">
+                           <table style="{!IF((IsNIDocLookup && NIDocRecordsList.size > 0) 
+                                  || (IsAccountLookup && AccountRecordsList.size > 0)
+                                  || (IsContactLookup && ContactRecordsList.size > 0)
+                                  || (IsProjectLookup && ProjectRecordsList.size > 0)
+                                  || (IsWorkbookStepLookup && WorkbookStepRecordsList.size > 0), 'display:none;', '')}" class="list" border="0" cellspacing="0" cellpadding="0">
                               <tbody>
                                  <tr>
                                     <td class="noRows">
@@ -369,6 +491,7 @@
                if ('{!HasPageLoadLogMessages}'.toLowerCase() == 'true') {
                   setTimeout(actionfunction_LogMessages, 500);
                }
+
                $('#spinner').hide();
             });
 

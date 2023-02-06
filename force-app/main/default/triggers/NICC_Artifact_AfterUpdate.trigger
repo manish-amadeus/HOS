@@ -11,8 +11,6 @@ Description     :
 ******************************************************************************************/
 trigger NICC_Artifact_AfterUpdate on NICC_Artifact__c (after update) 
 {
-
     NICC_Artifact_TriggerHandler handler = new NICC_Artifact_TriggerHandler(true);
     handler.OnAfterUpdate(Trigger.new);
-
 }

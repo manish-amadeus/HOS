@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PermissionSet xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>NICC-044411
+
+Members of this permission set have Read, Create, Edit, Delete and View All permissions on the Corporate Initiative Object</description>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Corporate_Initiative__c.Description__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <hasActivationRequired>false</hasActivationRequired>
+    <label>Corporate Initiative - R,C,E,D,View All</label>
+    <license>Salesforce</license>
+    <objectPermissions>
+        <allowCreate>true</allowCreate>
+        <allowDelete>true</allowDelete>
+        <allowEdit>true</allowEdit>
+        <allowRead>true</allowRead>
+        <modifyAllRecords>false</modifyAllRecords>
+        <object>Corporate_Initiative__c</object>
+        <viewAllRecords>true</viewAllRecords>
+    </objectPermissions>
+    <tabSettings>
+        <tab>Corporate_Initiative__c</tab>
+        <visibility>Visible</visibility>
+    </tabSettings>
+</PermissionSet>

@@ -8,12 +8,12 @@
  */
 global with sharing class AH_UDC_LabelHelper //implements Callable
 {
-   public static String TEST_TAG = 'TestTag';
-   public static String TEST_TAG_VALUE = 'TestValue';
+   public final static String TEST_TAG = 'TestTag';
+   public final static String TEST_TAG_VALUE = 'TestValue';
 
-   public static Map<String, String> Replacements = new Map<String, String>();
+   public static Map<String, String> replacements = new Map<String, String>();
 
-   public static string GetFieldLabel(string objectName, string fieldName) {
+   public static string getFieldLabel(string objectName, string fieldName) {
       string retValue = fieldName;
 
       try {
@@ -31,30 +31,30 @@ global with sharing class AH_UDC_LabelHelper //implements Callable
       return retValue;
    }
 
-   private static void BuildReplacementsMap() {
-      // TODO: add any replacements here
-      // Replacements.put('ApplicationName', Label.ApplicationName);
+   private static void buildReplacementsMap() {
+      // if there are any replacements, add them here
+      // Example: Replacements.put('ApplicationName', Label.ApplicationName);
       
       if (Test.isRunningTest()) {  // Needed for test class methods
-         Replacements.put(TEST_TAG, TEST_TAG_VALUE);
+         replacements.put(TEST_TAG, TEST_TAG_VALUE);
       }
    }
 
-   public static Boolean HasReplacement(string labelName) {
-      if (Replacements.size() == 0) {
-         BuildReplacementsMap();
+   public static Boolean hasReplacement(string labelName) {
+      if (replacements.size() == 0) {
+         buildReplacementsMap();
       }
 
-      return Replacements.containsKey(labelName);
+      return replacements.containsKey(labelName);
    }
 
-   public static string GetReplacementString(string labelName) {
-      if (Replacements.size() == 0) {
-         BuildReplacementsMap();
+   public static string getReplacementString(string labelName) {
+      if (replacements.size() == 0) {
+         buildReplacementsMap();
       }
 
-      if (Replacements.containsKey(labelName)) {
-         return Replacements.get(labelName);
+      if (replacements.containsKey(labelName)) {
+         return replacements.get(labelName);
       } else {
          return null;
       }
@@ -66,16 +66,16 @@ global with sharing class AH_UDC_LabelHelper //implements Callable
    //
    // If there is more than one tag in the value, the function will keep looping
    // until all tags are replaced
-   public static string ReplaceParametersInValue(string value) {
+   public static string replaceParametersInValue(string value) {
       try {
-         if (String.isBlank(value)) return value;
+         if (String.isBlank(value)) { return value; }
 
          Integer startIndex = value.indexOf('{!');
          Integer endIndex;
          String key;
          String replacementValue;
       
-         if (startIndex == -1) return value;
+         if (startIndex == -1) { return value; }
 
          Integer startSearchPosition = 0;
 
@@ -93,7 +93,7 @@ global with sharing class AH_UDC_LabelHelper //implements Callable
 
             // Configuration Settings may have a merge tag for an object.field that should not be replaced
             if (!key.contains('.')) {
-               replacementValue = GetReplacementString(key);
+               replacementValue = getReplacementString(key);
 
                // If the replacement string is not defined in the ConfigSettings,
                // then no replacements can be done

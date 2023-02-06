@@ -105,13 +105,8 @@
                         <apex:column value="{!usr.Email}"/>
                         <apex:column value="{!usr.DepartmentCode__c}"/>
                         <apex:column headerValue="Sales Region">
-                            <apex:selectList value="{!usr.Sales_Region__c}" size="1" rendered="{!NOT(bDisabled)}">
-                                <apex:selectOption itemValue="" />
-                                <apex:selectOption itemValue="APAC" />
-                                <apex:selectOption itemValue="EMEAI" />
-                                <apex:selectOption itemValue="US" />
-                                <apex:selectOption itemValue="LATAM" />
-                                <apex:selectOption itemValue="CHINA" />                           
+                            <apex:selectList id="ddlRegion" value="{!usr.Sales_Region__c}" size="1" rendered="{!NOT(bDisabled)}">
+                                <apex:selectOptions value="{!lstRegions}" />
                             </apex:selectList>
                             <apex:outputField value="{!usr.Sales_Region__c}" rendered="{!bDisabled}"/>
                         </apex:column>

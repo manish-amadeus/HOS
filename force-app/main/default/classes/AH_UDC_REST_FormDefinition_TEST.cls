@@ -14,9 +14,38 @@ private class AH_UDC_REST_FormDefinition_TEST {
 
    @testSetup 
    static void setup() {
-      AH_UDC_TestData.CreateUDCWorkbookAdmin('WBAdmin1');
-      AH_UDC_TestData.CreateUDCWorkbookAdmin('WBAdmin2');
-      AH_UDC_TestData.CreateUDCWorkbookUser('WBUser1');
+      AH_UDC_InitializationHelper.Initialize('ConfigurationSettings');
+
+      List<User> listUsers = new List<User> ();
+      //Build UDC Admin User
+      listUsers.add(AH_UDC_TestData.BuildUser(AH_UDC_Constants.PROFILE_DEFAULT_NAME_PSA_SF_LIGHTNING,
+                                    AH_UDC_Constants.PERMISSIONSET_DEFAULT_NAME_UDC_WORKBOOK_ADMIN,
+                                    'WBAdmin1', null, false));
+      //Build UDC Admin User
+      listUsers.add(AH_UDC_TestData.BuildUser(AH_UDC_Constants.PROFILE_DEFAULT_NAME_PSA_SF_LIGHTNING,
+                                    AH_UDC_Constants.PERMISSIONSET_DEFAULT_NAME_UDC_WORKBOOK_ADMIN,
+                                    'WBAdmin2', null, false));
+      //Build UDC Admin User
+      listUsers.add(AH_UDC_TestData.BuildUser(AH_UDC_Constants.PROFILE_DEFAULT_NAME_PSA_SF_LIGHTNING,
+                                    AH_UDC_Constants.PERMISSIONSET_DEFAULT_NAME_UDC_WORKBOOK_USER,
+                                    'WBUser1', null, false));
+
+      listUsers.add(AH_UDC_TestData.BuildUser(AH_UDC_Constants.PROFILE_DEFAULT_NAME_PSA_SF_LIGHTNING,
+                                              AH_UDC_Constants.PERMISSIONSET_DEFAULT_NAME_UDC_SERVICE,
+                                              'FD_ServiceUser1', null, false));
+
+      User oCurrentUser = [SELECT Id FROM User WHERE Id = :UserInfo.getUserId()];
+      oCurrentUser.ContactId = null;
+
+      System.runAs(oCurrentUser) {
+         AH_UDC_TestData.InsertWithRetries(listUsers);
+
+         // Community Users
+         AH_UDC_TestData.AddPermissionSetToUser(AH_UDC_Constants.PERMISSIONSET_DEFAULT_NAME_UDC_WORKBOOK_ADMIN, listUsers[0].Id);
+         AH_UDC_TestData.AddPermissionSetToUser(AH_UDC_Constants.PERMISSIONSET_DEFAULT_NAME_UDC_WORKBOOK_ADMIN, listUsers[1].Id);
+         AH_UDC_TestData.AddPermissionSetToUser(AH_UDC_Constants.PERMISSIONSET_DEFAULT_NAME_UDC_WORKBOOK_USER, listUsers[2].Id);
+         AH_UDC_TestData.AddPermissionSetToUser(AH_UDC_Constants.PERMISSIONSET_DEFAULT_NAME_UDC_SERVICE, listUsers[3].Id);
+      }
    }
 
    private static void testData1()
@@ -36,17 +65,19 @@ private class AH_UDC_REST_FormDefinition_TEST {
 
    @isTest
    private static void TestPost_Existing() {
-      AH_UDC_InitializationHelper.Initialize('ConfigurationSettings');
       AH_UDC_TestData.ClearLogs();
-      User UDCWorkbookAdmin1 = [select id from user where LastName='WBAdmin1'];
-      System.runAs(UDCWorkbookAdmin1)
+
+      RestRequest req = new RestRequest();
+      RestResponse res = new RestResponse();
+      AH_UDC_REST_FormDefinition.FormDefinitionResponse resp;
+
+      User UDCServiceUser1 = [select id from user where LastName='FD_ServiceUser1'];
+      System.runAs(UDCServiceUser1)
       {
          Test.startTest();
 
          testData1(); //Create form as user
 
-         RestRequest req = new RestRequest();
-         RestResponse res = new RestResponse();
          req.requestURI = '/services/apexrest/AH_UDC_REST_FormDefinition'; //Request URL
          req.httpMethod = 'POST'; //HTTP Request Type
          req.requestBody = Blob.valueof(AH_UDC_TestData.GetFormDefinition());
@@ -56,8 +87,7 @@ private class AH_UDC_REST_FormDefinition_TEST {
          System.debug('###Call Post');
          AH_UDC_REST_FormDefinition.post();
 
-         AH_UDC_REST_FormDefinition.FormDefinitionResponse resp =
-         (AH_UDC_REST_FormDefinition.FormDefinitionResponse)
+         resp = (AH_UDC_REST_FormDefinition.FormDefinitionResponse)
          JSON.deserialize(RestContext.response.responseBody.toString(), AH_UDC_REST_FormDefinition.FormDefinitionResponse.class);
 
          Test.stopTest();
@@ -70,13 +100,12 @@ private class AH_UDC_REST_FormDefinition_TEST {
    }
 
    @isTest
-   private static void TestPost_ExistingButNotTheirForm() {
-      //TODO ROBDEV This test should get a 500 since the user doesn't have access to update other user's forms
-      AH_UDC_InitializationHelper.Initialize('ConfigurationSettings');
+   private static void TestPost_ExistingButNotTheirForm() {     
       AH_UDC_TestData.ClearLogs();
 
       //Create form as WBAdmin1
       User UDCWorkbookAdmin1 = [select id from user where LastName='WBAdmin1'];
+      User UDCWorkbookAdmin2 = [select id from user where LastName='WBAdmin2'];
       System.runAs(UDCWorkbookAdmin1)
       {
          String definition = AH_UDC_TestData.GetFormDefinition();
@@ -84,7 +113,7 @@ private class AH_UDC_REST_FormDefinition_TEST {
          insert m_oForm;
       }
 
-      User UDCWorkbookAdmin2 = [select id from user where LastName='WBAdmin2'];
+      //Even though C# call the endpoint, the call to AH_UDC_REST_FormDefinition is done using a User's impersonation token and not the Service User's token
       System.runAs(UDCWorkbookAdmin2)
       {
          Test.startTest();
@@ -118,10 +147,9 @@ private class AH_UDC_REST_FormDefinition_TEST {
 
    @isTest
    private static void TestPost_New() {
-      AH_UDC_InitializationHelper.Initialize('ConfigurationSettings');
       AH_UDC_TestData.ClearLogs();
-      User UDCWorkbookAdmin1 = [select id from user where LastName='WBAdmin1'];
-      System.runAs(UDCWorkbookAdmin1)
+      User UDCServiceUser1 = [select id from user where LastName='FD_ServiceUser1'];
+      System.runAs(UDCServiceUser1)
       {
          Test.startTest();
          RestRequest req = new RestRequest();
@@ -140,7 +168,8 @@ private class AH_UDC_REST_FormDefinition_TEST {
          JSON.deserialize(RestContext.response.responseBody.toString(), AH_UDC_REST_FormDefinition.FormDefinitionResponse.class);
 
          Test.stopTest();
-
+         System.debug('###debug:formDefinitionStatusCode:' + resp.formDefinitionStatusCode);
+         System.debug('###debug:formDefinitionStatusMessage:' + resp.formDefinitionStatusMessage);
          System.assertEquals('200', resp.formStatusCode, 'Expected 200 Response');
 
          List<AH_UDC_Log__c> logMessages = [select id, Message__c from AH_UDC_Log__c];
@@ -152,7 +181,6 @@ private class AH_UDC_REST_FormDefinition_TEST {
    private static void TestPost_NewAsWBUser() {
       //This test should fail since Workbook User's don't have permission to create forms
 
-      AH_UDC_InitializationHelper.Initialize('ConfigurationSettings');
       AH_UDC_TestData.ClearLogs();
       User UDCWorkbookUser1 = [select id from user where LastName='WBUser1'];
       System.runAs(UDCWorkbookUser1)
@@ -184,24 +212,28 @@ private class AH_UDC_REST_FormDefinition_TEST {
 
    @isTest
    private static void TestPost_Exception() {
-      AH_UDC_InitializationHelper.Initialize('ConfigurationSettings');
       AH_UDC_TestData.ClearLogs();
       Test.startTest();
 
       RestRequest req = new RestRequest();
       RestResponse res = new RestResponse();
-      req.requestURI = '/services/apexrest/AH_UDC_REST_FormDefinition'; //Request URL
-      req.httpMethod = 'POST'; //HTTP Request Type
-      req.requestBody = Blob.valueof('Exception1');
-      RestContext.request = req;
-      RestContext.response = res;
+      AH_UDC_REST_FormDefinition.FormDefinitionResponse resp;
 
-      System.debug('###Call Post');
-      AH_UDC_REST_FormDefinition.post();
+      User UDCServiceUser1 = [select id from user where LastName='FD_ServiceUser1'];
+      System.runAs(UDCServiceUser1)
+      {
+         req.requestURI = '/services/apexrest/AH_UDC_REST_FormDefinition'; //Request URL
+         req.httpMethod = 'POST'; //HTTP Request Type
+         req.requestBody = Blob.valueof('Exception1');
+         RestContext.request = req;
+         RestContext.response = res;
 
-      AH_UDC_REST_FormDefinition.FormDefinitionResponse resp =
-      (AH_UDC_REST_FormDefinition.FormDefinitionResponse)
-      JSON.deserialize(RestContext.response.responseBody.toString(), AH_UDC_REST_FormDefinition.FormDefinitionResponse.class);
+         System.debug('###Call Post');
+         AH_UDC_REST_FormDefinition.post();
+
+         resp =(AH_UDC_REST_FormDefinition.FormDefinitionResponse)
+         JSON.deserialize(RestContext.response.responseBody.toString(), AH_UDC_REST_FormDefinition.FormDefinitionResponse.class);
+      }
 
       Test.stopTest();
 
@@ -213,25 +245,28 @@ private class AH_UDC_REST_FormDefinition_TEST {
 
    @isTest
    private static void TestPost_ExceptionWriteQLog() {
-      AH_UDC_InitializationHelper.Initialize('ConfigurationSettings');
       AH_UDC_TestData.ClearLogs();
       Test.startTest();
 
       RestRequest req = new RestRequest();
       RestResponse res = new RestResponse();
-      req.requestURI = '/services/apexrest/AH_UDC_REST_FormDefinition'; //Request URL
-      req.httpMethod = 'POST'; //HTTP Request Type
-      req.requestBody = Blob.valueof('ExceptionWriteQLogs');
-      RestContext.request = req;
-      RestContext.response = res;
+      AH_UDC_REST_FormDefinition.FormDefinitionResponse resp;
 
-      System.debug('###Call Post');
-      AH_UDC_REST_FormDefinition.post();
+      User UDCServiceUser1 = [select id from user where LastName='FD_ServiceUser1'];
+      System.runAs(UDCServiceUser1)
+      {
+         req.requestURI = '/services/apexrest/AH_UDC_REST_FormDefinition'; //Request URL
+         req.httpMethod = 'POST'; //HTTP Request Type
+         req.requestBody = Blob.valueof('ExceptionWriteQLogs');
+         RestContext.request = req;
+         RestContext.response = res;
 
-      AH_UDC_REST_FormDefinition.FormDefinitionResponse resp =
-      (AH_UDC_REST_FormDefinition.FormDefinitionResponse)
-      JSON.deserialize(RestContext.response.responseBody.toString(), AH_UDC_REST_FormDefinition.FormDefinitionResponse.class);
+         System.debug('###Call Post');
+         AH_UDC_REST_FormDefinition.post();
 
+         resp = (AH_UDC_REST_FormDefinition.FormDefinitionResponse)
+         JSON.deserialize(RestContext.response.responseBody.toString(), AH_UDC_REST_FormDefinition.FormDefinitionResponse.class);
+      }
       Test.stopTest();
 
       System.assertEquals('500', resp.formStatusCode, 'Expected 500 Response');
@@ -242,7 +277,6 @@ private class AH_UDC_REST_FormDefinition_TEST {
 
    @isTest
    private static void TestGet() {
-      AH_UDC_InitializationHelper.Initialize('ConfigurationSettings');
       AH_UDC_TestData.ClearLogs();
       testData1();
 
@@ -250,19 +284,23 @@ private class AH_UDC_REST_FormDefinition_TEST {
 
       RestRequest reqG = new RestRequest();
       RestResponse resG = new RestResponse();
-      reqG.requestURI = '/services/apexrest/AH_UDC_REST_FormDefinition'; //Request URL
-      reqG.params.put('FormId', '4853168');
-      reqG.httpMethod = 'GET'; //HTTP Request Type
-      RestContext.request = reqG;
-      RestContext.response = resG;
+      AH_UDC_REST_FormDefinition.FormDefinitionResponse resp;
 
-      System.debug('###Call Get');
-      AH_UDC_REST_FormDefinition.get();
+      User UDCServiceUser1 = [select id from user where LastName='FD_ServiceUser1'];
+      System.runAs(UDCServiceUser1)
+      {
+         reqG.requestURI = '/services/apexrest/AH_UDC_REST_FormDefinition'; //Request URL
+         reqG.params.put('FormId', '4853168');
+         reqG.httpMethod = 'GET'; //HTTP Request Type
+         RestContext.request = reqG;
+         RestContext.response = resG;
 
-      AH_UDC_REST_FormDefinition.FormDefinitionResponse resp =
-      (AH_UDC_REST_FormDefinition.FormDefinitionResponse)
-      JSON.deserialize(RestContext.response.responseBody.toString(), AH_UDC_REST_FormDefinition.FormDefinitionResponse.class);
+         System.debug('###Call Get');
+         AH_UDC_REST_FormDefinition.get();
 
+         resp = (AH_UDC_REST_FormDefinition.FormDefinitionResponse)
+         JSON.deserialize(RestContext.response.responseBody.toString(), AH_UDC_REST_FormDefinition.FormDefinitionResponse.class);
+      }
       Test.stopTest();
 
       System.assertEquals('200', resp.formStatusCode, 'Expected 200 Response: ' + resp.formStatusMessage);
@@ -273,7 +311,6 @@ private class AH_UDC_REST_FormDefinition_TEST {
 
    @isTest
    private static void TestGet_BadRequest() {
-      AH_UDC_InitializationHelper.Initialize('ConfigurationSettings');
       AH_UDC_TestData.ClearLogs();
       testData1();
 
@@ -281,18 +318,22 @@ private class AH_UDC_REST_FormDefinition_TEST {
 
       RestRequest reqG = new RestRequest();
       RestResponse resG = new RestResponse();
-      reqG.requestURI = '/services/apexrest/AH_UDC_REST_FormDefinition'; //Request URL
-      reqG.httpMethod = 'GET'; //HTTP Request Type
-      RestContext.request = reqG;
-      RestContext.response = resG;
+      AH_UDC_REST_FormDefinition.FormDefinitionResponse resp;
 
-      System.debug('###Call Get');
-      AH_UDC_REST_FormDefinition.get();
+      User UDCServiceUser1 = [select id from user where LastName='FD_ServiceUser1'];
+      System.runAs(UDCServiceUser1)
+      {
+         reqG.requestURI = '/services/apexrest/AH_UDC_REST_FormDefinition'; //Request URL
+         reqG.httpMethod = 'GET'; //HTTP Request Type
+         RestContext.request = reqG;
+         RestContext.response = resG;
 
-      AH_UDC_REST_FormDefinition.FormDefinitionResponse resp =
-      (AH_UDC_REST_FormDefinition.FormDefinitionResponse)
-      JSON.deserialize(RestContext.response.responseBody.toString(), AH_UDC_REST_FormDefinition.FormDefinitionResponse.class);
+         System.debug('###Call Get');
+         AH_UDC_REST_FormDefinition.get();
 
+         resp = (AH_UDC_REST_FormDefinition.FormDefinitionResponse)
+         JSON.deserialize(RestContext.response.responseBody.toString(), AH_UDC_REST_FormDefinition.FormDefinitionResponse.class);
+      }
       Test.stopTest();
 
       System.assertEquals('400', resp.formStatusCode, 'Expected 400 Response: ' + resp.formStatusMessage);
@@ -303,7 +344,6 @@ private class AH_UDC_REST_FormDefinition_TEST {
 
    @isTest
    private static void TestGet_FormNotFound() {
-      AH_UDC_InitializationHelper.Initialize('ConfigurationSettings');
       AH_UDC_TestData.ClearLogs();
       testData1();
 
@@ -311,19 +351,23 @@ private class AH_UDC_REST_FormDefinition_TEST {
 
       RestRequest reqG = new RestRequest();
       RestResponse resG = new RestResponse();
-      reqG.requestURI = '/services/apexrest/AH_UDC_REST_FormDefinition'; //Request URL
-      reqG.params.put('FormId', '123');
-      reqG.httpMethod = 'GET'; //HTTP Request Type
-      RestContext.request = reqG;
-      RestContext.response = resG;
+      AH_UDC_REST_FormDefinition.FormDefinitionResponse resp;
 
-      System.debug('###Call Get');
-      AH_UDC_REST_FormDefinition.get();
+      User UDCServiceUser1 = [select id from user where LastName='FD_ServiceUser1'];
+      System.runAs(UDCServiceUser1)
+      {
+         reqG.requestURI = '/services/apexrest/AH_UDC_REST_FormDefinition'; //Request URL
+         reqG.params.put('FormId', '123');
+         reqG.httpMethod = 'GET'; //HTTP Request Type
+         RestContext.request = reqG;
+         RestContext.response = resG;
 
-      AH_UDC_REST_FormDefinition.FormDefinitionResponse resp =
-      (AH_UDC_REST_FormDefinition.FormDefinitionResponse)
-      JSON.deserialize(RestContext.response.responseBody.toString(), AH_UDC_REST_FormDefinition.FormDefinitionResponse.class);
+         System.debug('###Call Get');
+         AH_UDC_REST_FormDefinition.get();
 
+         resp = (AH_UDC_REST_FormDefinition.FormDefinitionResponse)
+         JSON.deserialize(RestContext.response.responseBody.toString(), AH_UDC_REST_FormDefinition.FormDefinitionResponse.class);
+      }
       Test.stopTest();
 
       System.assertEquals('200', resp.formStatusCode, 'Expected 200 Response: ' + resp.formStatusMessage);
@@ -334,7 +378,6 @@ private class AH_UDC_REST_FormDefinition_TEST {
 
    @isTest
    private static void TestGet_Exception() {
-      AH_UDC_InitializationHelper.Initialize('ConfigurationSettings');
       AH_UDC_TestData.ClearLogs();
       testData1();
 
@@ -342,19 +385,23 @@ private class AH_UDC_REST_FormDefinition_TEST {
 
       RestRequest reqG = new RestRequest();
       RestResponse resG = new RestResponse();
-      reqG.requestURI = '/services/apexrest/AH_UDC_REST_FormDefinition'; //Request URL
-      reqG.params.put('FormId', 'Exception1');
-      reqG.httpMethod = 'GET'; //HTTP Request Type
-      RestContext.request = reqG;
-      RestContext.response = resG;
+      AH_UDC_REST_FormDefinition.FormDefinitionResponse resp;
 
-      System.debug('###Call Get');
-      AH_UDC_REST_FormDefinition.get();
+      User UDCServiceUser1 = [select id from user where LastName='FD_ServiceUser1'];
+      System.runAs(UDCServiceUser1)
+      {
+         reqG.requestURI = '/services/apexrest/AH_UDC_REST_FormDefinition'; //Request URL
+         reqG.params.put('FormId', 'Exception1');
+         reqG.httpMethod = 'GET'; //HTTP Request Type
+         RestContext.request = reqG;
+         RestContext.response = resG;
 
-      AH_UDC_REST_FormDefinition.FormDefinitionResponse resp =
-      (AH_UDC_REST_FormDefinition.FormDefinitionResponse)
-      JSON.deserialize(RestContext.response.responseBody.toString(), AH_UDC_REST_FormDefinition.FormDefinitionResponse.class);
+         System.debug('###Call Get');
+         AH_UDC_REST_FormDefinition.get();
 
+         resp = (AH_UDC_REST_FormDefinition.FormDefinitionResponse)
+         JSON.deserialize(RestContext.response.responseBody.toString(), AH_UDC_REST_FormDefinition.FormDefinitionResponse.class);
+      }
       Test.stopTest();
 
       System.assertEquals('500', resp.formStatusCode, 'Expected 500 Response: ' + resp.formStatusMessage);
@@ -365,7 +412,6 @@ private class AH_UDC_REST_FormDefinition_TEST {
 
    @isTest
    private static void TestGet_ExceptionWriteQLogs() {
-      AH_UDC_InitializationHelper.Initialize('ConfigurationSettings');
       AH_UDC_TestData.ClearLogs();
       testData1();
 
@@ -373,19 +419,23 @@ private class AH_UDC_REST_FormDefinition_TEST {
 
       RestRequest reqG = new RestRequest();
       RestResponse resG = new RestResponse();
-      reqG.requestURI = '/services/apexrest/AH_UDC_REST_FormDefinition'; //Request URL
-      reqG.params.put('FormId', 'ExceptionWriteQLogs');
-      reqG.httpMethod = 'GET'; //HTTP Request Type
-      RestContext.request = reqG;
-      RestContext.response = resG;
+      AH_UDC_REST_FormDefinition.FormDefinitionResponse resp;
 
-      System.debug('###Call Get');
-      AH_UDC_REST_FormDefinition.get();
+      User UDCServiceUser1 = [select id from user where LastName='FD_ServiceUser1'];
+      System.runAs(UDCServiceUser1)
+      {
+         reqG.requestURI = '/services/apexrest/AH_UDC_REST_FormDefinition'; //Request URL
+         reqG.params.put('FormId', 'ExceptionWriteQLogs');
+         reqG.httpMethod = 'GET'; //HTTP Request Type
+         RestContext.request = reqG;
+         RestContext.response = resG;
 
-      AH_UDC_REST_FormDefinition.FormDefinitionResponse resp =
-      (AH_UDC_REST_FormDefinition.FormDefinitionResponse)
-      JSON.deserialize(RestContext.response.responseBody.toString(), AH_UDC_REST_FormDefinition.FormDefinitionResponse.class);
+         System.debug('###Call Get');
+         AH_UDC_REST_FormDefinition.get();
 
+         resp = (AH_UDC_REST_FormDefinition.FormDefinitionResponse)
+         JSON.deserialize(RestContext.response.responseBody.toString(), AH_UDC_REST_FormDefinition.FormDefinitionResponse.class);
+      }
       Test.stopTest();
 
       System.assertEquals('200', resp.formStatusCode, 'Expected 200 Response: ' + resp.formStatusMessage);

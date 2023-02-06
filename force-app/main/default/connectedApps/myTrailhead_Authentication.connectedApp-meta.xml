@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ConnectedApp xmlns="http://soap.sforce.com/2006/04/metadata">
+    <contactEmail>stu.emery@amadeus.com</contactEmail>
+    <contactPhone>6034367500</contactPhone>
+    <description>NICC-056256 - Used for Connecting Hospitality Org to myTrailhead</description>
+    <label>myTrailhead Authentication</label>
+    <oauthConfig>
+        <callbackUrl>https://amadeus-hospitality.my.trailhead.com/auth/mytrailhead/callback</callbackUrl>
+        <consumerKey>3MVG99OxTyEMCQ3gVY.SjEgwNCLgk4ywVjK1_iTcu.CS6EfdbWAd_RRTg4fJrOoRk_4c8RWi_C8.Ke3LU.roG</consumerKey>
+        <isAdminApproved>true</isAdminApproved>
+        <isClientCredentialEnabled>false</isClientCredentialEnabled>
+        <isConsumerSecretOptional>false</isConsumerSecretOptional>
+        <isIntrospectAllTokens>false</isIntrospectAllTokens>
+        <isSecretRequiredForRefreshToken>false</isSecretRequiredForRefreshToken>
+        <scopes>Basic</scopes>
+        <scopes>RefreshToken</scopes>
+        <scopes>OpenID</scopes>
+    </oauthConfig>
+    <oauthPolicy>
+        <ipRelaxation>ENFORCE</ipRelaxation>
+        <refreshTokenPolicy>infinite</refreshTokenPolicy>
+    </oauthPolicy>
+    <profileName>AH External - Platform</profileName>
+    <profileName>AH Sales - Lightning</profileName>
+    <profileName>AH Sales Lead To Cash PWC - Platform</profileName>
+    <profileName>System Administrator</profileName>
+</ConnectedApp>

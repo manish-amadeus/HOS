@@ -1,16 +1,16 @@
 /***********************************************************************************************
-  Name            : AH_UDC_ViewHelp
+  Name            : AH_UDC_ViewHelp_TEST
   Author          : Tushar Gupta
   Created Date    : 14-Apr-2021
   Last Mod Date   : 14-Apr-2021 , 15-June-2021
   Last Mod By     : Tushar Gupta , Ravi Shah
-  NICC Reference  : 
   Description     : Test class for AH_UDC_PopOut_Help
  ************************************************************************************************/
 @isTest
-public class AH_UDC_ViewHelp_Test {
+public class AH_UDC_ViewHelp_TEST {
 
-   private static final String TEST_USER_NAME = 'test@user.com';
+   private static final String TEST_CONTACT_FIRSTNAME = 'AH_UDC_Test';
+   private static final String TEST_USER_NAME = 'testViewHelp@user.com';
    private static final String TEST_Workbook_Name = 'Test Workbook 1';
 
    @TestSetup
@@ -18,24 +18,15 @@ public class AH_UDC_ViewHelp_Test {
       AH_UDC_InitializationHelper.Initialize('ConfigurationSettings');
 
       //Create Account record
-      Account objAccount = AH_UDC_TestData.GetAccountObject('UDC Test Account', 'Hospitality Companies', 'Portsmouth', 'US', '03801', 'NH', '75 New Hampshire Ave');
+      Account objAccount = AH_UDC_TestData.GetAccountObject('GUID');
       insert objAccount;
 
       //Create Contact record
-      Contact objContact = AH_UDC_TestData.GetContactObject(objAccount.Id, 'Test', 'Contact', 'US', 'Portsmouth', '03801', 'NH', '75 New Hampshire Ave');
+      Contact objContact = AH_UDC_TestData.GetContactObject(objAccount.Id, TEST_CONTACT_FIRSTNAME+'001', 'AH_UDC_Contact', 'US', 'Portsmouth', '03801', 'NH', '75 New Hampshire Ave');
       insert objContact;
 
-      // Get ProfileId to create User WITH chatter
-      Profile profileId = [SELECT Id FROM profile WHERE name = :AH_UDC_ConfigHelper.GetString(AH_UDC_Constants.CONFIG_KEY_COMMUNITY_PROFILE_WITH_CHATTER,
-                                                                                              AH_UDC_Constants.PROFILE_DEFAULT_NAME_COMMUNITY_PLUS_LOGIN_WITH_CHATTER)];
-      System.assert(profileId != null && profileId.Id != null, 'Profile (' + AH_UDC_Constants.CONFIG_KEY_COMMUNITY_PROFILE_WITH_CHATTER + ') record not found');
-
-      //Create User record
-      User objUser = AH_UDC_TestData.GetUserObject(objContact.Id, profileId.Id, 'Test', 'User', 'Mr.', 'test@user.com', TEST_USER_NAME + AH_UDC_ConfigHelper.GetString('AH_UDC_CommunityUserNamePostfix', AH_UDC_Constants.DEFAULT_COMMUNITY_USER_NAME_POSTFIX));
-      insert objUser;
-
       // Create Property Account object with blank property name to get more code coverage
-      AH_UDC_PropertyAccount__c objProperty = AH_UDC_TestData.GetPropertyObject('', 'Portsmouth', 'US', '03801', 'NH', '75 New Hampshire Ave', '3410 Via Mercato, St 105', 'St 104', '1 Portsmouth Ave.');
+      AH_UDC_PropertyAccount__c objProperty = AH_UDC_TestData.GetPropertyObject('', 'Portsmouth', 'US', '03801', 'NH', '75 New Hampshire Ave', '3410 Via Mercato, St 105');
       insert objProperty;
 
       //Create NI Doc record
@@ -58,69 +49,112 @@ public class AH_UDC_ViewHelp_Test {
       objWorkbookStep.Description__c = 'Test Step 1 Description';
       insert objWorkbookStep;
 
+      List<User> listUsers = new List<User> ();
+      //Build Community User with chatter
+      listUsers.add(AH_UDC_TestData.BuildUser(AH_UDC_Constants.PROFILE_DEFAULT_NAME_COMMUNITY_PLUS_LOGIN_WITH_CHATTER,
+                                    AH_UDC_Constants.PERMISSIONSET_DEFAULT_NAME_UDC_COMMUNITY_USER,
+                                    'ViewHelpCommunityUser', objContact.Id, true));
+
+      User oCurrentUser = [SELECT Id FROM User WHERE Id = :UserInfo.getUserId()];
+      oCurrentUser.ContactId = null;
+
+      System.runAs(oCurrentUser) {
+         AH_UDC_TestData.InsertWithRetries(listUsers);
+
+         // Community Users
+         AH_UDC_TestData.AddPermissionSetToUser(AH_UDC_Constants.PERMISSIONSET_DEFAULT_NAME_UDC_COMMUNITY_USER, listUsers[0].Id);
+      }
    }
 
    @isTest
    private static void AH_UDC_ViewHelp_Test() {
-      String userNamePostfix = AH_UDC_ConfigHelper.GetString('AH_UDC_CommunityUserNamePostfix', AH_UDC_Constants.DEFAULT_COMMUNITY_USER_NAME_POSTFIX);
-      List<User> lstUser = [SELECT Id
-                            FROM User
-                            WHERE UserName = :(TEST_USER_NAME + userNamePostfix)];
-      System.assert(lstUser.size() > 0, 'User records could not be found.');
 
-      List<AH_UDC_WorkbookStep__c> lstWorkbookStep = [SELECT Id, Name, Help__c
-                                                      FROM AH_UDC_WorkbookStep__c
-                                                      WHERE Workbook__r.Name = :TEST_Workbook_Name];
-      System.assert(lstWorkbookStep.size() > 0, 'WorkbookStep records could not be found.');
+      User u = [SELECT Id FROM User where Username = :('TestViewHelpCommunityUser@amadeus.com' + AH_UDC_Constants.DEFAULT_COMMUNITY_USER_NAME_POSTFIX)];
 
-      System.runAs(lstUser[0]) {
+      AH_UDC_WorkbookStep__c wbs = [SELECT Id, Name, Help__c FROM AH_UDC_WorkbookStep__c WHERE Workbook__r.Name = :TEST_Workbook_Name];
+
+      System.runAs(u) {
          PageReference pageRef = Page.AH_UDC_ViewHelp;
-         pageRef.getParameters().put('id', lstWorkbookStep[0].Id);
+         pageRef.getParameters().put('id', wbs.Id);
          Test.setCurrentPageReference(pageRef);
+
          Test.startTest();
          AH_UDC_ViewHelp popout = new AH_UDC_ViewHelp();
-         System.assertEquals(lstWorkbookStep[0].Name, popout.StepName, 'Workbook Step name could not matched');
-         System.assertEquals(lstWorkbookStep[0].Help__c, popout.HelpText, 'Workbook Step help text could not matched');
+         System.assert(!ApexPages.hasMessages(), 'Errors occurred while in the AH_UDC_ViewHelp constructor: ' + ApexPages.getMessages());
+         System.assertEquals(popout.IsErrorOccurred, false, 'An error occurred in the the AH_UDC_ViewHelp constructor');
+         System.assertEquals(wbs.Name, popout.StepName, 'Workbook Step name could not matched');
+         System.assertEquals(wbs.Help__c, popout.HelpText, 'Workbook Step help text could not matched');
          Test.stopTest();
       }
    }
 
    @isTest
+   // Test passing an invalid Workbook Step ID to the AH_UDC_ViewHelp
    private static void AH_UDC_ViewHelp_Negative_Test1() {
       PageReference pageRef = Page.AH_UDC_ViewHelp;
       pageRef.getParameters().put('id', 'a1029000002aFZ2AAM'); // Input invalid Step id
-      pageRef.getParameters().put('Popout', 'false'); // Input community false
+      pageRef.getParameters().put('Popout', 'false');
       Test.setCurrentPageReference(pageRef);
+
       Test.startTest();
       AH_UDC_ViewHelp popout = new AH_UDC_ViewHelp();
-      System.assert(popout.IsErrorOccurred, 'Error could not occurred');
+      System.assert(popout.IsErrorOccurred, 'Error should have occurred in the AH_UDC_ViewHelp constructor');
       Test.stopTest();
    }
 
    @isTest
+   // Test not passing a Workbook Step ID
    private static void AH_UDC_ViewHelp_Negative_Test2() {
       PageReference pageRef = Page.AH_UDC_ViewHelp;
       pageRef.getParameters().put('Popout', 'true');
       Test.setCurrentPageReference(pageRef);
+
       Test.startTest();
       AH_UDC_ViewHelp popout = new AH_UDC_ViewHelp();
-      System.assert(popout.IsErrorOccurred, 'Error could not occurred');
+      System.assert(popout.IsErrorOccurred, 'Error should have occurred in the AH_UDC_ViewHelp constructor');
       Test.stopTest();
    }
 
    @isTest
+   // Test Help being accessed by a user that is not a Community user
    private static void AH_UDC_ViewHelp_Negative_Test3() {
-      List<AH_UDC_WorkbookStep__c> lstWorkbookStep = [SELECT Id, Name, Help__c
-                                                      FROM AH_UDC_WorkbookStep__c
-                                                      WHERE Workbook__r.Name = :TEST_Workbook_Name];
-      System.assert(lstWorkbookStep.size() > 0, 'WorkbookStep records could not be found.');
+      AH_UDC_WorkbookStep__c wbs = [SELECT Id, Name, Help__c FROM AH_UDC_WorkbookStep__c WHERE Workbook__r.Name = :TEST_Workbook_Name];
+
       PageReference pageRef = Page.AH_UDC_ViewHelp;
-      pageRef.getParameters().put('id', lstWorkbookStep[0].Id);
+      pageRef.getParameters().put('id', wbs.Id);
       pageRef.getParameters().put('community', 'false'); // Input community false
       Test.setCurrentPageReference(pageRef);
+
       Test.startTest();
       AH_UDC_ViewHelp popout = new AH_UDC_ViewHelp();
-      System.assert(popout.IsErrorOccurred, 'Error could not occurred');
+      System.assert(!popout.IsCommunityView, 'AH_UDC_ViewHelp should not have been set to COMMUNITY view');
+      Test.stopTest();
+   }
+
+   @isTest
+   // Pass "TestException" to force code to fall into the CATCH block of the AH_UDC_ViewHelp constructor
+   private static void AH_UDC_ViewHelp_Negative_Test4() {
+      PageReference pageRef = Page.AH_UDC_ViewHelp;
+      pageRef.getParameters().put('id', 'TestException');
+      pageRef.getParameters().put('community', 'false'); // Input community false
+      Test.setCurrentPageReference(pageRef);
+
+      Test.startTest();
+      AH_UDC_ViewHelp popout = new AH_UDC_ViewHelp();
+      System.assert(popout.IsErrorOccurred, 'Error should have occurred in the AH_UDC_ViewHelp constructor due to passing TestException as the WorkbookStep Id');
+      Test.stopTest();
+   }
+
+   @isTest
+   private static void AH_UDC_ViewHelp_ServerLogMessage() {
+      Test.startTest();
+      Test.clearApexPageMessages();
+
+      AH_UDC_ViewHelp vh = new AH_UDC_ViewHelp();
+      vh.LogFunctionalArea = 'TestException';
+      vh.serverLogMessages();
+      System.assert(vh.HasPageLoadLogMessages != true, 'HasPageLoadLogMessages should be false now as we have inserted all pending logs');
+
       Test.stopTest();
    }
 }

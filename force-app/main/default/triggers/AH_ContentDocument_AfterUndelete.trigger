@@ -8,7 +8,6 @@ NICC Reference  :
 Description     : This Trigger is used to update Zip file Version when files deleted.
                 :
 ******************************************************************************************/
-
 trigger AH_ContentDocument_AfterUndelete on ContentDocument (after undelete) 
 {
     AH_ContentPacks_TriggerHandler cpHandler = new AH_ContentPacks_TriggerHandler();

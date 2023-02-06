@@ -1,0 +1,346 @@
+<apex:component >
+   <script type="text/javascript">
+      var fileIdToDelete = null;
+      var validFileCount = 0;
+      $(document).ready(function () {
+         try {
+            document.getElementById("FileUploadList").accept = acceptFileExtension;
+            $('[id$="btnFileUpload"]').prop('disabled', true);
+            $('#addFiles').on('click', function () {
+               if (blockNavigation == true) return; //If server action is in progress then don't allow to select files
+               $('#FileUploadList').click();
+               return false;
+            });
+            var $table = $("table.slds-table");
+            if ($table.length > 0) {
+               var rows = $($table).find('tr');
+               $(rows).each(function () {
+                  var updloadedDateText = $(this).find('td').eq(1).text();
+                  var uplodedDate = new Date(Date.parse(updloadedDateText));
+                  var arr = uplodedDate.toLocaleString('en-US', {
+                     year: 'numeric', // numeric, 2-digit
+                     month: 'short', // numeric, 2-digit, long, short, narrow
+                     day: 'numeric', // numeric, 2-digit
+                     hour: 'numeric', // numeric, 2-digit
+                     minute: 'numeric', // numeric, 2-digit
+                     second: 'numeric', // numeric, 2-digit
+                  }).replace(/,/g, '').split(' ');
+                  //arr -> Feb 16 2022 2:55:23 AM
+                  $(this).find('td').eq(1).text(arr[2] + '-' + arr[0] + '-' + arr[1] + ' ' + arr[3] + ' ' + arr[4]);
+               });
+            }
+
+            $('input[type="file"]').change(function (e) {
+               var uploadFileList = e.target.files;
+               if (uploadFileList.length > 0) {
+                  $('[id$="btnFileUpload"]').prop('disabled', false);
+                  var fileNames = [];
+                  var isFileUpload = false;
+                  var isAnyMaxFileSize = false;
+                  var isAnyUnsupportedFile = false;
+                  validFileCount = 0;
+                  $('#file-upload-maxfilesizefilename').html('');
+                  $('#file-upload-notsupportedfilename').html('');
+                  $('#file-upload-filename').html('');
+                  $('#file-upload-header').html('');
+                  $('#file-upload-sizeheader').html('');
+                  $('#file-upload-extensionheader').html('');
+
+                  for (var i = 0; i < uploadFileList.length; ++i) {
+                     var isFileSupported = true;
+                     var isFileMaxSize = false;
+                     $('#file-upload-filename').show();
+                     var fileElement = document.getElementById("FileUploadList");
+                     var fileExtension = "";
+                     const fileSize = uploadFileList[i].size;
+
+                     if (fileSize > (fileUploadMaxSize * 1024 * 1024)) {
+                        $('#file-upload-maxfilesizefilename').show();
+                        fileNames.push(uploadFileList[i].name);
+                        $('#file-upload-maxfilesizefilename').append('<br/> ' + fileNames[i].toString() + '<br/>');
+                        isFileMaxSize = true;
+                        isAnyMaxFileSize = true;
+                     }
+
+                     if (fileElement.value.lastIndexOf(".") > 0 && isFileMaxSize == false) {
+                        fileExtension = uploadFileList[i].name.substring(uploadFileList[i].name.lastIndexOf(".") + 1, uploadFileList[i].name.length);
+                        fileExtension = fileExtension.toLowerCase();
+                        if (!arrayOfFileExtension.includes(fileExtension)) {
+                           $('#file-upload-notsupportedfilename').show();
+                           fileNames.push(uploadFileList[i].name);
+                           $('#file-upload-notsupportedfilename').append('<br/> ' + fileNames[i].toString() + '<br/>');
+                           isFileSupported = false;
+                           isAnyUnsupportedFile = true;
+                        }
+                     }
+
+                     if (isFileMaxSize == false && isFileSupported == true)
+                     {
+                        fileNames.push(uploadFileList[i].name);
+                        $('#file-upload-filename').append('<br/> ' + fileNames[i].toString() + '<br/> ');
+                        isFileUpload = true;
+                        validFileCount = validFileCount + 1;
+                        if (validFileCount > maxFileUploadCount) {
+                           $('#file-upload-notsupportedfilename').hide();
+                           $('#file-upload-maxfilesizefilename').hide();
+                           $('#file-upload-filename').hide();
+                           $('[id$="btnFileUpload"]').prop('disabled', true);
+                           var maxFileCountStringMessage = LABEL_MaxFileUploadCountMessage.replace('{0}', maxFileUploadCount);
+                           showNotifications(maxFileCountStringMessage);
+                           return;
+                        }
+                     } else {
+                        if (isFileUpload == false) // If one valid file in list then no need to run
+                        {
+                           $('#file-upload-filename').hide();
+                           $('[id$="btnFileUpload"]').prop('disabled', true);
+                           continue;
+                        }
+                     }
+                  }
+                  if (isFileUpload == true) {
+                     $('#file-upload-header').html(LABEL_SelectedFileMessage);
+                  }
+                  if (isAnyMaxFileSize == true) {
+                     var maximumFileUploadSize = LABEL_MaxFileUploadSizeMessage.replace('{0}', fileUploadMaxSize);
+                     $('#file-upload-sizeheader').html('<br/> ' + maximumFileUploadSize);
+                  }
+                  if (isAnyUnsupportedFile == true) {
+                     $('#file-upload-extensionheader').html('<br/> ' + LABEL_ValidFileExtensionMessage);
+                  }
+               } else {
+                  $('[id$="btnFileUpload"]').prop('disabled', true);
+                  $('#file-upload-maxfilesizefilename').html('');
+                  $('#file-upload-notsupportedfilename').html('');
+                  $('#file-upload-filename').html('');
+                  $('#file-upload-header').html('');
+                  $('#file-upload-sizeheader').html('');
+                  $('#file-upload-extensionheader').html('');
+               }
+            });
+         } catch (ex) {
+            handleJSError('Document.Ready', typeof(ex) == 'string' ? ex : ex.stack);
+         }
+      });
+
+      function uploadFilesUsingApi(file, i, totalFileCount, arrErrorMsgs) {
+         try {
+            if(typeof(arrErrorMsgs) != 'object' || arrErrorMsgs == null)
+               arrErrorMsgs = new Array();
+
+            var fileName = file.files[i].name;
+            //If filename is invalid(exceed size limit or invalid extension) than skip that file until find the valid filename
+            while($('#file-upload-maxfilesizefilename').html().indexOf(fileName) > 0 || $('#file-upload-notsupportedfilename').html().indexOf(fileName) > 0) {
+               i++;
+               if(i >= totalFileCount) {
+                  hideNotifications();
+                  if(currentStepStatus == '' || currentStepStatus == 'New')
+                     actionfunction_SetStepInProgress();
+                  if(arrErrorMsgs.length > 0) //If last file then log error messages
+                     logFailedFilesErrorMessage('uploadFilesUsingApi', arrErrorMsgs);
+                  actionfunction_GetUserFiles();
+                  return;
+               }
+               else
+                  fileName = file.files[i].name;
+            }
+
+            var toBeUploadFileList = $('#file-upload-filename').html();
+            if(toBeUploadFileList.indexOf(fileName + '<span class="failed"> - ' + LABEL_FileUploadStatusFailedtoUpload + '</span>') > -1) {
+               //If upload is failed previously and user is trying to upload same file again then replace failed status with uploading
+               $('#file-upload-filename').html(toBeUploadFileList.replace(fileName + '<span class="failed"> - ' + LABEL_FileUploadStatusFailedtoUpload + '</span>',
+                                                                           fileName + '<span class="uploading"> - ' + LABEL_FileUploadStatusUploading + '</span>'));
+            }
+            else {
+               $('#file-upload-filename').html(toBeUploadFileList.replace(fileName, fileName + '<span class="uploading"> - ' + LABEL_FileUploadStatusUploading + '</span>'));
+            }
+            var reader = new FileReader();
+            reader.readAsDataURL(file.files[i]);
+            if(i == 0) {
+               showSpinner(); //Show spinner before starting upload of first file then it will be hide once last file is uploaded
+               disableButtons();
+            }
+            reader.onload = function () {
+               var filebase64encodedstring = reader.result.toString().replace(/^data:(.*,)?/, '');
+               var requestBody = '{"Token" : "' + securityToken + '","fileName":"' + fileName + '","fileContentBase64String":"' + filebase64encodedstring + '"}';
+               $.ajax({
+                  type: "POST",
+                  async: true,
+                  crossDomain: true,
+                  contentType: 'application/json',
+                  dataType: "json",
+                  url: apiUrl,
+                  data: requestBody,
+                  success: function (data) {
+                     const nextFileNumber = i + 1;
+                     // base case
+                     if (nextFileNumber < totalFileCount) {
+                        uploadFilesUsingApi(file, nextFileNumber, totalFileCount, arrErrorMsgs);
+                        if (data.statusCode == '200') {
+                           var sucessfileList = $('#file-upload-filename').html();
+                           $('#file-upload-filename').html(sucessfileList.replace(fileName + '<span class="uploading"> - ' + LABEL_FileUploadStatusUploading + '</span>', fileName + '<span class="success"> - ' + LABEL_FileUploadStatusUploaded + '</span>'));
+                        } else {
+                           showFileUploadFailNotification(fileName);
+                        }
+                     } else {
+                        if(arrErrorMsgs.length > 0) //If last file then log error messages
+                           logFailedFilesErrorMessage('uploadFilesUsingApi', arrErrorMsgs);
+
+                        if (data.statusCode == '200') {
+                           hideNotifications();
+                           showNotifications(LABEL_FileUploadSuccessMessage);
+                           actionfunction_GetUserFiles();
+                           if(currentStepStatus == '' || currentStepStatus == 'New')
+                              actionfunction_SetStepInProgress();
+                        } else {
+                           showFileUploadFailNotification(fileName);
+                           enableButtons(); //If failed to upload last file then enable buttons and hide spinner
+                           hideSpinner();
+                        }
+                     }
+                  },
+                  error: function (error) {
+                     showFileUploadFailNotification(fileName);
+
+                     var errorMsg = 'There is an error in calling api for file upload. Error message: ';
+                     errorMsg += typeof(error.statusText) != 'undefined' ? error.statusText : $.trim(error);
+                     errorMsg += ' File name: ' + fileName;
+                     if(arrErrorMsgs.indexOf(errorMsg) == -1) //Don't add same error again
+                        arrErrorMsgs.push(errorMsg);
+
+                     if((i + 1) < totalFileCount)
+                        uploadFilesUsingApi(file, i + 1, totalFileCount, arrErrorMsgs);
+                     else  {
+                        //If last file then log error messages
+                        logFailedFilesErrorMessage('uploadFilesUsingApi', arrErrorMsgs);
+                        enableButtons();
+                        hideSpinner();
+                     }
+                  }
+               });
+            };
+            reader.onerror = function (uploaderror) {
+               showFileUploadFailNotification(fileName);
+
+               var errorMsg = 'There is an error in reading file content. Error message: ';
+               errorMsg += typeof(uploaderror) != 'undefined' ? $.trim(uploaderror) : '';
+               errorMsg += ' File name: ' + fileName;
+               if(arrErrorMsgs.indexOf(errorMsg) == -1) //Don't add same error again
+                  arrErrorMsgs.push(errorMsg);
+
+               if((i + 1) < totalFileCount)
+                  uploadFilesUsingApi(file, i + 1, totalFileCount, arrErrorMsgs);
+               else  {
+                  //If last file then log error messages
+                  logFailedFilesErrorMessage('uploadFilesUsingApi', arrErrorMsgs);
+                  enableButtons();
+                  hideSpinner();
+               }
+            };
+         } catch (ex) {
+            handleJSError('uploadFilesUsingApi', typeof(ex) == 'string' ? ex : ex.stack);
+            enableButtons();
+         }
+      }
+
+      function logFailedFilesErrorMessage(functionName, arrErrorMsgs) {
+         try {
+            for(i = 0; i < arrErrorMsgs.length; i++) {
+               //Log error into db
+               actionfunction_LogClientException(functionName, arrErrorMsgs[i]);
+            }
+         } catch (ex) {
+            handleJSError('logFailedFilesErrorMessage', typeof(ex) == 'string' ? ex : ex.stack);
+            enableButtons();
+         }
+      }
+
+      function disableButtons() {
+         try {
+            $('[id$="btnFileUpload"]').prop('disabled', true);
+            $('#addFiles').prop('disabled', true);
+            $('.deleteLink').addClass('disabled');
+         } catch (ex) {
+            handleJSError('disableButtons', typeof(ex) == 'string' ? ex : ex.stack);
+         }
+      }
+
+      function enableButtons() {
+         try {
+            $('#addFiles').prop('disabled', false);
+            $('.deleteLink').removeClass('disabled');
+            if(validFileCount > 0) $('[id$="btnFileUpload"]').prop('disabled', false);
+         } catch (ex) {
+            handleJSError('enableButtons', typeof(ex) == 'string' ? ex : ex.stack);
+         }
+      }
+
+      function showFileUploadFailNotification(fileName) {
+         try {
+            var failedfileList = $('#file-upload-filename').html();
+            $('#file-upload-filename').html(failedfileList.replace(fileName + '<span class="uploading"> - ' + LABEL_FileUploadStatusUploading + '</span>', fileName + '<span class="failed"> - ' + LABEL_FileUploadStatusFailedtoUpload + '</span>'));
+         } catch (ex) {
+            handleJSError('showFileUploadFailNotification', typeof(ex) == 'string' ? ex : ex.stack);
+         }
+      }
+
+      function uploadFiles() {
+         try {
+            if (blockNavigation == true) return; //If server action is in progress then don't allow to select files
+            var file = $("#FileUploadList").get(0);
+            $('#btnFileUpload').prop('disabled', true);
+            uploadFilesUsingApi(file, 0, file.files.length, new Array());
+         } catch (ex) {
+            handleJSError('uploadFiles', typeof(ex) == 'string' ? ex : ex.stack);
+         }
+      }
+
+      function deleteFile() {
+         try {
+            disableButtons();
+            actionfunction_DeleteFile(fileIdToDelete);
+         }
+         catch (ex) {
+            handleJSError('deleteFile', typeof(ex) == 'string' ? ex : ex.stack);
+         }
+      }
+
+      function showDeleteFileConfirmation(fileId) {
+         try {
+            if (blockNavigation == true) return; //If server action is in progress then don't allow to delete file
+            showNotificationsWithButtons(LABEL_DeleteFileConfirmationMessage, 'DeleteUploadedFile');
+            fileIdToDelete = fileId;
+         }
+         catch (ex) {
+            handleJSError('showDeleteFileConfirmation', typeof(ex) == 'string' ? ex : ex.stack);
+         }
+      }
+
+      function onCompleteDeleteFile() {
+         try {
+            setTimeout(function() {
+               enableButtons();
+               hideSpinner();
+               if(isPageLoadErrorMessage == true && NotificationToShow != '') showNotifications(LABEL_FileDeleteSuccessfulMessage);
+            }, 500); //Allow it to refresh files grid before hiding spinner
+         }
+         catch (ex) {
+            handleJSError('onCompleteDeleteFile', typeof(ex) == 'string' ? ex : ex.stack);
+         }
+      }
+
+      function handleJSError(strMethodName, strErrorMessage) {
+         try{
+            hideSpinner();
+            //Log error into db
+            actionfunction_LogClientException(strMethodName, strErrorMessage);
+            $('.form-container-file-Upload').hide();
+            $('#spnFileUploadErrorMsg').text(LABEL_FileUploadFormRenderErrorMessage);
+            $('#divFileUploadError').show();
+         }
+         catch (ex) {
+            console.log(ex);
+         }
+      }
+   </script>
+</apex:component>

@@ -2,7 +2,7 @@
 Name            : NI_HRM_SignUpRequest Class 
 Author          : Suzanne LeDuc
 Created Date    : 
-Last Mod Date   : 3/30/2017
+Last Mod Date   : 7/26/2022
 Last Mod By     : Sean Harris
 NICC Reference  : 
 Description     : This class is used to create an HRM Org by Posting a SignupRequest to a Trialforce Source Org (TSO )
@@ -11,6 +11,7 @@ Description     : This class is used to create an HRM Org by Posting a SignupReq
                 : The other class will call CreateSignUpRequest to create the request and then 
                 : Call the method GetSignUpRequestOrgId to retrieve the Org Id from the Signup Request Object
                 : 
+                : NICC-060073 - Uncommented system.debug line to see JSON response in debug
 ******************************************************************************************/
 public class NI_HRM_SignUpRequest 
 {
@@ -189,13 +190,13 @@ req.setTimeout(120000);
         statuscode = res.getStatusCode();
         statustext = res.getStatus();
 
-//        system.debug('Response Body ' + res.getBody());
+        system.debug('Response Body ' + res.getBody());        // NICC-060073
         
         if (res != null)
         {  
 //            system.Debug(res);
 //            system.Debug(res.GetBody());
-            rToken = (OrgCreateResponse )JSON.deserialize(res.getBody(), OrgCreateResponse.class);
+            rToken = (OrgCreateResponse)JSON.deserialize(res.getBody(), OrgCreateResponse.class);
 //            system.debug(' Token ' + rToken.Id); 
         }
         

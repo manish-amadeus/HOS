@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Workflow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <alerts>
+        <fullName>Standard_Or_Essentials_Additional_Users_Email_Alert</fullName>
+        <ccEmails>emailtracker@v-232mcbwt0cqk89ovamh03bmjyxsuk8xkciyaheyy8uztttd8x.3-6ctneae.na110.apex.salesforce.com</ccEmails>
+        <description>Standard Or Essentials Additional User(s) Email Alert</description>
+        <protected>false</protected>
+        <recipients>
+            <field>ContactId</field>
+            <type>contactLookup</type>
+        </recipients>
+        <senderAddress>hospitality.no-reply@amadeus.com</senderAddress>
+        <senderType>OrgWideEmailAddress</senderType>
+        <template>NIExternalCustomerEmailTemplates/ASEM_Standard_or_Essentials_Automated_Additional_User_Acknowledgement</template>
+    </alerts>
+    <alerts>
+        <fullName>Standard_Or_Essentials_Final_Email_Alert</fullName>
+        <ccEmails>emailtracker@v-232mcbwt0cqk89ovamh03bmjyxsuk8xkciyaheyy8uztttd8x.3-6ctneae.na110.apex.salesforce.com</ccEmails>
+        <description>Standard Or Essentials Final Email Alert</description>
+        <protected>false</protected>
+        <recipients>
+            <field>ContactId</field>
+            <type>contactLookup</type>
+        </recipients>
+        <senderAddress>hospitality.no-reply@amadeus.com</senderAddress>
+        <senderType>OrgWideEmailAddress</senderType>
+        <template>NIExternalCustomerEmailTemplates/New_Wrap_Up_Onboarding_Amadeus_Sales_Event_Management</template>
+    </alerts>
+    <alerts>
+        <fullName>Standard_Or_Essentials_Follow_Up_Email_Alert</fullName>
+        <ccEmails>emailtracker@v-232mcbwt0cqk89ovamh03bmjyxsuk8xkciyaheyy8uztttd8x.3-6ctneae.na110.apex.salesforce.com</ccEmails>
+        <description>Standard Or Essentials Follow Up Email Alert</description>
+        <protected>false</protected>
+        <recipients>
+            <field>ContactId</field>
+            <type>contactLookup</type>
+        </recipients>
+        <senderAddress>hospitality.no-reply@amadeus.com</senderAddress>
+        <senderType>OrgWideEmailAddress</senderType>
+        <template>NIExternalCustomerEmailTemplates/Follow_Up_Onboarding_ASEM_Standard_or_Essentials</template>
+    </alerts>
+    <alerts>
+        <fullName>Standard_Or_Essentials_Welcome_Email_Alert</fullName>
+        <ccEmails>emailtracker@v-232mcbwt0cqk89ovamh03bmjyxsuk8xkciyaheyy8uztttd8x.3-6ctneae.na110.apex.salesforce.com</ccEmails>
+        <description>Standard Or Essentials Welcome Email Alert</description>
+        <protected>false</protected>
+        <recipients>
+            <field>ContactId</field>
+            <type>contactLookup</type>
+        </recipients>
+        <senderAddress>hospitality.no-reply@amadeus.com</senderAddress>
+        <senderType>OrgWideEmailAddress</senderType>
+        <template>NIExternalCustomerEmailTemplates/Onboarding_ASEM_Standard_or_Essentials</template>
+    </alerts>
+</Workflow>

@@ -1,0 +1,516 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Workflow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <alerts>
+        <fullName>Cancellation_Retention_Alert_Cendyn</fullName>
+        <ccEmails>ProductSuccess@cendyn.com</ccEmails>
+        <description>Cancellation Retention Alert Cendyn</description>
+        <protected>false</protected>
+        <recipients>
+            <recipient>heather.seward@amadeus.com</recipient>
+            <type>user</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>Cancellations/Cancellation_Retention_Alert_Cendyn</template>
+    </alerts>
+    <alerts>
+        <fullName>Cancellation_Retention_Alert_Sertifi</fullName>
+        <ccEmails>retention@sertifi.com</ccEmails>
+        <description>Cancellation Retention Alert Sertifi</description>
+        <protected>false</protected>
+        <recipients>
+            <recipient>heather.seward@amadeus.com</recipient>
+            <type>user</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>Cancellations/Cancellation_Retention_Alert_Sertifi</template>
+    </alerts>
+    <alerts>
+        <fullName>Cancellation_Retention_Alert_Zingle</fullName>
+        <ccEmails>billing@zingleme.com</ccEmails>
+        <description>Cancellation Retention Alert Zingle</description>
+        <protected>false</protected>
+        <recipients>
+            <recipient>heather.seward@amadeus.com</recipient>
+            <type>user</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>Cancellations/Cancellation_Retention_Alert_Zingle</template>
+    </alerts>
+    <alerts>
+        <fullName>Email_Sales_Team_to_Engage_in_Retention_Cancellation_2k</fullName>
+        <description>Email Sales Team to Engage in Retention; Cancellation &gt;= 2k</description>
+        <protected>false</protected>
+        <recipients>
+            <recipient>heather.seward@amadeus.com</recipient>
+            <type>user</type>
+        </recipients>
+        <recipients>
+            <field>Amadeus_RSM__c</field>
+            <type>userLookup</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>Cancellations/Cancellation_Sales_Retention_Needed</template>
+    </alerts>
+    <alerts>
+        <fullName>Late_Cancellation_Approval_Email_to_Record_Creator</fullName>
+        <description>Late Cancellation Approval Email to Record Creator</description>
+        <protected>false</protected>
+        <recipients>
+            <type>creator</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>Cancellations/Record_Creator_Late_Cancellation_Approved</template>
+    </alerts>
+    <alerts>
+        <fullName>Late_Cancellation_Rejected_Email_to_Record_Creator</fullName>
+        <description>Late Cancellation Rejected Email to Record Creator</description>
+        <protected>false</protected>
+        <recipients>
+            <type>creator</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>Cancellations/Record_Creator_Late_Cancellation_Rejected</template>
+    </alerts>
+    <alerts>
+        <fullName>New_Cancellation_Record</fullName>
+        <description>New Cancellation Record</description>
+        <protected>false</protected>
+        <recipients>
+            <recipient>bsintiris@newmarketinc.com</recipient>
+            <type>user</type>
+        </recipients>
+        <recipients>
+            <recipient>ken.wilson@newmarketinc.com</recipient>
+            <type>user</type>
+        </recipients>
+        <recipients>
+            <field>Account_Owner__c</field>
+            <type>userLookup</type>
+        </recipients>
+        <recipients>
+            <field>NI_Collector__c</field>
+            <type>userLookup</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>Cancellations/New_Cancellation</template>
+    </alerts>
+    <alerts>
+        <fullName>New_HIS_Cancellation</fullName>
+        <description>New HIS Cancellation</description>
+        <protected>false</protected>
+        <recipients>
+            <type>accountOwner</type>
+        </recipients>
+        <recipients>
+            <recipient>ksias@hisnet.com</recipient>
+            <type>user</type>
+        </recipients>
+        <recipients>
+            <recipient>sreiser@hisnet.com</recipient>
+            <type>user</type>
+        </recipients>
+        <recipients>
+            <field>NI_Collector__c</field>
+            <type>userLookup</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>Cancellations/New_Cancellation</template>
+    </alerts>
+    <alerts>
+        <fullName>Notify_Finance_Biling_of_approved_late_cancellation</fullName>
+        <ccEmails>Intlbilldispute.tc@Amadeus.com</ccEmails>
+        <description>Notify Finance/ Biling of approved late cancellation</description>
+        <protected>false</protected>
+        <recipients>
+            <recipient>heather.seward@amadeus.com</recipient>
+            <type>user</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>Cancellations/Billing_Late_Cx_Notification</template>
+    </alerts>
+    <alerts>
+        <fullName>Send_Cendyn_Cancellation_Alert</fullName>
+        <ccEmails>newmarket@cendyn.com</ccEmails>
+        <description>Send Cendyn Cancellation Alert</description>
+        <protected>false</protected>
+        <recipients>
+            <recipient>kfendi@newmarketinc.com</recipient>
+            <type>user</type>
+        </recipients>
+        <recipients>
+            <recipient>lnavarro@newmarketinc.com</recipient>
+            <type>user</type>
+        </recipients>
+        <recipients>
+            <recipient>lsears@newmarketinc.com</recipient>
+            <type>user</type>
+        </recipients>
+        <recipients>
+            <recipient>paul.mercer@newmarketinc.com</recipient>
+            <type>user</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>Cancellations/Cendyn_Cancellation_Notification</template>
+    </alerts>
+    <alerts>
+        <fullName>Send_Email_to_Confirm_Processed_Cancellation</fullName>
+        <description>Send Email to Confirm Processed Cancellation</description>
+        <protected>false</protected>
+        <recipients>
+            <field>Contact__c</field>
+            <type>contactLookup</type>
+        </recipients>
+        <recipients>
+            <field>Renewal_Cancellation_Requester__c</field>
+            <type>userLookup</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>Cancellations/Customer_Cancellation_Processed</template>
+    </alerts>
+    <alerts>
+        <fullName>Send_Renewal_Cancellation_Received_to_Customer</fullName>
+        <description>Send Renewal Cancellation Received to Customer</description>
+        <protected>false</protected>
+        <recipients>
+            <field>Renewal_Cancellation_Requester__c</field>
+            <type>userLookup</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>Cancellations/Customer_Cancellation_Confirmation</template>
+    </alerts>
+    <fieldUpdates>
+        <fullName>Create_Case_from_Cancellation</fullName>
+        <field>Create_Cancellation_Case__c</field>
+        <literalValue>1</literalValue>
+        <name>Create Case from Cancellation</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Literal</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>Late_Cancellation_Not_Approved</fullName>
+        <field>Late_Cancellation_Not_Approved__c</field>
+        <literalValue>1</literalValue>
+        <name>Late Cancellation Not Approved</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Literal</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>Set_Create_Cancellation_Case_to_True2</fullName>
+        <field>Create_Cancellation_Case__c</field>
+        <literalValue>1</literalValue>
+        <name>Set Create Cancellation Case to True</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Literal</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>Set_Status_to_Late_Cancellation_Rejected</fullName>
+        <description>NICC-027332</description>
+        <field>Status__c</field>
+        <literalValue>Late Cancellation Rejected</literalValue>
+        <name>Set Status to Late Cancellation Rejected</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Literal</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>Uncheck_Reviewed_by_Collector</fullName>
+        <description>NICC-011779</description>
+        <field>Reviewed_by_Collector__c</field>
+        <literalValue>0</literalValue>
+        <name>Uncheck Reviewed by Collector</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Literal</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>Uncheck_Reviewed_by_Fulfillment</fullName>
+        <description>NICC-011779</description>
+        <field>Reviewed_By_Fulfillment__c</field>
+        <literalValue>0</literalValue>
+        <name>Uncheck Reviewed by Fulfillment</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Literal</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>Uncheck_Updated_in_Softrax</fullName>
+        <description>NICC-011779</description>
+        <field>Updated_in_Softrax__c</field>
+        <literalValue>0</literalValue>
+        <name>Uncheck Updated in Softrax</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Literal</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>Update_Late_Cancellation_Approved</fullName>
+        <field>Late_Cancellation_Approved__c</field>
+        <literalValue>1</literalValue>
+        <name>Update Late Cancellation Approved</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Literal</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>Update_Late_Cx_Approved_Date</fullName>
+        <field>Late_Cancellation_Approved_Date__c</field>
+        <formula>TODAY()</formula>
+        <name>Update Late Cx Approved Date</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Formula</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>Update_Owner_Q_Customer_Relations</fullName>
+        <description>Set the Owner to &quot;Q-Customer Relations&quot;
+NICC-026959 - Changed to Q-Sales Cancellation</description>
+        <field>OwnerId</field>
+        <lookupValue>Q_Sales_Cancellation</lookupValue>
+        <lookupValueType>Queue</lookupValueType>
+        <name>Update Owner: Q-Customer Relations</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>LookupValue</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>Update_Retention_Completed</fullName>
+        <field>Retention_Completed__c</field>
+        <literalValue>1</literalValue>
+        <name>Update Retention Completed</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Literal</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>Update_Retention_Completed_Date</fullName>
+        <field>Retention_Completed_Date__c</field>
+        <formula>TODAY()</formula>
+        <name>Update Retention Completed Date</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Formula</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>Update_Status_to_Cancelled</fullName>
+        <description>Salesforce.com Change Request:  Salesforce.com Change Request: NICC-010799 
+
+Set Status to &quot;Cancelled&quot;</description>
+        <field>Status__c</field>
+        <literalValue>Cancelled</literalValue>
+        <name>Update Status to Cancelled</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Literal</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>true</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>Update_Status_to_Successfully_Retained</fullName>
+        <field>Status__c</field>
+        <literalValue>Successfully Retained</literalValue>
+        <name>Update Status to Successfully Retained</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Literal</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>Update_late_cx_rejected_date</fullName>
+        <description>update the date the late cancellation was rejected</description>
+        <field>Late_Cancellation_Rejected_Date__c</field>
+        <formula>TODAY()</formula>
+        <name>Update late cx rejected date</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Formula</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>Update_to_Flagged_for_Cancellation</fullName>
+        <field>Status__c</field>
+        <literalValue>Flagged to be Cancelled</literalValue>
+        <name>Update to Flagged for Cancellation</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Literal</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>true</reevaluateOnChange>
+    </fieldUpdates>
+    <rules>
+        <fullName>Assign Owner</fullName>
+        <actions>
+            <name>Update_Owner_Q_Customer_Relations</name>
+            <type>FieldUpdate</type>
+        </actions>
+        <active>true</active>
+        <description>Change the owner for new NI Cancellations to the &quot;Q-Customer Relations&quot; queue when a record is created</description>
+        <formula>NOT(ISBLANK(CreatedDate))</formula>
+        <triggerType>onCreateOnly</triggerType>
+    </rules>
+    <rules>
+        <fullName>Cancellation of Renewal Requested</fullName>
+        <actions>
+            <name>Send_Renewal_Cancellation_Received_to_Customer</name>
+            <type>Alert</type>
+        </actions>
+        <active>true</active>
+        <description>NICC-026959 - Send to customer each time they create or edit the quantity on the Cancellation</description>
+        <formula>ISCHANGED(Renewal_Cancellation_Quantity__c) ||   ISNEW()</formula>
+        <triggerType>onAllChanges</triggerType>
+    </rules>
+    <rules>
+        <fullName>Create FDC Case from Cancellation</fullName>
+        <active>true</active>
+        <description>NICC-026959 - Create Case from Cancellation of Renewal</description>
+        <formula>AND (     Renewal_Cancellation_Quantity__c &gt; 0,      ISPICKVAL(Status__c, &quot;Flagged to be Cancelled&quot;),     OR (         ISPICKVAL(Product2__r.Product_Line_Global__c, &quot;Delphi.fdc&quot;),          ISPICKVAL(Product2__r.Product_Line_Global__c, &quot;Libra&quot;),          ISPICKVAL(Product2__r.Product_Line_Global__c, &quot;HRM&quot;)     ) )</formula>
+        <triggerType>onCreateOrTriggeringUpdate</triggerType>
+        <workflowTimeTriggers>
+            <actions>
+                <name>Set_Create_Cancellation_Case_to_True2</name>
+                <type>FieldUpdate</type>
+            </actions>
+            <offsetFromField>NI_Cancellation__c.Activity_Line_End_Date__c</offsetFromField>
+            <timeLength>-40</timeLength>
+            <workflowTimeTriggerUnit>Days</workflowTimeTriggerUnit>
+        </workflowTimeTriggers>
+    </rules>
+    <rules>
+        <fullName>Create NON FDC Case from Cancellation</fullName>
+        <active>true</active>
+        <description>NICC-026959 - Create Case from Cancellation of Renewal</description>
+        <formula>ISPICKVAL(Status__c,&quot;Flagged to be Cancelled&quot;) &amp;&amp; NOT(ISPICKVAL(Product2__r.Product_Line_Global__c, &quot;Delphi.fdc&quot;))  &amp;&amp;  Renewal_Cancellation_Quantity__c &gt;0</formula>
+        <triggerType>onCreateOrTriggeringUpdate</triggerType>
+        <workflowTimeTriggers>
+            <actions>
+                <name>Set_Create_Cancellation_Case_to_True2</name>
+                <type>FieldUpdate</type>
+            </actions>
+            <offsetFromField>NI_Cancellation__c.Effective_Date__c</offsetFromField>
+            <timeLength>-2</timeLength>
+            <workflowTimeTriggerUnit>Days</workflowTimeTriggerUnit>
+        </workflowTimeTriggers>
+    </rules>
+    <rules>
+        <fullName>Effective Date In Past</fullName>
+        <actions>
+            <name>Update_Status_to_Cancelled</name>
+            <type>FieldUpdate</type>
+        </actions>
+        <active>true</active>
+        <criteriaItems>
+            <field>NI_Cancellation__c.Status__c</field>
+            <operation>equals</operation>
+            <value>Flagged to be Cancelled</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>NI_Cancellation__c.Effective_Date__c</field>
+            <operation>lessOrEqual</operation>
+            <value>TODAY</value>
+        </criteriaItems>
+        <triggerType>onCreateOrTriggeringUpdate</triggerType>
+    </rules>
+    <rules>
+        <fullName>Is Not Late Pending Retention</fullName>
+        <active>true</active>
+        <criteriaItems>
+            <field>NI_Cancellation__c.Late_Cancellation__c</field>
+            <operation>equals</operation>
+            <value>False</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>NI_Cancellation__c.Status__c</field>
+            <operation>equals</operation>
+            <value>Pending Retention</value>
+        </criteriaItems>
+        <description>NICC-034374 - If Late cancellation is FALSE and status = “Pending Retention”</description>
+        <triggerType>onCreateOrTriggeringUpdate</triggerType>
+        <workflowTimeTriggers>
+            <actions>
+                <name>Update_to_Flagged_for_Cancellation</name>
+                <type>FieldUpdate</type>
+            </actions>
+            <offsetFromField>NI_Cancellation__c.Cancel_Renewal_By_Date__c</offsetFromField>
+            <timeLength>0</timeLength>
+            <workflowTimeTriggerUnit>Days</workflowTimeTriggerUnit>
+        </workflowTimeTriggers>
+    </rules>
+    <rules>
+        <fullName>Status is Cancelled and for Cendyn</fullName>
+        <actions>
+            <name>Send_Cendyn_Cancellation_Alert</name>
+            <type>Alert</type>
+        </actions>
+        <actions>
+            <name>Cendyn_Email_Cancellation_Email_Sent</name>
+            <type>Task</type>
+        </actions>
+        <active>true</active>
+        <formula>AND ( 
+    ISPICKVAL(Status__c, &quot;Cancelled&quot;), 
+    Product_Group__c = &quot;Cendyn&quot;,
+    NOT (
+        CONTAINS(Product_Code__c, &quot;ZZZ&quot;)
+    )   
+)</formula>
+        <triggerType>onCreateOrTriggeringUpdate</triggerType>
+    </rules>
+    <rules>
+        <fullName>Update Retention Completed</fullName>
+        <actions>
+            <name>Update_Retention_Completed</name>
+            <type>FieldUpdate</type>
+        </actions>
+        <actions>
+            <name>Update_Retention_Completed_Date</name>
+            <type>FieldUpdate</type>
+        </actions>
+        <active>true</active>
+        <description>NICC-026959</description>
+        <formula>AND(ISPICKVAL(PRIORVALUE(Status__c),&quot;Pending Retention&quot;)) &amp;&amp; NOT ISNEW()</formula>
+        <triggerType>onAllChanges</triggerType>
+    </rules>
+    <rules>
+        <fullName>Update Status to Cancelled</fullName>
+        <active>true</active>
+        <description>Salesforce.com Change Request: NICC-010799
+Time-dependent Workflow Rule to set the Status to &quot;Cancelled&quot; if the &quot;Effective&quot; Date equals the current date
+
+Updated NICC-026959</description>
+        <formula>AND (     NOT(ISBLANK(Effective_Date__c)),      OR (         ISPICKVAL(Status__c, &quot;Pending&quot;),         ISPICKVAL(Status__c, &quot;Flagged to be Cancelled&quot;)     ) )</formula>
+        <triggerType>onCreateOrTriggeringUpdate</triggerType>
+        <workflowTimeTriggers>
+            <actions>
+                <name>Update_Status_to_Cancelled</name>
+                <type>FieldUpdate</type>
+            </actions>
+            <offsetFromField>NI_Cancellation__c.Effective_Date__c</offsetFromField>
+            <timeLength>0</timeLength>
+            <workflowTimeTriggerUnit>Days</workflowTimeTriggerUnit>
+        </workflowTimeTriggers>
+    </rules>
+    <tasks>
+        <fullName>Cendyn_Email_Cancellation_Email_Sent</fullName>
+        <assignedTo>swoods@newmarketinc.com</assignedTo>
+        <assignedToType>user</assignedToType>
+        <description>An email was sent out to newmarket@cendyn.com because a Cendyn deployment instance was cancelled.</description>
+        <dueDateOffset>0</dueDateOffset>
+        <notifyAssignee>false</notifyAssignee>
+        <priority>Low</priority>
+        <protected>false</protected>
+        <status>Completed</status>
+        <subject>Cendyn Cancellation Email Sent</subject>
+    </tasks>
+</Workflow>

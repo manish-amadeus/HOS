@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ConnectedApp xmlns="http://soap.sforce.com/2006/04/metadata">
+    <contactEmail>semery@newmarketinc.com</contactEmail>
+    <contactPhone>6034275885</contactPhone>
+    <label>Winaproach To Authenticate</label>
+    <oauthConfig>
+        <callbackUrl>https://aproach.amadeus.net/</callbackUrl>
+        <consumerKey>3MVG99OxTyEMCQ3gVY.SjEgwNCHB2EU2N3BlwwQPCJheRPmeSPNkTTE7ZIJVek6n.QLpsFHIHw1Hn8hQSqXNo</consumerKey>
+        <isAdminApproved>false</isAdminApproved>
+        <isClientCredentialEnabled>false</isClientCredentialEnabled>
+        <isConsumerSecretOptional>false</isConsumerSecretOptional>
+        <isIntrospectAllTokens>false</isIntrospectAllTokens>
+        <isSecretRequiredForRefreshToken>false</isSecretRequiredForRefreshToken>
+        <scopes>Full</scopes>
+    </oauthConfig>
+    <oauthPolicy>
+        <ipRelaxation>ENFORCE</ipRelaxation>
+        <refreshTokenPolicy>infinite</refreshTokenPolicy>
+    </oauthPolicy>
+</ConnectedApp>

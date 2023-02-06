@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Workflow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fieldUpdates>
+        <fullName>Engagement_Set_Record_Type_Closed</fullName>
+        <description>Set record type to closed when Status value starts with &quot;Closed&quot;</description>
+        <field>RecordTypeId</field>
+        <lookupValue>Closed_Engagement</lookupValue>
+        <lookupValueType>RecordType</lookupValueType>
+        <name>Engagement - Set Record Type Closed</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>LookupValue</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>Engagement_Set_Record_Type_Open</fullName>
+        <description>Set record type to Open when Status value does not start with &quot;Closed&quot;</description>
+        <field>RecordTypeId</field>
+        <lookupValue>Open_Engagement</lookupValue>
+        <lookupValueType>RecordType</lookupValueType>
+        <name>Engagement - Set Record Type Open</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>LookupValue</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>Engagement_Update_Closed_Date</fullName>
+        <field>Date_Closed__c</field>
+        <formula>Now()</formula>
+        <name>Engagement - Update Closed Date</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Formula</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <rules>
+        <fullName>Engagement - Update Closed Date</fullName>
+        <actions>
+            <name>Engagement_Update_Closed_Date</name>
+            <type>FieldUpdate</type>
+        </actions>
+        <active>true</active>
+        <criteriaItems>
+            <field>NI_Customer_Relations_Engagement__c.Status__c</field>
+            <operation>startsWith</operation>
+            <value>Closed</value>
+        </criteriaItems>
+        <triggerType>onAllChanges</triggerType>
+    </rules>
+    <rules>
+        <fullName>Engagement Status - Closed</fullName>
+        <actions>
+            <name>Engagement_Set_Record_Type_Closed</name>
+            <type>FieldUpdate</type>
+        </actions>
+        <active>true</active>
+        <criteriaItems>
+            <field>NI_Customer_Relations_Engagement__c.Status__c</field>
+            <operation>startsWith</operation>
+            <value>Closed</value>
+        </criteriaItems>
+        <triggerType>onAllChanges</triggerType>
+    </rules>
+    <rules>
+        <fullName>Engagement Status - Opened</fullName>
+        <actions>
+            <name>Engagement_Set_Record_Type_Open</name>
+            <type>FieldUpdate</type>
+        </actions>
+        <active>true</active>
+        <criteriaItems>
+            <field>NI_Customer_Relations_Engagement__c.Status__c</field>
+            <operation>notEqual</operation>
+            <value>Closed - Resolved,Closed - Recommendations Provided,Closed - Unresolved,Closed - Hidden</value>
+        </criteriaItems>
+        <triggerType>onCreateOrTriggeringUpdate</triggerType>
+    </rules>
+</Workflow>

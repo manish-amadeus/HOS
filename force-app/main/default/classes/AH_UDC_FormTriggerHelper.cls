@@ -2,82 +2,150 @@
  * Name          : AH_UDC_FormTriggerHelper
  * Created By    : Amadeus Hospitality Services (Rob.Stevens@Amadeus.com)
  * Created Date  : 2021-04-20
- * Description   : This class is the single entry point for processing triggers on object AH_UDC_WorkbookStep
+ * Description   : This class is the single entry point for processing triggers on object AH_UDC_Form
  * Dependencies  : 
  **/
 
 public with sharing class AH_UDC_FormTriggerHelper {
+   @TestVisible private static Boolean IsException = false;
    public static void onTrigger() {
       //This logic should execute once and not occur recursively if other triggers make changes to the records
       try
-      {       
-         if (Test.isRunningTest() && ((AH_UDC_Form__c) Trigger.new[0]).name == 'TestException') integer i = 1/0;
+      {
 
-        
-         //TODO: code for undelete
+         if (Test.isRunningTest() && IsException == true) {
+            AH_UDC_LogHelper.Debug('In AH_UDC_FormTriggerHelper - In Exception');
+            integer i = 1 / 0;
+         }
 
-         if (Trigger.isBefore && (Trigger.isInsert || Trigger.isUpdate))
+         if (Trigger.isBefore && Trigger.isDelete)
          {
-            List<Id> dupeNameIds = new List<Id>();
-            List<String> newNames = new List<string>();
-            List<Id> upsertedIds = new List<Id>();
-
-            //Determine if multiple records are being upsert and they have new name duplicates
-            for (SObject sObj: Trigger.new)
+            List<Id> setFormId = new List<Id> ();
+            for (SObject sObj : Trigger.old)
             {
                AH_UDC_Form__c form = (AH_UDC_Form__c) sObj;
-               upsertedIds.add(form.id);
-               string formName = form.name.toUpperCase();
-               if(newNames.contains(formName))
-               {
-                  if (!dupeNameIds.contains(form.Id)) dupeNameIds.add(form.id);
-               }
-               else
-               {
-                  newNames.add(formName);
-               }
+               setFormId.add(form.id);
             }
+            List<Id> formIdswithStep = new List<Id> ();
+            AggregateResult[] groupedResults = [SELECT Form__c, count(id) totalForm
+                                                FROM AH_UDC_WorkbookStep__c
+                                                WHERE Form__c IN :setFormId
+                                                GROUP BY Form__c];
 
-            //Get existing name ignoring records that are being updated
-            List<AH_UDC_Form__c> forms = [select id, name from AH_UDC_Form__c where Name in :newNames];
-            List<String> existingNames = new List<string>();
-            for(AH_UDC_Form__c form : forms)
+            for (AggregateResult ar : groupedResults) {
+               Integer totalForm = (Integer) ar.get('totalForm');
+               Id newFormId = (Id) ar.get('Form__c');
+               if (totalForm > 0) formIdswithStep.add(newFormId);
+            }
+            if (formIdswithStep.size() > 0)
             {
-               if (!upsertedIds.contains(form.id))
+               for (SObject obj : Trigger.old) {
+                  AH_UDC_Form__c objForm = (AH_UDC_Form__c) obj;
+                  if (formIdswithStep.contains(objForm.Id)) {
+                     obj.addError(Label.AH_UDC_FormTriggerDelete_Error);
+                     break;
+                  }
+               }
+            }
+         }
+
+         else if (Trigger.isAfter && (Trigger.isInsert || Trigger.isUpdate || Trigger.isUndelete))
+         {
+            //Get existing forms
+            List<AH_UDC_Form__c> forms = [SELECT Id, name, RecordTypeId, FormAssemblyId__c FROM AH_UDC_Form__c LIMIT 50000];
+
+            Set<Id> dupeNameIds = new Set<Id> ();
+            Set<Id> dupeFAIds = new Set<Id> ();
+            List<string> newFAIds = new List<string> ();
+            List<String> newNames = new List<string> ();
+            List<Id> upsertedIds = new List<Id> ();
+            Id formAssemblyRecordTypeId = Schema.SObjectType.AH_UDC_Form__c.getRecordTypeInfosByDeveloperName().get(AH_UDC_Constants.RECORD_TYPE_FORM_FORM_ASSEMBLY).getRecordTypeId();
+
+            for (SObject sObj : Trigger.new)
+            {
+               AH_UDC_Form__c newform = (AH_UDC_Form__c) sObj;
+               AH_UDC_Form__c oldForm;
+               if (Trigger.isUpdate) oldForm = (AH_UDC_Form__c) Trigger.oldMap.get(newForm.Id);
+               AH_UDC_LogHelper.Debug('FormTriggerHelper New Form Id: ' + newform.id);
+               upsertedIds.add(newform.id);
+               if (Trigger.isInsert || (Trigger.isUpdate && newForm.Name != oldForm.Name))
                {
-                  string formName = form.name.toUpperCase();
-                  if(!existingNames.contains(formName)) existingNames.add(formName);
+                  string formName = newform.name.toUpperCase();
+                  if (newNames.contains(formName))
+                  {
+                     dupeNameIds.add(newform.id);
+                  }
+                  else {
+                     newNames.add(formName);
+                  }
+               }
+               if ((newform.RecordTypeId == formAssemblyRecordTypeId) || (Trigger.isUpdate && newForm.FormAssemblyId__c != oldForm.FormAssemblyId__c))
+               {
+                  if (newFAIds.contains(newform.FormAssemblyId__c))
+                  {
+                     dupeFAIds.add(newform.id); // Add id of duplicate formassemblyid
+                  }
+                  else {
+                     newFAIds.add(newform.FormAssemblyId__c);
+                  }
+               }
+            }
+            //Build list of uppercase existing names
+            Set<String> existingNames = new Set<string> ();
+            Set<String> existingFAIds = new Set<String> ();
+            for (AH_UDC_Form__c form : forms)
+            {
+               string formName = form.name.toUpperCase();
+               if (newNames.contains(formName) && !upsertedIds.contains(form.id))
+               {
+                  existingNames.add(formName);
+               }
+               //Add Form Assembly form in the list
+               if (form.RecordTypeId == formAssemblyRecordTypeId && !upsertedIds.contains(form.id))
+               {
+                  existingFAIds.add(form.FormAssemblyId__c);
                }
             }
 
-            //Check if records have a dupe name
-            for (SObject sObj: Trigger.new)
+            //Check if records have a dupe name for all record type  & formassemblyId for formassembly type form 
+            for (SObject sObj : Trigger.new)
             {
                AH_UDC_Form__c form = (AH_UDC_Form__c) sObj;
                string formName = form.name.toUpperCase();
-               if (existingNames.contains(formName) && !dupeNameIds.contains(form.id)) dupeNameIds.add(form.id);
+
+               if (existingNames.contains(formName)) dupeNameIds.add(form.id);
+               if (existingFAIds.contains(form.FormAssemblyId__c)) dupeFAIds.add(form.id);
             }
+
 
             //Add an error for each record that is a dupe name
-            for (SObject sObj: Trigger.new)
+            for (SObject sObj : Trigger.new)
             {
                AH_UDC_Form__c form = (AH_UDC_Form__c) sObj;
-               if (dupeNameIds.contains(form.id)) {
+               if (dupeNameIds.size() > 0 && dupeNameIds.contains(form.id))
+               {
                   AH_UDC_LogHelper.Debug('Duplicate Form Name: ' + form.name);
-                  form.name.addError(System.Label.AH_UDC_DuplicateFormNameError); // prevent upsert
+                  sObj.addError(System.Label.AH_UDC_DuplicateFormNameError); // prevent upsert
+               }
+
+               //Check that if the Record Type is "Form Assembly" that FormAssemblyId__c is not null and unique
+               if (form.RecordTypeId == formAssemblyRecordTypeId)
+               {
+                  if (form.FormAssemblyId__c == null || dupeFAIds.contains(form.id))
+                  {
+                     AH_UDC_LogHelper.Debug('Duplicate FormAssemblyId__c: ' + form.FormAssemblyId__c);
+                     sObj.addError(System.Label.AH_UDC_FormAssemblyIdError);
+                  }
                }
             }
          }
       }
-      catch(Exception exc)
-      {
-         AH_UDC_LogHelper.Log(AH_UDC_LogHelper.LogLevel_EXC,
-                              'AH_UDC_FormTriggerHelper','onTrigger',
-                              'An exception occurred: ' + exc.getMessage(),
-                              exc, null, null);
-         for (SObject sObj: Trigger.new)
+      catch(exception exc) {
+         System.Debug(AH_UDC_LogHelper.getClassAndMethodName(new DmlException())
+                      + ': Exception occurred: ' + exc.getMessage() + ' | ' + exc.getStackTraceString());
+         for (SObject sObj : (Trigger.new != null ? Trigger.new : Trigger.old))
          {
-            //sObj.addError(System.Label.AH_UDC_FormTriggerHelper_ExceptionOccurred); // prevent upsert
+            sObj.addError(System.Label.AH_UDC_FormTriggerHelper_ExceptionOccurred); // prevent upsert
          }
       }
    }

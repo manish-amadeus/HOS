@@ -71,10 +71,10 @@ private class SolutionSearchTestClass
         
         List<User> lstUsers = new List<User>();
         
-        User uSptMgr = NI_TestClassData.createTestUser(1, 'NI Support Managers'); 
+        User uSptMgr = NI_TestClassData.createTestUser(1, 'AH Support Managers - Lightning'); 
         lstUsers.add(uSptMgr);   
         
-        User uSptTech = NI_TestClassData.createTestUser(2, 'NI Support CSR'); 
+        User uSptTech = NI_TestClassData.createTestUser(2, 'AH Support CSR - Lightning'); 
         lstUsers.add(uSptTech);  
         
         Database.insert(lstUsers);

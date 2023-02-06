@@ -20,14 +20,14 @@ public class AH_JobScheduler_Ctlr_Test
         jobSettings1.Context_Username__c = 'xyz@test.com';
         jobSettings1.Context_User_Password__c = 'Mypass@123';
         jobSettings1.Context_User_Security_Token__c = 'vokjkLXjiwbm3non2ZBHohSuK';
-        jobSettings1.Running_User_Profile_Name__c = 'System Administrator';
+        //jobSettings1.Running_User_Profile_Name__c = 'System Administrator';
+        Profile p = [SELECT Name FROM Profile WHERE Id =: UserInfo.getProfileId()];
+        jobSettings1.Running_User_Profile_Name__c = p.Name;
         jobSettings1.Endpoint__c = 'https://ap4.salesforce.com/';
         jobSettings1.Schedulable_Classes__c = 'Class1,Class2,Class3';
         jobSettings1.Environment__c = 'Production';
-        jobSettings1.User_Name__c = 'User 1';
-        
-        insert jobSettings1;
-        
+        jobSettings1.User_Name__c = 'User 1';      
+        insert jobSettings1;      
     }
 
 

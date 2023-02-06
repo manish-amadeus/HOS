@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PermissionSet xmlns="http://soap.sforce.com/2006/04/metadata">
+    <customPermissions>
+        <enabled>true</enabled>
+        <name>CanAddTasksToClosedCases</name>
+    </customPermissions>
+    <description>A permission set that only should have the CanAddTasksToClosedCases custom permission.</description>
+    <hasActivationRequired>false</hasActivationRequired>
+    <label>Tasks On Closed Cases - CRUD</label>
+    <license>Salesforce</license>
+</PermissionSet>

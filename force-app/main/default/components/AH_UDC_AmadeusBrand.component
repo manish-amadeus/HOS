@@ -1,0 +1,78 @@
+<apex:component >
+<style>
+   btn {
+      font-family:'Source Sans Pro';
+      display: inline-block;
+      font-weight: 400;
+      line-height: 1.5;
+      color: #1a1a1a;
+      text-align: center;
+      vertical-align: middle;
+      cursor: pointer;
+      -webkit-user-select: none;
+      user-select: none;
+      background-color: transparent;
+      border: 1px solid transparent;
+      padding: .3125rem 1rem;
+      font-size: 1rem;
+      border-radius: .175rem;
+      transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+   }
+
+   @media (prefers-reduced-motion: reduce) {
+      .btn {
+         transition: none;
+      }
+   }
+
+   .btn:hover {
+      color: red;
+      text-decoration: none;
+   }
+
+   .btn-check:focus + .btn, .btn:focus {
+      outline: 0;
+      box-shadow: 0 0 0 .25rem #005eb840;
+   }
+
+   .btn:disabled, .btn.disabled, fieldset:disabled .btn {
+      pointer-events: none;
+      opacity: 1;
+   }
+
+   .btn-primary {
+      color: #fff;
+      background-color: #005eb8;
+      border-color: #005eb8;
+   }
+
+      .btn-primary:hover {
+         color: #fff;
+         background-color: #00509c;
+         border-color: #004b93;
+      }
+
+      .btn-check:focus + .btn-primary, .btn-primary:focus {
+         color: #fff;
+         background-color: #00509c;
+         border-color: #004b93;
+         box-shadow: 0 0 0 .25rem #2676c380;
+      }
+
+      .btn-check:checked + .btn-primary, .btn-check:active + .btn-primary, .btn-primary:active, .btn-primary.active, .show > .btn-primary.dropdown-toggle {
+         color: #fff;
+         background-color: #004b93;
+         border-color: #00478a;
+      }
+
+         .btn-check:checked + .btn-primary:focus, .btn-check:active + .btn-primary:focus, .btn-primary:active:focus, .btn-primary.active:focus, .show > .btn-primary.dropdown-toggle:focus {
+            box-shadow: 0 0 0 .25rem #2676c380;
+         }
+
+      .btn-primary:disabled, .btn-primary.disabled {
+         color: #fff;
+         background-color: #005eb8;
+         border-color: #005eb8;
+      }
+</style>
+</apex:component>

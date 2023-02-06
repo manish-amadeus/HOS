@@ -36,7 +36,7 @@ public class NI_Task_TriggerHandler_Test
         
         system.debug('NI_Task_TriggerHandler_Test.createTestData() - NUMBER OF QUERIES after NI_TestClassData.createTestWinaproachServiceNowSettings() = ' + limits.getQueries());
 
-		// CREATE TEST ACCOUNT FOR TEST CASES
+        // CREATE TEST ACCOUNT FOR TEST CASES
         Account a = NI_TestClassData.createTestAccount(1);
         insert a;
 
@@ -56,7 +56,7 @@ public class NI_Task_TriggerHandler_Test
         c.RecordTypeId = rtCaseId;
         lstCaseInsert.Add(c);
         
-		Case c2 = NI_TestClassData.createTestCase(2, a.Id);
+        Case c2 = NI_TestClassData.createTestCase(2, a.Id);
         c2.Subject = 'TEST APEX TASK TRIGGER NUMBER FIELDS';
         lstCaseInsert.Add(c2);
         
@@ -65,7 +65,7 @@ public class NI_Task_TriggerHandler_Test
         test.stopTest();
         
         AH_Task_Business_Hours__c taskBsHrs = new AH_Task_Business_Hours__c();
-        taskBsHrs.Name = 'NI Contracts Task';
+        taskBsHrs.Name = 'Professional Services Task';
         taskBsHrs.Business_Hours__c = 'S&C Contracts Tasks';
         insert taskBsHrs;
 
@@ -76,7 +76,7 @@ public class NI_Task_TriggerHandler_Test
         List<Case> lstCaseAsserts = new List<Case>([SELECT Id FROM Case WHERE Subject LIKE 'TEST APEX TASK TRIGGER%']);
         system.assertEquals(2, lstCaseAsserts.Size());
         
-		system.debug('END NI_Task_TriggerHandler_Test.createTestData() - NUMBER OF QUERIES = ' + limits.getQueries());   
+        system.debug('END NI_Task_TriggerHandler_Test.createTestData() - NUMBER OF QUERIES = ' + limits.getQueries());   
         
     }
 
@@ -99,10 +99,10 @@ public class NI_Task_TriggerHandler_Test
         
         Id rt = TaskRecordTypeInfo.get('NI Support').getRecordTypeId();
         
-		Task tskCall = NI_TestClassData.createTestTask(1, null, c.Id, rt, 'Call', 'Completed', 'Low');
+        Task tskCall = NI_TestClassData.createTestTask(1, null, c.Id, rt, 'Call', 'Completed', 'Low');
         Task tskEmail = NI_TestClassData.createTestTask(2, null, c.Id, rt, 'Outgoing Email', 'Completed', 'Low');
 
-		Task tskCall2 = NI_TestClassData.createTestTask(3, null, c2.Id, rt, 'Call', 'Completed', 'Low');
+        Task tskCall2 = NI_TestClassData.createTestTask(3, null, c2.Id, rt, 'Call', 'Completed', 'Low');
         Task tskEmail2 = NI_TestClassData.createTestTask(4, null, c2.Id, rt, 'Outgoing Email', 'Completed', 'Low');
         
         test.startTest();
@@ -111,7 +111,7 @@ public class NI_Task_TriggerHandler_Test
         List<Task> lstTaskInsert = new List<Task>();
         lstTaskInsert.add(tskCall);
         lstTaskInsert.add(tskEmail);
-		lstTaskInsert.add(tskCall2);
+        lstTaskInsert.add(tskCall2);
         lstTaskInsert.add(tskEmail2);   
         
         Database.insert(lstTaskInsert);        
@@ -146,15 +146,15 @@ public class NI_Task_TriggerHandler_Test
         Schema.DescribeSObjectResult cfrSchema = Schema.SObjectType.Task; 
         Map<String, Schema.RecordTypeInfo> TaskRecordTypeInfo = cfrSchema.getRecordTypeInfosByName(); 
         
-        Id rt = TaskRecordTypeInfo.get('NI Contracts Task').getRecordTypeId();
+        Id rt = TaskRecordTypeInfo.get('Professional Services Task').getRecordTypeId();
         
-		Task tskCall = NI_TestClassData.createTestTask(1, null, c.Id, rt, 'Call', 'Not Started', 'Low');
+        Task tskCall = NI_TestClassData.createTestTask(1, null, c.Id, rt, 'Call', 'Not Started', 'Low');
         //tskCall.ActivityDate = system.today();
         tskCall.Business_Hours__c = bh.Id;
         Task tskEmail = NI_TestClassData.createTestTask(2, null, c.Id, rt, 'Outgoing Email', 'On Hold', 'Low');
         //tskEmail.ActivityDate = system.today().addDays(5);
         tskEmail.Business_Hours__c = bh.Id;
-		//Task tskCall2 = NI_TestClassData.createTestTask(3, null, c2.Id, rt, 'Call', 'Completed', 'Low');
+        //Task tskCall2 = NI_TestClassData.createTestTask(3, null, c2.Id, rt, 'Call', 'Completed', 'Low');
         Task tskEmail2 = NI_TestClassData.createTestTask(4, null, c2.Id, rt, 'Outgoing Email', 'On Hold', 'Low');
         tskEmail2.Business_Hours__c = bh.Id;
         tskEmail2.Store_On_Hold_Task_Time__c = '2.20 days';
@@ -165,7 +165,7 @@ public class NI_Task_TriggerHandler_Test
         List<Task> lstTaskInsert = new List<Task>();
         lstTaskInsert.add(tskCall);
         lstTaskInsert.add(tskEmail);
-		//lstTaskInsert.add(tskCall2);
+        //lstTaskInsert.add(tskCall2);
         lstTaskInsert.add(tskEmail2);   
         
         Database.insert(lstTaskInsert); 
@@ -212,105 +212,5 @@ public class NI_Task_TriggerHandler_Test
         String resultTwo = handler.addOrSubtractDaysOrHours(timeTwo, timeOne, workingHours, operation);
         system.assertEquals('2.22 days', resultTwo);
     }
-      
-    
-    // ======================================================================================================================================= //
-    // = TEST METHOD 4 BULK INSERT TEST METHOD: 
-    // ======================================================================================================================================= //
-    @isTest static void Test4() 
-    {    
-        
-        test.startTest();  
-        system.debug(' *** AH_ContentDocumentLink_Trig_Handler_Test.Test3() - START ***');
-        
-        // CREATE A TEST USER WITH THE NI SALES PROFILE TO USE AS THE RUNAS USER
-        User u = NI_TestClassData.createTestUser(1, 'NI Sales');
-        u.FirstName = 'Apex';
-        u.LastName = 'Testuser';
-        insert u;
-        
-        User u2 = [SELECT Id, ProfileID FROM User WHERE FirstName = 'Apex' AND LastName = 'Testuser'];
-        Account a = [SELECT Id FROM Account Limit 1];
-        Contact c = [SELECT Id FROM Contact Limit 1];
-        Profile prof = [SELECT Id, Name FROM Profile WHERE Id =: u2.ProfileId];
-        
-        // READ IN CUSTOM AH Share Task Files With Parent METADATA TYPE
-        //List<AH_Share_Task_Files_With_Parent__mdt> lstMt = [SELECT Id, Apply_to_All_Profiles__c, Apply_to_Certain_Profiles__c, Profiles__c
-        //                                                    FROM AH_Share_Task_Files_With_Parent__mdt
-        //                                                    WHERE DeveloperName = 'Default' LIMIT 1];
-        
-        //System.assertEquals(1, lstMt.size());
-        
-        system.runAs(u2)        
-        {
-            // GET RECORDTYPE ID
-            Schema.DescribeSObjectResult cfrSchema = Schema.SObjectType.Task; 
-            Map<String, Schema.RecordTypeInfo> TaskRecordTypeInfo = cfrSchema.getRecordTypeInfosByName(); 
-            Id taskRecTypeId = TaskRecordTypeInfo.get('NI Standard Task').getRecordTypeId();
-            
-            List<Task> lstTasksToInsert = new List<Task>();
-            for (Integer i = 1; i <= 500; i++)
-            {
-                Task tsk = NI_TestClassData.createTestTask(i, c.Id, a.Id, taskRecTypeId, 'Call', 'Completed', 'Low');
-                lstTasksToInsert.add(tsk);      
-            }
-            insert lstTasksToInsert;
-            
-            List<Task> lstInsertedTasks = [select id from Task];
-            system.assertEquals(lstInsertedTasks.size(), 500);
-            
-/* 
-            List<ContentVersion> lstContentVersionToInsert = new List<ContentVersion> ();
-            For(Integer i=1 ;i<=200 ; i++)
-            {
-            	ContentVersion cv = NI_TestClassData.createContentVersion();     
-            	lstContentVersionToInsert.add(cv);      
-            }
-            insert lstContentVersionToInsert;
-            
-            List<ContentVersion> lstInsertedContentVersion = [select Id, ContentDocumentId from ContentVersion];
-            System.assertEquals(lstInsertedContentVersion.size() ,200);
-            
-            List<ContentDocumentLink> lstContentDocumentLinkToInsert = new List<ContentDocumentLink>();
-            
-            for(Task t : lstInsertedTasks)
-            {
-            	for(ContentVersion cv2 : lstContentVersionToInsert)
-            	{
-            		ContentDocumentLink cl = NI_TestClassData.createContentDocumentLink(cv2.ContentDocumentId, t.Id);
-            		lstContentDocumentLinkToInsert.add(cl);  
-            	}
-            }
-            insert lstContentDocumentLinkToInsert;
-            
-            List<ContentDocumentLink> lstInsertedContentDocumentLink = [SELECT Id, LinkedEntityId, ContentDocumentId, ShareType 
-            FROM ContentDocumentLink
-            WHERE LinkedEntityId =: a.Id  
-            AND ShareType = 'V'];
-            
-            
-            for(AH_Share_Task_Files_With_Parent__mdt mt : lstMt)
-            {
-                if(mt.Apply_to_Certain_Profiles__c == true && mt.Profiles__c.contains(prof.Name))
-                {
-                    //VERIFY THE FILES WERE SUCCESSFULLY SHARED TO THE ACCOUNT RECORD
-                    System.assertEquals(lstInsertedContentDocumentLink.size() ,200);     
-                }
-                
-                if(mt.Apply_to_All_Profiles__c == true)
-                {
-                    //VERIFY THE FILES WERE SUCCESSFULLY SHARED TO THE ACCOUNT RECORD
-                    System.assertEquals(lstInsertedContentDocumentLink.size() ,200);     
-                }  
-            
-            }
-            
-            system.debug('    >>>>    QUERIES ISSUED = ' + Limits.getQueries() + ' Testmethod: AH_ContentDocumentLink_Trig_Handler_Test.Test3');        
-            system.debug(' *** AH_ContentDocumentLink_Trig_Handler_Test.Test3() - END ***'); 
-            test.stopTest(); 
-*/
-        }
-        
-    }   
     
 }

@@ -234,15 +234,6 @@ private class NI_TestClassData_Test
         
         NICC_Risk__c niccRsk = NI_TestClassData.createNICCRisk('RISK DESC', 'HRM', true, false, false, false, nicc.Id, 1, 1);     
         insert niccRsk;
-        
-        ICESubscription__c iceSub = NI_TestClassData.createICESubscription(1, 1000000000);
-        insert iceSub; 
-        
-        ICEProperty__c icePrp = NI_TestClassData.createICEProperty(1, 1000000000, 1000000001);
-        insert icePrp; 
-
-        ICEUser__c iceUsr = NI_TestClassData.createICEUser(1, 1000000000, 1000000001, 1000000002);
-        insert iceUsr; 
 
         system.debug('END NI_TestClassData_Test.TestClassData2() - NUMBER OF QUERIES = ' + limits.getQueries());
         
@@ -758,13 +749,19 @@ Test.StopTest();
             AND pse__Category__c = 'Ready-to-Bill Revenue'
         ]);
         system.assertEquals(1, lstTransactionAsserts.size());
-        system.assertEquals(true, lstTransactionAsserts[0].pse__Related_Record_Deleted__c);
+        system.assertEquals(true, lstTransactionAsserts[0].pse__Related_Record_Deleted__c); 
         
-        // CREATE A TEST PSE EXPENSE REPORT
-        pse__Expense_Report__c xRpt = NI_TestClassData.createPSEExpenseReport(c.Id, proj.Id);
-        xRpt.Name = 'Test External Expense';
-        xRpt.pse__Assignment__c = assmnt.Id;
-//        insert xRpt;      
+        reg.Central_Expense_Approver__c = u.Id;
+        update reg;
+        
+        assmnt.pse__Milestone__c = null;
+        update assmnt;
+        
+        // CREATE A TEST PSE EXPENSE REPORT 
+        pse__Expense_Report__c xRpt = NI_TestClassData.createPSEExpenseReport(c.Id, proj.Id); 
+        xRpt.Name = 'Test External Expense'; 
+        xRpt.pse__Assignment__c = assmnt.Id; 
+        insert xRpt; 
         
         system.debug('END NI_TestClassData_Test.testPSECustoms() - NUMBER OF QUERIES = ' + limits.getQueries()); 
         

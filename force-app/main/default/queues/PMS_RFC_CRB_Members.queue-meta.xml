@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Queue xmlns="http://soap.sforce.com/2006/04/metadata">
+    <doesSendEmailToMembers>true</doesSendEmailToMembers>
+    <name>PMS RFC - CRB Members</name>
+    <queueMembers>
+        <publicGroups>
+            <publicGroup>PMS_RFC_CRB_Members</publicGroup>
+        </publicGroups>
+        <users>
+            <user>bchanoir@amadeus.com</user>
+            <user>ezongo@amadeus.com</user>
+            <user>edmond.abboud@amadeus.com</user>
+            <user>jeanjacques.fani@amadeus.com</user>
+            <user>thierry.borron@amadeus.com</user>
+        </users>
+    </queueMembers>
+    <queueSobject>
+        <sobjectType>NI_Change_Control__c</sobjectType>
+    </queueSobject>
+</Queue>

@@ -1,8 +1,60 @@
-// Provides methods that will run using the SystemContext rather than the current user's context
+/*
+ * Name         : AH_UDC_SystemContext_TEST
+ * Created By   : George Tasker (george.tasker@amadeus.com)
+ * Created Date : 2021-May-20
+ * Description  : Provides methods that will run using the SystemContext rather than the current user's context
+ * Dependencies : AH_UDC_SystemContext.cls
+ */
 public without sharing class AH_UDC_SystemContext {
 
+   // A static, final variable that initializes an instance of the class
+   // as it's final, it will only be initialized once
+   private static final AH_UDC_SystemContext instance = new AH_UDC_SystemContext();
+
+   // Singleton constructor
+   private AH_UDC_SystemContext() {
+   }
+
+   // *********** Creates ************
+   public static void CreateObject(sObject o) {
+      insert o; // CRUD/FLS False Positive
+   }
+
+   public static void CreateObjects(list<sObject> l) {
+      insert l; // CRUD/FLS False Positive
+   }
+
+   // *********** Updates ************
+   public static void UpdateObject(sObject o) {
+      update o; // CRUD/FLS False Positive
+   }
+
+   public static void UpdateObjects(list<sObject> l) {
+      update l; // CRUD/FLS False Positive
+   }
+
+
+   // *********** Upserts ************
+   public static void UpsertObject(sObject o) {
+      upsert o; // CRUD/FLS False Positive
+   }
+
+   public static void UpsertObjects(List<sObject> l) {
+      upsert l; // CRUD/FLS False Positive
+   }
+
+
+   // *********** Deletes ************
+   public static void DeleteObject(sObject o) {
+      delete o; // CRUD/FLS False Positive
+   }
+
+   public static void DeleteObjects(list<sObject> l) {
+      delete l; // CRUD/FLS False Positive
+   }
+
    // Execute the query contained in the 'query' string
-   public List<sobject> query(String query) {
+   public static List<sobject> query(String query) {
       List<sobject> lstObjs = Database.query(query);
       return lstObjs;
    }
@@ -23,7 +75,7 @@ public without sharing class AH_UDC_SystemContext {
    //    Failed  - If an exception occurs, the object does not exist or is inaccessible, or any requested
    //              field does not exist or is inaccessible, one or more log messages are logged and an
    //              exception is thrown
-   public List<SObject> query(String objectName, List<String>fieldNames, String whereClause, String orderBy, Integer maxRecords) {
+   public static List<SObject> query(String objectName, List<String> fieldNames, String whereClause, String orderBy, Integer maxRecords) {
       AH_UDC_LogHelper.debug('###objectName: ' + objectName);
       AH_UDC_LogHelper.debug('###fieldNames: ' + fieldNames);
       AH_UDC_LogHelper.debug('###whereClause: ' + whereClause);
@@ -53,7 +105,7 @@ public without sharing class AH_UDC_SystemContext {
       String query = 'SELECT ';
 
       // Will contain the ObjectName.FieldName of any requested fields that are not found or are inaccessible
-      List<String>listErrantFields = new List<String>();
+      List<String> listErrantFields = new List<String> ();
 
       // Loop through the fields checking that they are accessible and adding them to the list of fields
       // that will be returned for each object record
@@ -68,7 +120,7 @@ public without sharing class AH_UDC_SystemContext {
                listErrantFields.add(objectName + '.' + f);
             }
          }
-         catch (Exception exc) {
+         catch(Exception exc) {
             listErrantFields.add(objectName + '.' + f);
          }
 
@@ -115,24 +167,24 @@ public without sharing class AH_UDC_SystemContext {
    }
 
    // Delete sObject list
-   public void deleteSobjList(List<SObject> sObjList) {
-      delete sObjList;
+   public static void deleteSobjList(List<SObject> sObjList) {
+      delete sObjList; // CRUD/FLS False Positive
    }
 
    // Insert sObject list
-   public void insertSobjList(List<SObject> sObjList) {
-      insert sObjList;
+   public static void insertSobjList(List<SObject> sObjList) {
+      insert sObjList; // CRUD/FLS False Positive
    }
 
    // Upsert object
-   public void upsertSObj(SObject sObj) {
-      upsert sObj;
+   public static void upsertSObj(SObject sObj) {
+      upsert sObj; // CRUD/FLS False Positive
    }
 
    // Update object
-   public void updateSObj(SObject sObj) {
-      update sObj;
+   public static void updateSObj(SObject sObj) {
+      update sObj; // CRUD/FLS False Positive
    }
 
-   public class AH_UDC_SystemContextException extends Exception {}
+   public class AH_UDC_SystemContextException extends Exception { }
 }

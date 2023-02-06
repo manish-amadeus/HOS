@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ApprovalProcess xmlns="http://soap.sforce.com/2006/04/metadata">
+    <active>true</active>
+    <allowRecall>true</allowRecall>
+    <allowedSubmitters>
+        <type>owner</type>
+    </allowedSubmitters>
+    <approvalPageFields>
+        <field>Name</field>
+        <field>Owner</field>
+    </approvalPageFields>
+    <approvalStep>
+        <allowDelegate>false</allowDelegate>
+        <approvalActions>
+            <action>
+                <name>Change_Status_to_Approved_Step_1</name>
+                <type>FieldUpdate</type>
+            </action>
+        </approvalActions>
+        <assignedApprover>
+            <approver>
+                <name>wmurphy@newmarketinc.com</name>
+                <type>user</type>
+            </approver>
+            <whenMultipleApprovers>FirstResponse</whenMultipleApprovers>
+        </assignedApprover>
+        <label>Approval to Whitney Murphy for accuracy check</label>
+        <name>ApprovaltoWhitneyMurphyforaccuracycheck</name>
+    </approvalStep>
+    <approvalStep>
+        <allowDelegate>false</allowDelegate>
+        <approvalActions>
+            <action>
+                <name>Statusupdatedtoapproved</name>
+                <type>FieldUpdate</type>
+            </action>
+        </approvalActions>
+        <assignedApprover>
+            <approver>
+                <name>lnavarro@newmarketinc.com</name>
+                <type>user</type>
+            </approver>
+            <whenMultipleApprovers>FirstResponse</whenMultipleApprovers>
+        </assignedApprover>
+        <description>Updated per NICC-031154</description>
+        <label>Send to Luis Navarro</label>
+        <name>Send_to_Lee_Horgan</name>
+        <rejectBehavior>
+            <type>RejectRequest</type>
+        </rejectBehavior>
+    </approvalStep>
+    <description>LB NICC-033089
+Updated in NICC-031154.  If Final Approver is Paco Perez-Lozao then send to Whitney as accuracy check, and set Luis Navarro as Final Approver.</description>
+    <emailTemplate>SalesMarketing/Expense_Report_Approval_Email</emailTemplate>
+    <enableMobileDeviceAccess>false</enableMobileDeviceAccess>
+    <entryCriteria>
+        <booleanFilter>1</booleanFilter>
+        <criteriaItems>
+            <field>User.ExpenseReportFinalApproverOverride__c</field>
+            <operation>equals</operation>
+            <value>Luis Navarro</value>
+        </criteriaItems>
+    </entryCriteria>
+    <finalApprovalActions>
+        <action>
+            <name>ExpenseReporthasbeenApprovedToOwner</name>
+            <type>Alert</type>
+        </action>
+        <action>
+            <name>Statusupdatedtoapproved</name>
+            <type>FieldUpdate</type>
+        </action>
+    </finalApprovalActions>
+    <finalApprovalRecordLock>true</finalApprovalRecordLock>
+    <finalRejectionActions>
+        <action>
+            <name>Expense_Report_has_been_Rejected_To_Owner</name>
+            <type>Alert</type>
+        </action>
+        <action>
+            <name>Statuschangetorejected</name>
+            <type>FieldUpdate</type>
+        </action>
+    </finalRejectionActions>
+    <finalRejectionRecordLock>false</finalRejectionRecordLock>
+    <initialSubmissionActions>
+        <action>
+            <name>ChangeStatustoSubmitted</name>
+            <type>FieldUpdate</type>
+        </action>
+    </initialSubmissionActions>
+    <label>CEO Process</label>
+    <processOrder>2</processOrder>
+    <recallActions>
+        <action>
+            <name>ChangeStatustoNotSubmitted</name>
+            <type>FieldUpdate</type>
+        </action>
+        <action>
+            <name>ExpenseReportRecalled</name>
+            <type>Alert</type>
+        </action>
+    </recallActions>
+    <recordEditability>AdminOnly</recordEditability>
+    <showApprovalHistory>true</showApprovalHistory>
+</ApprovalProcess>

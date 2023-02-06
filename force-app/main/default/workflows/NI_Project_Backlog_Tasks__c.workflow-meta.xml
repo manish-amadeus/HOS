@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Workflow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fieldUpdates>
+        <fullName>Allow_Custom_Task_Name</fullName>
+        <description>NICC-027852</description>
+        <field>Allow_Custom_Task_Name__c</field>
+        <literalValue>1</literalValue>
+        <name>Allow Custom Task Name</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Literal</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>Date_Completed_Equals_Null</fullName>
+        <description>Salesforce.com Change Request: NICC-010897</description>
+        <field>Date_Completed__c</field>
+        <name>Date Completed Equals Null</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Null</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>Set_Status_to_In_Progress</fullName>
+        <field>Status__c</field>
+        <literalValue>In Progress</literalValue>
+        <name>Set Status to In Progress</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Literal</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>Set_Status_to_Not_Started</fullName>
+        <field>Status__c</field>
+        <literalValue>Not Started</literalValue>
+        <name>Set Status to Not Started</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Literal</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>Update_Date_Completed</fullName>
+        <description>Salesforce.com Change Request: NICC-010897</description>
+        <field>Date_Completed__c</field>
+        <formula>TODAY()</formula>
+        <name>Update Date Completed</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Formula</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>Update_Due_Date</fullName>
+        <description>Salesforce.com Change Request: NICC-010897
+
+Set the NI Project Backlog Task Due Date to the Sprint End Date</description>
+        <field>Due_Date__c</field>
+        <formula>Sprint__r.Sprint_Completion_Date__c</formula>
+        <name>Update Due Date</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Formula</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>Update_Remaining_LOE</fullName>
+        <description>Updated Per NICC-016642:
+Auto-Update Remaining Hours using Estimate if prior values of Actual+Remaining=Estimate AND Actual &lt; Estimate.  
+Otherwise Auto-Update Remaining Hours using the Actual Hours Delta (ensuring that Remaining Hours is always &gt; 0).</description>
+        <field>Hours_Remaining__c</field>
+        <formula>IF( ISNULL(PRIORVALUE(Hours_Remaining__c) ), 
+Task_Estimate_hrs__c, 
+IF( 
+PRIORVALUE(Hours_Remaining__c) + PRIORVALUE(Hours__c) = PRIORVALUE(Task_Estimate_hrs__c) &amp;&amp; Hours__c &lt; Task_Estimate_hrs__c, 
+Task_Estimate_hrs__c - Hours__c, 
+IF( 
+PRIORVALUE(Hours_Remaining__c) - (Hours__c-PRIORVALUE(Hours__c)) &gt; 0, 
+PRIORVALUE(Hours_Remaining__c) - (Hours__c-PRIORVALUE(Hours__c)), 
+1 
+) 
+) 
+) 
+
+/*******ORIGINAL CODE
+IF(Task_Estimate_hrs__c - Hours__c &lt; 0,1,Task_Estimate_hrs__c - Hours__c)
+*/</formula>
+        <name>Update Remaining LOE</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Formula</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>Update_Standard_Task_Name</fullName>
+        <description>Salesforce.com Change Request: NICC-016642</description>
+        <field>Name</field>
+        <formula>Task_Name__c</formula>
+        <name>Update Standard Task Name</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Formula</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>Zero_Out_Remaining_Hours</fullName>
+        <field>Hours_Remaining__c</field>
+        <formula>0</formula>
+        <name>Zero Out Remaining Hours</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Formula</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <rules>
+        <fullName>Save Task</fullName>
+        <actions>
+            <name>Update_Remaining_LOE</name>
+            <type>FieldUpdate</type>
+        </actions>
+        <active>true</active>
+        <description>Modified per Salesforce.com Change Request: NICC-016642
+
+Auto-update the remaining hours IF:
+1) Update remaining hours if the task is not &quot;Complete&quot; AND
+2) Remaining Hours have not been manually updated AND</description>
+        <formula>OR( 
+ISNULL(PRIORVALUE(Hours_Remaining__c)), 
+AND( 
+NOT( ISPICKVAL(Status__c , &quot;Completed&quot;)), 
+PRIORVALUE(Hours_Remaining__c) = Hours_Remaining__c 
+) 
+)
+
+/***ORIGINAL CODE
+AND(LOE_Override__c = false,NOT(ISPICKVAL(Status__c,&quot;Completed&quot;)))  
+*/</formula>
+        <triggerType>onAllChanges</triggerType>
+    </rules>
+    <rules>
+        <fullName>Set Task Completed Date to NULL</fullName>
+        <actions>
+            <name>Date_Completed_Equals_Null</name>
+            <type>FieldUpdate</type>
+        </actions>
+        <active>true</active>
+        <description>Salesforce.com Change Request: NICC-010897
+
+- On Update: IF [Task.DateCompleted] &lt;&gt; NULL AND [Task.Status] &lt;&gt; “Completed”, then [Task.DateCompleted] = NULL</description>
+        <formula>AND(NOT(ISBLANK(Date_Completed__c)),NOT(ISPICKVAL(Status__c,&quot;Completed&quot;)))</formula>
+        <triggerType>onCreateOrTriggeringUpdate</triggerType>
+    </rules>
+    <rules>
+        <fullName>Status In Progress</fullName>
+        <actions>
+            <name>Set_Status_to_In_Progress</name>
+            <type>FieldUpdate</type>
+        </actions>
+        <active>true</active>
+        <formula>AND (
+    Hours__c &gt; 0,
+    NOT ISPICKVAL(Status__c, &apos;Completed&apos;)
+)</formula>
+        <triggerType>onCreateOrTriggeringUpdate</triggerType>
+    </rules>
+    <rules>
+        <fullName>Status Not Started</fullName>
+        <actions>
+            <name>Set_Status_to_Not_Started</name>
+            <type>FieldUpdate</type>
+        </actions>
+        <active>true</active>
+        <formula>AND (
+    Hours__c = 0,
+    NOT ISPICKVAL(Status__c, &apos;Completed&apos;)
+)</formula>
+        <triggerType>onCreateOrTriggeringUpdate</triggerType>
+    </rules>
+    <rules>
+        <fullName>Task Completed</fullName>
+        <actions>
+            <name>Update_Date_Completed</name>
+            <type>FieldUpdate</type>
+        </actions>
+        <actions>
+            <name>Zero_Out_Remaining_Hours</name>
+            <type>FieldUpdate</type>
+        </actions>
+        <active>true</active>
+        <criteriaItems>
+            <field>NI_Project_Backlog_Tasks__c.Status__c</field>
+            <operation>equals</operation>
+            <value>Completed</value>
+        </criteriaItems>
+        <description>Set Remaining Hours to Zero.</description>
+        <triggerType>onCreateOrTriggeringUpdate</triggerType>
+    </rules>
+    <rules>
+        <fullName>Task Due Date</fullName>
+        <actions>
+            <name>Update_Due_Date</name>
+            <type>FieldUpdate</type>
+        </actions>
+        <active>true</active>
+        <description>Salesforce.com Change Request: NICC-010897</description>
+        <formula>AND(ISCHANGED(Sprint__c), NOT(ISBLANK(Sprint__c)))</formula>
+        <triggerType>onAllChanges</triggerType>
+    </rules>
+    <rules>
+        <fullName>Update Task Name</fullName>
+        <actions>
+            <name>Update_Standard_Task_Name</name>
+            <type>FieldUpdate</type>
+        </actions>
+        <active>true</active>
+        <description>Salesforce.com Change Request: NICC-016642
+
+Task Naming Convention</description>
+        <formula>(Name &lt;&gt; Task_Name__c) &amp;&amp; Allow_Custom_Task_Name__c = false</formula>
+        <triggerType>onCreateOrTriggeringUpdate</triggerType>
+    </rules>
+</Workflow>

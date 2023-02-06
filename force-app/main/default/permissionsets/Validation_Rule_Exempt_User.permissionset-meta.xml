@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PermissionSet xmlns="http://soap.sforce.com/2006/04/metadata">
+    <customPermissions>
+        <enabled>true</enabled>
+        <name>Validation_Rule_Exempt_User</name>
+    </customPermissions>
+    <description>Members of the permission set will be able to update and insert records bypassing validation rules that are setup to exclude running users belonging to it.</description>
+    <hasActivationRequired>false</hasActivationRequired>
+    <label>Validation Rule Exempt User</label>
+    <license>Salesforce</license>
+</PermissionSet>

@@ -5,8 +5,8 @@ Name            : INTGR_WinSN_Case_Handler Class
 Integration     : Win@pproach / Service Now
 Author          : Swapnil Patil
 Created Date    : 02/03/2016
-Last Mod Date   : 03/26/2018
-Last Mod By     : Shashikant Nikam
+Last Mod Date   : 08/17/2021
+Last Mod By     : Sean Harris
 NICC Reference  : Updated Per NICC-023347
 Description     : Updated 9/13/2017 Per NICC-023825
 				: Updated 10/5/2017 Per NICC-024188
@@ -34,6 +34,9 @@ public class INTGR_WinSN_Case_Handler
 
     public INTGR_WinSN_Case_Handler()
     {
+        
+        system.debug(' *%*%* INTGR_WinSN_Case_Handler CONSTRUCTOR (START)');
+        
         if (strProfileName == 'Case Integration Customers')
         {
             isUser_CUSTOMER = true;
@@ -50,35 +53,35 @@ public class INTGR_WinSN_Case_Handler
         {
             isUser_INTERNAL = true;
         }
+        
         // GET TRIGGER HANDLER BYPASS SWITCH VALUE
         bpSwitch = NI_TriggerBypassSwitches__c.getOrgDefaults();
+        
+        system.debug(' *%*%* isUser_CUSTOMER = ' + isUser_CUSTOMER + ', isUser_CUSTOMER_IHG = ' + isUser_CUSTOMER_IHG + ', isUser_WINAPROACH = ' + isUser_WINAPROACH + ', isUser_INTERNAL = ' + isUser_INTERNAL);
+        system.debug(' *%*%* INTGR_WinSN_Case_Handler CONSTRUCTOR (END)');
+        
     }
 
 	public void OnBeforeInsert(List<Case> newTrigger)
 	{
-		system.debug(' *** ENTERING INTGR_WinSN_Case_Handler.OnBeforeInsert() - QUERIES ISSUED = ' + Limits.getQueries());
 
 		List<Case> lstValidCases = new List<Case>();
-		lstValidCases = lstValidCasesToProcess(newTrigger);
+		lstValidCases = lstValidCasesToProcess(newTrigger, true);
 		if (lstValidCases.Size() > 0)
 		{
 			// IF USER DOES NOT HAVE 'Case Integration Customers' PROFILE AND NOT CALLED AS A RESULT OF AN INTGR_Case__c INSERT (LEGACY CONTEXT)
-			//if (!INTGR_IntegrationHelper.isICFlow && !INTGR_IntegrationHelper.uProfileName.containsIgnoreCase(INTGR_IntegrationHelper.INT_PROFILENAME))
-			//if (!INTGR_IntegrationHelper.isICFlow && !isUser_CUSTOMER)
             if (isUser_CUSTOMER_IHG)	// NICC-039247
 			{
 				processBeforeInsert(lstValidCases);
 			}
 
 			// IF USER HAS 'Case Integration Customers' PROFILE
-			//if (INTGR_IntegrationHelper.uProfileName.containsIgnoreCase(INTGR_IntegrationHelper.INT_PROFILENAME))
 			if (isUser_CUSTOMER)
             {
 				INTGR_IntegrationHelper.populateIntegrationAccountOnCase(lstValidCases);
 			}
 		}
 
-		system.debug(' *** EXITING INTGR_WinSN_Case_Handler.OnBeforeInsert() - QUERIES ISSUED = ' + Limits.getQueries());
 	}
 
 	public void OnAfterInsert(List<Case> newTrigger)
@@ -86,7 +89,7 @@ public class INTGR_WinSN_Case_Handler
 		system.debug(' *** ENTERING INTGR_WinSN_Case_Handler.OnAfterInsert() - QUERIES ISSUED = ' + Limits.getQueries());
 
 		List<Case> lstValidCases = new List<Case>();
-		lstValidCases = lstValidCasesToProcess(newTrigger);
+		lstValidCases = lstValidCasesToProcess(newTrigger, false);
 		if (lstValidCases.Size() > 0)
 		{
 			processAfterInsert(lstValidCases);
@@ -100,13 +103,10 @@ public class INTGR_WinSN_Case_Handler
 		system.debug(' *** ENTERING INTGR_WinSN_Case_Handler.OnBeforeUpdate() - QUERIES ISSUED = ' + Limits.getQueries());
 
 		List<Case> lstValidCases = new List<Case>();
-		lstValidCases = lstValidCasesToProcess(newTrigger);
+		lstValidCases = lstValidCasesToProcess(newTrigger, false);
 		if (lstValidCases.Size() > 0)
 		{        
-			// IF USER DOES NOT HAVE 'Case Integration Customers' PROFILE AND NOT CALLED AS A RESULT OF AN INTGR_Case__c UPDATE (LEGACY CONTEXT)
-			// if (!INTGR_IntegrationHelper.isICFlow && !INTGR_IntegrationHelper.uProfileName.containsIgnoreCase(INTGR_IntegrationHelper.INT_PROFILENAME))
-			// if (!INTGR_IntegrationHelper.isICFlow && !isUser_CUSTOMER)
-			if (isUser_CUSTOMER_IHG)		// NICC-039247
+			if (isUser_CUSTOMER_IHG)
 			{
 				setClosedCaseCheckboxes(newTrigger, oldMapTrigger);
 			}
@@ -121,7 +121,7 @@ public class INTGR_WinSN_Case_Handler
 		system.debug(' *** ENTERING INTGR_WinSN_Case_Handler.OnAfterUpdate() - QUERIES ISSUED = ' + Limits.getQueries());
 
 		List<Case> lstValidCases = new List<Case>();
-		lstValidCases = lstValidCasesToProcess(newTrigger);
+		lstValidCases = lstValidCasesToProcess(newTrigger, false);
 
 		if (lstValidCases.Size() > 0)
 		{
@@ -159,9 +159,8 @@ public class INTGR_WinSN_Case_Handler
 	// =========================================================================
 	//  FUNCTIONS ==============================================================
 	// =========================================================================
-	private List<Case> lstValidCasesToProcess(List<Case> newTrigger)
+    private List<Case> lstValidCasesToProcess(List<Case> newTrigger, Boolean isBeforeInsert)
 	{
-		system.debug(' *** ENTERING INTGR_WinSN_Case_Handler.lstValidCasesToProcess() - QUERIES ISSUED = ' + Limits.getQueries());
 
 		// LIST OF VALID CASES TO BE RETURNED
 		List<Case> retLst = new List<Case>();
@@ -173,7 +172,7 @@ public class INTGR_WinSN_Case_Handler
 		Winaproach_Work_Order_Case_Record_Type__c strWorkOrderRecType = Winaproach_Work_Order_Case_Record_Type__c.getValues('Default');
 
 		// IF NO RECORD TYPE NAMES FROM CUSTOM SETTING FOUND RETURN 0 SIZED CASE LIST
-		if (wcsRecordTypes == null  && strWorkOrderRecType == null)
+		if (wcsRecordTypes == null && strWorkOrderRecType == null)
 		{
 			return retLst;
 		}
@@ -184,14 +183,13 @@ public class INTGR_WinSN_Case_Handler
 		// SET TO HOLD CASE RECORD TYPE IDS
 		Set<Id> setRecordTypeIds = new Set<Id>();
 
-		// NICC-027116 4/23/2018- ADDED BY RIA TO CONSIDER 'CRS WORK ORDER CASE' RECORD TYPES ALSO
+		// NICC-027116 4/23/2018 - ADDED BY RIA TO CONSIDER 'CRS WORK ORDER CASE' RECORD TYPES ALSO LOOK FOR RECORD TYPE OF CRS WORK ORDERS
 		// LOOK FOR RECORD TYPE OF CRS WORK ORDERS
 		if (strWorkOrderRecType != null)
 		{
 			lstRecordTypes.add(String.valueOf(strWorkOrderRecType.Record_Type__c));
 		}
 
-		// NICC-027324 (START)
 		// LOOP THROUGH CASE RECORD TYPES TO ASSIGN IDS TO SET
 		Map<String, Schema.RecordTypeInfo> recordTypesMap = Schema.SObjectType.Case.getRecordTypeInfosByName();
 
@@ -203,20 +201,49 @@ public class INTGR_WinSN_Case_Handler
 				setRecordTypeIds.Add(rr.getRecordTypeId());
 			}
 		}
-		// NICC-027324 (END)
-
+        
+        // FILL LIST WITH CUSTOM METADATA TYPES
+        List<WINAPROACH_ONLY_Membership_Customer__mdt> lstWinAprchOnlys = new List<WINAPROACH_ONLY_Membership_Customer__mdt>(
+            [SELECT WinaproachAccountIdentifier__c, AH_Salesforce_Account_Id__c  
+             FROM WINAPROACH_ONLY_Membership_Customer__mdt
+             WHERE Integration_Disabled__c = false  
+             LIMIT 1]);         
+        
 		for (Case c : newTrigger)
 		{
-			// IF CASE IS OF A WIN@PROACH / SERVICE NOW INTEGRATION RECORD TYPE
-			if (setRecordTypeIds.contains(c.RecordTypeId))
+            
+            // CHECK TO SEE IF CASE SUBJECT STARTS WITH A WIN@PROACH ACCOUNT IDENTIFIER STRING FROM CUSTOM METADATA TYPE
+            //Boolean bWinAprchOnly = false;
+            //Id acctID = null;
+
+system.debug(' *%*%* lstWinAprchOnlys = ' + lstWinAprchOnlys); 
+system.debug(' *%*%* isBeforeInsert = ' + isBeforeInsert);
+system.debug(' *%*%* c.Subject = ' + c.Subject); 
+
+            for (WINAPROACH_ONLY_Membership_Customer__mdt mdt : lstWinAprchOnlys)
+            {
+                // IF CASE IS INTEGRATION AND SUBJECT IS PREFIXED
+                if (isBeforeInsert && c.Subject != null & mdt.WinaproachAccountIdentifier__c != null)
+                {
+                    if (c.Subject.startsWithIgnoreCase(mdt.WinaproachAccountIdentifier__c))
+                    {
+                        c.AccountId = (Id)mdt.AH_Salesforce_Account_Id__c;
+                    }
+                }
+            }            
+
+			// IF CASE IS OF A WIN@PROACH / SERVICE NOW INTEGRATION RECORD TYPE -AND- IS IHG INTEGRATION
+			if (setRecordTypeIds.contains(c.RecordTypeId)) // && bWinAprchOnly == false)
 			{
-				retLst.Add(c);
+				retLst.Add(c); 
 			}
+            
 		}
-
-		system.debug(' *** EXITING INTGR_WinSN_Case_Handler.lstValidCasesToProcess() - QUERIES ISSUED = ' + Limits.getQueries());
-
-		return retLst;
+        
+        system.debug(' *%*%* (INTGR_WinSN_Case_Handler) INTGR retLst = ' + retLst);        		
+		
+        return retLst;
+        
 	}
 
 	private void processBeforeInsert(List<Case> newTrigger)
@@ -224,8 +251,6 @@ public class INTGR_WinSN_Case_Handler
 		// THIS METHOD CONDITIONALLY SETS Customer_Severity__c, Priority, Status, INTGR_Recovery_Plan__c & INTGR_Recovery_Plan_Date_Time__c ON LEGACY INTEGRATION CASES
 		// USES CUSTOM SETTINGS IN THIS LOGIC:
 		// 		"Winaproach Incident Case Record Type", "Winaproach Work Order Case Record Type", "Winaproach Incident Urgency Mapping", "Case Record Type Status"
-
-		system.debug(' *** ENTERING INTGR_WinSN_Case_Handler.processBeforeInsert() - QUERIES ISSUED = ' + Limits.getQueries());
 
 		Winaproach_Incident_Case_Record_Type__c csRecType = Winaproach_Incident_Case_Record_Type__c.getValues('Default');
 		List<String> lstRecordTypes = String.valueOf(csRecType.Record_Type__c).split(',');
@@ -254,11 +279,12 @@ public class INTGR_WinSN_Case_Handler
 
 		for (Case cs : newTrigger)
 		{
+            
 			String strRecordTypeOfCase = Schema.getGlobalDescribe().get('Case').getDescribe().getRecordTypeInfosByID().get(cs.RecordTypeId).getName();
 
-			if ((setRecordTypes.contains(strRecordTypeOfCase) || strWorkOrderRecType == Schema.getGlobalDescribe().get('Case').getDescribe().getRecordTypeInfosByID().get(cs.RecordTypeId).getName()) &&
-			    cs.Customer_Severity__c != null)
+			if ((setRecordTypes.contains(strRecordTypeOfCase) || strWorkOrderRecType == Schema.getGlobalDescribe().get('Case').getDescribe().getRecordTypeInfosByID().get(cs.RecordTypeId).getName()) && cs.Customer_Severity__c != null)
 			{
+                
 				// ASSIGNING SEVERITY VALUE FROM CUSTOM SETTING
 				sText = cs.Customer_Severity__c;
 				sText = sText.replaceAll('\\s+', '_');
@@ -293,9 +319,11 @@ public class INTGR_WinSN_Case_Handler
 				cs.INTGR_Recovery_Plan__c = true;
 				cs.INTGR_Recovery_Plan_Date_Time__c = Datetime.now();
 			}
+            
+            system.debug('*%*%* cs = ' + cs); 
+            
 		}
 
-		system.debug(' *** ENTERING INTGR_WinSN_Case_Handler.processBeforeInsert() - QUERIES ISSUED = ' + Limits.getQueries());
 	}
 
 	private void processAfterInsert(List<Case> newTrigger)
@@ -398,11 +426,11 @@ public class INTGR_WinSN_Case_Handler
 				cs.Rejected_Date__c = system.now();
 			}
             
-// NEW!
-if ((cs.Status == 'Recovered Workaround' && cs.Work_Around_Available__c == false) && (cs.Status != oldMapTrigger.get(cs.Id).Status))
-{
-	cs.Work_Around_Available__c = true;
-}            
+            // NEW!
+            if ((cs.Status == 'Recovered Workaround' && cs.Work_Around_Available__c == false) && (cs.Status != oldMapTrigger.get(cs.Id).Status))
+            {
+                cs.Work_Around_Available__c = true;
+            }            
             
 			// PREVENTS REMOVAL OF "Customer Ticket Number" VALUE
 			if (cs.Customer_Ticket_Number__c == null || cs.Customer_Ticket_Number__c == '')

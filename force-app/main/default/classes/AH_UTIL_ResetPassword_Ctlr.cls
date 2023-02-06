@@ -100,6 +100,7 @@ public class AH_UTIL_ResetPassword_Ctlr
     private void fillPicklists()
     {
         
+        mapUsers = new Map<Id, userDetail>();
         lstValidUsers = new List<SelectOption>();
         //selUser = '0';
         lstValidUsers.add(new SelectOption('0', 'CHOOSE USER'));
@@ -141,13 +142,13 @@ public class AH_UTIL_ResetPassword_Ctlr
                                               WHERE IsActive = true 
                                               AND Id != : runningUser.Id 				// EXCLUDE RUNNING USER
                                               AND ProfileId IN : setValidProfileIds    	// VALID PROFILE IDS FROM Reset_Password_Utility_Settings__mdt CUSTOM METADATA TYPE
-                                              AND ProfileId != '00e30000000mGqrAAE'		// System Adimistrator
+                                              AND ProfileId != '00e30000000mGqrAAE'		// System Administrator
                                               ORDER BY Name ASC]);
         
         if (cs.size() > 0 && lstUsers.size() > 0)
         {
             
-            mapUsers = new Map<Id, userDetail>();
+            
             
             List<UserLogin> lstUserLogins = new List<UserLogin>([SELECT UserId, IsFrozen, IsPasswordLocked 
                                                                  FROM UserLogin 

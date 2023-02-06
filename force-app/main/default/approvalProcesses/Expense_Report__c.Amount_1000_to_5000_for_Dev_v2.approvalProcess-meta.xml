@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ApprovalProcess xmlns="http://soap.sforce.com/2006/04/metadata">
+    <active>true</active>
+    <allowRecall>true</allowRecall>
+    <allowedSubmitters>
+        <type>owner</type>
+    </allowedSubmitters>
+    <approvalPageFields>
+        <field>Name</field>
+        <field>Owner</field>
+        <field>Total_Amount__c</field>
+        <field>Status__c</field>
+    </approvalPageFields>
+    <approvalStep>
+        <allowDelegate>true</allowDelegate>
+        <assignedApprover>
+            <approver>
+                <name>clachapelle@newmarketinc.com</name>
+                <type>user</type>
+            </approver>
+            <whenMultipleApprovers>Unanimous</whenMultipleApprovers>
+        </assignedApprover>
+        <description>Sent to the first level approver.</description>
+        <label>First Level Approval</label>
+        <name>First_Level_Approval</name>
+    </approvalStep>
+    <approvalStep>
+        <allowDelegate>true</allowDelegate>
+        <assignedApprover>
+            <approver>
+                <name>Final_Approver__c</name>
+                <type>relatedUserField</type>
+            </approver>
+            <whenMultipleApprovers>Unanimous</whenMultipleApprovers>
+        </assignedApprover>
+        <description>Sent to the second level approver.</description>
+        <label>Second Level Approval</label>
+        <name>Second_Level_Approval</name>
+        <rejectBehavior>
+            <type>RejectRequest</type>
+        </rejectBehavior>
+    </approvalStep>
+    <approvalStep>
+        <allowDelegate>true</allowDelegate>
+        <assignedApprover>
+            <approver>
+                <name>rexartier@amadeus.com</name>
+                <type>user</type>
+            </approver>
+            <whenMultipleApprovers>Unanimous</whenMultipleApprovers>
+        </assignedApprover>
+        <description>Sent to the third level approver.</description>
+        <label>Third Level Apprval</label>
+        <name>Third_Level_Apprval</name>
+        <rejectBehavior>
+            <type>RejectRequest</type>
+        </rejectBehavior>
+    </approvalStep>
+    <description>Approval process for corporate expense reports when the ER totals greater than USD 999.99 and less than USD 5000 and submitter is in US Dev.
+Updated entry criteria per NICC 048825</description>
+    <enableMobileDeviceAccess>false</enableMobileDeviceAccess>
+    <entryCriteria>
+        <formula>AND (
+     Owner:User.Username != &quot;rexartier@amadeus.com&quot;,
+     Total_Amount__c &lt; 500,
+     CONTAINS(&quot;711,712,718,719,720,721,722,723,724,728,729&quot;, 
+     Owner:User.DepartmentCode__c),
+     Owner:User.NI_Location__c = &quot;010&quot;,
+     NOT(ISBLANK(Final_Approver__c))
+)</formula>
+    </entryCriteria>
+    <finalApprovalActions>
+        <action>
+            <name>ExpenseReporthasbeenApprovedToOwner</name>
+            <type>Alert</type>
+        </action>
+        <action>
+            <name>Set_Status_to_Approved</name>
+            <type>FieldUpdate</type>
+        </action>
+    </finalApprovalActions>
+    <finalApprovalRecordLock>true</finalApprovalRecordLock>
+    <finalRejectionActions>
+        <action>
+            <name>StatustoRejected</name>
+            <type>FieldUpdate</type>
+        </action>
+    </finalRejectionActions>
+    <finalRejectionRecordLock>false</finalRejectionRecordLock>
+    <initialSubmissionActions>
+        <action>
+            <name>ChangeStatustoSubmitted</name>
+            <type>FieldUpdate</type>
+        </action>
+        <action>
+            <name>Expense_Report_to_be_Approved</name>
+            <type>Alert</type>
+        </action>
+    </initialSubmissionActions>
+    <label>Amount $1000 to $5000 for Dev v2</label>
+    <processOrder>9</processOrder>
+    <recallActions>
+        <action>
+            <name>ChangeStatustoNotSubmitted</name>
+            <type>FieldUpdate</type>
+        </action>
+    </recallActions>
+    <recordEditability>AdminOnly</recordEditability>
+    <showApprovalHistory>false</showApprovalHistory>
+</ApprovalProcess>

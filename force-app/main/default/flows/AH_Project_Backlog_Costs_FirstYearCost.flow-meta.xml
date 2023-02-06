@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>54.0</apiVersion>
+    <decisions>
+        <description>Decides if the record is New or if the Amount has changed. No other changes should trigger a change to the First Year Cost field.</description>
+        <name>NewOrUpdatedAmountDecision</name>
+        <label>NewOrUpdatedAmountDecision</label>
+        <locationX>153</locationX>
+        <locationY>348</locationY>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>IsNew</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record__Prior.Id</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>UpdateFirstYearCost</targetReference>
+            </connector>
+            <label>IsNew</label>
+        </rules>
+        <rules>
+            <name>AmountChanged</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.Amount__c</leftValueReference>
+                <operator>IsChanged</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>UpdateFirstYearCost</targetReference>
+            </connector>
+            <label>AmountChanged</label>
+        </rules>
+    </decisions>
+    <description>NICC-058111; Calculates and populates the First Year Cost field for the Project Cost record</description>
+    <formulas>
+        <description>Calculates the First Year Cost: if Costs Incurred = One Time, formula is Amount/3; otherwise show the Amount</description>
+        <name>formulaFirstYearCost</name>
+        <dataType>Currency</dataType>
+        <expression>IF( ISPICKVAL( {!$Record.Cost_Incurred__c}, &quot;One Time&quot;) , {!$Record.Amount__c} /3,  {!$Record.Amount__c})</expression>
+        <scale>2</scale>
+    </formulas>
+    <interviewLabel>AH Project Backlog Costs - First Year Cost {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>AH Project Backlog Costs - First Year Cost</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>FREE_FORM_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <recordUpdates>
+        <description>Updates the First Year Cost field</description>
+        <name>UpdateFirstYearCost</name>
+        <label>UpdateFirstYearCost</label>
+        <locationX>395</locationX>
+        <locationY>362</locationY>
+        <inputAssignments>
+            <field>First_Year_Cost__c</field>
+            <value>
+                <elementReference>formulaFirstYearCost</elementReference>
+            </value>
+        </inputAssignments>
+        <inputReference>$Record</inputReference>
+    </recordUpdates>
+    <start>
+        <locationX>90</locationX>
+        <locationY>38</locationY>
+        <connector>
+            <targetReference>NewOrUpdatedAmountDecision</targetReference>
+        </connector>
+        <object>AH_Project_Backlog_Costs__c</object>
+        <recordTriggerType>CreateAndUpdate</recordTriggerType>
+        <triggerType>RecordAfterSave</triggerType>
+    </start>
+    <status>Active</status>
+</Flow>

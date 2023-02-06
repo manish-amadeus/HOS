@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ApprovalProcess xmlns="http://soap.sforce.com/2006/04/metadata">
+    <active>true</active>
+    <allowRecall>true</allowRecall>
+    <allowedSubmitters>
+        <type>owner</type>
+    </allowedSubmitters>
+    <approvalPageFields>
+        <field>Owner</field>
+        <field>Customer_Account__c</field>
+        <field>Name</field>
+        <field>Vendor__c</field>
+        <field>Requested_Date__c</field>
+        <field>Opportunity_Name__c</field>
+        <field>SFDC_Embedded_Users__c</field>
+        <field>SDFC_Admin_Users__c</field>
+        <field>SFDC_Platform_EE_Users__c</field>
+        <field>SFDC_Platform_UE_Users__c</field>
+        <field>SFDC_API_Calls__c</field>
+        <field>SFDC_Customer_Portal_Users__c</field>
+        <field>SFDC_Extra_500Mb_Storage_Units__c</field>
+        <field>Informatica_End_Points__c</field>
+        <field>Comments__c</field>
+    </approvalPageFields>
+    <approvalStep>
+        <allowDelegate>false</allowDelegate>
+        <assignedApprover>
+            <approver>
+                <name>lwagoner@newmarketinc.com</name>
+                <type>user</type>
+            </approver>
+            <whenMultipleApprovers>FirstResponse</whenMultipleApprovers>
+        </assignedApprover>
+        <label>Accounting Approval</label>
+        <name>Accounting_Approval</name>
+    </approvalStep>
+    <description>Approval Process for LOD Service Order</description>
+    <emailTemplate>unfiled$public/LOD_Service_Order_Approval_Request</emailTemplate>
+    <enableMobileDeviceAccess>false</enableMobileDeviceAccess>
+    <entryCriteria>
+        <criteriaItems>
+            <field>LOD_Service_Order__c.Order_Status__c</field>
+            <operation>equals</operation>
+            <value>Pending,Rejected</value>
+        </criteriaItems>
+    </entryCriteria>
+    <finalApprovalRecordLock>true</finalApprovalRecordLock>
+    <finalRejectionRecordLock>false</finalRejectionRecordLock>
+    <initialSubmissionActions>
+        <action>
+            <name>Requested</name>
+            <type>FieldUpdate</type>
+        </action>
+    </initialSubmissionActions>
+    <label>LOD Service Order Approval</label>
+    <processOrder>1</processOrder>
+    <recallActions>
+        <action>
+            <name>Pending</name>
+            <type>FieldUpdate</type>
+        </action>
+    </recallActions>
+    <recordEditability>AdminOnly</recordEditability>
+    <showApprovalHistory>true</showApprovalHistory>
+</ApprovalProcess>

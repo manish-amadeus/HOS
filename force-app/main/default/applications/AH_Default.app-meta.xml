@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomApplication xmlns="http://soap.sforce.com/2006/04/metadata">
+    <brand>
+        <headerColor>#0070D2</headerColor>
+        <shouldOverrideOrgTheme>false</shouldOverrideOrgTheme>
+    </brand>
+    <description>Created for external user profile, as they are not assigned to a specific department.</description>
+    <formFactors>Large</formFactors>
+    <isNavAutoTempTabsDisabled>false</isNavAutoTempTabsDisabled>
+    <isNavPersonalizationDisabled>false</isNavPersonalizationDisabled>
+    <isNavTabPersistenceDisabled>false</isNavTabPersistenceDisabled>
+    <label>AH Default</label>
+    <navType>Standard</navType>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Shared_Services_Lightning_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Request__c</pageOrSobjectType>
+        <recordType>Request__c.Shared_Services_Request</recordType>
+        <type>Flexipage</type>
+        <profile>NI Finance</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Support_Global_Ops_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Request__c</pageOrSobjectType>
+        <recordType>Request__c.Support_Global_Ops_Request</recordType>
+        <type>Flexipage</type>
+        <profile>NI Finance</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>Tab</actionName>
+        <content>AH_Default_Home_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>standard-home</pageOrSobjectType>
+        <type>Flexipage</type>
+        <profile>AH External - Platform</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>Tab</actionName>
+        <content>AH_Default_Home_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>standard-home</pageOrSobjectType>
+        <type>Flexipage</type>
+        <profile>AH External - Salesforce</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>NI_Project_Backlog_Task_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>NI_Project_Backlog_Tasks__c</pageOrSobjectType>
+        <recordType>NI_Project_Backlog_Tasks__c.Commercial_Operation_Tasks</recordType>
+        <type>Flexipage</type>
+        <profile>AH External - Platform</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Commerical_Operations_Record_Type_Lightning</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>NI_Project_Backlog__c</pageOrSobjectType>
+        <recordType>NI_Project_Backlog__c.Commercial_Operation_Projects</recordType>
+        <type>Flexipage</type>
+        <profile>AH External - Platform</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Shared_Services_Lightning_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Request__c</pageOrSobjectType>
+        <recordType>Request__c.Shared_Services_Request</recordType>
+        <type>Flexipage</type>
+        <profile>AH PSA Administrator - Lightning</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Shared_Services_Lightning_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Request__c</pageOrSobjectType>
+        <recordType>Request__c.Shared_Services_Request</recordType>
+        <type>Flexipage</type>
+        <profile>AH PSA T&amp;E - SF - Lightning</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Shared_Services_Lightning_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Request__c</pageOrSobjectType>
+        <recordType>Request__c.Shared_Services_Request</recordType>
+        <type>Flexipage</type>
+        <profile>AH Support CSR - Lightning</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Shared_Services_Lightning_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Request__c</pageOrSobjectType>
+        <recordType>Request__c.Shared_Services_Request</recordType>
+        <type>Flexipage</type>
+        <profile>AH Support Managers - Lightning</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Shared_Services_Lightning_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Request__c</pageOrSobjectType>
+        <recordType>Request__c.Shared_Services_Request</recordType>
+        <type>Flexipage</type>
+        <profile>NI PSA Administrator</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Shared_Services_Lightning_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Request__c</pageOrSobjectType>
+        <recordType>Request__c.Shared_Services_Request</recordType>
+        <type>Flexipage</type>
+        <profile>NI Support Managers</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Shared_Services_Lightning_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Request__c</pageOrSobjectType>
+        <recordType>Request__c.Shared_Services_Request</recordType>
+        <type>Flexipage</type>
+        <profile>Admin</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Support_Global_Ops_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Request__c</pageOrSobjectType>
+        <recordType>Request__c.Support_Global_Ops_Request</recordType>
+        <type>Flexipage</type>
+        <profile>NI Support Managers</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Support_Global_Ops_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Request__c</pageOrSobjectType>
+        <recordType>Request__c.Support_Global_Ops_Request</recordType>
+        <type>Flexipage</type>
+        <profile>Admin</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Support_Global_Ops_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Request__c</pageOrSobjectType>
+        <recordType>Request__c.Support_Global_Ops_Request</recordType>
+        <type>Flexipage</type>
+        <profile>AH PSA T&amp;E - SF - Lightning</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Support_Global_Ops_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Request__c</pageOrSobjectType>
+        <recordType>Request__c.Support_Global_Ops_Request</recordType>
+        <type>Flexipage</type>
+        <profile>AH Support CSR - Lightning</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Support_Global_Ops_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Request__c</pageOrSobjectType>
+        <recordType>Request__c.Support_Global_Ops_Request</recordType>
+        <type>Flexipage</type>
+        <profile>AH Support Managers - Lightning</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Support_Global_Ops_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Request__c</pageOrSobjectType>
+        <recordType>Request__c.Support_Global_Ops_Request</recordType>
+        <type>Flexipage</type>
+        <profile>NI PSA Administrator</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Support_Global_Ops_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Request__c</pageOrSobjectType>
+        <recordType>Request__c.Support_Global_Ops_Request</recordType>
+        <type>Flexipage</type>
+        <profile>AH PSA Administrator - Lightning</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Solution_Adoption_LEx</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Case</pageOrSobjectType>
+        <recordType>Case.Solution_Adoption</recordType>
+        <type>Flexipage</type>
+        <profile>AH PSA Management - Lightning</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Solution_Adoption_LEx</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Case</pageOrSobjectType>
+        <recordType>Case.Solution_Adoption</recordType>
+        <type>Flexipage</type>
+        <profile>NI PSA Administrator</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Solution_Adoption_LEx</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Case</pageOrSobjectType>
+        <recordType>Case.Solution_Adoption</recordType>
+        <type>Flexipage</type>
+        <profile>Admin</profile>
+    </profileActionOverrides>
+    <setupExperience>all</setupExperience>
+    <tabs>standard-home</tabs>
+    <tabs>DTS_Amadeus_Organizations__c</tabs>
+    <tabs>DTS_Amadeus_Licenses__c</tabs>
+    <tabs>DTS_Amadeus_Entitlements__c</tabs>
+    <tabs>DTS_Amadeus_Logins__c</tabs>
+    <tabs>DTS_Amadeus_Users__c</tabs>
+    <tabs>standard-report</tabs>
+    <tabs>standard-Dashboard</tabs>
+    <uiType>Lightning</uiType>
+    <utilityBar>AH_Standard_App_UtilityBar</utilityBar>
+</CustomApplication>

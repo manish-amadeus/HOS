@@ -1,81 +1,81 @@
 <apex:page controller="PsaTxAssignmentProjectLookupController" showHeader="false">
-<body class="lookupTab"> 
-<div class="lookup"> 
-  <div class="bPageTitle">
-    <div class="ptBody secondaryPalette">
-      <div class="content">
-        <img title="" class="pageTitleIcon" alt="" src="/s.gif" />
-          <h1>Choose Project</h1>
-      </div>
-    </div>
-
-  </div>
-</div>
-<font size="2" color="red" id="errorTd"></font>
-</body>
-
-<script>   
-	function setParentParameters(projectId, projectName)
-	{
-		top.window.opener.setProjectValue('PsaTransferAssignment','ta:taform:new:newAssig:pbsiProj:newProject_lkid','ta:taform:new:newAssig:pbsiProj:newProject_lkold',projectId,projectName);
-		top.window.opener.refreshMilestones(projectId);
-		parent.window.close();
-	}
-   
-</script>
-<apex:form >
-<apex:outputPanel id="pb">
-    <apex:actionstatus startText="Please wait.." id="status"/><br/>
-    <apex:outputLabel for="name">Search</apex:outputLabel>&nbsp;&nbsp;
-    <apex:inputText value="{!projectName}"/>&nbsp;&nbsp;
-    <apex:commandButton value="Go"  onclick="goAF();return false;" status="status"/>
-</apex:outputPanel>
-<br/><br/>
-<apex:messages style="color:#ff0000;" id="msg"/>
-
-<apex:pageBlock id="projectBlock">
-<apex:outputPanel rendered="{!IF(projects.size > 0,true,false)}">
-      <table  cellpadding="0" cellspacing="0">  
-        <tr>
-          <td width="30%">
-            <apex:actionStatus startStyle="color:Red;font-weight:bold" startText="Loading...Please wait" stopText="" id="myStatus1"/>
-          </td>
-          <td align="Right">
-            &nbsp;&nbsp;&nbsp;
-            <apex:commandLink action="{!projectStdSetCntrl.first}"  value="First" id="firstLnk" status="myStatus1" rendered="{!projectStdSetCntrl.hasPrevious}"/>&nbsp;
-            <apex:outputLabel value="First" id="firstLabel" rendered="{!NOT(projectStdSetCntrl.hasPrevious)}" style="color:#A2A2A2;"/>&nbsp;
-            <apex:commandLink action="{!projectStdSetCntrl.previous}" value="Previous" id="prevLnk" status="myStatus1" rendered="{!projectStdSetCntrl.hasPrevious}"/>
-            <apex:outputLabel value="Previous" id="prevLabel" rendered="{!NOT(projectStdSetCntrl.hasPrevious)}" style="color:#A2A2A2;"/>
-            &nbsp;
-          </td>  
-          <td align="Left" >
-            &nbsp;&nbsp;
-            <apex:commandLink action="{!projectStdSetCntrl.next}" value="Next" id="nextLnk" status="myStatus1" rendered="{!projectStdSetCntrl.hasNext}"/>&nbsp;
-            <apex:outputLabel value="Next" id="nextLabel" rendered="{!NOT(projectStdSetCntrl.hasNext)}" style="color:#A2A2A2;"/>&nbsp;
-            <apex:commandLink action="{!projectStdSetCntrl.last}" value="Last" id="lastLnk" status="myStatus1" rendered="{!projectStdSetCntrl.hasNext}"/>
-            <apex:outputLabel value="Last" id="lastLabel" rendered="{!NOT(projectStdSetCntrl.hasNext)}" style="color:#A2A2A2;"/>
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
-         </tr> 
-      </table>
-    </apex:outputPanel>
-    <apex:pageBlockTable value="{!projects}" var="project" id="projects" >
-        <apex:column headerValue="Project">
-        	<a href="javascript:void(0);" onclick='setParentParameters("{!project.Id}","{!project.Name}");'>{!project.Name}</a>
-        </apex:column>
-        <apex:column headerValue="Region">{!project.pse__Region__r.Name}</apex:column>
-		<apex:column headerValue="Practice">{!project.pse__Practice__r.Name}</apex:column>
-        <apex:column headerValue="Account">{!project.pse__Account__r.Name}</apex:column>
-        <apex:column headerValue="Opportunity">{!project.pse__Opportunity__r.Name}</apex:column>
-        <apex:column headerValue="Stage">{!project.pse__Stage__c}</apex:column>
-
-    </apex:pageBlockTable>
-    <br/>
-    <apex:outputLabel value="No Records Found" rendered="{!projects.size == 0}" />
+    <body class="lookupTab"> 
+        <div class="lookup"> 
+            <div class="bPageTitle">
+                <div class="ptBody secondaryPalette">
+                    <div class="content">
+                        <img title="" class="pageTitleIcon" alt="" src="/s.gif" />
+                        <h1>Choose Project</h1>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+        <font size="2" color="red" id="errorTd"></font>
+    </body>
     
-    <apex:actionFunction name="goAF" action="{!go}" rerender="projectBlock,msg"/>
+    <script>   
+    function setParentParameters(projectId, projectName)
+    {
+        top.window.opener.setProjectValue('PsaTransferAssignment','ta:taform:new:newAssig:pbsiProj:newProject_lkid','ta:taform:new:newAssig:pbsiProj:newProject_lkold',projectId,projectName);
+        top.window.opener.refreshMilestones(projectId);
+        parent.window.close();
+    }
     
-</apex:pageBlock>
-
-</apex:form>
-
+    </script>
+    <apex:form >
+        <apex:outputPanel id="pb">
+            <apex:actionstatus startText="Please wait.." id="status"/><br/>
+            <apex:outputLabel for="name">Search</apex:outputLabel>&nbsp;&nbsp;
+            <apex:inputText value="{!projectName}"/>&nbsp;&nbsp;
+            <apex:commandButton value="Go"  onclick="goAF();return false;" status="status"/>
+        </apex:outputPanel>
+        <br/><br/>
+        <apex:messages style="color:#ff0000;" id="msg"/>
+        
+        <apex:pageBlock id="projectBlock">
+            <apex:outputPanel rendered="{!IF(projects.size > 0,true,false)}">
+                <table  cellpadding="0" cellspacing="0">  
+                    <tr>
+                        <td width="30%">
+                            <apex:actionStatus startStyle="color:Red;font-weight:bold" startText="Loading...Please wait" stopText="" id="myStatus1"/>
+                        </td>
+                        <td align="Right">
+                            &nbsp;&nbsp;&nbsp;
+                            <apex:commandLink action="{!projectStdSetCntrl.first}"  value="First" id="firstLnk" status="myStatus1" rendered="{!projectStdSetCntrl.hasPrevious}"/>&nbsp;
+                            <apex:outputLabel value="First" id="firstLabel" rendered="{!NOT(projectStdSetCntrl.hasPrevious)}" style="color:#A2A2A2;"/>&nbsp;
+                            <apex:commandLink action="{!projectStdSetCntrl.previous}" value="Previous" id="prevLnk" status="myStatus1" rendered="{!projectStdSetCntrl.hasPrevious}"/>
+                            <apex:outputLabel value="Previous" id="prevLabel" rendered="{!NOT(projectStdSetCntrl.hasPrevious)}" style="color:#A2A2A2;"/>
+                            &nbsp;
+                        </td>  
+                        <td align="Left" >
+                            &nbsp;&nbsp;
+                            <apex:commandLink action="{!projectStdSetCntrl.next}" value="Next" id="nextLnk" status="myStatus1" rendered="{!projectStdSetCntrl.hasNext}"/>&nbsp;
+                            <apex:outputLabel value="Next" id="nextLabel" rendered="{!NOT(projectStdSetCntrl.hasNext)}" style="color:#A2A2A2;"/>&nbsp;
+                            <apex:commandLink action="{!projectStdSetCntrl.last}" value="Last" id="lastLnk" status="myStatus1" rendered="{!projectStdSetCntrl.hasNext}"/>
+                            <apex:outputLabel value="Last" id="lastLabel" rendered="{!NOT(projectStdSetCntrl.hasNext)}" style="color:#A2A2A2;"/>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                    </tr> 
+                </table>
+            </apex:outputPanel>
+            <apex:pageBlockTable value="{!projects}" var="project" id="projects" >
+                <apex:column headerValue="Project">
+                    <a href="javascript:void(0);" onclick='setParentParameters("{!project.Id}","{!project.Name}");'>{!project.Name}</a>
+                </apex:column>
+                <apex:column headerValue="Region">{!project.pse__Region__r.Name}</apex:column>
+                <apex:column headerValue="Practice">{!project.pse__Practice__r.Name}</apex:column>
+                <apex:column headerValue="Account">{!project.pse__Account__r.Name}</apex:column>
+                <apex:column headerValue="Opportunity">{!project.pse__Opportunity__r.Name}</apex:column>
+                <apex:column headerValue="Stage">{!project.pse__Stage__c}</apex:column>
+                
+            </apex:pageBlockTable>
+            <br/>
+            <apex:outputLabel value="No Records Found" rendered="{!projects.size == 0}" />
+            
+            <apex:actionFunction name="goAF" action="{!go}" rerender="projectBlock,msg"/>
+            
+        </apex:pageBlock>
+        
+    </apex:form>
+    
 </apex:page>

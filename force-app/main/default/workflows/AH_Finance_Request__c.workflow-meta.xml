@@ -1,0 +1,388 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Workflow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <alerts>
+        <fullName>COVID_Payment_Plan_Approved_Email</fullName>
+        <description>COVID - Payment Plan Approved Email</description>
+        <protected>false</protected>
+        <recipients>
+            <field>Requestor__c</field>
+            <type>userLookup</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>NIFinanceWorkflowEmails/COVID_Payment_Plan_Approved</template>
+    </alerts>
+    <alerts>
+        <fullName>COVID_Payment_Plan_Rejected_Email</fullName>
+        <description>COVID - Payment Plan Rejected Email</description>
+        <protected>false</protected>
+        <recipients>
+            <field>Requestor__c</field>
+            <type>userLookup</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>NIFinanceWorkflowEmails/COVID_Payment_Plan_Rejected</template>
+    </alerts>
+    <alerts>
+        <fullName>Email_Requester_Relief_Approved</fullName>
+        <description>Email Requester - Relief Approved</description>
+        <protected>false</protected>
+        <recipients>
+            <field>Requestor__c</field>
+            <type>userLookup</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>NIFinanceWorkflowEmails/COVID_19_Relief_Approved</template>
+    </alerts>
+    <alerts>
+        <fullName>Email_Requester_Relief_Completed</fullName>
+        <description>Email Requester - Relief Completed</description>
+        <protected>false</protected>
+        <recipients>
+            <field>Requestor__c</field>
+            <type>userLookup</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>NIFinanceWorkflowEmails/COVID_19_Relief_Request_Completed</template>
+    </alerts>
+    <alerts>
+        <fullName>Email_Requester_Relief_Rejected</fullName>
+        <description>Email Requester - Relief Rejected</description>
+        <protected>false</protected>
+        <recipients>
+            <field>Requestor__c</field>
+            <type>userLookup</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>NIFinanceWorkflowEmails/COVID_19_Relief_Rejected</template>
+    </alerts>
+    <fieldUpdates>
+        <fullName>Approval_Status_Approved</fullName>
+        <field>Approval_Status__c</field>
+        <literalValue>Approved</literalValue>
+        <name>Approval Status - Approved</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Literal</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>Approval_Status_Committee_Approved</fullName>
+        <field>Approval_Status__c</field>
+        <literalValue>Committee Approved</literalValue>
+        <name>Approval Status - Committee Approved</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Literal</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>Approval_Status_Committee_Rejected</fullName>
+        <field>Approval_Status__c</field>
+        <literalValue>Committee Rejected</literalValue>
+        <name>Approval Status - Committee Rejected</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Literal</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>Approval_Status_Date</fullName>
+        <field>Approval_Status_Date__c</field>
+        <formula>TODAY()</formula>
+        <name>Approval Status Date</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Formula</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>Approval_Status_Not_Submitted</fullName>
+        <field>Approval_Status__c</field>
+        <literalValue>Not Submitted</literalValue>
+        <name>Approval Status - Not Submitted</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Literal</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>Approval_Status_Pending_CFO</fullName>
+        <description>Pending CFO Approval</description>
+        <field>Approval_Status__c</field>
+        <literalValue>Pending Billing Review Approval</literalValue>
+        <name>Approval Status - Pending CFO</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Literal</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>Approval_Status_Pending_Manager</fullName>
+        <description>Change Approval Status to Pending Manager Approval</description>
+        <field>Approval_Status__c</field>
+        <literalValue>Pending Manger Approval</literalValue>
+        <name>Approval Status - Pending Manager</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Literal</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>Approval_Status_Pending_Managers_Appro</fullName>
+        <field>Approval_Status__c</field>
+        <literalValue>Pending Manger Approval</literalValue>
+        <name>Approval Status - Pending Managers Appro</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Literal</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>Approval_Status_Rejected</fullName>
+        <field>Approval_Status__c</field>
+        <literalValue>Rejected</literalValue>
+        <name>Approval Status - Rejected</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Literal</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>Change_Status_to_Complete</fullName>
+        <field>Status__c</field>
+        <literalValue>Completed</literalValue>
+        <name>Change Status to Complete</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Literal</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>Date_Submitted_for_Approval</fullName>
+        <field>Date_Submitted_for_Approval__c</field>
+        <formula>TODAY()</formula>
+        <name>Date Submitted for Approval</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Formula</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>Mask_Beneficiary_Name</fullName>
+        <field>Beneficiary_Name__c</field>
+        <formula>LEFT(Beneficiary_Name__c,6) &amp; &quot;xxx&quot;</formula>
+        <name>Mask Beneficiary Name</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Formula</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>Mask_CC_Name_on_Card</fullName>
+        <field>CC_Name_on_Card__c</field>
+        <formula>LEFT(CC_Name_on_Card__c,6) &amp; &quot;xxx&quot;</formula>
+        <name>Mask CC Name on Card</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Formula</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>Pending_Approval</fullName>
+        <field>Approval_Status__c</field>
+        <literalValue>Pending Approval</literalValue>
+        <name>Pending Approval</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Literal</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>Pending_Billing_Review_Approval</fullName>
+        <field>Approval_Status__c</field>
+        <literalValue>Pending Billing Review Approval</literalValue>
+        <name>Pending Billing Review Approval</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Literal</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>Refund_Approved_For_Payment</fullName>
+        <field>Approval_Status__c</field>
+        <literalValue>Approved</literalValue>
+        <name>Refund Approved For Payment</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Literal</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>Refund_Approved_for_CC</fullName>
+        <field>Approval_Status__c</field>
+        <literalValue>Approved</literalValue>
+        <name>Refund Approved for CC</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Literal</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>Refund_Date</fullName>
+        <description>Update the Refund Date to Today</description>
+        <field>Refund_Date__c</field>
+        <formula>TODAY()</formula>
+        <name>Refund Date</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Formula</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>Refund_Payment_Processed</fullName>
+        <field>Status__c</field>
+        <literalValue>Completed</literalValue>
+        <name>Refund Payment Processed_nonCC</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Literal</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>Refund_Payment_Processed_CC</fullName>
+        <field>Status__c</field>
+        <literalValue>Completed</literalValue>
+        <name>Refund Payment Processed_CC</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Literal</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>Update_Bank_Account_Number</fullName>
+        <description>Remove the leading Bank Account Number values so that only the last 4 digits remain</description>
+        <field>Account_Number__c</field>
+        <formula>&quot;xxx&quot;&amp;RIGHT(Account_Number__c,4)</formula>
+        <name>Update Bank Account Number</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Formula</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>Update_Record_Status_In_Progress</fullName>
+        <description>Update the Status to &quot;In Progress&quot;</description>
+        <field>Status__c</field>
+        <literalValue>In Progress</literalValue>
+        <name>Update Record Status In Progress</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Literal</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>Update_Status_Completed</fullName>
+        <description>Update Status to &quot;Completed&quot;</description>
+        <field>Status__c</field>
+        <literalValue>Completed</literalValue>
+        <name>Update Status - Completed</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Literal</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>Update_Status_In_Progress</fullName>
+        <description>Update the Status to &quot;In Progress&quot;</description>
+        <field>Status__c</field>
+        <literalValue>In Progress</literalValue>
+        <name>Update Status - In Progress</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Literal</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <rules>
+        <fullName>COVID-19 Finance Request Complete</fullName>
+        <actions>
+            <name>Email_Requester_Relief_Completed</name>
+            <type>Alert</type>
+        </actions>
+        <active>true</active>
+        <criteriaItems>
+            <field>AH_Finance_Request__c.RecordTypeId</field>
+            <operation>equals</operation>
+            <value>COVID-19</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>AH_Finance_Request__c.Relief_Status__c</field>
+            <operation>equals</operation>
+            <value>Complete</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>AH_Finance_Request__c.Relief_Request_Type__c</field>
+            <operation>equals</operation>
+            <value>Fees Relief Request</value>
+        </criteriaItems>
+        <triggerType>onCreateOrTriggeringUpdate</triggerType>
+    </rules>
+    <rules>
+        <fullName>COVID-19 Finance Request Payment Plan Approved</fullName>
+        <actions>
+            <name>COVID_Payment_Plan_Approved_Email</name>
+            <type>Alert</type>
+        </actions>
+        <active>true</active>
+        <criteriaItems>
+            <field>AH_Finance_Request__c.RecordTypeId</field>
+            <operation>equals</operation>
+            <value>COVID-19</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>AH_Finance_Request__c.Relief_Status__c</field>
+            <operation>equals</operation>
+            <value>Payment Plan Approved</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>AH_Finance_Request__c.Relief_Request_Type__c</field>
+            <operation>equals</operation>
+            <value>Payment Plan</value>
+        </criteriaItems>
+        <triggerType>onCreateOrTriggeringUpdate</triggerType>
+    </rules>
+    <rules>
+        <fullName>COVID-19 Finance Request Payment Plan Rejected</fullName>
+        <actions>
+            <name>COVID_Payment_Plan_Rejected_Email</name>
+            <type>Alert</type>
+        </actions>
+        <active>true</active>
+        <criteriaItems>
+            <field>AH_Finance_Request__c.RecordTypeId</field>
+            <operation>equals</operation>
+            <value>COVID-19</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>AH_Finance_Request__c.Relief_Status__c</field>
+            <operation>equals</operation>
+            <value>Payment Plan Rejected</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>AH_Finance_Request__c.Relief_Request_Type__c</field>
+            <operation>equals</operation>
+            <value>Payment Plan</value>
+        </criteriaItems>
+        <triggerType>onCreateOrTriggeringUpdate</triggerType>
+    </rules>
+    <rules>
+        <fullName>Finance Request%3A Status - Completed</fullName>
+        <actions>
+            <name>Update_Status_Completed</name>
+            <type>FieldUpdate</type>
+        </actions>
+        <active>true</active>
+        <description>Update the Status to &quot;Completed&quot; once the Sales Credit Note field has been populated .</description>
+        <formula>NOT(ISBLANK(Sales_Credit_Note__c))</formula>
+        <triggerType>onCreateOrTriggeringUpdate</triggerType>
+    </rules>
+</Workflow>

@@ -41,7 +41,8 @@ public class NI_TriggerManager
     public static Boolean isFirstSoftraxBillingInsert = true; 
 
     // CASE TRIGGER EXECUTION SWITCHES 
-    public static Boolean bypassTriggersInvokedByCaseDML = false;    
+    public static Boolean bypassTriggersInvokedByCaseDML = false;   
+//    public static Boolean processedSolutions = false; 
 
     // CANCELLATION TRIGGER EXECUTION SWITCHES 
     public static Boolean isFirstSOChatterGroupPost = true;  
@@ -67,4 +68,5 @@ public class NI_TriggerManager
     // CASE DETAIL TRIGGER EXECUTION SWITCH
     public static Boolean is1stInsert_Case_Report_Detail = true; 
     
+
 }

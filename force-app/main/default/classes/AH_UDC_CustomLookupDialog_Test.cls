@@ -1,170 +1,242 @@
 /***********************************************************************************************
-  Name            : AH_UDC_CustomLookupDialog_Test
+  Name            : AH_UDC_CustomLookupDialog_TEST
   Author          : Sanjay Parmar
   Created Date    : 26-Apr-2021
   Last Mod Date   : 26-Apr-2021
   Last Mod By     : Sanjay Parmar
-  NICC Reference  : 
   Description     : Test class for AH_UDC_CustomLookupDialog
  ************************************************************************************************/
 @isTest
-private class AH_UDC_CustomLookupDialog_Test {
+private class AH_UDC_CustomLookupDialog_TEST {
    @testSetup
    private static void SetupTestData() {
       AH_UDC_InitializationHelper.Initialize('ConfigurationSettings');
 
-      Boolean isException = false;
-      Account objAccount = null;
-      String errorMessage = '';
-      try {
-         //Insert new Account data
-         objAccount = AH_UDC_TestData.GetAccountObject('UDC Test Account 2', 'Hospitality Companies', 'Portsmouth', 'US', '03801', 'NH', '75 New Hampshire Ave');
-         insert objAccount;
-      } catch(Exception exc) {
-         isException = true;
-         errorMessage = exc.GetMessage();
-      }
-      System.assertEquals(false, isException, 'Could not create Account record for testing : ' + errorMessage);
+      List<User> listUsers = new List<User> ();
 
-      //Reset with Default Values
-      if (isException) {
-         isException = false;
-         errorMessage = '';
-      }
-      Contact objContact = null;
-      try {
-         //Insert into Contact object
-         objContact = AH_UDC_TestData.GetContactObject(objAccount.Id, 'Test', 'Contact', 'US', 'Portsmouth', '03801', 'NH',
-                                                       '75 New Hampshire Ave');
-         insert objContact;
-      } catch(Exception exc) {
-         isException = true;
-         errorMessage = exc.GetMessage();
-      }
-      System.assertEquals(false, isException, 'Could not create Contact record for testing : ' + errorMessage);
+      listUsers.add(AH_UDC_TestData.BuildUser(AH_UDC_Constants.PROFILE_DEFAULT_NAME_PSA_SF_LIGHTNING,
+                                    AH_UDC_Constants.PERMISSIONSET_DEFAULT_NAME_UDC_WORKBOOK_ADMIN,
+                                    'cldWorkbookAdmin', null, false));
+      listUsers.add(AH_UDC_TestData.BuildUser(AH_UDC_Constants.PROFILE_DEFAULT_NAME_PSA_SF_LIGHTNING,
+                                    AH_UDC_Constants.PERMISSIONSET_DEFAULT_NAME_UDC_WORKBOOK_USER,
+                                    'cldWorkbookUser', null, false));
 
-      Id profileId = [select id from profile where name = 'AH Customer Community Plus Login User'].Id;
-      system.assertEquals(true, profileId != null, 'Could not get profile Id of AH Customer Community Plus Login User');
+      User oCurrentUser = [SELECT Id FROM User WHERE Id = :UserInfo.getUserId()];
+      oCurrentUser.ContactId = null;
 
-      //Reset with Default Values
-      if (isException) {
-         isException = false;
-         errorMessage = '';
-      }
-      User objUser = null;
-      try {
-         //Insert into user object
-         objUser = AH_UDC_TestData.GetUserObject(objContact.Id, profileId, 'Test', 'User', 'Mr.', 'test@user.com', 'test@user.com' + AH_UDC_ConfigHelper.GetString('AH_UDC_CommunityUserNamePostfix', AH_UDC_Constants.DEFAULT_COMMUNITY_USER_NAME_POSTFIX));
-         insert objUser;
+      System.runAs(oCurrentUser) {
+         AH_UDC_TestData.InsertWithRetries(listUsers);
 
-      } catch(Exception exc) {
-         isException = true;
-         errorMessage = exc.GetMessage();
-      }
-
-      //Reset with Default Values
-      if (isException) {
-         isException = false;
-         errorMessage = '';
-      }
-      AH_UDC_PropertyAccount__c objPropertyAccount = null;
-      try {
-         //Insert into Property Account object with blank property name to get more code coverage
-         objPropertyAccount = AH_UDC_TestData.GetPropertyObject('Test Property Account', 'Portsmouth', 'US', '03801', 'NH', '75 New Hampshire Ave', '3410 Via Mercato, St 105', 'St 104', '1 Portsmouth Ave.');
-         insert objPropertyAccount;
-      }
-      catch(Exception ex) {
-         isException = true;
-         errorMessage = ex.GetMessage();
-      }
-      System.assertEquals(false, isException, 'Error occurred in creating property account record : ' + errorMessage);
-
-      //Reset with Default Values
-      if (isException) {
-         isException = false;
-         errorMessage = '';
-      }
-      NI_Documentation__c objNIDoc = null;
-      List<NI_Documentation__c> lstNIDocs = new List<NI_Documentation__c> ();
-      try {
-         for (Integer i = 1; i <= 50; i++) { //Create 50 NI Doc records for pagination testing
-            objNIDoc = AH_UDC_TestData.GetNIDocObject('Test NI Document ' + i, Date.newInstance(2021, 5, 30));
-            objNIDoc.Account__c = objAccount.Id;
-            objNIDoc.AH_UDC_PropertyAccount__c = objPropertyAccount.Id;
-            lstNIDocs.add(objNIDoc);
-         }
-         //Insert 50 records into NI Documentation object for testing
-         insert lstNIDocs;
-      } catch(Exception exc) {
-         isException = true;
-         errorMessage = exc.GetMessage();
-      }
-      System.assertEquals(false, isException, 'Could not create NI_Documentation__c records for testing : ' + errorMessage);
-
-      String WorkbookRecordTypeId = Schema.SObjectType.AH_UDC_Workbook__c.getRecordTypeInfosByDeveloperName().get(AH_UDC_Constants.RECORD_TYPE_WORKBOOK).getRecordTypeId();
-      System.assertEquals(true, WorkbookRecordTypeId != null && WorkbookRecordTypeId != '', 'RecordType AH_UDC_Workbook not found');
-
-      //Reset with Default Values
-      if (isException) {
-         isException = false;
-         errorMessage = '';
-      }
-      AH_UDC_Workbook__c objWorkbook = null;
-      try {
-         //Insert Workbook Record
-         objWorkbook = AH_UDC_TestData.GetWorkbookObject(objNIDoc.Id, 'Test Workbook 1', 'Test Workbook 1 Description', 'Central Sales');
-         objWorkbook.RecordTypeId = WorkbookRecordTypeId;
-         insert objWorkbook;
-      }
-      catch(Exception ex) {
-         isException = true;
-         errorMessage = ex.GetMessage();
-      }
-      System.assertEquals(false, isException, 'Error occurred in creating workbook record : ' + errorMessage);
-
-      String WorkbookStepRecordTypeId = Schema.SObjectType.AH_UDC_WorkbookStep__c.getRecordTypeInfosByDeveloperName().get('AH_UDC_WorkbookStep').getRecordTypeId();
-      System.assertEquals(true, WorkbookStepRecordTypeId != null && WorkbookStepRecordTypeId != '', 'RecordType AH_UDC_WorkbookStep not found');
-
-      //Reset with Default Values
-      if (isException) {
-         isException = false;
-         errorMessage = '';
-      }
-      AH_UDC_WorkbookStep__c objWorkbookStep1 = null;
-      try {
-         //Insert Workbook Step Record
-         objWorkbookStep1 = AH_UDC_TestData.GetWorkbookStepObject(objWorkbook.Id, 'Test Step 1');
-         objWorkbookStep1.URL__c = 'https://www.Amadeus.com/1';
-         objWorkbookStep1.RecordTypeId = WorkbookStepRecordTypeId;
-         objWorkbookStep1.SortOrder__c = 1;
-         insert objWorkbookStep1;
-      } catch(Exception exc) {
-         isException = true;
-         errorMessage = exc.GetMessage();
-      }
-      System.assertEquals(false, isException, 'Could not create Step 1 record for testing : ' + errorMessage);
-
-      //Reset with Default Values
-      if (isException) {
-         isException = false;
-         errorMessage = '';
-      }
-      AH_UDC_WorkbookStep__c objWorkbookStep2 = null;
-      try {
-         //Insert Workbook Step Record
-         objWorkbookStep2 = AH_UDC_TestData.GetWorkbookStepObject(objWorkbook.Id, 'Test Step 2');
-         objWorkbookStep2.URL__c = 'https://www.Amadeus.com/2';
-         objWorkbookStep2.RecordTypeId = WorkbookStepRecordTypeId;
-         objWorkbookStep2.SortOrder__c = 2;
-         insert objWorkbookStep2;
-      }
-      catch(Exception exc) {
-         System.assert(false, 'Could not create Step 2 record for testing : ' + errorMessage);
+         AH_UDC_TestData.AddPermissionSetToUser(AH_UDC_Constants.PERMISSIONSET_DEFAULT_NAME_UDC_WORKBOOK_ADMIN, listUsers[0].Id);
+         AH_UDC_TestData.AddPermissionSetToUser(AH_UDC_Constants.PERMISSIONSET_DEFAULT_NAME_UDC_WORKBOOK_USER, listUsers[1].Id);
       }
    }
 
    @isTest
-   private static void TestNIDocumentationLookup() {
+   private static void TestCustomLookupWithException() {
+      List<User> listUser = [Select Id From User Where Email like '%cldWorkbookAdmin%'];
+      System.assertEquals(1, listUser.size(), 'Failed retrieving test Workbook Admin');
+      User uWBA = listUser[0];
+
+      Test.startTest();
+      System.runAs(uWBA) {
+         TestExceptionHandling();
+      }
+      Test.stopTest();
+   }
+
+   @isTest
+   private static void TestCustomLookupWithNIDocs() {
+      Account objAccount = AH_UDC_TestData.GetAccountObject('GUID');
+      insert objAccount;
+
+      List<NI_Documentation__c> lstNIDocs = new List<NI_Documentation__c> ();
+      for (Integer i = 1; i <= 50; i++) { //Create 50 NI Doc records for pagination testing
+         NI_Documentation__c objNIDoc = AH_UDC_TestData.GetNIDocObject('Test NI Document ' + i, Date.newInstance(2021, 5, 30));
+         objNIDoc.Account__c = objAccount.Id;
+         lstNIDocs.add(objNIDoc);
+      }
+      //Insert 50 records into NI Documentation object for testing
+      insert lstNIDocs;
+
+      List<User> listUser = [Select Id From User Where Email like '%cldWorkbookAdmin%'];
+      System.assertEquals(1, listUser.size(), 'Failed retrieving test Workbook Admin');
+      User uWBA = listUser[0];
+
+      Test.startTest();
+      System.runAs(uWBA) {
+         TestNIDocLookup();
+      }
+      Test.stopTest();
+   }
+
+   @isTest
+   private static void TestCustomLookupWithAccounts() {
+      List<Account> lstAccounts = new List<Account> ();
+      for (Integer i = 1; i <= 52; i++) { //Create 52 account records for pagination testing
+         Account objAccount = AH_UDC_TestData.GetAccountObject('UDC Test Account CustomLookupDialog ' + i);
+         lstAccounts.add(objAccount);
+      }
+      //Insert 50 records into Account object for testing
+      insert lstAccounts;
+
+      List<User> listUser = [Select Id From User Where Email like '%cldWorkbookAdmin%'];
+      System.assertEquals(1, listUser.size(), 'Failed retrieving test Workbook Admin');
+      User uWBA = listUser[0];
+
+      Test.startTest();
+      System.runAs(uWBA) {
+         TestAccountLookup();
+      }
+      Test.stopTest();
+   }
+
+   @isTest
+   private static void TestCustomLookupWithContacts() {
+      List<User> listUser = [Select Id From User Where Email like '%cldWorkbookAdmin%'];
+      System.assertEquals(1, listUser.size(), 'Failed retrieving test Workbook Admin');
+      User uWBA = listUser[0];
+
+      Account objAccount = AH_UDC_TestData.GetAccountObject('GUID');
+      insert objAccount;
+
+      List<Contact> lstContacts = new List<Contact> ();
+      for (Integer i = 1; i <= 50; i++) { //Create 50 contact records for pagination testing
+         Contact objContact = AH_UDC_TestData.GetContactObject(objAccount.Id, String.valueOf(i), String.valueOf(i), 'US', 'City' + String.valueOf(i), '03801', 'NH', String.valueOf(i));
+         objContact.Email = 'contact' + i + '@test.com';
+         objContact.Status__c = 'Active';
+         lstContacts.add(objContact);
+      }
+      //Insert 50 contacts
+      insert lstContacts;
+
+      Test.startTest();
+      System.runAs(uWBA) {
+         TestContactLookup();
+      }
+      Test.stopTest();
+   }
+
+   @isTest
+   private static void TestCustomLookupWithProjects() {
+      List<User> listUser = [Select Id From User Where Email like '%cldWorkbookAdmin%'];
+      System.assertEquals(1, listUser.size(), 'Failed retrieving test Workbook Admin');
+      User uWBA = listUser[0];
+
+      pse__Region__c objRegion = new pse__Region__c(
+         Name = 'Amadeus Hospitality'
+      );
+      insert objRegion;
+
+      Id recordTypeMasterProject = Schema.SObjectType.pse__Proj__c.getRecordTypeInfosByDeveloperName().get(AH_UDC_Constants.RECORD_TYPE_PROJECT_MASTER_PROJECT).getRecordTypeId();
+      System.assert(String.isNotBlank(recordTypeMasterProject), 'RecordType Id ' + AH_UDC_Constants.RECORD_TYPE_PROJECT_MASTER_PROJECT + ' not found');
+      
+      Id recordTypeStandardProject = Schema.SObjectType.pse__Proj__c.getRecordTypeInfosByDeveloperName().get(AH_UDC_Constants.RECORD_TYPE_PROJECT_STANDARD_PROJECT).getRecordTypeId();
+      System.assert(String.isNotBlank(recordTypeStandardProject), 'RecordType Id ' + AH_UDC_Constants.RECORD_TYPE_PROJECT_STANDARD_PROJECT + ' not found');
+
+      List<pse__Proj__c> lstProjects = new List<pse__Proj__c> ();
+      for (Integer i = 1; i <= 52; i++) { //Create 52 project records for pagination testing
+         lstProjects.add(new pse__Proj__c(
+            RecordTypeId = i < 25 ? recordTypeMasterProject : recordTypeStandardProject,
+            Name = 'Test Project ' + i,
+            pse__Region__c = objRegion.Id
+         ));
+      }
+      insert lstProjects;
+
+      Test.startTest();
+      System.runAs(uWBA) {
+         TestProjectLookup();
+      }
+      Test.stopTest();
+   }
+
+   @isTest
+   private static void TestCustomLookupWithSteps() {
+      List<User> listUser = [Select Id From User Where Email like '%cldWorkbookAdmin%'];
+      System.assertEquals(1, listUser.size(), 'Failed retrieving test Workbook Admin');
+      User uWBA = listUser[0];
+
+      String WorkbookRecordTypeId = Schema.SObjectType.AH_UDC_Workbook__c.getRecordTypeInfosByDeveloperName().get(AH_UDC_Constants.RECORD_TYPE_WORKBOOK).getRecordTypeId();
+      System.assert(WorkbookRecordTypeId != null && WorkbookRecordTypeId != '', 'RecordType not found - ' + AH_UDC_Constants.RECORD_TYPE_WORKBOOK_STEP);
+
+      AH_UDC_Workbook__c objWorkbook = AH_UDC_TestData.GetWorkbookObject(null, 'Test Workbook 1', 'Test Workbook 1 Description', 'Central Sales');
+      objWorkbook.RecordTypeId = WorkbookRecordTypeId;
+      insert objWorkbook;
+
+      String WorkbookStepRecordTypeId = Schema.SObjectType.AH_UDC_WorkbookStep__c.getRecordTypeInfosByDeveloperName().get(AH_UDC_Constants.RECORD_TYPE_WORKBOOK_STEP).getRecordTypeId();
+      System.assert(String.isNotBlank(WorkbookStepRecordTypeId), 'RecordType AH_UDC_WorkbookStep not found');
+
+      List<AH_UDC_WorkbookStep__c> lstWorkbookSteps = new List<AH_UDC_WorkbookStep__c> ();
+      for (Integer i = 1; i <= 51; i++) { //Create 51 Workbook Step records for pagination testing
+         AH_UDC_WorkbookStep__c objWorkbookStep = AH_UDC_TestData.GetWorkbookStepObject(objWorkbook.Id, 'Test Step 1');
+         objWorkbookStep.URL__c = 'https://www.Amadeus.com/' + i;
+         objWorkbookStep.RecordTypeId = WorkbookStepRecordTypeId;
+         objWorkbookStep.SortOrder__c = i;
+         lstWorkbookSteps.add(objWorkbookStep);
+      }
+      insert lstWorkbookSteps;
+
+      //Share workbook with Workbook Admin for workbook step lookup
+      AH_UDC_Workbook__Share objWorkbookShare = new AH_UDC_Workbook__Share();
+      objWorkbookShare.ParentId = objWorkbook.Id;
+      objWorkbookShare.UserOrGroupId = uWBA.Id;
+      objWorkbookShare.AccessLevel = 'Edit';
+      insert objWorkbookShare;
+
+      Test.startTest();
+      System.runAs(uWBA) {
+         TestWorkbookStepLookup(false);
+      }
+      Test.stopTest();
+   }
+
+   //@isTest
+   //This test is not valid because the WBUser doesn't have access to the class and can't get an instance
+   //private static void TestWithWorkbookUser() {
+      //List<User> listUser = [Select Id From User Where Email like '%cldWorkbookUser%'];
+      //System.assertEquals(1, listUser.size(), 'Failed retrieving test Workbook User');
+      //User uWBU = listUser[0];
+
+      //Id workbookRecordTypeId = Schema.SObjectType.AH_UDC_Workbook__c.getRecordTypeInfosByDeveloperName().get(AH_UDC_Constants.RECORD_TYPE_WORKBOOK).getRecordTypeId();
+      //System.assert(String.isNotBlank(String.valueOf(workbookRecordTypeId)), 'Record Type not found - ' + AH_UDC_Constants.RECORD_TYPE_WORKBOOK);
+
+      //List<AH_UDC_Workbook__c> lstWorkbooks = [SELECT Id
+                                               //FROM AH_UDC_Workbook__c
+                                               //WHERE RecordTypeId = :workbookRecordTypeId
+                                               //AND Enabled__c = true];
+      //System.assert(lstWorkbooks.size() > 0, 'Workbook record is not created');
+
+      ////Share workbook with Workbook User for workbook step lookup
+      //AH_UDC_Workbook__Share objWorkbookShare = new AH_UDC_Workbook__Share();
+      //objWorkbookShare.ParentId = lstWorkbooks[0].Id;
+      //objWorkbookShare.UserOrGroupId = uWBU.Id;
+      //objWorkbookShare.AccessLevel = 'Edit';
+      //insert objWorkbookShare;
+
+      //Test.startTest();
+      //System.runAs(uWBU) {
+         ////add account in recently used account
+         //Account record1 = [SELECT Id FROM Account WHERE Name = 'UDC Test Account CustomLookupDialog 1'];
+         //List<Account> record2 = [SELECT Id FROM Account FOR VIEW];
+         //List<Account> rc = [SELECT LastViewedDate FROM Account WHERE Id = :record1.Id];
+
+         //TestNIDocLookup();
+
+         //TestContactLookup();
+
+         //TestAccountLookup();
+
+         //TestProjectLookup();
+
+         //TestWorkbookStepLookup(true);
+
+         //TestExceptionHandling();
+      //}
+      //Test.stopTest();
+   //}
+
+   private static void TestNIDocLookup() {
       String strNIDocKeyPrefix = NI_Documentation__c.sObjectType.getDescribe().getKeyPrefix();
       PageReference pageRef = Page.AH_UDC_CustomLookupDialog;
       pageRef.getParameters().put('lktp', strNIDocKeyPrefix); //Pass lookup type as a parameter
@@ -172,38 +244,45 @@ private class AH_UDC_CustomLookupDialog_Test {
       pageRef.getParameters().put('lknm', 'TestFieldId'); //Pass lookup field id as a parameter
       Test.setCurrentPageReference(pageRef);
 
-      Test.startTest();
-      ApexPages.StandardController sController = new ApexPages.standardController(new AH_UDC_WorkbookStep__c());
+      ApexPages.StandardController sController = new ApexPages.standardController(new NI_Documentation__c());
       AH_UDC_CustomLookupDialog objNIDocLookup = new AH_UDC_CustomLookupDialog(sController);
-      System.assertEquals(true, objNIDocLookup.IsErrorOccurred != true, 'Error occurred in page execution');
-      System.assertEquals(true, objNIDocLookup.IsNIDocLookup, 'Error occurred in page execution - IsNIDocLookup value is not set');
-      System.assertEquals(true, objNIDocLookup.NIDocRecordsList != null && objNIDocLookup.NIDocRecordsList.size() > 0, 'Error occurred in page execution - NI Doc list is empty');
+      System.assert(objNIDocLookup.IsErrorOccurred != true, 'TestNIDocLookup - Error occurred in page execution');
+      System.assert(objNIDocLookup.IsNIDocLookup == true, 'Error occurred in page execution - IsNIDocLookup value is not set');
+      System.assert(objNIDocLookup.NIDocRecordsList == null || objNIDocLookup.NIDocRecordsList.size() == 0, 'Error occurred in page execution - NI Doc list is not empty for recently viewed records');
+
+      objNIDocLookup.SearchText = 'Test NI'; //Cover searchtext code
+      objNIDocLookup.FillDataTableGrid(); //Get records based on search text
+      System.assertEquals(25, objNIDocLookup.NIDocRecordsList.size(), 'Error occurred in search - NI Doc records count is not matched');
 
       //Pagination Next Click
       objNIDocLookup.Next();
-      System.assertEquals(true, objNIDocLookup.PageNumber == 1, 'Error occurred in executing Next method');
+      System.assertEquals(1, objNIDocLookup.PageNumber, 'Error occurred in executing Next method - Page Number is not matched');
+      System.assertEquals(25, objNIDocLookup.NIDocRecordsList.size(), 'Error occurred in Next method - NI Doc records count is not matched');
 
       //Pagination Previous Click
       objNIDocLookup.Previous();
-      System.assertEquals(true, objNIDocLookup.PageNumber == 0, 'Error occurred in executing Previous method');
+      System.assertEquals(0, objNIDocLookup.PageNumber, 'Error occurred in executing Previous method - Page Number is not matched');
+      System.assertEquals(25, objNIDocLookup.NIDocRecordsList.size(), 'Error occurred in Previous Beginning method - NI Doc records count is not matched');
 
       //Pagination Last Click
       objNIDocLookup.End();
-      System.assertEquals(true, objNIDocLookup.PageNumber == objNIDocLookup.TotalPages, 'Error occurred in executing End method');
+      System.assertEquals(objNIDocLookup.TotalPages, objNIDocLookup.PageNumber, 'Error occurred in executing End method - Page Number is not matched');
+      System.assertEquals(25, objNIDocLookup.NIDocRecordsList.size(), 'Error occurred in End method - NI Doc records count is not matched');
 
       //Pagination First Click
       objNIDocLookup.Beginning();
-      System.assertEquals(true, objNIDocLookup.PageNumber == 0, 'Error occurred in executing Beginning method');
+      System.assertEquals(0, objNIDocLookup.PageNumber, 'Error occurred in executing Beginning method - Page Number is not matched');
+      System.assertEquals(25, objNIDocLookup.NIDocRecordsList.size(), 'Error occurred in executing Beginning method - NI Doc records count is not matched');
 
-      objNIDocLookup.SearchText = 'Test NI'; //Cover searchtext code
+      objNIDocLookup.RecordsPerPage = 100;
+      objNIDocLookup.FillDataTableGrid(); //Get records based on search text
+      System.assertEquals(50, objNIDocLookup.NIDocRecordsList.size(), 'Error occurred in search - NI Doc records count is not matched');
+
       objNIDocLookup.TotalRecordsAllowed = 40; //Cover if condition of maximum records
       objNIDocLookup.FillDataTableGrid(); //Get records based on search text
-      System.assertEquals(true, objNIDocLookup.NIDocRecordsList != null && objNIDocLookup.NIDocRecordsList.size() > 0, 'Error occurred in seacrh - NI Doc list is empty after search');
-
-      Test.stopTest();
+      System.assertEquals(40, objNIDocLookup.NIDocRecordsList.size(), 'Error occurred in search - NI Doc records count is not matched with maximum allowed records');
    }
 
-   @isTest
    private static void TestContactLookup() {
       String strContactKeyPrefix = Contact.sObjectType.getDescribe().getKeyPrefix();
       PageReference pageRef = Page.AH_UDC_CustomLookupDialog;
@@ -211,73 +290,274 @@ private class AH_UDC_CustomLookupDialog_Test {
       pageRef.getParameters().put('lkfm', 'TestFormId'); //Pass lookup form id as a parameter
       pageRef.getParameters().put('lknm', 'TestFieldId'); //Pass lookup field id as a parameter
       Test.setCurrentPageReference(pageRef);
-      Test.startTest();
-      ApexPages.StandardController sController = new ApexPages.standardController(new AH_UDC_WorkbookStep__c());
+
+      ApexPages.StandardController sController = new ApexPages.standardController(new Contact());
       AH_UDC_CustomLookupDialog objContactLookup = new AH_UDC_CustomLookupDialog(sController);
-      System.assertEquals(true, objContactLookup.IsErrorOccurred != true, 'Error occurred in page execution');
-      System.assertEquals(true, objContactLookup.IsContactLookup, 'Error occurred in page execution - IsContactLookup value is not set');
-      System.assertEquals(true, objContactLookup.ContactRecordsList != null && objContactLookup.ContactRecordsList.size() > 0, 'Error occurred in page execution - Contact list is empty');
+      System.assert(objContactLookup.IsErrorOccurred != true, 'TestContactLookup - Error occurred in page execution');
+      System.assert(objContactLookup.IsContactLookup == true, 'Error occurred in page execution - IsContactLookup value is not set');
+      System.assert(objContactLookup.ContactRecordsList == null || objContactLookup.ContactRecordsList.size() == 0, 'Error occurred in page execution - Contact list is not empty for recently viewed records');
 
       objContactLookup.SearchText = 'Test Contact'; //Cover searchtext code
+      objContactLookup.FillDataTableGrid(); //Get records based on search text
+      System.assertEquals(25, objContactLookup.ContactRecordsList.size(), 'Error occurred in search - Contact records count is not matched');
+
+      //Pagination Next Click
+      objContactLookup.Next();
+      System.assertEquals(1, objContactLookup.PageNumber, 'Error occurred in executing Next method - Page Number is not matched');
+      System.assertEquals(25, objContactLookup.ContactRecordsList.size(), 'Error occurred in Next method - Contact records count is not matched');
+
+      //Pagination Previous Click
+      objContactLookup.Previous();
+      System.assertEquals(0, objContactLookup.PageNumber, 'Error occurred in executing Previous method - Page Number is not matched');
+      System.assertEquals(25, objContactLookup.ContactRecordsList.size(), 'Error occurred in Previous Beginning method - Contact records count is not matched');
+
+      //Pagination Last Click
+      objContactLookup.End();
+      System.assertEquals(objContactLookup.TotalPages, objContactLookup.PageNumber, 'Error occurred in executing End method - Page Number is not matched');
+      System.assertEquals(25, objContactLookup.ContactRecordsList.size(), 'Error occurred in End method - Contact records count is not matched');
+
+      //Pagination First Click
+      objContactLookup.Beginning();
+      System.assertEquals(0, objContactLookup.PageNumber, 'Error occurred in executing Beginning method - Page Number is not matched');
+      System.assertEquals(25, objContactLookup.ContactRecordsList.size(), 'Error occurred in executing Beginning method - Contact records count is not matched');
+
+      objContactLookup.RecordsPerPage = 100;
+      objContactLookup.FillDataTableGrid(); //Get records based on search text
+      System.assertEquals(50, objContactLookup.ContactRecordsList.size(), 'Error occurred in search - Contact records count is not matched');
+
       objContactLookup.TotalRecordsAllowed = 1; //Cover if condition of maximum records
       objContactLookup.FillDataTableGrid(); //Get records based on search text
-      System.assertEquals(true, objContactLookup.ContactRecordsList != null && objContactLookup.ContactRecordsList.size() > 0, 'Error occurred in search - Contact list is empty after search');
-
-      Test.stopTest();
+      System.assertEquals(1, objContactLookup.ContactRecordsList.size(), 'Error occurred in search - Contact records count is not matched with maximum allowed records');
    }
 
-   @isTest
-   private static void TestWorkbookStepLookup() {
-      String WorkbookStepRecordTypeId = Schema.SObjectType.AH_UDC_WorkbookStep__c.getRecordTypeInfosByDeveloperName().get('AH_UDC_WorkbookStep').getRecordTypeId();
-      System.assertEquals(true, WorkbookStepRecordTypeId != null && WorkbookStepRecordTypeId != '', 'RecordType AH_UDC_WorkbookStep not found');
+   private static void TestAccountLookup() {
+      String strContactKeyPrefix = Account.sObjectType.getDescribe().getKeyPrefix();
+      PageReference pageRef = Page.AH_UDC_CustomLookupDialog;
+      pageRef.getParameters().put('lktp', strContactKeyPrefix); //Pass lookup type as a parameter
+      pageRef.getParameters().put('lkfm', 'TestFormId'); //Pass lookup form id as a parameter
+      pageRef.getParameters().put('lknm', 'TestFieldId'); //Pass lookup field id as a parameter
+      Test.setCurrentPageReference(pageRef);
 
-      List<AH_UDC_WorkbookStep__c> lstWorkbookSteps = new List<AH_UDC_WorkbookStep__c> ([SELECT Id FROM AH_UDC_WorkbookStep__c WHERE RecordTypeId = :WorkbookStepRecordTypeId ORDER BY SortOrder__c]);
-      System.assertEquals(true, lstWorkbookSteps != null && lstWorkbookSteps.size() > 1, 'Workbook Step Records Not Found');
+      ApexPages.StandardController sController = new ApexPages.standardController(new Contact());
+      AH_UDC_CustomLookupDialog objAccountLookup = new AH_UDC_CustomLookupDialog(sController);
+      System.assert(objAccountLookup.IsErrorOccurred != true, 'TestAccountLookup - Error occurred in page execution');
+      System.assert(objAccountLookup.IsAccountLookup == true, 'Error occurred in page execution - IsAccountLookup value is not set');
+      //System.assert(objAccountLookup.AccountRecordsList == null || objAccountLookup.AccountRecordsList.size() == 0, 'Error occurred in page execution - Account list is not empty for recently viewed records');
+
+      objAccountLookup.SearchText = 'UDC Test Account'; //Cover searchtext code
+      objAccountLookup.FillDataTableGrid(); //Get records based on search text
+      System.assertEquals(25, objAccountLookup.AccountRecordsList.size(), 'Error occurred in search - Contact records count is not matched');
+
+      //Pagination Next Click
+      objAccountLookup.Next();
+      System.assertEquals(1, objAccountLookup.PageNumber, 'Error occurred in executing Next method - Page Number is not matched');
+      System.assertEquals(25, objAccountLookup.AccountRecordsList.size(), 'Error occurred in Next method - Account records count is not matched');
+
+      //Pagination Previous Click
+      objAccountLookup.Previous();
+      System.assertEquals(0, objAccountLookup.PageNumber, 'Error occurred in executing Previous method - Page Number is not matched');
+      System.assertEquals(25, objAccountLookup.AccountRecordsList.size(), 'Error occurred in Previous Beginning method - Account records count is not matched');
+
+      //Pagination Last Click
+      objAccountLookup.End();
+      System.assertEquals(objAccountLookup.TotalPages, objAccountLookup.PageNumber, 'Error occurred in executing End method - Page Number is not matched');
+      System.assertEquals(2, objAccountLookup.AccountRecordsList.size(), 'Error occurred in End method - Account records count is not matched');
+
+      //Pagination First Click
+      objAccountLookup.Beginning();
+      System.assertEquals(0, objAccountLookup.PageNumber, 'Error occurred in executing Beginning method - Page Number is not matched');
+      System.assertEquals(25, objAccountLookup.AccountRecordsList.size(), 'Error occurred in executing Beginning method - Account records count is not matched');
+
+      objAccountLookup.RecordsPerPage = 100;
+      objAccountLookup.FillDataTableGrid(); //Get records based on search text
+      System.assertEquals(52, objAccountLookup.AccountRecordsList.size(), 'Error occurred in search - Account records count is not matched');
+
+      objAccountLookup.TotalRecordsAllowed = 1; //Cover if condition of maximum records
+      objAccountLookup.FillDataTableGrid(); //Get records based on search text
+      System.assertEquals(1, objAccountLookup.AccountRecordsList.size(), 'Error occurred in search - Account records count is not matched with maximum allowed records');
+   }
+
+   private static void TestProjectLookup() {
+      String strProjectKeyPrefix = pse__Proj__c.sObjectType.getDescribe().getKeyPrefix();
+      PageReference pageRef = Page.AH_UDC_CustomLookupDialog;
+      pageRef.getParameters().put('lktp', strProjectKeyPrefix); //Pass lookup type as a parameter
+      pageRef.getParameters().put('lkfm', 'TestFormId'); //Pass lookup form id as a parameter
+      pageRef.getParameters().put('lknm', 'TestFieldId'); //Pass lookup field id as a parameter
+      Test.setCurrentPageReference(pageRef);
+
+      ApexPages.StandardController sController = new ApexPages.standardController(new pse__Proj__c());
+      AH_UDC_CustomLookupDialog objProjectLookup = new AH_UDC_CustomLookupDialog(sController);
+      System.assert(objProjectLookup.IsErrorOccurred != true, 'TestProjectLookup - Error occurred in page execution');
+      System.assert(objProjectLookup.IsProjectLookup == true, 'Error occurred in page execution - IsProjectLookup value is not set to true');
+      System.assert(objProjectLookup.ProjectRecordsList == null || objProjectLookup.ProjectRecordsList.size() == 0, 'Error occurred in page execution - Project list is not empty for recently viewed records');
+
+      objProjectLookup.SearchText = 'Test Project'; //Cover searchtext code
+      objProjectLookup.FillDataTableGrid(); //Get records based on search text
+      System.assertEquals(25, objProjectLookup.ProjectRecordsList.size(), 'Error occurred in search - Project records count did not match');
+
+      //Pagination Next Click
+      objProjectLookup.Next();
+      System.assertEquals(1, objProjectLookup.PageNumber, 'Error occurred in executing Next method - Page Number did not match');
+      System.assertEquals(25, objProjectLookup.ProjectRecordsList.size(), 'Error occurred in Next method - Project records count did not match');
+
+      //Pagination Previous Click
+      objProjectLookup.Previous();
+      System.assertEquals(0, objProjectLookup.PageNumber, 'Error occurred in executing Previous method - Page Number did not match');
+      System.assertEquals(25, objProjectLookup.ProjectRecordsList.size(), 'Error occurred in Previous Beginning method - Project records count did not match');
+
+      //Pagination Last Click
+      objProjectLookup.End();
+      System.assertEquals(objProjectLookup.TotalPages, objProjectLookup.PageNumber, 'Error occurred in executing End method - Page Number did not match');
+      System.assertEquals(2, objProjectLookup.ProjectRecordsList.size(), 'Error occurred in End method - Project records count did not match');
+
+      //Pagination First Click
+      objProjectLookup.Beginning();
+      System.assertEquals(0, objProjectLookup.PageNumber, 'Error occurred in executing Beginning method - Page Number is not matched');
+      System.assertEquals(25, objProjectLookup.ProjectRecordsList.size(), 'Error occurred in executing Beginning method - Project records count is not matched');
+
+      objProjectLookup.RecordsPerPage = 100;
+      objProjectLookup.FillDataTableGrid(); //Get records based on search text
+      System.assertEquals(52, objProjectLookup.ProjectRecordsList.size(), 'Error occurred in search - Project records count is not matched');
+
+      objProjectLookup.TotalRecordsAllowed = 1; //Cover if condition of maximum records
+      objProjectLookup.FillDataTableGrid(); //Get records based on search text
+      System.assertEquals(1, objProjectLookup.ProjectRecordsList.size(), 'Error occurred in search - Project records count is not matched with maximum allowed records');
+   }
+
+   private static void TestWorkbookStepLookup(Boolean IsWorkbookUser) {
+      String WorkbookStepRecordTypeId = Schema.SObjectType.AH_UDC_WorkbookStep__c.getRecordTypeInfosByDeveloperName().get(AH_UDC_Constants.RECORD_TYPE_WORKBOOK_STEP).getRecordTypeId();
+      System.assert(WorkbookStepRecordTypeId != null && WorkbookStepRecordTypeId != '', 'RecordType not found - ' + AH_UDC_Constants.RECORD_TYPE_WORKBOOK_STEP);
+
+      List<AH_UDC_WorkbookStep__c> lstWorkbookSteps = [SELECT Id
+                                                       FROM AH_UDC_WorkbookStep__c
+                                                       WHERE RecordTypeId = :WorkbookStepRecordTypeId
+                                                       AND Enabled__c = true
+                                                       ORDER BY SortOrder__c DESC];
+      System.assertEquals(51, lstWorkbookSteps.size(), 'Workbook Step records count not matched');
 
       PageReference pageRef = Page.AH_UDC_CustomLookupDialog;
-      pageRef.getParameters().put('id', lstWorkbookSteps[1].Id); //Pass workbook step id as a parameter
-      pageRef.getParameters().put('prerequisiteStepId', lstWorkbookSteps[0].Id); //Pass prerequisite step id as a parameter
+      pageRef.getParameters().put('id', lstWorkbookSteps[0].Id); //Pass workbook step id with sort order 51 to get 50 records
+      pageRef.getParameters().put('prerequisiteStepId', lstWorkbookSteps[50].Id); //Set first step as a prerequisite step for 51th step
       Test.setCurrentPageReference(pageRef);
-      Test.startTest();
 
       ApexPages.StandardController sController = new ApexPages.standardController(new AH_UDC_WorkbookStep__c());
       AH_UDC_CustomLookupDialog objWorkbookStepLookup = new AH_UDC_CustomLookupDialog(sController);
-      System.assertEquals(true, objWorkbookStepLookup.IsErrorOccurred != true, 'Error occurred in page execution');
-      System.assertEquals(true, objWorkbookStepLookup.IsWorkbookStepLookup, 'Error occurred in page execution - IsWorkbookStepLookup value is not set');
-      System.assertEquals(true, objWorkbookStepLookup.WorkbookStepRecordsList != null && objWorkbookStepLookup.WorkbookStepRecordsList.size() > 0, 'Error occurred in page execution - WorkbookStepRecordsList is empty');
+      System.assert(objWorkbookStepLookup.IsErrorOccurred != true, 'TestWorkbookStepLookup - Error occurred in page execution');
+      System.assert(objWorkbookStepLookup.IsWorkbookStepLookup == true, 'Error occurred in page execution - IsWorkbookStepLookup value is not set');
+      if (IsWorkbookUser) {
+         System.assertEquals(Label.AH_UDC_NoRightsMessage, objWorkbookStepLookup.ValidationMessage, 'Workbook user should not be allowed to access workbook step lookup');
+      }
+      else {
+         System.assert(String.isBlank(objWorkbookStepLookup.ValidationMessage), 'Error occurred in page execution - ' + objWorkbookStepLookup.ValidationMessage);
+         System.assertEquals(25, objWorkbookStepLookup.WorkbookStepRecordsList.size(), 'Error occurred in page execution - Workbook step records counts not matched');
 
-      objWorkbookStepLookup.SetPrerequisiteStep();
-      System.assertEquals(true, objWorkbookStepLookup.IsErrorOccurred != true, 'Error occurred in SetPrerequisiteStep method execution');
+         //Pagination Next Click
+         objWorkbookStepLookup.Next();
+         System.assertEquals(1, objWorkbookStepLookup.PageNumber, 'Error occurred in executing Next method - Page Number is not matched');
+         System.assertEquals(25, objWorkbookStepLookup.WorkbookStepRecordsList.size(), 'Error occurred in Next method - Workbook Step records count is not matched');
 
-      AH_UDC_WorkbookStep__c objWorkbookStep = [SELECT Id, Prerequisite_Step__c FROM AH_UDC_WorkbookStep__c WHERE Id = :lstWorkbookSteps[1].Id];
-      System.assertEquals(true, objWorkbookStep != null && objWorkbookStep.Prerequisite_Step__c == lstWorkbookSteps[0].Id, 'Prerequisite Step Value Not Updated: ' + objWorkbookStep.Prerequisite_Step__c + ' | ' + lstWorkbookSteps[0].Id);
+         //Pagination Previous Click
+         objWorkbookStepLookup.Previous();
+         System.assertEquals(0, objWorkbookStepLookup.PageNumber, 'Error occurred in executing Previous method - Page Number is not matched');
+         System.assertEquals(25, objWorkbookStepLookup.WorkbookStepRecordsList.size(), 'Error occurred in Previous Beginning method - Workbook Step records count is not matched');
 
-      objWorkbookStepLookup.SearchText = 'Test Step'; //Cover searchtext code
-      objWorkbookStepLookup.FillDataTableGrid(); //Get records based on search text
-      System.assertEquals(true, objWorkbookStepLookup.WorkbookStepRecordsList != null && objWorkbookStepLookup.WorkbookStepRecordsList.size() > 0, 'Error occurred in page execution - WorkbookStepRecordsList is empty after search');
+         //Pagination Last Click
+         objWorkbookStepLookup.End();
+         System.assertEquals(objWorkbookStepLookup.TotalPages, objWorkbookStepLookup.PageNumber, 'Error occurred in executing End method - Page Number is not matched');
+         System.assertEquals(25, objWorkbookStepLookup.WorkbookStepRecordsList.size(), 'Error occurred in End method - Workbook Step records count is not matched');
 
-      Test.stopTest();
+         //Pagination First Click
+         objWorkbookStepLookup.Beginning();
+         System.assertEquals(0, objWorkbookStepLookup.PageNumber, 'Error occurred in executing Beginning method - Page Number is not matched');
+         System.assertEquals(25, objWorkbookStepLookup.WorkbookStepRecordsList.size(), 'Error occurred in executing Beginning method - Workbook Step records count is not matched');
+
+         objWorkbookStepLookup.SearchText = 'Test Step'; //Cover searchtext code
+         objWorkbookStepLookup.RecordsPerPage = 100;
+         objWorkbookStepLookup.FillDataTableGrid(); //Get records based on search text
+         System.assertEquals(50, objWorkbookStepLookup.WorkbookStepRecordsList.size(), 'Error occurred in search - Workbook step records count is not matched');
+
+         objWorkbookStepLookup.SetPrerequisiteStep();
+         System.assert(objWorkbookStepLookup.IsErrorOccurred != true, 'Error occurred in SetPrerequisiteStep method execution');
+
+         List<AH_UDC_WorkbookStep__c> lstWorkbookSteps2 = [SELECT Id, Prerequisite_Step__c FROM AH_UDC_WorkbookStep__c WHERE Id = :lstWorkbookSteps[0].Id];
+         System.assert(lstWorkbookSteps2.size() > 0, 'Workbook step record not found');
+         System.assertEquals(lstWorkbookSteps[50].Id, lstWorkbookSteps2[0].Prerequisite_Step__c, 'Prerequisite Step Value Not Updated');
+      }
    }
 
-   @isTest
    private static void TestExceptionHandling() {
       PageReference pageRef = Page.AH_UDC_CustomLookupDialog;
       Test.setCurrentPageReference(pageRef);
-      Test.startTest();
       ApexPages.StandardController sController = new ApexPages.standardController(new AH_UDC_WorkbookStep__c());
       AH_UDC_CustomLookupDialog objLookup = new AH_UDC_CustomLookupDialog(sController);
-      System.assertEquals(true, objLookup.IsErrorOccurred, 'Error not occurred in page execution');
-      System.assertEquals(true, objLookup.HasPageLoadLogMessages, 'PageLoadLogMessages is empty');
+      System.assert(objLookup.IsErrorOccurred == true, 'Error not occurred in page execution');
+      System.assert(objLookup.HasPageLoadLogMessages == true, 'PageLoadLogMessages is empty');
 
       //Set name to generate error in LogException method
       objLookup.LogFunctionalArea = 'TestException';
 
       objLookup.ServerLogMessages();
-      System.assertEquals(false, objLookup.HasPageLoadLogMessages, 'PageLoadLogMessages is not empty');
+      System.assert(objLookup.HasPageLoadLogMessages == false, 'PageLoadLogMessages is not empty');
 
       objLookup.SetPrerequisiteStep();
-      System.assertEquals(true, objLookup.IsErrorOccurred, 'Error not occurred in the method SetPrerequisiteStep');
+      System.assert(objLookup.IsErrorOccurred == true, 'Error not occurred in the method SetPrerequisiteStep');
+   }
 
+   @isTest
+   public static void NegativeTesting() {
+      List<User> listUser = [Select Id From User Where Email like '%cldWorkbook%' ORDER BY Email];
+      System.assertEquals(2, listUser.size(), 'Failed retrieving test Workbook Admin and Workbook User');
+      User uWBA = listUser[0];
+      User uWBU = listUser[1];
+
+      String WorkbookRecordTypeId = Schema.SObjectType.AH_UDC_Workbook__c.getRecordTypeInfosByDeveloperName().get(AH_UDC_Constants.RECORD_TYPE_WORKBOOK).getRecordTypeId();
+      System.assert(WorkbookRecordTypeId != null && WorkbookRecordTypeId != '', 'RecordType not found - ' + AH_UDC_Constants.RECORD_TYPE_WORKBOOK_STEP);
+
+      AH_UDC_Workbook__c objWorkbook = AH_UDC_TestData.GetWorkbookObject(null, 'Test Workbook 1', 'Test Workbook 1 Description', 'Central Sales');
+      objWorkbook.RecordTypeId = WorkbookRecordTypeId;
+      insert objWorkbook;
+
+      String WorkbookStepRecordTypeId = Schema.SObjectType.AH_UDC_WorkbookStep__c.getRecordTypeInfosByDeveloperName().get(AH_UDC_Constants.RECORD_TYPE_WORKBOOK_STEP).getRecordTypeId();
+      System.assert(String.isNotBlank(WorkbookStepRecordTypeId), 'RecordType AH_UDC_WorkbookStep not found');
+
+      AH_UDC_WorkbookStep__c objWorkbookStep = AH_UDC_TestData.GetWorkbookStepObject(objWorkbook.Id, 'Test Step 1');
+      objWorkbookStep.URL__c = 'https://www.Amadeus.com/';
+      objWorkbookStep.RecordTypeId = WorkbookStepRecordTypeId;
+      objWorkbookStep.SortOrder__c = 0;
+      insert objWorkbookStep;
+
+      Test.startTest();
+      System.runAs(uWBA) {
+         PageReference pageRef = Page.AH_UDC_CustomLookupDialog;
+         //Check with the stepId of the workbook which is not shared with the user
+         pageRef.getParameters().put('id', objWorkbookStep.Id);
+         Test.setCurrentPageReference(pageRef);
+
+         ApexPages.StandardController sController = new ApexPages.standardController(new AH_UDC_WorkbookStep__c());
+         AH_UDC_CustomLookupDialog objWorkbookStepLookup = new AH_UDC_CustomLookupDialog(sController);
+         System.assertEquals(Label.AH_UDC_NoRightsMessage, objWorkbookStepLookup.ValidationMessage, 'TestWorkbookStepLookup - User should not be able to access step of the workbook which is not shared with the user');
+      }
+
+      System.runAs(uWBU) {
+         PageReference pageRef = Page.AH_UDC_CustomLookupDialog;
+         //Check with the stepId of the workbook which is not shared with the user
+         pageRef.getParameters().put('id', objWorkbookStep.Id);
+         Test.setCurrentPageReference(pageRef);
+
+         ApexPages.StandardController sController = new ApexPages.standardController(new AH_UDC_WorkbookStep__c());
+         AH_UDC_CustomLookupDialog objWorkbookStepLookup = new AH_UDC_CustomLookupDialog(sController);
+         System.assertEquals(Label.AH_UDC_NoRightsMessage, objWorkbookStepLookup.ValidationMessage, 'TestWorkbookStepLookup - User should not be able to access step of the workbook which is not shared with the user');
+      }
+
+      //pass invalid prerequisiteid
+      PageReference pageRef = Page.AH_UDC_CustomLookupDialog;
+      pageRef.getParameters().put('id', objWorkbookStep.Id);
+      pageRef.getParameters().put('prerequisiteStepId', 'badprerequisitid'); //Set wrong  step as a prerequisite step 
+      Test.setCurrentPageReference(pageRef);
+      ApexPages.StandardController sController = new ApexPages.standardController(new AH_UDC_WorkbookStep__c());
+      AH_UDC_CustomLookupDialog objWorkbookStepLookup = new AH_UDC_CustomLookupDialog(sController);
+      objWorkbookStepLookup.SetPrerequisiteStep();
+      System.assert(objWorkbookStepLookup.IsErrorOccurred == true, 'PrerequisiteStep is not Valid');
       Test.stopTest();
    }
 }

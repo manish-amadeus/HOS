@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PermissionSet xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>Members of this permission set have Edit permission on the Migrated to Payroll and Migrated To Payroll Date field on the PSA Expense Report Object.   This permission set was originally created for Lori Asselin in Finance</description>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>pse__Expense_Report__c.Migrated_To_Payroll_Date__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>pse__Expense_Report__c.Migrated_To_Payroll__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <hasActivationRequired>false</hasActivationRequired>
+    <label>PSA Expense Reports - Edit Migrated to Payroll and Migrated To Payroll Date</label>
+    <license>Salesforce</license>
+    <objectPermissions>
+        <allowCreate>false</allowCreate>
+        <allowDelete>true</allowDelete>
+        <allowEdit>true</allowEdit>
+        <allowRead>true</allowRead>
+        <modifyAllRecords>true</modifyAllRecords>
+        <object>pse__Expense_Report__c</object>
+        <viewAllRecords>true</viewAllRecords>
+    </objectPermissions>
+    <tabSettings>
+        <tab>pse__Expense_Report__c</tab>
+        <visibility>Visible</visibility>
+    </tabSettings>
+</PermissionSet>

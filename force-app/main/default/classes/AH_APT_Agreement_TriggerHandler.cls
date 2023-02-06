@@ -7,23 +7,18 @@ Last Mod By     : Sean Harris
 NICC Reference  : 
 Description     : Class that handles all custom trigger code
                 : for the AH_APT_Agreement_TriggerHandler Object
-                : 
+                : UPDATED 2022-09-15 Removed Referenced Fields on Opportunity that need to be Deleted
 *************************************************************************************************/
 public class AH_APT_Agreement_TriggerHandler 
 {
     
     private NI_TriggerBypassSwitches__c bpSwitch {get; set;}
     
+    
     public AH_APT_Agreement_TriggerHandler()
     {
-        
-        system.debug(' *** ENTERING AH_APT_Agreement_TriggerHandler CONSTRUCTOR - QUERIES ISSUED = ' + Limits.getQueries());
-        
         // GET TRIGGER HANDLER BYPASS SWITCH VALUE
-        bpSwitch = NI_TriggerBypassSwitches__c.getOrgDefaults();  
-        
-        system.debug(' *** EXITING AH_APT_Agreement_TriggerHandler CONSTRUCTOR - QUERIES ISSUED = ' + Limits.getQueries());
-        
+        bpSwitch = NI_TriggerBypassSwitches__c.getOrgDefaults(); 
     } 
 
     // ======================================================================================================================== 
@@ -31,24 +26,12 @@ public class AH_APT_Agreement_TriggerHandler
     // ======================================================================================================================== 
     public void OnBeforeUpdate(List<Apttus__APTS_Agreement__c> newTrigger, Map<Id, Apttus__APTS_Agreement__c> oldMapTrigger)
     {
-        
-        system.debug(' *** ENTERING AH_APT_Agreement_TriggerHandler.OnBeforeUpdate() - QUERIES ISSUED = ' + Limits.getQueries());
-        
         updateTermsOnOpportunity(newTrigger, oldMapTrigger);
-        
-        system.debug(' *** EXITING AH_APT_Agreement_TriggerHandler.OnBeforeUpdate() - QUERIES ISSUED = ' + Limits.getQueries());
-        
     }
     
     public void OnAfterInsert(List<Apttus__APTS_Agreement__c> newTrigger)
     {
-        
-        system.debug(' *** ENTERING AH_APT_Agreement_TriggerHandler.OnAfterInsert() - QUERIES ISSUED = ' + Limits.getQueries());
-        
         updateLookupsOnAgreement(newTrigger);
-        
-        system.debug(' *** EXITING AH_APT_Agreement_TriggerHandler.OnAfterInsert() - QUERIES ISSUED = ' + Limits.getQueries());
-        
     }   
 
 
@@ -127,7 +110,7 @@ public class AH_APT_Agreement_TriggerHandler
 
     private void updateTermsOnOpportunity(List<Apttus__APTS_Agreement__c> newTrigger, Map<Id, Apttus__APTS_Agreement__c> oldMapTrigger)
     {
-
+/*
         // FORMALLY FROM TRIGGER CALLED ffaAgreementTrigger
         
         Map<Id, Id> licensedProgramOppPMTMap = new Map<Id, Id>();
@@ -147,7 +130,7 @@ public class AH_APT_Agreement_TriggerHandler
             String key = invTerms.Type__c + '|' + invTerms.Aptus_Payment_Terms__c;
             invoiceTermsMap.put(key, invTerms.Id);
         }	
-system.debug('*^* invoiceTermsMap = ' + invoiceTermsMap);         
+        
         for (Apttus__APTS_Agreement__c agreement : newTrigger)
         {
             
@@ -160,8 +143,7 @@ system.debug('*^* invoiceTermsMap = ' + invoiceTermsMap);
                 
                 if (agreement.APTS_Licensed_Program__c != null && oldAgreement.APTS_Licensed_Program__c != agreement.APTS_Licensed_Program__c)
                 {                   
-                    String key = 'Licensed Program' + '|' + agreement.APTS_Licensed_Program__c;
-system.debug('*^* Licensed Program map key = ' + key);                       
+                    String key = 'Licensed Program' + '|' + agreement.APTS_Licensed_Program__c;                
                     if (invoiceTermsMap.containsKey(key))
                     {
                         licensedProgramOppPMTMap.put(agreement.Apttus__Related_Opportunity__c, invoiceTermsMap.get(key));
@@ -170,8 +152,7 @@ system.debug('*^* Licensed Program map key = ' + key);
                 
                 if (agreement.APTS_Services__c != null && oldAgreement.APTS_Services__c != agreement.APTS_Services__c)
                 {
-                    String key = 'Services' + '|' + agreement.APTS_Services__c;
-system.debug('*^* Licensed Program map key = ' + key);                      
+                    String key = 'Services' + '|' + agreement.APTS_Services__c;                    
                     if (invoiceTermsMap.containsKey(key))
                     {
                         servicesOppPMTMap.put(agreement.Apttus__Related_Opportunity__c, invoiceTermsMap.get(key));
@@ -180,8 +161,7 @@ system.debug('*^* Licensed Program map key = ' + key);
                 
                 if (agreement.APTS_Hosting_and_Support__c != null && oldAgreement.APTS_Hosting_and_Support__c != agreement.APTS_Hosting_and_Support__c)
                 {
-                    String key = 'Hosting and Support' + '|' + agreement.APTS_Hosting_and_Support__c;
-system.debug('*^* Licensed Program map key = ' + key);                      
+                    String key = 'Hosting and Support' + '|' + agreement.APTS_Hosting_and_Support__c;               
                     if (invoiceTermsMap.containsKey(key))
                     {
                         hostingSupportOppPMTMap.put(agreement.Apttus__Related_Opportunity__c, invoiceTermsMap.get(key));
@@ -190,8 +170,7 @@ system.debug('*^* Licensed Program map key = ' + key);
                 
                 if (agreement.APTS_Subscription__c != null && oldAgreement.APTS_Subscription__c != agreement.APTS_Subscription__c)
                 {
-                    String key = 'Subscription' + '|' + agreement.APTS_Subscription__c;
-system.debug('*^* Licensed Program map key = ' + key);                      
+                    String key = 'Subscription' + '|' + agreement.APTS_Subscription__c;                     
                     if (invoiceTermsMap.containsKey(key))
                     {
                         subscriptionOppPMTMap.put(agreement.Apttus__Related_Opportunity__c, invoiceTermsMap.get(key));
@@ -200,8 +179,7 @@ system.debug('*^* Licensed Program map key = ' + key);
                 
                 if (agreement.APTS_Support__c != null && oldAgreement.APTS_Support__c != agreement.APTS_Support__c)
                 {
-                    String key = 'Support' + '|' + agreement.APTS_Support__c;
-system.debug('*^* Licensed Program map key = ' + key);                      
+                    String key = 'Support' + '|' + agreement.APTS_Support__c;                    
                     if (invoiceTermsMap.containsKey(key))
                     {
                         supportOppPMTMap.put(agreement.Apttus__Related_Opportunity__c, invoiceTermsMap.get(key));
@@ -210,8 +188,7 @@ system.debug('*^* Licensed Program map key = ' + key);
                 
                 if (agreement.APTS_HRM_Apps_Subscription_Term__c != null && oldAgreement.APTS_HRM_Apps_Subscription_Term__c != agreement.APTS_HRM_Apps_Subscription_Term__c)
                 {
-                    String key = 'HRM Subscription' + '|' + agreement.APTS_HRM_Apps_Subscription_Term__c;
-system.debug('*^* Licensed Program map key = ' + key);                      
+                    String key = 'HRM Subscription' + '|' + agreement.APTS_HRM_Apps_Subscription_Term__c;                  
                     if (invoiceTermsMap.containsKey(key))
                     {
                         hrmsubscriptionOppPMTMap.put(agreement.Apttus__Related_Opportunity__c, invoiceTermsMap.get(key));
@@ -220,8 +197,7 @@ system.debug('*^* Licensed Program map key = ' + key);
                 
                 if (agreement.HRM_Apps_Services_Terms__c != null && oldAgreement.HRM_Apps_Services_Terms__c != agreement.HRM_Apps_Services_Terms__c)
                 {
-                    String key = 'HRM Services' + '|' + agreement.HRM_Apps_Services_Terms__c;
-system.debug('*^* Licensed Program map key = ' + key);                      
+                    String key = 'HRM Services' + '|' + agreement.HRM_Apps_Services_Terms__c;                    
                     if (invoiceTermsMap.containsKey(key))
                     {
                         hrmservicesOppPMTMap.put(agreement.Apttus__Related_Opportunity__c, invoiceTermsMap.get(key));
@@ -249,7 +225,7 @@ system.debug('*^* Licensed Program map key = ' + key);
         }
                 
         database.update(lstOpp);
-        
+*/        
     }
 
 }

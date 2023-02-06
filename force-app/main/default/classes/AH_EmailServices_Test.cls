@@ -6,7 +6,7 @@ Modified Date   : 07/08/2021
 Last Mod By     : Sean Harris
 NICC Reference  : 
 Description     : Test class for AH_EmailServices_Test
-				: 
+                : 
 ******************************************************************************************/
 @isTest
 public class AH_EmailServices_Test 
@@ -150,7 +150,7 @@ public class AH_EmailServices_Test
         lstToAddresses.add('toAddress@amadeushospitality.com');
         em.toAddresses = lstToAddresses; 
 
-        User usrAssert1 = [SELECT Id, AH_Email_Services_Reply_Opt_Out__c FROM User WHERE Email =: UserInfo.getUserEmail()];
+        User usrAssert1 = [SELECT Id, AH_Email_Services_Reply_Opt_Out__c FROM User WHERE Email =: UserInfo.getUserEmail() LIMIT 1];
         system.assertEquals(false, usrAssert1.AH_Email_Services_Reply_Opt_Out__c);
         
         // CALL EMAIL SERVICE CLASS
@@ -162,7 +162,7 @@ public class AH_EmailServices_Test
         Test.stopTest();
         
         // DO ASSERTIONS
-        User usrAssert2 = [SELECT Id, AH_Email_Services_Reply_Opt_Out__c FROM User WHERE Email =: UserInfo.getUserEmail()];
+        User usrAssert2 = [SELECT Id, AH_Email_Services_Reply_Opt_Out__c FROM User WHERE Email =: UserInfo.getUserEmail() LIMIT 1];
         system.assertEquals(true, usrAssert2.AH_Email_Services_Reply_Opt_Out__c); 
                 
 
@@ -184,7 +184,7 @@ public class AH_EmailServices_Test
         cls.handleInboundEmail(em2, env2);
  
         // DO ASSERTIONS
-        User usrAssert3 = [SELECT Id, AH_Email_Services_Reply_Opt_Out__c FROM User WHERE Email =: UserInfo.getUserEmail()];
+        User usrAssert3 = [SELECT Id, AH_Email_Services_Reply_Opt_Out__c FROM User WHERE Email =: UserInfo.getUserEmail() LIMIT 1];
         system.assertEquals(false, usrAssert3.AH_Email_Services_Reply_Opt_Out__c); 
                 
     }

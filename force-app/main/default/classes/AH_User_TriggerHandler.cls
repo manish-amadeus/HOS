@@ -6,10 +6,10 @@ Last Mod Date   : 04/18/2020
 Last Mod By     : Sean Harris
 NICC Reference  : 
 Description     : Test class for AH_User_TriggerHandler 
-				: Code migrated from NI_User_TriggerHandler to meet naming convention standards
-				:
+                : Code migrated from NI_User_TriggerHandler to meet naming convention standards
+                :
 *************************************************************************************************/
-public class AH_User_TriggerHandler 
+public class AH_User_TriggerHandler
 {
 
     private NI_TriggerBypassSwitches__c bpSwitch {get; set;}
@@ -391,7 +391,7 @@ public class AH_User_TriggerHandler
 
     private void validateUserProfiles(List<User> newTrigger)
     {
-		
+        
         if (newTrigger.size() == 1)
         {
             
@@ -409,7 +409,9 @@ public class AH_User_TriggerHandler
                 Profile runningUserProfile = [SELECT Id, Name FROM Profile WHERE Id =: userinfo.getProfileId() LIMIT 1];
     
                 // SYS ADMIN OVERRIDE. ADDED EXCEPTION SO THAT EXTERNAL USERS CAN CHANGE THEIR OWN USER RECORD INFO
-                if (runningUserProfile.Name != 'System Administrator' && newTrigger[0].Id != userinfo.getUserId())
+                if (runningUserProfile.Name != 'System Administrator' && 
+                    runningUserProfile.Name != 'NI Administrator' && 
+                    newTrigger[0].Id != userinfo.getUserId())
                 {
     
                     List<Create_External_User_Setting__mdt> cs = new List<Create_External_User_Setting__mdt>(
@@ -446,7 +448,7 @@ public class AH_User_TriggerHandler
         
     }
 
-	private void updateContactFields(String userId)
+    private void updateContactFields(String userId)
     {
         
         // A FUNCTION THAT UPDATES SPECIFIC FIELDS ON RELATED CONTACT RECORD WHEN A COMMUNITY USER UPDATES THEIR PERSONAL INFO IN THE COMMUNITY
@@ -519,15 +521,15 @@ public class AH_User_TriggerHandler
                 update c; 
             }            
         }
-		catch (Exception e) 
+        catch (Exception e) 
         { 
             String sErrMsg = ' **** ERROR OCCURRED: Line ' + e.getLineNumber() + ' - ' + e.getMessage();
             system.debug(sErrMsg); 
-			postToChatterGroup(u.Id, sErrMsg, c.Id);   
+            postToChatterGroup(u.Id, sErrMsg, c.Id);   
         }
         
     }
-	
+    
     @testVisible
     private void postToChatterGroup(Id userId, String strMsg, Id contactId)
     {
@@ -539,7 +541,7 @@ public class AH_User_TriggerHandler
         
         string sBaseURL = system.Url.getSalesforceBaseUrl().toExternalForm();
         string sInstName = sBaseURL.substring(sBaseURL.IndexOf('amadeus-community.') + 18);
-		sInstName = sInstName.substring(0, sInstName.IndexOf('.'));
+        sInstName = sInstName.substring(0, sInstName.IndexOf('.'));
         string sURL = 'https://' + sInstName + '.salesforce.com/';
         
         post.ParentId = Label.Community_User_Update_Error_Chatter_Group;
@@ -555,7 +557,7 @@ public class AH_User_TriggerHandler
     }
 
     @testVisible
-   	private void syncContactEmails(List<User> lstUsrs)
+    private void syncContactEmails(List<User> lstUsrs)
     {
         
         // A FUNCTION TO UPDATE THE CONTACT EMAIL ADDRESS AFTER A COMMUNITY USER AUTHORIZES THE EMAIL CHANGE ON USER RECORD VIA THE EMAILED LINK
@@ -587,7 +589,7 @@ public class AH_User_TriggerHandler
             database.update(lstContactUpdates);
             
         }
-		catch (exception e)
+        catch (exception e)
         {
 
         }        
@@ -606,7 +608,7 @@ public class AH_User_TriggerHandler
             // IF USER IS AN ACTIVE PARTNER WITH PARTNER PERMISSIONS DEFINED, ADD TO UPSERT LIST
             if (u.IsActive && u.UserType == 'PowerPartner') 
             {     
-                if (oldMapTrigger == null) // IS INSERT	
+                if (oldMapTrigger == null) // IS INSERT 
                 {
                     if (u.Partner_Permissions__c != null)
                     {

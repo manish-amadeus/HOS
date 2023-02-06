@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ApprovalProcess xmlns="http://soap.sforce.com/2006/04/metadata">
+    <active>true</active>
+    <allowRecall>false</allowRecall>
+    <allowedSubmitters>
+        <type>owner</type>
+    </allowedSubmitters>
+    <approvalPageFields>
+        <field>Name</field>
+        <field>Owner</field>
+    </approvalPageFields>
+    <approvalStep>
+        <allowDelegate>false</allowDelegate>
+        <approvalActions>
+            <action>
+                <name>Pager_Bonus_Approved</name>
+                <type>Alert</type>
+            </action>
+            <action>
+                <name>Status_Approved</name>
+                <type>FieldUpdate</type>
+            </action>
+        </approvalActions>
+        <assignedApprover>
+            <approver>
+                <name>Final_Approver__c</name>
+                <type>relatedUserField</type>
+            </approver>
+            <whenMultipleApprovers>FirstResponse</whenMultipleApprovers>
+        </assignedApprover>
+        <description>NICC -024125</description>
+        <label>Breda Office Bonus Approval</label>
+        <name>Breda_Office_Bonus_Approval</name>
+        <rejectionActions>
+            <action>
+                <name>Pager_Bonus_Rejected</name>
+                <type>Alert</type>
+            </action>
+            <action>
+                <name>Status_Rejected</name>
+                <type>FieldUpdate</type>
+            </action>
+        </rejectionActions>
+    </approvalStep>
+    <description>Used for Breda Office users.  NICC -</description>
+    <emailTemplate>Pager_Bonus_Email_Templates/Submitted_for_Approval</emailTemplate>
+    <enableMobileDeviceAccess>false</enableMobileDeviceAccess>
+    <entryCriteria>
+        <formula>AND(RecordType.Name = &apos;Breda Office Pager Bonus&apos;,
+NOT(ISBLANK(Employee_Name__c)), NOT(ISBLANK(Pager_Week_Ending__c)), ISPICKVAL(Status__c, &apos;Draft&apos;))</formula>
+    </entryCriteria>
+    <finalApprovalRecordLock>true</finalApprovalRecordLock>
+    <finalRejectionRecordLock>false</finalRejectionRecordLock>
+    <initialSubmissionActions>
+        <action>
+            <name>Status_Pending_Approval</name>
+            <type>FieldUpdate</type>
+        </action>
+    </initialSubmissionActions>
+    <label>Breda Office Pager Bonus Approval</label>
+    <processOrder>5</processOrder>
+    <recordEditability>AdminOnly</recordEditability>
+    <showApprovalHistory>false</showApprovalHistory>
+</ApprovalProcess>

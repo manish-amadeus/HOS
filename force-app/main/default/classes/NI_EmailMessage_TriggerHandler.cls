@@ -2,8 +2,8 @@
 Name            : NI_EmailMessage_TriggerHandler Class
 Author          : Sean Harris
 Created Date    : 02/02/2017
-Last Mod Date   : 07/02/2020
-Last Mod By     : Shashikant Nikam
+Last Mod Date   : 03/01/2022
+Last Mod By     : Sean Harris
 NICC Reference  : NICC-020976
 Description     : Class that handles all trigger code for the EmailMessage Object
                 : Ria added Trigger Switch to bypass 'CASE FLAGS' code.
@@ -20,7 +20,7 @@ public with sharing class NI_EmailMessage_TriggerHandler
     {
     
     }
-    
+/*    
     public void OnBeforeInsert(List<EmailMessage> newTrigger)
     {
         
@@ -62,7 +62,8 @@ public with sharing class NI_EmailMessage_TriggerHandler
         // NICC-044303 (END)
          
     }
-    
+*/    
+
     public void OnAfterInsert(List<EmailMessage> newTrigger)
     {
         

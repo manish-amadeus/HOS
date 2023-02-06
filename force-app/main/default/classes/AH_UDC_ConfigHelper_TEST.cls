@@ -253,7 +253,6 @@ public class AH_UDC_ConfigHelper_TEST
       Test.stopTest();
    }
 
-
    @isTest private static void TestUpdateValue() {
       Test.startTest();
       AH_UDC_ConfigHelper.UpdateValue(TEST_CONFIG_KEY_3, '150');

@@ -149,7 +149,7 @@ public class NI_OrgDetailsLogController
             strSFurl = 'https://login.salesforce.com/?un=' + EncodingUtil.urlEncode(strUserName,'UTF-8') + '&pw=' + EncodingUtil.urlEncode(strPassword,'UTF-8');
             System.debug('SALESFORCE LOGIN URL: ' + strSFurl);
         }                 
-        
+    
         if (od.Org_Type__c.contains('Salesforce Sandbox'))
         {
             strEndPoint = 'https://test.salesforce.com/services/oauth2/token';
@@ -162,8 +162,17 @@ public class NI_OrgDetailsLogController
         //CALL THE VALIDATEUSERCREDENTIALS FUNCTION TO VALIDATE THE CUSTOMER ORG USERNAME AND PASSWORD             
         boolean hasValidCreds = validateUserCredentials(strUserName, strPwdSecToken, strEndPoint); 
         
+        //Recheck Credentials to get session for FrontDoor using Soap call.
+        if(hasValidCreds)
+        {
+           strSFurl = getFrontDoorLoginString();
+           if(string.isBlank(strSFurl)) 
+           {
+               hasValidCreds = false;
+           }
+        }
         if (!hasValidCreds)
-        {          
+        {  
             inValidCredPopupMsg = strInvalidMsg;
             CredMsgLog = 'Invalid Credentials';
             System.debug(inValidCredPopupMsg); 
@@ -405,6 +414,45 @@ public class NI_OrgDetailsLogController
         {
             Return false;  
         }  
+    }
+    public string getFrontDoorLoginString() {
+        try 
+        {
+            String strSoapEndPoint;
+            
+            if(od.Org_Type__c == 'Salesforce Production')
+            {
+            	strSoapEndPoint = 'https://login.salesforce.com/services/Soap/u/26.0'; 
+            }
+            else if(od.Org_Type__c.contains('Salesforce Sandbox'))
+            {
+                strSoapEndPoint = 'https://test.salesforce.com/services/Soap/u/26.0';
+            }
+			
+            PartnerRemote.Soap soap = new PartnerRemote.Soap();
+            PartnerRemote.LoginResult loginResult = soap.login(strUserName, strPwdSecToken, strSoapEndPoint);
+            system.debug(loginResult);
+            
+            if(String.isBlank(loginResult.sessionId))
+            {
+                system.debug('Soap login call failed due to invalid credentials');
+                return '';
+            }
+            String strReferenceUrl = '{0}/secur/frontdoor.jsp?sid={1}';
+            Url retURL = new Url(loginResult.serverUrl);
+            String strRetUrl = retURL.getProtocol() + '://' + retURL.getHost();
+            String strFrontDoorUrl = String.format( strReferenceUrl, New List<String>{strRetURL, loginResult.sessionId} );
+            
+            system.debug(strFrontDoorUrl); 
+            
+            return strFrontDoorUrl;
+        }
+        catch(Exception e)
+        {
+            system.debug('Found exception : '+e.getMessage()); 
+            ApexPages.addMessage(new ApexPages.message(ApexPages.severity.ERROR, 'Exception in login to remote org. '+ e));
+        }
+        return '';
     }
     
 }

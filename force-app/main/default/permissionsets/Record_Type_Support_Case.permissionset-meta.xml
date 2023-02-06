@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PermissionSet xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>Members can select &quot;Case&quot; as a record type on cases.</description>
+    <hasActivationRequired>false</hasActivationRequired>
+    <label>Record Type - Support Case</label>
+    <recordTypeVisibilities>
+        <recordType>Case.Case</recordType>
+        <visible>true</visible>
+    </recordTypeVisibilities>
+    <recordTypeVisibilities>
+        <recordType>Case.Close_Case</recordType>
+        <visible>true</visible>
+    </recordTypeVisibilities>
+    <recordTypeVisibilities>
+        <recordType>Case.NI_Professional_Services</recordType>
+        <visible>true</visible>
+    </recordTypeVisibilities>
+</PermissionSet>

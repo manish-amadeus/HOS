@@ -1,47 +1,10 @@
-# Amadeus Hospitality Salesforce Source Code
+# Salesforce DX Project: Next Steps
+
+Now that you’ve created a Salesforce DX project, what’s next? Here are some documentation resources to get you started.
 
 ## How Do You Plan to Deploy Your Changes?
-## Notes to Developers & Release Manager
 
-Please go throught the following before starting development
-
-- [Salesforce Best Practises Documentation](https://amadeus-hospitality.quip.com/UCYgAljJIGxb/Amadeus-Hospitality-Apex-Development-Standards-in-Salesforce)
-- [Version control Documentation](https://amadeus-hospitality.quip.com/8IsCA9YtbDwR/Version-control-management)
-- [RM Documentation]()
-
-## Reference
-[sfdx commands](refCommandsfdx.md)
-
-
-## Part 1: Source Control development
-
-    git clone https://rndwww.nce.amadeus.net/git/scm/ahsf/salesforce.git
-
-[git commands](refCommandGit.md)
-
-## Part 2: CI Scripts
-jenkins/hooks for lower env
-ci scripts/pipeline (manual)
-
-## Part 3: CI Scripts for Production Release
-jenkins/ci scripts/hooks for release/master
-
-## Part 4: Agile Tool
-TODO:
-Integrate with Agile tool
-
-## Part 5: Unit Test Runs
-TODO:
-Automate Unit Test Runs
-
-## Part 6: lex testing
-TODO:
-Automate Unit Test Runs for LEX
-
-## Part 7: lex testing
-TODO:
-Automate Code Push for QA/UAT on Pull
-
+Do you want to deploy a set of changes, or create a self-contained application? Choose a [development model](https://developer.salesforce.com/tools/vscode/en/user-guide/development-models).
 
 ## Configure Your Salesforce DX Project
 

@@ -1,0 +1,2291 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <actionCalls>
+        <name>getWorkStreamsListfromAPEX</name>
+        <label>getWorkStreamsListfromAPEX</label>
+        <locationX>1051</locationX>
+        <locationY>626</locationY>
+        <actionName>AH_getWorkstreamList</actionName>
+        <actionType>apex</actionType>
+        <connector>
+            <targetReference>getWorkstreams</targetReference>
+        </connector>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <inputParameters>
+            <name>workstreamsImpactedChkboxGroup</name>
+            <value>
+                <elementReference>WorkstreamsImpacted</elementReference>
+            </value>
+        </inputParameters>
+        <outputParameters>
+            <assignToReference>vBusinessWorkstreamsSelected</assignToReference>
+            <name>outputBusinessWorkstreams</name>
+        </outputParameters>
+    </actionCalls>
+    <actionCalls>
+        <description>Enter the Sponsor Approval Process</description>
+        <name>Submit_for_Sponsor_Approval</name>
+        <label>Submit for Sponsor Approval</label>
+        <locationX>2338</locationX>
+        <locationY>592</locationY>
+        <actionName>submit</actionName>
+        <actionType>submit</actionType>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <inputParameters>
+            <name>objectId</name>
+            <value>
+                <elementReference>vProjectId</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>comment</name>
+            <value>
+                <stringValue>SUBMITTED FOR APPROVAL BY AUTOMATED PROCESS</stringValue>
+            </value>
+        </inputParameters>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </actionCalls>
+    <apiVersion>49.0</apiVersion>
+    <assignments>
+        <name>Assign_Business_Systems_Workstream</name>
+        <label>Assign Business Systems Workstream</label>
+        <locationX>1598</locationX>
+        <locationY>942</locationY>
+        <assignmentItems>
+            <assignToReference>vRecordWorkstream.NI_Project_Backlog__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>vProjectId</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>vRecordWorkstream.Workstream_Name__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <stringValue>Corporate Business Systems</stringValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>vRecordWorkstream.Annual_Cost_Reduction_Confidence__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <numberValue>0.0</numberValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>vRecordWorkstream.Annual_Efficiencies_Saving_Cost_Weighted__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <numberValue>0.0</numberValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>vRecordWorkstream.Annual_Efficiencies_Savings_Confidence__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <numberValue>0.0</numberValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>vRecordWorkstream.Annual_Efficiencies_Savings_Cost__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <numberValue>0.0</numberValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>vRecordWorkstream.Annual_Efficiencies_Savings_hrs__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <numberValue>0.0</numberValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>vRecordWorkstream.Estimated_Annual_Cost_Reduction__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <numberValue>0.0</numberValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>vRecordWorkstream.This_Project_Will_Increase_Efficiences__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>bFalse</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>vRecordWorkstream.This_Project_Will_Reduce_Costs__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>bFalse</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Assign_Record_Collection_Workstream</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>Assign_Loop_Record_Id_to_Variable</name>
+        <label>Assign Loop Record Id to Variable</label>
+        <locationX>1450</locationX>
+        <locationY>473</locationY>
+        <assignmentItems>
+            <assignToReference>vLoopRecordId</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Loop_Impacted_Workstreams.Id</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>vLoopWorkstreamName</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Loop_Impacted_Workstreams.Name</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Workstreams_Selected</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>Assign_Record_Collection_Workstream</name>
+        <label>Assign Record Collection Workstream</label>
+        <locationX>1847</locationX>
+        <locationY>635</locationY>
+        <assignmentItems>
+            <assignToReference>vRecordWorkstreamCollection</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>vRecordWorkstream</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Loop_Impacted_Workstreams</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>Assign_Record_Collection_Workstream_For_Insert</name>
+        <label>Assign Record Collection Workstream For Insert</label>
+        <locationX>2229</locationX>
+        <locationY>410</locationY>
+        <assignmentItems>
+            <assignToReference>vRecordWorkstreamCollectionForInsert</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>vRecordWorkstreamForInsert</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Loop_vRecordWorkstreamCollection</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>Assign_Record_Workstream</name>
+        <label>Assign Record Workstream</label>
+        <locationX>1694</locationX>
+        <locationY>728</locationY>
+        <assignmentItems>
+            <assignToReference>vRecordWorkstream.NI_Project_Backlog__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>vProjectId</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>vRecordWorkstream.Workstream_Name__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Loop_Impacted_Workstreams.Name</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>vRecordWorkstream.Annual_Efficiencies_Savings_hrs__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Workstream_Estimated_Annual_Hours_Saved</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>vRecordWorkstream.Annual_Efficiencies_Savings_Confidence__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Workstream_Efficiencies_Confidence</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>vRecordWorkstream.Annual_Cost_Reduction_Confidence__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Workstream_Cost_Reduction_Confidence</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>vRecordWorkstream.Estimated_Annual_Cost_Reduction__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Workstream_Annual_Cost_Reduction</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>vRecordWorkstream.This_Project_Will_Reduce_Costs__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Workstream_Reduce_Costs</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>vRecordWorkstream.This_Project_Will_Increase_Efficiences__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Workstream_Increase_Efficiencies</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>vRecordWorkstream.ESI_How_did_you_arrive_at_this_number__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Workstream_EfficienciesExplanations</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>vRecordWorkstream.CRI_How_did_you_arrive_at_this_number__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Workstream_CostReductionsExplanations</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>vRecordWorkstream.CurrencyIsoCode</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <stringValue>USD</stringValue>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Assign_Record_Collection_Workstream</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>Assign_Record_Workstream_For_Insert</name>
+        <label>Assign Record Workstream For Insert</label>
+        <locationX>2148</locationX>
+        <locationY>278</locationY>
+        <assignmentItems>
+            <assignToReference>vRecordWorkstreamForInsert.Annual_Efficiencies_Savings_Confidence__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Loop_vRecordWorkstreamCollection.Annual_Efficiencies_Savings_Confidence__c</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>vRecordWorkstreamForInsert.NI_Project_Backlog__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>vProjectId</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>vRecordWorkstreamForInsert.Annual_Efficiencies_Savings_hrs__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Loop_vRecordWorkstreamCollection.Annual_Efficiencies_Savings_hrs__c</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>vRecordWorkstreamForInsert.Workstream_Name__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Loop_vRecordWorkstreamCollection.Workstream_Name__c</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>vRecordWorkstreamForInsert.Annual_Cost_Reduction_Confidence__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Loop_vRecordWorkstreamCollection.Annual_Cost_Reduction_Confidence__c</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>vRecordWorkstreamForInsert.Estimated_Annual_Cost_Reduction__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Loop_vRecordWorkstreamCollection.Estimated_Annual_Cost_Reduction__c</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>vRecordWorkstreamForInsert.This_Project_Will_Increase_Efficiences__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Loop_vRecordWorkstreamCollection.This_Project_Will_Increase_Efficiences__c</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>vRecordWorkstreamForInsert.This_Project_Will_Reduce_Costs__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Loop_vRecordWorkstreamCollection.This_Project_Will_Reduce_Costs__c</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>vRecordWorkstreamForInsert.ESI_How_did_you_arrive_at_this_number__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Loop_vRecordWorkstreamCollection.ESI_How_did_you_arrive_at_this_number__c</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>vRecordWorkstreamForInsert.CRI_How_did_you_arrive_at_this_number__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Loop_vRecordWorkstreamCollection.CRI_How_did_you_arrive_at_this_number__c</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>vRecordWorkstreamForInsert.CurrencyIsoCode</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <stringValue>USD</stringValue>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Assign_Record_Collection_Workstream_For_Insert</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>Has_Solution_Domain_Assign_Revenue_and_Margin</name>
+        <label>Has Solution Domain - Assign Revenue and Margin</label>
+        <locationX>641</locationX>
+        <locationY>487</locationY>
+        <assignmentItems>
+            <assignToReference>vMarginAssigned</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>fmargin</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>vFirstYearRevenueAssigned</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>fFirstYearRevenueIncreaseMargin</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Workstreams_Screen</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>No_Solution_Domain_Revenue_Assignment</name>
+        <label>No Solution Domain Revenue Assignment</label>
+        <locationX>577</locationX>
+        <locationY>675</locationY>
+        <assignmentItems>
+            <assignToReference>vMarginAssigned</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <numberValue>100.0</numberValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>vFirstYearRevenueAssigned</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>fFirstYearRevenueIncreaseNoMargin</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Workstreams_Screen</targetReference>
+        </connector>
+    </assignments>
+    <choices>
+        <name>choiceBlank</name>
+        <choiceText>---None---</choiceText>
+        <dataType>String</dataType>
+        <value>
+            <stringValue></stringValue>
+        </value>
+    </choices>
+    <choices>
+        <name>choiceCBSREquired</name>
+        <choiceText>Yes</choiceText>
+        <dataType>String</dataType>
+    </choices>
+    <choices>
+        <name>choiceNo</name>
+        <choiceText>{!cNo}</choiceText>
+        <dataType>String</dataType>
+        <value>
+            <elementReference>cNo</elementReference>
+        </value>
+    </choices>
+    <choices>
+        <name>choiceNoTechRequired</name>
+        <choiceText>No</choiceText>
+        <dataType>String</dataType>
+    </choices>
+    <choices>
+        <name>choiceNotSureTechWork</name>
+        <choiceText>I don&apos;t know</choiceText>
+        <dataType>String</dataType>
+    </choices>
+    <choices>
+        <name>choiceSolutionDomainBundle</name>
+        <choiceText>Bundle</choiceText>
+        <dataType>String</dataType>
+        <value>
+            <stringValue>Bundle</stringValue>
+        </value>
+    </choices>
+    <choices>
+        <name>choiceSolutionDomainBusinessIntelligence</name>
+        <choiceText>Business Intelligence</choiceText>
+        <dataType>String</dataType>
+        <value>
+            <stringValue>Business Intelligence</stringValue>
+        </value>
+    </choices>
+    <choices>
+        <name>choiceSolutionDomainCRS</name>
+        <choiceText>CRS</choiceText>
+        <dataType>String</dataType>
+        <value>
+            <stringValue>CRS</stringValue>
+        </value>
+    </choices>
+    <choices>
+        <name>choiceSolutionDomainGuestManagementSolutions</name>
+        <choiceText>Guest Management Solutions</choiceText>
+        <dataType>String</dataType>
+        <value>
+            <stringValue>Guest Management Solutions</stringValue>
+        </value>
+    </choices>
+    <choices>
+        <name>choiceSolutionDomainMediaSolutions</name>
+        <choiceText>Media Solutions</choiceText>
+        <dataType>String</dataType>
+        <value>
+            <stringValue>Media Solutions</stringValue>
+        </value>
+    </choices>
+    <choices>
+        <name>choiceSolutionDomainMeetingAndEventDistribution</name>
+        <choiceText>Meeting and Event Distribution</choiceText>
+        <dataType>String</dataType>
+        <value>
+            <stringValue>Meeting and Event Distribution</stringValue>
+        </value>
+    </choices>
+    <choices>
+        <name>choiceSolutionDomainPMS</name>
+        <choiceText>PMS</choiceText>
+        <dataType>String</dataType>
+        <value>
+            <stringValue>PMS</stringValue>
+        </value>
+    </choices>
+    <choices>
+        <name>choiceSolutionDomainReservationSolutions</name>
+        <choiceText>Reservation Solutions</choiceText>
+        <dataType>String</dataType>
+        <value>
+            <stringValue>Reservation Solutions</stringValue>
+        </value>
+    </choices>
+    <choices>
+        <name>choiceSolutionDomainSalesandCatering</name>
+        <choiceText>Sales &amp;amp; Catering</choiceText>
+        <dataType>String</dataType>
+        <value>
+            <stringValue>Sales &amp; Catering</stringValue>
+        </value>
+    </choices>
+    <choices>
+        <name>choiceSolutionDomainServiceOptimization</name>
+        <choiceText>Service Optimization</choiceText>
+        <dataType>String</dataType>
+        <value>
+            <stringValue>Service Optimization</stringValue>
+        </value>
+    </choices>
+    <choices>
+        <description>Used for projects that impact multiple solution domains</description>
+        <name>choiceSolutionDomainTransversal</name>
+        <choiceText>Transversal</choiceText>
+        <dataType>String</dataType>
+        <value>
+            <stringValue>Transversal</stringValue>
+        </value>
+    </choices>
+    <choices>
+        <name>choiceSolutionDomainVideoSolutions</name>
+        <choiceText>Video Solutions</choiceText>
+        <dataType>String</dataType>
+        <value>
+            <stringValue>Video Solutions</stringValue>
+        </value>
+    </choices>
+    <choices>
+        <name>choiceSolutionDomainWebSolutions</name>
+        <choiceText>Web Solutions</choiceText>
+        <dataType>String</dataType>
+        <value>
+            <stringValue>Web Solutions</stringValue>
+        </value>
+    </choices>
+    <choices>
+        <name>choiceYes</name>
+        <choiceText>{!cYes}</choiceText>
+        <dataType>String</dataType>
+        <value>
+            <elementReference>cYes</elementReference>
+        </value>
+    </choices>
+    <choices>
+        <description>Holds a value of &quot;None&quot; to be the default choice in the OperationalImpact Screen</description>
+        <name>pcsOperationalImpactNone</name>
+        <choiceText>--None--</choiceText>
+        <dataType>String</dataType>
+        <value>
+            <stringValue>None</stringValue>
+        </value>
+    </choices>
+    <constants>
+        <name>bFalse</name>
+        <dataType>Boolean</dataType>
+        <value>
+            <booleanValue>false</booleanValue>
+        </value>
+    </constants>
+    <constants>
+        <name>cNo</name>
+        <dataType>String</dataType>
+        <value>
+            <stringValue>No</stringValue>
+        </value>
+    </constants>
+    <constants>
+        <name>cYes</name>
+        <dataType>String</dataType>
+        <value>
+            <stringValue>Yes</stringValue>
+        </value>
+    </constants>
+    <decisions>
+        <name>Benefits_Decision</name>
+        <label>Benefits Decision</label>
+        <locationX>710</locationX>
+        <locationY>323</locationY>
+        <defaultConnector>
+            <targetReference>Solution_Domain_Decision</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>Increase_Revenue</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>This_Project_Will_Increase_Revenue</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>Estimated_Annual_Revenue_Increase</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Increase_Revenue_Screen</targetReference>
+            </connector>
+            <label>Increase Revenue</label>
+        </rules>
+        <rules>
+            <name>Improve_Customer_Experience</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>This_Project_Will_Improve_The_Customer_Experience</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>Select_the_Customer_Experience_Improvements</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Improve_Customer_Experience_Screen</targetReference>
+            </connector>
+            <label>Improve Customer Experience</label>
+        </rules>
+        <rules>
+            <name>After_Benefits</name>
+            <conditionLogic>1 OR 2 OR 3 OR 4 OR 5</conditionLogic>
+            <conditions>
+                <leftValueReference>This_Project_is_Required_for_Legal_Compliance</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>This_Project_Will_Improve_The_Customer_Experience</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>This_Project_is_Required_for_Legal_Compliance</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>This_Project_is_Required_for_Security_Compliance</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>This_Project_Will_Increase_Revenue</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Solution_Domain_Decision</targetReference>
+            </connector>
+            <label>After Benefits</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>Impacted_Workstreams_Selected</name>
+        <label>Impacted Workstreams Selected</label>
+        <locationX>1739</locationX>
+        <locationY>190</locationY>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>Has_Workstreams</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>vRecordWorkstreamCollection</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Loop_vRecordWorkstreamCollection</targetReference>
+            </connector>
+            <label>Has Workstreams</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <description>Decides if the user chose a valid value for Organizational Impact on the previous screen.</description>
+        <name>OrgImpactCorrectValue</name>
+        <label>OrgImpactCorrectValue</label>
+        <locationX>788</locationX>
+        <locationY>846</locationY>
+        <defaultConnector>
+            <targetReference>Impacted_Systems_Screen</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>WrongValue</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Organizational_Impact</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <elementReference>pcsOperationalImpactNone</elementReference>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>OrganizationalImpactErrorScreen</targetReference>
+            </connector>
+            <label>WrongValue</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>Solution_Domain_Decision</name>
+        <label>Solution Domain Decision</label>
+        <locationX>315</locationX>
+        <locationY>586</locationY>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>No_Solution_Domain</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Solution_Domain</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>No_Solution_Domain_Revenue_Assignment</targetReference>
+            </connector>
+            <label>No Solution Domain</label>
+        </rules>
+        <rules>
+            <name>Has_Solution_Domain</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Solution_Domain</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Has_Solution_Domain_Assign_Revenue_and_Margin</targetReference>
+            </connector>
+            <label>Has Solution Domain</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>Submit_for_Sponsor_Approval_Decision</name>
+        <label>Submit for Sponsor Approval Decision</label>
+        <locationX>2134</locationX>
+        <locationY>597</locationY>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>Yes</name>
+            <conditionLogic>or</conditionLogic>
+            <conditions>
+                <leftValueReference>Organizational_Impact</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Operational</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>Organizational_Impact</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Strategic</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Submit_for_Sponsor_Approval</targetReference>
+            </connector>
+            <label>Yes</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>Workstream_Benefits_Decision</name>
+        <label>Workstream Benefits Decision</label>
+        <locationX>1121</locationX>
+        <locationY>969</locationY>
+        <defaultConnector>
+            <targetReference>Assign_Record_Workstream</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>No_Benefits_Entered</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Workstream_Increase_Efficiencies</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>Workstream_Estimated_Annual_Hours_Saved</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>Workstream_Efficiencies_Confidence</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>Workstream_Reduce_Costs</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>Workstream_Annual_Cost_Reduction</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>Workstream_Cost_Reduction_Confidence</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Workstream_Input_Screen</targetReference>
+            </connector>
+            <label>No Benefits Entered</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>Workstreams_Selected</name>
+        <label>Workstreams Selected</label>
+        <locationX>1444</locationX>
+        <locationY>669</locationY>
+        <defaultConnector>
+            <targetReference>Loop_Impacted_Workstreams</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>CBS_Workstream_Selected</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>vBusinessWorkstreamsSelected</leftValueReference>
+                <operator>Contains</operator>
+                <rightValue>
+                    <elementReference>vLoopRecordId</elementReference>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>vLoopWorkstreamName</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Corporate Business Systems</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Assign_Business_Systems_Workstream</targetReference>
+            </connector>
+            <label>CBS Workstream Selected</label>
+        </rules>
+        <rules>
+            <name>No_CBS_Workstream_Selected</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>vBusinessWorkstreamsSelected</leftValueReference>
+                <operator>Contains</operator>
+                <rightValue>
+                    <elementReference>vLoopRecordId</elementReference>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>vLoopWorkstreamName</leftValueReference>
+                <operator>NotEqualTo</operator>
+                <rightValue>
+                    <stringValue>Corporate Business Systems</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Workstream_Input_Screen</targetReference>
+            </connector>
+            <label>No CBS Workstream Selected</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>Workstreams_Selected_Decision</name>
+        <label>Workstreams Selected Decision</label>
+        <locationX>919</locationX>
+        <locationY>497</locationY>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>Workstreams_Selected_Outcome</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>WorkstreamsImpacted</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>getWorkStreamsListfromAPEX</targetReference>
+            </connector>
+            <label>Workstreams Selected Outcome</label>
+        </rules>
+        <rules>
+            <name>No_Workstreams_Selected</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>WorkstreamsImpacted</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>OrganizationalImpactScreen</targetReference>
+            </connector>
+            <label>No Workstreams Selected</label>
+        </rules>
+    </decisions>
+    <description>NICC-047197; NICC-053615; updated via NICC-053641; NICC-054791;NICC-056136; updated via NICC-058281; updated via NICC-058669
+Flow used to create AH Project Backlog records with the &quot;Internal Project&quot; record type</description>
+    <dynamicChoiceSets>
+        <name>CustomerImprovements</name>
+        <dataType>Multipicklist</dataType>
+        <displayField xsi:nil="true"/>
+        <object xsi:nil="true"/>
+        <picklistField>Customer_Experience_Improvements__c</picklistField>
+        <picklistObject>NI_Project_Backlog__c</picklistObject>
+    </dynamicChoiceSets>
+    <dynamicChoiceSets>
+        <name>pcsImpactedRegion</name>
+        <dataType>Picklist</dataType>
+        <displayField xsi:nil="true"/>
+        <object xsi:nil="true"/>
+        <picklistField>Impacted_Region__c</picklistField>
+        <picklistObject>NI_Project_Backlog__c</picklistObject>
+    </dynamicChoiceSets>
+    <dynamicChoiceSets>
+        <name>pcsImpactedSystems</name>
+        <dataType>Multipicklist</dataType>
+        <displayField xsi:nil="true"/>
+        <object xsi:nil="true"/>
+        <picklistField>Systems__c</picklistField>
+        <picklistObject>NI_Project_Backlog__c</picklistObject>
+    </dynamicChoiceSets>
+    <dynamicChoiceSets>
+        <name>pcsOperationalImpact</name>
+        <dataType>Picklist</dataType>
+        <displayField xsi:nil="true"/>
+        <object xsi:nil="true"/>
+        <picklistField>Organizational_Impact__c</picklistField>
+        <picklistObject>NI_Project_Backlog__c</picklistObject>
+    </dynamicChoiceSets>
+    <dynamicChoiceSets>
+        <name>pcsSolutionDomain</name>
+        <dataType>Picklist</dataType>
+        <displayField xsi:nil="true"/>
+        <object xsi:nil="true"/>
+        <picklistField>Solution_Domain__c</picklistField>
+        <picklistObject>NI_Project_Backlog__c</picklistObject>
+        <sortOrder>Asc</sortOrder>
+    </dynamicChoiceSets>
+    <dynamicChoiceSets>
+        <name>pcsStakeholderDepartment</name>
+        <dataType>Multipicklist</dataType>
+        <displayField xsi:nil="true"/>
+        <object xsi:nil="true"/>
+        <picklistField>Stakeholder_Department__c</picklistField>
+        <picklistObject>NI_Project_Backlog__c</picklistObject>
+    </dynamicChoiceSets>
+    <dynamicChoiceSets>
+        <name>rcsCorporateInitiative</name>
+        <dataType>String</dataType>
+        <displayField>Name</displayField>
+        <object>Corporate_Initiative__c</object>
+        <outputAssignments>
+            <assignToReference>vCorporateInitiativeId</assignToReference>
+            <field>Id</field>
+        </outputAssignments>
+        <sortField>Name</sortField>
+        <sortOrder>Asc</sortOrder>
+        <valueField>Name</valueField>
+    </dynamicChoiceSets>
+    <dynamicChoiceSets>
+        <name>rcsTechnicalWorkstream</name>
+        <dataType>String</dataType>
+        <displayField>Name</displayField>
+        <filterLogic>1 AND (2 OR 3)</filterLogic>
+        <filters>
+            <field>Active__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </filters>
+        <filters>
+            <field>Name</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Corporate Business Systems</stringValue>
+            </value>
+        </filters>
+        <filters>
+            <field>Name</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Media</stringValue>
+            </value>
+        </filters>
+        <object>AH_Workstream__c</object>
+        <sortField>Name</sortField>
+        <sortOrder>Asc</sortOrder>
+        <valueField>Id</valueField>
+    </dynamicChoiceSets>
+    <dynamicChoiceSets>
+        <name>rcsWorkstream</name>
+        <dataType>String</dataType>
+        <displayField>Name</displayField>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Active__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </filters>
+        <filters>
+            <field>Name</field>
+            <operator>NotEqualTo</operator>
+            <value>
+                <stringValue>Corporate Business Systems</stringValue>
+            </value>
+        </filters>
+        <filters>
+            <field>Name</field>
+            <operator>NotEqualTo</operator>
+            <value>
+                <stringValue>Media</stringValue>
+            </value>
+        </filters>
+        <object>AH_Workstream__c</object>
+        <sortField>Name</sortField>
+        <sortOrder>Asc</sortOrder>
+        <valueField>Id</valueField>
+    </dynamicChoiceSets>
+    <formulas>
+        <name>fCustomerExperienceFieldLength</name>
+        <dataType>Number</dataType>
+        <expression>LEN({!Additional_Information})</expression>
+        <scale>0</scale>
+    </formulas>
+    <formulas>
+        <name>fFirstYearRevenueIncreaseMargin</name>
+        <dataType>Currency</dataType>
+        <expression>IF(NOT(ISBLANK({!Estimated_Annual_Revenue_Increase})), 
+{!Estimated_Annual_Revenue_Increase} *  {!Confidence_Level_Revenue} * {!vMarginAssigned},
+0
+)</expression>
+        <scale>2</scale>
+    </formulas>
+    <formulas>
+        <name>fFirstYearRevenueIncreaseNoMargin</name>
+        <dataType>Currency</dataType>
+        <expression>IF(NOT(ISBLANK({!Estimated_Annual_Revenue_Increase})), 
+{!Estimated_Annual_Revenue_Increase} *  {!Confidence_Level_Revenue},
+0
+)</expression>
+        <scale>2</scale>
+    </formulas>
+    <formulas>
+        <name>fmargin</name>
+        <dataType>Number</dataType>
+        <expression>IF({!Solution_Domain} = &quot;Sales &amp; Catering&quot; ,87,
+IF({!Solution_Domain} = &quot;Service Optimization&quot; ,87,
+IF({!Solution_Domain} = &quot;Media &amp; Event Distribution&quot; ,87,
+IF({!Solution_Domain} = &quot;CRS&quot;,97, 
+IF({!Solution_Domain} = &quot;PMS&quot; ,97,
+IF({!Solution_Domain} = &quot;Reservation Solutions&quot; ,54,
+IF({!Solution_Domain} = &quot;Guest Management Solutions&quot; ,94,
+IF({!Solution_Domain} = &quot;Web Solutions&quot; ,80,
+IF({!Solution_Domain} = &quot;Video Solutions&quot; ,80,
+IF({!Solution_Domain} = &quot;Business Intelligence&quot; ,81,
+IF({!Solution_Domain} = &quot;Media Solutions&quot; ,49,
+100
+)
+)
+)
+)
+)
+)
+)
+)
+)
+)
+)</expression>
+        <scale>0</scale>
+    </formulas>
+    <formulas>
+        <name>fUserId</name>
+        <dataType>String</dataType>
+        <expression>{!$User.Id}</expression>
+    </formulas>
+    <interviewLabel>Create Internal Project AH Project Backlog Record {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Create Internal Project AH Project Backlog Record</label>
+    <loops>
+        <name>Loop_Impacted_Workstreams</name>
+        <label>Loop Impacted Workstreams</label>
+        <locationX>1673</locationX>
+        <locationY>491</locationY>
+        <collectionReference>getWorkstreams</collectionReference>
+        <iterationOrder>Asc</iterationOrder>
+        <nextValueConnector>
+            <targetReference>Assign_Loop_Record_Id_to_Variable</targetReference>
+        </nextValueConnector>
+        <noMoreValuesConnector>
+            <targetReference>OrganizationalImpactScreen</targetReference>
+        </noMoreValuesConnector>
+    </loops>
+    <loops>
+        <name>Loop_vRecordWorkstreamCollection</name>
+        <label>Loop vRecordWorkstreamCollection</label>
+        <locationX>1882</locationX>
+        <locationY>275</locationY>
+        <collectionReference>vRecordWorkstreamCollection</collectionReference>
+        <iterationOrder>Asc</iterationOrder>
+        <nextValueConnector>
+            <targetReference>Assign_Record_Workstream_For_Insert</targetReference>
+        </nextValueConnector>
+        <noMoreValuesConnector>
+            <targetReference>Create_Project_Backlog_Workstream_Records</targetReference>
+        </noMoreValuesConnector>
+    </loops>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>FREE_FORM_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>Flow</processType>
+    <recordCreates>
+        <name>Create_Process_Improvement_NI_Project_Backlog_Record</name>
+        <label>Create Process Improvement NI Project Backlog Record</label>
+        <locationX>1577</locationX>
+        <locationY>183</locationY>
+        <assignRecordIdToReference>vProjectId</assignRecordIdToReference>
+        <connector>
+            <targetReference>Impacted_Workstreams_Selected</targetReference>
+        </connector>
+        <faultConnector>
+            <targetReference>ProjectBacklogFaultScreen</targetReference>
+        </faultConnector>
+        <inputAssignments>
+            <field>Annual_Revenue_Increase_Confidence__c</field>
+            <value>
+                <elementReference>Confidence_Level_Revenue</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Corporate_Initiative_Lookup__c</field>
+            <value>
+                <elementReference>vCorporateInitiativeId</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Created_by_Intake_Wizard__c</field>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>CurrencyIsoCode</field>
+            <value>
+                <stringValue>USD</stringValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Customer_Experience_Improvement_Details__c</field>
+            <value>
+                <elementReference>Additional_Information</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Customer_Experience_Improvements__c</field>
+            <value>
+                <elementReference>Select_the_Customer_Experience_Improvements</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Estimated_Annual_Revenue_Increase__c</field>
+            <value>
+                <elementReference>Estimated_Annual_Revenue_Increase</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Impacted_Region__c</field>
+            <value>
+                <elementReference>Impacted_Region</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Legal_Compliance__c</field>
+            <value>
+                <elementReference>This_Project_is_Required_for_Legal_Compliance</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Name</field>
+            <value>
+                <elementReference>Project_Title</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Organizational_Impact__c</field>
+            <value>
+                <elementReference>Organizational_Impact</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Project_Contact__c</field>
+            <value>
+                <elementReference>fUserId</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>RIC_How_did_you_arrive_at_this_number__c</field>
+            <value>
+                <elementReference>RevenueIncreaseDetailsInput</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>RecordTypeId</field>
+            <value>
+                <elementReference>vProcessImprovementRecordTypeId</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Requested_Completion_Date__c</field>
+            <value>
+                <elementReference>Requested_Completion_Date</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Required_for_Security_Compliance__c</field>
+            <value>
+                <elementReference>This_Project_is_Required_for_Security_Compliance</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Solution_Domain__c</field>
+            <value>
+                <elementReference>Solution_Domain</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Sponsor__c</field>
+            <value>
+                <elementReference>vSponsor</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Stakeholder_Department__c</field>
+            <value>
+                <elementReference>Stakeholder_Department</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Summary_or_Business_Need__c</field>
+            <value>
+                <elementReference>Business_Reason</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Systems__c</field>
+            <value>
+                <elementReference>Impacted_Systems</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>This_Project_Will_Increase_Revenue__c</field>
+            <value>
+                <elementReference>This_Project_Will_Increase_Revenue</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>User__c</field>
+            <value>
+                <elementReference>$User.Id</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Will_Improve_Customer_Experience__c</field>
+            <value>
+                <elementReference>This_Project_Will_Improve_The_Customer_Experience</elementReference>
+            </value>
+        </inputAssignments>
+        <object>NI_Project_Backlog__c</object>
+    </recordCreates>
+    <recordCreates>
+        <name>Create_Project_Backlog_Workstream_Records</name>
+        <label>Create Project Backlog Workstream Records</label>
+        <locationX>1976</locationX>
+        <locationY>510</locationY>
+        <inputReference>vRecordWorkstreamCollectionForInsert</inputReference>
+    </recordCreates>
+    <recordLookups>
+        <name>getProcessImprovementRecordTypeId</name>
+        <label>getProcessImprovementRecordTypeId</label>
+        <locationX>176</locationX>
+        <locationY>171</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Solution_Domain_Screen</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>DeveloperName</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Commercial_Operation_Projects</stringValue>
+            </value>
+        </filters>
+        <filters>
+            <field>SobjectType</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>NI_Project_Backlog__c</stringValue>
+            </value>
+        </filters>
+        <object>RecordType</object>
+        <outputAssignments>
+            <assignToReference>vProcessImprovementRecordTypeId</assignToReference>
+            <field>Id</field>
+        </outputAssignments>
+    </recordLookups>
+    <recordLookups>
+        <name>getWorkstreams</name>
+        <label>getWorkstreams</label>
+        <locationX>1623</locationX>
+        <locationY>324</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Loop_Impacted_Workstreams</targetReference>
+        </connector>
+        <getFirstRecordOnly>false</getFirstRecordOnly>
+        <object>AH_Workstream__c</object>
+        <sortField>Name</sortField>
+        <sortOrder>Asc</sortOrder>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <screens>
+        <name>Bennefits_Screen</name>
+        <label>Bennefits Screen</label>
+        <locationX>619</locationX>
+        <locationY>304</locationY>
+        <allowBack>true</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>true</allowPause>
+        <connector>
+            <targetReference>Benefits_Decision</targetReference>
+        </connector>
+        <fields>
+            <name>BenefitsDisplayText</name>
+            <fieldText>&lt;p&gt;&lt;span style=&quot;font-size: 16px; background-color: inherit; color: rgb(0, 0, 0); font-family: &amp;quot;Salesforce Sans&amp;quot;, &amp;quot;Salesforce Sans_EmbeddedFont&amp;quot;, &amp;quot;Salesforce Sans_MSFontService&amp;quot;, sans-serif;&quot;&gt;Select&amp;nbsp;the category or categories&amp;nbsp;below&amp;nbsp;representing&amp;nbsp;benefits your project will bring to the organization.&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;font-size: 16px; color: rgb(0, 0, 0);&quot;&gt;Please note when selecting Increase Revenue, Improve the Customer Experience categories you’ll be required to enter corresponding quantifiable numbers and other supporting information.&amp;nbsp;This is not required for Legal or Security Compliance, but please do indicate any benefits if they exist. &lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;font-size: 16px; color: rgb(0, 0, 0); background-color: inherit;&quot;&gt;If your project has cost savings&amp;nbsp;and/or&amp;nbsp;benefits related to efficiencies, you’ll be asked later in the Wizard&amp;nbsp;to enter the&amp;nbsp;corresponding quantifiable numbers.&lt;/span&gt;&lt;span style=&quot;font-size: 16px; color: rgb(0, 0, 0); background-color: rgb(255, 255, 255);&quot;&gt;&amp;nbsp;&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;font-size: 18px;&quot;&gt;﻿&lt;/span&gt;  &lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+        </fields>
+        <fields>
+            <name>This_Project_Will_Increase_Revenue</name>
+            <dataType>Boolean</dataType>
+            <fieldText>Increase Revenue</fieldText>
+            <fieldType>InputField</fieldType>
+            <isRequired>true</isRequired>
+        </fields>
+        <fields>
+            <name>This_Project_Will_Improve_The_Customer_Experience</name>
+            <dataType>Boolean</dataType>
+            <fieldText>Improve The Customer Experience</fieldText>
+            <fieldType>InputField</fieldType>
+            <isRequired>true</isRequired>
+        </fields>
+        <fields>
+            <name>This_Project_is_Required_for_Legal_Compliance</name>
+            <dataType>Boolean</dataType>
+            <fieldText>Required for Legal Compliance</fieldText>
+            <fieldType>InputField</fieldType>
+            <isRequired>true</isRequired>
+        </fields>
+        <fields>
+            <name>This_Project_is_Required_for_Security_Compliance</name>
+            <dataType>Boolean</dataType>
+            <fieldText>Required for Security Compliance</fieldText>
+            <fieldType>InputField</fieldType>
+            <isRequired>true</isRequired>
+        </fields>
+        <showFooter>true</showFooter>
+        <showHeader>false</showHeader>
+    </screens>
+    <screens>
+        <name>Corporate_Initiative_Screen</name>
+        <label>Corporate Initiative Screen</label>
+        <locationX>1092</locationX>
+        <locationY>383</locationY>
+        <allowBack>true</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>true</allowPause>
+        <connector>
+            <targetReference>Project_Title_and_Benefit</targetReference>
+        </connector>
+        <fields>
+            <name>CorporateInitiativeDisplayText</name>
+            <fieldText>&lt;p&gt;&lt;span style=&quot;background-color: inherit; font-size: 16px;&quot;&gt;Corporate Initiatives are assigned to project records and&amp;nbsp;are&amp;nbsp;utilized for reporting&amp;nbsp;purposes.&amp;nbsp;They&amp;nbsp;provide a way&amp;nbsp;to easily&amp;nbsp;group projects&amp;nbsp;that are related or part of a program,&amp;nbsp;in reports and dashboards.&lt;/span&gt;&lt;span style=&quot;font-size: 16px;&quot;&gt;&amp;nbsp;&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;font-size: 16px;&quot;&gt;&amp;nbsp;&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;background-color: inherit; font-size: 16px;&quot;&gt;Select the Corporate Initiative code for your project.&amp;nbsp;If you’re unsure or this doesn’t apply, select None.&lt;/span&gt;&lt;b style=&quot;background-color: inherit; font-size: 16px;&quot;&gt;&amp;nbsp;&lt;/b&gt;&lt;b style=&quot;background-color: inherit; font-size: 11pt; font-family: Calibri, Calibri_EmbeddedFont, Calibri_MSFontService, sans-serif;&quot;&gt;&amp;nbsp;&lt;/b&gt;&lt;b style=&quot;font-size: 11pt; font-family: Calibri, Calibri_EmbeddedFont, Calibri_MSFontService, sans-serif;&quot;&gt;&amp;nbsp;&lt;/b&gt;&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+        </fields>
+        <fields>
+            <name>Corporate_Initiative</name>
+            <choiceReferences>rcsCorporateInitiative</choiceReferences>
+            <choiceReferences>choiceBlank</choiceReferences>
+            <dataType>String</dataType>
+            <defaultSelectedChoiceReference>choiceBlank</defaultSelectedChoiceReference>
+            <fieldText>Corporate Initiative</fieldText>
+            <fieldType>DropdownBox</fieldType>
+            <isRequired>true</isRequired>
+        </fields>
+        <showFooter>true</showFooter>
+        <showHeader>false</showHeader>
+    </screens>
+    <screens>
+        <name>HPO_Screen_0</name>
+        <label>HPO Screen</label>
+        <locationX>608</locationX>
+        <locationY>196</locationY>
+        <allowBack>true</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>true</allowPause>
+        <connector>
+            <targetReference>getProcessImprovementRecordTypeId</targetReference>
+        </connector>
+        <fields>
+            <name>DisplayTextHPO_0</name>
+            <fieldText>&lt;p&gt;&lt;span style=&quot;background-color: inherit; color: rgb(0, 0, 0); font-size: 14px;&quot;&gt;Hospitality Process Owners are responsible for&amp;nbsp;understanding value stream processes and&amp;nbsp;ensuring requests don’t&amp;nbsp;present&amp;nbsp;negative consequences to&amp;nbsp;any&amp;nbsp;specific area of the business.&amp;nbsp;&amp;nbsp;Please&amp;nbsp;reach out to them with any questions related to your request.&lt;/span&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255); color: rgb(22, 50, 92); font-size: 14px;&quot;&gt; &lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;color: rgb(0, 0, 0);&quot;&gt;﻿&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;b style=&quot;color: rgb(0, 0, 0); font-size: 14px; background-color: rgb(255, 255, 255);&quot;&gt;To view current Hospitality Process Owners, please &lt;/b&gt;&lt;a href=&quot;https://amadeusworkplace.sharepoint.com/sites/ProjectPortfolioManagement/SitePages/Governance.aspx&quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot; style=&quot;color: rgb(91, 94, 224); font-size: 14px; background-color: rgb(255, 255, 255);&quot;&gt;&lt;b&gt;click here&lt;/b&gt;&lt;/a&gt;&lt;b style=&quot;color: rgb(91, 94, 224); font-size: 14px; background-color: rgb(255, 255, 255);&quot;&gt;.&lt;/b&gt;&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;font-family: &amp;quot;Salesforce Sans&amp;quot;, &amp;quot;Salesforce Sans_EmbeddedFont&amp;quot;, &amp;quot;Salesforce Sans_MSFontService&amp;quot;, sans-serif; font-size: 11pt; color: rgb(0, 0, 0); background-color: inherit;&quot;&gt;Upon successfully completing the intake Wizard, a project record&amp;nbsp;is&amp;nbsp;created for your request.&amp;nbsp;&lt;/span&gt;&lt;span style=&quot;font-family: &amp;quot;Salesforce Sans&amp;quot;, &amp;quot;Salesforce Sans_EmbeddedFont&amp;quot;, &amp;quot;Salesforce Sans_MSFontService&amp;quot;, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);&quot;&gt;&amp;nbsp;&lt;/span&gt;&lt;/p&gt;&lt;ul&gt;&lt;li&gt;&lt;span style=&quot;font-family: &amp;quot;Salesforce Sans&amp;quot;, &amp;quot;Salesforce Sans_EmbeddedFont&amp;quot;, &amp;quot;Salesforce Sans_MSFontService&amp;quot;, sans-serif; font-size: 11pt; color: rgb(0, 0, 0); background-color: inherit;&quot;&gt;All projects receive a ranking based on the&amp;nbsp;benefits&amp;nbsp;information you provide, regardless of size or systems impact.&amp;nbsp;&lt;/span&gt;&lt;span style=&quot;font-family: &amp;quot;Salesforce Sans&amp;quot;, &amp;quot;Salesforce Sans_EmbeddedFont&amp;quot;, &amp;quot;Salesforce Sans_MSFontService&amp;quot;, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);&quot;&gt;&amp;nbsp;&lt;/span&gt;&lt;/li&gt;&lt;li&gt;&lt;span style=&quot;font-family: &amp;quot;Salesforce Sans&amp;quot;, &amp;quot;Salesforce Sans_EmbeddedFont&amp;quot;, &amp;quot;Salesforce Sans_MSFontService&amp;quot;, sans-serif; font-size: 11pt; color: rgb(0, 0, 0); background-color: inherit;&quot;&gt;Projects&amp;nbsp;requiring&amp;nbsp;Corporate Business System’s resources are reviewed and sized weekly; upon completion&amp;nbsp;of&amp;nbsp;sizing a&amp;nbsp;corresponding Business Systems project record is created and linked to the Process Improvement project record.&amp;nbsp;&lt;/span&gt;&lt;span style=&quot;font-family: &amp;quot;Salesforce Sans&amp;quot;, &amp;quot;Salesforce Sans_EmbeddedFont&amp;quot;, &amp;quot;Salesforce Sans_MSFontService&amp;quot;, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);&quot;&gt;&amp;nbsp;&lt;/span&gt;&lt;/li&gt;&lt;li&gt;&lt;span style=&quot;font-family: &amp;quot;Salesforce Sans&amp;quot;, &amp;quot;Salesforce Sans_EmbeddedFont&amp;quot;, &amp;quot;Salesforce Sans_MSFontService&amp;quot;, sans-serif; font-size: 11pt; color: rgb(0, 0, 0); background-color: inherit;&quot;&gt;All requests are subsequently worked on based on ranking and availability of resources.&amp;nbsp;&lt;/span&gt;&lt;span style=&quot;font-family: &amp;quot;Salesforce Sans&amp;quot;, &amp;quot;Salesforce Sans_EmbeddedFont&amp;quot;, &amp;quot;Salesforce Sans_MSFontService&amp;quot;, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);&quot;&gt;&amp;nbsp;&lt;/span&gt;&lt;/li&gt;&lt;/ul&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+        </fields>
+        <showFooter>true</showFooter>
+        <showHeader>false</showHeader>
+    </screens>
+    <screens>
+        <name>Impacted_Region_Screen</name>
+        <label>Impacted Region Screen</label>
+        <locationX>432</locationX>
+        <locationY>424</locationY>
+        <allowBack>true</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>true</allowPause>
+        <connector>
+            <targetReference>Bennefits_Screen</targetReference>
+        </connector>
+        <fields>
+            <name>ImpactedRegionDisplayText</name>
+            <fieldText>&lt;p&gt;&lt;span style=&quot;background-color: inherit; font-size: 16px; color: rgb(0, 0, 0);&quot;&gt;Select the region impacted by your project.&lt;/span&gt;&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+        </fields>
+        <fields>
+            <name>Impacted_Region</name>
+            <choiceReferences>pcsImpactedRegion</choiceReferences>
+            <dataType>String</dataType>
+            <fieldText>Impacted Region</fieldText>
+            <fieldType>DropdownBox</fieldType>
+            <isRequired>true</isRequired>
+        </fields>
+        <showFooter>true</showFooter>
+        <showHeader>false</showHeader>
+    </screens>
+    <screens>
+        <name>Impacted_Systems_Screen</name>
+        <label>Impacted Systems Screen</label>
+        <locationX>794</locationX>
+        <locationY>679</locationY>
+        <allowBack>true</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>true</allowPause>
+        <connector>
+            <targetReference>Corporate_Initiative_Screen</targetReference>
+        </connector>
+        <fields>
+            <name>ImpactedSystemsDisplayText</name>
+            <fieldText>&lt;p&gt;&lt;span style=&quot;font-size: 16px; color: rgb(0, 0, 0);&quot;&gt;Select the platforms that are impacted by your request.  If you are not sure if any platforms listed below are impacted, do not select any and click Next.&lt;/span&gt;&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+        </fields>
+        <fields>
+            <name>Impacted_Systems</name>
+            <choiceReferences>pcsImpactedSystems</choiceReferences>
+            <dataType>String</dataType>
+            <fieldText>Platforms</fieldText>
+            <fieldType>MultiSelectCheckboxes</fieldType>
+            <helpText>&lt;p&gt;&lt;b&gt;CI&lt;/b&gt;: Cast Iron integration platform used in the TravelClick Landscape&lt;/p&gt;&lt;p&gt;&lt;b&gt;EBS&lt;/b&gt;: Oracle billing solution used in the TravelClick Landscape&lt;/p&gt;&lt;p&gt;&lt;b&gt;Insite&lt;/b&gt;: &lt;b&gt; &lt;/b&gt;Insite system used in the TravelClick Landscape&lt;/p&gt;&lt;p&gt;&lt;b&gt;SF - AH Org&lt;/b&gt;: Hospitality Salesforce Org&lt;/p&gt;&lt;p&gt;&lt;b&gt;SF - TC Org&lt;/b&gt;: TravelClick Salesforce Org&lt;/p&gt;&lt;p&gt;&lt;b&gt;Zuora&lt;/b&gt;: Zuora billing and CPQ solution used in the TravelClick Landscape&lt;/p&gt;</helpText>
+            <isRequired>false</isRequired>
+        </fields>
+        <showFooter>true</showFooter>
+        <showHeader>false</showHeader>
+    </screens>
+    <screens>
+        <name>Improve_Customer_Experience_Screen</name>
+        <label>Improve Customer Experience Screen</label>
+        <locationX>1330</locationX>
+        <locationY>38</locationY>
+        <allowBack>true</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>true</allowPause>
+        <connector>
+            <targetReference>Benefits_Decision</targetReference>
+        </connector>
+        <fields>
+            <name>ImproveCustomerExperienceDisplayText</name>
+            <fieldText>&lt;p&gt;&lt;span style=&quot;font-size: 16px;&quot;&gt;Improved Customer Experience Benefits&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;b style=&quot;font-size: 16px;&quot;&gt;﻿&lt;/b&gt;&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+        </fields>
+        <fields>
+            <name>Select_the_Customer_Experience_Improvements</name>
+            <choiceReferences>CustomerImprovements</choiceReferences>
+            <dataType>String</dataType>
+            <fieldText>Select the Customer Experience Improvements</fieldText>
+            <fieldType>MultiSelectCheckboxes</fieldType>
+            <isRequired>true</isRequired>
+        </fields>
+        <fields>
+            <name>Additional_Information</name>
+            <fieldText>Please Describe How The Customer Experience Will Be Improved (255 character limit)</fieldText>
+            <fieldType>LargeTextArea</fieldType>
+            <isRequired>true</isRequired>
+            <validationRule>
+                <errorMessage>&lt;p&gt;&lt;span style=&quot;color: rgb(255, 0, 0);&quot;&gt;Please limit your description to 255 characters or less.  &lt;/span&gt;&lt;/p&gt;</errorMessage>
+                <formulaExpression>IF(LEN({!Additional_Information}) &lt;= 255, true, false)</formulaExpression>
+            </validationRule>
+        </fields>
+        <showFooter>true</showFooter>
+        <showHeader>false</showHeader>
+    </screens>
+    <screens>
+        <name>Increase_Revenue_Screen</name>
+        <label>Increase Revenue Screen</label>
+        <locationX>780</locationX>
+        <locationY>87</locationY>
+        <allowBack>true</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>true</allowPause>
+        <connector>
+            <targetReference>Benefits_Decision</targetReference>
+        </connector>
+        <fields>
+            <name>IncreaseRevenueDisplayText</name>
+            <fieldText>&lt;p&gt;&lt;span style=&quot;color: rgb(0, 0, 0); font-size: 16px;&quot;&gt;Revenue Benefit in US Dollars&lt;/span&gt;&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+        </fields>
+        <fields>
+            <name>Estimated_Annual_Revenue_Increase</name>
+            <dataType>Currency</dataType>
+            <fieldText>Estimated Annual Revenue Increase</fieldText>
+            <fieldType>InputField</fieldType>
+            <isRequired>true</isRequired>
+            <scale>0</scale>
+            <validationRule>
+                <errorMessage>&lt;p&gt;&lt;b style=&quot;color: rgb(255, 0, 0);&quot;&gt;The Estimated Annual Revenue Increase must be greater than 0&lt;/b&gt;&lt;/p&gt;</errorMessage>
+                <formulaExpression>{!Estimated_Annual_Revenue_Increase} &gt; 0</formulaExpression>
+            </validationRule>
+        </fields>
+        <fields>
+            <name>RevenueIncreaseDetailsInput</name>
+            <dataType>String</dataType>
+            <fieldText>How Did You Arrive At This Number?</fieldText>
+            <fieldType>InputField</fieldType>
+            <isRequired>true</isRequired>
+        </fields>
+        <fields>
+            <name>Confidence_Level_Revenue</name>
+            <dataType>Number</dataType>
+            <fieldText>Confidence %</fieldText>
+            <fieldType>InputField</fieldType>
+            <isRequired>true</isRequired>
+            <scale>0</scale>
+            <validationRule>
+                <errorMessage>&lt;p&gt;&lt;b style=&quot;color: rgb(255, 0, 0);&quot;&gt;The Confidence % must be greater than 0 and cannot be greater than 100&lt;/b&gt;&lt;/p&gt;</errorMessage>
+                <formulaExpression>IF({!Confidence_Level_Revenue} &lt;= 100 &amp;&amp; {!Confidence_Level_Revenue} !=0, true, false)</formulaExpression>
+            </validationRule>
+        </fields>
+        <showFooter>true</showFooter>
+        <showHeader>false</showHeader>
+    </screens>
+    <screens>
+        <description>This screen shows to the user when they do not select a valid value for Organizational Impact in the last screen.</description>
+        <name>OrganizationalImpactErrorScreen</name>
+        <label>OrganizationalImpactErrorScreen</label>
+        <locationX>773</locationX>
+        <locationY>1023</locationY>
+        <allowBack>true</allowBack>
+        <allowFinish>false</allowFinish>
+        <allowPause>false</allowPause>
+        <fields>
+            <name>OrgImpactErrorScreenDisplayText</name>
+            <fieldText>&lt;p&gt;&lt;b style=&quot;background-color: rgb(255, 255, 255); color: rgb(62, 62, 60);&quot;&gt;The value you selected for Organizational Impact is invalid. Please return to the previous screen to choose a valid selection.&lt;/b&gt;&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+        </fields>
+        <showFooter>true</showFooter>
+        <showHeader>false</showHeader>
+    </screens>
+    <screens>
+        <name>OrganizationalImpactScreen</name>
+        <label>OrganizationalImpactScreen</label>
+        <locationX>1014</locationX>
+        <locationY>809</locationY>
+        <allowBack>true</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>true</allowPause>
+        <connector>
+            <targetReference>OrgImpactCorrectValue</targetReference>
+        </connector>
+        <fields>
+            <name>Operational</name>
+            <fieldText>&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;font-size: 16px;&quot;&gt;Choose the Organizational Impact for this request&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;&lt;b style=&quot;color: rgb(0, 0, 0);&quot;&gt;Transform:&lt;/b&gt;&lt;/p&gt;&lt;ul&gt;&lt;li&gt;&lt;span style=&quot;color: rgb(0, 0, 0);&quot;&gt;Establishes strategy;move forward future thinking &amp;amp; has impact to wider audience; top-down driven&lt;/span&gt;&lt;/li&gt;&lt;li&gt;&lt;span style=&quot;color: rgb(0, 0, 0);&quot;&gt;Typically presents high risk if not executed&lt;/span&gt;&lt;/li&gt;&lt;li&gt;&lt;span style=&quot;color: rgb(0, 0, 0);&quot;&gt;Transforms significant processes and/or creates critical functions&lt;/span&gt;&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;&lt;b style=&quot;color: rgb(0, 0, 0);&quot;&gt;Grow:&lt;/b&gt;&lt;/p&gt;&lt;ul&gt;&lt;li&gt;&lt;span style=&quot;color: rgb(0, 0, 0);&quot;&gt;Purposeful; connects to sustainable processes; supports strategic or compliance related initiatives&lt;/span&gt;&lt;/li&gt;&lt;li&gt;&lt;span style=&quot;color: rgb(0, 0, 0);&quot;&gt;Typically presents medium to high business risk (if not executed) &lt;/span&gt;&lt;/li&gt;&lt;li&gt;&lt;span style=&quot;color: rgb(0, 0, 0);&quot;&gt;Enhances critical functions (work smarter day to day)&lt;/span&gt;&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;&lt;b style=&quot;color: rgb(0, 0, 0);&quot;&gt;Enhancement:&lt;/b&gt;&lt;/p&gt;&lt;ul&gt;&lt;li&gt;&lt;span style=&quot;color: rgb(0, 0, 0);&quot;&gt;Addresses immediate needs (i.e., &quot;band aids&quot;; bottom-up driven)&lt;/span&gt;&lt;/li&gt;&lt;li&gt;&lt;span style=&quot;color: rgb(0, 0, 0);&quot;&gt;Typically presents low to no business risk (if not executed) &lt;/span&gt;&lt;/li&gt;&lt;li&gt;&lt;span style=&quot;color: rgb(0, 0, 0);&quot;&gt;Addresses efficiencies (reduces touch time &amp;amp; non-value add steps); day to day menta&lt;/span&gt;lity&lt;/li&gt;&lt;/ul&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+        </fields>
+        <fields>
+            <name>Organizational_Impact</name>
+            <choiceReferences>pcsOperationalImpactNone</choiceReferences>
+            <choiceReferences>pcsOperationalImpact</choiceReferences>
+            <dataType>String</dataType>
+            <fieldText>Organizational Impact</fieldText>
+            <fieldType>DropdownBox</fieldType>
+            <isRequired>true</isRequired>
+        </fields>
+        <showFooter>true</showFooter>
+        <showHeader>false</showHeader>
+    </screens>
+    <screens>
+        <name>Process_Improvement_Record_Created</name>
+        <label>Process Improvement Record Created</label>
+        <locationX>1335</locationX>
+        <locationY>290</locationY>
+        <allowBack>true</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>true</allowPause>
+        <connector>
+            <targetReference>Create_Process_Improvement_NI_Project_Backlog_Record</targetReference>
+        </connector>
+        <fields>
+            <name>Finish</name>
+            <fieldText>&lt;p&gt;&lt;span style=&quot;font-size: 16px;&quot;&gt;Click &lt;/span&gt;&lt;b style=&quot;font-size: 16px;&quot;&gt;Next &lt;/b&gt;&lt;span style=&quot;font-size: 16px;&quot;&gt;to create your Internal Project Request&lt;/span&gt;&lt;/p&gt;&lt;p style=&quot;text-align: left;&quot;&gt;&lt;br&gt;&lt;/p&gt;&lt;p style=&quot;text-align: left;&quot;&gt;&lt;span style=&quot;background-color: inherit; font-size: 14px; color: rgb(0, 0, 0);&quot;&gt;The priority assigned to your&amp;nbsp;project can be viewed&amp;nbsp;in a&amp;nbsp;Salesforce Dashboard, on the project record,&amp;nbsp;in object List Views&amp;nbsp;and is&amp;nbsp;a&amp;nbsp;reportable&amp;nbsp;field.&amp;nbsp;&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;background-color: inherit; font-size: 14px; color: rgb(0, 0, 0);&quot;&gt;If your project will/may involve Corporate Business Systems development, it will be sized.&amp;nbsp;&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;background-color: inherit; font-size: 14px; color: rgb(0, 0, 0);&quot;&gt;All Grow and Transform requests are forwarded for approval to the Sponsor you’ve indicated. Please note requests with benefits greater than $500,000 also require approval from Finance and the appropriate P&amp;amp;L owner from Product. &lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;background-color: inherit; font-size: 14px; color: rgb(0, 0, 0);&quot;&gt;As the owner of this record, you are responsible for integrity of the data (for tracking and reporting purposes) and assigning an implementation owner (if other than yourself). &lt;/span&gt;&lt;/p&gt;&lt;p style=&quot;text-align: left;&quot;&gt;&lt;span style=&quot;background-color: inherit; font-size: 14px; color: rgb(0, 0, 0);&quot;&gt;Thank you!&lt;/span&gt;&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+        </fields>
+        <showFooter>true</showFooter>
+        <showHeader>false</showHeader>
+    </screens>
+    <screens>
+        <name>Project_Title_and_Benefit</name>
+        <label>Project Title and Benefit</label>
+        <locationX>1207</locationX>
+        <locationY>273</locationY>
+        <allowBack>true</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>true</allowPause>
+        <connector>
+            <targetReference>Requested_Completion_Date_Screen</targetReference>
+        </connector>
+        <fields>
+            <name>BusinessCaseDisplayText</name>
+            <fieldText>&lt;p&gt;&lt;span style=&quot;font-size: 16px;&quot;&gt;Provide a title and description of your project.&amp;nbsp;The description should include how the expected benefits were determined and what pain point/problem you are trying to solve.&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;font-size: 16px; color: rgb(0, 0, 0); background-color: inherit;&quot;&gt;Once your project is created, details supporting how the expected benefits were calculated&amp;nbsp;(i.e., excel spreadsheets, other documents can be attached to the project record in “Quip/Files”)&lt;/span&gt;&lt;span style=&quot;font-size: 16px; color: rgb(0, 0, 0); background-color: rgb(255, 255, 255);&quot;&gt;&amp;nbsp;&lt;/span&gt;&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+        </fields>
+        <fields>
+            <name>Project_Title</name>
+            <dataType>String</dataType>
+            <fieldText>Project Title</fieldText>
+            <fieldType>InputField</fieldType>
+            <isRequired>true</isRequired>
+            <validationRule>
+                <errorMessage>&lt;p&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255); color: rgb(68, 68, 68);&quot;&gt;The Project Title needs to be 80 characters or less. Please adjust your Project Title before continuing.&lt;/span&gt;&lt;/p&gt;</errorMessage>
+                <formulaExpression>len({!Project_Title})&lt;81</formulaExpression>
+            </validationRule>
+        </fields>
+        <fields>
+            <name>BusinessReasonDisplayText</name>
+            <fieldType>DisplayText</fieldType>
+        </fields>
+        <fields>
+            <name>Business_Reason</name>
+            <fieldText>Problem to Solve</fieldText>
+            <fieldType>LargeTextArea</fieldType>
+            <isRequired>true</isRequired>
+        </fields>
+        <showFooter>true</showFooter>
+        <showHeader>false</showHeader>
+    </screens>
+    <screens>
+        <description>If creation of the AH Project record fails, this screen will alert the user and display the error message preventing the creation of the record.</description>
+        <name>ProjectBacklogFaultScreen</name>
+        <label>ProjectBacklogFaultScreen</label>
+        <locationX>1651</locationX>
+        <locationY>29</locationY>
+        <allowBack>true</allowBack>
+        <allowFinish>false</allowFinish>
+        <allowPause>false</allowPause>
+        <fields>
+            <name>ProjectBacklogFaultDisplayText</name>
+            <fieldText>&lt;p&gt;&lt;span style=&quot;color: rgb(0, 0, 0);&quot;&gt;Your Project Backlog record cannot be created at this time. Please review the error message below for issues that need to be resolved or contact your system administrator for assistance.&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;color: rgb(234, 27, 27);&quot;&gt;{!$Flow.FaultMessage}&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;color: rgb(18, 18, 18);&quot;&gt;Click Previous to return to the wizard to correct your information. Click the Previous button on each screen until you find the screen that needs to be fixed.&lt;/span&gt;&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+        </fields>
+        <showFooter>true</showFooter>
+        <showHeader>false</showHeader>
+    </screens>
+    <screens>
+        <name>Reduce_Costs_Screen</name>
+        <label>Reduce Costs Screen</label>
+        <locationX>1017</locationX>
+        <locationY>50</locationY>
+        <allowBack>true</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>true</allowPause>
+        <connector>
+            <targetReference>Benefits_Decision</targetReference>
+        </connector>
+        <fields>
+            <name>ReduceCostsDisplayText</name>
+            <fieldText>&lt;p&gt;&lt;b style=&quot;font-size: 16px;&quot;&gt;Cost Reduction Benefit&lt;/b&gt;&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+        </fields>
+        <fields>
+            <name>Estimated_Annual_Cost_Reduction</name>
+            <dataType>Number</dataType>
+            <fieldText>Estimated Annual Cost Reduction</fieldText>
+            <fieldType>InputField</fieldType>
+            <isRequired>true</isRequired>
+            <scale>0</scale>
+        </fields>
+        <fields>
+            <name>Confidence_Level_Cost_Reduction</name>
+            <dataType>Number</dataType>
+            <fieldText>Confidence %</fieldText>
+            <fieldType>InputField</fieldType>
+            <isRequired>true</isRequired>
+            <scale>0</scale>
+        </fields>
+        <showFooter>true</showFooter>
+        <showHeader>false</showHeader>
+    </screens>
+    <screens>
+        <name>Requested_Completion_Date_Screen</name>
+        <label>Requested Completion Date Screen</label>
+        <locationX>1229</locationX>
+        <locationY>118</locationY>
+        <allowBack>true</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>true</allowPause>
+        <connector>
+            <targetReference>Sponsor_Screen</targetReference>
+        </connector>
+        <fields>
+            <name>DisplayTextRequestedCompletionDate</name>
+            <fieldText>&lt;p&gt;&lt;span style=&quot;font-size: 16px; color: rgb(0, 0, 0); background-color: inherit;&quot;&gt;The below information only applies if you’re requesting&amp;nbsp;system enhancements.&amp;nbsp;Click &lt;/span&gt;&lt;b style=&quot;font-size: 16px; color: rgb(0, 0, 0); background-color: inherit;&quot;&gt;Next&lt;/b&gt;&lt;span style=&quot;font-size: 16px; color: rgb(0, 0, 0); background-color: inherit;&quot;&gt; if it doesn’t apply.&lt;/span&gt;&lt;span style=&quot;font-size: 16px; color: rgb(0, 0, 0); background-color: rgb(255, 255, 255);&quot;&gt;&amp;nbsp;&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;font-size: 16px; color: rgb(0, 0, 0); background-color: inherit;&quot;&gt;While we’ll try to meet your requested completion time-frame,&amp;nbsp;our ability to do so is based on&amp;nbsp;both&amp;nbsp;the priority&amp;nbsp;of your request and the resource capacity of the CBS  Team.&amp;nbsp;This means it may or may not be delivered by the date you request.&amp;nbsp;&lt;/span&gt;&lt;b style=&quot;font-size: 16px; color: rgb(0, 0, 0); background-color: rgb(255, 255, 255);&quot;&gt;&amp;nbsp;&lt;/b&gt;&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+        </fields>
+        <fields>
+            <name>Requested_Completion_Date</name>
+            <dataType>Date</dataType>
+            <fieldText>Requested Completion Date for CBS Related Work</fieldText>
+            <fieldType>InputField</fieldType>
+            <isRequired>false</isRequired>
+        </fields>
+        <showFooter>true</showFooter>
+        <showHeader>false</showHeader>
+    </screens>
+    <screens>
+        <name>Solution_Domain_Screen</name>
+        <label>Solution Domain Screen</label>
+        <locationX>50</locationX>
+        <locationY>284</locationY>
+        <allowBack>true</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>true</allowPause>
+        <connector>
+            <targetReference>Stakeholder_Departments</targetReference>
+        </connector>
+        <fields>
+            <name>SolutionDomainDisplayText</name>
+            <fieldText>&lt;p&gt;&lt;span style=&quot;background-color: inherit; font-size: 16px; color: rgb(0, 0, 0);&quot;&gt;If your project includes back-office impacts&amp;nbsp;associated with&amp;nbsp;implementing&amp;nbsp;a new&amp;nbsp;customer&amp;nbsp;product,&amp;nbsp;making&amp;nbsp;changes to an existing&amp;nbsp;customer&amp;nbsp;product,&amp;nbsp;or other&amp;nbsp;produce related changes, s&lt;/span&gt;&lt;span style=&quot;font-size: 16px; color: rgb(0, 0, 0);&quot;&gt;elect the appropriate Solution Domain/Product Line.&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;font-size: 16px;&quot;&gt;Select &lt;/span&gt;&lt;b style=&quot;font-size: 16px;&quot;&gt;Transversal &lt;/b&gt;&lt;span style=&quot;font-size: 16px;&quot;&gt;if your project impacts multiple Solution Domains&lt;/span&gt;&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+        </fields>
+        <fields>
+            <name>Solution_Domain</name>
+            <choiceReferences>choiceSolutionDomainBundle</choiceReferences>
+            <choiceReferences>choiceSolutionDomainBusinessIntelligence</choiceReferences>
+            <choiceReferences>choiceSolutionDomainCRS</choiceReferences>
+            <choiceReferences>choiceSolutionDomainGuestManagementSolutions</choiceReferences>
+            <choiceReferences>choiceSolutionDomainMediaSolutions</choiceReferences>
+            <choiceReferences>choiceSolutionDomainMeetingAndEventDistribution</choiceReferences>
+            <choiceReferences>choiceSolutionDomainPMS</choiceReferences>
+            <choiceReferences>choiceSolutionDomainReservationSolutions</choiceReferences>
+            <choiceReferences>choiceSolutionDomainSalesandCatering</choiceReferences>
+            <choiceReferences>choiceSolutionDomainServiceOptimization</choiceReferences>
+            <choiceReferences>choiceSolutionDomainTransversal</choiceReferences>
+            <choiceReferences>choiceSolutionDomainWebSolutions</choiceReferences>
+            <dataType>String</dataType>
+            <fieldText>Solution Domain</fieldText>
+            <fieldType>RadioButtons</fieldType>
+            <isRequired>false</isRequired>
+        </fields>
+        <showFooter>true</showFooter>
+        <showHeader>false</showHeader>
+    </screens>
+    <screens>
+        <name>Sponsor_Screen</name>
+        <label>Sponsor Screen</label>
+        <locationX>1200</locationX>
+        <locationY>574</locationY>
+        <allowBack>true</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>true</allowPause>
+        <connector>
+            <targetReference>Process_Improvement_Record_Created</targetReference>
+        </connector>
+        <fields>
+            <name>SponsorDisplayText</name>
+            <fieldText>&lt;p&gt;&lt;span style=&quot;background-color: inherit; color: rgb(0, 0, 0); font-family: Calibri, Calibri_EmbeddedFont, Calibri_MSFontService, sans-serif; font-size: 16px;&quot;&gt;Select the sponsor&amp;nbsp;for your&amp;nbsp;project.&amp;nbsp;A sponsor is the individual held accountable for&amp;nbsp;the success of the project&amp;nbsp;and is typically a department VP or higher.&lt;/span&gt;&lt;span style=&quot;font-size: 16px;&quot;&gt; &lt;/span&gt;&lt;b style=&quot;font-size: 16px;&quot;&gt;  &lt;/b&gt;&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;color: rgb(0, 0, 0); font-size: 14px;&quot;&gt;For all Transform and Grow Projects, once the Process Improvement Project has been created and is sized by Corporate Business Systems (if applicable), an automated approval request will be sent to the Sponsor indicated. Projects will not be prioritized without Sponsor approval of the business case. You will be notified when approval to move forward occurs.&lt;/span&gt;&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+        </fields>
+        <fields>
+            <name>Sponsor</name>
+            <extensionName>flowruntime:lookup</extensionName>
+            <fieldType>ComponentInstance</fieldType>
+            <inputParameters>
+                <name>fieldApiName</name>
+                <value>
+                    <stringValue>Sponsor__c</stringValue>
+                </value>
+            </inputParameters>
+            <inputParameters>
+                <name>label</name>
+                <value>
+                    <stringValue>Sponsor</stringValue>
+                </value>
+            </inputParameters>
+            <inputParameters>
+                <name>objectApiName</name>
+                <value>
+                    <stringValue>NI_Project_Backlog__c</stringValue>
+                </value>
+            </inputParameters>
+            <inputParameters>
+                <name>required</name>
+                <value>
+                    <booleanValue>true</booleanValue>
+                </value>
+            </inputParameters>
+            <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
+            <isRequired>true</isRequired>
+            <outputParameters>
+                <assignToReference>vSponsor</assignToReference>
+                <name>recordId</name>
+            </outputParameters>
+        </fields>
+        <showFooter>true</showFooter>
+        <showHeader>false</showHeader>
+    </screens>
+    <screens>
+        <name>Stakeholder_Departments</name>
+        <label>Stakeholder Departments</label>
+        <locationX>258</locationX>
+        <locationY>434</locationY>
+        <allowBack>true</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>true</allowPause>
+        <connector>
+            <targetReference>Impacted_Region_Screen</targetReference>
+        </connector>
+        <fields>
+            <name>displayTextStakeholderDepartment</name>
+            <fieldText>&lt;p&gt;&lt;span style=&quot;background-color: inherit; font-size: 16px; color: rgb(0, 0, 0);&quot;&gt;﻿Select the departments that are required to implement your request.  These departments may or may not receive a direct benefit, but work is required from them.  Hold the &lt;/span&gt;&lt;b style=&quot;background-color: inherit; font-size: 16px; color: rgb(0, 0, 0);&quot;&gt;Ctrl &lt;/b&gt;&lt;span style=&quot;background-color: inherit; font-size: 16px; color: rgb(0, 0, 0);&quot;&gt;key to select multiple departments&lt;/span&gt;&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+        </fields>
+        <fields>
+            <name>Stakeholder_Department</name>
+            <choiceReferences>pcsStakeholderDepartment</choiceReferences>
+            <dataType>String</dataType>
+            <fieldText>Required Departments</fieldText>
+            <fieldType>MultiSelectPicklist</fieldType>
+            <isRequired>false</isRequired>
+        </fields>
+        <showFooter>true</showFooter>
+        <showHeader>false</showHeader>
+    </screens>
+    <screens>
+        <name>Workstream_Input_Screen</name>
+        <label>Workstream Input Screen</label>
+        <locationX>1338</locationX>
+        <locationY>862</locationY>
+        <allowBack>true</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>true</allowPause>
+        <connector>
+            <targetReference>Workstream_Benefits_Decision</targetReference>
+        </connector>
+        <fields>
+            <name>ProjectBacklogWorkstreamDisplayText</name>
+            <fieldText>&lt;p&gt;&lt;span style=&quot;font-size: 16px; background-color: inherit;&quot;&gt;Select applicable categories below and provide quantifiable benefits for the &lt;/span&gt;&lt;b style=&quot;font-size: 16px; background-color: rgb(255, 255, 255); color: rgb(62, 62, 60);&quot;&gt;{!Loop_Impacted_Workstreams.Name} &lt;/b&gt;&lt;span style=&quot;font-size: 16px; background-color: inherit;&quot;&gt;workstream along with your degree of confidence in the number&amp;nbsp;(is this number&amp;nbsp;accurate and&amp;nbsp;attainable?).&lt;/span&gt;&lt;span style=&quot;font-size: 16px;&quot;&gt;&amp;nbsp;&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;font-size: 16px;&quot;&gt;&amp;nbsp;&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;font-size: 16px; background-color: inherit;&quot;&gt;You must enter information for at least one benefit in order to continue&lt;/span&gt;&lt;span style=&quot;font-size: 16px;&quot;&gt;&amp;nbsp;&lt;/span&gt;&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+        </fields>
+        <fields>
+            <name>Workstream_Increase_Efficiencies</name>
+            <dataType>Boolean</dataType>
+            <fieldText>This Project Will Increase Efficiencies</fieldText>
+            <fieldType>InputField</fieldType>
+            <isRequired>true</isRequired>
+            <validationRule>
+                <errorMessage>&lt;p&gt;&lt;span style=&quot;color: rgb(255, 0, 0);&quot;&gt;The &lt;/span&gt;&lt;b style=&quot;color: rgb(255, 0, 0);&quot;&gt;Estimated Annual Hours Saved&lt;/b&gt;&lt;span style=&quot;color: rgb(255, 0, 0);&quot;&gt; and &lt;/span&gt;&lt;b style=&quot;color: rgb(255, 0, 0);&quot;&gt;Increased Efficiencies Confidence %&lt;/b&gt;&lt;span style=&quot;color: rgb(255, 0, 0);&quot;&gt; fields cannot be blank and must be greater than 0&lt;/span&gt;&lt;/p&gt;</errorMessage>
+                <formulaExpression>IF({!Workstream_Increase_Efficiencies} = false
+&amp;&amp;
+({!Workstream_Estimated_Annual_Hours_Saved} &lt; 1 || ISBLANK({!Workstream_Estimated_Annual_Hours_Saved})) 
+&amp;&amp;
+({!Workstream_Efficiencies_Confidence} &lt; 1 || ISBLANK({!Workstream_Efficiencies_Confidence})),true,
+IF({!Workstream_Increase_Efficiencies} = true
+&amp;&amp;
+({!Workstream_Estimated_Annual_Hours_Saved} &lt; 1 || ISBLANK({!Workstream_Estimated_Annual_Hours_Saved})),false, 
+IF({!Workstream_Increase_Efficiencies} = true
+&amp;&amp;
+({!Workstream_Efficiencies_Confidence} &lt; 1 || ISBLANK({!Workstream_Efficiencies_Confidence})),false,true
+)
+)
+)</formulaExpression>
+            </validationRule>
+        </fields>
+        <fields>
+            <name>Workstream_Estimated_Annual_Hours_Saved</name>
+            <dataType>Number</dataType>
+            <fieldText>Estimated Annual Hours Saved</fieldText>
+            <fieldType>InputField</fieldType>
+            <isRequired>true</isRequired>
+            <scale>0</scale>
+            <validationRule>
+                <errorMessage>&lt;p&gt;&lt;span style=&quot;color: rgb(255, 0, 0);&quot;&gt;The &lt;/span&gt;&lt;b style=&quot;color: rgb(255, 0, 0);&quot;&gt;Estimated Annual Hours Saved&lt;/b&gt;&lt;span style=&quot;color: rgb(255, 0, 0);&quot;&gt; and &lt;/span&gt;&lt;b style=&quot;color: rgb(255, 0, 0);&quot;&gt;Increased Efficiencies Confidence %&lt;/b&gt;&lt;span style=&quot;color: rgb(255, 0, 0);&quot;&gt; fields cannot be blank and must be greater than 0&lt;/span&gt;&lt;/p&gt;</errorMessage>
+                <formulaExpression>IF({!Workstream_Estimated_Annual_Hours_Saved} &gt;= 0
+&amp;&amp;
+({!Workstream_Efficiencies_Confidence} &lt; 1 || ISBLANK({!Workstream_Efficiencies_Confidence})),false,true
+)</formulaExpression>
+            </validationRule>
+            <visibilityRule>
+                <conditionLogic>and</conditionLogic>
+                <conditions>
+                    <leftValueReference>Workstream_Increase_Efficiencies</leftValueReference>
+                    <operator>EqualTo</operator>
+                    <rightValue>
+                        <booleanValue>true</booleanValue>
+                    </rightValue>
+                </conditions>
+            </visibilityRule>
+        </fields>
+        <fields>
+            <name>Workstream_EfficienciesExplanations</name>
+            <fieldText>How did you arrive at this number?</fieldText>
+            <fieldType>LargeTextArea</fieldType>
+            <isRequired>true</isRequired>
+            <visibilityRule>
+                <conditionLogic>and</conditionLogic>
+                <conditions>
+                    <leftValueReference>Workstream_Increase_Efficiencies</leftValueReference>
+                    <operator>EqualTo</operator>
+                    <rightValue>
+                        <booleanValue>true</booleanValue>
+                    </rightValue>
+                </conditions>
+            </visibilityRule>
+        </fields>
+        <fields>
+            <name>Workstream_Efficiencies_Confidence</name>
+            <dataType>Number</dataType>
+            <fieldText>Increased Efficiencies Confidence %</fieldText>
+            <fieldType>InputField</fieldType>
+            <isRequired>true</isRequired>
+            <scale>0</scale>
+            <validationRule>
+                <errorMessage>&lt;p&gt;&lt;span style=&quot;color: rgb(255, 0, 0);&quot;&gt;The &lt;/span&gt;&lt;b style=&quot;color: rgb(255, 0, 0);&quot;&gt;Estimated Annual Hours Saved&lt;/b&gt;&lt;span style=&quot;color: rgb(255, 0, 0);&quot;&gt; and &lt;/span&gt;&lt;b style=&quot;color: rgb(255, 0, 0);&quot;&gt;Increased Efficiencies Confidence %&lt;/b&gt;&lt;span style=&quot;color: rgb(255, 0, 0);&quot;&gt; fields cannot be blank and must be greater than 0&lt;/span&gt;&lt;/p&gt;</errorMessage>
+                <formulaExpression>IF({!Workstream_Efficiencies_Confidence} &gt;= 0
+&amp;&amp;
+({!Workstream_Estimated_Annual_Hours_Saved} &lt; 1 || ISBLANK({!Workstream_Estimated_Annual_Hours_Saved})),false,true
+)</formulaExpression>
+            </validationRule>
+            <visibilityRule>
+                <conditionLogic>and</conditionLogic>
+                <conditions>
+                    <leftValueReference>Workstream_Increase_Efficiencies</leftValueReference>
+                    <operator>EqualTo</operator>
+                    <rightValue>
+                        <booleanValue>true</booleanValue>
+                    </rightValue>
+                </conditions>
+            </visibilityRule>
+        </fields>
+        <fields>
+            <name>Workstream_Reduce_Costs</name>
+            <dataType>Boolean</dataType>
+            <fieldText>This Project Will Reduce Costs</fieldText>
+            <fieldType>InputField</fieldType>
+            <isRequired>true</isRequired>
+        </fields>
+        <fields>
+            <name>Workstream_Annual_Cost_Reduction</name>
+            <dataType>Currency</dataType>
+            <fieldText>Estimated Annual Cost Reduction</fieldText>
+            <fieldType>InputField</fieldType>
+            <isRequired>true</isRequired>
+            <scale>0</scale>
+            <validationRule>
+                <errorMessage>&lt;p&gt;&lt;span style=&quot;color: rgb(255, 0, 0);&quot;&gt;The &lt;/span&gt;&lt;b style=&quot;color: rgb(255, 0, 0);&quot;&gt;Estimated Annual Cost Reduction&lt;/b&gt;&lt;span style=&quot;color: rgb(255, 0, 0);&quot;&gt; and &lt;/span&gt;&lt;b style=&quot;color: rgb(255, 0, 0);&quot;&gt;Cost Reduction Confidence %&lt;/b&gt;&lt;span style=&quot;color: rgb(255, 0, 0);&quot;&gt; fields cannot be blank and must be greater than 0&lt;/span&gt;&lt;/p&gt;</errorMessage>
+                <formulaExpression>IF({!Workstream_Annual_Cost_Reduction} &gt;= 0
+&amp;&amp;
+({!Workstream_Cost_Reduction_Confidence} &lt; 1 || ISBLANK({!Workstream_Cost_Reduction_Confidence})),false,true
+)</formulaExpression>
+            </validationRule>
+            <visibilityRule>
+                <conditionLogic>and</conditionLogic>
+                <conditions>
+                    <leftValueReference>Workstream_Reduce_Costs</leftValueReference>
+                    <operator>EqualTo</operator>
+                    <rightValue>
+                        <booleanValue>true</booleanValue>
+                    </rightValue>
+                </conditions>
+            </visibilityRule>
+        </fields>
+        <fields>
+            <name>Workstream_CostReductionsExplanations</name>
+            <fieldText>How did you arrive at this number?</fieldText>
+            <fieldType>LargeTextArea</fieldType>
+            <isRequired>true</isRequired>
+            <visibilityRule>
+                <conditionLogic>and</conditionLogic>
+                <conditions>
+                    <leftValueReference>Workstream_Reduce_Costs</leftValueReference>
+                    <operator>EqualTo</operator>
+                    <rightValue>
+                        <booleanValue>true</booleanValue>
+                    </rightValue>
+                </conditions>
+            </visibilityRule>
+        </fields>
+        <fields>
+            <name>Workstream_Cost_Reduction_Confidence</name>
+            <dataType>Number</dataType>
+            <fieldText>Cost Reduction Confidence %</fieldText>
+            <fieldType>InputField</fieldType>
+            <isRequired>true</isRequired>
+            <scale>0</scale>
+            <validationRule>
+                <errorMessage>&lt;p&gt;&lt;span style=&quot;color: rgb(255, 0, 0);&quot;&gt;The &lt;/span&gt;&lt;b style=&quot;color: rgb(255, 0, 0);&quot;&gt;Estimated Annual Cost Reduction&lt;/b&gt;&lt;span style=&quot;color: rgb(255, 0, 0);&quot;&gt; and &lt;/span&gt;&lt;b style=&quot;color: rgb(255, 0, 0);&quot;&gt;Cost Reduction Confidence %&lt;/b&gt;&lt;span style=&quot;color: rgb(255, 0, 0);&quot;&gt; fields cannot be blank and must be greater than 0&lt;/span&gt;&lt;/p&gt;</errorMessage>
+                <formulaExpression>IF({!Workstream_Cost_Reduction_Confidence} &gt;= 0
+&amp;&amp;
+({!Workstream_Annual_Cost_Reduction} &lt; 1 || ISBLANK({!Workstream_Annual_Cost_Reduction})),false,true
+)</formulaExpression>
+            </validationRule>
+            <visibilityRule>
+                <conditionLogic>and</conditionLogic>
+                <conditions>
+                    <leftValueReference>Workstream_Reduce_Costs</leftValueReference>
+                    <operator>EqualTo</operator>
+                    <rightValue>
+                        <booleanValue>true</booleanValue>
+                    </rightValue>
+                </conditions>
+            </visibilityRule>
+        </fields>
+        <showFooter>true</showFooter>
+        <showHeader>false</showHeader>
+    </screens>
+    <screens>
+        <name>Workstreams_Screen</name>
+        <label>Workstreams Screen</label>
+        <locationX>975</locationX>
+        <locationY>451</locationY>
+        <allowBack>true</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>true</allowPause>
+        <connector>
+            <targetReference>Workstreams_Selected_Decision</targetReference>
+        </connector>
+        <fields>
+            <name>TechTeamDisplayText</name>
+            <fieldText>&lt;p&gt;&lt;span style=&quot;font-size: 16px; color: rgb(0, 0, 0);&quot;&gt;Does your project require work from The CBS (Corporate Business Systems) Team?&lt;/span&gt;&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+        </fields>
+        <fields>
+            <name>CBS_Required_Radio</name>
+            <choiceReferences>choiceNoTechRequired</choiceReferences>
+            <choiceReferences>choiceCBSREquired</choiceReferences>
+            <choiceReferences>choiceNotSureTechWork</choiceReferences>
+            <dataType>String</dataType>
+            <fieldType>RadioButtons</fieldType>
+            <isRequired>true</isRequired>
+        </fields>
+        <fields>
+            <name>WorkstreamDisplayText</name>
+            <fieldText>&lt;p&gt;&lt;span style=&quot;font-size: 16px; color: rgb(0, 0, 0); background-color: inherit;&quot;&gt;﻿Select the Hospitality workstream(s) that will receive a cost reduction or efficiency savings benefit as a result of your request. You will be required to enter the benefits for each workstream that you have selected on the next screens of the wizard.  If there are no workstreams that will receive these benefits, do not select any and click &lt;/span&gt;&lt;b style=&quot;font-size: 16px; color: rgb(0, 0, 0); background-color: inherit;&quot;&gt;Next&lt;/b&gt;&lt;span style=&quot;font-size: 16px; color: rgb(0, 0, 0); background-color: inherit;&quot;&gt;.&lt;/span&gt;&lt;span style=&quot;font-size: 16px; color: rgb(0, 0, 0); background-color: rgb(255, 255, 255);&quot;&gt;&amp;nbsp;&lt;/span&gt;&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+        </fields>
+        <fields>
+            <name>WorkstreamsImpacted</name>
+            <choiceReferences>rcsWorkstream</choiceReferences>
+            <dataType>String</dataType>
+            <fieldText>Impacted Workstreams</fieldText>
+            <fieldType>MultiSelectCheckboxes</fieldType>
+            <isRequired>false</isRequired>
+        </fields>
+        <showFooter>true</showFooter>
+        <showHeader>false</showHeader>
+    </screens>
+    <start>
+        <locationX>426</locationX>
+        <locationY>77</locationY>
+        <connector>
+            <targetReference>HPO_Screen_0</targetReference>
+        </connector>
+    </start>
+    <status>Active</status>
+    <variables>
+        <name>vBusinessWorkstreamsSelected</name>
+        <dataType>String</dataType>
+        <isCollection>true</isCollection>
+        <isInput>true</isInput>
+        <isOutput>true</isOutput>
+    </variables>
+    <variables>
+        <name>vCorporateInitiativeId</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>true</isOutput>
+    </variables>
+    <variables>
+        <name>vFirstYearRevenueAssigned</name>
+        <dataType>Currency</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>true</isOutput>
+        <scale>2</scale>
+    </variables>
+    <variables>
+        <name>vImpactedWorkStreams</name>
+        <dataType>String</dataType>
+        <isCollection>true</isCollection>
+        <isInput>true</isInput>
+        <isOutput>true</isOutput>
+    </variables>
+    <variables>
+        <name>vLoopRecordId</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>true</isOutput>
+    </variables>
+    <variables>
+        <name>vLoopWorkstreamName</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>true</isOutput>
+    </variables>
+    <variables>
+        <name>vMarginAssigned</name>
+        <dataType>Number</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>true</isOutput>
+        <scale>0</scale>
+    </variables>
+    <variables>
+        <name>vProcessImprovementRecordTypeId</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>true</isOutput>
+    </variables>
+    <variables>
+        <name>vProjectBacklogWorkstreamRecordCollection</name>
+        <dataType>SObject</dataType>
+        <isCollection>true</isCollection>
+        <isInput>true</isInput>
+        <isOutput>true</isOutput>
+        <objectType>AH_Project_Backlog_Workstreams__c</objectType>
+    </variables>
+    <variables>
+        <name>vProjectId</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>true</isOutput>
+    </variables>
+    <variables>
+        <name>vRecordWorkstream</name>
+        <dataType>SObject</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>true</isOutput>
+        <objectType>AH_Project_Backlog_Workstreams__c</objectType>
+    </variables>
+    <variables>
+        <name>vRecordWorkstreamCollection</name>
+        <dataType>SObject</dataType>
+        <isCollection>true</isCollection>
+        <isInput>true</isInput>
+        <isOutput>true</isOutput>
+        <objectType>AH_Project_Backlog_Workstreams__c</objectType>
+    </variables>
+    <variables>
+        <name>vRecordWorkstreamCollectionForInsert</name>
+        <dataType>SObject</dataType>
+        <isCollection>true</isCollection>
+        <isInput>true</isInput>
+        <isOutput>true</isOutput>
+        <objectType>AH_Project_Backlog_Workstreams__c</objectType>
+    </variables>
+    <variables>
+        <name>vRecordWorkstreamForInsert</name>
+        <dataType>SObject</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>true</isOutput>
+        <objectType>AH_Project_Backlog_Workstreams__c</objectType>
+    </variables>
+    <variables>
+        <name>vSalesandCatering</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>true</isOutput>
+        <value>
+            <stringValue>Sales &amp; Catering</stringValue>
+        </value>
+    </variables>
+    <variables>
+        <name>vSponsor</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>true</isOutput>
+    </variables>
+    <variables>
+        <name>vTechWorkstreamSelections</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>true</isOutput>
+    </variables>
+    <variables>
+        <name>vTechWorkstreamsSelected</name>
+        <dataType>String</dataType>
+        <isCollection>true</isCollection>
+        <isInput>true</isInput>
+        <isOutput>true</isOutput>
+    </variables>
+    <variables>
+        <name>vWorkstreamCollection</name>
+        <dataType>String</dataType>
+        <isCollection>true</isCollection>
+        <isInput>true</isInput>
+        <isOutput>true</isOutput>
+    </variables>
+</Flow>

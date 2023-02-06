@@ -331,7 +331,7 @@ public with sharing class PsaTransferAssignmentController
             if (shift < 0) 
             {
                 shift = shift + 5;
-			}
+            }
             
             system.debug(' **** Adjusted shift between assignments is ' + shift);
             
@@ -411,8 +411,8 @@ public with sharing class PsaTransferAssignmentController
             newAssignment.pse__Time_Credited__c = origAssignment.pse__Time_Credited__c;
             newAssignment.pse__Time_Excluded__c = origAssignment.pse__Time_Excluded__c;
             newAssignment.Contact_Name__c = origAssignment.Contact_Name__c;
-            newAssignment.pse__Location__c = origAssignment.pse__Location__c;  	// ADDED TO SET THE LOCATION WHEN AN ASSIGNMENT IS MOVED TO ANOTHER PROJECT
-            newAssignment.Name = origAssignment.Name; 							// ADDED TO SET THE ASSIGNMENT NAME WHEN AN ASSIGNMENT IS MOVED TO ANOTHER PROJECT
+            newAssignment.pse__Location__c = origAssignment.pse__Location__c;   // ADDED TO SET THE LOCATION WHEN AN ASSIGNMENT IS MOVED TO ANOTHER PROJECT
+            newAssignment.Name = origAssignment.Name;                           // ADDED TO SET THE ASSIGNMENT NAME WHEN AN ASSIGNMENT IS MOVED TO ANOTHER PROJECT
             
             // ADDED BY CYBAGE ON  07/30/2020
             newAssignment.isInsertCompleted__c = false;
@@ -458,7 +458,7 @@ public with sharing class PsaTransferAssignmentController
                 origAssignment.Cancellation_Reason__c = 'Significant Staff Change';
                 update origAssignment;
                 
-        		Date dtDefault = Date.newInstance(2025, 12, 31); 
+                Date dtDefault = Date.newInstance(2025, 12, 31); 
                 
                 List<pse__Milestone__c> oldMS = new List<pse__Milestone__c>();
                 for (pse__Milestone__c ms : [SELECT Id FROM pse__Milestone__c WHERE Id =: origAssignment.pse__Milestone__c])
@@ -474,7 +474,7 @@ public with sharing class PsaTransferAssignmentController
                 // Next delete the assignment (its schedule should get deleted automatically by trigger)
                 delete origAssignment;
             }
-			*/
+            */
         }
         catch (Exception e)
         {

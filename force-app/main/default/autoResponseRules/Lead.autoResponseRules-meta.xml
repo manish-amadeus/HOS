@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<AutoResponseRules xmlns="http://soap.sforce.com/2006/04/metadata">
+    <autoResponseRule>
+        <fullName>2008 Web Lead Response</fullName>
+        <active>false</active>
+        <ruleEntry>
+            <criteriaItems>
+                <field>Campaign.Name</field>
+                <operation>equals</operation>
+                <value>Carlson MB Open Props</value>
+            </criteriaItems>
+            <senderEmail>marketinginfo@newmarketinc.com</senderEmail>
+            <senderName>Newmarket International</senderName>
+            <template>Support_Email_Templates/New_Carlson_Property_MB_Change</template>
+        </ruleEntry>
+        <ruleEntry>
+            <criteriaItems>
+                <field>Campaign.Name</field>
+                <operation>equals</operation>
+                <value>MOHG MB Open Props</value>
+            </criteriaItems>
+            <senderEmail>marketinginfo@newmarketinc.com</senderEmail>
+            <senderName>Newmarket International</senderName>
+            <template>SFDC_Click_Thru/New_MOHG_Property</template>
+        </ruleEntry>
+        <ruleEntry>
+            <criteriaItems>
+                <field>Campaign.Name</field>
+                <operation>equals</operation>
+                <value>Hilton MB Open Props</value>
+            </criteriaItems>
+            <senderEmail>marketinginfo@newmarketinc.com</senderEmail>
+            <senderName>Newmarket International</senderName>
+            <template>unfiled$public/New_Hilton_MB_Property</template>
+        </ruleEntry>
+        <ruleEntry>
+            <criteriaItems>
+                <field>Campaign.Name</field>
+                <operation>equals</operation>
+                <value>Langham MB Open Props</value>
+            </criteriaItems>
+            <senderEmail>salesinfo@newmarketinc.com</senderEmail>
+            <senderName>Newmarket International</senderName>
+            <template>unfiled$public/New_Langham_Property</template>
+        </ruleEntry>
+        <ruleEntry>
+            <criteriaItems>
+                <field>Campaign.Name</field>
+                <operation>equals</operation>
+                <value>Marriott UK MB Open Props</value>
+            </criteriaItems>
+            <senderEmail>marketinfo@newmarketinc.com</senderEmail>
+            <senderName>Newmarket International</senderName>
+            <template>unfiled$public/New_Marriott_UK_Property</template>
+        </ruleEntry>
+        <ruleEntry>
+            <criteriaItems>
+                <field>Campaign.Name</field>
+                <operation>equals</operation>
+                <value>IHG MB Open Props</value>
+            </criteriaItems>
+            <senderEmail>marketinginfo@newmarketinc.com</senderEmail>
+            <senderName>Newmarket International</senderName>
+            <template>unfiled$public/New_IHG_Property_to_submitter</template>
+        </ruleEntry>
+        <ruleEntry>
+            <criteriaItems>
+                <field>Campaign.Name</field>
+                <operation>equals</operation>
+                <value>Starwood MB Open Props</value>
+            </criteriaItems>
+            <senderEmail>marketinginfo@newmarketinc.com</senderEmail>
+            <senderName>Newmarket International</senderName>
+            <template>unfiled$public/New_Starwood_Property_to_submitter</template>
+        </ruleEntry>
+        <ruleEntry>
+            <formula>AND (
+    NOT(ISPICKVAL(LeadSource, &quot;Hilton Diagrams DL&quot;)) 
+)</formula>
+            <senderEmail>marketinginfo@newmarketinc.com</senderEmail>
+            <senderName>Newmarket International</senderName>
+            <template>SalesMarketing/HTML_Web_to_Lead_Response_2013</template>
+        </ruleEntry>
+    </autoResponseRule>
+    <autoResponseRule>
+        <fullName>Web Lead Response</fullName>
+        <active>false</active>
+        <ruleEntry>
+            <senderEmail>salesinfo@newmarketinc.com</senderEmail>
+            <senderName>Sales Info</senderName>
+            <template>SalesMarketing/LeadsWebtoLeademailresponseSAMPLE</template>
+        </ruleEntry>
+    </autoResponseRule>
+</AutoResponseRules>

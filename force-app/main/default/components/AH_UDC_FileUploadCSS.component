@@ -1,0 +1,103 @@
+<apex:component >
+   <style type="text/css">
+      .error-field {
+         border-color: red !important;
+      }
+
+      #divErrorSummary ul {
+         margin-top: 5px;
+      }
+
+      .fieldsetStyle {
+         border: 1px solid;
+         border-radius: 3px 3px;
+         padding: 10px;
+      }
+
+      .buttonStyle {
+         font-family: 'Source Sans Pro';
+         cursor: pointer;
+         background-color: #005eb8;
+         color: white;
+         border: 1px solid #87cefa;
+         border-radius: 3px 3px;
+         height: 30px;
+      }
+
+      .buttonStyle:disabled {
+         background-color: #cccccc;
+         cursor: no-drop;
+      }
+
+      a:link {
+         text-decoration: none;
+      }
+
+      a:visited {
+         text-decoration: none;
+      }
+
+      a.disabled {
+         pointer-events: none;
+         cursor: not-allowed;
+      }
+
+      .deleteLink:hover {
+         text-decoration: underline;
+      }
+
+      .deleteLink:active {
+         text-decoration: underline;
+      }
+
+      .message {
+         /*Make proper alignment of error message div*/
+         margin: 0px;
+         margin-bottom: 10px;
+      }
+
+      .slds-table > tbody > tr:nth-child(odd) > td,
+      .slds-table > tbody > tr:nth-child(odd) > th {
+         background-color: #cfd5ea !important;
+      }
+
+      .slds-table > tbody > tr:nth-child(even) > td,
+      .slds-table > tbody > tr:nth-child(even) > th {
+         background-color: #e9ebf5 !important;
+      }
+
+      .slds-table > tbody td,
+      .slds-table > tbody th {
+         padding-left: 5px;
+      }
+
+      .header-color {
+         background-color: #4472c4 !important;
+         color: white !important;
+      }
+
+      .slds-truncate {
+         display: inline-block;
+      }
+
+      .slds-scope .slds-table .slds-cell-wrap {
+         white-space: initial !important;
+      }
+
+      #file-upload-filename span {
+         font-weight: bold;
+      }
+
+      #file-upload-filename .success {
+         color: green;
+      }
+
+      #file-upload-filename .failed {
+         color: red;
+      }
+
+      #file-upload-filename .uploading {
+         color: blue;
+      }
+   </style>
+</apex:component>

@@ -51,7 +51,7 @@ global with sharing class AH_UDC_REST_SetCommunityUserProfile {
 
          //Update user to profile
          targetUsers[0].ProfileId = oProfile.Id;
-         update targetUsers[0];
+         AH_UDC_Security.UpdateObject(targetUsers[0]);
          AH_UDC_LogHelper.Debug('AH_UDC_REST_SetCommunityUserProfile: Updated User');
 
          //Set the Return code
@@ -61,10 +61,11 @@ global with sharing class AH_UDC_REST_SetCommunityUserProfile {
       }
       catch(Exception e) {
          AH_UDC_LogHelper.Debug('AH_UDC_REST_SetCommunityUserProfile: Exception: ' + e);
-         //TODO: [CRITICAL] ROBDEV Nothing is logged?
+         // Because this method is updating SETUP Sobjects (user's profile) we can't call AH_UDC_LogHelper.Log()
+         // or it will result in a mixed DML oprations error.  Calling program will need to log the exception
 
          resp.statusCode = '500';
-         resp.message = 'Exception Occurred';
+         resp.message = 'Exception Occurred: ' + e.getMessage();
          RestContext.response.responseBody = Blob.valueOf(resp.compileResponse());
       }
       finally {
@@ -79,7 +80,7 @@ global with sharing class AH_UDC_REST_SetCommunityUserProfile {
    }
 
    @TestVisible
-   private class SetCommunityUserProfileResponse {
+   public class SetCommunityUserProfileResponse {
       public String statusCode;
       public String message;
       public String exceptionMessage;

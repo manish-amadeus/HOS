@@ -104,17 +104,7 @@ public class AH_SolutionSearch_Ctlr
         strCaseNumber = ''; 
         
         runningUser = [SELECT Id, ProfileId, IsActive, UserType, FirstName, LastName FROM User WHERE Id =: UserInfo.getUserId()];  
-        
-        
-/*
-        for (Profile p : [SELECT Id FROM Profile WHERE Name IN ('System Administrator', 'NI Support Managers', 'AH Support Managers - Lightning', 'AH Business Systems')])
-        {
-            if (runningUser.ProfileId == p.Id)
-            {
-                isSpecialUser = true;
-            }
-        }
-*/
+
         
     }
 

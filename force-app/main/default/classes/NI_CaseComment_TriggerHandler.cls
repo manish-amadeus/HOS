@@ -15,18 +15,11 @@ public class NI_CaseComment_TriggerHandler
 
 
     public NI_CaseComment_TriggerHandler()
-    {
-		
-        system.debug(' *** ENTERING NI_CaseComment_TriggerHandler CONSTRUCTOR - QUERIES ISSUED = ' + Limits.getQueries());
-        
-        system.debug(' *** EXITING NI_CaseComment_TriggerHandler CONSTRUCTOR - QUERIES ISSUED = ' + Limits.getQueries());
-        
+    {       
     }
     
     public void OnAfterInsert(List<CaseComment> newTrigger)
     { 
-        
-        system.debug(' *** ENTERING NI_CaseComment_TriggerHandler.OnAfterInsert() - QUERIES ISSUED = ' + Limits.getQueries());
 
         if (!NI_FUNCTIONS.bypassTriggerCode('CASECOMMENT')) 
         {
@@ -35,9 +28,7 @@ public class NI_CaseComment_TriggerHandler
             {  
                 List<CaseComment> lstValidCaseComments = new List<CaseComment>();
                 lstValidCaseComments = lstValidCasesCommentsToProcess(newTrigger);
-                
-                system.debug(' **** lstValidCaseComments.size() = ' + lstValidCaseComments.size());
-                
+ 
                 if (lstValidCaseComments.Size() > 0)
                 {
                     setCaseFlag(newTrigger);    
@@ -45,24 +36,12 @@ public class NI_CaseComment_TriggerHandler
             }
             
         }
-        
-        system.debug(' *** EXITING NI_CaseComment_TriggerHandler.OnAfterInsert() - QUERIES ISSUED = ' + Limits.getQueries());
-        
+ 
     }
 
-    public void OnAfterUpdate(List<CaseComment> newTrigger, Map<Id, CaseComment> oldMapTrigger)
-    {
-		
-//        system.debug(' *** ENTERING NI_CaseComment_TriggerHandler.OnAfterUpdate() - QUERIES ISSUED = ' + Limits.getQueries());
-        
-//        if (!NI_FUNCTIONS.bypassTriggerCode('CASECOMMENT')) 
-//        { 
-
-//        }
-        
-//        system.debug(' *** EXITING NI_CaseComment_TriggerHandler.OnAfterUpdate() - QUERIES ISSUED = ' + Limits.getQueries());
-                
-    }
+//    public void OnAfterUpdate(List<CaseComment> newTrigger, Map<Id, CaseComment> oldMapTrigger)
+//    {
+//    }
     
 
     // =========================================================================
@@ -70,9 +49,7 @@ public class NI_CaseComment_TriggerHandler
     // =========================================================================    
     private List<CaseComment> lstValidCasesCommentsToProcess(List<CaseComment> newTrigger)
     {
-		
-        system.debug(' *** ENTERING INTGR_WinSN_Case_Handler.lstValidCasesCommentsToProcess() - QUERIES ISSUED = ' + Limits.getQueries());
-        
+
         // LIST OF VALID CASES TO BE RETURNED 
         List<CaseComment> retLst = new List<CaseComment>();
         
@@ -100,10 +77,6 @@ public class NI_CaseComment_TriggerHandler
         // LOOP THROUGH CASE RECORD TYPES TO ASSIGN IDS TO SET 
         Map<String, Schema.RecordTypeInfo> recordTypesMap = Schema.SObjectType.Case.getRecordTypeInfosByName();
 
-        system.debug(' **** Standard Case Comment');
-        system.debug(' **** recordTypesMap = ' + recordTypesMap);
-        system.debug(' **** lstRecordtypes = ' + lstRecordtypes);
-        
         // SET TO HOLD CASE RECORD TYPE IDS 
         Set<Id> setRecordTypeIds = new Set<Id>();
                 
@@ -136,11 +109,7 @@ public class NI_CaseComment_TriggerHandler
                 retLst.Add(cc);
             }
         }
-        
-        system.debug(' **** retLst = ' + retLst);
-        
-        system.debug(' *** EXITING INTGR_WinSN_Case_Handler.lstValidCasesCommentsToProcess() - QUERIES ISSUED = ' + Limits.getQueries());
-        
+
         return retLst;
         
     } 
@@ -149,9 +118,7 @@ public class NI_CaseComment_TriggerHandler
     {
         
         // METHOD TO SET OR CLEAR CASE FLAGS
-        
-        system.debug(' *** ENTERING NI_CaseComment_TriggerHandler.setCaseFlag() - QUERIES ISSUED = ' + Limits.getQueries());
-        
+
         // METHOD VARIABLES
         Set<Id> caseIdToClear = new Set<Id>();
         List<Case> caseListToClear = new List<Case>();
@@ -189,9 +156,7 @@ public class NI_CaseComment_TriggerHandler
         {
             for (CaseComment csCmnt : newTrigger)
             {
-                if (csCmnt.ParentId != null && 
-                    String.valueOf(csCmnt.ParentId).startsWith('500') && 
-                    csCmnt.IsPublished == true)
+                if (csCmnt.ParentId != null && String.valueOf(csCmnt.ParentId).startsWith('500') && csCmnt.IsPublished == true)
                 {
                     userIds.add(csCmnt.CreatedById);
                 }
@@ -210,7 +175,7 @@ public class NI_CaseComment_TriggerHandler
                 // CHECK THE CREATED BY OF CASE COMMENT
                 if (csCmnt.CreatedById != null)
                 {
-                    system.debug(' **** created by ' + users);
+
                     User u = new User();
                     u = users.get(csCmnt.CreatedById);
                     
@@ -224,7 +189,7 @@ public class NI_CaseComment_TriggerHandler
                         else 
                         {
                             // IF USER IS OF STANDARD LICENSE TYPE, CLEAR FLAG
-                            if((u.UserType == 'Standard' || (!usrIds.contains(u.Id)) || (!selfServiceUsers.containsKey(csCmnt.CreatedById))))
+                            if ((u.UserType == 'Standard' || (!usrIds.contains(u.Id)) || (!selfServiceUsers.containsKey(csCmnt.CreatedById))))
                             {
                                 caseIdToClear.add(csCmnt.ParentId);
                             }
@@ -245,9 +210,7 @@ public class NI_CaseComment_TriggerHandler
                                    WHERE Id IN : caseIdToClear 
                                    AND AH_Case_Flagged_Date__c != null
                                    AND Status != 'New'];
-            
-                system.debug(' **** caseListToClear.size() = ' + caseListToClear.size()); 
-                
+
                 caseHandler.clearCaseFlagRelatedData(caseListToClear, true, 'Internal Comment Added');
                 
             }
@@ -264,16 +227,12 @@ public class NI_CaseComment_TriggerHandler
                                  FROM Case 
                                  WHERE Id IN : caseIdToSet 
                                  AND AH_Case_Flagged_Date__c = null]; // ADD THIS PER NICC-027588
-            
-                system.debug(' **** caseListToSet.size() = ' + caseListToSet.size()); 
-                
+  
                 caseHandler.setCaseFlagRelatedData(caseListToSet, true, 'External Comment Added');
                 
             }
         }
-        
-        system.debug(' *** EXITING NI_CaseComment_TriggerHandler.setCaseFlag() - QUERIES ISSUED = ' + Limits.getQueries());
-        
+
     }    
 
 }

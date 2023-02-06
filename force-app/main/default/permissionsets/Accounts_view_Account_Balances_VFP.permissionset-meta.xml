@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PermissionSet xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>created for Jannalee Muise - ticket 139562</description>
+    <hasActivationRequired>false</hasActivationRequired>
+    <label>Accounts - view Account Balances VFP</label>
+    <pageAccesses>
+        <apexPage>c2g__codaaccountbalance</apexPage>
+        <enabled>true</enabled>
+    </pageAccesses>
+    <pageAccesses>
+        <apexPage>c2g__codaaccountbalancereportnotfound</apexPage>
+        <enabled>true</enabled>
+    </pageAccesses>
+</PermissionSet>

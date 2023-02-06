@@ -4,7 +4,7 @@
 Name            : INTGR_ContentDocLink_TriggerHandler Class
 Author          : Princy Jain
 Created Date    : 03/04/2018
-Last Mod Date   : 07/29/2019
+Last Mod Date   : 03/01/2022
 Last Mod By     : Sean Harris
 NICC Reference  : 
 Description     : Trigger Handler Class for the ContentDocumentLink Object
@@ -14,18 +14,43 @@ public class INTGR_ContentDocLink_TriggerHandler
 {
     
     private NI_TriggerBypassSwitches__c bpSwitch {get; set;}
-        
+    
+    
     public INTGR_ContentDocLink_TriggerHandler()
     {
         // GET TRIGGER HANDLER BYPASS SWITCH VALUE
         bpSwitch = NI_TriggerBypassSwitches__c.getOrgDefaults();         
     }
     
+    public void OnBeforeInsert(List<ContentDocumentLink> newTrigger)
+    {
+        
+        system.debug(' ***** INTGR_ContentDocLink_TriggerHandler.OnBeforeInsert START');
+        
+        for (ContentDocumentLink cdl : newTrigger) 
+        {
+            // CASE FILE VISIBILITY IN CUSTOMER CENTRAL EXPERIENCE 
+            // IF RUNNING USER IS Integration User THEN SET FILE VISIBILITY TO AllUsers
+            if ((UserInfo.getUserId() == '00560000000yI7jAAE') || (Test.isRunningTest() && UserInfo.getUserName() == 'test_integration_user@xxxxxxx.com'))
+            {
+                String objName = cdl.LinkedEntityId.getSObjectType().getDescribe().getName();
+                if (objName == 'User' || objName == 'Case' || objName == 'EmailMessage')
+                { 
+                    cdl.Visibility = 'AllUsers';
+                }  
+            } 
+        }
+
+        system.debug(' ***** INTGR_ContentDocLink_TriggerHandler.OnBeforeInsert END');
+        
+    }
+    
     public void OnAfterInsert(List<ContentDocumentLink> newTrigger) 
     {
         
-        system.debug(' *** ENTERING INTGR_ContentDocLink_TriggerHandler.OnAfterInsert() - QUERIES ISSUED = ' + Limits.getQueries());
-        
+        system.debug(' ***** INTGR_ContentDocLink_TriggerHandler.OnAfterInsert START');
+
+        setInvoiceVisibility(newTrigger);
         processAfterConDocInsert(newTrigger);
         
         if (!bpSwitch.Bypass_Winaproach_ON__c)
@@ -37,8 +62,8 @@ public class INTGR_ContentDocLink_TriggerHandler
                 INTGR_IHG_ProcessFiles(lstFiles);
             }  
         }        
-        
-        system.debug(' *** EXITING INTGR_ContentDocLink_TriggerHandler.OnAfterInsert() - QUERIES ISSUED = ' + Limits.getQueries());
+
+        system.debug(' ***** INTGR_ContentDocLink_TriggerHandler.OnAfterInsert END');
         
     }
     
@@ -49,7 +74,7 @@ public class INTGR_ContentDocLink_TriggerHandler
     private List<ContentDocumentLink> lstValidFilesToProcess(List<ContentDocumentLink> newTrigger)
     {
 		
-        system.debug(' *** ENTERING INTGR_ContentDocLink_TriggerHandler.lstValidFilesToProcess() - QUERIES ISSUED = ' + Limits.getQueries());
+        system.debug(' ***** ENTERING INTGR_ContentDocLink_TriggerHandler.lstValidFilesToProcess() - QUERIES ISSUED = ' + Limits.getQueries());
         
         // LIST OF VALID FILES TO BE RETURNED 
         List<ContentDocumentLink> retLst = new List<ContentDocumentLink>();
@@ -89,7 +114,7 @@ public class INTGR_ContentDocLink_TriggerHandler
                 setRecordTypeIds.Add(rr.getRecordTypeId());
             }
         }
-//system.debug('*^* setRecordTypeIds = ' + setRecordTypeIds);          
+         
         // GET RELATED CASE IDS
         Set<Id> setParentCaseIds = new Set<Id>();
         for (ContentDocumentLink cdlCase : newTrigger)
@@ -97,8 +122,7 @@ public class INTGR_ContentDocLink_TriggerHandler
             if (cdlCase.LinkedEntityId != null)
             {
                 String strPrefix = String.valueOf(cdlCase.LinkedEntityId).substring(0, 3);
-//system.debug('*^* strPrefix = ' + strPrefix);            
-                //if (cdlCase.LinkedEntity.Type == 'Case')
+
                 if (strPrefix == '500')
                 {
                     setParentCaseIds.add(cdlCase.LinkedEntityId);
@@ -106,17 +130,13 @@ public class INTGR_ContentDocLink_TriggerHandler
             }
         }
         
-//system.debug('*^* setParentCaseIds = ' + setParentCaseIds);  
-        
         // FILL A MAP OF RELATED CASES
         Map<Id, Id> mapCaseId2RecTypeId = new Map<Id, Id>();
         for (Case cs : [SELECT Id, RecordTypeId FROM Case WHERE Id IN : setParentCaseIds])
         {
             mapCaseId2RecTypeId.put(cs.Id, cs.RecordTypeId);
         }
-        
-//system.debug('*^* mapCaseId2RecTypeId = ' + mapCaseId2RecTypeId); 
-        
+
         // LOOP THROUGH TRIGGER LOOKING FOR DOCUMENTS RELATED TO CASES WITH VALID IHG INTEGRATION TYPES
         for (ContentDocumentLink cdl : newTrigger)
         { 
@@ -125,9 +145,7 @@ public class INTGR_ContentDocLink_TriggerHandler
                 retLst.Add(cdl);
             }
         }
-        
-//system.debug('*^* retLst = ' + retLst);        
-        
+
         system.debug(' *** EXITING INTGR_ContentDocLink_TriggerHandler.lstValidFilesToProcess() - QUERIES ISSUED = ' + Limits.getQueries());
         
         return retLst;
@@ -385,5 +403,47 @@ public class INTGR_ContentDocLink_TriggerHandler
         system.debug(' *** EXITING INTGR_ContentDocLink_TriggerHandler.INTGR_IHG_ProcessFiles() - QUERIES ISSUED = ' + Limits.getQueries());
         
     }   
-    
+
+    private void setInvoiceVisibility(List<ContentDocumentLink> newTrigger)
+    {
+        
+        // FILL MAP OF Sales Invoice IDs to ContentDocumentLink RECORD
+        Map<Id, ContentDocumentLink> mapSinId2CDL = new Map<Id, ContentDocumentLink>(); 
+        for (ContentDocumentLink cdl : newTrigger) 
+        { 
+            if (cdl.LinkedEntityId.getSObjectType().getDescribe().getName() == 'c2g__codaInvoice__c') 
+            { 
+                mapSinId2CDL.put(cdl.LinkedEntityId, cdl);
+            } 
+        } 
+      
+        // RETURN IF NO Sales Invoice RELATED FILE(S) AS FOUND
+        if (mapSinId2CDL.isEmpty()) { return; }
+        
+        // FILL LIST OF NEW ContentDocumentLink TO LINK RELATED Billing Contract RECORDS TO FILE
+        List<ContentDocumentLink> lstCDLInserts = new List<ContentDocumentLink>();    
+        for (c2g__codaInvoice__c sin : [SELECT Id, Billing_Contract__c 
+                                        FROM c2g__codaInvoice__c 
+                                        WHERE Billing_Contract__c != null 
+                                        AND Id IN : mapSinId2CDL.keySet()])
+        { 
+            ContentDocumentLink lnk = new ContentDocumentLink();
+            lnk.LinkedEntityId = sin.Billing_Contract__c;
+            lnk.ContentDocumentId = mapSinId2CDL.get(sin.Id).ContentDocumentId;
+            lnk.Visibility  = mapSinId2CDL.get(sin.Id).Visibility;
+            lnk.ShareType = mapSinId2CDL.get(sin.Id).ShareType;
+            lstCDLInserts.add(lnk);
+        } 
+      
+        if (!lstCDLInserts.isEmpty())
+        {
+            try
+            {
+                database.upsert(lstCDLInserts, false);
+            }
+            catch (Exception ex) {}
+        }
+        
+    }
+
 }

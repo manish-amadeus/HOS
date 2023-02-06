@@ -9,7 +9,7 @@ Description     :
                 : 
                 : 
 ******************************************************************************************/
-@isTest //(SeeAllData=true)
+@isTest 
 public class NI_PerformanceReview_TriggerHandler_Test
 {
     

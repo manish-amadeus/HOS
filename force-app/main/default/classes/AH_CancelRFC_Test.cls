@@ -29,6 +29,7 @@ public class AH_CancelRFC_Test
         nicc.Request_Details__c = 'Test request details.';
         nicc.Change_Type__c = 'Add Field History Tracking';
 		nicc.Functional_Area__c = 'Sales';
+        nicc.RecordTypeId = Schema.SObjectType.NI_Change_Control__c.getRecordTypeInfosByName().get('Hosted RFC').getRecordTypeId();
         insert nicc;
         
     }

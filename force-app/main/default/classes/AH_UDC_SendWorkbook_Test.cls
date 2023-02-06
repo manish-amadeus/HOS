@@ -1,30 +1,55 @@
 /***********************************************************************************************
-  Name            : AH_UDC_SendWorkbook
+  Name            : AH_UDC_SendWorkbook_TEST
   Author          : Umang Ankleshwaria
   Created Date    : 29-Jan-2020
   Last Mod Date   : 08-Feb-2020
   Last Mod By     : Umang Ankleshwaria
-  NICC Reference  : 
   Description     : Test class for Send Workbook page of UDC 
-  Change History  :
-  1. 590043 - Refactoring Code - Changed by Umang Ankleshwaria on 8-Feb-2021
-  2. 594855 - Refactoring Code - Changed by Tushar Gupta on 23-Feb-2021
  ************************************************************************************************/
 @isTest
-public class AH_UDC_SendWorkbook_Test {
-   public static final Integer TotalStepRecords = 200;
-   public static final Integer TotalFormRecords = 15;
-   public static final Integer TotalFormResponseQARecords = 6000; //Create more than s4K records to test with new copy option
+public class AH_UDC_SendWorkbook_TEST {
+   private static final String TEST_ACCOUNT_NAME_1 = 'Test Account 1';
+   private static final String TEST_ACCOUNT_NAME_2 = 'Test Account 2';
+   private static final String TEST_FORM_BASE_NAME = 'Test Form';
+
+   //All following constants will have a value by considering single workbook
+   //For ex. single workbook will have total 10 (TOTAL_STEP_RECORDS) number of steps
+   private static final Integer TOTAL_STEP_RECORDS = 10;
+   private static final Integer TOTAL_FORMS = 8;
+   private static final Integer TOTAL_PRODUCT_FORMS = 4;
+   private static final Integer TOTAL_PRODUCT_FORMS_WITH_COPY_RESPONSE_TRUE = 1;
+   private static final Integer TOTAL_CENTRAL_FORMS = 2;
+   private static final Integer TOTAL_SHARED_FORMS = 2;
+   private static final Integer TOTAL_RESPONSE_RECORDS = 8;
+   private static final Integer TOTAL_RESPONSE_QA_RECORDS_PER_RESPONSE = 5;
 
    @TestSetup private static void setup() {
       AH_UDC_InitializationHelper.Initialize('ConfigurationSettings');
 
-      List<Account> lstAccounts = new List<Account>();
-      lstAccounts.add(AH_UDC_TestData.GetAccountObject('Test Account 1'));
-      lstAccounts.add(AH_UDC_TestData.GetAccountObject('Test Account 2'));
+      List<User> listUsers = new List<User> ();
+      listUsers.add(AH_UDC_TestData.BuildUser(AH_UDC_Constants.PROFILE_DEFAULT_NAME_PSA_SF_LIGHTNING,
+                                    AH_UDC_Constants.PERMISSIONSET_DEFAULT_NAME_UDC_WORKBOOK_ADMIN,
+                                    'swWorkbookAdmin', null, false));
+      listUsers.add(AH_UDC_TestData.BuildUser(AH_UDC_Constants.PROFILE_DEFAULT_NAME_PSA_SF_LIGHTNING,
+                                    AH_UDC_Constants.PERMISSIONSET_DEFAULT_NAME_UDC_WORKBOOK_USER,
+                                    'swWorkbookUser', null, false));
+
+      User oCurrentUser = [SELECT Id FROM User WHERE Id = :UserInfo.getUserId()];
+      oCurrentUser.ContactId = null;
+
+      System.runAs(oCurrentUser) {
+         AH_UDC_TestData.InsertWithRetries(listUsers);
+
+         AH_UDC_TestData.AddPermissionSetToUser(AH_UDC_Constants.PERMISSIONSET_DEFAULT_NAME_UDC_WORKBOOK_ADMIN, listUsers[0].Id);
+         AH_UDC_TestData.AddPermissionSetToUser(AH_UDC_Constants.PERMISSIONSET_DEFAULT_NAME_UDC_WORKBOOK_USER, listUsers[1].Id);
+      }
+
+      List<Account> lstAccounts = new List<Account> ();
+      lstAccounts.add(AH_UDC_TestData.GetAccountObject(TEST_ACCOUNT_NAME_1));
+      lstAccounts.add(AH_UDC_TestData.GetAccountObject(TEST_ACCOUNT_NAME_2));
       insert lstAccounts;
 
-      List<Contact> lstContacts = new List<Contact>();
+      List<Contact> lstContacts = new List<Contact> ();
       Contact objContactOne = AH_UDC_TestData.GetContactObject(lstAccounts[0].Id, 'Test', 'Contact1', 'US', 'Portsmouth', '03801', 'NH', '75 New Hampshire Ave');
       objContactOne.Status__c = 'Active';
       objContactOne.Email = 'contact1@test.com';
@@ -37,175 +62,218 @@ public class AH_UDC_SendWorkbook_Test {
 
       Contact objContactWithoutEmail = AH_UDC_TestData.GetContactObject(lstAccounts[0].Id, 'Test2', 'Contact', 'US', 'Portsmouth', '03801', 'NH', '75 New Hampshire Ave');
       objContactWithoutEmail.Status__c = 'Active';
-      lstContacts.add(objContactWithoutEmail); 
+      lstContacts.add(objContactWithoutEmail);
       insert lstContacts;
 
-      List<Profile> lstProfiles = new List<Profile>([SELECT Id FROM Profile WHERE Name = 'AH Customer Community Plus Login User']);
-      System.assert(lstProfiles.size() > 0, 'Profile record not found - AH Customer Community Plus Login User');
+      pse__Region__c objRegion = new pse__Region__c(
+         Name = 'Amadeus Hospitality'
+      );
+      insert objRegion;
 
-      AH_UDC_PropertyAccount__c objPropertyAccount = AH_UDC_TestData.GetPropertyObject('Test Property Account', 'Portsmouth', 'US', '03801', 'NH', '75 New Hampshire Ave', '3410 Via Mercato, St 105', 'St 104', '1 Portsmouth Ave.');
-      objPropertyAccount.Account__c = lstAccounts[0].Id;
-      insert objPropertyAccount;
+      Id recordTypeStandardProject = Schema.SObjectType.pse__Proj__c.getRecordTypeInfosByDeveloperName().get(AH_UDC_Constants.RECORD_TYPE_PROJECT_STANDARD_PROJECT).getRecordTypeId();
+      System.assert(String.isNotBlank(recordTypeStandardProject), 'RecordType Id ' + AH_UDC_Constants.RECORD_TYPE_PROJECT_STANDARD_PROJECT + ' not found');
 
-      List<AH_UDC_Form__c> lstForms = new List<AH_UDC_Form__c>();
-      for(Integer i = 1; i <= TotalFormRecords; i++) {
-         //Generate 7 digits form assembly Id
-         Integer intFormAssemblyId = (Integer) Math.round(Math.random() * (9000000) + 1000000);
-         AH_UDC_Form__c objForm = new AH_UDC_Form__c();
-         objForm.Name = 'Test Form' + i;
-         objForm.FormAssemblyId__c = String.valueOf(intFormAssemblyId);
-         if(i <= 5) objForm.FormType__c = AH_UDC_Constants.FORM_TYPE_PRODUCT; //Create 5 forms of Product type
-         else if(i > 5 && i <= 10) objForm.FormType__c = AH_UDC_Constants.FORM_TYPE_SHARED; //Create 5 forms of Shared type
-         else objForm.FormType__c = AH_UDC_Constants.FORM_TYPE_CENTRAL; //Create 5 forms of Central type
-         lstForms.add(objForm);
-      }
-      insert lstForms;
-
-      //Create workbook record for new option
-      AH_UDC_Workbook__c objWorkbook = AH_UDC_TestData.GetWorkbookObjectWithoutDocId('Test Workbook 1', 'Test Workbook 1 Description', 'Central Sales');
-      objWorkbook.Enabled__c = true;
-      insert objWorkbook;
-
-      //Create steps record for the workbook
-      CreateStepsAndResponseData(objWorkbook.Id, lstForms, false);
-
-      NI_Documentation__c objNIDoc = AH_UDC_TestData.GetNIDocObject('Test NI Document', Date.today().addMonths(1));
-      objNIDoc.AH_UDC_PropertyAccount__c = objPropertyAccount.Id;
-      insert objNIDoc;
-
-      Id workbookRecordTypeId = Schema.SObjectType.AH_UDC_Workbook__c.getRecordTypeInfosByDeveloperName().get(AH_UDC_Constants.RECORD_TYPE_WORKBOOK).getRecordTypeId();
-      System.assert(String.isNotBlank(String.valueOf(workbookRecordTypeId)), 'Record Type not found - ' + AH_UDC_Constants.RECORD_TYPE_WORKBOOK);
-
-      //Create workbook sent record for copy option
-      AH_UDC_Workbook__c objWorkbookSent = AH_UDC_TestData.GetWorkbookObject(objNIDoc.Id, 'Test Sent Workbook 1', 'Test Sent Workbook 1 Description', 'Central Sales');
-      insert objWorkbookSent;
-
-      //Create steps record for the workbook
-      CreateStepsAndResponseData(objWorkbookSent.Id, lstForms, true);
-
-      //Create Workbook Admin and Workbook User records
-      CreateWBAdminAndWBUserRecords();
+      pse__Proj__c objProject = new pse__Proj__c(
+                                    RecordTypeId = recordTypeStandardProject,
+                                    Name = 'Test Project',
+                                    pse__Region__c = objRegion.Id,
+                                    pse__Account__c = lstAccounts[0].Id,
+                                    Customer_Project_Contact__c = objContactOne.Id
+                                 );
+      insert objProject;
    }
 
    //This method will create steps, responses and responses QA records for provided workbook
-   private static void CreateStepsAndResponseData(Id WorkbookId, List<AH_UDC_Form__c> lstForms, Boolean FlagCreateSentRecord) {
-      Id workbookStepRecordTypeId = Schema.SObjectType.AH_UDC_WorkbookStep__c.getRecordTypeInfosByDeveloperName().get(AH_UDC_Constants.RECORD_TYPE_WORKBOOK_STEP).getRecordTypeId();
-      System.assert(String.isNotBlank(String.valueOf(workbookStepRecordTypeId)), 'Record Type not found - ' + AH_UDC_Constants.RECORD_TYPE_WORKBOOK_STEP);
+   private static void CreateWorkbookStepRecords(Id WorkbookId, Boolean IsWorkbookSentRecord) {
+      Id FormAssemblyFormRecordTypeId = Schema.SObjectType.AH_UDC_Form__c.getRecordTypeInfosByDeveloperName().get(AH_UDC_Constants.RECORD_TYPE_FORM_FORM_ASSEMBLY).getRecordTypeId();
+      System.assert(String.isNotBlank(String.valueOf(FormAssemblyFormRecordTypeId)), 'Record Type not found - ' + AH_UDC_Constants.RECORD_TYPE_FORM_FORM_ASSEMBLY);
 
-      List<AH_UDC_WorkbookStep__c> lstWorkbookSteps = new List<AH_UDC_WorkbookStep__c>();
-      for(Integer i = 1; i <= TotalStepRecords; i++) {
-         AH_UDC_WorkbookStep__c objWorkbookStep = AH_UDC_TestData.GetWorkbookStepObject(WorkbookId, 'Test Step ' + i);
-         if(FlagCreateSentRecord == false) {
-            //If not creating sent record type then change workbook step record type
-            objWorkbookStep.RecordTypeId = workbookStepRecordTypeId;
-         }
+      Id AmadeusFormRecordTypeId = Schema.SObjectType.AH_UDC_Form__c.getRecordTypeInfosByDeveloperName().get(AH_UDC_Constants.RECORD_TYPE_FORM_AMADEUS_FORM).getRecordTypeId();
+      System.assert(String.isNotBlank(String.valueOf(AmadeusFormRecordTypeId)), 'Record Type not found - ' + AH_UDC_Constants.RECORD_TYPE_FORM_AMADEUS_FORM);
 
-         if(i <= TotalFormRecords) {
-            objWorkbookStep.Form__c = lstForms[i - 1].Id;
-         }
-         else {
-            objWorkbookStep.URL__c = 'https://www.amadeus.com/' + i;
-         }
+      Id FileUploadFormRecordTypeId = Schema.SObjectType.AH_UDC_Form__c.getRecordTypeInfosByDeveloperName().get(AH_UDC_Constants.RECORD_TYPE_FORM_AMADEUS_FILE_UPLOAD).getRecordTypeId();
+      System.assert(String.isNotBlank(String.valueOf(FileUploadFormRecordTypeId)), 'Record Type not found - ' + AH_UDC_Constants.RECORD_TYPE_FORM_AMADEUS_FILE_UPLOAD);
 
-         objWorkbookStep.SortOrder__c = i;
-         lstWorkbookSteps.add(objWorkbookStep);
-      }
-      insert lstWorkbookSteps;
+      List<AH_UDC_Form__c> lstForms = new List<AH_UDC_Form__c> ();
+      for (Integer i = 1; i <= TOTAL_FORMS; i++) {
+         AH_UDC_Form__c objForm = new AH_UDC_Form__c();
+         objForm.Name = TEST_FORM_BASE_NAME + i;
+         if(i <= TOTAL_PRODUCT_FORMS) {
+            objForm.FormType__c = AH_UDC_Constants.FORM_TYPE_PRODUCT;
+            objForm.CopyResponseWhenSendingNew__c = false;
+            if(i == TOTAL_PRODUCT_FORMS) {
+               //Create last form of file upload
+               objForm.RecordTypeId = FileUploadFormRecordTypeId;
+            }
+            else {
+               objForm.RecordTypeId = FormAssemblyFormRecordTypeId;
+               //Generate 7 digits form assembly Id
+               Integer intFormAssemblyId = (Integer) Math.round(Math.random() * (9000000) + 1000000);
+               objForm.FormAssemblyId__c = String.valueOf(intFormAssemblyId);
 
-      //Set prerequisite steps for some of the steps
-      lstWorkbookSteps[50].Prerequisite_Step__c = lstWorkbookSteps[5].Id;
-      lstWorkbookSteps[60].Prerequisite_Step__c = lstWorkbookSteps[6].Id;
-      lstWorkbookSteps[70].Prerequisite_Step__c = lstWorkbookSteps[7].Id;
-      lstWorkbookSteps[80].Prerequisite_Step__c = lstWorkbookSteps[8].Id;
-      lstWorkbookSteps[90].Prerequisite_Step__c = lstWorkbookSteps[9].Id;
-      update lstWorkbookSteps;
-
-      if(FlagCreateSentRecord) { //If creating workbook step sent records then create responses and response QA record for them
-         Id responseRecordTypeId = Schema.SObjectType.AH_UDC_Response__c.getRecordTypeInfosByDeveloperName().get(AH_UDC_Constants.RECORD_TYPE_RESPONSE_FORM_ASSEMBLY).getRecordTypeId();
-         System.assert(String.isNotBlank(String.valueOf(responseRecordTypeId)), 'Record Type not found - ' + AH_UDC_Constants.RECORD_TYPE_RESPONSE_FORM_ASSEMBLY);
-
-         List<AH_UDC_Response__c> lstWorkbookStepResponses = new List<AH_UDC_Response__c>();
-         for(Integer i = 0; i < TotalFormRecords; i++) { //Create responses only for 30 steps so it will not hit 101 while copying responses
-            AH_UDC_Response__c objWorkbookStepResponse = AH_UDC_TestData.GetStepResponseObject(lstWorkbookSteps[i].Id);
-            objWorkbookStepResponse.RecordTypeId = responseRecordTypeId;
-            lstWorkbookStepResponses.add(objWorkbookStepResponse);
-         }
-         AH_UDC_LogHelper.Debug('CreateFormResponseForAllSteps : lstWorkbookStepResponses.size(): ' + lstWorkbookStepResponses.size());
-         insert lstWorkbookStepResponses;
-
-         Id responseQARecordTypeId = Schema.SObjectType.AH_UDC_ResponseQA__c.getRecordTypeInfosByDeveloperName().get(AH_UDC_Constants.RECORD_TYPE_RESPONSE_QA_FORM_ASSEMBLY).getRecordTypeId();
-         System.assert(String.isNotBlank(String.valueOf(responseQARecordTypeId)), 'Record Type not found - ' + AH_UDC_Constants.RECORD_TYPE_RESPONSE_QA_FORM_ASSEMBLY);
-
-         List<AH_UDC_ResponseQA__c> lstWorkbookStepResponseQA = new List<AH_UDC_ResponseQA__c>();
-         Integer index = 1;
-         for(AH_UDC_Response__c objResponse : lstWorkbookStepResponses) { 
-            if(index > TotalFormResponseQARecords) break;  
-            for(Integer i = 1; i <= 400; i++) { //Create 400 RepsonseQA records per step to create 6K records
-               AH_UDC_ResponseQA__c objWorkbookStepResponseQA = AH_UDC_TestData.GetStepResponseQAObject(objResponse.Id, 'Test Question ' + index, 'Test Question Field ' + index, 'Test Answer ' + index, 'Test Answer Field ' + index);
-               objWorkbookStepResponseQA.RecordTypeId = responseQARecordTypeId;
-               lstWorkbookStepResponseQA.add(objWorkbookStepResponseQA);
-               index++;
-               if(index > TotalFormResponseQARecords) break;
+               if(i == TOTAL_PRODUCT_FORMS_WITH_COPY_RESPONSE_TRUE) {
+                  //Allow copying data of product form
+                  objForm.CopyResponseWhenSendingNew__c = true;
+               }
             }
          }
-         AH_UDC_LogHelper.Debug('CreateFormResponseForAllSteps : lstWorkbookStepResponseQA.size(): ' + lstWorkbookStepResponseQA.size());
-         insert lstWorkbookStepResponseQA;
+         else if(i <= (TOTAL_PRODUCT_FORMS + TOTAL_CENTRAL_FORMS)) {
+            objForm.RecordTypeId = AmadeusFormRecordTypeId;
+            objForm.FormType__c = AH_UDC_Constants.FORM_TYPE_CENTRAL;
+         }
+         else if(i <= (TOTAL_PRODUCT_FORMS + TOTAL_CENTRAL_FORMS + TOTAL_SHARED_FORMS)) {
+            objForm.RecordTypeId = AmadeusFormRecordTypeId;
+            objForm.FormType__c = AH_UDC_Constants.FORM_TYPE_SHARED;
+         }
+         lstForms.add(objForm);
       }
+      //AH_UDC_LogHelper.Debug('CreateWorkbookStepRecords => lstForms: ' + lstForms);
+      insert lstForms;
+
+      Id WorkbookStepRecordTypeId = Schema.SObjectType.AH_UDC_WorkbookStep__c.getRecordTypeInfosByDeveloperName().get(AH_UDC_Constants.RECORD_TYPE_WORKBOOK_STEP).getRecordTypeId();
+      System.assert(String.isNotBlank(String.valueOf(WorkbookStepRecordTypeId)), 'Record Type not found - ' + AH_UDC_Constants.RECORD_TYPE_WORKBOOK_STEP);
+
+      List<AH_UDC_WorkbookStep__c> lstWorkbookSteps = new List<AH_UDC_WorkbookStep__c> ();
+      for (Integer i = 1; i <= TOTAL_STEP_RECORDS; i++) {
+         AH_UDC_WorkbookStep__c objWorkbookStep = AH_UDC_TestData.GetWorkbookStepObject(WorkbookId, 'Test Step ' + i);
+         objWorkbookStep.SortOrder__c = i;
+         if (IsWorkbookSentRecord == false) {
+            //If not creating sent record type then change workbook step record type
+            objWorkbookStep.RecordTypeId = WorkbookStepRecordTypeId;
+         }
+
+         if (i <= TOTAL_FORMS) objWorkbookStep.Form__c = lstForms[i - 1].Id;
+         else objWorkbookStep.URL__c = 'https://www.amadeus.com/' + i;
+         lstWorkbookSteps.add(objWorkbookStep);
+      }
+      //AH_UDC_LogHelper.Debug('CreateWorkbookStepRecords => lstWorkbookSteps: ' + lstWorkbookSteps);
+      insert lstWorkbookSteps;
+
+      //Set prerequisite steps for one of the step
+      lstWorkbookSteps[3].Prerequisite_Step__c = lstWorkbookSteps[1].Id;
+      update lstWorkbookSteps;
    }
 
-   //This method will create user records and will assign permission set to them
-   //Created future method to prevent the error - Mixed DML Operations
-   @Future
-   private static void CreateWBAdminAndWBUserRecords() {
-      //Get ProfileId for Workbook Admin and Workbook User
-      List<Profile> lstProfiles = new List<Profile>([SELECT Id FROM Profile WHERE Name = :AH_UDC_Constants.PROFILE_DEFAULT_NAME_PSA_SF_LIGHTNING]);
-      System.assert(lstProfiles.size() > 0, 'Could not get profile record of \'' + AH_UDC_Constants.PROFILE_DEFAULT_NAME_PSA_SF_LIGHTNING + '\'');
+   private static void CreateResponseAndResponseQARecords(Id WorkbookId) {
+      Id WorkbookStepSentRecordTypeId = Schema.SObjectType.AH_UDC_WorkbookStep__c.getRecordTypeInfosByDeveloperName().get(AH_UDC_Constants.RECORD_TYPE_WORKBOOK_STEP_SENT).getRecordTypeId();
+      System.assert(String.isNotBlank(String.valueOf(WorkbookStepSentRecordTypeId)), 'Record Type not found - ' + AH_UDC_Constants.RECORD_TYPE_WORKBOOK_STEP_SENT);
 
-      //Insert Workbook Admin user
-      User objWorkbookAdmin = AH_UDC_TestData.GetUserObject(null, lstProfiles[0].Id, 'Workbook', 'Admin', 'Mr.', 'admin@workbook.com', 'admin@workbook.com.ahcc');
-      objWorkbookAdmin.No_AD_Account_Standard_User__c = true;
-      insert objWorkbookAdmin;
+      List<AH_UDC_WorkbookStep__c> lstWorkbookSteps = [SELECT Id, Form__r.RecordTypeId
+                                                      FROM AH_UDC_WorkbookStep__c
+                                                      WHERE Workbook__c = :WorkbookId
+                                                      AND RecordTypeId = :WorkbookStepSentRecordTypeId];
+      //AH_UDC_LogHelper.Debug('CreateResponseAndResponseQARecords => lstWorkbookSteps: ' + lstWorkbookSteps);
+      System.assert(lstWorkbookSteps.size() > 0, 'Workbook step sent records not found');
 
-      List<PermissionSet> lstPermissionSets = new List<PermissionSet> ([SELECT Id FROM PermissionSet
-                                                                        WHERE Name = :AH_UDC_Constants.PERMISSIONSET_DEFAULT_NAME_UDC_WORKBOOK_ADMIN]);
-      System.assert(lstPermissionSets.size() > 0, 'Could not get Permission Set Id of ' + AH_UDC_Constants.PERMISSIONSET_DEFAULT_NAME_UDC_WORKBOOK_ADMIN);
+      Id FormAssemblyFormRecordTypeId = Schema.SObjectType.AH_UDC_Form__c.getRecordTypeInfosByDeveloperName().get(AH_UDC_Constants.RECORD_TYPE_FORM_FORM_ASSEMBLY).getRecordTypeId();
+      System.assert(String.isNotBlank(String.valueOf(FormAssemblyFormRecordTypeId)), 'Record Type not found - ' + AH_UDC_Constants.RECORD_TYPE_FORM_FORM_ASSEMBLY);
 
-      //Assign Workbook Admin permission set to the user
-      PermissionSetAssignment objPermissionSetAssignment = new PermissionSetAssignment (PermissionSetId = lstPermissionSets[0].Id, AssigneeId = objWorkbookAdmin.Id);
-      insert objPermissionSetAssignment;
+      Id AmadeusFormRecordTypeId = Schema.SObjectType.AH_UDC_Form__c.getRecordTypeInfosByDeveloperName().get(AH_UDC_Constants.RECORD_TYPE_FORM_AMADEUS_FORM).getRecordTypeId();
+      System.assert(String.isNotBlank(String.valueOf(AmadeusFormRecordTypeId)), 'Record Type not found - ' + AH_UDC_Constants.RECORD_TYPE_FORM_AMADEUS_FORM);
 
-      //Insert Workbook User
-      User objWorkbookUser = AH_UDC_TestData.GetUserObject(null, lstProfiles[0].Id, 'Workbook', 'User', 'Mr.', 'user@workbook.com', 'user@workbook.com.ahcc');
-      objWorkbookUser.No_AD_Account_Standard_User__c = true;
-      insert objWorkbookUser;
+      Id FileUploadFormRecordTypeId = Schema.SObjectType.AH_UDC_Form__c.getRecordTypeInfosByDeveloperName().get(AH_UDC_Constants.RECORD_TYPE_FORM_AMADEUS_FILE_UPLOAD).getRecordTypeId();
+      System.assert(String.isNotBlank(String.valueOf(FileUploadFormRecordTypeId)), 'Record Type not found - ' + AH_UDC_Constants.RECORD_TYPE_FORM_AMADEUS_FILE_UPLOAD);
 
-      lstPermissionSets = new List<PermissionSet> ([SELECT Id FROM PermissionSet
-                                                   WHERE Name = :AH_UDC_Constants.PERMISSIONSET_DEFAULT_NAME_UDC_WORKBOOK_USER]);
-      System.assert(lstPermissionSets.size() > 0, 'Could not get Permission Set Id of ' + AH_UDC_Constants.PERMISSIONSET_DEFAULT_NAME_UDC_WORKBOOK_USER);
+      Id FormAssemblyResponseRecordTypeId = Schema.SObjectType.AH_UDC_Response__c.getRecordTypeInfosByDeveloperName().get(AH_UDC_Constants.RECORD_TYPE_RESPONSE_FORM_ASSEMBLY).getRecordTypeId();
+      System.assert(String.isNotBlank(String.valueOf(FormAssemblyResponseRecordTypeId)), 'Record Type not found - ' + AH_UDC_Constants.RECORD_TYPE_RESPONSE_FORM_ASSEMBLY);
 
-      //Assign Workbook User permission set to the user
-      objPermissionSetAssignment = new PermissionSetAssignment (PermissionSetId = lstPermissionSets[0].Id, AssigneeId = objWorkbookUser.Id);
-      insert objPermissionSetAssignment;
+      Id AmadeusFormResponseRecordTypeId = Schema.SObjectType.AH_UDC_Response__c.getRecordTypeInfosByDeveloperName().get(AH_UDC_Constants.RECORD_TYPE_RESPONSE_AMADEUS_FORM).getRecordTypeId();
+      System.assert(String.isNotBlank(String.valueOf(AmadeusFormResponseRecordTypeId)), 'Record Type not found - ' + AH_UDC_Constants.RECORD_TYPE_RESPONSE_AMADEUS_FORM);
+
+      List<AH_UDC_Response__c> lstResponses = new List<AH_UDC_Response__c> ();
+      Integer intCount = 0;
+      for (AH_UDC_WorkbookStep__c objStep : lstWorkbookSteps) { //Create one response record for each step
+         //Don't add response for file upload forms
+         if(objStep.Form__r.RecordTypeId == FileUploadFormRecordTypeId) continue;
+         AH_UDC_Response__c objResponse = new AH_UDC_Response__c();
+         if(objStep.Form__r.RecordTypeId == FormAssemblyFormRecordTypeId)
+            objResponse.RecordTypeId = FormAssemblyResponseRecordTypeId;
+         else if(objStep.Form__r.RecordTypeId == AmadeusFormRecordTypeId)
+            objResponse.RecordTypeId = AmadeusFormResponseRecordTypeId;
+         objResponse.Responded__c = Datetime.now();
+         objResponse.Responder__c = UserInfo.getUserId();
+         objResponse.IsComplete__c = false;
+         lstResponses.add(objResponse);
+         intCount++;
+
+         //Limit number of response records
+         if(intCount >= TOTAL_RESPONSE_RECORDS) break;
+      }
+      //AH_UDC_LogHelper.Debug('CreateResponseAndResponseQARecords => lstResponses: ' + lstResponses);
+      //AH_UDC_LogHelper.Debug('CreateResponseAndResponseQARecords => lstResponses size(): ' + lstResponses.size());
+      insert lstResponses;
+
+      Id FormAssemblyResponseQARecordTypeId = Schema.SObjectType.AH_UDC_ResponseQA__c.getRecordTypeInfosByDeveloperName().get(AH_UDC_Constants.RECORD_TYPE_RESPONSE_QA_FORM_ASSEMBLY).getRecordTypeId();
+      System.assert(String.isNotBlank(String.valueOf(FormAssemblyResponseQARecordTypeId)), 'Record Type not found - ' + AH_UDC_Constants.RECORD_TYPE_RESPONSE_QA_FORM_ASSEMBLY);
+
+      Id AmadeusFormResponseQARecordTypeId = Schema.SObjectType.AH_UDC_ResponseQA__c.getRecordTypeInfosByDeveloperName().get(AH_UDC_Constants.RECORD_TYPE_RESPONSE_QA_AMADEUS_FORM).getRecordTypeId();
+      System.assert(String.isNotBlank(String.valueOf(AmadeusFormResponseQARecordTypeId)), 'Record Type not found - ' + AH_UDC_Constants.RECORD_TYPE_RESPONSE_QA_AMADEUS_FORM);
+
+      List<AH_UDC_ResponseQA__c> lstResponseQA = new List<AH_UDC_ResponseQA__c> ();
+      List<AH_UDC_WorkbookStepResponse__c> lstWorkbookStepResponses = new List<AH_UDC_WorkbookStepResponse__c> ();
+      Integer intIndex = 0;
+      for (AH_UDC_Response__c objResponse : lstResponses) {
+         for (Integer i = 1; i <= TOTAL_RESPONSE_QA_RECORDS_PER_RESPONSE; i++) {
+            AH_UDC_ResponseQA__c objResponseQA = new AH_UDC_ResponseQA__c();
+            if(objResponse.RecordTypeId == FormAssemblyResponseRecordTypeId) {
+               objResponseQA.RecordTypeId = FormAssemblyResponseQARecordTypeId;
+               objResponseQA.QuestionField__c = 'tfa' + i;
+               objResponseQA.Question__c = 'Test question ' + i;
+               objResponseQA.Answer__c = 'Test answer ' + i;
+            }
+            else if(objResponse.RecordTypeId == AmadeusFormResponseRecordTypeId) {
+               objResponseQA.RecordTypeId = AmadeusFormResponseQARecordTypeId;
+               objResponseQA.QAJson__c = '{"SortOrder":"1","QuestionField":"AHUDC_1_3_0","Question":"Textbox","AnswerField":"","Answer":"Test1"},{"SortOrder":"2","QuestionField":"AHUDC_1_4_0","Question":"Use Buildings?","AnswerField":"AHUDC_1_4_Yes","Answer":"Yes"},{"SortOrder":"3","QuestionField":"AHUDC_1_5_0","Question":"Banquet?","AnswerField":"","Answer":"true"},{"SortOrder":"4","QuestionField":"AHUDC_1_6_0","Question":"Will you be interfacing your phone system to APMS?","AnswerField":"AHUDC_1_6_No","Answer":"No"}';
+            }
+            objResponseQA.Response__c = objResponse.Id;
+            objResponseQA.SortOrder__c = i;
+            lstResponseQA.add(objResponseQA);
+         }
+
+         //Insert record into junction object to map response with the step
+         lstWorkbookStepResponses.add(new AH_UDC_WorkbookStepResponse__c(WorkbookStep__c = lstWorkbookSteps[intIndex].Id,
+                                                                        Response__c = objResponse.Id));
+         objResponse.IsComplete__c = true;
+         intIndex++;
+      }
+      //AH_UDC_LogHelper.Debug('CreateResponseAndResponseQARecords => lstResponseQA: ' + lstResponseQA);
+      insert lstResponseQA;
+
+      //AH_UDC_LogHelper.Debug('CreateResponseAndResponseQARecords => lstWorkbookStepResponses: ' + lstWorkbookStepResponses);
+      insert lstWorkbookStepResponses;
+
+      //Set IsComplete__c true for all respones
+      update lstResponses;
    }
 
    @IsTest
-   private static void TestSendWorkbookNewOption() {
-      List<User> lstWorkbookUsers = new List<User> ([SELECT Id, Username FROM User
-                                                   WHERE Username = 'user@workbook.com.ahcc' AND IsActive = true]);
-      System.assert(lstWorkbookUsers.size() > 0, 'Workbook User record not found');
+   private static void TestSendWorkbookWithNewOption() {
+      List<User> lstUsers = [Select Id From User Where Email like '%swWorkbookUser%'];
+      System.assert(lstUsers.size() > 0, 'Failed retrieving test Workbook User');
+
+      List<pse__Proj__c> lstProjects = [SELECT Id FROM pse__Proj__c
+                                       WHERE Name = 'Test Project'];
+      System.assert(lstProjects.size() > 0, 'Project record not found with the name \'Test Project\'');
 
       //Test Send Workbook with New option by using Workbook User
-      System.runAs(lstWorkbookUsers[0]) {
-         List<Contact> lstContacts = new List<Contact>([SELECT Id, Name, AccountId, Email
-                                                      FROM Contact WHERE Email = 'contact1@test.com' AND Status__c = 'Active']);
+      System.runAs(lstUsers[0]) {
+         List<Contact> lstContacts = new List<Contact> ([SELECT Id, Name, AccountId, Email
+                                                        FROM Contact WHERE Email = 'contact1@test.com' AND Status__c = 'Active']);
          System.assert(lstContacts.size() > 0, 'Contact records not found with the email contact1@test.com');
 
-         Id NIDocRecordTypeId = Schema.SObjectType.NI_Documentation__c.getRecordTypeInfosByDeveloperName().get(AH_UDC_Constants.RECORD_TYPE_WORKBOOK).getRecordTypeId();
-         System.assert(String.isNotBlank(String.valueOf(NIDocRecordTypeId)), 'Record Type not found - ' + AH_UDC_Constants.RECORD_TYPE_WORKBOOK);
+         List<Account> lstAccounts = [SELECT Id FROM Account where Name = :TEST_ACCOUNT_NAME_1];
+         System.assert(lstAccounts.size() > 0, 'Account records not found with the name ' + TEST_ACCOUNT_NAME_1);
 
-         List<NI_Documentation__c> lstNIDocs = new List<NI_Documentation__c>([SELECT Id FROM NI_Documentation__c
-                                                                           WHERE RecordTypeId = :NIDocRecordTypeId]);
-         System.assert(lstNIDocs.size() > 0, 'NI Doc Record not found');
+         AH_UDC_PropertyAccount__c objPropertyAccount = AH_UDC_TestData.GetPropertyObject('Test Property Account', 'Portsmouth', 'US', '03801', 'NH', '75 New Hampshire Ave', '3410 Via Mercato, St 105');
+         objPropertyAccount.Account__c = lstAccounts[0].Id;
+         insert objPropertyAccount;
+
+         AH_UDC_Workbook__c objWorkbook = AH_UDC_TestData.GetWorkbookObjectWithoutDocId('Test Workbook 1', 'Test Workbook 1 Description', 'Central Sales');
+         objWorkbook.Enabled__c = true;
+         insert objWorkbook;
+
+         //Create steps record for the workbook
+         CreateWorkbookStepRecords(objWorkbook.Id, false);
 
          ApexPages.StandardController sc = new ApexPages.standardController(lstContacts[0]);
          PageReference pageRef = Page.AH_UDC_SendWorkbook;
@@ -219,27 +287,49 @@ public class AH_UDC_SendWorkbook_Test {
          System.assertEquals(objSendWorkbook.SelectedContact.AccountId, String.valueOf(lstContacts[0].AccountId), 'AccountId did not match with Selected Contact Id');
          System.assert(objSendWorkbook.WorkbookProducts != null && objSendWorkbook.WorkbookProducts.size() > 0, 'Product values not found');
          System.assert(String.isNotBlank(objSendWorkbook.SelectedEmailTemplateId) && String.isNotBlank(objSendWorkbook.SelectedEmailTemplateName), 'Default email template not found');
-         System.assert(objSendWorkbook.IsErrorOccurred != true, 'Error occured in SendWorkbook constructor');
+         System.assert(objSendWorkbook.IsErrorOccurred != true, 'Error occurred in SendWorkbook constructor');
 
          objSendWorkbook.SelectedProduct = 'Central Sales';
          objSendWorkbook.GetEnabledProductWorkbooks();
          System.assert(objSendWorkbook.EnabledProductWorkbooks != null && objSendWorkbook.EnabledProductWorkbooks.size() > 0, 'Workbook record not found for the product - Central Sales');
-         
+         System.assert(objSendWorkbook.EnabledProductWorkbooks.size() > 1, 'There must be at least one EnabledProductWorkbook for the test to run successfully');
+
          //Set require field's values before executing send workbook method
          objSendWorkbook.NiDocumentName = 'Test NI Doc - New Option';
-         objSendWorkbook.SelectedWorkbook = objSendWorkbook.EnabledProductWorkbooks[0].getValue(); //Select first workbook from the drop down
+         objSendWorkbook.ProjectId = lstProjects[0].Id;
+
+         //Select first workbook from the drop down, note that element 0 is "--Please select a WORKBOOK--" and should not be used
+         objSendWorkbook.SelectedWorkbook = objSendWorkbook.EnabledProductWorkbooks[1].getValue();
          objSendWorkbook.IsUDCWorkbookAccessed = true;
          objSendWorkbook.IsUDCWorkbookCompleted = true;
          objSendWorkbook.IsUDCWorkbookStepCompleted = true;
 
          //Test Send Workbook method with New option
-         TestSendWorkbookMethod(objSendWorkbook);
+         //Sending workbook first time so it will not have any response records
+         AH_UDC_Workbook__c objWorkbookSent = TestSendWorkbookMethod(objSendWorkbook, 0, 0, 1);
+
+         //Create response and response QA records for new created workbook sent record
+         CreateResponseAndResponseQARecords(objWorkbookSent.Id);
+
+         objSendWorkbook.NewNIDocId = null;
+         objSendWorkbook.SelectedNIDocIdNew = objWorkbookSent.RelatedTo__c;
+         objSendWorkbook.NiDocumentName = 'Test NI Doc - New Option 2';
+         
+         Integer intResponseCount = TOTAL_CENTRAL_FORMS + TOTAL_SHARED_FORMS + TOTAL_PRODUCT_FORMS_WITH_COPY_RESPONSE_TRUE;
+         if(intResponseCount > TOTAL_RESPONSE_RECORDS) intResponseCount = TOTAL_RESPONSE_RECORDS;
+         Integer intResponseQACount = intResponseCount * TOTAL_RESPONSE_QA_RECORDS_PER_RESPONSE;
+         //Sending workbook with same property account so it should copy shared and central form responses
+         //It should copy product form responses in case when CopyResponseWhenSendingNew__c is true
+         objWorkbookSent = TestSendWorkbookMethod(objSendWorkbook, intResponseCount, intResponseQACount, 1);
 
          //Test Send Workbook method without account id
-         objSendWorkbook.SelectedContact.AccountId = null; //Set account to null to cover UDC Property Account creation code
-         objSendWorkbook.SelectedNIDocIdNew = lstNIDocs[0].Id;
+         objSendWorkbook.SelectedContact.Account.Id = null; // Test UDC PropertyAccount creation code when there is no Account
+         objSendWorkbook.NewNIDocId = null;
+         objSendWorkbook.SelectedNIDocIdNew = objWorkbookSent.RelatedTo__c;
          objSendWorkbook.NiDocumentName = 'Test NI Doc - Without Account Id';
-         TestSendWorkbookMethod(objSendWorkbook);
+
+         //Sending workbook with different property account so it should not copy responses
+         TestSendWorkbookMethod(objSendWorkbook, 0, 0, 1);
 
          Test.stopTest();
       }
@@ -247,32 +337,63 @@ public class AH_UDC_SendWorkbook_Test {
 
    @IsTest
    private static void TestSendWorkbookCopyOption() {
-      List<User> lstWorkbookAdminUsers = new List<User> ([SELECT Id, Username
-                                                         FROM User
-                                                         WHERE Username = 'admin@workbook.com.ahcc' AND IsActive = true]);
-      System.assert(lstWorkbookAdminUsers.size() > 0, 'Workbook User record not found');
+      Account objAccount1 = [SELECT Id FROM Account where Name = :TEST_ACCOUNT_NAME_1 LIMIT 1];
+      Account objAccount2 = [SELECT Id FROM Account where Name = :TEST_ACCOUNT_NAME_2 LIMIT 1];
+
+      AH_UDC_PropertyAccount__c objPropertyAccount = AH_UDC_TestData.GetPropertyObject('Test Property Account', 'Portsmouth', 'US', '03801', 'NH', '75 New Hampshire Ave', '3410 Via Mercato, St 105');
+      objPropertyAccount.Account__c = objAccount1.Id;
+      insert objPropertyAccount;
+
+      NI_Documentation__c objNIDoc = AH_UDC_TestData.GetNIDocObject('Test NI Document', Date.today().addMonths(1));
+      objNIDoc.AH_UDC_PropertyAccount__c = objPropertyAccount.Id;
+      insert objNIDoc;
+
+      Id workbookRecordTypeId = Schema.SObjectType.AH_UDC_Workbook__c.getRecordTypeInfosByDeveloperName().get(AH_UDC_Constants.RECORD_TYPE_WORKBOOK).getRecordTypeId();
+      System.assert(String.isNotBlank(String.valueOf(workbookRecordTypeId)), 'Record Type not found - ' + AH_UDC_Constants.RECORD_TYPE_WORKBOOK);
+
+      //Create workbook sent record for copy option
+      AH_UDC_Workbook__c objWorkbookSent = AH_UDC_TestData.GetWorkbookObject(objNIDoc.Id, 'Test Sent Workbook 1', 'Test Sent Workbook 1 Description', 'Central Sales');
+      insert objWorkbookSent;
+
+      //Instead of creating the entire data from testSetup again, only add the WorkbookSent records to avoid CPU/governor limits
+      CreateWorkbookStepRecords(objWorkbookSent.Id, true);
+
+      //Create response and response QA records for workbook sent record
+      CreateResponseAndResponseQARecords(objWorkbookSent.Id);
+
+      List<pse__Proj__c> lstProjects = [SELECT Id FROM pse__Proj__c
+                                       WHERE Name = 'Test Project'];
+      System.assert(lstProjects.size() > 0, 'Project record not found with the name \'Test Project\'');
+
+      Test.startTest();
+      List<User> listUser = [Select Id From User Where Email like '%swWorkbookAdmin%'];
+      System.assertEquals(1, listUser.size(), 'Failed retrieving test Workbook Admin');
 
       //Test Send Workbook with Copy option by using Workbook Admin user
-      System.runAs(lstWorkbookAdminUsers[0]) {
-         List<Contact> lstContacts = new List<Contact>([SELECT Id, Name, AccountId, Email
-                                                      FROM Contact
-                                                      WHERE Status__c = 'Active']);
+      System.runAs(listUser[0]) {
+         List<Contact> lstContacts = [SELECT Id, Name, AccountId, Email
+                                      FROM Contact
+                                      WHERE Status__c = 'Active'];
          System.assert(lstContacts.size() > 0, 'Contact records not found with the email contact2@test.com');
 
          Contact objContactOne = null;
          Contact objContactTwo = null;
-         for(Contact objContact : lstContacts) {
-            if(objContact.Email == 'contact1@test.com')  objContactOne = objContact;
-            else if(objContact.Email == 'contact2@test.com')  objContactTwo = objContact;
+         for (Contact objContact : lstContacts) {
+            if (objContact.Email == 'contact1@test.com') {
+               objContactOne = objContact;
+            }
+            else if (objContact.Email == 'contact2@test.com') {
+               objContactTwo = objContact;
+            }
          }
 
          Id workbookSentRecordTypeId = Schema.SObjectType.AH_UDC_Workbook__c.getRecordTypeInfosByDeveloperName().get(AH_UDC_Constants.RECORD_TYPE_WORKBOOK_SENT).getRecordTypeId();
          System.assert(String.isNotBlank(String.valueOf(workbookSentRecordTypeId)), 'Record Type not found - ' + AH_UDC_Constants.RECORD_TYPE_WORKBOOK_SENT);
 
-         List<AH_UDC_Workbook__c> lstWorkbookSents = new List<AH_UDC_Workbook__c> ([SELECT Id, RelatedTo__c, Product__c
-                                                                                    FROM AH_UDC_Workbook__c
-                                                                                    WHERE RecordTypeId = :workbookSentRecordTypeId
-                                                                                    AND Enabled__c = true]);
+         List<AH_UDC_Workbook__c> lstWorkbookSents = [SELECT Id, RelatedTo__c, Product__c
+                                                      FROM AH_UDC_Workbook__c
+                                                      WHERE RecordTypeId = :workbookSentRecordTypeId
+                                                      AND Enabled__c = true];
          System.assert(lstWorkbookSents.size() > 0, 'Workbook Sent record not found');
 
          ApexPages.StandardController sc = new ApexPages.standardController(objContactOne);
@@ -280,15 +401,16 @@ public class AH_UDC_SendWorkbook_Test {
          pageRef.getParameters().put('id', objContactOne.Id);
 
          Test.setCurrentPageReference(pageRef);
-         Test.startTest();
+
          AH_UDC_SendWorkbook objSendWorkbook = new AH_UDC_SendWorkbook(sc);
          System.assertEquals(objSendWorkbook.ContactId, String.valueOf(objContactOne.Id), 'ContactId did not match with ContactId');
          System.assertEquals(objSendWorkbook.SelectedContact.Id, String.valueOf(objContactOne.Id), 'ContactId did not match with Selected Contact Id');
+         System.assertEquals(objSendWorkbook.SelectedContact.Account.Id, String.valueOf(objContactOne.AccountId), 'Account.Id did not match with Selected Contact Id');
          System.assertEquals(objSendWorkbook.SelectedContact.AccountId, String.valueOf(objContactOne.AccountId), 'AccountId did not match with Selected Contact Id');
          System.assert(objSendWorkbook.WorkbookProducts != null && objSendWorkbook.WorkbookProducts.size() > 0, 'Product values not found');
          System.assert(String.isNotBlank(objSendWorkbook.SelectedEmailTemplateId) && String.isNotBlank(objSendWorkbook.SelectedEmailTemplateName), 'Default email template not found');
-         System.assert(objSendWorkbook.IsErrorOccurred != true, 'Error occured in SendWorkbook constructor');
-         
+         System.assert(objSendWorkbook.IsErrorOccurred != true, 'Error occurred in SendWorkbook constructor');
+
          //Test by adding multiple contacts
          objSendWorkbook.AddContactLookup();
          System.assert(objSendWorkbook.ContactLookupList != null && objSendWorkbook.ContactLookupList.size() == 1, 'Error occurred in AddContactLookup method');
@@ -304,12 +426,8 @@ public class AH_UDC_SendWorkbook_Test {
          System.assertEquals(objSendWorkbook.SelectedProduct, lstWorkbookSents[0].Product__c, 'Product did not match with the product of new created workbook');
          System.assertEquals(objSendWorkbook.SelectedWorkbook, lstWorkbookSents[0].Id, 'Workbook Id did not match with new created workbook');
          System.assert(objSendWorkbook.EnabledProductWorkbooks != null && objSendWorkbook.EnabledProductWorkbooks.size() > 0
-                              && objSendWorkbook.EnabledProductWorkbooks[0].getValue() == lstWorkbookSents[0].Id, 'Workbook drop down did not contain new created workbook');
-
-         //After calling GetWorkbookSentDetails, it will change account id
-         //Set same account of contact to copy responses of shared and central form
-         objSendWorkbook.SelectedContact.AccountId = objContactOne.AccountId;
-
+                       && objSendWorkbook.EnabledProductWorkbooks[0].getValue() == lstWorkbookSents[0].Id, 'Workbook drop down did not contain new created workbook');
+         
          //Set require field's values before executing send workbook method
          objSendWorkbook.NiDocumentName = 'Test NI Doc - Copy Option';
          objSendWorkbook.SelectedWorkbook = lstWorkbookSents[0].Id; //Use inserted workbook to send as a copy
@@ -318,9 +436,21 @@ public class AH_UDC_SendWorkbook_Test {
          objSendWorkbook.IsUDCWorkbookStepCompleted = false;
 
          //Test Sendworkbook method with Copy option
-         TestSendWorkbookMethod(objSendWorkbook);
+         List<AH_UDC_PropertyAccount__c> lstPropertyAccounts = null;
 
-         //Remova additional contacts from the list to perform copy workbook second time
+         Integer intResponseQACount = TOTAL_RESPONSE_RECORDS * TOTAL_RESPONSE_QA_RECORDS_PER_RESPONSE;
+         //Additional contacts + one default selected contact
+         Integer intUDCContactCount = objSendWorkbook.ContactLookupList.size() + 1;
+         TestSendWorkbookMethod(objSendWorkbook, TOTAL_RESPONSE_RECORDS, intResponseQACount, intUDCContactCount);
+
+         lstPropertyAccounts = [SELECT Id FROM AH_UDC_PropertyAccount__c
+                                WHERE Account__c = :objAccount1.Id];
+         System.assert(lstPropertyAccounts.size() > 0, 'PropertyAccount record not created for Workbook that has an Account');
+
+
+         // ------------------ Test #2 with Account that has no PropertAccount record yet ----------------
+
+         //Remove additional contacts from the list to perform copy workbook second time
          objSendWorkbook.ContactLookupList.clear();
          //Set NI Doc selection null to cover else section in the method GetWorkbookSentDetails
          objSendWorkbook.SelectedNIDocIdCopy = null;
@@ -333,56 +463,131 @@ public class AH_UDC_SendWorkbook_Test {
          objSendWorkbook.LogFunctionalArea = 'TestException';
          objSendWorkbook.ContactId = objContactTwo.Id;
          objSendWorkbook.SelectedContact.Id = objContactTwo.Id;
+         //This Account does not have a PropertyAccount created. Sending the Workbook should create it, giving more code coverage
+         objSendWorkbook.SelectedContact.Account = objAccount2;
          objSendWorkbook.SelectedContact.AccountId = objContactTwo.AccountId; //This account don't have property account created so it will cover creation of property account record
          objSendWorkbook.SelectedWorkbook = lstWorkbookSents[0].Id;
+         objSendWorkbook.ProjectId = lstProjects[0].Id;
 
-         //Test Sendworkbook method with Copy option
-         TestSendWorkbookMethod(objSendWorkbook);
+         //Test by creating new property account
+         TestSendWorkbookMethod(objSendWorkbook, TOTAL_RESPONSE_RECORDS, intResponseQACount, 1);
 
-         List<AH_UDC_PropertyAccount__c> lstPropertyAccounts = new List<AH_UDC_PropertyAccount__c>([SELECT Id FROM AH_UDC_PropertyAccount__c
-                                                                  WHERE Account__c = :objContactTwo.AccountId]);
-         System.assert(lstPropertyAccounts.size() > 0, 'Property account record not created');
+         lstPropertyAccounts = [SELECT Id FROM AH_UDC_PropertyAccount__c
+                                WHERE Account__c = :objContactTwo.AccountId];
+         System.assert(lstPropertyAccounts.size() > 0, 'PropertyAccount record should have been created as no record existed for this Account');
 
+      }
+      Test.stopTest();
+   }
+
+   @IsTest
+   private static void TestSendWorkbookWithProject() {
+      AH_UDC_Workbook__c objWorkbook = AH_UDC_TestData.GetWorkbookObjectWithoutDocId('Test Workbook 1', 'Test Workbook 1 Description', 'Central Sales');
+      objWorkbook.Enabled__c = true;
+      insert objWorkbook;
+
+      //Create steps record for the workbook
+      CreateWorkbookStepRecords(objWorkbook.Id, false);
+
+      List<User> lstUsers = [Select Id From User Where Email like '%swWorkbookUser%'];
+      System.assert(lstUsers.size() > 0, 'Failed retrieving test Workbook User');
+
+      List<pse__Proj__c> lstProjects = [SELECT Id, Name, Customer_Project_Contact__c, pse__Account__c, pse__Account__r.Name
+                                       FROM pse__Proj__c
+                                       WHERE Name = 'Test Project'];
+      System.assert(lstProjects.size() > 0, 'Project record not found with the name \'Test Project\'');
+
+      //Test Send Workbook with New option by using Workbook User
+      System.runAs(lstUsers[0]) {
+         ApexPages.StandardController sc = new ApexPages.standardController(new Contact());
+         PageReference pageRef = Page.AH_UDC_SendWorkbook;
+         pageRef.getParameters().put('projectid', lstProjects[0].Id);
+
+         Test.setCurrentPageReference(pageRef);
+         Test.startTest();
+         AH_UDC_SendWorkbook objSendWorkbook = new AH_UDC_SendWorkbook(sc);
+         System.assertEquals(objSendWorkbook.ProjectId, String.valueOf(lstProjects[0].Id), 'ProjectId did not match with the one which is passed in parameters');
+         System.assertEquals(objSendWorkbook.ProjectName, String.valueOf(lstProjects[0].Name), 'Project Name did not match with the one which is passed in parameters');
+         System.assertEquals(objSendWorkbook.ContactId, String.valueOf(lstProjects[0].Customer_Project_Contact__c), 'ContactId did not match with the one which is associated with the Project');
+         System.assertEquals(objSendWorkbook.SelectedContact.Id, String.valueOf(lstProjects[0].Customer_Project_Contact__c), 'SelectedContact.Id did not match with the one which is associated with the Project');
+         System.assertEquals(objSendWorkbook.SelectedContact.Account.Id, String.valueOf(lstProjects[0].pse__Account__c), 'SelectedContact.Account.Id did not match with the one which is  associated with the Project');
+         System.assertEquals(objSendWorkbook.SelectedContact.Account.Name, String.valueOf(lstProjects[0].pse__Account__r.Name), 'SelectedContact.Account.Name did not match with the one which is  associated with the Project');
+         
+         objSendWorkbook.SelectedProduct = 'Central Sales';
+         objSendWorkbook.GetEnabledProductWorkbooks();
+         System.assert(objSendWorkbook.EnabledProductWorkbooks != null && objSendWorkbook.EnabledProductWorkbooks.size() > 0, 'Workbook record not found for the product - Central Sales');
+         System.assert(objSendWorkbook.EnabledProductWorkbooks.size() > 1, 'There must be at least one EnabledProductWorkbook for the test to run successfully');
+
+         //Set require field's values before executing send workbook method
+         objSendWorkbook.NiDocumentName = 'Test NI Doc - New Option';
+
+         //Select first workbook from the drop down, note that element 0 is "--Please select a WORKBOOK--" and should not be used
+         objSendWorkbook.SelectedWorkbook = objSendWorkbook.EnabledProductWorkbooks[1].getValue();
+         objSendWorkbook.IsUDCWorkbookAccessed = true;
+         objSendWorkbook.IsUDCWorkbookCompleted = true;
+         objSendWorkbook.IsUDCWorkbookStepCompleted = true;
+
+         //Test Send Workbook method with project
+         AH_UDC_Workbook__c objWorkbookSent = TestSendWorkbookMethod(objSendWorkbook, 0, 0, 1);
+         
          Test.stopTest();
       }
    }
 
-   private static void TestSendWorkbookMethod(AH_UDC_SendWorkbook objSendWorkbook) {
-      AH_UDC_LogHelper.Debug('objSendWorkbook.IsCopyWorkbook => ' + objSendWorkbook.IsCopyWorkbook);
+   //Send workbook and return workbook sent details
+   private static AH_UDC_Workbook__c TestSendWorkbookMethod(AH_UDC_SendWorkbook objSendWorkbook, Integer intResponseRecordsCount, Integer intResponseQARecordsCount, Integer intUDCContactRecordsCount) {
+      //AH_UDC_LogHelper.Debug('objSendWorkbook.IsCopyWorkbook => ' + objSendWorkbook.IsCopyWorkbook);
 
       //Test Send Workbook with New option
       objSendWorkbook.SendWorkbook();
-      System.assert(String.isNotBlank(String.valueOf(objSendWorkbook.NewNIDocId)), 'Error occured in SendWorkbook method - NI Doc record not created');
-      
+
+      Integer expectedLogCount = 1;
+      List<AH_UDC_Log__c> logs = AH_UDC_LogHelper.GetQueuedLogs();
+      for (Integer index = 0; index<logs.size(); index++) {
+         switch on index {
+            when 0 { System.assert(logs[index].LogText__c.startsWith('An exception occurred creating a Follow for user Id'), 'Did not find the expected Log Message on log index: ' + index); }
+            when else { System.assert(false, 'Unexpected log message found (missing an ASSERT that should check the validity of the Log message?) Index: ' + index + '... Exception: ' + logs[index].LogText__c); }
+         }
+      }
+
+      // This clears the queued logs for any other tests later
+      AH_UDC_LogHelper.writeQueuedLogs();
+
+      System.assert(String.isNotBlank(String.valueOf(objSendWorkbook.NewNIDocId)), 'Error occurred in SendWorkbook method - NI Doc record not created');
+
       Id NIDocRecordTypeId = Schema.SObjectType.NI_Documentation__c.getRecordTypeInfosByDeveloperName().get(AH_UDC_Constants.RECORD_TYPE_WORKBOOK).getRecordTypeId();
       System.assert(String.isNotBlank(String.valueOf(NIDocRecordTypeId)), 'Record Type not found - ' + AH_UDC_Constants.RECORD_TYPE_WORKBOOK);
 
-      List<NI_Documentation__c> lstNIDocs = new List<NI_Documentation__c> ([SELECT Id, Document_Name__c, AH_UDC_ChatterWorkbookAccessed__c, AH_UDC_ChatterWorkbookCompleted__c, AH_UDC_ChatterWorkbookStepCompleted__c
-                                                                           FROM NI_Documentation__c
-                                                                           WHERE Id = :objSendWorkbook.NewNIDocId
-                                                                           AND RecordTypeId = :NIDocRecordTypeId]);
-      System.assert(lstNIDocs.size() > 0, 'Error occured in SendWorkbook method - NI Doc record not created');
-      System.assertEquals(lstNIDocs[0].Document_Name__c, objSendWorkbook.NiDocumentName, 'Error occured in SendWorkbook method - AH_UDC_ChatterWorkbookAccessed__c in not to true in NI Doc record');
-      System.assertEquals(lstNIDocs[0].AH_UDC_ChatterWorkbookAccessed__c, objSendWorkbook.IsUDCWorkbookAccessed, 'Error occured in SendWorkbook method - AH_UDC_ChatterWorkbookAccessed__c value did not match');
-      System.assertEquals(lstNIDocs[0].AH_UDC_ChatterWorkbookCompleted__c, objSendWorkbook.IsUDCWorkbookCompleted, 'Error occured in SendWorkbook method - AH_UDC_ChatterWorkbookCompleted__c value did not match');
-      System.assertEquals(lstNIDocs[0].AH_UDC_ChatterWorkbookStepCompleted__c, objSendWorkbook.IsUDCWorkbookStepCompleted, 'Error occured in SendWorkbook method - AH_UDC_ChatterWorkbookStepCompleted__c value did not match');
+      List<NI_Documentation__c> lstNIDocs = [SELECT Id, Document_Name__c, Project__c, AH_UDC_ChatterWorkbookAccessed__c, AH_UDC_ChatterWorkbookCompleted__c, AH_UDC_ChatterWorkbookStepCompleted__c
+                                             FROM NI_Documentation__c
+                                             WHERE Id = :objSendWorkbook.NewNIDocId
+                                             AND RecordTypeId = :NIDocRecordTypeId];
+      System.assert(lstNIDocs.size()> 0, 'Error occurred in SendWorkbook method - NI Doc was not able to be retrieved');
+      System.assertEquals(lstNIDocs[0].Document_Name__c, objSendWorkbook.NiDocumentName, 'Error occurred in SendWorkbook method - value of Document_Name__c in NI Doc record did not match');
+      System.assertEquals(lstNIDocs[0].Project__c, objSendWorkbook.ProjectId, 'Error occurred in SendWorkbook method - value of Project__c in NI Doc record did not match');
+      System.assertEquals(lstNIDocs[0].AH_UDC_ChatterWorkbookAccessed__c, objSendWorkbook.IsUDCWorkbookAccessed, 'Error occurred in SendWorkbook method - AH_UDC_ChatterWorkbookAccessed__c value did not match');
+      System.assertEquals(lstNIDocs[0].AH_UDC_ChatterWorkbookCompleted__c, objSendWorkbook.IsUDCWorkbookCompleted, 'Error occurred in SendWorkbook method - AH_UDC_ChatterWorkbookCompleted__c value did not match');
+      System.assertEquals(lstNIDocs[0].AH_UDC_ChatterWorkbookStepCompleted__c, objSendWorkbook.IsUDCWorkbookStepCompleted, 'Error occurred in SendWorkbook method - AH_UDC_ChatterWorkbookStepCompleted__c value did not match');
 
       Id workbookSentRecordTypeId = Schema.SObjectType.AH_UDC_Workbook__c.getRecordTypeInfosByDeveloperName().get(AH_UDC_Constants.RECORD_TYPE_WORKBOOK_SENT).getRecordTypeId();
       System.assert(String.isNotBlank(String.valueOf(workbookSentRecordTypeId)), 'Record Type not found - ' + AH_UDC_Constants.RECORD_TYPE_WORKBOOK_SENT);
 
-      List<AH_UDC_Workbook__c> lstWorkbookSents = new List<AH_UDC_Workbook__c> ([SELECT Id, Product__c, RelatedTo__c, OriginalWorkbook__c, ParentWorkbookSent__c, SentStatus__c
-                                                                                 FROM AH_UDC_Workbook__c
-                                                                                 WHERE RelatedTo__c = :objSendWorkbook.NewNIDocId
-                                                                                 AND RecordTypeId = :workbookSentRecordTypeId
-                                                                                 AND Enabled__c = true]);
-      System.assert(lstWorkbookSents.size() > 0, 'Error occured in SendWorkbook method - Workbook Sent records not created');
-      if(objSendWorkbook.IsCopyWorkbook == false) {
-         System.assert(lstWorkbookSents[0].OriginalWorkbook__c == objSendWorkbook.SelectedWorkbook, 'Error occured in SendWorkbook method - OriginalWorkbook__c don\'t have correct value in workbook sent record');
-         if (String.isNotBlank(String.valueOf(objSendWorkbook.SelectedNIDocIdNew))) { //If parent Workbook NI Doc is selected then check value ParentWorkbookSent__c field's value
-            List<AH_UDC_Workbook__c> lstParentWorkbooks = new List<AH_UDC_Workbook__c>([SELECT Id FROM AH_UDC_Workbook__c
-                                                                                       WHERE RelatedTo__c = :objSendWorkbook.SelectedNIDocIdNew]);
+      List<AH_UDC_Workbook__c> lstWorkbookSents = [SELECT Id, Product__c, RelatedTo__c, OriginalWorkbook__c, ParentWorkbookSent__c, SentStatus__c
+                                                   FROM AH_UDC_Workbook__c
+                                                   WHERE RelatedTo__c = :objSendWorkbook.NewNIDocId
+                                                   AND RecordTypeId = :workbookSentRecordTypeId
+                                                   AND Enabled__c = true];
+      System.assert(lstWorkbookSents.size() > 0, 'Error occurred in SendWorkbook method - Workbook Sent records not created');
+      System.assertEquals(AH_UDC_Constants.SENT_STATUS_NEW, lstWorkbookSents[0].SentStatus__c, 'Error occurred in SendWorkbook method - Workbook sent status should be ' + AH_UDC_Constants.SENT_STATUS_NEW + '. Actual status is ' + lstWorkbookSents[0].SentStatus__c);
+      if (objSendWorkbook.IsCopyWorkbook == false) {
+         System.assert(lstWorkbookSents[0].OriginalWorkbook__c == objSendWorkbook.SelectedWorkbook, 'Error occurred in SendWorkbook method - OriginalWorkbook__c don\'t have correct value in workbook sent record');
+
+         //If parent Workbook NI Doc is selected then check value ParentWorkbookSent__c field's value
+         if (String.isNotBlank(String.valueOf(objSendWorkbook.SelectedNIDocIdNew))) {
+            List<AH_UDC_Workbook__c> lstParentWorkbooks = [SELECT Id FROM AH_UDC_Workbook__c
+                                                           WHERE RelatedTo__c = :objSendWorkbook.SelectedNIDocIdNew];
             if (lstParentWorkbooks.size() > 0) {
-               System.assert(lstWorkbookSents[0].ParentWorkbookSent__c == lstParentWorkbooks[0].Id, 'Error occured in SendWorkbook method - OriginalWorkbook__c don\'t have correct value in workbook sent record');
+               System.assert(lstWorkbookSents[0].ParentWorkbookSent__c == lstParentWorkbooks[0].Id, 'Error occurred in SendWorkbook method - OriginalWorkbook__c don\'t have correct value in workbook sent record');
             }
          }
       }
@@ -390,100 +595,53 @@ public class AH_UDC_SendWorkbook_Test {
       Id workbookStepSentRecordTypeId = Schema.SObjectType.AH_UDC_WorkbookStep__c.getRecordTypeInfosByDeveloperName().get(AH_UDC_Constants.RECORD_TYPE_WORKBOOK_STEP_SENT).getRecordTypeId();
       System.assert(String.isNotBlank(String.valueOf(workbookStepSentRecordTypeId)), 'Record Type not found - ' + AH_UDC_Constants.RECORD_TYPE_WORKBOOK_STEP_SENT);
 
-      List<AH_UDC_WorkbookStep__c> lstWorkbookSteps = new List<AH_UDC_WorkbookStep__c>([SELECT Id FROM AH_UDC_WorkbookStep__c
-                                                                                       WHERE Workbook__c = :lstWorkbookSents[0].Id
-                                                                                       AND RecordTypeId = :workbookStepSentRecordTypeId
-                                                                                       AND Enabled__c = true]);
-      AH_UDC_LogHelper.Debug('lstWorkbookSteps.size() => ' + lstWorkbookSteps.size());
-      System.assertEquals(TotalStepRecords, lstWorkbookSteps.size(), 'Error occured in SendWorkbook method - Step records count not matched');
+      List<AH_UDC_WorkbookStep__c> lstWorkbookSteps = [SELECT Id FROM AH_UDC_WorkbookStep__c
+                                                       WHERE Workbook__c = :lstWorkbookSents[0].Id
+                                                       AND RecordTypeId = :workbookStepSentRecordTypeId
+                                                       AND Enabled__c = true];
+      //AH_UDC_LogHelper.Debug('lstWorkbookSteps.size() => ' + lstWorkbookSteps.size());
+      System.assertEquals(TOTAL_STEP_RECORDS, lstWorkbookSteps.size(), 'Error occurred in SendWorkbook method - Step records count not matched');
 
-      AH_UDC_LogHelper.Debug('objSendWorkbook.HasPendingStepsToCopy => ' + objSendWorkbook.HasPendingStepsToCopy);
-      if(objSendWorkbook.HasPendingStepsToCopy) { //If there large number of response QA recordss then copy data step by step
-         Integer intIndex = 0;
-         while(objSendWorkbook.HasPendingStepsToCopy == true) {
-            if(objSendWorkbook.LogFunctionalArea == 'TestException') {
-               //Generate error to test scenario of changing workbook sent status to failed
-               objSendWorkbook.MapSharedOrCentralFormIdResponseId = null;
-            }
+      if (objSendWorkbook.LogFunctionalArea != 'TestException') { //If generating error then don't check response records
+         if (intResponseRecordsCount > 0) {
+            List<AH_UDC_WorkbookStepResponse__c> lstWorkbookStepResponses = [SELECT Id, Response__c
+                                                                              FROM AH_UDC_WorkbookStepResponse__c
+                                                                              WHERE WorkbookStep__r.Workbook__c = :lstWorkbookSents[0].Id];
+            System.assertEquals(intResponseRecordsCount, lstWorkbookStepResponses.size(), 'Error occurred in SendWorkbook method - Response count did not match');
 
-            //Copy form responses and response QA records step by step
-            objSendWorkbook.CopyResponsesStepByStep();
-
-            if(objSendWorkbook.LogFunctionalArea == 'TestException') {
-               System.assert(objSendWorkbook.IsErrorOccurred, 'Error not occured in the method CopyResponsesStepByStep');
-               List<AH_UDC_Workbook__c> lstFailedWorkbooks = new List<AH_UDC_Workbook__c> ([SELECT Id, SentStatus__c
-                                                                                 FROM AH_UDC_Workbook__c
-                                                                                 WHERE Id = :lstWorkbookSents[0].Id]);
-               System.assert(lstFailedWorkbooks.size() > 0, 'Workbook Sent records not found');
-               System.assertEquals(lstFailedWorkbooks[0].SentStatus__c, AH_UDC_Constants.SENT_STATUS_FAILED_TO_SEND, 'Workbook sent status not changed to ' + AH_UDC_Constants.SENT_STATUS_FAILED_TO_SEND);
-               break;
-            }
-            else {
-               System.assert(objSendWorkbook.IsErrorOccurred != true, 'Error occured in CopyResponsesStepByStep method');
-            }
-            intIndex++;
-         }
-      }
-
-      if(objSendWorkbook.LogFunctionalArea != 'TestException') { //If generating error then don't check response records
-         if(objSendWorkbook.IsCopyWorkbook || objSendWorkbook.MapSharedOrCentralFormIdResponseId.size() > 0) {
-            List<AH_UDC_Response__c> lstFormResponses = new List<AH_UDC_Response__c> ([SELECT Id FROM AH_UDC_Response__c
-                                                                                       WHERE WorkbookStep__r.Workbook__c = :lstWorkbookSents[0].Id
-                                                                                       AND IsMostRecentResponse__c = true]);
-            AH_UDC_LogHelper.Debug('lstFormResponses.size() => ' + lstFormResponses.size());
-            if(objSendWorkbook.IsCopyWorkbook) {
-               //For copy option, all responses should be copied
-               System.assertEquals(TotalFormRecords, lstFormResponses.size(), 'Error occured in SendWorkbook method - Form Response records count not matched');
-            }
-            else {
-               //For new option, only Shared and Central form responses should be copied
-               System.assertEquals(objSendWorkbook.MapSharedOrCentralFormIdResponseId.size(), lstFormResponses.size(), 'Error occured in SendWorkbook method - Form Response records count not matched');
+            Set<Id> lstResponseIds = new Set<Id>();
+            for(AH_UDC_WorkbookStepResponse__c objStepResponse : lstWorkbookStepResponses) {
+               lstResponseIds.add(objStepResponse.Response__c);
             }
 
-            Integer intFormResponseQACount = [SELECT COUNT() FROM AH_UDC_ResponseQA__c
-                                             WHERE Response__c IN :lstFormResponses];
-            if(objSendWorkbook.IsCopyWorkbook) {
-               //For copy option, all response QA records should be copied
-               System.assertEquals(TotalFormResponseQARecords, intFormResponseQACount, 'Error occured in SendWorkbook method - Form Response QA records count not matched');
-            }
-            else {
-               //For new option, only Shared and Central form response QA records should be copied
-               System.assertEquals(4000, intFormResponseQACount, 'Error occured in SendWorkbook method - Form Response QA records count not matched');
-            }
-         }
-
-         Set<Id> lstContactIds = new Set<Id>();
-         lstContactIds.add(objSendWorkbook.ContactId);
-         if (objSendWorkbook.ContactLookupList != null && objSendWorkbook.ContactLookupList.size() > 0) {
-            for (Integer i = 0; i < objSendWorkbook.ContactLookupList.size(); i++) {
-               if (String.isNotBlank(String.valueOf(objSendWorkbook.ContactLookupList[i].Id)) && String.isBlank(objSendWorkbook.ContactLookupList[i].ErrorMessage)) {
-                  lstContactIds.add(objSendWorkbook.ContactLookupList[i].Id);
-               }
-            }
+            Integer intResponseQACount = [SELECT COUNT() FROM AH_UDC_ResponseQA__c
+                                          WHERE Response__c IN :lstResponseIds];
+            System.assertEquals(intResponseQARecordsCount, intResponseQACount, 'Error occurred in SendWorkbook method - Response QA records count did not matched');
          }
 
          Integer intUDCContact = [SELECT COUNT() FROM AH_UDC_Contact__c
-                                 WHERE Document__c = :objSendWorkbook.NewNIDocId
-                                 AND Contact__c IN :lstContactIds];
-         System.assertEquals(lstContactIds.size(), intUDCContact, 'Error occured in SendWorkbook method - UDC Contact records not created for all selected contacts');
+                                  WHERE Document__c = :objSendWorkbook.NewNIDocId];
+         System.assertEquals(intUDCContactRecordsCount, intUDCContact, 'Error occurred in SendWorkbook method - UDC Contact records count did not match');
 
-         System.assert(objSendWorkbook.IsErrorOccurred != true, 'Error occured in SendWorkbook method');
-         System.assert(objSendWorkbook.IsErrorOccurredInEmail != true, 'Error occured in sending email');
+         System.assert(objSendWorkbook.IsErrorOccurred == false, 'Error occurred in SendWorkbook method');
+         System.assert(objSendWorkbook.AllowSend, 'Error occurred in sending email');
       }
+
+      return lstWorkbookSents[0];
    }
 
    @IsTest
    private static void TestCreateCommunityUser() {
-      List<Contact> lstContacts = new List<Contact>([SELECT Id, Name, Email FROM Contact WHERE Status__c = 'Active']);
-      System.assert(lstContacts.size() > 0, 'Contact records not found');
+      List<Contact> lstContacts = [SELECT Id, Name, Email FROM Contact WHERE Status__c = 'Active'];
+      System.assert(lstContacts.size()> 0, 'Contact records not found');
 
       Contact objContactOne = null;
       Contact objContactTwo = null;
       Contact objContactWithoutEmail = null;
       for (Contact obj : lstContacts) {
-         if(String.isBlank(obj.Email)) objContactWithoutEmail = obj;
-         else if(obj.Email == 'contact1@test.com') objContactOne = obj;
-         else if(obj.Email == 'contact2@test.com') objContactTwo = obj;
+         if (String.isBlank(obj.Email)) objContactWithoutEmail = obj;
+         else if (obj.Email == 'contact1@test.com') objContactOne = obj;
+         else if (obj.Email == 'contact2@test.com') objContactTwo = obj;
       }
       System.assert(objContactOne != null, 'Contact record is not created - objContactOne');
       System.assert(objContactTwo != null, 'Contact record is not created - objContactTwo');
@@ -506,20 +664,20 @@ public class AH_UDC_SendWorkbook_Test {
       //Validate duplicate contact with same as selected contact
       objSendWorkbook.ContactLookupList[0].Id = objContactOne.Id;
       objSendWorkbook.ValidateContact();
-      System.assert(objSendWorkbook.ContactLookupList[0].ErrorMessage == Label.AH_UDC_Duplicate_Contact_Added_For_Send_Workbook_Message, 'Error occured in contact validation - Error message not set for duplicate contact with the selected contact');
+      System.assert(objSendWorkbook.ContactLookupList[0].ErrorMessage == Label.AH_UDC_Duplicate_Contact_Added_For_Send_Workbook_Message, 'Error occurred in contact validation - Error message not set for duplicate contact with the selected contact');
       System.assert(objSendWorkbook.IsErrorOccurred != true, 'There is an error in contact validation.');
 
       //Validate contact without email
       objSendWorkbook.ContactLookupList[0].Id = objContactWithoutEmail.Id;
       objSendWorkbook.ValidateContact();
-      System.assertEquals(Label.AH_UDC_Send_Workbook_Additional_Contact_Email_Required_Message, objSendWorkbook.ContactLookupList[0].ErrorMessage, 'Error occured in contact validation - Error message not set for contact email');
+      System.assertEquals(Label.AH_UDC_Send_Workbook_Additional_Contact_Email_Required_Message, objSendWorkbook.ContactLookupList[0].ErrorMessage, 'Error occurred in contact validation - Error message not set for contact email');
       System.assert(String.isBlank(objSendWorkbook.SelectedUserEmail), 'There is an error in contact validation - Contact email is not empty');
       System.assert(objSendWorkbook.IsErrorOccurred != true, 'There is an error in Check External User.');
 
       //Validate with a valid contact
       objSendWorkbook.ContactLookupList[0].Id = objContactTwo.Id;
       objSendWorkbook.ValidateContact();
-      System.assert(String.isBlank(objSendWorkbook.ContactLookupList[0].ErrorMessage), 'Error occured in contact validation - Error message is not empty for a valid contact');
+      System.assert(String.isBlank(objSendWorkbook.ContactLookupList[0].ErrorMessage), 'Error occurred in contact validation - Error message is not empty for a valid contact');
       System.assert(objSendWorkbook.IsErrorOccurred != true, 'There is an error in contact validation.');
 
       objSendWorkbook.AddContactLookup();
@@ -528,30 +686,34 @@ public class AH_UDC_SendWorkbook_Test {
       //Validate duplicate contact with same as previously added contact
       objSendWorkbook.ContactLookupList[1].Id = objContactTwo.Id;
       objSendWorkbook.ValidateContact();
-      System.assertEquals(Label.AH_UDC_Duplicate_Contact_Added_For_Send_Workbook_Message, objSendWorkbook.ContactLookupList[0].ErrorMessage, 'Error occured in contact validation - Error message not set for duplicate contact with previously added contact');
-      System.assertEquals(Label.AH_UDC_Duplicate_Contact_Added_For_Send_Workbook_Message, objSendWorkbook.ContactLookupList[1].ErrorMessage, 'Error occured in contact validation - Error message not set for duplicate contact with previously added contact');
+      System.assertEquals(Label.AH_UDC_Duplicate_Contact_Added_For_Send_Workbook_Message, objSendWorkbook.ContactLookupList[0].ErrorMessage, 'Error occurred in contact validation - Error message not set for duplicate contact with previously added contact');
+      System.assertEquals(Label.AH_UDC_Duplicate_Contact_Added_For_Send_Workbook_Message, objSendWorkbook.ContactLookupList[1].ErrorMessage, 'Error occurred in contact validation - Error message not set for duplicate contact with previously added contact');
       System.assert(objSendWorkbook.IsErrorOccurred != true, 'There is an error in contact validation.');
 
       //Remove duplicate contact from the list so it will not create community user multiple time
       objSendWorkbook.ContactLookupList.remove(1);
       objSendWorkbook.ValidateContact(); //Call validate function to remove error message from the valid contact
-      System.assert(String.isBlank(objSendWorkbook.ContactLookupList[0].ErrorMessage), 'Error occured in contact validation - Error message not removed from the valid contact');
+      System.assert(String.isBlank(objSendWorkbook.ContactLookupList[0].ErrorMessage), 'Error occurred in contact validation - Error message not removed from the valid contact');
+
+      AH_UDC_MockResponseGenerator mock;
+      mock = new AH_UDC_MockResponseGenerator(AH_UDC_MockResponseGenerator.ResponseType.CreateCommunityUser, 200);
+      Test.setMock(HttpCalloutMock.class, mock);
 
       objSendWorkbook.CreateCommunityUsers();
-      System.assert(objSendWorkbook.IsCommunityUserCreated == true, 'Community user not created');
+      //System.assert(objSendWorkbook.IsCommunityUserCreated == true, 'Community user not created');
 
-      Set<Id> lstContactIds = new Set<Id>();
-      lstContactIds.add(objSendWorkbook.ContactId);
-      if (objSendWorkbook.ContactLookupList != null && objSendWorkbook.ContactLookupList.size() > 0) {
-         for (Integer i = 0; i < objSendWorkbook.ContactLookupList.size(); i++) {
-            if (String.isNotBlank(String.valueOf(objSendWorkbook.ContactLookupList[i].Id)) && String.isBlank(objSendWorkbook.ContactLookupList[i].ErrorMessage)) {
-               lstContactIds.add(objSendWorkbook.ContactLookupList[i].Id);
-            }
-         }
-      }
-
-      Integer intExternalUserCount = [SELECT COUNT() FROM User WHERE ContactId IN :lstContactIds AND IsActive = true];
-      System.assertEquals(intExternalUserCount, lstContactIds.size(), 'External user not created for all selected contacts');
+      //This Method now uses a MOCK to call c# so creation of the users can't be confirmed
+      //Set<Id> lstContactIds = new Set<Id> ();
+      //lstContactIds.add(objSendWorkbook.ContactId);
+      //if (objSendWorkbook.ContactLookupList != null && objSendWorkbook.ContactLookupList.size() > 0) {
+         //for (Integer i = 0; i<objSendWorkbook.ContactLookupList.size(); i++) {
+            //if (String.isNotBlank(String.valueOf(objSendWorkbook.ContactLookupList[i].Id)) && String.isBlank(objSendWorkbook.ContactLookupList[i].ErrorMessage)) {
+               //lstContactIds.add(objSendWorkbook.ContactLookupList[i].Id);
+            //}
+         //}
+      //}
+      //Integer intExternalUserCount = [SELECT COUNT() FROM User WHERE ContactId IN :lstContactIds AND IsActive = true];
+      //System.assertEquals(intExternalUserCount, lstContactIds.size(), 'External user not created for all selected contacts');
    }
 
    @isTest
@@ -562,17 +724,55 @@ public class AH_UDC_SendWorkbook_Test {
       Test.startTest();
       AH_UDC_SendWorkbook objSendWorkbook = new AH_UDC_SendWorkbook(sc);
 
-      //Set name to generate error in LogException method
+      //Set LogFunctionalArea value to generate error in LogException method
       objSendWorkbook.LogFunctionalArea = 'TestException';
       System.assert(objSendWorkbook.IsErrorOccurred, 'Error not occurred while executing page without id parameter');
       System.assert(objSendWorkbook.HasPageLoadLogMessages, 'No log entries found in queue list');
 
       objSendWorkbook.ServerLogMessages();
+
       System.assertNotEquals(true, objSendWorkbook.HasPageLoadLogMessages, 'PageLoadLogMessages is not empty');
+      Integer intCount = [SELECT COUNT() FROM AH_UDC_Log__c WHERE FunctionalArea__c = 'AH_UDC_SendWorkbook' AND Source__c = 'Constructor'];
+      System.assert(intCount > 0, 'Log message entry not found for the error in constructor');
+
+      intCount = [SELECT COUNT() FROM AH_UDC_Log__c WHERE FunctionalArea__c = 'TestException' AND Source__c = 'ServerLogMessages'];
+      System.assert(intCount > 0, 'Log message entry not found for the error in ServerLogMessages method');
 
       objSendWorkbook.IsErrorOccurred = false;
       objSendWorkbook.SendWorkbook();
       System.assert(objSendWorkbook.IsErrorOccurred, 'Error not occurred in the method SendWorkbook while executing without ContactId and workbook selection');
+      intCount = [SELECT COUNT() FROM AH_UDC_Log__c WHERE FunctionalArea__c = 'TestException' AND Source__c = 'SendWorkbook'];
+      System.assert(intCount > 0, 'Log message entry not found for the error in SendWorkbook method');
+
+      objSendWorkbook.IsErrorOccurred = false;
+      objSendWorkbook.SendEmailToContacts();
+      System.assert(objSendWorkbook.IsErrorOccurred, 'Error should have occurred in the method SendEmailToContacts while executing with LogFunctionalArea TestException');
+      intCount = [SELECT COUNT() FROM AH_UDC_Log__c WHERE FunctionalArea__c = 'TestException' AND Source__c = 'SendEmailToContacts'];
+      System.assert(intCount > 0, 'Log message entry not found for the error in SendEmailToContacts method');
+
+      objSendWorkbook.IsErrorOccurred = false;
+      objSendWorkbook.GetWorkbookSentDetails();
+      System.assert(objSendWorkbook.IsErrorOccurred, 'Error not occurred in the method GetWorkbookSentDetails while executing with LogFunctionalArea TestException');
+      intCount = [SELECT COUNT() FROM AH_UDC_Log__c WHERE FunctionalArea__c = 'TestException' AND Source__c = 'GetWorkbookSentDetails'];
+      System.assert(intCount > 0, 'Log message entry not found for the error in GetWorkbookSentDetails method');
+
+      objSendWorkbook.IsErrorOccurred = false;
+      objSendWorkbook.GetProductList();
+      System.assert(objSendWorkbook.IsErrorOccurred, 'Error not occurred in the method GetProductList while executing with LogFunctionalArea TestException');
+      intCount = [SELECT COUNT() FROM AH_UDC_Log__c WHERE FunctionalArea__c = 'TestException' AND Source__c = 'GetProductList'];
+      System.assert(intCount > 0, 'Log message entry not found for the error in GetProductList method');
+
+      objSendWorkbook.IsErrorOccurred = false;
+      objSendWorkbook.GetDefaultEmailTemplateDetails();
+      System.assert(objSendWorkbook.IsErrorOccurred, 'Error not occurred in the method GetDefaultEmailTemplateDetails while executing with LogFunctionalArea TestException');
+      intCount = [SELECT COUNT() FROM AH_UDC_Log__c WHERE FunctionalArea__c = 'TestException' AND Source__c = 'GetDefaultEmailTemplateDetails'];
+      System.assert(intCount > 0, 'Log message entry not found for the error in GetDefaultEmailTemplateDetails method');
+
+      objSendWorkbook.IsErrorOccurred = false;
+      objSendWorkbook.GetDefaultEmailTemplateDetails();
+      System.assert(objSendWorkbook.IsErrorOccurred, 'Error not occurred in the method GetDefaultEmailTemplateDetails while executing with LogFunctionalArea TestException');
+      intCount = [SELECT COUNT() FROM AH_UDC_Log__c WHERE FunctionalArea__c = 'TestException' AND Source__c = 'GetDefaultEmailTemplateDetails'];
+      System.assert(intCount > 0, 'Log message entry not found for the error in GetDefaultEmailTemplateDetails method');
 
       Test.stopTest();
    }

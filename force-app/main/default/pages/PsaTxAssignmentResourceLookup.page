@@ -1,76 +1,76 @@
 <apex:page controller="PsaTxAssignmentResourceLookupController" showHeader="false">
-<body class="lookupTab"> 
-<div class="lookup"> 
-  <div class="bPageTitle">
-    <div class="ptBody secondaryPalette">
-      <div class="content">
-        <img title="" class="pageTitleIcon" alt="" src="/s.gif" />
-          <h1>Choose Resource</h1>
-      </div>
-    </div>
-  </div>
-</div>
-<font size="2" color="red" id="errorTd"></font>
-</body>
-
-<script>   
-	function setParentParameters(resourceId, resourceName)
-	{
-		top.window.opener.setResourceValue('PsaTransferAssignment','ta:taform:new:newAssig:pbsiResource:newResource_lkid','ta:taform:new:newAssig:pbsiResource:newResource_lkold',resourceId,resourceName);
-		parent.window.close();
-	}   
-</script>
-
-<apex:form >
-<apex:outputPanel id="pb">
-    <apex:actionstatus startText="Please wait.." id="status"/><br/>
-    <apex:outputLabel for="name">Search</apex:outputLabel>&nbsp;&nbsp;
-    <apex:inputText id="name" value="{!resourceName}"/>&nbsp;&nbsp;
-    <apex:commandButton value="Go"  onclick="goAF();return false;" status="status"/>
-</apex:outputPanel>
-<br/><br/>
-<apex:messages style="color:#ff0000;" id="msg"/>
-
-<apex:pageBlock id="resourceBlock">
-<apex:outputPanel rendered="{!IF(resources.size > 0,true,false)}">
-      <table  cellpadding="0" cellspacing="0">  
-        <tr>
-          <td width="30%">
-            <apex:actionStatus startStyle="color:Red;font-weight:bold" startText="Loading...Please wait" stopText="" id="myStatus1"/>
-          </td>
-          <td align="Right">
-            &nbsp;&nbsp;&nbsp;
-            <apex:commandLink action="{!resourceStdSetCntrl.first}"  value="First" id="firstLnk" status="myStatus1" rendered="{!resourceStdSetCntrl.hasPrevious}"/>&nbsp;
-            <apex:outputLabel value="First" id="firstLabel" rendered="{!NOT(resourceStdSetCntrl.hasPrevious)}" style="color:#A2A2A2;"/>&nbsp;
-            <apex:commandLink action="{!resourceStdSetCntrl.previous}" value="Previous" id="prevLnk" status="myStatus1" rendered="{!resourceStdSetCntrl.hasPrevious}"/>
-            <apex:outputLabel value="Previous" id="prevLabel" rendered="{!NOT(resourceStdSetCntrl.hasPrevious)}" style="color:#A2A2A2;"/>
-            &nbsp;
-          </td>  
-          <td align="Left" >
-            &nbsp;&nbsp;
-            <apex:commandLink action="{!resourceStdSetCntrl.next}" value="Next" id="nextLnk" status="myStatus1" rendered="{!resourceStdSetCntrl.hasNext}"/>&nbsp;
-            <apex:outputLabel value="Next" id="nextLabel" rendered="{!NOT(resourceStdSetCntrl.hasNext)}" style="color:#A2A2A2;"/>&nbsp;
-            <apex:commandLink action="{!resourceStdSetCntrl.last}" value="Last" id="lastLnk" status="myStatus1" rendered="{!resourceStdSetCntrl.hasNext}"/>
-            <apex:outputLabel value="Last" id="lastLabel" rendered="{!NOT(resourceStdSetCntrl.hasNext)}" style="color:#A2A2A2;"/>
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
-         </tr> 
-      </table>
-    </apex:outputPanel>
-    <apex:pageBlockTable value="{!resources}" var="resource" id="resource" >
-        <apex:column headerValue="Resource">
-        	<a href="javascript:void(0);" onclick='setParentParameters("{!resource.Id}","{!resource.Name}");'>{!resource.Name}</a>
-        </apex:column>
-        <apex:column headerValue="Region">{!resource.pse__Region__r.Name}</apex:column>
-		<apex:column headerValue="Practice">{!resource.pse__Practice__r.Name}</apex:column>
-        <apex:column headerValue="Role">{!resource.pse__Resource_Role__c}</apex:column>
-    </apex:pageBlockTable>
-    <br/>
-    <apex:outputLabel value="No Records Found" rendered="{!resources.size == 0}" />
+    <body class="lookupTab"> 
+        <div class="lookup"> 
+            <div class="bPageTitle">
+                <div class="ptBody secondaryPalette">
+                    <div class="content">
+                        <img title="" class="pageTitleIcon" alt="" src="/s.gif" />
+                        <h1>Choose Resource</h1>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <font size="2" color="red" id="errorTd"></font>
+    </body>
     
-    <apex:actionFunction name="goAF" action="{!go}" rerender="resourceBlock,msg"/>
+    <script>   
+    function setParentParameters(resourceId, resourceName)
+    {
+        top.window.opener.setResourceValue('PsaTransferAssignment','ta:taform:new:newAssig:pbsiResource:newResource_lkid','ta:taform:new:newAssig:pbsiResource:newResource_lkold',resourceId,resourceName);
+        parent.window.close();
+    }   
+    </script>
     
-</apex:pageBlock>
-
-</apex:form>
-
+    <apex:form >
+        <apex:outputPanel id="pb">
+            <apex:actionstatus startText="Please wait.." id="status"/><br/>
+            <apex:outputLabel for="name">Search</apex:outputLabel>&nbsp;&nbsp;
+            <apex:inputText id="name" value="{!resourceName}"/>&nbsp;&nbsp;
+            <apex:commandButton value="Go"  onclick="goAF();return false;" status="status"/>
+        </apex:outputPanel>
+        <br/><br/>
+        <apex:messages style="color:#ff0000;" id="msg"/>
+        
+        <apex:pageBlock id="resourceBlock">
+            <apex:outputPanel rendered="{!IF(resources.size > 0,true,false)}">
+                <table  cellpadding="0" cellspacing="0">  
+                    <tr>
+                        <td width="30%">
+                            <apex:actionStatus startStyle="color:Red;font-weight:bold" startText="Loading...Please wait" stopText="" id="myStatus1"/>
+                        </td>
+                        <td align="Right">
+                            &nbsp;&nbsp;&nbsp;
+                            <apex:commandLink action="{!resourceStdSetCntrl.first}"  value="First" id="firstLnk" status="myStatus1" rendered="{!resourceStdSetCntrl.hasPrevious}"/>&nbsp;
+                            <apex:outputLabel value="First" id="firstLabel" rendered="{!NOT(resourceStdSetCntrl.hasPrevious)}" style="color:#A2A2A2;"/>&nbsp;
+                            <apex:commandLink action="{!resourceStdSetCntrl.previous}" value="Previous" id="prevLnk" status="myStatus1" rendered="{!resourceStdSetCntrl.hasPrevious}"/>
+                            <apex:outputLabel value="Previous" id="prevLabel" rendered="{!NOT(resourceStdSetCntrl.hasPrevious)}" style="color:#A2A2A2;"/>
+                            &nbsp;
+                        </td>  
+                        <td align="Left" >
+                            &nbsp;&nbsp;
+                            <apex:commandLink action="{!resourceStdSetCntrl.next}" value="Next" id="nextLnk" status="myStatus1" rendered="{!resourceStdSetCntrl.hasNext}"/>&nbsp;
+                            <apex:outputLabel value="Next" id="nextLabel" rendered="{!NOT(resourceStdSetCntrl.hasNext)}" style="color:#A2A2A2;"/>&nbsp;
+                            <apex:commandLink action="{!resourceStdSetCntrl.last}" value="Last" id="lastLnk" status="myStatus1" rendered="{!resourceStdSetCntrl.hasNext}"/>
+                            <apex:outputLabel value="Last" id="lastLabel" rendered="{!NOT(resourceStdSetCntrl.hasNext)}" style="color:#A2A2A2;"/>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                    </tr> 
+                </table>
+            </apex:outputPanel>
+            <apex:pageBlockTable value="{!resources}" var="resource" id="resource" >
+                <apex:column headerValue="Resource">
+                    <a href="javascript:void(0);" onclick='setParentParameters("{!resource.Id}","{!resource.Name}");'>{!resource.Name}</a>
+                </apex:column>
+                <apex:column headerValue="Region">{!resource.pse__Region__r.Name}</apex:column>
+                <apex:column headerValue="Practice">{!resource.pse__Practice__r.Name}</apex:column>
+                <apex:column headerValue="Role">{!resource.pse__Resource_Role__c}</apex:column>
+            </apex:pageBlockTable>
+            <br/>
+            <apex:outputLabel value="No Records Found" rendered="{!resources.size == 0}" />
+            
+            <apex:actionFunction name="goAF" action="{!go}" rerender="resourceBlock,msg"/>
+            
+        </apex:pageBlock>
+        
+    </apex:form>
+    
 </apex:page>

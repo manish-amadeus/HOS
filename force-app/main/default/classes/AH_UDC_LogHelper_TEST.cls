@@ -323,7 +323,7 @@ private class AH_UDC_LogHelper_TEST {
             // sending of email is not configured to be enabled in the org
             Integer expected = 1;
 
-            //TODO ROBDEV Determine why this test is failing 
+            //The InitializationHelper.cls has sending of emails all set to FALSE for default values; this line is only needed if the default for ERRORS is changed to TRUE
             //if (!AH_UDC_EmailHelper.OrgCanSendEmail) expected += 1;
 
             System.assertEquals(expected, countAfterWritingQueued, 'After writing the queued logs, there should have been ' + expected + ' log record(s), but found: ' + countAfterWritingQueued);

@@ -21,7 +21,7 @@ public class PsaTransferAssignmentController_Test
     {
         
         Date dt = system.date.today();
-		
+        
         Test.StartTest();
         
         // CREATE A SYSTEM ADMIN USER TO INSERT THE TEST USER RECORDS TO AVOID MIXED_DML_OPERATION 
@@ -32,21 +32,21 @@ public class PsaTransferAssignmentController_Test
         system.runAs(saUser)
         {
             // CREATE TEST REGIONAL APPROVER USER
-            User u1 = NI_TestClassData.createTestUser(2, 'NI PSA Administrator'); 
+            User u1 = NI_TestClassData.createTestUser(2, 'AH PSA Administrator - Lightning'); 
             u1.FirstName = 'Regional';
             u1.LastName = 'Admin';
             u1.Alias = 'RGA1TST'; 
             insert u1; 
             
             // CREATE TEST RESOURCE MANAGER USER 
-            User u2 = NI_TestClassData.createTestUser(3, 'NI PSA Management'); 
+            User u2 = NI_TestClassData.createTestUser(3, 'AH PSA Management - Lightning'); 
             u2.FirstName = 'PSAResource';
             u2.LastName = 'Manager';
             u2.Alias = 'MGR1TST'; 
             insert u2; 
             
             // CREATE TEST RESOURCE USER 
-            User u3 = NI_TestClassData.createTestUser(4, 'NI PSA T&E - Salesforce'); 
+            User u3 = NI_TestClassData.createTestUser(4, 'AH PSA T&E - SF - Lightning'); 
             u3.FirstName = 'PSAResource';
             u3.LastName = 'Resource';
             u3.Alias = 'RSC1TST'; 
@@ -59,7 +59,7 @@ public class PsaTransferAssignmentController_Test
         User resrceMgr = [SELECT Id FROM User WHERE Alias = 'MGR1TST'];
         User resrce = [SELECT Id FROM User WHERE Alias = 'RSC1TST'];
 
-		// CREATE A TEST ACCOUNT
+        // CREATE A TEST ACCOUNT
         Account a = NI_TestClassData.createTestAccount(1);
         a.Name = 'APEX TEST PSA EXPENSE REPORT ACCOUNT';
         a.RecordTypeId = Schema.SObjectType.Account.getRecordTypeInfosByName().get('Property Account').getRecordTypeId();
@@ -76,16 +76,16 @@ public class PsaTransferAssignmentController_Test
         system.assertEquals(region.Name, regionAssert.pse__Region_Name_Chain__c);
   
         // CREATE TEST PSA SCHEDULES  
-    	pse__Schedule__c sched = NI_TestClassData.createTestSchedule(dt, dt);
+        pse__Schedule__c sched = NI_TestClassData.createTestSchedule(dt, dt);
         insert sched;
         
-    	pse__Schedule__c sched2 = NI_TestClassData.createTestSchedule(dt, dt);
+        pse__Schedule__c sched2 = NI_TestClassData.createTestSchedule(dt, dt);
         insert sched2;
         
         // CREATE A TEST PSA PRACTICE  
-    	pse__Practice__c practice = NI_TestClassData.createTestPractice(1, 'psaTestPractice');
+        pse__Practice__c practice = NI_TestClassData.createTestPractice(1, 'psaTestPractice');
         practice.Name = 'psaTestPractice';
-    	insert practice;
+        insert practice;
 
         // CREATE TEST WORK CALENDAR
         pse__Work_Calendar__c WorkCalendar = NI_TestClassData.createTestWorkCalendar('Test Work Calendar');
@@ -104,10 +104,10 @@ public class PsaTransferAssignmentController_Test
         cntMgr.pse__Practice__c = practice.Id;
         cntMgr.pse__Work_Calendar__c = WorkCalendar.Id;
         cntMgr.pse__Group__c = grp.Id;
-    	cntMgr.pse__Is_Resource_Active__c = true;
-    	cntMgr.pse__Is_Resource__c = true;
+        cntMgr.pse__Is_Resource_Active__c = true;
+        cntMgr.pse__Is_Resource__c = true;
         cntMgr.pse__Salesforce_User__c = resrceMgr.Id;
-    	insert cntMgr; 
+        insert cntMgr; 
         
         // GRANT ACCESS TO RESOURCE MANAGER TO REGION
         pse__Permission_Control__c pc1 = NI_TestClassData.createTestPermissionControl(resrceMgr.Id);
@@ -124,10 +124,10 @@ public class PsaTransferAssignmentController_Test
         cnt.pse__Practice__c = practice.Id;
         cnt.pse__Work_Calendar__c = WorkCalendar.Id;
         cnt.pse__Group__c = grp.Id;
-    	cnt.pse__Is_Resource_Active__c = true;
-    	cnt.pse__Is_Resource__c = true;
+        cnt.pse__Is_Resource_Active__c = true;
+        cnt.pse__Is_Resource__c = true;
         cnt.pse__Salesforce_User__c = resrce.Id;
-    	insert cnt; 
+        insert cnt; 
 
         // GRANT ACCESS TO RESOURCE MANAGER TO RESOURCE
         pse__Permission_Control__c pc2 = NI_TestClassData.createTestPermissionControl(resrceMgr.Id); 
@@ -136,7 +136,7 @@ public class PsaTransferAssignmentController_Test
         insert pc2; 
 
         // CREATE A TEST PSA PROJECTS 
-    	pse__Proj__c prj1 = NI_TestClassData.createTestProject(1, 'Test Project', region, practice, 'Draft', null); 
+        pse__Proj__c prj1 = NI_TestClassData.createTestProject(1, 'Test Project', region, practice, 'Draft', null); 
         prj1.RecordTypeId = Schema.SObjectType.pse__Proj__c.getRecordTypeInfosByName().get('Standard Project').getRecordTypeId(); 
         prj1.Name = 'Test Project 1'; 
         prj1.pse__Closed_for_Expense_Entry__c = false; 
@@ -144,9 +144,9 @@ public class PsaTransferAssignmentController_Test
         prj1.pse__Start_Date__c = dt.addDays(10); 
         prj1.pse__End_Date__c = dt.addDays(20); 
         prj1.pse__Account__c = a.Id; 
-    	insert prj1;
+        insert prj1;
 
-    	pse__Proj__c prj2 = NI_TestClassData.createTestProject(1, 'Test Project', region, practice, 'Draft', null); 
+        pse__Proj__c prj2 = NI_TestClassData.createTestProject(1, 'Test Project', region, practice, 'Draft', null); 
         prj2.RecordTypeId = Schema.SObjectType.pse__Proj__c.getRecordTypeInfosByName().get('Standard Project').getRecordTypeId(); 
         prj2.Name = 'Test Project 2'; 
         prj2.pse__Closed_for_Expense_Entry__c = false; 
@@ -154,7 +154,7 @@ public class PsaTransferAssignmentController_Test
         prj2.pse__Start_Date__c = dt.addDays(10); 
         prj2.pse__End_Date__c = dt.addDays(20); 
         prj2.pse__Account__c = a.Id; 
-    	insert prj2;
+        insert prj2;
         
         // ASSERT "Project Manager Time" MILESTONE WAS CREATED
         List<pse__Milestone__c> lstMSAsserts0 = new List<pse__Milestone__c>([SELECT Id, Name  
@@ -172,7 +172,7 @@ public class PsaTransferAssignmentController_Test
         ms2.pse__Target_Date__c = dt;
         insert ms2;
 
-		// ASSERT MILESTONES        
+        // ASSERT MILESTONES        
         List<pse__Milestone__c> lstMSAsserts1 = new List<pse__Milestone__c>([SELECT Id FROM pse__Milestone__c WHERE (NOT Name LIKE 'Project Manager Time%')]);
         system.assertEquals(2, lstMSAsserts1.size());
         
@@ -197,18 +197,18 @@ public class PsaTransferAssignmentController_Test
             as2.pse__Role__c = 'IT'; 
             as2.pse__Status__c = 'Tentative'; 
             as2.OwnerId = resrce.Id;
-            as2.Project_Manager__c = cnt.Id; 		// Before Insert & Update should set this to cntMgr.Id
+            as2.Project_Manager__c = cnt.Id;        // Before Insert & Update should set this to cntMgr.Id
             insert as2;   
 
         }
 
         Test.stopTest(); 
 
-		// ASSERT MILESTONES        
+        // ASSERT MILESTONES        
         List<pse__Milestone__c> lstMSAsserts2 = new List<pse__Milestone__c>([SELECT Id FROM pse__Milestone__c]);
         system.assertEquals(3, lstMSAsserts2.size());
         
-       	// ASSERT ASSIGNMENTS        
+        // ASSERT ASSIGNMENTS        
         List<pse__Assignment__c> lstAssignAsserts = new List<pse__Assignment__c>([SELECT Id FROM pse__Assignment__c]);
         system.assertEquals(2, lstAssignAsserts.size());
         
@@ -222,7 +222,7 @@ public class PsaTransferAssignmentController_Test
     @isTest static void test1() 
     {
 
-      	pse__Assignment__c origAssignment = [SELECT Id FROM pse__Assignment__c WHERE Name = 'Test Assignment 1'];
+        pse__Assignment__c origAssignment = [SELECT Id FROM pse__Assignment__c WHERE Name = 'Test Assignment 1'];
         
         // Initialize
         PageReference pageRef = Page.PsaTransferAssignment;
@@ -293,7 +293,7 @@ public class PsaTransferAssignmentController_Test
 //system.assert(milestoneOptions.size() == 1);
         
     }
-	    
+        
     // ======================================================================================================================================= 
     // = TEST METHOD 2: Tests the validations and cancel action in PsaTransferAssignmentController
     // ======================================================================================================================================= 
@@ -446,7 +446,7 @@ public class PsaTransferAssignmentController_Test
         test.stopTest();
         
     }    
-	
+    
     // ======================================================================================================================================= 
     // = TEST METHOD 3: Tests a successful assignment transfer of the 'Resource-to-Project' "Assign Resource to Another Project" (RTP) type
     // ======================================================================================================================================= 
@@ -458,14 +458,14 @@ public class PsaTransferAssignmentController_Test
         pse__Proj__c newProject = [SELECT Id FROM pse__Proj__c WHERE Name = 'Test Project 2'];
         //pse__Milestone__c origMilestone = [SELECT Id FROM pse__Milestone__c WHERE Name = 'Milestone Test 1'];
         //pse__Milestone__c newMilestone = [SELECT Id FROM pse__Milestone__c WHERE Name = 'Milestone Test 2'];
-		//Contact newResource = [SELECT Id FROM Contact WHERE FirstName = 'PSAResource' AND LastName = 'Manager'];
-      	pse__Assignment__c origAssignment = [SELECT Id FROM pse__Assignment__c WHERE Name = 'Test Assignment 1'];
+        //Contact newResource = [SELECT Id FROM Contact WHERE FirstName = 'PSAResource' AND LastName = 'Manager'];
+        pse__Assignment__c origAssignment = [SELECT Id FROM pse__Assignment__c WHERE Name = 'Test Assignment 1'];
         
-		// ASSERT MILESTONES        
+        // ASSERT MILESTONES        
         List<pse__Milestone__c> lstMSAsserts = new List<pse__Milestone__c>([SELECT Id FROM pse__Milestone__c]);
         system.assertEquals(3, lstMSAsserts.size());
         
-       	// ASSERT ASSIGNMENTS        
+        // ASSERT ASSIGNMENTS        
         List<pse__Assignment__c> lstAssignAsserts = new List<pse__Assignment__c>([SELECT Id FROM pse__Assignment__c]);
         system.assertEquals(2, lstAssignAsserts.size());        
         
@@ -534,14 +534,14 @@ public class PsaTransferAssignmentController_Test
         test.stopTest();
         
     }
-	
+    
     // ======================================================================================================================================= 
     // = TEST METHOD 4: Tests a successful assignment transfer of the 'Replace-Resource' (RRP) "Replace Resource on Original Project" type 
     // ======================================================================================================================================= 
     @isTest static void test4() 
     {
         // CREATE TEST RESOURCE MANAGER USER 
-        User u = NI_TestClassData.createTestUser(10, 'NI PSA Management'); 
+        User u = NI_TestClassData.createTestUser(10, 'AH PSA Management - Lightning'); 
         u.FirstName = 'PSAResource';
         u.LastName = 'Manager';
         u.Alias = 'MGR1TST1'; 
@@ -553,8 +553,8 @@ public class PsaTransferAssignmentController_Test
         pse__Proj__c newProject = [SELECT Id FROM pse__Proj__c WHERE Name = 'Test Project 2'];
         pse__Milestone__c origMilestone = [SELECT Id FROM pse__Milestone__c WHERE Name = 'Milestone Test 1'];
         pse__Milestone__c newMilestone = [SELECT Id FROM pse__Milestone__c WHERE Name = 'Milestone Test 2'];
-		Contact newResource = [SELECT Id FROM Contact WHERE FirstName = 'PSAResource' AND LastName = 'Manager'];
-      	pse__Assignment__c origAssignment = [SELECT Id FROM pse__Assignment__c WHERE Name = 'Test Assignment 1'];
+        Contact newResource = [SELECT Id FROM Contact WHERE FirstName = 'PSAResource' AND LastName = 'Manager'];
+        pse__Assignment__c origAssignment = [SELECT Id FROM pse__Assignment__c WHERE Name = 'Test Assignment 1'];
         pse__Region__c region = [SELECT Id, pse__Region_ID_Chain__c, pse__Region_Name_Chain__c FROM pse__Region__c WHERE Name = 'psaTestRegion'];
         
         // GRANT ACCESS TO RESOURCE MANAGER TO RESOURCE
@@ -604,8 +604,8 @@ public class PsaTransferAssignmentController_Test
         test.startTest();
         
         // Set new schedule dates. Make it same length - 2 days but shift it forward 3 days
-        newSchedule.pse__Start_Date__c = system.date.today() + 1; 	// Date.NewInstance(2018, 10, 4);
-        newSchedule.pse__End_Date__c = system.date.today() + 2;   	// Date.NewInstance(2018, 10, 5);
+        newSchedule.pse__Start_Date__c = system.date.today() + 1;   // Date.NewInstance(2018, 10, 4);
+        newSchedule.pse__End_Date__c = system.date.today() + 2;     // Date.NewInstance(2018, 10, 5);
         newSchedule.pse__Scheduled_Days__c = 2;
         newSchedule.pse__Scheduled_Hours__c = 16;
         newAssignment.pse__Resource__c = newResource.Id;
@@ -626,7 +626,7 @@ public class PsaTransferAssignmentController_Test
         
         system.assert(newAssignmentId != null); 
         
-		
+        
         
         // Check the dates on the new assignment
 //        pse__Assignment__c updatedNewAssignment = [SELECT pse__Start_Date__c, pse__End_Date__c FROM pse__Assignment__c WHERE Id =: newAssignmentId];

@@ -26,8 +26,19 @@
       }
    </style>
 
-   <apex:pagemessages id="pageErrorMsg" />   
    <apex:form >
+      <!-- Display error message and OK button in case of exception-->
+      <apex:outputPanel id="opErrorMessage">
+         <apex:pageblock title="{!$Label.AH_UDC_WorkbookStepLockTitleText}" rendered="{!IsErrorOccurred}">
+            <apex:pagemessages id="pageErrorMsg" />
+            <center>
+               <button class="slds-button slds-button_brand" onclick="closeAndRefresh(false); return false;" id="btnOK">{!$Label.AH_UDC_OK}</button>
+            </center>
+         </apex:pageblock>
+      </apex:outputPanel>
+      <!--This action function is used to log entries that occurred on loading of the page-->
+      <apex:actionfunction name="actionfunction_LogMessages" action="{!ServerLogMessages}" oncomplete="return false;" />
+
       <div style="{!IF(IsErrorOccurred == false && IsWorkbookComplete == true, '', 'display:none;')}">
          <section aria-describedby="dialog-body-id-98" aria-labelledby="dialog-heading-id-5" class="slds-popover slds-popover_prompt slds-popover_prompt_top popup-custom popup-custom-border" role="dialog" style="border-color: #0171C0; border-width: 4px; border-radius: 25px;">
             <div class="slds-popover__body" id="dialog-body-id-989">
@@ -38,7 +49,7 @@
                </div>
             </div>
             <div class="slds-grid slds-align_absolute-center">
-               <button class="slds-button slds-button_brand" onclick="javascript: closeAndRefresh(false);" id="btnCancelWorkbookComplete">{!$Label.AH_UDC_Cancel}</button>
+               <button class="slds-button slds-button_brand" onclick="javascript: closeAndRefresh(false);">{!$Label.AH_UDC_OK}</button>
             </div>
             <div class="slds-var-p-around_small"></div>
          </section>
@@ -53,20 +64,24 @@
                </div>
             </div>
             <div class="slds-grid slds-align_absolute-center">
-               <button class="slds-button slds-button_brand" onclick="javascript: closeAndRefresh(false);" id="btnCancel">{!$Label.AH_UDC_Cancel}</button>
+               <button class="slds-button slds-button_brand" onclick="javascript: closeAndRefresh(false);">{!$Label.AH_UDC_OK}</button>
             </div>
             <div class="slds-var-p-around_small"></div>
          </section>
          <script type="text/javascript">
-            window.onload = function() {               
-               if('{!IsErrorOccurred == false && IsStepNotCompleted == false && IsWorkbookComplete == false}'.toLowerCase() == 'true') {
-                  //If step is already locked then close window without refresh otherwise refresh the page                  
+            window.onload = function() {
+               if('{!HasPageLoadLogMessages}'.toLowerCase() == 'true') {
+                  //Log error messages if error occurred in constructor
+                  setTimeout(actionfunction_LogMessages, 500);
+               }
+               else if('{!IsErrorOccurred == false && IsStepNotCompleted == false && IsWorkbookComplete == false}'.toLowerCase() == 'true') {
+                  //If step is already locked then close window without refresh otherwise refresh the page
                   closeAndRefresh(true);
                }
             }
 
             //Redirect back to step record
-            function closeAndRefresh(flagRefresh) {               
+            function closeAndRefresh(flagRefresh) {
                var id = "{!$CurrentPage.parameters.id}";
                if((typeof sforce != 'undefined') && sforce && (!!sforce.one)) { //Lightning View
                   if(flagRefresh) {
@@ -90,5 +105,4 @@
          </script>
       </div>
    </apex:form>
-   
 </apex:page>

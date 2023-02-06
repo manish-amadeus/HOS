@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Workflow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <alerts>
+        <fullName>Returned_to_Support_Email_Alert</fullName>
+        <description>Returned to Support Email Alert</description>
+        <protected>false</protected>
+        <recipients>
+            <type>owner</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>Support_Email_Templates/CR_Return_to_Support</template>
+    </alerts>
+    <fieldUpdates>
+        <fullName>Change_Reason_More_Information_Supplie</fullName>
+        <description>Change Reason to &quot;More Information Supplied&quot;</description>
+        <field>Reason__c</field>
+        <formula>&quot;More Information Supplied&quot;</formula>
+        <name>Change Reason - More Information Supplie</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Formula</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>Change_State_Product_Team_Review</fullName>
+        <description>Change the State to &quot;Product Team Review&quot;</description>
+        <field>State__c</field>
+        <formula>&quot;Product Team Review&quot;</formula>
+        <name>Change State - Product Team Review</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Formula</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>Return_to_Dev_uncheck</fullName>
+        <description>Un-check the Return to Dev field</description>
+        <field>Return_to_Dev__c</field>
+        <literalValue>0</literalValue>
+        <name>Return to Dev - uncheck</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Literal</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <rules>
+        <fullName>Return to Development</fullName>
+        <actions>
+            <name>Change_Reason_More_Information_Supplie</name>
+            <type>FieldUpdate</type>
+        </actions>
+        <actions>
+            <name>Change_State_Product_Team_Review</name>
+            <type>FieldUpdate</type>
+        </actions>
+        <actions>
+            <name>Return_to_Dev_uncheck</name>
+            <type>FieldUpdate</type>
+        </actions>
+        <active>true</active>
+        <formula>AND(ISCHANGED(Return_to_Dev__c),Return_to_Dev__c = true)</formula>
+        <triggerType>onAllChanges</triggerType>
+    </rules>
+    <rules>
+        <fullName>Return to Support</fullName>
+        <actions>
+            <name>Returned_to_Support_Email_Alert</name>
+            <type>Alert</type>
+        </actions>
+        <active>true</active>
+        <formula>AND(ISCHANGED(State__c), State__c = &quot;Returned to Support&quot;)</formula>
+        <triggerType>onAllChanges</triggerType>
+    </rules>
+</Workflow>

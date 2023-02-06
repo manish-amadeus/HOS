@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<QuickAction xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fieldOverrides>
+        <field>Account__c</field>
+        <formula>Account.Id</formula>
+    </fieldOverrides>
+    <fieldOverrides>
+        <field>Bank_Address__c</field>
+        <formula>Account.c2g__CODABankName__c &amp; BR()&amp;
+ Account.c2g__CODABankStreet__c &amp; BR()&amp;
+ Account.c2g__CODABankCity__c &amp; &quot;, &quot; &amp;
+ Account.c2g__CODABankStateProvince__c &amp; &quot;, &quot; &amp;
+ Account.c2g__CODABankZipPostalCode__c &amp; BR()&amp;
+ Account.c2g__CODABankCountry__c</formula>
+    </fieldOverrides>
+    <fieldOverrides>
+        <field>Beneficiary_Name__c</field>
+        <formula>Account.c2g__CODABankAccountName__c</formula>
+    </fieldOverrides>
+    <fieldOverrides>
+        <field>Mailing_Address__c</field>
+        <formula>Account.BillingStreet &amp; BR()&amp;
+ Account.BillingCity &amp; &quot;, &quot; &amp;
+Account.BillingState &amp; &quot;, &quot; &amp;
+ Account.BillingPostalCode &amp; BR() &amp;
+ Account.BillingCountry</formula>
+    </fieldOverrides>
+    <fieldOverrides>
+        <field>Name_on_Check__c</field>
+        <formula>Account.ffdcpf_Vendor_Name_on_Check__c</formula>
+    </fieldOverrides>
+    <fieldOverrides>
+        <field>Payment_Type__c</field>
+        <formula>text(Account.c2g__CODAPaymentMethod__c)</formula>
+    </fieldOverrides>
+    <fieldOverrides>
+        <field>Status__c</field>
+        <literalValue>New</literalValue>
+    </fieldOverrides>
+    <fieldOverrides>
+        <field>Swift_IBAN__c</field>
+        <formula>Account.c2g__CODABankSWIFTNumber__c</formula>
+    </fieldOverrides>
+    <label>New Refund Request</label>
+    <optionsCreateFeedItem>true</optionsCreateFeedItem>
+    <quickActionLayout>
+        <layoutSectionStyle>TwoColumnsLeftToRight</layoutSectionStyle>
+        <quickActionLayoutColumns>
+            <quickActionLayoutItems>
+                <emptySpace>false</emptySpace>
+                <field>Status__c</field>
+                <uiBehavior>Required</uiBehavior>
+            </quickActionLayoutItems>
+            <quickActionLayoutItems>
+                <emptySpace>false</emptySpace>
+                <field>Net_Credit_Amount__c</field>
+                <uiBehavior>Edit</uiBehavior>
+            </quickActionLayoutItems>
+            <quickActionLayoutItems>
+                <emptySpace>false</emptySpace>
+                <field>Payment_Type__c</field>
+                <uiBehavior>Required</uiBehavior>
+            </quickActionLayoutItems>
+            <quickActionLayoutItems>
+                <emptySpace>false</emptySpace>
+                <field>CC_Name_on_Card__c</field>
+                <uiBehavior>Edit</uiBehavior>
+            </quickActionLayoutItems>
+            <quickActionLayoutItems>
+                <emptySpace>false</emptySpace>
+                <field>CC_Transaction_Date__c</field>
+                <uiBehavior>Edit</uiBehavior>
+            </quickActionLayoutItems>
+        </quickActionLayoutColumns>
+        <quickActionLayoutColumns>
+            <quickActionLayoutItems>
+                <emptySpace>false</emptySpace>
+                <field>Name_on_Check__c</field>
+                <uiBehavior>Edit</uiBehavior>
+            </quickActionLayoutItems>
+            <quickActionLayoutItems>
+                <emptySpace>false</emptySpace>
+                <field>Mailing_Address__c</field>
+                <uiBehavior>Edit</uiBehavior>
+            </quickActionLayoutItems>
+            <quickActionLayoutItems>
+                <emptySpace>false</emptySpace>
+                <field>Account_Number__c</field>
+                <uiBehavior>Edit</uiBehavior>
+            </quickActionLayoutItems>
+            <quickActionLayoutItems>
+                <emptySpace>false</emptySpace>
+                <field>Beneficiary_Name__c</field>
+                <uiBehavior>Edit</uiBehavior>
+            </quickActionLayoutItems>
+            <quickActionLayoutItems>
+                <emptySpace>false</emptySpace>
+                <field>Bank_Address__c</field>
+                <uiBehavior>Edit</uiBehavior>
+            </quickActionLayoutItems>
+            <quickActionLayoutItems>
+                <emptySpace>false</emptySpace>
+                <field>Routing_Number__c</field>
+                <uiBehavior>Edit</uiBehavior>
+            </quickActionLayoutItems>
+            <quickActionLayoutItems>
+                <emptySpace>false</emptySpace>
+                <field>Swift_IBAN__c</field>
+                <uiBehavior>Edit</uiBehavior>
+            </quickActionLayoutItems>
+        </quickActionLayoutColumns>
+    </quickActionLayout>
+    <successMessage>Success</successMessage>
+    <targetObject>AH_Finance_Request__c</targetObject>
+    <targetParentField>Account__c</targetParentField>
+    <targetRecordType>AH_Finance_Request__c.Refund_Request</targetRecordType>
+    <type>Create</type>
+</QuickAction>

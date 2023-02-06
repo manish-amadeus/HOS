@@ -66,7 +66,7 @@ public class AH_JobScheduler_Ctlr extends AH_JobScheduler_Ctlr_Base
              Environment__c, 
              User_Name__c, 
              Schedulable_Classes_with_ID__c 
-             FROM Apex_Job_Scheduler_Setting__c //]);
+             FROM Apex_Job_Scheduler_Setting__c 
              WHERE Running_User_Profile_Name__c =: currentUserPrf.Name]);
 
         settingsObj = schldrSettingsList[0];

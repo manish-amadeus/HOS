@@ -1,0 +1,1709 @@
+<apex:component >
+   <script type="text/javascript">
+      var longTextModal = null;
+      var product = '';
+      $(document).ready(function () {
+         longTextModal = document.getElementById('longTextModal');
+         $('#spnAmadeusFormErrorMsg').text(LABEL_AmadeusFormRenderErrorMessage);
+         $(document).keydown(function(event) {
+            if($(event.target).parents('#addRowsModal').length > 0 && event.target.id == 'txtRows') {
+               var keyCode = event.keyCode || event.which;
+               if(keyCode == 13) { //Enter key pressed in add rows modal popup
+                  $('#addRowsModal #btnAddRows').click();
+                  event.preventDefault();
+               }
+            }
+            else if(typeof(event.target.jexcel) != 'undefined' && event.target.jexcel != null) {
+               var keyCode = event.keyCode || event.which;
+               if (keyCode === 46 && event.target.jexcel.selectedRow) { //Don't allow user to delete spreadsheet row on press of delete key
+                  event.stopImmediatePropagation();
+               }
+               else if(event.target.jexcel.selectedCell) {
+                  var x = event.target.jexcel.selectedCell[0];
+                  var y = event.target.jexcel.selectedCell[1];
+                  var cellName = jexcel.getColumnNameFromId([x, y]); //It will return column name. Ex. A1
+                  var selectedCell = event.target.jexcel.getCell(cellName);
+                  if($(selectedCell).data('longtext') == true && event.ctrlKey == false) {
+                     if(keyCode == 8) { //8 - Back Space
+                        unBindToolTip(selectedCell);
+                        setTimeout(function() {
+                           $('#txtLongText', longTextModal).val('');
+                        }, 100);
+                     }
+                     else if(keyCode == 46) { //46 - Delete
+                        unBindToolTip(selectedCell);
+                     }
+                     else if ((keyCode >= 48 && keyCode <= 90) //Open popup if key pressed is 0-1 or A-Z
+                        || (keyCode >= 96 && keyCode <= 111) //Open popup if 0-1 pressed from numpad
+                        || keyCode >= 186) { //Open popup if any symbole is pressed
+                        event.stopImmediatePropagation();
+                        var strHeaders = event.target.jexcel.getHeaders();
+                        var arrColumnNames = strHeaders.split(',');
+                        startEditionLongText(event.target.jexcel, arrColumnNames[x], selectedCell, cellName);
+                     }
+                  }
+               }
+            }
+         });
+      });
+
+      function renderForm() {
+         try {
+            if (objJSON == null || objJSON.length == 0) {
+               throw "Form definition not found - objJSON is null or empty";
+            }
+            else if(typeof(objJSON.sections) == 'undefined' || objJSON.sections == null || objJSON.sections.length == 0) {
+               throw "Form definition doesn't have sections";
+            }
+            $('#formRender').empty();
+
+            if(typeof(objJSON.product) != 'undefined' && objJSON.product != null)
+               product = objJSON.product; //Set product value which will be used in formulas evaluation
+
+            objJSON.sections.forEach(function (objSection, index) {
+               var isRepeatSection = typeof(objSection.repeat) != 'undefined' && objSection.repeat == 'true';
+               var intRepeatCount = 0;
+               if (typeof(objSection.repeatsectionof) != 'undefined' && objSection.repeatsectionof != null && objSection.repeatsectionof != '') {
+                  intRepeatCount = parseInt($('#hdn' + objSection.repeatsectionof).val());
+               }
+
+               var APIName = objSection.apiname + '_' + intRepeatCount;
+               var fieldSet = generateSection(APIName, objSection);
+               if (typeof(objSection.repeatsectionof) != 'undefined' && objSection.repeatsectionof != null && objSection.repeatsectionof != '') {
+                  $('#hdn' + objSection.repeatsectionof).val(intRepeatCount + 1); //Increment count in number of repeat sections
+
+                  var btnRemoveSection = $('<span class="btn-remove-section" title="Remove Section">×</span>');
+                  $(btnRemoveSection).click(function() {
+                     $(this).parent().remove();
+                  });
+                  fieldSet.prepend(btnRemoveSection);
+                  $('#formRender #btnAdd_' + objSection.repeatsectionof).before(fieldSet);
+               }
+               else {
+                  $('#formRender').append(fieldSet);
+                  if (isRepeatSection) {
+                     var hdnCount = $('<input type="hidden" id="hdn' + objSection.apiname + '" value="1" />');
+                     var btnAdd = $('<a id="btnAdd_' + objSection.apiname + '" style="float:right;cursor: pointer;">Add ' + objSection.title + '</a>');
+                     btnAdd.attr("onclick", "javascript: repeatSection('" + objSection.apiname + "', this);");
+                     $('#formRender').append(hdnCount);
+                     $('#formRender').append(btnAdd);
+                  }
+               }
+            });
+
+            //Execute global formulas as well as field level formulas
+            executeFormulas();
+         }
+         catch (ex) {
+            handleJSError('renderForm', typeof(ex) == 'string' ? ex : ex.stack);
+         }
+      }
+
+      function scrollToErrorField(elemId) {
+         var elem = document.getElementById(elemId);
+         //Set window's scroll position to display element
+         $('html, body').animate({ scrollTop: $(elem).offset().top - $('.navbar').height() }, 1000);
+         var jexcelContainer = $('> .jexcel_container', elem); //Check if grid exists in the section and it has error
+         if($(jexcelContainer).length > 0 && $('.jexcel_content .error-field', jexcelContainer).length > 0) {
+            //Exclude grid headers from vertical scroll position
+            var intScrollTop = $('.jexcel_content .error-field:first', jexcelContainer).position().top - $('.jexcel_content thead', jexcelContainer).height();
+            //Exclude first column (roow numbers) from horizontal scroll position
+            var intScrollLeft = $('.jexcel_content .error-field:first', jexcelContainer).position().left - $('.jexcel_content tbody tr:first td.jexcel_row', jexcelContainer).width();
+            $('.jexcel_content', jexcelContainer).scrollTop(intScrollTop); //Scroll vertically in the grid to display error field
+            $('.jexcel_content', jexcelContainer).scrollLeft(intScrollLeft); //Scroll horizontally in the grid to display error field
+         }
+      }
+
+      function validateFormAndSaveResponse() {
+         var flagError = false;
+         var sectionData = [];
+         var arrSectionsWithError = [];
+         $('#formRender > .section-wrapper').each(function(sectionIndex, objSectionWrapper) {
+            if($(objSectionWrapper).is(':visible') == false) return; //Ignore hidden sections
+
+            //If section directly has fields or grid inside then validate and prepare json
+            if($('> div .field-wrapper', objSectionWrapper).length > 0 || $('> .jexcel_container table.jexcel tbody', objSectionWrapper).length > 0) {
+               //Validate fields of the section
+               var result = validateFieldsAndPrepareJSON(objSectionWrapper);
+               if(result == true) {
+                  flagError = true;
+                  arrSectionsWithError.push({sectionId: $(objSectionWrapper).attr('id'), sectionTitle: $('legend:first', objSectionWrapper).text()});
+               }
+               else {
+                  sectionData = sectionData.concat(result);
+               }
+            }
+
+            //If section has inside sections then validate fields of inside sections and prepare json
+            if($('> fieldset', objSectionWrapper).length > 0) {
+               $('> fieldset', objSectionWrapper).each(function(insideSectionIndex, objInsideSectionWrapper) {
+                  if($(objInsideSectionWrapper).is(':visible') == false) return; //Ignore hidden inside sections
+
+                  //If inside section has fields or grid then validate and prepare json
+                  if($('> div .field-wrapper', objInsideSectionWrapper).length > 0 || $('> .jexcel_container table.jexcel tbody', objInsideSectionWrapper).length > 0) {
+                     //Validate fields of inside section
+                     var result = validateFieldsAndPrepareJSON(objInsideSectionWrapper);
+                     if(result == true) {
+                        flagError = true;
+                        arrSectionsWithError.push({sectionId: $(objInsideSectionWrapper).attr('id'), sectionTitle: $('legend:first', objInsideSectionWrapper).text()});
+                     }
+                     else {
+                        sectionData = sectionData.concat(result);
+                     }
+                  }
+               });
+            }
+         });
+
+         if(flagError == true) {
+            var errorSummary = $('#formRender #divErrorSummary');
+            if(errorSummary.length == 0) {
+               var errorSummary = $('<div id="divErrorSummary" style="color: red;">' + LABEL_AmadeusFormValidationErrorMessage + '</div>');
+               $('#formRender').prepend(errorSummary);
+            }
+
+            $('ul', errorSummary).remove();
+            var objUl = $('<ul></ul>');
+            arrSectionsWithError.forEach(function(objErrorSection) {
+               var objLi = $('<li></li>');
+               var objAnchor = $('<a href="javascript: void(0);" onclick="javascript: scrollToErrorField(\'' + objErrorSection.sectionId + '\');">' + objErrorSection.sectionTitle + '</a>');
+               objLi.append(objAnchor);
+               objUl.append(objLi);
+            });
+            $(errorSummary).append(objUl);
+
+            //Scroll to error div
+            scrollToErrorField('divErrorSummary');
+         }
+         else {
+            $('#formRender #divErrorSummary').remove();
+            $('.form-container #btnSave').prop('disabled', true);
+            var jsonRQAs = '{"Token" : "' + token + '", "ResponseQAs":' + JSON.stringify(sectionData) + '}';
+            saveAmadeusFormResponse(jsonRQAs);
+         }
+      }
+
+      //Validate fields inside the section and prepare json of response QA if no error found
+      function validateFieldsAndPrepareJSON(parentField) {
+         var sectionData = [];
+         var flagError = false;
+         $('> div .field-wrapper', parentField).each(function(fieldIndex, objField) {
+            if($(objField).is(':visible') == false) return; //Ignore hidden fields
+
+            var objData = {};
+            var label = $('label', objField).first();
+            objData.QF = $(objField).attr('id');   //QF - QuestionField
+            objData.Q = $.trim(label.text()); //Q - Question
+            if($('span', label).length > 0) {
+               //If field is required then remove * from question text
+               objData.Q = objData.Q.slice(0, -1);
+            }
+            objData.A = ''; //A - Answer
+            objData.AF = ''; //AF - AnswerField
+
+            if($('input[type=text]', objField).length > 0) {
+               if($(objField).data('required') == true && $.trim($('input[type=text]', objField).val()) == '') {
+                  flagError = true;
+                  $('input[type=text]', objField).addClass('error-field');
+                  bindToolTip(objField, LABEL_AmadeusFormRequiredValidationMessage);
+               }
+               else {
+                  $('input[type=text]', objField).removeClass('error-field');
+                  unBindToolTip(objField);
+                  objData.A = $.trim($('input[type=text]', objField).val());
+               }
+            }
+            else if($('select', objField).length > 0) {
+               if($(objField).data('required') == true && $.trim($('select', objField).val()) == '') {
+                  flagError = true;
+                  $('select', objField).addClass('error-field');
+                  bindToolTip(objField, LABEL_AmadeusFormRequiredValidationMessage);
+               }
+               else {
+                  $('select', objField).removeClass('error-field');
+                  unBindToolTip(objField);
+                  objData.A = $.trim($('select option:selected', objField).text());
+                  objData.AF = $.trim($('select', objField).val());
+               }
+            }
+            else if($('input[type=checkbox]', objField).length > 0) {
+               if($(objField).data('required') == true && $('input[type=checkbox]:checked', objField).length == 0) {
+                  flagError = true;
+                  $(objField).addClass('error-field');
+                  bindToolTip(objField, LABEL_AmadeusFormRequiredValidationMessage);
+               }
+               else {
+                  $(objField).removeClass('error-field');
+                  unBindToolTip(objField);
+                  objData.A = $('input[type=checkbox]:checked', objField).length > 0;
+               }
+            }
+            else if($('input[type=radio]', objField).length > 0) {
+               if($(objField).data('required') == true && $.trim($('input[type=radio]:checked', objField).val()) == '') {
+                  flagError = true;
+                  $('.radio-group', objField).css('border', '1px solid red');
+                  bindToolTip(objField, LABEL_AmadeusFormRequiredValidationMessage);
+               }
+               else {
+                  $('.radio-group', objField).css('border', 'none');
+                  unBindToolTip(objField);
+                  objData.A = $.trim($('input[type=radio]:checked', objField).parent().find('label').text());
+                  objData.AF = $.trim($('input[type=radio]:checked', objField).val());
+               }
+            }
+            sectionData.push(objData);
+         });
+
+         $('> .jexcel_container table.jexcel tbody', parentField).each(function(tblIndex, objTbody) {
+            $('td[data-required=true], td[data-minlength], td[data-maxlength]', objTbody).each(function(tdIndex, objTd) {
+               if($(objTd).is(':visible') == false) return; //Ignore hidden columns
+
+               var intMinLength = $(this).data('minlength');
+               var intMaxLength = $(this).data('maxlength');
+               if($(this).data('required') == true
+                  && ($.trim($(this).text()) == '' || ($(this).data('type') == 'radio' && $('input[type=radio]:checked', this).length == 0))) {
+                  flagError = true;
+                  $(this).addClass('error-field');
+                  bindToolTip(this, LABEL_AmadeusFormRequiredValidationMessage);
+               }
+               else if(intMinLength > 0 && $.trim($(this).text()).length < intMinLength) {
+                  flagError = true;
+                  $(this).addClass('error-field');
+                  bindToolTip(this, LABEL_AmadeusFormMinLengthValidationMessage.replace('{0}', intMinLength));
+               }
+               else if(intMaxLength > 0 && $.trim($(this).text()).length > intMaxLength) {
+                  flagError = true;
+                  $(this).addClass('error-field');
+                  bindToolTip(this, LABEL_AmadeusFormMaxLengthValidationMessage.replace('{0}', intMaxLength));
+               }
+               else {
+                  $(this).removeClass('error-field');
+                  unBindToolTip(this);
+               }
+            });
+
+            var parentFieldSet = $(this).parents('.jexcel_container').parent('fieldset');
+            if(!flagError) {
+               var objJExcel = $(this).parents('.jexcel_container').get(0).jexcel;
+               var strAPIName = $(this).parents('.jexcel_container').parent().attr('id');
+               var strHeaders = objJExcel.getHeaders();
+               var arrColumnNames = strHeaders.split(',');
+               var rowIndex = 0;
+               $.each(objJExcel.getJson(), function(keyMain, valueMain) {
+                  var columnIndex = 0;
+                  $.each(valueMain, function(key, value) {
+                     var rowData = {};
+                     rowData.QF = key + '_' + rowIndex;
+                     rowData.Q = arrColumnNames[columnIndex] + ' ' + rowIndex;
+                     if($.trim(value) != '' && (objJExcel.options.columns[columnIndex].type == 'dropdown' || objJExcel.options.columns[columnIndex].type == 'radio')) {
+                        var sources = objJExcel.options.columns[columnIndex].source.filter(x => x.id == value);
+                        if(sources.length==0 ||!sources || sources=='undefined') {
+                           rowData.A='';
+                           rowData.AF='';
+                        }
+                        else {
+                           rowData.A = sources[0].name;
+                           rowData.AF = value;
+                        }
+                     }
+                     else {
+                        rowData.A = value;
+                        rowData.AF = '';
+                     }
+                     sectionData.push(rowData);
+                     columnIndex++;
+                  });
+                  rowIndex++;
+               });
+            }
+         });
+
+         if(flagError)
+            return true;
+         else
+            return sectionData;
+      }
+
+      function getAmadeusFormResponse() {
+         try {
+            //var apiUrl = "https://staging-mbrfp.meetingbroker.com/AmadeusHospitality/UnifiedDataCollection/FormToSalesforceUDCSB/AmadeusForm/"+token;
+            $.ajax({
+               type: "GET",
+               async: true,
+               url: AmdeusCustomFormAPIUrl + token, //Url comming from configuration
+               success: function (data) {
+                  objJSON = data != '' ? JSON.parse(data) : null;
+                  console.log('GetData:'+data);
+                  if (typeof objJSON === "object" && objJSON !== null) {
+                     if (typeof objJSON.statusCode != 'undefined' && objJSON.statusCode != null) {
+                        $('.form-container').hide();
+                        $('#divAmadeusFormError').show();
+                        hideSpinner();
+                        $('.modal-backdrop').hide();
+                        return;
+                     }
+                     renderForm();
+                     hideSpinner();
+                  }
+                  $('.modal-backdrop').hide();
+		  //TODO:Rob, Vaishali - discuss with team
+                  //show save button only when work is not completed
+                  //if(isWorkbookCompleted  == false)
+         	  $('#divButtons').show();
+               },
+               error: function (error) {
+                  $('.form-container').hide();
+                  $('#divAmadeusFormError').show();
+                  hideSpinner();
+                  $('.modal-backdrop').hide();
+               }
+            });
+         }
+         catch(ex) {
+            handleJSError('getAmadeusFormResponse', typeof(ex) == 'string' ? ex : ex.stack);
+         }
+      }
+
+      function saveAmadeusFormResponse(jsonRequest) {
+         try {
+            //var apiUrl = "https://staging-mbrfp.meetingbroker.com/AmadeusHospitality/UnifiedDataCollection/FormToSalesforceUDCSB/AmadeusForm";
+            showSpinner();
+            $('.modal-backdrop').show();
+            $('.modal-backdrop').height($('.modal-backdrop').height() + 120);
+            $.ajax({
+               type: "POST",
+               async: true,
+               crossDomain:true,
+               contentType: 'application/json',
+               dataType: "json",
+               url: AmdeusCustomFormAPIUrl, //Url comming from configuration
+               data: jsonRequest,
+               success: function (data) {
+                  $('.form-container').hide();
+                  hideSpinner();
+                  $('.modal-backdrop').hide();
+                  if (typeof data === "object" && data !== null
+                     && typeof data.statusCode != 'undefined' && parseInt(data.statusCode) == 200) {
+                     $('#divAmadeusFormSuccess').show();
+                     //Force Step Tree to refresh on successful save
+                     updateTimerStop();
+                     UpdateTimer();
+                  }
+                  else {
+                     $('#spnAmadeusFormErrorMsg').text(LABEL_AmadeusFormSaveErrorMessage);
+                     $('#divAmadeusFormError').show();
+                  }
+               },
+               error: function (error) {
+                  //If there is an error in save logic then it should not hide form and need to persist filled data so can not call function handleJSError here
+                  hideSpinner();
+                  $('.modal-backdrop').hide();
+                  //Log error in db
+                  actionfunction_LogClientException('saveAmadeusFormResponse', typeof(error) == 'string' ? error : JSON.stringify(error));
+                  $('#spnAmadeusFormErrorMsg').text(LABEL_AmadeusFormSaveErrorMessage);
+                  $('#divAmadeusFormError').show();
+                  $('.form-container #btnSave').prop('disabled', false);
+               }
+            });
+         }
+         catch(ex) {
+            //If there is an error in save logic then it should not hide form and need to persist filled data so can not call function handleJSError here
+            hideSpinner();
+            $('.modal-backdrop').hide();
+            //Log error in db
+            actionfunction_LogClientException('saveAmadeusFormResponse', typeof(ex) == 'string' ? ex : ex.stack);
+            $('#spnAmadeusFormErrorMsg').text(LABEL_AmadeusFormSaveErrorMessage);
+            $('#divAmadeusFormError').show();
+            $('.form-container #btnSave').prop('disabled', false);
+         }
+      }
+
+      function escapeJSON(str) {
+         return str.replace(/\n/g, "\\\\n").replace(/\r/g, "\\\\r").replace(/\t/g, "\\\\t");
+      }
+
+      function generateSection(APIName, objSection) {
+         try {
+            var arrFieldLevelFormulas = [];
+            var fieldSet = $('<fieldset class="section-wrapper"></fieldset>');
+            fieldSet.attr('id', APIName);
+            fieldSet.addClass(objSection.scrollable == 'true' ? "scrollable" : "");
+            fieldSet.append('<legend>' + objSection.title + '</legend>');
+
+            var arrAPIName = APIName.split('_');
+            arrAPIName.pop(); //Don't use repeat index for hidden field id
+            var hdnFieldId = 'hdn' + arrAPIName.join('_');
+            var intRepeatCount = 0;
+            if($('#' + hdnFieldId).length > 0) {
+               intRepeatCount = parseInt($('#' + hdnFieldId).val());
+            }
+
+            if (typeof(objSection.fields) != 'undefined' && objSection.fields != null && objSection.fields.length > 0) {
+               var section = JSON.parse(JSON.stringify(objSection));
+               section.fields.forEach(function (objField, fieldIndex) {
+                  //For main section append section _index in api name of all fields
+                  //otherwise append _0 in api name of all fields
+                  objField.name += '_' + intRepeatCount;
+
+                  if(typeof(objField.formulas) != 'undefined' && objField.formulas != null && objField.formulas.length > 0)
+                     //Prepare array of field level formulas so they can be processed later
+                     arrFieldLevelFormulas = arrFieldLevelFormulas.concat(objField.formulas);
+               });
+
+               //Generate custom fields or grid
+               generateFields(APIName, section, fieldSet);
+            }
+
+            if (typeof(objSection.insidesections) != 'undefined' && objSection.insidesections != null && objSection.insidesections.length > 0) {
+               objSection.insidesections.forEach(function (objInsideSection, insideSectionIndex) {
+                  var isInsideGridSection = typeof(objInsideSection.gridview) != 'undefined' && objInsideSection.gridview != null && objInsideSection.gridview.toLowerCase() == 'true';
+                  var arrAPIName = APIName.split('_');
+                  var intRepeatIndex = arrAPIName[arrAPIName.length - 1];
+                  var insideAPIName = objInsideSection.apiname + '_' + intRepeatIndex; //Append parent section repeat index
+                  var intInsideRepeatCount = 0;
+                  if(!isInsideGridSection) {
+                     if($('#hdn' + insideAPIName, fieldSet).length > 0) {
+                        intInsideRepeatCount = parseInt($('#hdn' + insideAPIName, fieldSet).val());
+                     }
+                     insideAPIName += '_' + intInsideRepeatCount; //Append inside section repeat index
+                  }
+
+                  var fieldSetInside = $('<fieldset id="' + insideAPIName + '" class="inside-section-wrapper"></fieldset>');
+                  fieldSetInside.addClass(objInsideSection.scrollable == 'true' ? "scrollable" : "");
+                  fieldSetInside.append('<legend>' + objInsideSection.title + '</legend>');
+
+                  var insideSection = JSON.parse(JSON.stringify(objInsideSection));
+                  insideSection.fields.forEach(function (objField, fieldIndex) {
+                     //If parent section is repeatable then append parent section repeat index in api name of all fields
+                     //otherwise append _0 in api name of all fields
+                     objField.name += '_' + intRepeatIndex;
+
+                     if(!isInsideGridSection) { //Not for grid section
+                        //For inside section other than gird append inside section repeat index in api name of all fields
+                        //otherwise append _0 in api name of all fields
+                        objField.name += '_' + intInsideRepeatCount;
+
+                        if(typeof(objField.formulas) != 'undefined' && objField.formulas != null && objField.formulas.length > 0)
+                           //Prepare array of field level formulas so they can be processed later
+                           arrFieldLevelFormulas = arrFieldLevelFormulas.concat(objField.formulas);
+                     }
+                  });
+
+                  //Generate custom fields or grid for inside section
+                  generateFields(insideAPIName, insideSection, fieldSetInside);
+
+                  if (typeof(insideSection.repeatsectionof) != 'undefined' && insideSection.repeatsectionof != null && insideSection.repeatsectionof != '') {
+                     $('#hdn' + insideSection.repeatsectionof, fieldSet).val(intInsideRepeatCount + 1); //Increment count in number of inside repeat sections
+                     var btnRemoveSection = $('<span class="btn-remove-section" title="Remove Section">×</span>');
+                     $(btnRemoveSection).click(function() {
+                        $(this).parent().remove();
+                     });
+                     fieldSetInside.prepend(btnRemoveSection);
+                     $('#btnAdd_' + insideSection.repeatsectionof, fieldSet).before(fieldSetInside);
+                  }
+                  else {
+                     fieldSet.append(fieldSetInside);
+                     if (typeof(insideSection.repeat) != 'undefined'  && insideSection.repeat != null && insideSection.repeat.toLowerCase() == 'true') {
+                        var hdnIndsideRepeatCount = $('<input type="hidden" id="hdn' + objInsideSection.apiname + '_' + intRepeatIndex + '" value="1" />');
+                        var btnAdd = $('<a id="btnAdd_' + objInsideSection.apiname + '_' + intRepeatIndex + '" style="float:right;cursor: pointer;">Add ' + objInsideSection.title + '</a>');
+                        btnAdd.attr("onclick", "javascript: repeatInsideSection('" + objSection.apiname + "', " + intRepeatCount + ", this, '" + insideSection.apiname + "');");
+                        fieldSet.append(hdnIndsideRepeatCount);
+                        fieldSet.append(btnAdd);
+                     }
+                  }
+               });
+            }
+
+            //Bind field level formulas on the field and add button
+            processFieldLevelFormulas(arrFieldLevelFormulas, fieldSet);
+            return fieldSet;
+         }
+         catch(ex) {
+            handleJSError('generateSection', typeof(ex) == 'string' ? ex : ex.stack);
+         }
+      }
+
+      //Bind field level formulas on the field and add button
+      function processFieldLevelFormulas(arrFieldLevelFormulas, fieldSet) {
+         try {
+            arrFieldLevelFormulas.forEach(objFormula  => {
+               if(objFormula.type.toLowerCase() != 'hide')
+                  return; //Process only hide formulas
+
+               var arrFormulaFieldIds = objFormula.formulafields.split(',');
+               arrFormulaFieldIds.forEach(strFieldId => {
+                  if($.trim(strFieldId).toLowerCase() == 'product')
+                     return; //For product no need to bind event
+
+                  var field = $('[id^="' + $.trim(strFieldId) + '_"]', fieldSet);
+                  if(field.length > 0) {
+                     //Set formula on field to execute on value change
+                     bindFormulaFieldEvent(field, objFormula, true);
+                     //Execute formula
+                     field.trigger('change');
+                  }
+                  else {
+                     handleJSError('processFieldLevelFormulas', 'Formula field not found with the api name ' + (strFieldId != null ? strFieldId : 'null'));
+                     return;
+                  }
+               });
+
+               var arrHideIds = objFormula.ids.split(',');
+               arrHideIds.forEach(strFieldId => {
+                  var field = $('[id^="' + $.trim(strFieldId) + '_"]', fieldSet);
+                  if(field.length == 0)
+                     return; //Ignore grid columns as the grid will never be in the repeated inside section
+
+                  var parentInsideSection = field.parents('.inside-section-wrapper');
+                  if(parentInsideSection.length > 0) {
+                     var strInsideSectionId = $.trim(parentInsideSection.attr('id'));
+                     var arr = strInsideSectionId.split('_');
+                     var btnAddInsideSection = $('[id^="btnAdd_' + arr[0] + '_"]', fieldSet);
+                     if(btnAddInsideSection.length > 0)
+                        //Set formula on add button to execute again on repeating inside section
+                        bindFormulaFieldEvent(btnAddInsideSection, objFormula, true);
+                  }
+               });
+            });
+         }
+         catch(ex) {
+            handleJSError('processFieldLevelFormulas', typeof(ex) == 'string' ? ex : ex.stack);
+         }
+      }
+
+      function generateFields(APIName, objSection, parentField) {
+         try {
+            var wrapperDiv = $('<div></div>');
+            var generateGrid = typeof(objSection.gridview) != 'undefined' && objSection.gridview != null && objSection.gridview.toLowerCase() == 'true';
+            if (generateGrid) {
+               //parentField.removeClass('scrollable');
+               bindJSpreadSheet(wrapperDiv, APIName, objSection);
+               parentField.append(wrapperDiv);
+
+               var btnAdd = $('<a id="btnAdd_' + APIName + '" style="float:left;cursor: pointer;">Add Row </a>');
+               btnAdd.click(function () {
+                  var jexcel = $(this).parent().find('.jexcel_container').get(0).jexcel;
+                  jexcel.insertRow();
+                  $('.jexcel_content', jexcel.el).animate({ scrollTop: $('.jexcel_content', jexcel.el).prop("scrollHeight") });
+                  $('.jexcel_content', jexcel.el).animate({ scrollLeft: 0 });
+               });
+               parentField.append('<br/>');
+               parentField.append(btnAdd);
+
+               var btnAddMultiple = $('<a id="btnAddMultiple_' + APIName + '" style="float:left;cursor: pointer;margin-left:10px;">Add Multiple Rows</a>');
+               btnAddMultiple.click(function () {
+                  showAddRowModal();
+                  var jexcel = $(this).parent().find('.jexcel_container').get(0).jexcel;
+                  $('#addRowsModal #btnAddRows').click(function () {
+                     var intRows = parseInt($('#addRowsModal #txtRows').val());
+                     if (intRows > 1) {
+                        jexcel.insertRow(intRows);
+                     }
+                     else {
+                        jexcel.insertRow();
+                     }
+                     hideAddRowModal();
+                     $('.jexcel_content', jexcel.el).animate({ scrollTop: $('.jexcel_content', jexcel.el).prop("scrollHeight") });
+                     $('.jexcel_content', jexcel.el).animate({ scrollLeft: 0 });
+                  });
+               });
+               parentField.append(btnAddMultiple);
+               parentField.append($('<br/>'));
+            }
+            else {
+               if (typeof(objSection.inline) != 'undefined' && objSection.inline == 'true') {
+                  wrapperDiv.addClass('inline');
+               }
+
+               objSection.fields.forEach(function (objField, fieldIndex) {
+                  if (objField.type.toLowerCase() == 'paragraph') {
+                     wrapperDiv.append($('<p style="white-space: break-spaces; margin:0px; margin-bottom: 10px;"  id="' + objField.name + '">' + objField.title + '</p>'));
+                     //wrapperDiv.append($('<p>' + objField.title + '</p>'));
+                     return;
+                  }
+                  var fieldWrapper = $('<div id="' + objField.name + '" style="margin-right:5px;"></div>');
+                  fieldWrapper.addClass('field-wrapper');
+                  var strLabelText = objField.title;
+                  if (typeof(objField.validation) != 'undefined' && objField.validation != null && objField.validation.required == 'true') {
+                     strLabelText += '<span style="color:#f00; font-weight:bold;">*</span>';
+                     fieldWrapper.attr('data-required', 'true');
+                  }
+
+                  var label = $('<label style="margin-right:5px;">' + strLabelText + '</label>');
+                  if (typeof objSection.inline == 'undefined' || objSection.inline != 'true') {
+                     if (typeof objField.labelabove == 'undefined' || objField.labelabove != 'true') {
+                        label.css('margin-right', '10px').css('float', 'left');
+                        if (objField.type.toLowerCase() == 'text') {
+                           //Set label vertically aligned to middle with the textbox
+                           label.css('margin-top', '3px');
+                        }
+                     }
+                     fieldWrapper.css('clear', 'both');
+                  }
+                  fieldWrapper.append(label);
+                  if ((typeof objField.labelabove != 'undefined' && objField.labelabove == 'true')
+                     && (typeof(objSection.inline) == 'undefined' || objSection.inline != 'true')) {
+                     fieldWrapper.append('<br/>');
+                  }
+
+                  var inputField = null, inputFieldValue = null;
+                  var flagDynamciSource = typeof(objField.dynamicsource != null) != 'undefined' && objField.dynamicsource != null;
+                  if(typeof(objField.value) != 'undefined' && objField.value != null && objField.value != '')
+                     inputFieldValue = objField.value;
+                  else if(typeof(objField.defaultvalue) != 'undefined' && objField.defaultvalue != null)
+                     inputFieldValue = objField.defaultvalue;
+
+                  if (objField.type.toLowerCase() == 'text') {
+                     inputField = $('<input type="text" />');
+                     inputField.val(inputFieldValue);
+                     if(typeof(objField.tooltip) != 'undefined' && objField.tooltip != null && objField.tooltip != '')
+                        inputField.attr('title', objField.tooltip);
+                     if(typeof(objField.placeholder) != 'undefined' && objField.placeholder != null && objField.placeholder != '')
+                        inputField.attr('placeholder', objField.placeholder);
+
+                     if (typeof objSection.inline == 'undefined' || objSection.inline != 'true')
+                        fieldWrapper.css('margin-bottom', '8px');
+                  }
+                  else if (objField.type.toLowerCase() == 'dropdown') {
+                     inputField = $('<select title="' + objField.tooltip + '"/></select>');
+                     if(flagDynamciSource && inputFieldValue != null && inputFieldValue != '') {
+                        //Blank option added to dynamic picklist
+                        var option = $('<option value=""></option>');
+                        inputField.change(function () {
+                           $(this).removeClass('picklistInvalid');
+                        }).trigger('change');
+                        inputField.append(option);
+                     }
+
+                     if(typeof(objField.source) != 'undefined' && objField.source != null && objField.source.length > 0) {
+                        objField.source.forEach(function (objOption, optIndex) {
+                           var option = $('<option value="' + objOption.id + '" ' + (objOption.id == inputFieldValue ? 'selected' : '') + '>' + objOption.name + '</option>');
+                           inputField.append(option);
+                        });
+                     }
+
+                     if(flagDynamciSource && inputFieldValue != null && inputFieldValue != '') {
+                        var result = objField.source.find( ({ name }) => name == inputFieldValue );
+                        if(!result || result == 'undefined') {
+                           inputField.addClass('picklistInvalid'); //for invalid source add class and bind tooltip for message
+                           bindToolTip(inputField.get(0), "Response value was [" + inputFieldValue + "]. It has been deleted from its original source. Please select another value.");
+                        }
+                     }
+                  }
+                  else if (objField.type.toLowerCase() == 'checkbox') {
+                     inputField = $('<input type="checkbox" ' + (inputFieldValue == 'true' ? 'checked' : '') + ' title="' + objField.tooltip + '"  />');
+                  }
+                  else if (objField.type.toLowerCase() == 'radio') {
+                     fieldWrapper.css('margin-right', '20px'); //Add some space between radio button questions
+                     inputField = $('<input type="radio" ' + (inputFieldValue == 'true' ? 'checked' : '') + ' title="' + objField.tooltip + '" value="' + objField.name + '" />');
+                  }
+                  else if (objField.type.toLowerCase() == 'radiogroup') {
+                    if(inputFieldValue!= null)
+                        inputFieldValue = inputFieldValue.toLowerCase();
+                     fieldWrapper.css('margin-right', '20px'); //Add some space between radio button questions
+                     inputField = $('<span class="radio-group"></span>');
+                     var radioName = Math.floor(Math.random() * 1000); //Math.random();
+                     var uniqueName = objField.name + '_' + radioName;
+
+                     if(typeof(objField.source) != 'undefined' && objField.source != null && objField.source.length > 0) {
+                        objField.source.forEach(function (objOption, optIndex) {
+                           var span = $('<span></span>');
+                           var uniqueId = objField.name + '_' + objOption.id + '_' + radioName;
+                           var inputRadio = $('<input type="radio" id="' + uniqueId + '" name="' + uniqueName + '"'
+                                             + ' class="dynamic-radiogroup" value="' + objOption.id + '" />');
+
+                           if(typeof(objField.tooltip) != 'undefined' && objField.tooltip != null && objField.tooltip != '')
+                              inputRadio.attr('title', objField.tooltip);
+
+                           if(objOption.id.toLowerCase() == inputFieldValue || objOption.name.toLowerCase() == inputFieldValue)
+                              inputRadio.prop('checked', true);
+
+                           if(flagDynamciSource)
+                              inputRadio.prop('disabled', true); //Disable control in case of dynamic source
+                           span.append(inputRadio);
+                           span.append($('<label for="' + uniqueId + '">' + objOption.name + '</label>'));
+                           inputField.append(span);
+                        });
+                     }
+                  }
+
+                  fieldWrapper.append(inputField);
+                  wrapperDiv.append(fieldWrapper);
+               });
+               parentField.append(wrapperDiv);
+            }
+         }
+         catch (ex) {
+            handleJSError('generateFields', typeof(ex) == 'string' ? ex : ex.stack);
+         }
+      }
+
+      function hideColumnWithFilter(grid,index) {
+         grid.hideColumn(index);
+         grid.filter.children[index+1].style.display='none';//filter index starts with 1.
+      }
+
+      function showColumnWithFilter(grid,index) {
+         grid.showColumn(index);
+         grid.filter.children[index+1].style.display='';//filter index starts with 1.
+      }
+
+      //Execute all common formuls one by one
+      function executeFormulas() {
+         try {
+            if (objJSON == null || objJSON.length == 0) {
+               throw 'Form definition not found - objJSON is null or empty';
+            }
+
+            if (typeof(objJSON.formulas) != 'undefined' && objJSON.formulas != null && objJSON.formulas.length != 0) {
+               for(let i = 0; i < objJSON.formulas.length; i++) {
+                  var objFormula = objJSON.formulas[i];
+                  if(objFormula.type.toLowerCase() != 'hide')
+                     continue;
+
+                  //Execute a single formula
+                  executeSingleFormula(objFormula);
+               }
+            }
+         }
+         catch(ex) {
+            handleJSError('executeFormulas', typeof(ex) == 'string' ? ex : ex.stack);
+         }
+      }
+
+      //Execute a formula and show/hide field or grid column based on the result
+      function executeSingleFormula(objFormula) {
+         try {
+            var strFormula = objFormula.formula;
+            var arrFormulaFields = objFormula.formulafields.split(',');
+            arrFormulaFields.forEach(fieldName => {
+               var strFieldValue = getFieldValueByAPIName($.trim(fieldName), objFormula);
+               if(typeof(strFieldValue) == 'undefined' || strFieldValue == null)
+                  strFieldValue = '';
+               strFormula = strFormula.replace(new RegExp('{' + fieldName + '}', "g"), '\'' + strFieldValue + '\'');
+            });
+
+            var flagHide = eval(strFormula.toLowerCase()); //Execute formula and save result
+            var arrFieldIds = objFormula.ids.split(','); //Field ids to hide
+            arrFieldIds.forEach(fieldId => {
+               var btnAdd = null;
+               var strFieldId = $.trim(fieldId);
+
+               var fielElem = $('[id^="' + strFieldId + '_"]');
+               if(fielElem.length > 0) { //if section or any individual field exists with the api name then hide it
+                  //Show/Hide section or individual field
+                  showHideFieldOrSection(fielElem, flagHide);
+
+                  var parentInsideSection = $('[id^="' + strFieldId + '_"]').parents('.inside-section-wrapper');
+                  if(parentInsideSection.length > 0) {
+                     var arrId = parentInsideSection.attr('id').split('_');
+                     $('[id^="btnAdd_' + arrId[0] + '_"]').each(function(index, obj) { //If there is inside repeat section then bind formula on add button
+                        //Set formula on add button to execute formula again on repeating inside section
+                        bindFormulaFieldEvent(obj, objFormula);
+                     });
+                  }
+
+                  var parentSection = $('[id^="' + strFieldId + '_"]').parents('.section-wrapper');
+                  if(parentSection.length > 0) {
+                     var arrId = parentSection.attr('id').split('_');
+                     btnAdd = $('#btnAdd_' + arrId[0]);
+                  }
+               }
+               else { //Find and hide column in the grid
+                  var intColumnIndex = -1;
+                  //Find all sections which has grid
+                  var arrGridSections = objJSON.sections.filter(x => typeof(x.gridview) != 'undefined' && x.gridview != null && x.gridview == 'true');
+                  if(arrGridSections.length > 0) {
+                     intColumnIndex = findAndShowHideColumn(arrGridSections, strFieldId, flagHide);
+                     if(intColumnIndex > -1) {
+                        var arrSections = arrGridSections.filter(x => x.fields.findIndex(({name}) => name == strFieldId) > -1);
+                        //Find add button to show/hide column in repeated section on click of add button
+                        btnAdd = $('#btnAdd_' + arrSections[0].apiname);
+                     }
+                  }
+
+                  if(intColumnIndex == -1) { //Column not found in main sections
+                     //Find all sections which has inside sections
+                     var arrSectionsWithInsideSections = objJSON.sections.filter(x => typeof(x.insidesections) != 'undefined' && x.insidesections != null && x.insidesections.length > 0);
+                     for(let i = 0; i < arrSectionsWithInsideSections.length; i++) {
+                        //Find inside sections with grid
+                        var arrInsideGridSections = arrSectionsWithInsideSections[i].insidesections.filter(x => typeof(x.gridview) != 'undefined' && x.gridview != null && x.gridview == 'true');
+                        if(arrInsideGridSections.length == 0) continue; //Continue with next iteration
+                        intColumnIndex = findAndShowHideColumn(arrInsideGridSections, strFieldId, flagHide);
+                        if(intColumnIndex > -1) {
+                            //Find add button to show/hide column in repeated section on click of add button
+                           btnAdd = $('#btnAdd_' + arrSectionsWithInsideSections[i].apiname);
+                           break; //Break the loop
+                        }
+                     }
+                  }
+
+                  if(intColumnIndex == -1) { //Column not found in the section or inside section
+                     handleJSError('executeSingleFormula', 'Control not found with the api name ' + (fieldId != null ? fieldId : 'null'));
+                     return;
+                  }
+               }
+
+               if(btnAdd != null && btnAdd.length > 0) {
+                  //Set formula on add button to execute again on repeating main section
+                  bindFormulaFieldEvent(btnAdd, objFormula);
+               }
+            });
+         }
+         catch(ex) {
+            handleJSError('executeSingleFormula', typeof(ex) == 'string' ? ex : ex.stack);
+         }
+      }
+
+      //Set formula on add button to execute again on click of add button
+      function bindFormulaFieldEvent(field, objFormula, isFieldLevelFormula) {
+         try {
+            var strFormulas = $.trim($(field).data('formulas'));
+            var arrFormulas = [];
+            if(strFormulas != '')
+               arrFormulas = $(field).data('formulas');
+
+            objFormula.isFieldLevelFormula = typeof(isFieldLevelFormula) != 'undefined' && isFieldLevelFormula != null ? isFieldLevelFormula : false;
+            var intFormulaIndex = arrFormulas.findIndex(({formula}) => formula == objFormula.formula);
+            if(intFormulaIndex > -1)
+               return; //Don't add same formula again
+
+            arrFormulas.push(objFormula);
+            //Save formulas on data attribute of field so it can be executed again
+            $(field).attr('data-formulas', JSON.stringify(arrFormulas));
+
+            if(strFormulas != '' || $(field).prev().is('a')) //Don't bind click event of add button as we are already calling repeat function on click of it
+               return; //Don't bind multiple events
+
+            //For textbox, dropdown, radio button or checkbox bind change event
+            $(field).change(function() {
+               //On field value change execute formula again to hide show/field based on selected value
+               executeFormulaOnFieldEvent(this);
+            });
+         }
+         catch(ex) {
+            handleJSError('bindFormulaFieldEvent', typeof(ex) == 'string' ? ex : ex.stack);
+         }
+      }
+
+      function executeFormulaOnFieldEvent(field) {
+         try {
+            if($.trim($(field).data('formulas')) == '')
+               return;
+
+            var formulas = $(field).data('formulas');
+            formulas.forEach(formula => {
+               if(typeof(formula.isFieldLevelFormula) != 'undefined' && formula.isFieldLevelFormula == true)
+                  executeFieldLevelFormula(field, formula);
+               else
+                  executeSingleFormula(formula);
+            });
+         }
+         catch(ex) {
+            handleJSError('executeFormulaOnFieldEvent', typeof(ex) == 'string' ? ex : ex.stack);
+         }
+      }
+
+      //Execute field level formula and show/hide fields based on the result
+      function executeFieldLevelFormula(field, objFormula) {
+         try {
+            var parentSection = null;
+            if($(field).prev().is('a')) { //If repeat button is clicked then find parent scetion based on api name
+               var arrId = $(field).attr('id').split('_');
+               parentSection = $('[id^="' + arrId[0] + '_"]').last();
+            }
+            else
+               parentSection = $(field).parents('.section-wrapper');
+
+            if(typeof(parentSection) == 'undefined' || parentSection == null) {
+               handleJSError('executeFieldLevelFormula', 'Parent section not found for the field or repeat button ' + $(field).attr('id'));
+               return;
+            }
+
+            var strFormula = objFormula.formula;
+            var arrFormulaFields = objFormula.formulafields.split(',');
+            arrFormulaFields.forEach(function(fieldName, fieldIndex) {
+               var strFieldValue = '';
+               if(fieldName.toLowerCase() == 'product')
+                  strFieldValue = product;
+               else if($('[id^="' + fieldName + '_"]', parentSection).length > 0) {
+                  var wrapperDiv = $('[id^="' + fieldName + '_"]', parentSection);
+                  //If same field exists in the formula then set value directly from field value
+                  if($('input[type=radio]', wrapperDiv).length > 0) {
+                     if($('input[type=radio]:checked', wrapperDiv).length > 0)
+                        strFieldValue = $('input[type=radio]:checked', wrapperDiv).val();
+                  }
+                  else if($('input[type=checkbox]', wrapperDiv).length > 0)
+                     strFieldValue = $('input[type=checkbox]', wrapperDiv).is(':checked'); //Get value of checkbox
+                  else if($('select', wrapperDiv).length > 0)
+                     strFieldValue = $('select', wrapperDiv).val();
+                  else if($('input[type=text]', wrapperDiv).length > 0)
+                     strFieldValue = $('input[type=text]', wrapperDiv).val();
+               }
+
+               if(typeof(strFieldValue) == 'undefined' || strFieldValue == null)
+                  strFieldValue = '';
+               strFormula = strFormula.replace(new RegExp('{' + fieldName + '}', "g"), '\'' + strFieldValue + '\'');
+            });
+
+            var flagHide = eval(strFormula.toLowerCase()); //Execute formula and save result
+            var arrFieldIds = objFormula.ids.split(','); //Field/column ids to hide
+            arrFieldIds.forEach(fieldId => {
+               var fielElem = $('[id^="' + fieldId + '_"]', parentSection);
+               if(fielElem.length > 0) { //If custom field or section then show/hide it
+                  showHideFieldOrSection(fielElem, flagHide, parentSection);
+               }
+               else {
+                  var intColumnIndex = -1;
+                  var objSpreadSheet = null;
+                  $('.jexcel_container', parentSection).each(function(index, jexcelElem) { //Loop through all grids and find column to hide
+                     //If grid exists then get jspreadsheet object to hide column
+                     var objSpreadSheet = $(jexcelElem).get(0).jexcel;
+                     if(objSpreadSheet != null) //Find column index in the grid
+                        intColumnIndex = objSpreadSheet.options.columns.findIndex(({name}) => name.startsWith(fieldId + '_'));
+                     if(intColumnIndex > -1) { //If column found then show/hide it based on formula evaluation
+                        if(flagHide)
+                           hideColumnWithFilter(objSpreadSheet, intColumnIndex);
+                        else
+                           showColumnWithFilter(objSpreadSheet, intColumnIndex);
+                     }
+                  });
+
+                  if(intColumnIndex == -1) { //If column not found then through error
+                     handleJSError('executeFieldLevelFormula', 'Control not found with the api name ' + (fieldId != null ? fieldId : 'null'));
+                     return;
+                  }
+               }
+            });
+         }
+         catch(ex) {
+            handleJSError('executeFieldLevelFormula', typeof(ex) == 'string' ? ex : ex.stack);
+         }
+      }
+
+      //This function can be used to show/hide custom field or a section
+      function showHideFieldOrSection(fielElem, flagHide, parentSection) {
+         try {
+            if(flagHide)
+               fielElem.hide();
+            else
+               fielElem.show();
+
+            if(fielElem.get(0).tagName.toLowerCase() == 'fieldset') { //If field is a section then hide repeat button if it is repeatable
+               var arrIds = fielElem.attr('id').split('_');
+               var btnAdd = null;
+               if(fielElem.hasClass('inside-section-wrapper')) { //Inside section
+                  if(typeof(parentSection) != 'undefined' && parentSection != null)
+                     btnAdd = $('[id^="btnAdd_' + arrIds[0] + '_"]', parentSection);
+                  else
+                     btnAdd = $('[id^="btnAdd_' + arrIds[0] + '_"]');
+               }
+               else { //Main section
+                  btnAdd = $('#btnAdd_' + arrIds[0]);
+               }
+
+               if(btnAdd != null && btnAdd.length > 0) {
+                  if(flagHide)
+                     btnAdd.hide();
+                  else
+                     btnAdd.show();
+               }
+            }
+         }
+         catch(ex) {
+            handleJSError('showHideFieldOrSection', typeof(ex) == 'string' ? ex : ex.stack);
+         }
+      }
+
+      function findAndShowHideColumn(arrGridSections, fieldAPIName, flagHide) {
+         try {
+            var intColumnIndex = -1;
+            for(let i = 0; i < arrGridSections.length > 0; i++) {
+               //Find column index in the grid
+               intColumnIndex = arrGridSections[i].fields.findIndex(({name}) => name == fieldAPIName);
+               if(intColumnIndex == -1) continue; //Continue with next iteration
+
+               var strAPIName = $.trim(arrGridSections[i].apiname); //Find section which has grid
+               if($('[id^="' + strAPIName + '_"]').length == 0 ) {
+                  handleJSError('findAndShowHideColumn', 'Section not found with the api name ' + arrGridSections[i].apiname);
+                  break;
+               }
+
+               $('[id^="' + strAPIName + '_"]').each(function(gridIndex, objGrid) {
+                  var objSpreadSheet = $('.jexcel_container', objGrid).get(0).jexcel;
+                  if(flagHide)
+                     hideColumnWithFilter(objSpreadSheet, intColumnIndex);
+                  else
+                     showColumnWithFilter(objSpreadSheet, intColumnIndex);
+               });
+               break; //Break the loop if column found
+            }
+            return intColumnIndex;
+         }
+         catch(ex) {
+            handleJSError('findAndShowHideColumn', typeof(ex) == 'string' ? ex : ex.stack);
+         }
+      }
+
+      function getFieldValueByAPIName(strFieldAPIName, objFormula) {
+         try {
+            if(strFieldAPIName.toLowerCase() == 'product') {
+               return product;
+            }
+
+            var strValue = '';
+            var wrapperDiv = $('div[id^="' + strFieldAPIName + '_"]');
+            if(wrapperDiv.length == 0) {
+               handleJSError('getFieldValueByAPIName', 'Field not found with the api name ' + strFieldAPIName);
+               return;
+            }
+
+            if($('select', wrapperDiv).length > 0)
+               strValue = $('select', wrapperDiv).val();
+            else if($("input[type='radio']:checked", wrapperDiv).length > 0)
+               strValue = $("input[type='radio']:checked", wrapperDiv).val();
+            else if($("input[type='checkbox']", wrapperDiv).length > 0)
+               strValue = $("input[type='checkbox']", wrapperDiv).is(':checked') ? 'true' : 'false';
+
+            $("select, input[type='radio'], input[type='checkbox']", wrapperDiv).each(function(index, obj) {
+               bindFormulaFieldEvent(obj, objFormula);
+            });
+            return strValue;
+         }
+         catch(ex) {
+            handleJSError('getFieldValueByAPIName', typeof(ex) == 'string' ? ex : ex.stack);
+         }
+      }
+
+      function bindJSpreadSheet(wrapperDiv, APIName, objSection) {
+         try {
+            var defaultValues = [];
+            if(objSection.data != null) {
+               defaultValues = JSON.parse(JSON.stringify(objSection.data));
+            }
+            var arrFields = JSON.parse(JSON.stringify(objSection.fields));
+            arrFields.forEach(function(objField) {
+               objField.wordWrap = false; //Disable word wrap in all cells
+            });
+
+            var objJSpreadSheet = jspreadsheet(wrapperDiv.get(0), {
+               data: defaultValues,
+               about: false,
+               minDimensions: [arrFields.length, 1],
+               tableOverflow: true,
+               columns: arrFields,
+               columnResize: false,
+               allowInsertColumn: false,
+               allowManualInsertRow: false,
+               allowRenameColumn: false,
+               allowDeleteColumn: false,
+               wordWrap: false,
+               filters: true,
+               onbeforechange: onBeforeCellValueChange,
+               onchange: function (el, cell, x, y, newValue, oldValue) {
+                  onCellValueChange(el, cell, x, y, newValue, oldValue);
+               },
+               onload: function (containerDiv, objInstance) {
+                  bindValidation(objSection.fields, containerDiv);
+                  bindLongTextPopup(objSection.fields, containerDiv);
+                  setCalendarType(objSection.fields, containerDiv);
+                  bindDropdownValidation(objSection.fields, containerDiv);
+                  //syncTable(this, objSection.data);
+               },
+               oninsertrow: function (containerDiv, rowNumber, numOfRows, insertBefore) {
+                  //Find hidden columns in the first row of grid and hide respective columns in new inserted row
+                  $('table.jexcel tbody tr', containerDiv).first().find('td[data-x]').not(':visible').each(function() {
+                     var intColumnIndex = parseInt($.trim($(this).data('x')));
+                     hideColumnWithFilter(containerDiv.jexcel, intColumnIndex);
+                  });
+
+                  bindValidation(objSection.fields, containerDiv);
+                  bindLongTextPopup(objSection.fields, containerDiv);
+                  setCalendarType(objSection.fields, containerDiv);
+                  bindDropdownValidation(objSection.fields, containerDiv);
+                 // syncTable(this);
+               },
+               onpaste: function (containerDiv, arrData) {
+                  bindValidation(objSection.fields, containerDiv);
+                  bindLongTextPopup(objSection.fields, containerDiv);
+                  setCalendarType(objSection.fields, containerDiv);
+               },
+               onundo: function (el, historyRecord) {
+                  if(historyRecord.action == 'setValue') {
+                     historyRecord.records.forEach(function(obj) {
+                        var cellName = jexcel.getColumnNameFromId([obj.x, obj.y]);
+                        var cell = el.jexcel.getCell(cellName);
+                        var cellValue = $.trim(obj.oldValue);
+                        if($(cell).data('required') == true && cellValue != '') {
+                           $(cell).removeClass('error-field');
+                           unBindToolTip(cell);
+                        }
+                        else if ($(cell).data('longtext') == true) {
+                           $(cell).text(removeNewLines(cellValue));
+                           if (cellValue.length > 20) {
+                              if(cellValue.length > 100) {
+                                 bindToolTip(cell, cellValue.substr(0, 100) + '...');
+                              }
+                              else {
+                                 bindToolTip(cell, cellValue);
+                              }
+                           }
+                        }
+                     });
+                  }
+               },
+               oneditionstart: function (el, cell, x, y) {
+                  if($(cell).data('longtext') == true) {
+                     var cellName = jexcel.getColumnNameFromId([x, y]);
+                     var strHeaders = el.jexcel.getHeaders();
+                     var arrColumnNames = strHeaders.split(',');
+                     startEditionLongText(el.jexcel, arrColumnNames[x], cell, cellName);
+                  }
+                  else {
+                     setTimeout(function() {
+                        bindEventsOnCell(cell);
+                     }, 100);
+                  }
+               }
+            });
+            $('.jexcel_content', objJSpreadSheet.el).css('max-height', objSection.maxheight + 'px');
+         }
+         catch(ex) {
+            handleJSError('bindJSpreadSheet', typeof(ex) == 'string' ? ex : ex.stack);
+         }
+      }
+
+      function bindEventsOnCell(cell) {
+         var intMaxLength = parseInt($(cell).data('maxlength'));
+         if(intMaxLength > 0) {
+            $('input', cell).attr('maxlength', intMaxLength);
+         }
+
+         if($(cell).data('onlynumber') == true || $(cell).data('onlyalpha') == true || $(cell).data('alphanumeric') == true) {
+            $('input', cell).keydown(function (event) {
+               var keyCode = event.keyCode || event.which;
+               if (keyCode != 8 && keyCode != 32 && keyCode != 46 //8 - Back Space, 32 - Space Bar, 46 - Delete
+                  && keyCode != 35 && keyCode != 36 //35 - Home key, 36 - End key
+                  && keyCode != 37 && keyCode != 39) { //37 - Left Arrow, 39 - Right Arrow
+                  if($(cell).data('onlynumber') == true && isNumberKeyPressed(event) == false)
+                     event.preventDefault();
+                  if($(cell).data('onlyalpha') == true && isAlphabetKeyPressed(event) == false)
+                     event.preventDefault();
+                  if($(cell).data('alphanumeric') == true && isNumberKeyPressed(event) == false && isAlphabetKeyPressed(event) == false)
+                     event.preventDefault();
+               }
+            });
+
+            $('input', cell).bind('paste', function (event) {
+               var pastedData = event.originalEvent.clipboardData.getData('text');
+               if($(cell).data('onlynumber') == true && /^[0-9]+$/i.test(pastedData) == false)
+                  event.preventDefault();
+               if($(cell).data('onlyalpha') == true && /^[a-z]+$/i.test(pastedData) == false)
+                  event.preventDefault();
+               if($(cell).data('alphanumeric') == true && /^[a-z0-9]+$/i.test(pastedData) == false)
+                  event.preventDefault();
+            });
+
+            var strValue = $.trim($('input', cell).val());
+            if(strValue != '') {
+               if($(cell).data('onlynumber') == true && /^[0-9]+$/i.test(strValue) == false) {
+                  $('input', cell).val('');
+               }
+               else if($(cell).data('onlyalpha') == true && /^[a-z ]+$/i.test(strValue) == false) {
+                  $('input', cell).val('');
+               }
+               else if($(cell).data('alphanumeric') == true && /^[a-z 0-9]+$/i.test(strValue) == false) {
+                  $('input', cell).val('');
+               }
+            }
+         }
+      }
+
+      function startEditionLongText(objJExcel, columnName, cell, cellName) {
+         objJExcel.resetSelection();
+         //$(cell).popover('hide');
+         setTimeout(function() {
+            $('input', cell).blur();
+         }, 100);
+
+         var cellValue = objJExcel.getValue(cellName);
+         openLongTextPopup(columnName, cellValue, cellName);
+
+         $('#btnSaveChanges', longTextModal).unbind('click');
+         $('#btnSaveChanges', longTextModal).click(function() {
+            updateLongTextCellValue(objJExcel, cellName);
+         });
+
+         $('.btn-close', longTextModal).unbind('click');
+         $('.btn-close', longTextModal).click(function() {
+            $('body').removeClass('modal-open');
+            objJExcel.setValue(cellName, cellValue);
+            $(cell).text(removeNewLines(cellValue));
+         });
+      }
+
+      function isNumberKeyPressed(event) {
+         var key = event.key;
+         return /^[0-9]+$/i.test(key) || event.ctrlKey;
+      }
+
+      function isAlphabetKeyPressed(event) {
+         var key = event.key;
+         return /^[a-z]+$/i.test(key) || event.ctrlKey;
+      }
+
+      function repeatSection(APIName, btnAdd) {
+         var objSection = objJSON.sections.filter(x => x.apiname == APIName);
+         if (objSection == null || objSection.length == 0) {
+            throw 'No sections found with API name ' + APIName + ' in form definition';
+         }
+
+         var intRepeatCount = parseInt($('#hdn' + APIName).val());
+         var objSectionToCopy = JSON.parse(JSON.stringify(objSection[0]));
+         if (typeof(objSectionToCopy.gridview) != 'undefined' && objSectionToCopy.gridview != null && objSectionToCopy.gridview.toLowerCase() == 'true') {
+            objSectionToCopy.data = null; //Don't fill values in excel grid of repeated section
+         }
+         else if (objSectionToCopy.fields != null && objSectionToCopy.fields.length > 0) {
+            objSectionToCopy.fields.forEach(function (obj, i) {
+               if(obj.defaultvalue != null && obj.defaultvalue != '')
+                  obj.value = obj.defaultvalue;
+               else
+                  obj.value = null; //Don't fill values in custom controls of repeated section
+            });
+         }
+
+         //Inside section fields value should be null except the fields exist with defaultvalue when we copy blank section
+         if (typeof(objSectionToCopy.insidesections) != 'undefined' && objSectionToCopy.insidesections != null && objSectionToCopy.insidesections.length > 0) {
+            objSectionToCopy.insidesections.forEach(function (objInsideSection, insideSectionIndex) {
+               if (typeof(objInsideSection.gridview) != 'undefined' && objInsideSection.gridview != null && objInsideSection.gridview.toLowerCase() == 'true') {
+                  objInsideSection.data = null; //Don't fill values in excel grid of repeated section
+               }
+               else if (objInsideSection.fields != null && objInsideSection.fields.length > 0) {
+                  objInsideSection.fields.forEach(function (obj, i) {
+                     if(obj.defaultvalue != null && obj.defaultvalue != '')
+                        obj.value = obj.defaultvalue;
+                     else
+                        obj.value = null; //Don't fill values in custom controls of repeated section
+                  });
+               }
+            });
+         }
+
+         var sectionToAdd = generateSection(APIName + '_' + intRepeatCount, objSectionToCopy);
+         var btnRemoveSection = $('<span class="btn-remove-section" title="Remove Section">×</span>');
+         $(btnRemoveSection).click(function() {
+            $(this).parent().remove();
+         });
+         sectionToAdd.prepend(btnRemoveSection);
+         $(btnAdd).before(sectionToAdd);
+         $('#hdn' + APIName).val(intRepeatCount + 1);
+
+         //Execute field level formulas in repeated section
+         $("select[data-formulas], input[type='radio'][data-formulas], input[type='checkbox'][data-formulas]", sectionToAdd).each(function() {
+            $(this).trigger('change');
+         });
+
+         //Hide fields in repeated section
+         executeFormulaOnFieldEvent(btnAdd);
+      }
+
+      function repeatInsideSection(parentSectionAPIName, parentSectionRepeatIndex, btnAdd, insideSectionAPIName) {
+         var objInsideSection = null;
+         var objSection = objJSON.sections.filter(x => x.apiname == parentSectionAPIName);
+         if (objSection == null || objSection.length == 0) {
+            throw 'Section not found with API name ' + parentSectionAPIName + ' in form definition';
+         }
+         else if(typeof(insideSectionAPIName) != 'undefined' && insideSectionAPIName != null && insideSectionAPIName != '') {
+            objInsideSection = objSection[0].insidesections.filter(x => x.apiname == insideSectionAPIName);
+
+            if (objInsideSection == null || objInsideSection.length == 0) {
+               throw 'Inside section not found with API name ' + insideSectionAPIName + ' in form definition';
+            }
+         }
+
+         var objSectionToCopy = JSON.parse(JSON.stringify(objInsideSection[0]));
+         var intRepeatCount = parseInt($('#hdn' + objSectionToCopy.apiname + '_' + parentSectionRepeatIndex).val());
+         if (typeof(objSectionToCopy.gridview) != 'undefined' && objSectionToCopy.gridview != null && objSectionToCopy.gridview.toLowerCase() == 'true') {
+            objSectionToCopy.data = null; //Don't fill values in excel grid of repeated section
+         }
+         else if (objSectionToCopy.fields != null && objSectionToCopy.fields.length > 0) {
+            objSectionToCopy.fields.forEach(function (obj, i) {
+               //If section is repeatable then append section _index in api name of all fields
+               //otherwise append _0 in api name of all fields
+               obj.name += '_' + parentSectionRepeatIndex;
+
+               if(obj.defaultvalue != null && obj.defaultvalue != '')
+                  obj.value = obj.defaultvalue;
+               else
+                  obj.value = null; //Don't fill values in custom controls of repeated section
+            });
+         }
+
+         var sectionToAdd = generateSection(objSectionToCopy.apiname + '_' + parentSectionRepeatIndex + '_' + intRepeatCount, objSectionToCopy);
+         var btnRemoveSection = $('<span class="btn-remove-section" title="Remove Section">×</span>');
+         $(btnRemoveSection).click(function() {
+            $(this).parent().remove();
+         });
+         sectionToAdd.prepend(btnRemoveSection);
+         $(btnAdd).before(sectionToAdd);
+         $('#hdn' + objSectionToCopy.apiname + '_' + parentSectionRepeatIndex).val(intRepeatCount + 1);
+
+         //Execute field level formulas in repeated section
+         $("select[data-formulas], input[type='radio'][data-formulas], input[type='checkbox'][data-formulas]", sectionToAdd).each(function() {
+            $(this).trigger('change');
+         });
+
+         //Hide fields in repeated section
+         executeFormulaOnFieldEvent(btnAdd);
+      }
+
+      function onBeforeCellValueChange(el, cell, x, y, value) {
+         var intMinLength = parseInt($(cell).data('minlength'));
+         var intMaxLength = parseInt($(cell).data('maxlength'));
+         if($(cell).data('required') == true || intMinLength > 0 || intMaxLength > 0) {
+            var strErrorMessage = '';
+            if($(cell).data('required') == true && (value == null || $.trim(value) == '')) {
+               strErrorMessage = LABEL_AmadeusFormRequiredValidationMessage;
+            }
+            else if(intMinLength > 0 && (value == null || $.trim(value).length < intMinLength)) {
+               strErrorMessage = LABEL_AmadeusFormMinLengthValidationMessage.replace('{0}', intMinLength);
+            }
+            else if(intMaxLength > 0 && $.trim(value).length > intMaxLength) {
+               strErrorMessage = LABEL_AmadeusFormMaxLengthValidationMessage.replace('{0}', intMinLength);
+            }
+
+            if(strErrorMessage != '') {
+               $(cell).addClass('error-field');
+               bindToolTip(cell, strErrorMessage);
+            }
+            else {
+               $(cell).removeClass('error-field');
+               unBindToolTip(cell);
+            }
+         }
+      }
+
+      function onCellValueChange(el, cell, x, y, newValue, oldValue) {
+         if($.trim(newValue) != '') {
+            var strNewValue = null;
+            if($(cell).data('type') == 'calendar') {
+               var arr = newValue.split(' ');
+               if(arr.length > 1) {
+                  strNewValue = arr[0];
+               }
+            }
+         /* Radio button on grid is not supported in V2.0
+            else if($(cell).data('type') == 'radio') {
+               if(typeof($(cell).data('selection')) == 'undefined') {
+                  $('input[type=radio]', cell).each(function(index, objRadioButton) {
+                     if(objRadioButton.id == newValue || objRadioButton.value == newValue) {
+                        objRadioButton.checked = true;
+                        //el.jexcel.options.data[y][x] = objRadioButton.id;
+                        return false;
+                     }
+                  });
+               }
+            }*/
+            else if(oldValue!=newValue && cell.style.backgroundColor == 'lightyellow')
+            {
+               cell.style.backgroundColor = '';
+               unBindToolTip(cell);
+            }
+            else {
+               var intMaxLength = parseInt($(cell).data('maxlength'));
+               if(intMaxLength > 0 && newValue != null && $.trim(newValue).length > intMaxLength) {
+                  var str = $.trim($(cell).text());
+                  strNewValue = str.substr(0, intMaxLength);
+               }
+
+               if($(cell).data('onlynumber') == true && /^[0-9]+$/i.test(newValue) == false) {
+                  strNewValue = '';
+               }
+               else if($(cell).data('onlyalpha') == true && /^[a-z ]+$/i.test(newValue) == false) {
+                  strNewValue = '';
+               }
+               else if($(cell).data('alphanumeric') == true && /^[a-z 0-9]+$/i.test(newValue) == false) {
+                  strNewValue = '';
+               }
+            }
+
+            if(strNewValue != null) {
+               var cellName = jexcel.getColumnNameFromId([x, y]);
+               el.jexcel.setValue(cellName, strNewValue);
+            }
+         }
+      }
+
+      function bindPopOver(el, message, placement) {
+         if(typeof(placement) == 'undefined' || placement == null) {
+            placement = 'right';
+         }
+
+         if(typeof($(el).data("bs.popover")) != 'undefined' && $(el).data("bs.popover") != null) {
+            $(el).attr('data-content', message);
+         }
+         else {
+            $(el).popover({
+               content: message,
+               trigger: 'hover',
+               container: el,
+               placement: placement
+            });
+         }
+      }
+
+      function unBindPopOver(el) {
+         if(typeof($(el).data('bs.popover')) != 'undefined' && $(el).data('bs.popover') != null) {
+            $(el).popover('destroy');
+         }
+      }
+      function bindDropdownValidation(fields, jspreadsheetEl)
+      {
+         var arrFields = fields.filter(x => (x.dynamicsource != null && x.type=='dropdown'));
+         arrFields.forEach(function(obj,i){
+            var columnIndex = fields.indexOf(obj);
+            $('table.jexcel tbody tr', jspreadsheetEl).each(function (j, objTr) {
+               var cellName = jexcel.getColumnNameFromId([columnIndex, j]);
+               var objTd = jspreadsheetEl.jexcel.getCell(cellName);
+               var objTdValue = jspreadsheetEl.jexcel.getValue(cellName);
+               let result = obj.source.find(({ name }) => name == objTdValue);
+               if((!result || result == 'undefined') && objTdValue!='')
+               {
+                  objTd.style.backgroundColor = 'lightyellow';
+                  bindToolTip(objTd, "Response value was ["+objTdValue+"]. It has been deleted from its original source. Please select another value.");
+               }
+            });
+         });
+      }
+
+      function bindValidation(fields, jspreadsheetEl) {
+         var arrFields = fields.filter(x => x.validation != null);
+         arrFields.forEach(function (obj, i) {
+            var columnIndex = fields.indexOf(obj);
+            $('table.jexcel tbody tr', jspreadsheetEl).each(function (j, objTr) {
+               var cellName = jexcel.getColumnNameFromId([columnIndex, j]);
+               var objTd = jspreadsheetEl.jexcel.getCell(cellName);
+               if(obj.validation.required == 'true') {
+                  $(objTd).attr('data-required', 'true');
+               }
+
+               if(parseInt(obj.validation.minlength) > 0) {
+                  $(objTd).attr('data-minlength', obj.validation.minlength);
+               }
+
+               if(parseInt(obj.validation.maxlength) > 0) {
+                  $(objTd).attr('data-maxlength', obj.validation.maxlength);
+               }
+
+               if(obj.validation.onlynumber == 'true') {
+                  $(objTd).attr('data-onlynumber', 'true');
+               }
+               else if(obj.validation.onlyalpha == 'true') {
+                  $(objTd).attr('data-onlyalpha', 'true');
+               }
+               else if(obj.validation.alphanumeric == 'true') {
+                  $(objTd).attr('data-alphanumeric', 'true');
+               }
+            });
+         });
+      }
+
+      function bindLongTextPopup(fields, jspreadsheetEl) {
+         var arrFields = fields.filter(x => x.contenttype == 'longtext');
+         arrFields.forEach(function (obj, i) {
+            var columnIndex = fields.indexOf(obj);
+            $('table.jexcel tbody tr', jspreadsheetEl).each(function (j, objTr) {
+               var cellName = jexcel.getColumnNameFromId([columnIndex, j]);
+               var objTd = jspreadsheetEl.jexcel.getCell(cellName);
+               $(objTd).attr('data-longtext', 'true');
+
+               var cellValue = jspreadsheetEl.jexcel.getValue(cellName);
+               if (typeof(cellValue) != 'undefined' && cellValue != null && cellValue != '') {
+                  $(objTd).text(removeNewLines(cellValue));
+                  if ($.trim(cellValue).length > 20) {
+                     if(cellValue.length > 100) {
+                        bindToolTip(objTd, $.trim(cellValue.substr(0, 100)) + '...');
+                     }
+                     else {
+                        bindToolTip(objTd, cellValue);
+                     }
+                  }
+                  else {
+                     unBindToolTip(objTd);
+                  }
+               }
+            });
+         });
+      }
+
+      function setCalendarType(fields, jspreadsheetEl) {
+         var arrFields = fields.filter(x => x.type != null && x.type.toLowerCase() == 'calendar');
+         arrFields.forEach(function (obj, i) {
+            var columnIndex = fields.indexOf(obj);
+            $('table.jexcel tbody tr', jspreadsheetEl).each(function (j, objTr) {
+               var cellName = jexcel.getColumnNameFromId([columnIndex, j]);
+               var objTd = jspreadsheetEl.jexcel.getCell(cellName);
+               $(objTd).attr('data-type', 'calendar');
+            });
+         });
+      }
+
+      function removeNewLines(str) {
+         return str.replace(/(\r\n|\n|<br>|<br\/>|<br \/>|<BR>|<BR\/>|<BR \/>)/gm, '');
+      }
+
+      function openLongTextPopup(headerText, value, cellName) {
+         $('#header', longTextModal).text(headerText);
+         $('#txtLongText', longTextModal).val(value);
+         $('#btnSaveChanges', longTextModal).attr('data-cell', cellName);
+         openModal(longTextModal);
+
+         setTimeout(function() {
+            $('#txtLongText', longTextModal).focus();
+         }, 50);
+      }
+
+      function setLongTextCellText(cell, value) {
+         $(cell).text(removeNewLines(value));
+         if($.trim(value) != '') {
+            if(value.length > 100) {
+               bindToolTip(cell, $.trim(value.substr(0, 100)) + '...');
+            }
+            else {
+               bindToolTip(cell, value);
+            }
+         }
+         else {
+            unBindToolTip(cell);
+         }
+      }
+
+      function updateLongTextCellValue(jexcelInstance, cellName) {
+         var value = $.trim($('#txtLongText', longTextModal).val());
+         jexcelInstance.setValue(cellName, value);
+         var cell = jexcelInstance.getCell(cellName);
+         setLongTextCellText(cell, value); //Remove new lines and set text on long text field
+         hideLongTextModal();
+      }
+
+      function hideLongTextModal() {
+         closeModal(longTextModal);
+         $('#btnSaveChanges', longTextModal).attr('data-cell', '');
+         $('#txtLongText', longTextModal).text('');
+      }
+
+      function showAddRowModal() {
+         var addRowsModal = document.getElementById('addRowsModal');
+         openModal(addRowsModal);
+         setTimeout(function () {
+            $('#txtRows', addRowsModal).val('');
+            $('#txtRows', addRowsModal).focus();
+         }, 100);
+      }
+
+      function hideAddRowModal() {
+         var addRowsModal = document.getElementById('addRowsModal');
+         closeModal(addRowsModal);
+         $('#btnAddRows', addRowsModal).unbind('click');
+      }
+
+      function openModal(modal) {
+         $(modal).attr('data-scroll', $(window).scrollTop()); //Get window's scroll position to set it back on modal close
+         var intTop = $(window).height() / 2; //Vertically center in the screen
+         //intTop -= $('.navbar').height(); //If left bar is opened then need to add it's height
+         if($(window).scrollTop() > 100 && $('.opened-sidebar').length > 0) {
+            intTop += $(window).scrollTop() - 100; //It should consider scroll position
+         }
+         //Applying the top margin on modal to align it vertically center
+         $('.modal-dialog', modal).css("top", Math.max(0, intTop));
+         $(modal).show();
+         $('body').addClass('modal-open');
+
+         if($('#formRender').height() < intTop) {
+            //If form don't have enough controls then make some space for modal to show
+            $('#formRender').css('min-height', $('.modal-dialog', modal).height() + 'px');
+            intTop = ($('#formRender').height() + $('.navbar').height()) / 2;
+            $('.modal-dialog', modal).css("top", Math.max(0, intTop));
+         }
+      }
+
+      function closeModal(modal) {
+         $(window).scrollTop($(modal).attr('data-scroll')); //Set window's scroll position to back on modal close
+         $(modal).attr('data-scroll', null);
+         $(modal).hide();
+         $('body').removeClass('modal-open');
+
+         //Set form height back to original
+         $('#formRender').css('min-height', '100px');
+      }
+
+      //This code is added for radio button on grid. As we are not supported in verson 2.0 it is commented
+     /* function customCreateCell(j, i, value, obj){
+         var td = obj.records[j][i];
+         if (obj.options.columns[i].type == 'radio' && obj.options.columns[i].isGroup && Array.isArray(obj.options.columns[i].source)) {
+            td.innerHTML = '';
+            $(td).attr('data-type', 'radio');
+            if(!value) {
+               if(obj.options.columns[i].defaultvalue != null && obj.options.columns[i].value != '') {
+                  value = obj.options.columns[i].value;
+               }
+               else {
+                  value = obj.options.columns[i].source[0].id;
+               }
+            }
+            var radioName = Math.random();
+            var elements =  obj.options.columns[i].source.map(function(item) {
+               // Creating radio input
+               var element = document.createElement('input');
+               element.type = obj.options.columns[i].type;
+               element.name = radioName;
+               element.id = item.id;
+               element.checked = (value == item.id) ? true : false;
+               element.value = item.id; //item;
+               element.onchange = function() {
+                  obj.options.data[j][i] = item.id;
+               }
+               // Creating Label element
+               var labelElement = document.createElement('label');
+               labelElement.setAttribute('for',element.name);
+               labelElement.innerHTML = item.name; //item;
+               labelElement.style.fontWeight = 'normal';
+               return [element, labelElement];
+            });
+            obj.options.data[j][i] = value;
+            td.classList.add('cell-processed');
+            elements.flat().forEach(function(child) { td.append(child); });
+         }
+      }
+
+      function syncTable(obj, data) {
+         var columns = obj.options.columns;
+         var rows    = data ?? obj.options.data;
+         for (let j = 0; j < rows.length; j++) {
+            for (let i = 0; i < columns.length; i++) {
+               var el = obj.records[j][i];
+               if (el.classList.contains('cell-processed')) continue;
+               var value = rows[j][i];
+               customCreateCell(j, i, value, obj);
+            }
+         }
+      }
+      */
+      function handleJSError(strMethodName, strErrorMessage) {
+         hideSpinner();
+         $('.modal-backdrop').hide();
+         //Log error in db
+         actionfunction_LogClientException(strMethodName, strErrorMessage);
+         $('.form-container').hide();
+         $('#spnAmadeusFormErrorMsg').text(LABEL_AmadeusFormRenderErrorMessage);
+         $('#divAmadeusFormError').show();
+      }
+
+      function AmadeusFormMarkComplete() {
+         showSpinner();
+         //Mark Step Complete & Navigate to Next Step
+         moveToNextStepAfterComplete = true;
+         actionfunction_MarkStepComplete();
+      }
+   </script>
+</apex:component>

@@ -2,19 +2,19 @@
 Name            : AH_PLCM_Calculate_Email_Trigger_Date
 Author          : Sanjay Parmar
 Created Date    : 04-Oct-2020
-Last Mod Date   : 06-Oct-2020
-Last Mod By     : Sanjay Parmar
+Last Mod Date   : 14-Sep-2022
+Last Mod By     : Hardik Doshi - Modified as per new requirement to consider Reminder date2, Reminder date3
 NICC Reference  : 
 Description     : Class to calculate migration reminder date
 ************************************************************************************************/
 public class AH_PLCM_Calculate_Email_Trigger_Date {
-    public static Date getMigrationRemiderDate(List<Date> lstHolidays, Date migrationDate, integer additionalDays, boolean flagAddDays) {
+    public static Date getMigrationRemiderDate(Date migrationDate, integer additionalDays, boolean flagAddDays) {
         Date newDate = null;
         DateTime newDateTime = null;
         try {
             newDate = migrationDate.addDays(additionalDays);
-            newDateTime = DateTime.newInstance(newDate.year(), newDate.month(), newDate.day());
-            
+            //Get amadeus holidays list
+            List<Date> lstHolidays = getHolidaysList();
             integer totalWeekends = 0, intHolidaysCount = 0;
             if(flagAddDays) { //After Case
                 totalWeekends = getWeekendBetweenDates(migrationDate, newDate);
@@ -24,16 +24,16 @@ public class AH_PLCM_Calculate_Email_Trigger_Date {
             else { //Before Case
                 totalWeekends = getWeekendBetweenDates(newDate, migrationDate);
                 newDate = newDate.addDays(totalWeekends * -2); //Subtract weekend days from the date
-                intHolidaysCount = getHolidaysCountBetweenDates(lstHolidays, newDate, migrationDate);
+                intHolidaysCount = getHolidaysCountBetweenDates(lstHolidays, newDate, migrationDate.addDays(-1));
             }
             
             if(intHolidaysCount > 0) {
                 //Exclude holidays
-                newDate = newDate.addDays(flagAddDays ? intHolidaysCount : (intHolidaysCount * -1));
-
+                integer intTotalHolidays = flagAddDays ? intHolidaysCount : (intHolidaysCount * -1);
                 //Calling same method reccursively to check if weekends or holidays occurs on new date
-                newDate = getMigrationRemiderDate(lstHolidays, newDate, 0, flagAddDays);
+                newDate = getMigrationRemiderDate(newDate, intTotalHolidays, flagAddDays);
             }
+            System.debug('Final newDate: ' + newDate);
             return newDate;
         }
         catch(Exception ex) {
@@ -101,42 +101,22 @@ public class AH_PLCM_Calculate_Email_Trigger_Date {
     
     //Get amadeus holidays list
     public static List<Date> getHolidaysList() {
-        List<Date> lstHolidays = null;
+        List<Date> lstHolidayDates = null;
         try {
-            lstHolidays = new List<Date>();
+            lstHolidayDates = new List<Date>();
+            List<pse__HolidayObj__c> lstHolidays = [SELECT pse__Date__c FROM pse__HolidayObj__c];
+            for(pse__HolidayObj__c objHoliday : lstHolidays) {
+               lstHolidayDates.add(objHoliday.pse__Date__c);
+            }
             
-            //Holidays of 2020
-            lstHolidays.add(Date.newInstance(2020, 1, 1));
-            lstHolidays.add(Date.newInstance(2020, 2, 17));
-            lstHolidays.add(Date.newInstance(2020, 5, 25));
-            lstHolidays.add(Date.newInstance(2020, 7, 3));
-            lstHolidays.add(Date.newInstance(2020, 9, 7));
-            lstHolidays.add(Date.newInstance(2020, 11, 26));
-            lstHolidays.add(Date.newInstance(2020, 11, 27));
-            lstHolidays.add(Date.newInstance(2020, 12, 24));
-            lstHolidays.add(Date.newInstance(2020, 12, 25));
-            lstHolidays.add(Date.newInstance(2020, 12, 31));
-            
-            //Holidays of 2021
-            lstHolidays.add(Date.newInstance(2021, 1, 1));
-            lstHolidays.add(Date.newInstance(2021, 2, 15));
-            lstHolidays.add(Date.newInstance(2021, 5, 31));
-            lstHolidays.add(Date.newInstance(2021, 7, 5));
-            lstHolidays.add(Date.newInstance(2021, 9, 6));
-            lstHolidays.add(Date.newInstance(2021, 11, 25));
-            lstHolidays.add(Date.newInstance(2021, 11, 26));
-            lstHolidays.add(Date.newInstance(2021, 12, 24));
-            lstHolidays.add(Date.newInstance(2021, 12, 27));
-            lstHolidays.add(Date.newInstance(2021, 12, 31));
-            
-            return lstHolidays;
+            return lstHolidayDates;
         }
         catch(Exception ex) {
             System.debug('Error Occured in getHolidaysList() - ' + String.valueOf(ex));
             throw ex;
         }
         finally {
-            lstHolidays = null;
+            lstHolidayDates = null;
         }
     }
 }

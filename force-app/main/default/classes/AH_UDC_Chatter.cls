@@ -8,15 +8,18 @@
   Description     : Apex class for Chatter page
  ************************************************************************************************/
 public without sharing class AH_UDC_Chatter {
+   public Boolean DisplayConsoleLogMessages { get; set; } { DisplayConsoleLogMessages = AH_UDC_ConfigHelper.GetBoolean('AH_UDC_ViewWorkbookDisplayConsoleLogMessages', false); }
+   
    public Boolean ChatterEnabled { get; set; } { ChatterEnabled = true; }
-   public Boolean IsChatterEnableError { get; set; } { IsChatterEnableError = false; }
-   public String IsChatterEnableErrorDetails { get; set; } { IsChatterEnableErrorDetails = ''; }
    public String NIDocumentName { get; set; } { NIDocumentName = ''; }
 
+   public integer ChatterPostMaxLength { get; set; } {ChatterPostMaxLength = AH_UDC_ConfigHelper.GetInteger('AH_UDC_ChatterPostMaxLength',2000);}
    public List<FeedWrapper> FeedList { get; set; }
    public String NIDocId { get; set; }
    public Boolean IsShowAllQuestions { get; set; }
    public Boolean IsErrorOccurred { get; set; }
+   public Boolean IsArchivedWorkbook { get; set; }
+   public String ChatterAsOf { get; set; }
    @TestVisible private string LogFunctionalArea = 'AH_UDC_Chatter'; //This is used for AH_UDC_Log Entries being written on this page
    //This is used to store AH_UDC_Log records that can't be written on the load of the controller
    public List<AH_UDC_log__c> PageLoadLogMessages { get; set; } { PageLoadLogMessages = new List<AH_UDC_Log__c> (); }
@@ -35,6 +38,7 @@ public without sharing class AH_UDC_Chatter {
       public String BodyText { get; set; }
       public Boolean IsEditable { get; set; }
       public String SentBefore { get; set; }
+      public FeedCommentWrapper LatestComment { get; set; }
       public List<FeedCommentWrapper> Comments { get; set; }
    }
 
@@ -55,10 +59,9 @@ public without sharing class AH_UDC_Chatter {
          AH_UDC_LogHelper.QueueLogs = true;
 
          //Proceed only for Chatter Enabled Users
-         IsShowAllQuestions = false;
-
+         IsShowAllQuestions = true; // the "Show all questions" to be ON by default
          // Need to sanitize the parameter to prevent injection attacks
-         if (String.isBlank(apexpages.currentpage().getparameters().get('id'))) {
+         if (String.isBlank(apexpages.currentpage().getparameters().get('Id'))) {
             LogException('Constructor', 'NI Document Id was not specified', null);
             return;
          }
@@ -66,32 +69,41 @@ public without sharing class AH_UDC_Chatter {
          NIDocId = String.escapeSingleQuotes(apexpages.currentpage().getparameters().get('Id'));
          AH_UDC_LogHelper.Debug('###NIDocId: ' + NIDocId);
 
-         if (!UserHasAccessToNIDoc()) {
+         if (!AH_UDC_SharedWithoutSharing.UserHasAccessToNIDoc(NIDocId, LogFunctionalArea)) {
             LogException('Constructor', 'User does not have access to the specified NI Document record', null);
             return;
          }
 
+         String userProfileName = '';
          //Detect if user has chatter profile
-         User currentUser = [select Profile.name from user where Id = :UserInfo.getUserId()];
+         userProfileName = [SELECT Id, Name FROM Profile WHERE Id = :userinfo.getProfileId() LIMIT 1].Name;
+
          String profileAllowedToChatter = AH_UDC_ConfigHelper.GetString(AH_UDC_Constants.CONFIG_KEY_COMMUNITY_PROFILE_WITH_CHATTER,
                                                                         AH_UDC_Constants.PROFILE_DEFAULT_NAME_COMMUNITY_PLUS_LOGIN_WITH_CHATTER);
-         AH_UDC_LogHelper.Debug('###profileAllowedToChatter: ' + profileAllowedToChatter);
-         String userProfileName = String.valueOf(currentUser.getSObject('Profile').get('Name'));
+
          AH_UDC_LogHelper.Debug('###UserProfileName: ' + userProfileName);
+         AH_UDC_LogHelper.Debug('###profileAllowedToChatter: ' + profileAllowedToChatter);
+
+         AH_UDC_LogHelper.Debug('###GetFeedDetails:');
+         NIDocumentName = [SELECT Id, Document_Name__c FROM NI_Documentation__c WHERE Id = :NIDocId].Document_Name__c; // CRUD/FLS False Positive
 
          if (userProfileName != profileAllowedToChatter) {
+            AH_UDC_LogHelper.Debug('###Profile is not allowed to use chatter');
             //No Chatter - this is not an error, the user will be show a section on the page allowing them to opt into chatter
             ChatterEnabled = false;
             return;
          }
 
-         //If user has NI Doc record access then get messages and comments               
-         AH_UDC_LogHelper.Debug('###GetFeedDetails:');
-         NI_Documentation__c nidoc = [SELECT Id, Document_Name__c FROM NI_Documentation__c WHERE Id = :NIDocId];
-         NIDocumentName = nidoc.Document_Name__c;
-
+         List<AH_UDC_Workbook__c> lstWorkbooks = [SELECT Id, Archive__c FROM AH_UDC_Workbook__c
+                                                   WHERE RelatedTo__c = :NIDocId];
+         if(lstWorkbooks.size() == 0) {
+            LogException('Constructor', 'Workbook not found associated with the specified NI Document record', null);
+            return;
+         }
+         IsArchivedWorkbook = lstWorkbooks[0].Archive__c;
          //Get Feed for display
          GetFeedDetails();
+         ChatterAsOf = Datetime.now().format();
       }
       catch(Exception ex) {
          LogException('Constructor', 'Error occurred in AH_UDC_Chatter() Constructor => ' + ex.getMessage() + ' at Line Number ' + ex.getLineNumber(), ex);
@@ -99,29 +111,48 @@ public without sharing class AH_UDC_Chatter {
       finally {
          //Write any Queued Log Messages to controller property
          PageLoadLogMessages = AH_UDC_LogHelper.GetQueuedLogs();
+         AH_UDC_LogHelper.clearQueuedLogs();
+         if (Test.isRunningTest()) AH_UDC_LogHelper.QueueLogs = false;
       }
    }
 
    public void AgreeToUseChatter() {
       AH_UDC_LogHelper.Debug('###AgreeToUseChatter');
-      if (IsChatterEnableError == true) return;
-
+      IsErrorOccurred = false;
+      Id userId = UserInfo.getUserId();
+      Boolean CallersQueueLogs = AH_UDC_LogHelper.QueueLogs;
+      AH_UDC_LogHelper.QueueLogs = true;
       try {
-         Boolean ProfileChanged = AH_UDC_SharedWithoutSharing.ChangeUserProfileToChatter();
-         //If profile change not successfull, log an error and simply show the page again to the user
-         AH_UDC_LogHelper.Log(AH_UDC_LogHelper.LogLevel_ERROR,
-                              'AH_UDC_Chatter', 'AgreeToUseChatter',
-                              'Failed to update uers profile to allow chatter (user id: ' + UserInfo.getUserId() + ') (user name:' + UserInfo.getName() + ')', null, UserInfo.getUserId(), 'User');
+         //TODO: ROBDEV: Fix in 2.1 AH_UDC_LogHelper.Log(AH_UDC_LogHelper.LogLevel_TRACE, 'Chatter', 'AgreeToUseChatter', 'User ID: ' + userId);
+         Boolean profileChanged = AH_UDC_SharedWithoutSharing.ChangeUserProfileToChatter(userId);
+         //If profile change not successful, log an error and simply show the page again to the user
+         if (!profileChanged) {
+            AH_UDC_LogHelper.Log(AH_UDC_LogHelper.LogLevel_ERROR,
+                                 'AH_UDC_Chatter', 'AgreeToUseChatter',
+                                 'Failed to update the profile of the User to allow chatter (user id: ' + userId + ') (user name:' + UserInfo.getName() + ')', null, UserInfo.getUserId(), 'User');
+            IsErrorOccurred = true;
+            ApexPages.addmessage(new ApexPages.message(ApexPages.severity.ERROR, System.Label.AH_UDC_FailedToChangeUserProfile));
+         }
          //The page is refreshed on the callback
       }
       catch(Exception exc) {
-         AH_UDC_LogHelper.Log('Exception', 'Chatter Page', 'AgreeToUseChatter', null, exc, UserInfo.getUserId(), 'User');
-         IsChatterEnableErrorDetails = 'Exception: ' + exc.getMessage();
-         IsChatterEnableError = true;
+         AH_UDC_LogHelper.Log('Exception', 'Chatter Page', 'AgreeToUseChatter', null, exc, userId, 'User');
+         IsErrorOccurred = true;
+         ApexPages.addmessage(new ApexPages.message(ApexPages.severity.ERROR, System.Label.AH_UDC_FailedToChangeUserProfile));
+      }
+      finally {
+         //Write any Queued Log Messages if called was not set to queue
+         if (CallersQueueLogs == false)
+         {
+            AH_UDC_LogHelper.writeQueuedLogs();
+            AH_UDC_LogHelper.clearQueuedLogs();
+            AH_UDC_LogHelper.QueueLogs = false;
+         }
       }
    }
 
-   //Get all messages along with comments
+   // Get all messages along with comments
+   // Requires the class to be WITHOUT SHARING to have access to the AH_UDC_Contact__c records
    public void GetFeedDetails() {
       List<FeedItem> lstFeeds = null;
       List<Id> lstContactIds = new List<Id> ();
@@ -142,9 +173,9 @@ public without sharing class AH_UDC_Chatter {
                return;
             }
 
-            lstUsers = new List<User> ([SELECT Id
-                                       FROM User
-                                       WHERE ContactId IN :lstContactIds AND IsActive = true]);
+            lstUsers = [SELECT Id
+                        FROM User
+                        WHERE ContactId IN :lstContactIds AND IsActive = true];
          }
          else {
             lstUsers = new List<User> ();
@@ -155,38 +186,62 @@ public without sharing class AH_UDC_Chatter {
             LogException('GetFeedDetails', 'User Record Not Found', null);
             return;
          }
+         //Add FeedId to mapLinkedIdToComments
+         Map<Id, List<FeedCommentWrapper>> mapLinkedIdToComments = new Map<Id, List<FeedCommentWrapper>> ();
+         for (FeedItem objFeed :[SELECT Id, InsertedById, InsertedBy.Name, Body, CommentCount, CreatedDate, LastEditDate
+              FROM FeedItem
+              WHERE ParentId = :NIDocId AND InsertedById IN :lstUsers
+              ORDER BY LastModifiedDate DESC]) {
+            objFeedWrapper = new FeedWrapper();
+            objFeedWrapper.Id = objFeed.Id;
+            objFeedWrapper.UserName = objFeed.InsertedBy.Name;
+            objFeedWrapper.BodyText = objFeed.Body;
+            AH_UDC_LogHelper.Debug('###Body: ' + objFeed.Body);
+            objFeedWrapper.IsEditable = objFeed.InsertedById == UserInfo.getUserId(); //Allow edit only for user's own messages
 
-
-         lstFeeds = new List<FeedItem> ([SELECT Id, InsertedById, InsertedBy.Name, Body, CommentCount, CreatedDate, LastEditDate
-                                        FROM FeedItem
-                                        WHERE ParentId = :NIDocId AND InsertedById IN :lstUsers
-                                        ORDER BY LastModifiedDate DESC]);
-
-         if (lstFeeds != null && lstFeeds.size() > 0) {
-            for (FeedItem objFeed : lstFeeds) {
-               objFeedWrapper = new FeedWrapper();
-               objFeedWrapper.Id = objFeed.Id;
-               objFeedWrapper.UserName = objFeed.InsertedBy.Name;
-               objFeedWrapper.BodyText = String.valueOf(objFeed.Body).replace('\n', '<br>');
-               AH_UDC_LogHelper.Debug('###BodyText: ' + objFeed.Body);
-               objFeedWrapper.IsEditable = objFeed.InsertedById == UserInfo.getUserId(); //Allow edit only for user's own messages
-
-               if (String.isNotBlank(String.valueOf(objFeed.LastEditDate))) {
-                  objFeedWrapper.SentBefore = GetMessageSentTimeText(objFeed.LastEditDate);
-               } else {
-                  objFeedWrapper.SentBefore = GetMessageSentTimeText(objFeed.CreatedDate);
-               }
-
-               objFeedWrapper.Comments = new List<FeedCommentWrapper> ();
-
-               if (objFeed.CommentCount > 0) {
-                  objFeedWrapper.Comments = GetFeedComments(objFeed.Id);
-               } else {
-                  objFeedWrapper.Comments = new List<FeedCommentWrapper> ();
-               }
-
-               FeedList.add(objFeedWrapper);
+            if (String.isNotBlank(String.valueOf(objFeed.LastEditDate))) {
+               objFeedWrapper.SentBefore = GetMessageSentTimeText(objFeed.LastEditDate);
+            } else {
+               objFeedWrapper.SentBefore = GetMessageSentTimeText(objFeed.CreatedDate);
             }
+
+            objFeedWrapper.Comments = new List<FeedCommentWrapper> ();
+            mapLinkedIdToComments.put(objFeed.Id, new List<FeedCommentWrapper>());            
+            FeedList.add(objFeedWrapper);
+         }
+
+         //get all the  comments of feedId and add it to mapLinkedIdToComments
+         for (FeedComment objFeedComment :[SELECT Id, FeedItemId, InsertedById, InsertedBy.Name, CommentBody, CreatedDate, LastEditDate
+              FROM FeedComment
+              WHERE FeedItemId IN :mapLinkedIdToComments.keySet() AND ParentId = :NIDocId
+              ORDER BY CreatedDate DESC]) {
+            FeedCommentWrapper objFeedCommentWrapper = new FeedCommentWrapper();
+            objFeedCommentWrapper = new FeedCommentWrapper();
+            objFeedCommentWrapper.Id = objFeedComment.Id;
+            objFeedCommentWrapper.UserName = objFeedComment.InsertedBy.Name;
+            objFeedCommentWrapper.BodyText = objFeedComment.CommentBody;
+            objFeedCommentWrapper.IsEditable = objFeedComment.InsertedById == UserInfo.getUserId(); //Allow edit only for user's own comments
+            if (String.isNotBlank(String.valueOf(objFeedComment.LastEditDate))) {
+               objFeedCommentWrapper.SentBefore = GetMessageSentTimeText(objFeedComment.LastEditDate);
+            } else {
+               objFeedCommentWrapper.SentBefore = GetMessageSentTimeText(objFeedComment.CreatedDate);
+            }
+
+            if (mapLinkedIdToComments.containsKey(objFeedComment.FeedItemId)) {
+               mapLinkedIdToComments.get(objFeedComment.FeedItemId).add(objFeedCommentWrapper);              
+            }
+            else {
+                mapLinkedIdToComments.put(objFeedComment.FeedItemId, new List<FeedCommentWrapper> { objFeedCommentWrapper });
+            }
+         }
+
+        //Assign LatestComment and Comments from mapLinkedIdToComments to FeedList
+         for (FeedWrapper objFeed : FeedList)
+         {
+            if (mapLinkedIdToComments.containsKey(objFeed.Id)) {
+               objFeed.Comments = mapLinkedIdToComments.get(objFeed.Id);
+               if (objFeed.Comments.size() > 0) objFeed.LatestComment = objFeed.Comments[0];
+            }            
          }
       }
       catch(Exception ex) {
@@ -195,46 +250,42 @@ public without sharing class AH_UDC_Chatter {
    }
 
    //Get all comments based on feed item id
-   // This method assumes this class is WITHOUT SHARING
-   private List<FeedCommentWrapper> GetFeedComments(Id feedItemId) {
-      List<FeedComment> lstFeedComments = null;
-      List<FeedCommentWrapper> lstFeedCommentWrapper = null;
-      FeedCommentWrapper objFeedCommentWrapper = null;
+   //This method assumes this class is WITHOUT SHARING
+   //private List<FeedCommentWrapper> GetFeedComments(Id feedItemId) {
+      //List<FeedComment> lstFeedComments = null;
+      //List<FeedCommentWrapper> lstFeedCommentWrapper = null;
+      //FeedCommentWrapper objFeedCommentWrapper = null;
 
-      try {
-         lstFeedCommentWrapper = new List<FeedCommentWrapper> ();
+      //try {
+         //lstFeedCommentWrapper = new List<FeedCommentWrapper> ();
 
-         if (String.isBlank(feedItemId)) {
-            LogException('GetFeedComments', 'feedItemId is not provided', null);
-            return new List<FeedCommentWrapper> ();
-         }
-
-         lstFeedComments = new List<FeedComment> ([SELECT Id, InsertedById, InsertedBy.Name, CommentBody, CreatedDate, LastEditDate
-                                                  FROM FeedComment
-                                                  WHERE FeedItemId = :feedItemId AND ParentId = :NIDocId]);
-
-         if (lstFeedComments != null && lstFeedComments.size() > 0) {
-            for (FeedComment objFeedComment : lstFeedComments) {
-               objFeedCommentWrapper = new FeedCommentWrapper();
-               objFeedCommentWrapper.Id = objFeedComment.Id;
-               objFeedCommentWrapper.UserName = objFeedComment.InsertedBy.Name;
-               objFeedCommentWrapper.BodyText = objFeedComment.CommentBody;
-               objFeedCommentWrapper.IsEditable = objFeedComment.InsertedById == UserInfo.getUserId(); //Allow edit only for user's own comments
-               if (String.isNotBlank(String.valueOf(objFeedComment.LastEditDate))) {
-                  objFeedCommentWrapper.SentBefore = GetMessageSentTimeText(objFeedComment.LastEditDate);
-               } else {
-                  objFeedCommentWrapper.SentBefore = GetMessageSentTimeText(objFeedComment.CreatedDate);
-               }
-               lstFeedCommentWrapper.add(objFeedCommentWrapper);
-            }
-         }
-         return lstFeedCommentWrapper;
-      }
-      catch(Exception ex) {
-         LogException('GetFeedComments', 'Error occurred in GetFeedComments() => ' + ex.getMessage() + ' at Line Number ' + ex.getLineNumber(), ex);
-         throw ex;
-      }
-   }
+         //if (String.isBlank(feedItemId)) {
+            //LogException('GetFeedComments', 'feedItemId is not provided', null);
+            //return new List<FeedCommentWrapper> ();
+         //}
+         //for (FeedComment objFeedComment :[SELECT Id, InsertedById, InsertedBy.Name, CommentBody, CreatedDate, LastEditDate
+              //FROM FeedComment
+              //WHERE FeedItemId = :feedItemId AND ParentId = :NIDocId
+              //ORDER BY CreatedDate DESC]) {
+            //objFeedCommentWrapper = new FeedCommentWrapper();
+            //objFeedCommentWrapper.Id = objFeedComment.Id;
+            //objFeedCommentWrapper.UserName = objFeedComment.InsertedBy.Name;
+            //objFeedCommentWrapper.BodyText = String.valueOf(objFeedComment.CommentBody).replace('\n', '<br>');
+            //objFeedCommentWrapper.IsEditable = objFeedComment.InsertedById == UserInfo.getUserId(); //Allow edit only for user's own comments
+            //if (String.isNotBlank(String.valueOf(objFeedComment.LastEditDate))) {
+               //objFeedCommentWrapper.SentBefore = GetMessageSentTimeText(objFeedComment.LastEditDate);
+            //} else {
+               //objFeedCommentWrapper.SentBefore = GetMessageSentTimeText(objFeedComment.CreatedDate);
+            //}
+            //lstFeedCommentWrapper.add(objFeedCommentWrapper);
+         //}
+         //return lstFeedCommentWrapper;
+      //}
+      //catch(Exception ex) {
+         //LogException('GetFeedComments', 'Error occurred in GetFeedComments() => ' + ex.getMessage() + ' at Line Number ' + ex.getLineNumber(), ex);
+         //throw ex;
+      //}
+   //}
 
    // Returns message sent time text (Eg. '5 Days Ago').  If dtMessageSentTime
    // was not parsable, a blank string is returned   
@@ -282,14 +333,14 @@ public without sharing class AH_UDC_Chatter {
             LogException('PostFeedMessage', 'message text is not provided', null);
             return;
          }
-         strMessage = String.escapeSingleQuotes(ApexPages.currentPage().getParameters().get('message'));
-
+         strMessage = '<p>' +ApexPages.currentPage().getParameters().get('message').escapeHtml4()+ '</p>';
+         strMessage = strMessage.replace('\n', '</p><p>');
          objFeedItem = new FeedItem();
          objFeedItem.ParentId = NIDocId;
          objFeedItem.Type = 'TextPost';
-         objFeedItem.IsRichText = false;
-         objFeedItem.Body = strMessage.escapeHtml4();
-         insert objFeedItem;
+         objFeedItem.IsRichText = true;
+         objFeedItem.Body = strMessage;
+         AH_UDC_SystemContext.CreateObject(objFeedItem);
 
          //Update feed messages list
          GetFeedDetails();
@@ -314,8 +365,9 @@ public without sharing class AH_UDC_Chatter {
          }
 
          feedItemId = String.escapeSingleQuotes(ApexPages.currentPage().getParameters().get('feedItemId'));
-         strComment = String.escapeSingleQuotes(ApexPages.currentPage().getParameters().get('comment'));
-
+         strComment = '<p>' +ApexPages.currentPage().getParameters().get('comment').escapeHtml4()+ '</p>';         
+         strComment = strComment.replace('\n', '</p><p>');
+         
          if (String.isBlank(feedItemId) || String.isBlank(strComment)) {
             LogException('PostFeedComment', 'Must specify a FeedItemId and text for the Comment', null);
             return;
@@ -324,9 +376,9 @@ public without sharing class AH_UDC_Chatter {
          objFeedComment = new FeedComment();
          objFeedComment.FeedItemId = feedItemId;
          objFeedComment.CommentType = 'TextComment';
-         objFeedComment.IsRichText = false;
-         objFeedComment.CommentBody = strComment.escapeHtml4();
-         insert objFeedComment;
+         objFeedComment.IsRichText = true;
+         objFeedComment.CommentBody = strComment;
+         AH_UDC_SystemContext.CreateObject(objFeedComment);
 
          //Update feed messages list
          GetFeedDetails();
@@ -350,12 +402,13 @@ public without sharing class AH_UDC_Chatter {
          }
 
          strFeedItemId = String.escapeSingleQuotes(ApexPages.currentPage().getParameters().get('feeditemid'));
-         strMessage = String.escapeSingleQuotes(ApexPages.currentPage().getParameters().get('message'));
-
+         strMessage = '<p>' +ApexPages.currentPage().getParameters().get('message').escapeHtml4()+ '</p>';
+         strMessage = strMessage.replaceAll('\n+', '\n');
+         strMessage = strMessage.replaceAll('\n', '</p><p>');
          objFeedItem = new FeedItem();
          objFeedItem.Id = strFeedItemId;
-         objFeedItem.Body = strMessage.escapeHtml4();
-         update objFeedItem;
+         objFeedItem.Body = strMessage;
+         AH_UDC_SystemContext.UpdateObject(objFeedItem);
 
          //Update feed messages list
          GetFeedDetails();
@@ -380,12 +433,14 @@ public without sharing class AH_UDC_Chatter {
          }
 
          strFeedCommentId = String.escapeSingleQuotes(ApexPages.currentPage().getParameters().get('feedcommentid'));
-         strComment = String.escapeSingleQuotes(ApexPages.currentPage().getParameters().get('comment'));
+         strComment = '<p>' +ApexPages.currentPage().getParameters().get('comment').escapeHtml4()+ '</p>';
+         strComment = strComment.replaceAll('\n+', '\n');       
+         strComment = strComment.replaceAll('\n', '</p><p>');
 
          objFeedComment = new FeedComment();
          objFeedComment.Id = strFeedCommentId;
-         objFeedComment.CommentBody = strComment.escapeHtml4();
-         update objFeedComment;
+         objFeedComment.CommentBody = strComment;
+         AH_UDC_SystemContext.UpdateObject(objFeedComment);
 
          //Update feed messages list
          GetFeedDetails();
@@ -395,51 +450,25 @@ public without sharing class AH_UDC_Chatter {
       }
    }
 
-   // Check if user has access of workbook or not.
-   // This method assumes this class is WITHOUT SHARING
-   private Boolean UserHasAccessToNIDoc() {
-      User objUser = null;
-      List<AH_UDC_Contact__c> lstUDCContacts = null;
-
-      try {
-         //Get logged-in user's contact id
-         objUser = [SELECT Id, Username, ContactId FROM User WHERE Id = :UserInfo.getUserId() AND IsActive = true];
-         AH_UDC_LogHelper.Debug('###objUser.ContactId: ' + objUser.ContactId);
-         AH_UDC_LogHelper.Debug('###NIDocId: ' + NIDocId);
-
-         if (objUser == null) {
-            LogException('UserHasAccessToNIDoc', 'User record not found', null);
-            return false;
-         }
-
-         //Get UDC Workbook records for logged-in user
-         lstUDCContacts = [SELECT Id
-                           FROM AH_UDC_Contact__c
-                           WHERE Document__c = :NIDocId
-                           AND Contact__c = :objUser.ContactId];
-         AH_UDC_LogHelper.Debug('###lstUDCContacts: ' + lstUDCContacts);
-
-         //Return true if user has NI Doc record Access otherwise return false
-         return lstUDCContacts != null && lstUDCContacts.size() > 0;
-      }
-      catch(Exception ex) {
-         LogException('UserHasAccessToNIDoc', 'Error occurred in UserHasAccessToNIDoc() => ' + ex.getMessage() + ' at Line Number ' + ex.getLineNumber(), ex);
-         throw ex;
-      }
+   //TODO: Remove in V2.2
+   public PageReference UpdateChatterAccessDetails() {
+      return null;
    }
 
    // This method assumes this class is WITHOUT SHARING
-   public PageReference UpdateChatterAccessDetails() {
+   public PageReference serverUpdateChatterLastViewed() {
       try {
-         if (!UserHasAccessToNIDoc()) {
+         if (!AH_UDC_SharedWithoutSharing.UserHasAccessToNIDoc(NIDocId, LogFunctionalArea)) {
             LogException('UpdateChatterAccessDetails', 'The user (' + System.UserInfo.getUserName() + ') is trying to access ChatterAccessDetails for NIDoc (' + NIDocId + ')', null);
             return null;
          }
 
          AH_UDC_LogHelper.Debug('NIDocId=>' + NIDocId);
-         List<User> listUsers = [SELECT Id, ContactId, IsActive FROM User WHERE Id = :UserInfo.getUserId()];
+         List<User> listUsers = null;
 
-         if (listUsers.Size() == 0) {
+         listUsers = [SELECT Id, ContactId, IsActive FROM User WHERE Id = :UserInfo.getUserId()];
+
+         if (listUsers == null || listUsers.Size() == 0) {
             LogException('UpdateChatterAccessDetails', 'User (' + UserInfo.getUserId() + ') was not found', null);
             return null;
          }
@@ -456,12 +485,12 @@ public without sharing class AH_UDC_Chatter {
                                           AND Contact__c = :listUsers[0].ContactId];
          oUdcContact.ChatterLastViewed__c = Datetime.now();
          AH_UDC_LogHelper.Debug('oUdcContact=>' + oUdcContact);
-         update oUdcContact;
+         AH_UDC_SystemContext.UpdateObject(oUdcContact);
 
          return null;
       }
       catch(Exception ex) {
-         LogException('UpdateChatterAccessDetails', 'Error occurred in UpdateChatterAccessDetails() => ' + ex.getMessage() + ' at Line Number ' + ex.getLineNumber(), ex);
+         LogException('serverUpdateChatterLastViewed', 'Error occurred in serverUpdateChatterLastViewed() => ' + ex.getMessage() + ' at Line Number ' + ex.getLineNumber(), ex);
          throw ex;
       }
    }

@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Workflow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <alerts>
+        <fullName>CVENT_ALI_Notification</fullName>
+        <description>CVENT ALI Notification</description>
+        <protected>false</protected>
+        <recipients>
+            <recipient>robert.quigley@amadeus.com</recipient>
+            <type>user</type>
+        </recipients>
+        <senderAddress>hospitality.no-reply@amadeus.com</senderAddress>
+        <senderType>OrgWideEmailAddress</senderType>
+        <template>NIFinanceWorkflowEmails/New_CVENT_ALI_Notification</template>
+    </alerts>
+    <fieldUpdates>
+        <fullName>Activity_Line_Item_Cancelled</fullName>
+        <description>When the Activity Line Item is Status &quot;Cancelled&quot;, update the Renewal Eligible field</description>
+        <field>Auto_Renewal__c</field>
+        <literalValue>0</literalValue>
+        <name>Activity Line Item Cancelled</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Literal</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>Calc_Renewal_Date</fullName>
+        <field>Renewal_Date__c</field>
+        <formula>Contract_End_Date__c -  Billing_Renewal_Lead_Time_Days__c</formula>
+        <name>Calc Renewal Date</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Formula</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>Fulfillment_Date_Today</fullName>
+        <field>Fulfillment_Date__c</field>
+        <formula>today()</formula>
+        <name>Fulfillment Date = Today</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Formula</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>true</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>Include_in_Rev_Rec_false</fullName>
+        <field>Include_in_Revenue_Recognition__c</field>
+        <literalValue>0</literalValue>
+        <name>Include in Rev Rec = false</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Literal</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>Include_in_Rev_Rec_true</fullName>
+        <field>Include_in_Revenue_Recognition__c</field>
+        <literalValue>1</literalValue>
+        <name>Include in Rev Rec = true</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Literal</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>true</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>Populate_ALI_Auto_Renewal</fullName>
+        <description>Populates ALI Auto-renewal checkbox</description>
+        <field>Auto_Renewal__c</field>
+        <literalValue>1</literalValue>
+        <name>Populate ALI Auto-Renewal</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Literal</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>true</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>Populate_Lead_Time</fullName>
+        <field>Billing_Renewal_Lead_Time_Days__c</field>
+        <formula>if(ISBLANK(Product__r.Billing_Renewal_Lead_Time_Days__c) = false, Product__r.Billing_Renewal_Lead_Time_Days__c, 0)</formula>
+        <name>Populate Lead Time</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Formula</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>true</reevaluateOnChange>
+    </fieldUpdates>
+    <rules>
+        <fullName>Activity Line Item Cancelled</fullName>
+        <actions>
+            <name>Activity_Line_Item_Cancelled</name>
+            <type>FieldUpdate</type>
+        </actions>
+        <active>true</active>
+        <criteriaItems>
+            <field>Activity_Line_Item__c.Status__c</field>
+            <operation>equals</operation>
+            <value>Cancelled</value>
+        </criteriaItems>
+        <description>When the Activity Line Item is &quot;Cancelled&quot;, update the Renewal Eligible field.</description>
+        <triggerType>onCreateOrTriggeringUpdate</triggerType>
+    </rules>
+    <rules>
+        <fullName>CVENT Activity Line Created</fullName>
+        <actions>
+            <name>CVENT_ALI_Notification</name>
+            <type>Alert</type>
+        </actions>
+        <active>true</active>
+        <formula>Product__r.Name = &apos;MeetingBroker Subscription with Cvent Publishing Channel&apos;</formula>
+        <triggerType>onCreateOnly</triggerType>
+    </rules>
+    <rules>
+        <fullName>Calc Renewal Date</fullName>
+        <actions>
+            <name>Calc_Renewal_Date</name>
+            <type>FieldUpdate</type>
+        </actions>
+        <active>true</active>
+        <formula>Auto_Renewal__c = true &amp;&amp; ISBLANK(Contract_End_Date__c)= false</formula>
+        <triggerType>onAllChanges</triggerType>
+    </rules>
+    <rules>
+        <fullName>Get Billing %2F Renewal Lead Time</fullName>
+        <actions>
+            <name>Populate_Lead_Time</name>
+            <type>FieldUpdate</type>
+        </actions>
+        <active>true</active>
+        <formula>ISBLANK( Billing_Renewal_Lead_Time_Days__c )</formula>
+        <triggerType>onAllChanges</triggerType>
+    </rules>
+    <rules>
+        <fullName>Populate ALI Auto-Renewal</fullName>
+        <actions>
+            <name>Populate_ALI_Auto_Renewal</name>
+            <type>FieldUpdate</type>
+        </actions>
+        <active>true</active>
+        <booleanFilter>(1 OR 2)</booleanFilter>
+        <criteriaItems>
+            <field>Activity_Line_Item__c.Revenue_Category__c</field>
+            <operation>equals</operation>
+            <value>Subscription</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Activity_Line_Item__c.Revenue_Category__c</field>
+            <operation>equals</operation>
+            <value>Support</value>
+        </criteriaItems>
+        <description>Checks Auto-renewal checkbox when Rev category is Support or Subscription</description>
+        <triggerType>onCreateOnly</triggerType>
+    </rules>
+    <rules>
+        <fullName>Populate Fulfillment Date</fullName>
+        <actions>
+            <name>Fulfillment_Date_Today</name>
+            <type>FieldUpdate</type>
+        </actions>
+        <active>true</active>
+        <criteriaItems>
+            <field>Activity_Line_Item__c.Fulfillment_Complete__c</field>
+            <operation>equals</operation>
+            <value>True</value>
+        </criteriaItems>
+        <triggerType>onCreateOrTriggeringUpdate</triggerType>
+    </rules>
+    <rules>
+        <fullName>Suspend Rev Rec %3D FALSE</fullName>
+        <actions>
+            <name>Include_in_Rev_Rec_true</name>
+            <type>FieldUpdate</type>
+        </actions>
+        <active>true</active>
+        <criteriaItems>
+            <field>Activity_Line_Item__c.Suspend_Revenue_Recognition__c</field>
+            <operation>equals</operation>
+            <value>False</value>
+        </criteriaItems>
+        <triggerType>onAllChanges</triggerType>
+    </rules>
+    <rules>
+        <fullName>Suspend Rev Rec %3D TRUE</fullName>
+        <actions>
+            <name>Include_in_Rev_Rec_false</name>
+            <type>FieldUpdate</type>
+        </actions>
+        <active>true</active>
+        <criteriaItems>
+            <field>Activity_Line_Item__c.Suspend_Revenue_Recognition__c</field>
+            <operation>equals</operation>
+            <value>True</value>
+        </criteriaItems>
+        <triggerType>onAllChanges</triggerType>
+    </rules>
+</Workflow>

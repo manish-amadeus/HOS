@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Network xmlns="http://soap.sforce.com/2006/04/metadata">
+    <allowInternalUserLogin>true</allowInternalUserLogin>
+    <allowMembersToFlag>false</allowMembersToFlag>
+    <caseCommentEmailTemplate>AH_Customer_Central/AH_Customer_Central_Updated_Case</caseCommentEmailTemplate>
+    <changePasswordTemplate>AH_Customer_Central/AH_Customer_Central_Changed_Password</changePasswordTemplate>
+    <communityRoles/>
+    <disableReputationRecordConversations>false</disableReputationRecordConversations>
+    <emailFooterText>Amadeus Hospitality - 75 New Hampshire Avenue • Portsmouth, New Hampshire 03801 USA</emailFooterText>
+    <emailSenderAddress>hospitality.support@amadeus.com</emailSenderAddress>
+    <emailSenderName>Amadeus Customer Central</emailSenderName>
+    <enableApexCDNCaching>true</enableApexCDNCaching>
+    <enableCustomVFErrorPageOverrides>false</enableCustomVFErrorPageOverrides>
+    <enableDirectMessages>true</enableDirectMessages>
+    <enableExperienceBundleBasedSnaOverrideEnabled>true</enableExperienceBundleBasedSnaOverrideEnabled>
+    <enableGuestChatter>false</enableGuestChatter>
+    <enableGuestFileAccess>true</enableGuestFileAccess>
+    <enableGuestMemberVisibility>false</enableGuestMemberVisibility>
+    <enableImageOptimizationCDN>true</enableImageOptimizationCDN>
+    <enableInvitation>false</enableInvitation>
+    <enableKnowledgeable>false</enableKnowledgeable>
+    <enableMemberVisibility>true</enableMemberVisibility>
+    <enableNicknameDisplay>false</enableNicknameDisplay>
+    <enablePrivateMessages>false</enablePrivateMessages>
+    <enableReputation>false</enableReputation>
+    <enableShowAllNetworkSettings>false</enableShowAllNetworkSettings>
+    <enableSiteAsContainer>true</enableSiteAsContainer>
+    <enableTalkingAboutStats>true</enableTalkingAboutStats>
+    <enableTopicAssignmentRules>true</enableTopicAssignmentRules>
+    <enableTopicSuggestions>false</enableTopicSuggestions>
+    <enableUpDownVote>false</enableUpDownVote>
+    <forgotPasswordTemplate>AH_Customer_Central/AH_Customer_Central_Forgot_Password</forgotPasswordTemplate>
+    <gatherCustomerSentimentData>false</gatherCustomerSentimentData>
+    <networkMemberGroups>
+        <permissionSet>AH_FFA_Community_AP_Manager_TEMP</permissionSet>
+        <permissionSet>Customer_Central_Community_Viewer</permissionSet>
+        <profile>admin</profile>
+        <profile>ah customer community plus user</profile>
+        <profile>ah support managers - lightning</profile>
+        <profile>ah customer community plus - no chatter</profile>
+        <profile>ah customer community plus - plcm - no chatter</profile>
+        <profile>ah customer community plus - plcm</profile>
+        <profile>ni support managers</profile>
+        <profile>ah customer community plus login user</profile>
+        <profile>ah customer community plus login - no chatter</profile>
+        <profile>ni support csr</profile>
+        <profile>ah support csr - lightning</profile>
+        <profile>ah integrations</profile>
+    </networkMemberGroups>
+    <networkPageOverrides>
+        <changePasswordPageOverrideSetting>Standard</changePasswordPageOverrideSetting>
+        <forgotPasswordPageOverrideSetting>Standard</forgotPasswordPageOverrideSetting>
+        <homePageOverrideSetting>Designer</homePageOverrideSetting>
+        <loginPageOverrideSetting>Standard</loginPageOverrideSetting>
+        <selfRegProfilePageOverrideSetting>Designer</selfRegProfilePageOverrideSetting>
+    </networkPageOverrides>
+    <picassoSite>Customer_Central1</picassoSite>
+    <selfRegistration>false</selfRegistration>
+    <sendWelcomeEmail>true</sendWelcomeEmail>
+    <site>Customer_Central</site>
+    <siteArchiveStatus>NotArchived</siteArchiveStatus>
+    <status>Live</status>
+    <tabs>
+        <defaultTab>home</defaultTab>
+        <standardTab>Chatter</standardTab>
+    </tabs>
+    <urlPathPrefix>customers</urlPathPrefix>
+    <welcomeTemplate>AH_Customer_Central/AH_Customer_Central_User_Welcome</welcomeTemplate>
+</Network>

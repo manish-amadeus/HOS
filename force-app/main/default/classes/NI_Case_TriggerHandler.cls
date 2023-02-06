@@ -2,7 +2,7 @@
 Name            : NI_Case_TriggerHandler Class
 Author          : Stuart Emery
 Created Date    : 12/07/2013
-Last Mod Date   : 04/06/2021 
+Last Mod Date   : 08/17/2021
 Last Mod By     : Sean Harris
 NICC Reference  : 
 Description     : Class that handles all trigger code for the Case Object
@@ -36,12 +36,18 @@ public class NI_Case_TriggerHandler
     public void OnBeforeInsert(List<Case> newTrigger)
     {  
       
+        // CALL OUT-OF-OFFICE EMAIL BLOCKER  
+        if (!bpSwitch.BypassCaseEmailLoopKiller_ON__c)
+        {          
+            oooEmailLoopBlocker(newTrigger);
+        }
+        
         if (!bpSwitch.BypassCase_ON__c)
         {
              
             // METHOD TO PREVENT WIN@PROACH / SERVICE NOW INTEGRATION CASES FROM BEING UPDATED
             List<Case> lstValidCases = new List<Case>();
-            lstValidCases = lstValidCasesToProcess(newTrigger);
+            lstValidCases = lstValidCasesToProcess(newTrigger, true);
             
             if (lstValidCases.Size() > 0)
             {
@@ -74,7 +80,7 @@ public class NI_Case_TriggerHandler
             
             // METHOD TO PREVENT WIN@PROACH / SERVICE NOW INTEGRATION CASES FROM BEING UPDATED
             List<Case> lstValidCases = new List<Case>();
-            lstValidCases = lstValidCasesToProcess(newTrigger);     
+            lstValidCases = lstValidCasesToProcess(newTrigger, false);     
             
             if (lstValidCases.Size() > 0)
             {
@@ -118,8 +124,14 @@ public class NI_Case_TriggerHandler
                 } 
                 
                 // CALL CASE SOLUTION METHOD
-                caseSolutionTrigger(newTrigger, null);
-   
+//                if (NI_TriggerManager.processedSolutions == false)
+//                {
+//                    caseSolutionTrigger(newTrigger, null);
+//                }
+    
+                // NICC-054506 - COUNT CASES ATTACHED TO CRs
+                countLinkedCases(newTrigger);
+    
             }
             
         }
@@ -134,7 +146,7 @@ public class NI_Case_TriggerHandler
             
             // METHOD TO PREVENT WIN@PROACH / SERVICE NOW INTEGRATION CASES FROM BEING UPDATED
             List<Case> lstValidCases = new List<Case>();
-            lstValidCases = lstValidCasesToProcess(newTrigger);
+            lstValidCases = lstValidCasesToProcess(newTrigger, false); 
             
             if (lstValidCases.Size() > 0)
             {
@@ -211,15 +223,15 @@ public class NI_Case_TriggerHandler
             
             // METHOD TO PREVENT WIN@PROACH / SERVICE NOW INTEGRATION CASES FROM BEING UPDATED
             List<Case> lstValidCases = new List<Case>();
-            lstValidCases = lstValidCasesToProcess(newTrigger);     
+            lstValidCases = lstValidCasesToProcess(newTrigger, false); 
             
             if (lstValidCases.Size() > 0)
             {
 
-                // DUE TO ORDER OF EXECUTION THIS METHOD MUST BE FIRST (START)			
+                // DUE TO ORDER OF EXECUTION THIS METHOD MUST BE FIRST (START)          
                 // CALL WRITE CASE DETAILS METHOD
                 writeCaseDetails(lstValidCases, oldMapTrigger);                
-                // DUE TO ORDER OF EXECUTION THIS METHOD MUST BE FIRST ( END )	
+                // DUE TO ORDER OF EXECUTION THIS METHOD MUST BE FIRST ( END )  
                  
                 // SET TO HOLD THE CR IDs RELATED TO CASES
                 Set<Id> setCRIds = new Set<Id>();
@@ -258,7 +270,11 @@ public class NI_Case_TriggerHandler
                 }
                 
                 // CALL CASE SOLUTION METHOD
-                caseSolutionTrigger(lstValidCases, oldMapTrigger); 
+//                if (NI_TriggerManager.processedSolutions == false)
+//                {
+//                    NI_TriggerManager.processedSolutions = true;
+//                    caseSolutionTrigger(lstValidCases, oldMapTrigger); 
+//                }
                 
                 if (!bpSwitch.BypassCaseFlags_ON__c)
                 {    
@@ -273,8 +289,11 @@ public class NI_Case_TriggerHandler
                     persistCaseSharesAfterCaseUpdate(lstValidCases);
                 } 
                 
+                // NICC-054506 - COUNT CASES ATTACHED TO CRs
+                countLinkedCases(newTrigger);                
+                
                 // CALL CLOSE USER STORY IN RALLY METHOD
-				closeUserStoryInRally(newTrigger, oldMapTrigger); 
+                closeUserStoryInRally(newTrigger, oldMapTrigger); 
               
             }
   
@@ -285,7 +304,7 @@ public class NI_Case_TriggerHandler
     // =========================================================================
     //    FUNCTIONS ============================================================
     // =========================================================================    
-    private List<Case> lstValidCasesToProcess (List<Case> newTrigger)
+    private List<Case> lstValidCasesToProcess(List<Case> newTrigger, Boolean isBeforeInsert)
     {
         
         // LIST OF VALID CASES TO BE RETURNED 
@@ -294,28 +313,32 @@ public class NI_Case_TriggerHandler
         // GET ALL VALID CASE RECORD TYPE NAMES FROM CUSTOM SETTING
         Winaproach_Incident_Case_Record_Type__c wcsRecordTypes = Winaproach_Incident_Case_Record_Type__c.getValues('Default'); 
         
-        // 4/23/2018- ADDED BY RIA TO CONSIDER 'CRS WORK ORDER' CASE RECORD TYPES
-        Winaproach_Work_Order_Case_Record_Type__c workOrderRecType = Winaproach_Work_Order_Case_Record_Type__c.getValues('Default');
+        // NICC-027116 4/23/2018- ADDED BY RIA TO CONSIDER 'CRS WORK ORDER' CASE RECORD TYPES
+        Winaproach_Work_Order_Case_Record_Type__c strWorkOrderRecType = Winaproach_Work_Order_Case_Record_Type__c.getValues('Default');
         
         // IF NO RECORD TYPE NAMES FROM CUSTOM SETTING FOUND RETURN 0 SIZED CASE LIST
-        if (wcsRecordTypes == null  && workOrderRecType == null){return retLst;}
+        if (wcsRecordTypes == null && strWorkOrderRecType == null)
+        {
+            return retLst;
+        }
         
         // PARSE RECORD TYPE NAMES FROM CUSTOM SETTING INTO LIST
-        List<String> lstRecordtypes = String.valueOf(wcsRecordTypes.record_type__c).split(',');
-        
+        List<String> lstRecordTypes = String.valueOf(wcsRecordTypes.record_type__c).split(',');
+
         // SET TO HOLD CASE RECORD TYPE IDS 
         Set<Id> setRecordTypeIds = new Set<Id>();
         
-        // 4/23/2018- ADDED BY RIA TO CONSIDER 'CRS WORK ORDER CASE' RECORD TYPES ALSO
+        // NICC-027116 4/23/2018 - ADDED BY RIA TO CONSIDER 'CRS WORK ORDER CASE' RECORD TYPES ALSO LOOK FOR RECORD TYPE OF CRS WORK ORDERS
         // LOOK FOR RECORD TYPE OF CRS WORK ORDERS
-        if (workOrderRecType != null)
+        if (strWorkOrderRecType != null)
         {
-            lstRecordtypes.add(String.valueOf(workOrderRecType.Record_Type__c));
+            lstRecordTypes.add(String.valueOf(strWorkOrderRecType.Record_Type__c));
         }
 
+        // LOOP THROUGH CASE RECORD TYPES TO ASSIGN IDS TO SET
         Map<String, Schema.RecordTypeInfo> recordTypesMap = Schema.SObjectType.Case.getRecordTypeInfosByName();
 
-        for (String recType : lstRecordtypes)
+        for (String recType : lstRecordTypes)
         {
             if (recordTypesMap.containsKey(recType)) 
             {
@@ -333,7 +356,73 @@ public class NI_Case_TriggerHandler
             }
         }
         
+        system.debug(' *%*%* (NI_Case_TriggerHandler) retLst = ' + retLst); 
+        
         return retLst;
+        
+    }
+    
+    private void oooEmailLoopBlocker(List<Case> newTrigger)
+    {
+
+        string strEmailSubject = '';
+        string strCaseOrigin = '';
+        User runningUsr = [SELECT Id, Alias FROM User WHERE Id =: UserInfo.getUserId()];
+        
+        Set<String> setUserAliases = new Set<String>();
+        
+        // LIST TO HOLD THE VALUES FROM THE EmailLoopKillerUserExceptions__c CUSTOM SETTING  
+        List<EmailLoopKillerUserExceptions__c> lstCS = EmailLoopKillerUserExceptions__c.getAll().values();
+        
+        // LOOP THROUGH THE lstCS AND GET THE USER ALIAS EXCEPTIONS
+        for (EmailLoopKillerUserExceptions__c j : lstCS)
+        {
+            setUserAliases.add(j.User_Alias__c);
+        }   
+        
+        case[] c = newTrigger; 
+        case[] check = [SELECT ID, CreatedDate, Subject, Origin 
+                        FROM Case 
+                        WHERE SuppliedEmail =: c[0].SuppliedEmail  
+                        AND Subject =: c[0].Subject 
+                        AND IsClosed = false 
+                        ORDER BY CreatedDate DESC]; 
+        
+        if (c[0].Subject != null)
+        {
+            strEmailSubject = c[0].Subject;
+        }
+        
+        if (c[0].Origin != null)
+        {
+            strCaseOrigin = c[0].Origin;
+        }
+        
+        if (strCaseOrigin != null)
+        {       
+            if (strCaseOrigin.contains('Email'))    // If origin comes from email.
+            {
+                if (strEmailSubject.contains('[ ref:') || 
+                    strEmailSubject.contains('eSupport Information Request') || 
+                    strEmailSubject.contains('Your Messages From Communication Solutions') || 
+                    strEmailSubject.startsWith('iHotelier OTA Sync') || 
+                    setUserAliases.contains(runningUsr.Alias))
+                { 
+                    // Email is valid. Email should be attached to the case or new case created.
+                    // 01/30/2017 (NICC-020940) Added IF condition to bypass when context user for E2CP Context User is running user 
+                } 
+                else
+                {
+                    if (check.size() > 0)
+                    {                   
+                        if (check[0].Subject == strEmailSubject)
+                        {                                   
+                            c[0].addError('The emailLoopKiller trigger has prevented this case from being created because an open case with this contact has the same subject.');      
+                        }
+                    }
+                }           
+            }       
+        }
         
     }
     
@@ -446,7 +535,7 @@ public class NI_Case_TriggerHandler
             [SELECT Id, Support_Rep__c, Support_Rep_Role__c, Tier__c  
              FROM Support_Tier_Designation__c 
              WHERE Support_Rep__c IN : setOwnerIds 
-             AND Inactive__c = false 	// PER NICC-016917 
+             AND Inactive__c = false    // PER NICC-016917 
             ]);
 
         for (Case c : newTrigger)
@@ -491,44 +580,42 @@ public class NI_Case_TriggerHandler
         } 
 
     }       
-
+/*
     private void caseSolutionTrigger(List<Case> newTrigger, Map<Id, Case> oldMapTrigger)
     {
-        
-        // IS INSERT TOGGLE 
-        boolean isInsertEvent = false;
-        
-        if (oldMapTrigger == null)
-        {
-            isInsertEvent = true;
-        }
-        
-        List<CaseSolution> lstCaseSolutionInserts = new List<CaseSolution>(); 
-        List<Case> lstChildCases = new List<Case>(); 
-        Set<Id> setClosedCaseIds = new Set<Id>(); 
-        Set<Id> setChildCaseIds = new Set<Id>();         
-        
+
+system.debug(' ##### ' + newTrigger[0].Status);
         // LOOP THROUGH CASE TRIGGER TO FIND NEWLY CLOSED CASES AND ADD THE ID TO THE SET
+        Set<Id> setClosedCaseIds = new Set<Id>(); 
+        
         for (Case c : newTrigger) 
         {
-            if (isInsertEvent)
+            if (c.status == 'Closed') 
             {
-                if (c.status == 'Closed') 
-                {
-                    setClosedCaseIds.add(c.Id);
-                }
-            }
-            else
-            {           
-                if ((c.status == 'Closed') && (oldMapTrigger.get(c.Id).Status != 'Closed'))
-                {
-                    setClosedCaseIds.add(c.Id);
-                }
-            }
-            
+                setClosedCaseIds.add(c.Id);
+            }            
+
+            //if (oldMapTrigger == null)
+            //{
+            //    if (c.status == 'Closed') 
+            //    {
+            //        setClosedCaseIds.add(c.Id);
+            //    }
+            //}
+            //else
+            //{           
+            //    if ((c.status == 'Closed') && (oldMapTrigger.get(c.Id).Status != 'Closed'))
+            //    {
+            //        setClosedCaseIds.add(c.Id);
+            //    }
+            //} 
+
         }
         
         // CHECK TO SEE IF ANY CASE IDS WERE COLLECTED IN BLOCK ABOVE. IF SO, FIND CHILD CASE IDS.
+        List<Case> lstChildCases = new List<Case>();         
+        Set<Id> setChildCaseIds = new Set<Id>(); 
+        
         if (setClosedCaseIds.size() > 0) 
         {
             for (Case[] cases : [SELECT Id, ParentId FROM Case WHERE ParentId IN : setClosedCaseIds]) 
@@ -542,6 +629,8 @@ public class NI_Case_TriggerHandler
         }
         
         // IF PARENT AND CHILD CASES WERE FOUND ADD ALL SOLUTIONS TO CaseSolution JUNCTION OBJECT
+        List<CaseSolution> lstCaseSolutionInserts = new List<CaseSolution>(); 
+        
         if ((lstChildCases.size() > 0) && (setClosedCaseIds.size() > 0)) 
         {
             for (CaseSolution[] caseSols : [SELECT CaseID, SolutionId FROM CaseSolution WHERE CaseId IN : setClosedCaseIds]) 
@@ -565,9 +654,9 @@ public class NI_Case_TriggerHandler
         // THE REMAINDER OF THIS CODE WRITES RECORDS TO THE CUSTOM OBJECT CALLED Solution_Count__c THAT IS USED IN THE 
         // FOLLOWING ROLLUP SUMMARY FIELD ON CASE OBJECT: Number_of_Solutions__c
         // THAT THIS VALIDATION CASE RULE USES: https://amadeus-hospitality.my.salesforce.com/03d600000000B7M?setupid=CaseValidations
-        Solution_Count__c[] updateSolutionCounts = new Solution_Count__c[0];
-        Solution_Count__c[] insertSolutionCounts = new Solution_Count__c[0];
-        Map <Id, Solution_Count__c> scMap = new Map <Id, Solution_Count__c>();
+        List<Solution_Count__c> lstSolutionCountUpdates = new List<Solution_Count__c>();
+        List<Solution_Count__c> lstSolutionCountInserts = new List<Solution_Count__c>();
+        Map<Id, Solution_Count__c> scMap = new Map<Id, Solution_Count__c>();
         
         for (Solution_Count__c[] scs : [SELECT Id, Case__c FROM Solution_Count__c WHERE Case__c IN : setChildCaseIds]) 
         {
@@ -585,25 +674,37 @@ public class NI_Case_TriggerHandler
                 {
                     if (scMap.containsKey(c.Id)) 
                     {
-                        Solution_count__c tempSC = scMap.get(c.Id);
+                        Solution_Count__c tempSC = scMap.get(c.Id);
                         tempSC.Number_of_Solutions__c = c.caseSolutions.size();
-                        updateSolutionCounts.add(tempSC);
+                        lstSolutionCountUpdates.add(tempSC);
                     }
                     else 
                     {
-                        Solution_count__c tempNewSC = new Solution_count__c(Case__c = c.Id, Number_of_Solutions__c = c.caseSolutions.size());
-                        insertSolutionCounts.add(tempNewSC);
+                        Solution_Count__c tempNewSC = new Solution_Count__c(Case__c = c.Id, Number_of_Solutions__c = c.caseSolutions.size());
+                        lstSolutionCountInserts.add(tempNewSC);
                     }
                 }
             }
         }
-
-        Database.update(updateSolutionCounts);
-        Database.insert(insertSolutionCounts);
-        Database.insert(lstCaseSolutionInserts);
+        
+        // COMMIT CHANGES TO DB
+        if (!lstSolutionCountUpdates.isEmpty())
+        {
+            Database.update(lstSolutionCountUpdates);
+        }
+               
+        if (!lstSolutionCountInserts.isEmpty())
+        {
+            Database.insert(lstSolutionCountInserts);
+        }
+               
+        if (!lstCaseSolutionInserts.isEmpty())
+        {
+            Database.insert(lstCaseSolutionInserts);
+        }
         
     }
-    
+*/    
     private void resetCRLookup(List<Case> newTrigger, Map<Id, Case> oldMapTrigger)
     {
         for (Case c : newTrigger) 
@@ -624,13 +725,13 @@ public class NI_Case_TriggerHandler
     {
         
         // THIS METHOD CREATES AH_Case_Report_Detail__c RECORDS 
-
+system.debug(' %%%%% writeCaseDetails');
         // BLOCK THAT PREVENTS RECUSIVE CALLS TO THIS METHOD
         if (NI_TriggerManager.is1stInsert_Case_Report_Detail == false)
         {            
             return;
         }
-        
+system.debug(' %%%%% NI_TriggerManager.is1stInsert_Case_Report_Detail = ' + NI_TriggerManager.is1stInsert_Case_Report_Detail);        
         NI_TriggerManager.is1stInsert_Case_Report_Detail = false;
         
         // FILL SET WITH RELATED SUPPORT TIER DESIGNATION IDS
@@ -642,7 +743,7 @@ public class NI_Case_TriggerHandler
                 setSTDIds.add(std1.Support_Tier_Designation__c);
             }
         }
-       
+system.debug(' %%%%% setSTDIds 1 = ' + setSTDIds);     
         // IF THIS IS AN UPDATE, ADD OLD SUPPORT TIER DESIGNATION IDS
         if (oldMapTrigger != null)
         {
@@ -654,21 +755,17 @@ public class NI_Case_TriggerHandler
                 }
             }
         }
-
+system.debug(' %%%%% setSTDIds 2 = ' + setSTDIds); 
         // CREATE A MAP OF SUPPORT TIER DESIGNATION RECORDS WITH Id AS THE KEY
-//        Map<Id, Support_Tier_Designation__c> mapSupportTierDesignation = new Map<Id, Support_Tier_Designation__c>(
-//            [SELECT Id, Support_Rep_Role__c, Tier__c  
-//             FROM Support_Tier_Designation__c 
-//             WHERE Id IN : setSTDIds]); 
         Map<Id, Support_Tier_Designation__c> mapCaseOwner2SptTierDesgn = new Map<Id, Support_Tier_Designation__c>();
         for (Support_Tier_Designation__c std : [SELECT Id, Support_Rep__c, Support_Rep_Role__c, Tier__c FROM Support_Tier_Designation__c WHERE Id IN : setSTDIds])
         {
             mapCaseOwner2SptTierDesgn.put(std.Support_Rep__c, std);
         }
-
+system.debug(' %%%%% mapCaseOwner2SptTierDesgn = ' + mapCaseOwner2SptTierDesgn); 
         // CREATE LIST TO HOLD CASE REPORT DETAIL RECORDS TO INSERT
         List<AH_Case_Report_Detail__c> lstCRDInserts = new List<AH_Case_Report_Detail__c>();
-        
+system.debug(' %%%%% oldMapTrigger = ' + oldMapTrigger);         
         // LOOP THROUGH AND CONDITIONALLY POPULATE AH_Case_Report_Detail__c LIST FOR INSERTS
         // IF UPDATE
         if (oldMapTrigger != null) 
@@ -680,7 +777,7 @@ public class NI_Case_TriggerHandler
                  FROM AH_Case_Report_Detail__c 
                  WHERE Case__c IN : newTrigger 
                  GROUP BY Case__c]); 
-
+system.debug(' %%%%% lstMaxRecords = ' + lstMaxRecords);
             for (Case newCase : newTrigger)
             {
 
@@ -700,17 +797,7 @@ public class NI_Case_TriggerHandler
                     String strNewTier = ''; 
                     String strOldSTD = ''; 
                     String strOldTier = '';                     
-                    
-//                    if (newCase.Support_Tier_Designation__c != null)
-//                    {
-//                        strNewSTD = mapSupportTierDesignation.get(newCase.Support_Tier_Designation__c).Support_Rep_Role__c;
-//                        strNewTier = mapSupportTierDesignation.get(newCase.Support_Tier_Designation__c).Tier__c;
-//                        if (strNewTier == null)
-//                        {
-//                            strNewTier = ''; 
-//                        }
-//                    }
-                    
+
                     if (mapCaseOwner2SptTierDesgn.containsKey(newCase.OwnerId))
                     {
                         if (mapCaseOwner2SptTierDesgn.get(newCase.OwnerId).Support_Rep_Role__c != null)
@@ -722,17 +809,7 @@ public class NI_Case_TriggerHandler
                             strNewTier = mapCaseOwner2SptTierDesgn.get(newCase.OwnerId).Tier__c;
                         }                          
                     }
-                    
-//                    if (oldCase.Support_Tier_Designation__c != null)
-//                    {
-//                        strOldSTD = mapSupportTierDesignation.get(oldCase.Support_Tier_Designation__c).Support_Rep_Role__c;
-//                        strOldTier = mapSupportTierDesignation.get(oldCase.Support_Tier_Designation__c).Tier__c;
-//                        if (strOldTier == null)
-//                        {
-//                            strOldTier = ''; 
-//                        }
-//                    }
-                    
+
                     if (mapCaseOwner2SptTierDesgn.containsKey(oldCase.OwnerId))
                     {
                         if (mapCaseOwner2SptTierDesgn.get(oldCase.OwnerId).Support_Rep_Role__c != null)
@@ -821,7 +898,7 @@ public class NI_Case_TriggerHandler
                 }
                 
             }
-
+system.debug(' %%%%% lstCRDInserts = ' + lstCRDInserts);
             if (!lstCRDInserts.isEmpty())
             {
                 for (AH_Case_Report_Detail__c newCRD : lstCRDInserts)
@@ -845,7 +922,7 @@ public class NI_Case_TriggerHandler
         }
         else
         {
-         	// NEW CASE(s) INSERTED
+            // NEW CASE(s) INSERTED
             for (Case newCase : newTrigger)
             {
                 
@@ -853,13 +930,7 @@ public class NI_Case_TriggerHandler
                 String strNewTier = '';
                 String strOldSTD = ''; 
                 String strOldTier = ''; 
-                
-//                if (newCase.Support_Tier_Designation__c != null)
-//                {
-//                    strNewSTD = mapSupportTierDesignation.get(newCase.Support_Tier_Designation__c).Support_Rep_Role__c;
-//                    strNewTier = mapSupportTierDesignation.get(newCase.Support_Tier_Designation__c).Tier__c;
-//                }
-                
+
                 if (mapCaseOwner2SptTierDesgn.containsKey(newCase.OwnerId))
                 {
                     if (mapCaseOwner2SptTierDesgn.get(newCase.OwnerId).Support_Rep_Role__c != null)
@@ -917,7 +988,7 @@ public class NI_Case_TriggerHandler
             }
             
         }
-		
+system.debug(' %%%%% lstCRDInserts (before insert call) = ' + lstCRDInserts);        
         if (!lstCRDInserts.isEmpty())
         {        
             database.insert(lstCRDInserts);
@@ -1095,82 +1166,125 @@ public class NI_Case_TriggerHandler
             }  
             
         } 
-		
+        
     }
         
-    
+     // NICC-054506
+    public void countLinkedCases(List<Case> newTrigger)
+    {       
+       
+        Set<Id> setCRIds = new Set<Id>();
+        
+        for (Case c : newTrigger)
+        {
+            if (c.Change_Request__c != null)
+            {
+                setCRIds.add(c.Change_Request__c);
+            }
+        }
+        
+        if (setCRIds.isEmpty())
+        {
+            return;
+        }
+        
+        List<SFDC_CSP_Development_Request__c> lstCRUpdates = [SELECT Id, Number_of_Cases_Linked__c FROM SFDC_CSP_Development_Request__c WHERE Id IN : setCRIds];
+        
+        // GET AN AGGREGATED LIST OF CASES RELATED TO THE CR RECORDS IN THE TRIGGER 
+        List<AggregateResult> lstRelatedCases = new List<AggregateResult>([SELECT Change_Request__c, COUNT(Id) CaseCount 
+                                                                           FROM Case 
+                                                                           WHERE Change_Request__c IN : setCRIds 
+                                                                           GROUP BY Change_Request__c]);
+        
+        // LOOP THROUGH TRIGGER AND FIND MATCHING CASE COUNTS TO UPDATE THE Number_of_Cases_Linked__c FIELD
+        for (SFDC_CSP_Development_Request__c cr : lstCRUpdates)
+        {
+
+            for (AggregateResult ar : lstRelatedCases)
+            {
+                Id crID = (Id) ar.get('Change_Request__c'); 
+                decimal caseCount = (Decimal) ar.get('CaseCount');               
+                if (cr.Number_of_Cases_Linked__c != caseCount && cr.Id == crID)
+                {                  
+                    cr.Number_of_Cases_Linked__c = caseCount; 
+                }                
+            }
+        }
+        
+    }  
+       
     // ========================================================================================================================
     //  CASE FLAGS "TRIGGER ENTRY" FUNCTIONS (NICC-026092) ====================================================================
     // ========================================================================================================================
     
     // AH CASE FLAGS FIELDS ===================================================================================================
 
-    // AH Flag							AH_Flag__c							Formula (Text)	
-    // AH Flag (BH)						AH_Flag_BH__c						Formula (Text)
-    // AH Case Flag Age Text			AH_Case_Flag_Age_Text__c			Formula (Text)
-    // AH Case Flag Age					AH_Case_Flag_Age__c					Formula (Number)    
-    // AH Case Flag Business Age		AH_Case_Flag_Business_Age__c		Formula (Number)
-    // AH Current Business Hours		AH_Current_Business_Hours__c		Formula (Number)
-    // AH Initial Response Hours		AH_Initial_Response_Hours__c		Formula (Number)    
+    // AH Flag                          AH_Flag__c                          Formula (Text)  
+    // AH Flag (BH)                     AH_Flag_BH__c                       Formula (Text)
+    // AH Case Flag Age Text            AH_Case_Flag_Age_Text__c            Formula (Text)
+    // AH Case Flag Age                 AH_Case_Flag_Age__c                 Formula (Number)    
+    // AH Case Flag Business Age        AH_Case_Flag_Business_Age__c        Formula (Number)
+    // AH Current Business Hours        AH_Current_Business_Hours__c        Formula (Number)
+    // AH Initial Response Hours        AH_Initial_Response_Hours__c        Formula (Number)    
     
-    // AH Initial response				AH_Initial_response__c				Date/Time    
-    // AH Case Flags Escalation Time 1	AH_CaseFlagsEscalationTime_1__c		Date/Time	
-    // AH Case Flags Escalation Time 2	AH_CaseFlagsEscalationTime_2__c		Date/Time	
-    // AH Case Flags Escalation Time 3	AH_CaseFlagsEscalationTime_3__c		Date/Time	
-    // AH Case Flags Escalation Time 4	AH_CaseFlagsEscalationTime_4__c		Date/Time
-    // Case Flagged Date/Time			AH_Case_Flagged_Date__c				Date/Time	
-    // Todays End Time					Todays_End_Time__c					Date/Time	
-    // Todays Start Time				Todays_Start_Time__c				Date/Time	
+    // AH Initial response              AH_Initial_response__c              Date/Time    
+    // AH Case Flags Escalation Time 1  AH_CaseFlagsEscalationTime_1__c     Date/Time   
+    // AH Case Flags Escalation Time 2  AH_CaseFlagsEscalationTime_2__c     Date/Time   
+    // AH Case Flags Escalation Time 3  AH_CaseFlagsEscalationTime_3__c     Date/Time   
+    // AH Case Flags Escalation Time 4  AH_CaseFlagsEscalationTime_4__c     Date/Time
+    // Case Flagged Date/Time           AH_Case_Flagged_Date__c             Date/Time   
+    // Todays End Time                  Todays_End_Time__c                  Date/Time   
+    // Todays Start Time                Todays_Start_Time__c                Date/Time   
     
-    // AH Case Flags Age 1 Hours		AH_Case_Flags_Age_1_Hours__c		Number(16, 2)	
-    // AH Case Flags Age 2 Hours		AH_Case_Flags_Age_2_Hours__c		Number(16, 2)	
-    // AH Case Flags Age 3 Hours		AH_Case_Flags_Age_3_Hours__c		Number(16, 2)	
-    // AH Case Flags Age 4 Hours		AH_Case_Flags_Age_4_Hours__c		Number(16, 2)
-    // AH Previous Business Hours		AH_Previous_Business_Hours__c		Number(16, 2)	
-    // AH Initial Response Business Hours	AH_Initial_Response_Business_Hours__c	Number(16, 2)	
+    // AH Case Flags Age 1 Hours        AH_Case_Flags_Age_1_Hours__c        Number(16, 2)   
+    // AH Case Flags Age 2 Hours        AH_Case_Flags_Age_2_Hours__c        Number(16, 2)   
+    // AH Case Flags Age 3 Hours        AH_Case_Flags_Age_3_Hours__c        Number(16, 2)   
+    // AH Case Flags Age 4 Hours        AH_Case_Flags_Age_4_Hours__c        Number(16, 2)
+    // AH Previous Business Hours       AH_Previous_Business_Hours__c       Number(16, 2)   
+    // AH Initial Response Business Hours   AH_Initial_Response_Business_Hours__c   Number(16, 2)   
     
-    // AH Enable Case Flag				AH_Enable_Case_Flag__c				Checkbox	
-		
+    // AH Enable Case Flag              AH_Enable_Case_Flag__c              Checkbox    
+        
     
     
     // AH_CaseFlagPreferences__c CUSTOM SETTING FIELDS =================================================================
     
-    // Add_Trigger_Comments__c		TRUE
-    // Age_1_Hours__c				0.00
-    // Age_1_Image__c				0150d000002GlTyAAK
-    // Age_2_Hours__c				6.00
-    // Age_2_Image__c				0150d000002GlTzAAK
-    // Age_3_Hours__c				12.00
-    // Age_3_Image__c				0150d000002GlU0AAK
-    // Age_4_Hours__c				24.00
-    // Age_4_Image__c				0150d000002GlTwAAK
-    // AH_Blank_Image__c			NULL
-    // Clear_on_Activity__c			TRUE
-    // Clear_On_Case_Close__c		TRUE
-    // Clear_On_Case_Origin__c		TRUE
-    // Clear_On_Company_Comment__c	TRUE
-    // Clear_on_Outbound_Email__c	TRUE
-    // Company_Domain__c			NULL
-    // Enable_History__c			TRUE
-    // Excluded_Users__c			00532000005XHNIAA4,00560000000yI7jAAE
-    // Hours__c						Business
-    // Organisation_Wide__c			TRUE
-    // Set_On_Case_Attachment__c	TRUE
-    // Set_On_Case_Create__c		TRUE
-    // Set_On_Case_File__c			FALSE
-    // Set_On_Customer_Comment__c	TRUE
-    // Set_On_Inbound_Email__c		TRUE
-    // Track_Case_Ownership__c		FALSE
-    // Track_Case_Status__c			FALSE
-    // Track_Flag_Clear__c			TRUE
-    // Track_Flag_Set__c			TRUE    
+    // Add_Trigger_Comments__c      TRUE
+    // Age_1_Hours__c               0.00
+    // Age_1_Image__c               0150d000002GlTyAAK
+    // Age_2_Hours__c               6.00
+    // Age_2_Image__c               0150d000002GlTzAAK
+    // Age_3_Hours__c               12.00
+    // Age_3_Image__c               0150d000002GlU0AAK
+    // Age_4_Hours__c               24.00
+    // Age_4_Image__c               0150d000002GlTwAAK
+    // AH_Blank_Image__c            NULL
+    // Clear_on_Activity__c         TRUE
+    // Clear_On_Case_Close__c       TRUE
+    // Clear_On_Case_Origin__c      TRUE
+    // Clear_On_Company_Comment__c  TRUE
+    // Clear_on_Outbound_Email__c   TRUE
+    // Company_Domain__c            NULL
+    // Enable_History__c            TRUE
+    // Excluded_Users__c            00532000005XHNIAA4,00560000000yI7jAAE
+    // Hours__c                     Business
+    // Organisation_Wide__c         TRUE
+    // Set_On_Case_Attachment__c    TRUE
+    // Set_On_Case_Create__c        TRUE
+    // Set_On_Case_File__c          FALSE
+    // Set_On_Customer_Comment__c   TRUE
+    // Set_On_Inbound_Email__c      TRUE
+    // Track_Case_Ownership__c      FALSE
+    // Track_Case_Status__c         FALSE
+    // Track_Flag_Clear__c          TRUE
+    // Track_Flag_Set__c            TRUE    
     
     
     // AH_Case_Flags_Store_Types__c OBJECT FIELDS ===================================================================
-    // AH Case Flags Store Types Name - Name:				'Default'
-    // Enabled Activity Types - Enabled_Activity_Types__c:	'Call,Email,Incoming Call,Left Message,Outgoing Call,Outgoing Email'
-    // Clear Case Origins - Clear_Case_Origins__c: 			'Customer Project,LiveChat,Phone'
-    // Enabled Case Type - Enabled_Case_Type__c: 			'0126000000011YUAAY,01232000000JNnBAAW,0126000000011YWAAY';
+    // AH Case Flags Store Types Name - Name:               'Default'
+    // Enabled Activity Types - Enabled_Activity_Types__c:  'Call,Email,Incoming Call,Left Message,Outgoing Call,Outgoing Email'
+    // Clear Case Origins - Clear_Case_Origins__c:          'Customer Project,LiveChat,Phone'
+    // Enabled Case Type - Enabled_Case_Type__c:            '0126000000011YUAAY,01232000000JNnBAAW,0126000000011YWAAY';
 
     private void caseFlagsOnBeforeInsert(List<Case> newTrigger)
     {
@@ -1255,7 +1369,7 @@ public class NI_Case_TriggerHandler
                     c.Todays_End_Time__c = null;
                     c.AH_Previous_Business_Hours__c = null;
                     c.AH_Initial_response__c = null;
-                    c.isInitialResponseSet__c = false;					// NICC-044303
+                    c.isInitialResponseSet__c = false;                  // NICC-044303
                     c.AH_Initial_Response_Business_Hours__c = null;
                     c.AH_Case_Flags_Age_1_Hours__c = null;
                     c.AH_Case_Flags_Age_2_Hours__c = null;
@@ -1289,10 +1403,10 @@ public class NI_Case_TriggerHandler
                 {
 
                     // ADDED THIS IF STATEMENT TO PREVENT AH_Initial_response__c FROM BEING UPDATED AFTER IT HAS THE INITIAL VALUE ASSIGNED
-                    if (c.AH_Initial_response__c == null  &&  c.isInitialResponseSet__c == false)	// NICC-044303
+                    if (c.AH_Initial_response__c == null  &&  c.isInitialResponseSet__c == false)   // NICC-044303
                     {
                         c.AH_Initial_response__c = DateTime.now();
-                        c.isInitialResponseSet__c = true;											// NICC-044303
+                        c.isInitialResponseSet__c = true;                                           // NICC-044303
                     }
 
                     if (c.CreatedDate != null)
@@ -1303,12 +1417,12 @@ public class NI_Case_TriggerHandler
                 }
                 
                 // IF 
-                // 	1. CASE'S RECORD TYPE IS FOUND IN AH_Case_Flags_Store_Types__c.Enabled_Case_Type__c MAP 
-                // 	2. Case Flagged Date/Time IS NULL -AND- 
-                // 	3. Track Flag Set CUSTOM SETTING FIELD IS TRUE -AND- 
-                // 	4. Organisation Wide CUSTOM SETTING FIELD IS TRUE 
-                // 	   -OR- 
-                // 	   Organisation Wide CUSTOM SETTING FIELD IS FALSE BUT AH Enable Case Flag IS CHECKED
+                //  1. CASE'S RECORD TYPE IS FOUND IN AH_Case_Flags_Store_Types__c.Enabled_Case_Type__c MAP 
+                //  2. Case Flagged Date/Time IS NULL -AND- 
+                //  3. Track Flag Set CUSTOM SETTING FIELD IS TRUE -AND- 
+                //  4. Organisation Wide CUSTOM SETTING FIELD IS TRUE 
+                //     -OR- 
+                //     Organisation Wide CUSTOM SETTING FIELD IS FALSE BUT AH Enable Case Flag IS CHECKED
                 if (mapCaseTypes.containsKey(c.RecordTypeId) && 
                     c.AH_Case_Flagged_Date__c == null && 
                     caseFlagSetting.Track_Flag_Set__c == true && 
@@ -1659,7 +1773,7 @@ public class NI_Case_TriggerHandler
                 MapSelectedCaseTypes.put('None', 'None');
             }
         }
-        catch (Exception e) { system.debug('e' + e.getMessage()); }	//DO NOTHING 
+        catch (Exception e) { system.debug('e' + e.getMessage()); } //DO NOTHING 
  
         if (!MapSelectedCaseTypes.isEmpty()) 
         {  
@@ -1801,7 +1915,7 @@ public class NI_Case_TriggerHandler
             List<Case> casesList = new List<Case>([SELECT Id, RecordTypeID, CaseNumber, BusinessHoursId, CreatedDate, AH_Flag__c, AH_Flag_BH__c, AH_Case_Flagged_Date__c, 
                          AH_Enable_Case_Flag__c, AH_Case_Flags_Age_1_Hours__c, AH_Case_Flags_Age_2_Hours__c, AH_Case_Flags_Age_3_Hours__c, AH_Case_Flags_Age_4_Hours__c,
                          AH_CaseFlagsEscalationTime_1__c, AH_CaseFlagsEscalationTime_2__c, AH_CaseFlagsEscalationTime_3__c, AH_CaseFlagsEscalationTime_4__c,
-						 Todays_Start_Time__c, Todays_End_Time__c, AH_Initial_Response_Business_Hours__c, OwnerId, Owner.Name, Status, CreatedById, 
+                         Todays_Start_Time__c, Todays_End_Time__c, AH_Initial_Response_Business_Hours__c, OwnerId, Owner.Name, Status, CreatedById, 
                          AH_Case_Flag_Business_Age__c, AH_Initial_response__c, isInitialResponseSet__c 
                          FROM Case
                          WHERE Id IN :caseIdsSet ]);
@@ -1825,11 +1939,11 @@ public class NI_Case_TriggerHandler
                     c.AH_Previous_Business_Hours__c = 0.00;
                     c.Todays_Start_Time__c = null;
                     c.Todays_End_Time__c = null;
-									
-                    if (c.AH_Initial_response__c == null  &&  c.isInitialResponseSet__c == false)	// NICC-044303
+                                    
+                    if (c.AH_Initial_response__c == null  &&  c.isInitialResponseSet__c == false)   // NICC-044303
                     {
                         c.AH_Initial_response__c = DateTime.now();
-                        c.isInitialResponseSet__c = true;											// NICC-044303
+                        c.isInitialResponseSet__c = true;                                           // NICC-044303
                     }
 
                     if (c.CreatedDate != null)
@@ -1893,7 +2007,7 @@ public class NI_Case_TriggerHandler
     public void createHistoryTracking(List<Case> listCases, Map<Id, Case> oldMapTrigger, String eventType, String actionType)
     {
         
-    	// CREATED BY CYBAGE FOR NICC-026092
+        // CREATED BY CYBAGE FOR NICC-026092
 
         AH_CaseFlagPreferences__c caseFlagSetting = AH_CaseFlagPreferences__c.getOrgDefaults();
         List<Case> casesToUpdate = new List<Case>();

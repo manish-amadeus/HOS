@@ -7,14 +7,29 @@
  **/
 
 public with sharing class AH_UDC_Shared {
-   //TODO:ROBDEV:Move the methods in this class that need to run without FLS security to AH_UDC_SharedWithoutSharing.cls 
-
-   
+   public class UDCException extends System.Exception {
+   }
 
    private static String kHexChars = '0123456789abcdefABCDEF';
 
    public static String GetSecurityCode() {
       return generateGUID() + generateGUID();
+   }
+
+   //Creates a token
+   public static string CreateStepToken(String SecurityCode, string FormId)
+   {
+      string token = SecurityCode + '_' + UserInfo.getUserId() + '_' + FormId;
+      //Encrypt token
+      string sEncryptionKey = AH_UDC_ConfigHelper.GetString('AH_UDC_ViewWorkbookTokenEncryptionKey', '');
+      if (!String.isEmpty(sEncryptionKey) && AH_UDC_ConfigHelper.GetBoolean('AH_UDC_ViewWorkbookTokenEncryption', true)) {
+         Blob key = EncodingUtil.base64Decode(sEncryptionKey);
+         Blob data = Blob.valueOf(token);
+         Blob encryptedData = Crypto.encryptWithManagedIV('AES256', key, data);
+         token = EncodingUtil.base64Encode(encryptedData).replace('/', '_2f_').replace('+', '_2b_'); //Base64 has 2 special characters / + that are not compatible with a URL ID
+      }
+      token = AH_UDC_Constants.FORM_TOKEN_PREFIX + token;
+      return token;
    }
 
    //This method generates a sudo GUID, it will return any exception to the sender
@@ -81,7 +96,7 @@ public with sharing class AH_UDC_Shared {
          return false;
       }
    }
-   
+
    public class FormDefinition {
       public string Title;
       public List<FormField> Fields;
@@ -138,9 +153,135 @@ public with sharing class AH_UDC_Shared {
       public string Repeat;
       public string DefaultValue;
       public string Picklist;
+      public string InputType;
 
       public FormField() {
       }
    }
+   public class AmadeusFormDefinition
+   {
+      public string title { get; set; }
+      public string product { get; set; }
+      public List<Formulas> formulas { get; set; }
+      public List<section> sections { get; set; }
+      public AmadeusFormDefinition() { }
+   }
 
+   // Root myDeserializedClass = JsonConvert.DeserializeObject<Root>(myJsonResponse); 
+   public class Validation
+   {
+      public string required { get; set; }
+      public string minlength { get; set; }
+      public string maxlength { get; set; }
+      public string onlynumber { get; set; }
+      public string onlyalpha { get; set; }
+      public string alphanumeric { get; set; }
+   }
+
+   public class DynamicSource
+   {
+      public string formid { get; set; }
+      public string formfield { get; set; }
+   }   
+   public class Options
+   {
+      public string format { get; set; }
+   }
+   public class Source
+   {
+      public Source()
+      {
+      }
+      public string id { get; set; }
+      public string name { get; set; }
+   }
+
+   public class Field
+   {
+      public Field()
+      {
+      }
+
+      public string title { get; set; }
+      public string name { get; set; }
+      public string type { get; set; }
+      public string width { get; set; }
+      public string tooltip { get; set; }
+      public string placeholder { get; set; }
+      public string mask { get; set; }
+      public Validation validation { get; set; }
+      public List<Source> source { get; set; }
+      public DynamicSource dynamicsource { get; set; }      
+      public Options options { get; set; }
+      public string autocomplete { get; set; }
+      public string labelabove { get; set; }
+      public string defaultvalue { get; set; }
+      public string value { get; set; }
+      public string wordwrap { get; set; }
+      public string contenttype { get; set; }
+      public List<Formulas> formulas { get; set; }
+   }
+   public class Formulas
+   {
+      public string type { get; set; }
+      public string formula { get; set; }
+      public string formulafields { get; set; }
+      public string ids { get; set; }
+   }
+
+   public class section
+   {
+      public section()
+      {
+      }
+
+      public string title { get; set; }
+      public string apiname { get; set; }
+      public string repeat { get; set; }
+      public string gridview { get; set; }
+      public string inline { get; set; }
+      public string scrollable { get; set; }
+      public string maxheight { get; set; }
+      public List<section> insidesections { get; set; }
+      public List<Field> fields { get; set; }
+      public string repeatsectionof { get; set; }
+      public List<Field> getDynamicPicklists() {
+         try {
+            List<Field> returnFields = new List<Field> ();
+            if (fields != null && fields.size()> 0)
+            {
+               for (Field ff : fields) {
+                  if (ff.type == 'dropdown' && ff.dynamicSource != null) {
+                     returnFields.add(ff);
+                  }
+               }
+            }
+            return returnFields;
+         }
+         catch(Exception exc) {
+            AH_UDC_LogHelper.Debug('AmadeusFormField-getDynamicPicklists-returnFields-exception: ' + exc);
+            //This is purposely not logged here; logged by the caller
+            throw(exc);
+         }
+      }
+      public List<Field> getDynamicRadioGroups() {
+         try {
+            List<Field> returnFields = new List<Field> ();
+            if (fields != null && fields.size() > 0)
+            {
+               for (Field ff : fields) {
+                  if (ff.type == 'radiogroup' && ff.dynamicSource != null) {
+                     returnFields.add(ff);
+                  }
+               }
+            }
+            return returnFields;
+         }
+         catch(Exception exc) {
+            AH_UDC_LogHelper.Debug('AmadeusFormField-getDynamicPicklists-returnFields-exception: ' + exc);
+            //This is purposely not logged here; logged by the caller
+            throw(exc);
+         }
+      }
+   }
 }

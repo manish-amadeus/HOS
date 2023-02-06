@@ -2,24 +2,28 @@
 Name            : NI_Task_TriggerHandler Class
 Author          : Sean Harris
 Created Date    : 11/30/2016
-Last Mod Date   : 04/30/2018
-Last Mod By     : Shashikant Nikam
+Last Mod Date   : 03/01/2022
+Last Mod By     : Sean Harris
 NICC Reference  :
 Description     : Class that handles all trigger code for the Task Object
                 : Ria added Trigger Switch to bypass 'CASE FLAGS' code.
                 : New method 'clearCaseFlag' added to clear flag when a new Completed task of 
 				: record type mentioned in custom setting is inserted.
-				: 
+				: 3/1/2022 - Moved Triggers UpdateLastActivityDateOnCase & UpdateCaseOwnerWhenCreated
+                :            into this trigger handler class
 *************************************************************************************************/
 public class NI_Task_TriggerHandler
 {
     
+    private NI_TriggerBypassSwitches__c bpSwitch {get; set;}
+    
     
     public NI_Task_TriggerHandler()
     {
-        
-    }
-     
+        // GET TRIGGER HANDLER BYPASS SWITCH VALUE
+        bpSwitch = NI_TriggerBypassSwitches__c.getOrgDefaults();
+    }    
+
     public void OnBeforeInsert(List<Task> newTrigger)
     {
         
@@ -28,12 +32,14 @@ public class NI_Task_TriggerHandler
             return;
         }        
         
+        UpdateCaseOwnerWhenCreated(newTrigger);
+        
         // VARIABLES TO HOLD VALUES
         List<Task> tasksToProcess = new List<Task>();
         Set<String> businessHrsSet = new Set<String>();
         Map<String, String> recTypeBusHrsMap = new Map<String, String>();
         Map<String, Id> bsHrsMap = new Map<String, Id>();
-       
+        
         // UPDATED BY SHASHIKANT FOR OPTIMIZATION on 04/26/2018
         // FETCH RECORDTYPE OF TASK AND BUSINESS HOURS FROM CUSTOM SETTING
         List<AH_Task_Business_Hours__c> list_AH_Task_Business_Hours = new List<AH_Task_Business_Hours__c>();
@@ -48,7 +54,7 @@ public class NI_Task_TriggerHandler
         }
         
         // CREATE A MAP TO HOLD BUSINESS HOURS NAME WITH ITS ID
-        for (BusinessHours bh: [SELECT Name FROM BusinessHours WHERE Name IN :businessHrsSet])
+        for (BusinessHours bh : [SELECT Name FROM BusinessHours WHERE Name IN : businessHrsSet])
         {
             bsHrsMap.put(bh.Name, bh.Id);
         }
@@ -56,12 +62,12 @@ public class NI_Task_TriggerHandler
         // GET RECORD TYPE IDS AND STORE IN A MAP
         Map<Id, String> rtMap = new Map<Id, String>();
         Map<String, Schema.RecordTypeInfo> recordTypesMap = Schema.SObjectType.Task.getRecordTypeInfosByName();
-
-		if (!recTypeBusHrsMap.isEmpty()) 
+        
+        if (!recTypeBusHrsMap.isEmpty()) 
         {
             for (String recType : recordTypesMap.keyset()) 
             {
-				if (recTypeBusHrsMap.containsKey(recType)) 
+                if (recTypeBusHrsMap.containsKey(recType)) 
                 {
                     Schema.RecordTypeInfo rr = recordTypesMap.get(recType);
                     rtMap.put(rr.getRecordTypeId(), recType);
@@ -105,7 +111,7 @@ public class NI_Task_TriggerHandler
         if (bypassTrigger(newTrigger))
         {
             return;
-        }        
+        }         
         
         // UPDATED BY SHASHIKANT FOR OPTIMIZATION on 04/27/2018
         // RETRIEVE DATA FROM CUSTOM SETTING - AH_Task_Business_Hours__c
@@ -118,7 +124,7 @@ public class NI_Task_TriggerHandler
         {
             for (AH_Task_Business_Hours__c r : list_AH_TaskBusinessHours) 
             {
-				recTypeSet.add(r.Name);
+                recTypeSet.add(r.Name);
             }
         }
         
@@ -137,7 +143,7 @@ public class NI_Task_TriggerHandler
             }
         }
         
-		// CREATE LIST OF TASKS TO PROCESS
+        // CREATE LIST OF TASKS TO PROCESS
         List<Task> validTasksToProcess = new List<Task>();
         for (Task t : newTrigger) 
         {
@@ -155,7 +161,7 @@ public class NI_Task_TriggerHandler
         
     }
     
-	public void OnAfterInsert(List<Task> newTrigger)
+    public void OnAfterInsert(List<Task> newTrigger)
     {        
         
         if (bypassTrigger(newTrigger))
@@ -163,20 +169,20 @@ public class NI_Task_TriggerHandler
             return;
         }        
         
-        if (!NI_FUNCTIONS.bypassTriggerCode('TASK'))
-        { 
-            if (!NI_FUNCTIONS.bypassTriggerCode('CASE FLAGS'))
-            {
-                clearCaseFlag(newTrigger);
-            }
-            List<Task> lstValidTasks = new List<Task>();
-            lstValidTasks = lstValidTasksToProcess(newTrigger);
-            if (lstValidTasks.Size() > 0)
-            {
-                rollUpCallAndEmailCounts(lstValidTasks);
-                // UpdateLastActivityDateOnCase(lstValidTasks);                
-            }   
+        UpdateLastActivityDateOnCase(newTrigger);
+        
+        if (!bpSwitch.BypassCaseFlags_ON__c)
+        {
+            clearCaseFlag(newTrigger);
         }
+        
+        List<Task> lstValidTasks = new List<Task>();
+        lstValidTasks = lstValidTasksToProcess(newTrigger);
+        if (lstValidTasks.Size() > 0)
+        {
+            rollUpCallAndEmailCounts(lstValidTasks);         
+        }   
+        
     }
     
     public void OnAfterUpdate(List<Task> newTrigger, Map<Id, Task> oldMapTrigger)
@@ -187,27 +193,25 @@ public class NI_Task_TriggerHandler
             return;
         }        
         
-        if (!NI_FUNCTIONS.bypassTriggerCode('TASK'))
-        {
-            if (!NI_FUNCTIONS.bypassTriggerCode('CASE FLAGS'))
-            {  
-                List<Task> tasksToProcessFurther = new List<Task>();
-                for (Task t : newTrigger)
+        UpdateLastActivityDateOnCase(newTrigger);            
+        
+        if (!bpSwitch.BypassCaseFlags_ON__c)
+        {  
+            List<Task> tasksToProcessFurther = new List<Task>();
+            for (Task t : newTrigger)
+            {
+                Task oldTask = new Task();
+                oldTask = oldMapTrigger.get(t.Id);
+                if (t.Status != null && t.Status != oldTask.Status && t.Status == 'Completed')
                 {
-                    Task oldTask = new Task();
-                    oldTask = oldMapTrigger.get(t.Id);
-                    if (t.Status != null && t.Status != oldTask.Status && t.Status == 'Completed')
-                    {
-                        tasksToProcessFurther.add(t);
-                    }
-                }
-                
-                if (!tasksToProcessFurther.isEmpty())
-                {
-                    clearCaseFlag(tasksToProcessFurther);
+                    tasksToProcessFurther.add(t);
                 }
             }
-            //UpdateLastActivityDateOnCase(newTrigger);
+            
+            if (!tasksToProcessFurther.isEmpty())
+            {
+                clearCaseFlag(tasksToProcessFurther);
+            }
         }
         
     }
@@ -611,11 +615,11 @@ system.debug('totakTaskTimeValue'+totakTaskTimeValue);
         
     }    
     
-    // THIS FUNCTION INCREMENTS 2 FIELDS ON RELATED CASE OBJECT CALLED: Number_of_Calls__c & Number_of_Emails_Sent__c 
-    // WHEN A LOG A CALL OR EMAIL TASK IS CREATED WITH A RECORD TYPE OF: 'NI Support'
     private void rollUpCallAndEmailCounts(List<Task> newTrigger)
     {
-        
+        // THIS FUNCTION INCREMENTS 2 FIELDS ON RELATED CASE OBJECT CALLED: Number_of_Calls__c & Number_of_Emails_Sent__c 
+        // WHEN A LOG A CALL OR EMAIL TASK IS CREATED WITH A RECORD TYPE OF: 'NI Support'        
+            
         RecordType rt = [SELECT Name, Id FROM RecordType WHERE sObjectType = 'Task'
                          AND Name = 'NI Support' AND isActive = true];
 
@@ -668,5 +672,72 @@ system.debug('totakTaskTimeValue'+totakTaskTimeValue);
         }
         
     }
+    
+    private void UpdateLastActivityDateOnCase(List<Task> newTrigger)
+    {
+        // Formerly: trigger UpdateLastActivityDateOnCase on Task (after insert, after update) 
+        
+        // IF RECORD TYPE IS "Hosted_RFC"
+        RecordType rt = [SELECT Name, Id FROM RecordType WHERE sObjectType = 'Task' AND Name = 'NI Support' AND isActive = true];
+        Task[] tr = newTrigger;            
+        
+        for (Task t : newTrigger) 
+        {
+            if (t.RecordTypeId == rt.Id)
+            {
+                Case[] c = [SELECT Id, RealLastActivityDate__c, Status FROM Case WHERE Id =: t.WhatId];
+                
+                if (c.size() > 0)
+                {
+                    if (c[0].Status != 'New')
+                    {   
+                        if ((c[0].Status == 'Closed') && 
+                            (!t.Subject.startsWith('Automated Email Out')) && 
+                            UserInfo.getProfileId() != '00e0d0000016CwmAAE' && 						// 'AH Support Managers - Lightning'
+                            FeatureManagement.checkPermission('CanAddTasksToClosedCases') != true	// HAS "Tasks On Closed Cases - CRUD" PERMISSION SET 
+                           )
+                        {
+                            tr[0].addError('Adding activites to closed cases is not allowed. Please change the status of the case to Working then try again.');
+                        }
+                        else
+                        {  
+                            c[0].RealLastActivityDate__c = Datetime.now();
+                            update c;
+                        }
+                    }
+                }
+            }
+        }
+        
+    }    
 
+    private void UpdateCaseOwnerWhenCreated(List<Task> newTrigger)
+    {
+        // Formerly: trigger UpdateCaseOwnerWhenCreated on Task (before insert) 
+        
+        // IF RECORD TYPE IS "Hosted_RFC"
+        RecordType rt = [SELECT Name, Id FROM RecordType WHERE sObjectType = 'Task' AND Name = 'NI Support' AND isActive = true];
+        //Task[] tr = Trigger.new;            
+        
+        for (Task t : newTrigger) 
+        {
+            if (t.RecordTypeId == rt.Id)
+            {
+                Case[] c = [SELECT Id, OwnerId, Status FROM Case WHERE Id =: t.WhatId];
+                
+                if (c.size() > 0)
+                {
+                    if (c[0].Status != 'New')
+                    {   
+                        if (c[0].Status != 'Closed')
+                        {
+                            t.CaseOwnerWhenCreated__c = c[0].OwnerId;
+                        }
+                    }
+                }
+            }
+        }
+        
+    }    
+     
 }

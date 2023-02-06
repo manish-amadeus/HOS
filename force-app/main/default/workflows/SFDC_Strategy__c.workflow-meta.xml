@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Workflow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fieldUpdates>
+        <fullName>Status_Equals_Achieved</fullName>
+        <description>NICC-012182</description>
+        <field>Strategy_Status__c</field>
+        <literalValue>Achieved</literalValue>
+        <name>Status Equals Achieved</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Literal</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>Status_Equals_No_Opportunities</fullName>
+        <description>NICC-012182</description>
+        <field>Strategy_Status__c</field>
+        <literalValue>No Opportunities</literalValue>
+        <name>Status Equals No Opportunities</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Literal</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>Status_Equals_No_Revenue</fullName>
+        <description>NICC-012182</description>
+        <field>Strategy_Status__c</field>
+        <literalValue>No Revenue</literalValue>
+        <name>Status Equals No Revenue</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Literal</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>Status_Equals_Partially_Achieved</fullName>
+        <description>NICC-012182</description>
+        <field>Strategy_Status__c</field>
+        <literalValue>Partially Achieved</literalValue>
+        <name>Status Equals Partially Achieved</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Literal</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <rules>
+        <fullName>Status to Achieved</fullName>
+        <actions>
+            <name>Status_Equals_Achieved</name>
+            <type>FieldUpdate</type>
+        </actions>
+        <active>true</active>
+        <description>NICC-012182 - Change Status to Achieved when Actual Revenue &gt;= Planned Revenue</description>
+        <formula>Actual_Total__c &gt;= Planned_Total__c</formula>
+        <triggerType>onCreateOrTriggeringUpdate</triggerType>
+    </rules>
+    <rules>
+        <fullName>Status to No Opportunities</fullName>
+        <actions>
+            <name>Status_Equals_No_Opportunities</name>
+            <type>FieldUpdate</type>
+        </actions>
+        <active>true</active>
+        <criteriaItems>
+            <field>SFDC_Strategy__c.Potential_Total__c</field>
+            <operation>equals</operation>
+            <value>USD 0</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>SFDC_Strategy__c.Actual_Total__c</field>
+            <operation>equals</operation>
+            <value>USD 0</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>SFDC_Strategy__c.Lost_Total__c</field>
+            <operation>equals</operation>
+            <value>USD 0</value>
+        </criteriaItems>
+        <description>NICC-012182 - Revert Strategy Status back to No Opportunities. Would happen if an Opportunity was mistakenly added and then removed from a Strategy.</description>
+        <triggerType>onCreateOrTriggeringUpdate</triggerType>
+    </rules>
+    <rules>
+        <fullName>Status to No Revenue</fullName>
+        <actions>
+            <name>Status_Equals_No_Revenue</name>
+            <type>FieldUpdate</type>
+        </actions>
+        <active>true</active>
+        <criteriaItems>
+            <field>SFDC_Strategy__c.Potential_Total__c</field>
+            <operation>greaterThan</operation>
+            <value>USD 0</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>SFDC_Strategy__c.Lost_Total__c</field>
+            <operation>greaterThan</operation>
+            <value>USD 0</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>SFDC_Strategy__c.Actual_Total__c</field>
+            <operation>equals</operation>
+            <value>USD 0</value>
+        </criteriaItems>
+        <description>NICC-012182 - Change Strategy Status to &quot;No Revenue&quot; when any Potential or Lost Revenue detected (and no Actual Revenue has been achieved).</description>
+        <triggerType>onCreateOrTriggeringUpdate</triggerType>
+    </rules>
+    <rules>
+        <fullName>Status to Partially Achieved</fullName>
+        <actions>
+            <name>Status_Equals_Partially_Achieved</name>
+            <type>FieldUpdate</type>
+        </actions>
+        <active>true</active>
+        <description>NICC-012182 - Change Status to Partially Achieved when [ Planned Revenue &gt; Actual Revenue &gt; 0 ]</description>
+        <formula>AND( Actual_Total__c &gt; 0, Actual_Total__c &lt;  Planned_Total__c )</formula>
+        <triggerType>onCreateOrTriggeringUpdate</triggerType>
+    </rules>
+</Workflow>
