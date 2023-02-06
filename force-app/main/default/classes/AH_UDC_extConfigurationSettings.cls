@@ -6,10 +6,17 @@
  *
  * Test classes    : AH_UDC_extConfigurationSettings_TEST.cls
  */
-public with sharing class AH_UDC_extConfigurationSettings{
+public with sharing class AH_UDC_extConfigurationSettings {
    public Map<String, SettingGroup> settingGroups { get; set; }
 
    public string actionParameter1 { get; set; }
+
+   public List<AH_UDC_ConfigurationSetting__History> configurationSettingsHistory { get; Set; }
+   public string csHistoryID { get; set; }
+   public string csHistoryParentId { get; set; }
+   public string csHistoryIDNext { get; set; }
+
+   public Boolean SettingsExist{ get; set; } {SettingsExist=true;}
 
    // Protect against injection
    public String pageName;
@@ -54,7 +61,15 @@ public with sharing class AH_UDC_extConfigurationSettings{
    }
 
    public AH_UDC_extConfigurationSettings() {
-      pageName = (ApexPages.currentPage().getParameters().get('pn') == null) ? null : String.escapeSingleQuotes(ApexPages.currentPage().getParameters().get('pn'));
+      pageName = ''; //(ApexPages.currentPage().getParameters().get('pn') == null) ? null : String.escapeSingleQuotes(ApexPages.currentPage().getParameters().get('pn'));
+      GetSettings();
+   }
+
+   public void GetSettings()
+   {
+      // Determine if specific History
+      csHistoryID = String.valueOf(apexpages.currentpage().getparameters().get('csHistoryID'));
+      csHistoryParentId = String.valueOf(apexpages.currentpage().getparameters().get('csHistoryParentId'));
 
       // Get Org Info
       Organization orgInfo = [SELECT Id, name FROM Organization LIMIT 1];
@@ -64,8 +79,9 @@ public with sharing class AH_UDC_extConfigurationSettings{
 
       settingGroups = new Map<String, SettingGroup> ();
       string orgIdPrefix = String.valueOf(orgInfo.id).left(15) + '||%';
+      SettingsExist = true;
 
-      if (pageName == null) {
+      if (String.isBlank(pageName)) {
 
          configurationSettings =
             [SELECT Name, PageGroupName__c, PageName__c, SettingDisplayName__c, SettingType__c, 
@@ -75,8 +91,8 @@ public with sharing class AH_UDC_extConfigurationSettings{
               WHERE (OrgName__c = :orgInfo.name or OrgName__c like :orgIdPrefix)
                 AND PageName__c = null
               ORDER BY PageGroupName__c, DisplayOrder__c, SettingDisplayName__c];
-
-         for(AH_UDC_ConfigurationSetting__c setting : configurationSettings) {
+         if(configurationSettings.size() ==0) SettingsExist = false;
+         for (AH_UDC_ConfigurationSetting__c setting : configurationSettings) {
             if (!settingGroups.containsKey(setting.PageGroupName__c)) {
                settingGroups.put(setting.PageGroupName__c, new SettingGroup(setting.PageGroupName__c));
             }
@@ -89,8 +105,42 @@ public with sharing class AH_UDC_extConfigurationSettings{
 
             settingGroups.get(setting.PageGroupName__c).settings.add(new AH_UDC_extConfigurationSetting(setting));
          }
+      } else if (pageName == 'History') {
+         string sQueryWhere = '';
+         if (String.isEmpty(csHistoryID)) {
+            if (String.isNotEmpty(csHistoryParentId)) {
+               sQueryWhere = 'WHERE parent.id=:csHistoryParentId';
+            }
+         } else {
+            sQueryWhere = 'WHERE id < :csHistoryID';
+            if (String.isNotEmpty(csHistoryParentId)) {
+               sQueryWhere += 'AND parent.id=:csHistoryParentId';
+            }
+         }
+
+         string sQueryCS = 'select id,' +
+                           'Parent.Id,' +
+                           'parent.PageGroupName__c,' +
+                           'parent.PageName__c, ' +
+                           'parent.name,' +
+                           'CreatedDate,' +
+                           'CreatedBy.name,' +
+                           'Field,' +
+                           'OldValue,' +
+                           'NewValue' +
+                           ' from AH_UDC_ConfigurationSetting__History' +
+                           ' ' + sQueryWhere +
+                           ' order by CreatedDate desc' +
+                           ' limit 1000';
+
+         configurationSettingsHistory = Database.query(sQueryCS);
+
+         csHistoryIDNext = null;
+         if (configurationSettingsHistory.size() == 1000) {
+            csHistoryIDNext = configurationSettingsHistory[999].Id;
+         }
       } else {
-         configurationSettings = [SELECT Name, PageGroupName__c, PageName__c,
+         configurationSettings = [SELECT Id, Name, PageGroupName__c, PageName__c,
                                          SettingDisplayName__c, SettingType__c, SettingValue__c,
                                          SettingTextAreaValue__c, SettingValueDefault__c, PageSectionName__c,
                                          SettingHelpText__c, SettingValueDomain__c
@@ -99,7 +149,7 @@ public with sharing class AH_UDC_extConfigurationSettings{
                                      AND PageName__c = :pageName
                                    ORDER BY PageSectionName__c, DisplayOrder__c, SettingDisplayName__c];
 
-         for(AH_UDC_ConfigurationSetting__c setting : configurationSettings) {
+         for (AH_UDC_ConfigurationSetting__c setting : configurationSettings) {
             if (!settingGroups.containsKey(setting.PageSectionName__c)) {
                settingGroups.put(setting.PageSectionName__c, new SettingGroup(setting.PageSectionName__c));
             }
@@ -125,10 +175,31 @@ public with sharing class AH_UDC_extConfigurationSettings{
       return pr;
    }
 
-   public PageReference showSettingPage() {
-      PageReference pr = new PageReference('/apex/AH_UDC_ConfigurationSettings?pn=' + actionParameter1);
-      pr.setRedirect(true);
-      return pr;
+   public void showSettingPage() {
+      pageName = actionParameter1;
+      GetSettings();
+   }
+
+   public void refreshPage() {
+      GetSettings();
+   }
+
+   public void showNextHistoryPage() {
+      pageName = 'History';
+      csHistoryID = actionParameter1;
+      csHistoryParentId = (String.isEmpty(csHistoryParentId) ? '' : csHistoryParentId);
+      GetSettings();
+   }
+
+   public void showSettingHistory() {
+      pageName = 'History';
+      csHistoryParentId = csHistoryParentId;
+      GetSettings();
+   }
+
+   public void initSettings() {
+      AH_UDC_InitializationHelper.Initialize('ConfigurationSettings');
+      GetSettings();
    }
 
    class SettingGroup {
@@ -140,7 +211,9 @@ public with sharing class AH_UDC_extConfigurationSettings{
       }
    }
 
+   @TestVisible
    class AH_UDC_extConfigurationSetting {
+      public string Id { get; set; }
       public string Name { get; set; }
       public string PageGroupName { get; set; }
       public string PageName { get; set; }
@@ -149,14 +222,13 @@ public with sharing class AH_UDC_extConfigurationSettings{
       public string SettingValue { get; set; }
       public string SettingValueDomain { get; set; }
       public string SettingValueDefault { get; set; }
-
-      //public string SettingChecked {get;set;}
       public string SettingHelpText { get; set; }
       public Boolean isChecked { get; set; }
       public List<String> picklistValues { get; set; }
       public integer minValue { get; set; }
       public integer maxValue { get; set; }
       public AH_UDC_extConfigurationSetting(AH_UDC_ConfigurationSetting__c cs) {
+         Id = cs.Id;
          Name = cs.Name;
 
          //Use Default Value if Value isn't set
@@ -200,9 +272,6 @@ public with sharing class AH_UDC_extConfigurationSettings{
                                                              + exc.getMessage()));
                   rangeValues.clear();
                }
-
-               //// Now add the values to the dropdown list
-               //domain = String.join(rangeValues, '\r\n');
             } else {
                // SettingValueDomain has a CR/LF separated list of valid values
                rangeValues = cs.SettingValueDomain__c.split('\r\n');
@@ -267,6 +336,7 @@ public with sharing class AH_UDC_extConfigurationSettings{
          }
       }
 
+      @TestVisible
       private List<String> RetrievePicklistValuesFromObject(string domain) {
          List<String> rangeValues = new List<String> ();
          // Split the value specified in the domain into ObjectName and FieldName, removing the surrounding curley brace tags
@@ -290,16 +360,8 @@ public with sharing class AH_UDC_extConfigurationSettings{
       }
 
       private List<String> RetrievePicklistValuesFromGlobalValueSet(string s) {
+         //This is not used at this time
          List<String> rangeValues = new List<String> ();
-
-         //Schema.DescribeFieldResult fieldResult = ObjectApiName.FieldApiName.getDescribe();
-         //List<Schema.PicklistEntry> ple = fieldResult.getPicklistValues();
-         //for( Schema.PicklistEntry pickListVal : ple){
-         //pickListValuesList.add(pickListVal.getLabel());
-         //}     
-         //return pickListValuesList;
-
-         //TODO:
          return rangeValues;
       }
    }
@@ -325,9 +387,9 @@ public with sharing class AH_UDC_extConfigurationSettings{
          //Get Setting
          string orgIdPrefix = String.valueOf(orgInfo.id).left(15) + '||%';
          AH_UDC_ConfigurationSetting__c[] settings = [SELECT Name, SettingValue__c, SettingTextAreaValue__c, SettingType__c, SettingValueDomain__c
-                                                       FROM AH_UDC_ConfigurationSetting__c 
-                                                      WHERE Name = :updateSettingName
-                                                        AND (OrgName__c = :orgInfo.name OR OrgName__c like :orgIdPrefix)];
+                                                        FROM AH_UDC_ConfigurationSetting__c
+                                                       WHERE Name = :updateSettingName
+                                                         AND (OrgName__c = :orgInfo.name OR OrgName__c like :orgIdPrefix)];
 
          if (settings.size() == 1) {
             // If this is an integer field, and there is a min/max set, make sure the user-specified
@@ -384,7 +446,7 @@ public with sharing class AH_UDC_extConfigurationSettings{
                settings[0].SettingValue__c = updateSettingValue;
             }
 
-            update settings;
+            AH_UDC_Security.UpdateObjects(settings);
             updateSettingStatus = 'Setting updated';
          } else {
             updateSettingStatus = 'Update failed: Setting Not Found';
@@ -394,7 +456,7 @@ public with sharing class AH_UDC_extConfigurationSettings{
          AH_UDC_LogHelper.debug('###updateSetting exc: ' + exc.getMessage());
          updateSettingStatus = 'Update failed: Please check the log for details';
          AH_UDC_LogHelper.Log('Exception', 'Configuration Settings', AH_UDC_LogHelper.getClassAndMethodName(new DmlException()),
-                       'Exception: ', exc, null, null);
+                              'Exception: ', exc, null, null);
       }
    }
 
@@ -402,7 +464,7 @@ public with sharing class AH_UDC_extConfigurationSettings{
    public void requestMethod() {
       try {
          if (Test.isRunningTest() && updateSettingValue == 'Exception') {
-            integer iBatchStep = 1 / 0;
+            throw new AH_UDC_ConfigHelper.AH_UDC_ConfigException(AH_UDC_extConfigurationSettings_TEST.TEST_CLASS_FORCED_EXCEPTION);
          }
 
          AH_UDC_LogHelper.debug('###requestMethod: ' + updateSettingValue);

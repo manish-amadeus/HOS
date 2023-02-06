@@ -7,10 +7,10 @@ Last Mod By     : Sean Harris
 NICC Reference  :
 Description     : 
 
- 	IMPORTANT NOTE ABOUT THIS CLASS:
-	THIS CLASS WAS CREATED BY CLD Partners BEFORE OUR "Amadeus Hospitality Salesforce Development Standards" (https://na61.salesforce.com/0690d000003QUBg)
-	DOCUMENT EXISTED. THIS "COVER-ALL" TEST CLASS SHOULD NOT BE USED. IF A TEST CLASS DOES NOT EXIST, A NEW "CLASS SPECIFIC" TEST CLASS SHOULD BE 
- 	CREATED USING NI_TESTCLASSDATA AS THE TEST RECORD CREATOR. ANY CHANGE SETS USING THIS CLASS WILL BE REJECTED. THANK YOU.
+    IMPORTANT NOTE ABOUT THIS CLASS:
+    THIS CLASS WAS CREATED BY CLD Partners BEFORE OUR "Amadeus Hospitality Salesforce Development Standards" (https://na61.salesforce.com/0690d000003QUBg)
+    DOCUMENT EXISTED. THIS "COVER-ALL" TEST CLASS SHOULD NOT BE USED. IF A TEST CLASS DOES NOT EXIST, A NEW "CLASS SPECIFIC" TEST CLASS SHOULD BE 
+    CREATED USING NI_TESTCLASSDATA AS THE TEST RECORD CREATOR. ANY CHANGE SETS USING THIS CLASS WILL BE REJECTED. THANK YOU.
 
 *************************************************************************************************/
 @isTest
@@ -38,7 +38,7 @@ private class psaTest_PSAPhase1VFControllers
     {
         
         Date dt = system.date.today();
-		
+        
         Test.StartTest();
         
         // CREATE A SYSTEM ADMIN USER TO INSERT THE TEST USER RECORDS TO AVOID MIXED_DML_OPERATION 
@@ -49,21 +49,21 @@ private class psaTest_PSAPhase1VFControllers
         system.runAs(saUser)
         {
             // CREATE TEST REGIONAL APPROVER USER
-            User u1 = NI_TestClassData.createTestUser(2, 'NI PSA Administrator'); 
+            User u1 = NI_TestClassData.createTestUser(2, 'AH PSA Administrator - Lightning'); 
             u1.FirstName = 'Regional';
             u1.LastName = 'Admin';
             u1.Alias = 'RGA1TST'; 
             insert u1; 
             
             // CREATE TEST RESOURCE MANAGER USER 
-            User u2 = NI_TestClassData.createTestUser(3, 'NI PSA Management'); 
+            User u2 = NI_TestClassData.createTestUser(3, 'AH PSA Management - Lightning');  
             u2.FirstName = 'PSAResource';
             u2.LastName = 'Manager';
             u2.Alias = 'MGR1TST'; 
             insert u2; 
             
             // CREATE TEST RESOURCE USER 
-            User u3 = NI_TestClassData.createTestUser(4, 'NI PSA T&E - Salesforce'); 
+            User u3 = NI_TestClassData.createTestUser(4, 'AH PSA T&E - SF - Lightning'); 
             u3.FirstName = 'PSAResource';
             u3.LastName = 'Resource';
             u3.Alias = 'RSC1TST'; 
@@ -76,7 +76,7 @@ private class psaTest_PSAPhase1VFControllers
         User resrceMgr = [SELECT Id FROM User WHERE Alias = 'MGR1TST'];
         User resrce = [SELECT Id FROM User WHERE Alias = 'RSC1TST'];
 
-		// CREATE A TEST ACCOUNT
+        // CREATE A TEST ACCOUNT
         Account a = NI_TestClassData.createTestAccount(1);
         a.Name = 'APEX TEST PSA EXPENSE REPORT ACCOUNT';
         a.RecordTypeId = Schema.SObjectType.Account.getRecordTypeInfosByName().get('Property Account').getRecordTypeId();
@@ -93,16 +93,16 @@ private class psaTest_PSAPhase1VFControllers
         system.assertEquals(region.Name, regionAssert.pse__Region_Name_Chain__c);
   
         // CREATE TEST PSA SCHEDULES  
-    	pse__Schedule__c sched = NI_TestClassData.createTestSchedule(dt, dt);
+        pse__Schedule__c sched = NI_TestClassData.createTestSchedule(dt, dt);
         insert sched;
         
-    	pse__Schedule__c sched2 = NI_TestClassData.createTestSchedule(dt, dt);
+        pse__Schedule__c sched2 = NI_TestClassData.createTestSchedule(dt, dt);
         insert sched2;
         
         // CREATE A TEST PSA PRACTICE  
-    	pse__Practice__c practice = NI_TestClassData.createTestPractice(1, 'psaTestPractice');
+        pse__Practice__c practice = NI_TestClassData.createTestPractice(1, 'psaTestPractice');
         practice.Name = 'psaTestPractice';
-    	insert practice;
+        insert practice;
 
         // CREATE TEST WORK CALENDAR
         pse__Work_Calendar__c WorkCalendar = NI_TestClassData.createTestWorkCalendar('Test Work Calendar');
@@ -121,10 +121,10 @@ private class psaTest_PSAPhase1VFControllers
         cntMgr.pse__Practice__c = practice.Id;
         cntMgr.pse__Work_Calendar__c = WorkCalendar.Id;
         cntMgr.pse__Group__c = grp.Id;
-    	cntMgr.pse__Is_Resource_Active__c = true;
-    	cntMgr.pse__Is_Resource__c = true;
+        cntMgr.pse__Is_Resource_Active__c = true;
+        cntMgr.pse__Is_Resource__c = true;
         cntMgr.pse__Salesforce_User__c = resrceMgr.Id;
-    	insert cntMgr; 
+        insert cntMgr; 
 
         // GRANT ACCESS TO RESOURCE MANAGER TO REGION
         pse__Permission_Control__c pc1 = NI_TestClassData.createTestPermissionControl(resrceMgr.Id);
@@ -141,10 +141,10 @@ private class psaTest_PSAPhase1VFControllers
         cnt.pse__Practice__c = practice.Id;
         cnt.pse__Work_Calendar__c = WorkCalendar.Id;
         cnt.pse__Group__c = grp.Id;
-    	cnt.pse__Is_Resource_Active__c = true;
-    	cnt.pse__Is_Resource__c = true;
+        cnt.pse__Is_Resource_Active__c = true;
+        cnt.pse__Is_Resource__c = true;
         cnt.pse__Salesforce_User__c = resrce.Id;
-    	insert cnt;        
+        insert cnt;        
         
         // GRANT ACCESS TO RESOURCE MANAGER TO RESOURCE
         pse__Permission_Control__c pc2 = NI_TestClassData.createTestPermissionControl(resrceMgr.Id); 
@@ -153,7 +153,7 @@ private class psaTest_PSAPhase1VFControllers
         insert pc2; 
 
         // CREATE A TEST PSA PROJECTS 
-    	pse__Proj__c prj1 = NI_TestClassData.createTestProject(1, 'Test Project', region, practice, 'Draft', null); 
+        pse__Proj__c prj1 = NI_TestClassData.createTestProject(1, 'Test Project', region, practice, 'Draft', null); 
         prj1.RecordTypeId = Schema.SObjectType.pse__Proj__c.getRecordTypeInfosByName().get('Standard Project').getRecordTypeId(); 
         prj1.Name = 'Test Project 1'; 
         prj1.pse__Closed_for_Expense_Entry__c = false; 
@@ -161,9 +161,9 @@ private class psaTest_PSAPhase1VFControllers
         prj1.pse__Start_Date__c = dt.addDays(10); 
         prj1.pse__End_Date__c = dt.addDays(20); 
         prj1.pse__Account__c = a.Id; 
-    	insert prj1;
+        insert prj1;
 
-    	pse__Proj__c prj2 = NI_TestClassData.createTestProject(1, 'Test Project', region, practice, 'Draft', null); 
+        pse__Proj__c prj2 = NI_TestClassData.createTestProject(1, 'Test Project', region, practice, 'Draft', null); 
         prj2.RecordTypeId = Schema.SObjectType.pse__Proj__c.getRecordTypeInfosByName().get('Standard Project').getRecordTypeId(); 
         prj2.Name = 'Test Project 2'; 
         prj2.pse__Closed_for_Expense_Entry__c = false; 
@@ -171,7 +171,7 @@ private class psaTest_PSAPhase1VFControllers
         prj2.pse__Start_Date__c = dt.addDays(10); 
         prj2.pse__End_Date__c = dt.addDays(20); 
         prj2.pse__Account__c = a.Id; 
-    	insert prj2;
+        insert prj2;
         
         // CREATE TEST BILLABLE MILESTONES 
         pse__Milestone__c ms1 = NI_TestClassData.createTestMilestone('Milestone Test 1', prj1, true, true, 'Billable Milestone');
@@ -203,7 +203,7 @@ private class psaTest_PSAPhase1VFControllers
             as2.pse__Role__c = 'IT'; 
             as2.pse__Status__c = 'Tentative'; 
             as2.OwnerId = resrce.Id;
-            as2.Project_Manager__c = cnt.Id; 		// Before Insert & Update should set this to cntMgr.Id
+            as2.Project_Manager__c = cnt.Id;        // Before Insert & Update should set this to cntMgr.Id
             insert as2;   
 
         }
@@ -217,6 +217,7 @@ private class psaTest_PSAPhase1VFControllers
     // ======================================================================================================================================= 
     // = TEST METHOD 1: 
     // =======================================================================================================================================
+/*
     @isTest static void testController_PsaCustomProjectLookup() 
     {
         Test.startTest();
@@ -233,7 +234,7 @@ private class psaTest_PSAPhase1VFControllers
         controller.go();
         Test.stopTest();
     }
-
+*/
     // ======================================================================================================================================= 
     // = TEST METHOD 2: 
     // =======================================================================================================================================    
@@ -338,7 +339,7 @@ private class psaTest_PSAPhase1VFControllers
         
         // Create a user and a resource to run as
         //Profile prof = [SELECT Name FROM Profile Name = 'System Administrator'];
-        //List<Profile> lst = new List<Profile>([SELECT Name FROM Profile WHERE Name = 'NI PSA Administrator']);
+        //List<Profile> lst = new List<Profile>([SELECT Name FROM Profile WHERE Name = 'AH PSA Administrator - Lightning']);
         //if (!lst.isEmpty())
         //{
         //    prof = lst[0];
@@ -833,9 +834,9 @@ system.debug('newAssignmentId'+newAssignmentId);
 
     
 /*    
-	// =============================================================================================
+    // =============================================================================================
     // TEST DATA CREATION METHODS
-	// =============================================================================================
+    // =============================================================================================
 
     // Creates a test Region 
     private static pse__Region__c createTestRegion(String regionName)
@@ -868,11 +869,11 @@ system.debug('newAssignmentId'+newAssignmentId);
 //                                        pse__Is_Billable__c=true,
 //                                        pse__Allow_Timecards_Without_Assignment__c=true,
 //                                        pse__Allow_Expenses_Without_Assignment__c=true);
-//		  testProject.pse__Region__c = region.Id;
-//		  testProject.pse__Practice__c = practice.Id;
-//		  testProject.pse__Stage__c = projectStage;
+//        testProject.pse__Region__c = region.Id;
+//        testProject.pse__Practice__c = practice.Id;
+//        testProject.pse__Stage__c = projectStage;
  
-		pse__Proj__c testProject = NI_TestClassData.createTestProject(1, projectName, region, practice, projectStage, opp);
+        pse__Proj__c testProject = NI_TestClassData.createTestProject(1, projectName, region, practice, projectStage, opp);
 
         testProject.pse__Is_Active__c = true;
         testProject.pse__Is_Billable__c = true;

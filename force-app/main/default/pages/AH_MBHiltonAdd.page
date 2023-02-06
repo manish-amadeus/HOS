@@ -5,8 +5,10 @@
         function Validate(theForm) 
         {
 
+            // VALIDATION (START) ===================================================================
+
             // PROPERTY CHANGE IN MB VALIDATION
-            var myPicklistElement = document.getElementById('00N60000001Zzxl');
+            var myPicklistElement = document.getElementById("00N60000001Zzxl");
             var myPicklistValue = myPicklistElement.options[myPicklistElement.selectedIndex].value;
             
             if (myPicklistValue == "--None--") {
@@ -89,12 +91,12 @@
 
             // PROPERTY PHYSICAL ADDRESS VALIDATION
             if (theForm.street.value == "") {
-                alert("Please enter a value for the \"Property Physical Address\" field.");
+                alert("Please enter a value for the \"Property Address Line 1\" field.");
                 theForm.street.focus();
                 return (false);
             }
             if (theForm.street.length < 1) {
-                alert("Please enter at least 1 characters in the \"Property Physical Address\" field.");
+                alert("Please enter at least 1 characters in the \"Property Address Line 1\" field.");
                 theForm.street.focus();
                 return (false);
             }
@@ -109,24 +111,7 @@
                 alert("Please enter at least 1 characters in the \"Property Physical City\" field.");
                 theForm.city.focus();
                 return (false);
-            }
-
-            // PROPERTY PHYSICAL STATE/PROVINCE
-//            var pl = document.getElementById('PhysicalState');
-//            var plv = pl.options[pl.selectedIndex].value;
-//            
-//            if (plv == '-- US/Canada Only --')
-//            {
-//                alert('Please choose a value for the \"Property Physical State Province\" field.');
-//                pl.focus();
-//                return (false);
-//            }   
-//            if (plv == '-- Canadian Provinces --')
-//            {
-//                alert('Please choose a value for the \"Property Physical State Province\" field.');
-//                pl.focus();
-//                return (false);
-//            }             
+            }         
             
             // POSTAL CODE VALIDATION
             if (theForm.zip.value == "") {
@@ -141,7 +126,7 @@
             }            
             
             // PROPERTY PHYSICAL COUNTRY VALIDATION
-            var pl1 = document.getElementById('country');
+            var pl1 = document.getElementById("country");
             var plv1 = pl1.options[pl1.selectedIndex].value;
             
             if (plv1 == "-- Select One --") 
@@ -159,7 +144,7 @@
             }
 
             // BRAND IDENTIFIER VALIDATION
-            var pl3 = document.getElementById('BrandID');
+            var pl3 = document.getElementById("BrandID");
             var plv3 = pl3.options[pl3.selectedIndex].value;
             
             if (plv3 == "-- Select One --") {
@@ -168,24 +153,39 @@
                 return (false);
             }     
 
-            // CURRENCY VALIDATION
-            //if (theForm.Currency.options[theForm.Currency.selectedIndex].text == "") {
-            //    alert("Please enter a value for the \"Currency\" field.");
-            //    theForm.Currency.focus();
-            //    return (false);
-            //}
-
             // PROPERTY PHONE NUMBER VALIDATION
             if (theForm.PhoneNumber.value == "") {
                 alert("Please enter a value for the \"Property Phone Number\" field.");
                 theForm.PhoneNumber.focus();
                 return (false);
             }
-
+ 
+            // VALIDATION (END) ===================================================================
             
-            theForm.description.value = "DLC Name = " + theForm.dlcfirst_name.value + " " + theForm.dlclast_name.value + "\nEMail = " + theForm.dlcemail.value + "\nPhone = " + theForm.dlcphone.value;
+            
+            // BUILD CASE DESCRIPTION STRING (START) ==============================================
+            
+            theForm.description.value = "";
+            
+            theForm.description.value = theForm.description.value + "Requestor Name: " + theForm.first_name.value + " " + theForm.last_name.value + "\n";
+            theForm.description.value = theForm.description.value + "Requestor Telephone: " + theForm.phone.value + "\n";
+            theForm.description.value = theForm.description.value + "Requestor Email: " + theForm.email.value + "\n\n";
 
-            theForm.description.value = theForm.description.value + "\nChannel(s) = ";
+            theForm.description.value = theForm.description.value + "Property Name: " + theForm.company.value + "\n";
+            theForm.description.value = theForm.description.value + "Property Inn Code: " + theForm.Prop_Holidex_Code__c.value + "\n";
+            theForm.description.value = theForm.description.value + "Property Address:\n";
+            theForm.description.value = theForm.description.value + "Line 1. Address: " + theForm.street.value + "\n";
+            theForm.description.value = theForm.description.value + "Line 2. City: " + theForm.city.value + "\n";
+            var pStateField = document.getElementById("state");
+            var pStateValue = pStateField.options[pStateField.selectedIndex].value;
+            theForm.description.value = theForm.description.value + "Line 3. State: " + pStateValue + "\n";
+            theForm.description.value = theForm.description.value + "Line 4. Postal Code: " + theForm.zip.value + "\n";
+            theForm.description.value = theForm.description.value + "Line 5. Country: " + theForm.country.value + "\n\n";
+            
+            theForm.description.value = theForm.description.value + "Additional Info:\n\n";
+            
+            theForm.description.value = theForm.description.value + "Channel(s) = ";
+            
             if (theForm.cBoxScout.checked == true) {
                 theForm.description.value = theForm.description.value + "Scout, ";
             }
@@ -195,11 +195,11 @@
             }
 
             if (theForm.ceProposalPaid.checked == true) {
-                theForm.description.value = theForm.description.value + 'eProposal Paid, ';
+                theForm.description.value = theForm.description.value + "eProposal Paid, ";
             }
 
             if (theForm.cBoxCendyn.checked == true) {
-                theForm.description.value = theForm.description.value + 'MeetingBroker Proposal Powered by Cendyn, ';
+                theForm.description.value = theForm.description.value + "MeetingBroker Proposal Powered by Cendyn, ";
             }
 
             if (theForm.cBoxCvent.checked == true) {
@@ -209,35 +209,26 @@
             if (theForm.cBoxGroup360.checked == true) {
                 theForm.description.value = theForm.description.value + "Group360, ";
             }
-            
-
-            // removed ticket 526146 
-            //            if (theForm.cBoxGSE.checked == true) {
-            //                theForm.description.value = theForm.description.value + "GSE, ";
-            //            }
-            
-            //            if (theForm.cBoxGSE2.checked == true) {
-            //                theForm.description.value = theForm.description.value + "GSE 2, ";
-            //            }
- 
-            // added ticket 526146 
 
             if (theForm.cHiltonWorldwideSales.checked == true) {
                 theForm.description.value = theForm.description.value + "Hilton Worldwide Sales (Connex), ";
             } 
- 
+     
+      theForm.description.value = theForm.description.value + "\n";
+
+            theForm.description.value = theForm.description.value + "SUE = " + theForm.EmailOnly.value + "\n";
+            theForm.description.value = theForm.description.value + "Locale = " + theForm.Locale.options[theForm.Locale.selectedIndex].text + "\n";
+            theForm.description.value = theForm.description.value + "Time Zone = " + theForm.TimeZone.value + "\n";
+            theForm.description.value = theForm.description.value + "Inn Code = " + theForm.Prop_Holidex_Code__c.value + "\n";
+            theForm.description.value = theForm.description.value + "Default Lead Coordinator Name = " + theForm.dlcfirst_name.value + " " + theForm.dlclast_name.value + "\n";
+            theForm.description.value = theForm.description.value + "Default Lead Coordinator Email / Username = " + theForm.dlcemail.value + "\n";
+      theForm.description.value = theForm.description.value + "Default Lead Coordinator Phone = ";             
+            if (theForm.dlcphone.value != "") {
+                theForm.description.value = theForm.description.value + theForm.dlcphone.value;           
+            }     
+            theForm.description.value = theForm.description.value + "\n";
             
-            if (theForm.cBoxHSearch.checked == true) {
-                theForm.description.value = theForm.description.value + "Hilton Search Availability/MGAST, ";
-            }
-
-
-            theForm.description.value = theForm.description.value + "\nSUE = " + theForm.EmailOnly.value;
-            theForm.description.value = theForm.description.value + "\nLocale = " + theForm.Locale.options[theForm.Locale.selectedIndex].text;
-            theForm.description.value = theForm.description.value + "\nTime Zone = " + theForm.TimeZone.value;
-            theForm.description.value = theForm.description.value + "\nInn Code = " + theForm.Prop_Holidex_Code__c.value;
-
-            theForm.description.value = theForm.description.value + "\nDefault Lead Coordinator Access Level = ";
+            theForm.description.value = theForm.description.value + "Default Lead Coordinator Access Level = ";
             if (theForm.cBoxDirector.checked == true) {
                 theForm.description.value = theForm.description.value + "Director, ";
             }
@@ -250,26 +241,32 @@
             if (theForm.cBoxLocalAdmn2.checked == true) {
                 theForm.description.value = theForm.description.value + "Local Admin";
             }
+      theForm.description.value = theForm.description.value + "\n";
+            theForm.description.value = theForm.description.value + "Brand = " + theForm.BrandID.options[theForm.BrandID.selectedIndex].text + "\n";
+            theForm.description.value = theForm.description.value + "Property Guid = " + theForm.pGuid.value + "\n";
+            theForm.description.value = theForm.description.value + "Comments = " + theForm.SubmitterComments.value + "\n";
+            theForm.description.value = theForm.description.value + "Currency = " + theForm.Currency.options[theForm.Currency.selectedIndex].text + "\n";
+            theForm.description.value = theForm.description.value + "Location Type = " + theForm.LocationType.options[theForm.LocationType.selectedIndex].text + "\n";
+            theForm.description.value = theForm.description.value + "Management Type = " + theForm.ManagementType.options[theForm.ManagementType.selectedIndex].text + "\n";
+            theForm.description.value = theForm.description.value + "Managed Location = " + theForm.ManagedLocation.options[theForm.ManagedLocation.selectedIndex].text + "\n";
+            theForm.description.value = theForm.description.value + "Total Number Of Guest Rooms = " + theForm.TotalNumberOfGuestRooms.value + "\n";
+            theForm.description.value = theForm.description.value + "Phone Number = " + theForm.PhoneNumber.value + "\n";
+            theForm.description.value = theForm.description.value + "Phone Number Ext = " + theForm.PhoneNumberExt.value + "\n";
+            
+            theForm.description.value = theForm.description.value + "Monday Office Hours = " + theForm.MondayOfficeHoursStart.options[theForm.MondayOfficeHoursStart.selectedIndex].text + " to " + theForm.MondayOfficeHoursEnd.options[theForm.MondayOfficeHoursEnd.selectedIndex].text + "\n";
+            theForm.description.value = theForm.description.value + "Tuesday Office Hours = " + theForm.TuesdayOfficeHoursStart.options[theForm.TuesdayOfficeHoursStart.selectedIndex].text + " to " + theForm.TuesdayOfficeHoursEnd.options[theForm.TuesdayOfficeHoursEnd.selectedIndex].text + "\n";
+            theForm.description.value = theForm.description.value + "Wednesday Office Hours = " + theForm.WednesdayOfficeHoursStart.options[theForm.WednesdayOfficeHoursStart.selectedIndex].text + " to " + theForm.WednesdayOfficeHoursEnd.options[theForm.WednesdayOfficeHoursEnd.selectedIndex].text + "\n";
+            theForm.description.value = theForm.description.value + "Thursday Office Hours = " + theForm.ThursdayOfficeHoursStart.options[theForm.ThursdayOfficeHoursStart.selectedIndex].text + " to " + theForm.ThursdayOfficeHoursEnd.options[theForm.ThursdayOfficeHoursEnd.selectedIndex].text + "\n";
+            theForm.description.value = theForm.description.value + "Friday Office Hours = " + theForm.FridayOfficeHoursStart.options[theForm.FridayOfficeHoursStart.selectedIndex].text + " to " + theForm.FridayOfficeHoursEnd.options[theForm.FridayOfficeHoursEnd.selectedIndex].text + "\n";
+            theForm.description.value = theForm.description.value + "Saturday Office Hours = " + theForm.SaturdayOfficeHoursStart.options[theForm.SaturdayOfficeHoursStart.selectedIndex].text + " to " + theForm.SaturdayOfficeHoursEnd.options[theForm.SaturdayOfficeHoursEnd.selectedIndex].text + "\n";
+            theForm.description.value = theForm.description.value + "Sunday Office Hours = " + theForm.SundayOfficeHoursStart.options[theForm.SundayOfficeHoursStart.selectedIndex].text + " to " + theForm.SundayOfficeHoursEnd.options[theForm.SundayOfficeHoursEnd.selectedIndex].text + "\n";
 
-            theForm.description.value = theForm.description.value + "\nBrand = " + theForm.BrandID.options[theForm.BrandID.selectedIndex].text;
-            theForm.description.value = theForm.description.value + "\nProperty Guid = " + theForm.pGuid.value;
-            theForm.description.value = theForm.description.value + "\nComments = " + theForm.SubmitterComments.value;
-            theForm.description.value = theForm.description.value + "\nCurrency = " + theForm.Currency.options[theForm.Currency.selectedIndex].text;
-            theForm.description.value = theForm.description.value + "\nLocation Type = " + theForm.LocationType.options[theForm.LocationType.selectedIndex].text;
-            theForm.description.value = theForm.description.value + "\nManagement Type = " + theForm.ManagementType.options[theForm.ManagementType.selectedIndex].text;
-            theForm.description.value = theForm.description.value + "\nManaged Location = " + theForm.ManagedLocation.options[theForm.ManagedLocation.selectedIndex].text;
-            theForm.description.value = theForm.description.value + "\nTotal Number Of Guest Rooms = " + theForm.TotalNumberOfGuestRooms.value;
-            theForm.description.value = theForm.description.value + "\nPhone Number = " + theForm.PhoneNumber.value;
-            theForm.description.value = theForm.description.value + "\nPhone Number Ext = " + theForm.PhoneNumberExt.value;
-            theForm.description.value = theForm.description.value + "\nMonday Office Hours = " + theForm.MondayOfficeHoursStart.options[theForm.MondayOfficeHoursStart.selectedIndex].text + " to " + theForm.MondayOfficeHoursEnd.options[theForm.MondayOfficeHoursEnd.selectedIndex].text;
-            theForm.description.value = theForm.description.value + "\nTuesday Office Hours = " + theForm.TuesdayOfficeHoursStart.options[theForm.TuesdayOfficeHoursStart.selectedIndex].text + " to " + theForm.TuesdayOfficeHoursEnd.options[theForm.TuesdayOfficeHoursEnd.selectedIndex].text;
-            theForm.description.value = theForm.description.value + "\nWednesday Office Hours = " + theForm.WednesdayOfficeHoursStart.options[theForm.WednesdayOfficeHoursStart.selectedIndex].text + " to " + theForm.WednesdayOfficeHoursEnd.options[theForm.WednesdayOfficeHoursEnd.selectedIndex].text;
-            theForm.description.value = theForm.description.value + "\nThursday Office Hours = " + theForm.ThursdayOfficeHoursStart.options[theForm.ThursdayOfficeHoursStart.selectedIndex].text + " to " + theForm.ThursdayOfficeHoursEnd.options[theForm.ThursdayOfficeHoursEnd.selectedIndex].text;
-            theForm.description.value = theForm.description.value + "\nFriday Office Hours = " + theForm.FridayOfficeHoursStart.options[theForm.FridayOfficeHoursStart.selectedIndex].text + " to " + theForm.FridayOfficeHoursEnd.options[theForm.FridayOfficeHoursEnd.selectedIndex].text;
-            theForm.description.value = theForm.description.value + "\nSaturday Office Hours = " + theForm.SaturdayOfficeHoursStart.options[theForm.SaturdayOfficeHoursStart.selectedIndex].text + " to " + theForm.SaturdayOfficeHoursEnd.options[theForm.SaturdayOfficeHoursEnd.selectedIndex].text;
-            theForm.description.value = theForm.description.value + "\nSunday Office Hours = " + theForm.SundayOfficeHoursStart.options[theForm.SundayOfficeHoursStart.selectedIndex].text + " to " + theForm.SundayOfficeHoursEnd.options[theForm.SundayOfficeHoursEnd.selectedIndex].text;
+            // BUILD CASE DESCRIPTION STRING (END) ==============================================
+            
+            //alert(theForm.description.value);
 
             return (true);
+            
         }
 
     </script>
@@ -298,7 +295,7 @@
     
     <center>
 
-        <form action="{!$Label.MB_Form_Action_URL}" method="post" name="ContactForm">
+        <form action="{!$Label.MB_Form_Action_URL}" method="POST" name="ContactForm">
 
         <table width="100%" align="center" border="0">
               <tr>
@@ -322,7 +319,7 @@
                                     <b>Requestor First Name * :</b>
                                 </td>
                                 <td align="left">
-                                    <input name='first_name' value='' size='50' />
+                                    <input name="first_name" value="" size="50" />
                                 </td>
                             </tr>
                             <tr>
@@ -330,7 +327,7 @@
                                     <b>Requestor Last Name * :</b>
                                 </td>
                                 <td align="left">
-                                    <input name='last_name' value='' size='50' />
+                                    <input name="last_name" value="" size="50" />
                                 </td>
                             </tr>
                             <tr>
@@ -338,7 +335,7 @@
                                     <b>Requestor Email * :</b>
                                 </td>
                                 <td align="left">
-                                    <input name='email' value='' size='50' />
+                                    <input name="email" value="" size="50" />
                                 </td>
                             </tr>
                             <tr>
@@ -346,7 +343,7 @@
                                     <b>Requestor Phone * :</b>
                                 </td>
                                 <td align="left">
-                                    <input name='phone' value='' size='50' />
+                                    <input name="phone" value="" size="50" />
                                 </td>
                             </tr>
                             <tr>
@@ -354,7 +351,7 @@
                                     <b>HIDB Property Legal Name * :</b>
                                 </td>
                                 <td align="left">
-                                    <input name='company' value='' size='50' />
+                                    <input name="company" value="" size="50" />
                                 </td>
                             </tr>
                             <tr>
@@ -362,7 +359,7 @@
                                     <b>Default Lead Coordinator First Name * :</b>
                                 </td>
                                 <td align="left">
-                                    <input name='dlcfirst_name' value='' size='50' />
+                                    <input name="dlcfirst_name" value="" size="50" />
                                 </td>
                             </tr>
                             <tr>
@@ -370,7 +367,7 @@
                                     <b>Default Lead Coordinator Last Name * :</b>
                                 </td>
                                 <td align="left">
-                                    <input name='dlclast_name' value='' size='50' />
+                                    <input name="dlclast_name" value="" size="50" />
                                 </td>
                             </tr>
                             <tr>
@@ -378,7 +375,7 @@
                                     <b>Default Lead Coordinator Email / Username * :</b>
                                 </td>
                                 <td align="left">
-                                    <input name='dlcemail' value='' size='50' />
+                                    <input name="dlcemail" value="" size="50" />
                                 </td>
                             </tr>
                             <tr>
@@ -386,7 +383,7 @@
                                     <b>Default Lead Coordinator Phone:</b>
                                 </td>
                                 <td align="left">
-                                    <input name='dlcphone' value='' size='50' />
+                                    <input name="dlcphone" value="" size="50" />
                                 </td>
                             </tr>
                             <tr>
@@ -410,15 +407,15 @@
                             </tr>
                             <tr>
                                 <td align="right">
-                                    &nbsp;
+                                     
                                 </td>
                                 <td align="left">
-                                    &nbsp;
+                                     
                                 </td>
                             </tr>
                             <tr>
                                 <td align="right" valign="top">
-                                    <b>Property Physical Address * :</b>
+                                    <b>Property Address Line 1 * :</b>
                                 </td>
                                 <td align="left">
                                     <textarea name="street" rows="4" cols="40"></textarea>
@@ -573,7 +570,7 @@
                                         <option value="KM">Comoros</option>
                                         <option value="CK">Cook Islands</option>
                                         <option value="CR">Costa Rica</option>
-                                        <option value="CI">Cote D&#39;Ivoire (Ivory Coast)</option>
+                                        <option value="CI">Cote D'Ivoire (Ivory Coast)</option>
                                         <option value="HR">Croatia (Hrvatska)</option>
                                         <option value="CW">Curacao</option>
                                         <option value="CY">Cyprus</option>
@@ -628,7 +625,7 @@
                                         <option value="JM">Jamaica</option>
                                         <option value="JP">Japan</option>
                                         <option value="JO">Jordan</option>
-                                        <option value="KZ">Kayakhstan</option>
+                                        <option value="KZ">Kazakhstan</option>
                                         <option value="KE">Kenya</option>
                                         <option value="KI">Kiribati</option>
                                         <option value="KR">Korea, South</option>
@@ -707,6 +704,7 @@
                                         <option value="SC">Seychelles</option>
                                         <option value="SL">Sierra Leone</option>
                                         <option value="SG">Singapore</option>
+                                        <option value="SX">Sint Maarten</option>
                                         <option value="SK">Slovakia</option>
                                         <option value="SI">Slovenia</option>
                                         <option value="SB">Solomon Islands</option>
@@ -777,20 +775,8 @@
                                     <input id="cBoxGroup360" name="Group360" title="Group360" type="checkbox" value="Group360" checked="true" />
                                     Group360
                                     <br/>
-                <!--removed ticket 526146 
-                                    <input id="cBoxGSE" name="GSE" title="GSE" type="checkbox" value="GSE" checked="true" />
-                                    GSE
-                                    <br/>
-                                    <input id="cBoxGSE2" name="GSE2" title="GSE2" type="checkbox" value="GSE 2" checked="true" />
-                                    GSE 2
-                                    <br/>  -->
-                <!--added below, ticket 526146 -->
                                     <input id="cHiltonWorldwideSales" name="Hilton Worldwide Sales (Connex)" title="Hilton Worldwide Sales (Connex)" type="checkbox" value="Hilton Worldwide Sales (Connex)" checked="true" />
                                     Hilton Worldwide Sales (Connex)
-                                    <br/>
-                <!--added above, ticket 526146 -->
-                                    <input id="cBoxHSearch" name="Hilton Search Availability/MGAST" title="Hilton Search Availability/MGAST" type="checkbox" value="Hilton Search Availability/MGAST" />
-                                    Hilton Search Availability/MGAST
                                     <br/>
                                     <input id="cBoxScout" name="Scout" title="Scout" type="checkbox" value="scout" />
                                     Scout
@@ -973,16 +959,16 @@
                                         <option value="(GMT-03:00) Greenland">(GMT-03:00) Greenland</option>
                                         <option value="(GMT-03:30) Newfoundland">(GMT-03:30) Newfoundland</option>
                                         <option value="(GMT-04:00) Atlantic Time (Canada)">(GMT-04:00) Atlantic Time (Canada)</option>
-                                        <option value="(GMT-05:00) Eastern Time (US & Canada)">(GMT-05:00) Eastern Time (US &amp; Canada)</option>
+                                        <option value="(GMT-05:00) Eastern Time (US &amp; Canada)">(GMT-05:00) Eastern Time (US &amp; Canada)</option>
                                         <option value="(GMT-05:00) Indiana (East)">(GMT-05:00) Indiana (East)</option>
                                         <option value="(GMT-06:00) Central America">(GMT-06:00) Central America</option>
-                                        <option value="(GMT-06:00) Central Time (US & Canada)">(GMT-06:00) Central Time (US &amp; Canada)</option>
+                                        <option value="(GMT-06:00) Central Time (US &amp; Canada)">(GMT-06:00) Central Time (US &amp; Canada)</option>
                                         <option value="(GMT-06:00) Guadalajara, Mexico City, Monterrey">(GMT-06:00) Guadalajara, Mexico City, Monterrey</option>
                                         <option value="(GMT-06:00) Saskatchewan">(GMT-06:00) Saskatchewan</option>
                                         <option value="(GMT-07:00) Arizona">(GMT-07:00) Arizona</option>
                                         <option value="(GMT-07:00) Chihuahua, La Paz, Mazatlan">(GMT-07:00) Chihuahua, La Paz, Mazatlan</option>
-                                        <option value="(GMT-07:00) Mountain Time (US & Canada)">(GMT-07:00) Mountain Time (US &amp; Canada)</option>
-                                        <option value="(GMT-08:00) Pacific Time (US & Canada); Tijuana">(GMT-08:00) Pacific Time (US &amp; Canada); Tijuana</option>
+                                        <option value="(GMT-07:00) Mountain Time (US &amp; Canada)">(GMT-07:00) Mountain Time (US &amp; Canada)</option>
+                                        <option value="(GMT-08:00) Pacific Time (US &amp; Canada); Tijuana">(GMT-08:00) Pacific Time (US &amp; Canada); Tijuana</option>
                                         <option value="(GMT-09:00) Alaska">(GMT-09:00) Alaska</option>
                                         <option value="(GMT-10:00) Hawaii">(GMT-10:00) Hawaii</option>
                                         <option value="(GMT-11:00) Midway Island, Samoa">(GMT-11:00) Midway Island, Samoa</option>
@@ -1012,7 +998,7 @@
                                         <option value="Doubletree">Doubletree</option> 
                                         <option value="Embassy Suites by Hilton">Embassy Suites by Hilton</option> 
                                         <option value="Hampton Inn">Hampton Inn</option>                                         
-                                        <option value="Hampton Inns & Suites">Hampton Inns &amp; Suites</option> 
+                                        <option value="Hampton Inns &amp; Suites">Hampton Inns &amp; Suites</option> 
                                         <option value="Hilton Garden Inn">Hilton Garden Inn</option> 
                                         <option value="Hilton Grand Vacations">Hilton Grand Vacations</option> 
                                         <option value="Hilton Hotels">Hilton Hotels</option> 
@@ -1024,6 +1010,7 @@
                                         <option value="Motto by Hilton">Motto by Hilton</option> 
                                         <option value="Signia Hilton">Signia Hilton</option> 
                                         <option value="Tapestry Collection">Tapestry Collection</option> 
+                                        <option value="Tempo by Hilton">Tempo by Hilton</option> 
                                         <option value="Tru by Hilton">Tru by Hilton</option> 
                                         <option value="Waldorf Astoria">Waldorf Astoria</option> 
                                     </select>
@@ -1254,7 +1241,7 @@
                                         <option value="Company JV/Managed w/o License">Company JV/Managed w/o License</option>
                                         <option value="Company Leased/Managed">Company Leased/Managed</option>
                                         <option value="Other-Affiliate">Other-Affiliate</option>
-                                        <option value="Owned & Operated">Owned &amp; Operated</option>
+                                        <option value="Owned &amp; Operated">Owned &amp; Operated</option>
                                         <option value="Independent">Independent</option>
                                     </select>
                                 </td>
@@ -1302,7 +1289,7 @@
                                     <table>
                                         <tr>
                                             <td>
-                                                &nbsp;
+                                                 
                                             </td>
                                             <td>
                                                 Start Time
@@ -2079,18 +2066,18 @@
                             </tr>
                             <tr>
                                 <td align="right">
-                                    &nbsp;
+                                     
                                 </td>
                                 <td align="left">
-                                    &nbsp;
+                                     
                                 </td>
                             </tr>
                             <tr>
                                 <td align="right">
-                                    &nbsp;
+                                     
                                 </td>
                                 <td align="left">
-                                    <input type="Submit" value="Submit" onclick="return Validate(this.form)"/>&nbsp;&nbsp;
+                                    <input type="Submit" value="Submit" onclick="return Validate(this.form)"/>  
                                     <input type="Reset" value="Clear"/>
                                 </td>
                             </tr>
@@ -2102,7 +2089,7 @@
             </tr>
             <tr>
                 <td width="20%">
-                    &nbsp;
+                     
                 </td>
                 <td width="60%">
                     <font size="1">
@@ -2110,17 +2097,17 @@
                     </font>
                 </td>
                 <td width="20%">
-                    &nbsp;
+                     
                 </td>
             </tr>
         </table>
         
         <input type="hidden" name="lead_source" value="Web Site" />
         <input type="hidden" name="description" value="" />
-        <input type="hidden" name='Campaign_ID' value="{!$Label.MB_Hilton_Campaign_ID}" />
+        <input type="hidden" name="Campaign_ID" value="{!$Label.MB_Hilton_Campaign_ID}" />
         <input name="oid" type="hidden" value="{!$Organization.Id}" />
         <input type="hidden" name="retURL" value="{!$Site.CurrentSiteUrl}AH_FormsMsg?retURL=%2F{!$Site.Name}%2F{!$CurrentPage.Name}" />
-        <input type="hidden" name="industry" value="Hotels & Lodging" />
+        <input type="hidden" name="industry" value="Hotels &amp; Lodging" />
         
         </form>
 

@@ -1,21 +1,21 @@
 <apex:page standardController="Account">
     <apex:pageBlock title="{!Account.name}">
         {!Account.Description}    
-</apex:pageBlock>
+    </apex:pageBlock>
     <apex:pageBlock title="Open Opportunities">
         <apex:form >
             <apex:dataTable value="{!account.Opportunities}" var="Oppty" cellPadding="4" border="1">
-              <apex:column >
-               <apex:facet name="header">Name</apex:facet>
-               <apex:commandLink >
-                 {!Oppty.Name}
-                 <apex:param name="cid" value="{!Oppty.id}"/>
-               </apex:commandLink> 
-              </apex:column>
-              <apex:column >
-               <apex:facet name="header">Phone</apex:facet>
-               {!Oppty.CloseDate}
-              </apex:column>
+                <apex:column >
+                    <apex:facet name="header">Name</apex:facet>
+                    <apex:commandLink >
+                        {!Oppty.Name}
+                        <apex:param name="cid" value="{!Oppty.id}"/>
+                    </apex:commandLink> 
+                </apex:column>
+                <apex:column >
+                    <apex:facet name="header">Phone</apex:facet>
+                    {!Oppty.CloseDate}
+                </apex:column>
             </apex:dataTable>
         </apex:form>
     </apex:pageBlock>

@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
-    <fullName>Owner_and_Status_Change</fullName>
-    <active>false</active>
-    <description>Due to some field updates, the owner and status can not be changed at the same time.</description>
-    <errorConditionFormula>AND(ISCHANGED(Owner__c), ISCHANGED(Status__c))</errorConditionFormula>
-    <errorMessage>Owner and Status cannot be changed at the same time.  Update the owner, save the record and then update the status.</errorMessage>
-</ValidationRule>

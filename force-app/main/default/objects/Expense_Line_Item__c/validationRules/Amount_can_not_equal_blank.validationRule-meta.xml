@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
-    <fullName>Amount_can_not_equal_blank</fullName>
-    <active>true</active>
-    <errorConditionFormula>and(not ISPICKVAL(Category__c, &quot;Breda Employees&quot;),ISNULL(Amount__c),isnull( Miles__c))</errorConditionFormula>
-    <errorMessage>Amount can not be blank. Please fill in the appropriate amount</errorMessage>
-</ValidationRule>

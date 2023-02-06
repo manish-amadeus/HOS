@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Audience xmlns="http://soap.sforce.com/2006/04/metadata">
+    <audienceName>PMS - Breda</audienceName>
+    <container>PartnerCentral</container>
+    <criteria>
+        <criterion>
+            <criterionValue>
+                <entityField>$User.Partner_Permissions__c</entityField>
+                <entityType>User</entityType>
+                <fieldValue>PMS</fieldValue>
+            </criterionValue>
+            <operator>Equal</operator>
+            <type>FieldBased</type>
+        </criterion>
+        <criterion>
+            <criterionValue>
+                <profile>ah partnercentral login user</profile>
+            </criterionValue>
+            <operator>Equal</operator>
+            <type>Profile</type>
+        </criterion>
+        <criterion>
+            <criterionValue>
+                <entityField>$User.Partner_Terms_Accepted__c</entityField>
+                <entityType>User</entityType>
+                <fieldValue>True</fieldValue>
+            </criterionValue>
+            <operator>Equal</operator>
+            <type>FieldBased</type>
+        </criterion>
+    </criteria>
+    <formulaFilterType>AllCriteriaMatch</formulaFilterType>
+    <isDefaultAudience>false</isDefaultAudience>
+    <targets>
+        <target>
+            <groupName>0545ef71-eda3-4b19-9ef1-d4e8a9c5979d</groupName>
+            <priority>8</priority>
+            <targetType>ExperienceVariation</targetType>
+            <targetValue>Home_PMS_Breda_Page</targetValue>
+        </target>
+    </targets>
+</Audience>

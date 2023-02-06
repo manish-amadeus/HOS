@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<SharingRules xmlns="http://soap.sforce.com/2006/04/metadata">
+    <sharingOwnerRules>
+        <fullName>Share_to_Contracts_Role</fullName>
+        <accessLevel>Edit</accessLevel>
+        <description>Grants read/write access to the Contracts Administrator Role</description>
+        <label>Share to Contracts Role</label>
+        <sharedTo>
+            <role>ContractsAdministrator</role>
+        </sharedTo>
+        <sharedFrom>
+            <roleAndSubordinatesInternal>CEOCFO</roleAndSubordinatesInternal>
+        </sharedFrom>
+    </sharingOwnerRules>
+</SharingRules>

@@ -113,7 +113,7 @@ public class AH_LKA_Search_Ctlr
         
         runningUser = [SELECT Id, ProfileId, IsActive, UserType, FirstName, LastName FROM User WHERE Id =: UserInfo.getUserId()];  
 
-        for (Profile p : [SELECT Id FROM Profile WHERE Name IN ('System Administrator', 'NI Support Managers', 'AH Support Managers - Lightning', 'AH Business Systems')])
+        for (Profile p : [SELECT Id FROM Profile WHERE Name IN ('System Administrator', 'AH Support Managers - Lightning', 'AH Business Systems')])
         {
             if (runningUser.ProfileId == p.Id)
             {

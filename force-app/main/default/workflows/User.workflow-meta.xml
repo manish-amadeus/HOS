@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Workflow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <alerts>
+        <fullName>Change</fullName>
+        <description>Change User Role Notification</description>
+        <protected>false</protected>
+        <recipients>
+            <recipient>jchavez@newmarketinc.com</recipient>
+            <type>user</type>
+        </recipients>
+        <recipients>
+            <recipient>lertle@newmarketinc.com</recipient>
+            <type>user</type>
+        </recipients>
+        <recipients>
+            <recipient>pdixon@newmarketinc.com</recipient>
+            <type>user</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>NISFDCSystemAdminEmails/Change_User_Role_Notification</template>
+    </alerts>
+    <alerts>
+        <fullName>New_Standard_User_Missing_Department_Code_E_mail_Notification</fullName>
+        <description>New Standard User Missing Department Code E-mail Notification</description>
+        <protected>false</protected>
+        <recipients>
+            <type>creator</type>
+        </recipients>
+        <recipients>
+            <recipient>semery@newmarketinc.com</recipient>
+            <type>user</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>Salesforce_Sys_Admin_Templates/New_User_Missing_Department_Code</template>
+    </alerts>
+    <alerts>
+        <fullName>New_Standard_User_Missing_Financial_Location_Segment_E_mail_Notification</fullName>
+        <description>New Standard User Missing Financial Location/Segment E-mail Notification</description>
+        <protected>false</protected>
+        <recipients>
+            <type>creator</type>
+        </recipients>
+        <recipients>
+            <recipient>semery@newmarketinc.com</recipient>
+            <type>user</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>Salesforce_Sys_Admin_Templates/New_User_Missing_Location</template>
+    </alerts>
+    <alerts>
+        <fullName>Send_Email_when_Cost_Ctr_is_changed</fullName>
+        <description>Send Email when Cost Ctr is changed</description>
+        <protected>false</protected>
+        <recipients>
+            <recipient>heather.seward@amadeus.com</recipient>
+            <type>user</type>
+        </recipients>
+        <recipients>
+            <recipient>margaret.sillner@newmarketinc.com</recipient>
+            <type>user</type>
+        </recipients>
+        <recipients>
+            <recipient>mmedeiros@newmarketinc.com</recipient>
+            <type>user</type>
+        </recipients>
+        <senderAddress>hospitality.no-reply@amadeus.com</senderAddress>
+        <senderType>OrgWideEmailAddress</senderType>
+        <template>unfiled$public/User_ADP_Cost_Ctr</template>
+    </alerts>
+    <alerts>
+        <fullName>Send_Email_when_Cost_Ctr_is_not_found</fullName>
+        <description>Send Email when Cost Ctr is not found</description>
+        <protected>false</protected>
+        <recipients>
+            <recipient>heather.seward@amadeus.com</recipient>
+            <type>user</type>
+        </recipients>
+        <recipients>
+            <recipient>margaret.sillner@newmarketinc.com</recipient>
+            <type>user</type>
+        </recipients>
+        <recipients>
+            <recipient>mmedeiros@newmarketinc.com</recipient>
+            <type>user</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>unfiled$public/User_ADP_Cost_Ctr_Found</template>
+    </alerts>
+    <alerts>
+        <fullName>User_30_Day_Inactivity_Notification</fullName>
+        <description>User 30 Day Inactivity Notification</description>
+        <protected>false</protected>
+        <recipients>
+            <field>AH_Manager_Email__c</field>
+            <type>email</type>
+        </recipients>
+        <recipients>
+            <field>Email</field>
+            <type>email</type>
+        </recipients>
+        <recipients>
+            <recipient>lertle@newmarketinc.com</recipient>
+            <type>user</type>
+        </recipients>
+        <recipients>
+            <recipient>semery@newmarketinc.com</recipient>
+            <type>user</type>
+        </recipients>
+        <senderAddress>hospitality.no-reply@amadeus.com</senderAddress>
+        <senderType>OrgWideEmailAddress</senderType>
+        <template>User_Templates/Standard_User_Last_Login_30_Days</template>
+    </alerts>
+    <alerts>
+        <fullName>User_45_Day_Inactivity_Notification</fullName>
+        <description>User 45 Day Inactivity Notification</description>
+        <protected>false</protected>
+        <recipients>
+            <field>Email</field>
+            <type>email</type>
+        </recipients>
+        <recipients>
+            <recipient>lertle@newmarketinc.com</recipient>
+            <type>user</type>
+        </recipients>
+        <recipients>
+            <recipient>semery@newmarketinc.com</recipient>
+            <type>user</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>User_Templates/Standard_User_Last_Login_45_Days</template>
+    </alerts>
+    <fieldUpdates>
+        <fullName>Freeze_User_Check_Box</fullName>
+        <description>Update the Freeze User Check Box.  Set it to &quot;True&quot;</description>
+        <field>Freeze_User__c</field>
+        <literalValue>1</literalValue>
+        <name>Freeze User Check Box</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Literal</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>Update_Xactly_User_True</fullName>
+        <description>Salesforce.com Change Request: NICC-009850
+
+Set the Xactly User check box field to &quot;True&quot;</description>
+        <field>Xactly_User__c</field>
+        <literalValue>1</literalValue>
+        <name>Update Xactly User True</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Literal</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <rules>
+        <fullName>Freeze User</fullName>
+        <active>true</active>
+        <description>Time dependent Workflow Rule to freeze the user record based on the Expiration Date</description>
+        <formula>AND(NOT(ISBLANK(Expiration_Date__c)), Freeze_User__c != true)</formula>
+        <triggerType>onCreateOrTriggeringUpdate</triggerType>
+        <workflowTimeTriggers>
+            <actions>
+                <name>Freeze_User_Check_Box</name>
+                <type>FieldUpdate</type>
+            </actions>
+            <offsetFromField>User.Expiration_Date__c</offsetFromField>
+            <timeLength>0</timeLength>
+            <workflowTimeTriggerUnit>Hours</workflowTimeTriggerUnit>
+        </workflowTimeTriggers>
+    </rules>
+    <rules>
+        <fullName>New User - Missing Department Code</fullName>
+        <actions>
+            <name>New_Standard_User_Missing_Department_Code_E_mail_Notification</name>
+            <type>Alert</type>
+        </actions>
+        <active>true</active>
+        <description>Salesforce.com Change Request:  NICC-013684
+
+Send an e-mail when a new Standard User is created and the Department Code field is not filled in</description>
+        <formula>AND(ISBLANK(DepartmentCode__c), ISPICKVAL(UserType,&quot;Standard&quot;))</formula>
+        <triggerType>onCreateOnly</triggerType>
+    </rules>
+    <rules>
+        <fullName>New User - Missing Financial LocationSegment</fullName>
+        <actions>
+            <name>New_Standard_User_Missing_Financial_Location_Segment_E_mail_Notification</name>
+            <type>Alert</type>
+        </actions>
+        <active>true</active>
+        <description>Salesforce.com Change Request:  NICC-013684
+
+Send an e-mail when a new Standard User is created and the Department Code field is not filled in</description>
+        <formula>AND(ISBLANK(NI_Location__c), ISPICKVAL(UserType,&quot;Standard&quot;))</formula>
+        <triggerType>onCreateOnly</triggerType>
+    </rules>
+    <rules>
+        <fullName>Set Xactly User equals True</fullName>
+        <actions>
+            <name>Update_Xactly_User_True</name>
+            <type>FieldUpdate</type>
+        </actions>
+        <active>true</active>
+        <criteriaItems>
+            <field>User.ProfileId</field>
+            <operation>contains</operation>
+            <value>Sales</value>
+        </criteriaItems>
+        <description>Salesforce.com Change Request: NICC-009850
+
+When a new user is created with one of the &quot;Sales&quot; Profiles, the &quot;Xactly User&quot; check box will be checked.</description>
+        <triggerType>onCreateOrTriggeringUpdate</triggerType>
+    </rules>
+</Workflow>

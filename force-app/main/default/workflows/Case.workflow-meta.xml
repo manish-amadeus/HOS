@@ -1,0 +1,1864 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Workflow xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <alerts>
+        <fullName>Acknowledged_Case</fullName>
+        <description>Acknowledged Case</description>
+        <protected>false</protected>
+        <recipients>
+            <recipient>CRS_Global_Escalation_Support</recipient>
+            <type>group</type>
+        </recipients>
+        <recipients>
+            <recipient>dmarvez_ni@newmarketinc.com</recipient>
+            <type>user</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>Support_Email_Templates/Case_Acknowledged_Alert</template>
+    </alerts>
+    <alerts>
+        <fullName>Alert_Case_Owner_Of_Reopened</fullName>
+        <description>Alert Case Owner Of Reopened</description>
+        <protected>false</protected>
+        <recipients>
+            <type>owner</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>Support_Email_Templates/Case_Reopened_Alert</template>
+    </alerts>
+    <alerts>
+        <fullName>Alertcaseownerthatacasehasbeenclosed</fullName>
+        <description>Alert case owner that a case has been closed.</description>
+        <protected>false</protected>
+        <recipients>
+            <type>owner</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>Support_Email_Templates/ClosedCaseNotification</template>
+    </alerts>
+    <alerts>
+        <fullName>CRS_Case_Set_Recovery_Plan</fullName>
+        <ccEmails>CRS.escalation@amadeus.com</ccEmails>
+        <description>CRS Case Set Recovery Plan</description>
+        <protected>false</protected>
+        <recipients>
+            <recipient>integration@00dr0000002fs2xmas.com</recipient>
+            <type>user</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>unfiled$public/CRS_Case_Set_Recovery_Plan</template>
+    </alerts>
+    <alerts>
+        <fullName>CRS_Customer_Service_Email_Alert</fullName>
+        <description>CRS Customer Service Email Alert</description>
+        <protected>false</protected>
+        <recipients>
+            <recipient>dmarvez_ni@newmarketinc.com</recipient>
+            <type>user</type>
+        </recipients>
+        <recipients>
+            <recipient>eong@newmarketinc.com</recipient>
+            <type>user</type>
+        </recipients>
+        <recipients>
+            <recipient>trawlings@newmarketinc.com</recipient>
+            <type>user</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>Support_Email_Templates/CRS_CSR_Request</template>
+    </alerts>
+    <alerts>
+        <fullName>CRS_Customer_Severity_Status_Email_Alert</fullName>
+        <ccEmails>CRS.Escalation@amadeus.com</ccEmails>
+        <description>CRS Customer Severity Status Email Alert</description>
+        <protected>false</protected>
+        <recipients>
+            <recipient>CRS_Global_Escalation_Support</recipient>
+            <type>group</type>
+        </recipients>
+        <recipients>
+            <recipient>dmarvez_ni@newmarketinc.com</recipient>
+            <type>user</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>Support_Email_Templates/CRS_CSR_Customer_Severity_Alert</template>
+    </alerts>
+    <alerts>
+        <fullName>CR_Case_Approval_Rejected_Alert</fullName>
+        <description>CR Case Approval - Rejected Alert</description>
+        <protected>false</protected>
+        <recipients>
+            <type>owner</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>Support_Email_Templates/CR_Case_Rejected</template>
+    </alerts>
+    <alerts>
+        <fullName>Case_SendToSmartQ</fullName>
+        <ccEmails>emailtracker@v-232mcbwt0cqk89ovamh03bmjyxsuk8xkciyaheyy8uztttd8x.3-6ctneae.na110.apex.salesforce.com</ccEmails>
+        <ccEmails>ticket.tcweb.145@smartqweb.com</ccEmails>
+        <description>Case - Send to SmartQ</description>
+        <protected>false</protected>
+        <recipients>
+            <type>owner</type>
+        </recipients>
+        <senderAddress>hospitality.support@amadeus.com</senderAddress>
+        <senderType>OrgWideEmailAddress</senderType>
+        <template>AH_Support_Business_Intelligence/T2_Send_to_SmartQ</template>
+    </alerts>
+    <alerts>
+        <fullName>Custom_Service_Request_has_been_Closed</fullName>
+        <description>Custom Service Request has been Closed</description>
+        <protected>false</protected>
+        <recipients>
+            <type>creator</type>
+        </recipients>
+        <recipients>
+            <field>Requestor__c</field>
+            <type>userLookup</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>NIClientServicesWorkflowEmails/Custom_Service_Request_has_been_Closed</template>
+    </alerts>
+    <alerts>
+        <fullName>Customization_Was_Approved</fullName>
+        <description>Customization Was Approved</description>
+        <protected>false</protected>
+        <recipients>
+            <type>owner</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>Support_Email_Templates/Customization_Details_Was_Approved_Email</template>
+    </alerts>
+    <alerts>
+        <fullName>Customization_Was_Rejected</fullName>
+        <description>Customization Was Rejected</description>
+        <protected>false</protected>
+        <recipients>
+            <type>owner</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>Support_Email_Templates/Customization_Details_Approval_Rejection_Email</template>
+    </alerts>
+    <alerts>
+        <fullName>Email_Received_on_Case_in_Q_Level_3_Notify_Support</fullName>
+        <ccEmails>hospitality.support@amadeus.com</ccEmails>
+        <description>Email Received on Case in Q-Level 3 - Notify Support</description>
+        <protected>false</protected>
+        <recipients>
+            <type>owner</type>
+        </recipients>
+        <senderAddress>hospitality.no-reply@amadeus.com</senderAddress>
+        <senderType>OrgWideEmailAddress</senderType>
+        <template>AH_Support_Email_Templates_Global/Email_Received_on_Case_in_QLevel3_Notify_Support</template>
+    </alerts>
+    <alerts>
+        <fullName>Email_Received_on_Closed_Case_Notify_Owner</fullName>
+        <description>Email Received on Closed Case - Notify Owner</description>
+        <protected>false</protected>
+        <recipients>
+            <type>owner</type>
+        </recipients>
+        <senderAddress>hospitality.no-reply@amadeus.com</senderAddress>
+        <senderType>OrgWideEmailAddress</senderType>
+        <template>AH_Support_Email_Templates_Global/Email_Received_on_Closed_Case_Notify_Owner</template>
+    </alerts>
+    <alerts>
+        <fullName>Email_Received_on_Closed_Case_Notify_Support</fullName>
+        <ccEmails>hospitality.support@amadeus.com</ccEmails>
+        <description>Email Received on Closed Case - Notify Support</description>
+        <protected>false</protected>
+        <recipients>
+            <type>owner</type>
+        </recipients>
+        <senderAddress>hospitality.no-reply@amadeus.com</senderAddress>
+        <senderType>OrgWideEmailAddress</senderType>
+        <template>AH_Support_Email_Templates_Global/Email_Received_on_Closed_Case_Notify_Support</template>
+    </alerts>
+    <alerts>
+        <fullName>Internal_Finance_Case_Created</fullName>
+        <description>Internal Finance Case Created</description>
+        <protected>false</protected>
+        <recipients>
+            <type>owner</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>Support_Email_Templates/Case_Assigned_Template</template>
+    </alerts>
+    <alerts>
+        <fullName>License_Audit_Closed_Case_Ready_for_Data_Processing</fullName>
+        <ccEmails>LicenseCompliance@newmarketinc.com</ccEmails>
+        <description>License Audit Closed Case - Ready for Data Processing</description>
+        <protected>false</protected>
+        <recipients>
+            <recipient>darneiro@newmarketinc.com</recipient>
+            <type>user</type>
+        </recipients>
+        <recipients>
+            <recipient>semery@newmarketinc.com</recipient>
+            <type>user</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>License_Audit/Ready_for_Data_Process</template>
+    </alerts>
+    <alerts>
+        <fullName>MB_Removal_Alert_to_Account_Owner</fullName>
+        <description>MB Removal Alert to Account Owner</description>
+        <protected>false</protected>
+        <recipients>
+            <type>accountOwner</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>Support_Email_Templates/MB_Removal_Alert_to_Account_Owner</template>
+    </alerts>
+    <alerts>
+        <fullName>PS_Case_Open_past_it_s_Due_Date</fullName>
+        <description>PS Case Open past it&apos;s Due Date</description>
+        <protected>false</protected>
+        <recipients>
+            <type>owner</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>NIClientServicesWorkflowEmails/Open_Case_Past_Due_Date</template>
+    </alerts>
+    <alerts>
+        <fullName>PS_Escalations_4_hour_E_mail_Alert</fullName>
+        <description>PS Escalations - 4 hour E-mail Alert</description>
+        <protected>false</protected>
+        <recipients>
+            <recipient>awalton@newmarketinc.com</recipient>
+            <type>user</type>
+        </recipients>
+        <recipients>
+            <recipient>bmoore@newmarketinc.com</recipient>
+            <type>user</type>
+        </recipients>
+        <recipients>
+            <recipient>christopher.ball@newmarketinc.com</recipient>
+            <type>user</type>
+        </recipients>
+        <recipients>
+            <recipient>igassoway@newmarketinc.com</recipient>
+            <type>user</type>
+        </recipients>
+        <recipients>
+            <recipient>lhaider@newmarketinc.com</recipient>
+            <type>user</type>
+        </recipients>
+        <recipients>
+            <recipient>mallen@newmarketinc.com</recipient>
+            <type>user</type>
+        </recipients>
+        <recipients>
+            <recipient>randy_philips@newmarketinc.com</recipient>
+            <type>user</type>
+        </recipients>
+        <recipients>
+            <recipient>rlaunchbury@newmarketinc.com</recipient>
+            <type>user</type>
+        </recipients>
+        <recipients>
+            <recipient>rmorrison@newmarketinc.com</recipient>
+            <type>user</type>
+        </recipients>
+        <recipients>
+            <recipient>shorsfall@newmarketinc.com</recipient>
+            <type>user</type>
+        </recipients>
+        <recipients>
+            <recipient>tbeasley@newmarketinc.com</recipient>
+            <type>user</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>PS_Enerprise_Workflows/PSEscalationCase_Manager_Case_Alert</template>
+    </alerts>
+    <alerts>
+        <fullName>PS_Escalations_Case_Closed_Email_Alert</fullName>
+        <description>PS Escalations Case Closed Email Alert</description>
+        <protected>false</protected>
+        <recipients>
+            <field>Requestor__c</field>
+            <type>userLookup</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>Professional_Services_Email_Templates/PS_Escalations_Case_Closed</template>
+    </alerts>
+    <alerts>
+        <fullName>PS_Escalations_Case_Creation_Email_Alert</fullName>
+        <description>PS Escalations Case Creation Email Alert</description>
+        <protected>false</protected>
+        <recipients>
+            <recipient>PS_Escalations</recipient>
+            <type>group</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>Professional_Services_Email_Templates/New_PS_Escalations_case_inqueue_notification</template>
+    </alerts>
+    <alerts>
+        <fullName>Rally_Status_Update_Notification</fullName>
+        <description>Rally Status Update Notification</description>
+        <protected>false</protected>
+        <recipients>
+            <type>owner</type>
+        </recipients>
+        <senderAddress>hospitality.no-reply@amadeus.com</senderAddress>
+        <senderType>OrgWideEmailAddress</senderType>
+        <template>AH_Support_Email_Templates_Global/Rally_Status_Update_Notification</template>
+    </alerts>
+    <alerts>
+        <fullName>SolutionAdoptioPMSExtendingProgram</fullName>
+        <ccEmails>emailtracker@v-232mcbwt0cqk89ovamh03bmjyxsuk8xkciyaheyy8uztttd8x.3-6ctneae.na110.apex.salesforce.com</ccEmails>
+        <description>Solution Adoption PMS Extending Solution Adoption Program</description>
+        <protected>false</protected>
+        <recipients>
+            <field>ContactId</field>
+            <type>contactLookup</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template xsi:nil="true"/>
+    </alerts>
+    <alerts>
+        <fullName>SolutionAdoptionASEMExtendingProgram</fullName>
+        <ccEmails>emailtracker@v-232mcbwt0cqk89ovamh03bmjyxsuk8xkciyaheyy8uztttd8x.3-6ctneae.na110.apex.salesforce.com</ccEmails>
+        <description>Solution Adoption ASEM Extending Solution Adoption Program</description>
+        <protected>false</protected>
+        <recipients>
+            <field>ContactId</field>
+            <type>contactLookup</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template xsi:nil="true"/>
+    </alerts>
+    <alerts>
+        <fullName>SolutionAdoptionBIClosingReminderEmailAlert</fullName>
+        <ccEmails>emailtracker@v-232mcbwt0cqk89ovamh03bmjyxsuk8xkciyaheyy8uztttd8x.3-6ctneae.na110.apex.salesforce.com</ccEmails>
+        <description>Solution Adoption BI Closing Reminder Email Alert</description>
+        <protected>false</protected>
+        <recipients>
+            <field>ContactId</field>
+            <type>contactLookup</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template xsi:nil="true"/>
+    </alerts>
+    <alerts>
+        <fullName>SolutionAdoptionBIFollowUp1EmailAlert</fullName>
+        <ccEmails>emailtracker@v-232mcbwt0cqk89ovamh03bmjyxsuk8xkciyaheyy8uztttd8x.3-6ctneae.na110.apex.salesforce.com</ccEmails>
+        <description>Solution Adoption BI Follow Up 1 Email Alert</description>
+        <protected>false</protected>
+        <recipients>
+            <field>ContactId</field>
+            <type>contactLookup</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template xsi:nil="true"/>
+    </alerts>
+    <alerts>
+        <fullName>SolutionAdoptionBIFollowUp2EmailAlert</fullName>
+        <ccEmails>emailtracker@v-232mcbwt0cqk89ovamh03bmjyxsuk8xkciyaheyy8uztttd8x.3-6ctneae.na110.apex.salesforce.com</ccEmails>
+        <description>Solution Adoption BI Follow Up 2 Email Alert</description>
+        <protected>false</protected>
+        <recipients>
+            <field>ContactId</field>
+            <type>contactLookup</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template xsi:nil="true"/>
+    </alerts>
+    <alerts>
+        <fullName>SolutionAdoptionBISolutionAdoptionReminderEmailAlert</fullName>
+        <ccEmails>emailtracker@v-232mcbwt0cqk89ovamh03bmjyxsuk8xkciyaheyy8uztttd8x.3-6ctneae.na110.apex.salesforce.com</ccEmails>
+        <description>Solution Adoption BI Solution Adoption Reminder Email Alert</description>
+        <protected>false</protected>
+        <recipients>
+            <field>ContactId</field>
+            <type>contactLookup</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template xsi:nil="true"/>
+    </alerts>
+    <alerts>
+        <fullName>SolutionAdoptionBISupportHandoverEmailAlert</fullName>
+        <ccEmails>emailtracker@v-232mcbwt0cqk89ovamh03bmjyxsuk8xkciyaheyy8uztttd8x.3-6ctneae.na110.apex.salesforce.com</ccEmails>
+        <description>Solution Adoption BI Support Handover Email Alert</description>
+        <protected>false</protected>
+        <recipients>
+            <field>ContactId</field>
+            <type>contactLookup</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template xsi:nil="true"/>
+    </alerts>
+    <alerts>
+        <fullName>SolutionAdoptionBIWelcomeEmailAlert</fullName>
+        <ccEmails>emailtracker@v-232mcbwt0cqk89ovamh03bmjyxsuk8xkciyaheyy8uztttd8x.3-6ctneae.na110.apex.salesforce.com</ccEmails>
+        <description>Solution Adoption BI Welcome Email Alert</description>
+        <protected>false</protected>
+        <recipients>
+            <field>ContactId</field>
+            <type>contactLookup</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template xsi:nil="true"/>
+    </alerts>
+    <alerts>
+        <fullName>SolutionAdoptionGMSClosingReminderEmailAlert</fullName>
+        <ccEmails>emailtracker@v-232mcbwt0cqk89ovamh03bmjyxsuk8xkciyaheyy8uztttd8x.3-6ctneae.na110.apex.salesforce.com</ccEmails>
+        <description>Solution Adoption GMS Closing Reminder Email Alert</description>
+        <protected>false</protected>
+        <recipients>
+            <field>ContactId</field>
+            <type>contactLookup</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template xsi:nil="true"/>
+    </alerts>
+    <alerts>
+        <fullName>SolutionAdoptionGMSFollowUp1EmailAlert</fullName>
+        <ccEmails>emailtracker@v-232mcbwt0cqk89ovamh03bmjyxsuk8xkciyaheyy8uztttd8x.3-6ctneae.na110.apex.salesforce.com</ccEmails>
+        <description>Solution Adoption GMS Follow Up 1 Email Alert</description>
+        <protected>false</protected>
+        <recipients>
+            <field>ContactId</field>
+            <type>contactLookup</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template xsi:nil="true"/>
+    </alerts>
+    <alerts>
+        <fullName>SolutionAdoptionGMSFollowUp2EmailAlert</fullName>
+        <ccEmails>emailtracker@v-232mcbwt0cqk89ovamh03bmjyxsuk8xkciyaheyy8uztttd8x.3-6ctneae.na110.apex.salesforce.com</ccEmails>
+        <description>Solution Adoption GMS Follow Up 2 Email Alert</description>
+        <protected>false</protected>
+        <recipients>
+            <field>ContactId</field>
+            <type>contactLookup</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template xsi:nil="true"/>
+    </alerts>
+    <alerts>
+        <fullName>SolutionAdoptionGMSSolutionAdoptionReminderEmailAlert</fullName>
+        <ccEmails>emailtracker@v-232mcbwt0cqk89ovamh03bmjyxsuk8xkciyaheyy8uztttd8x.3-6ctneae.na110.apex.salesforce.com</ccEmails>
+        <description>Solution Adoption GMS Solution Adoption Reminder Email Alert</description>
+        <protected>false</protected>
+        <recipients>
+            <field>ContactId</field>
+            <type>contactLookup</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template xsi:nil="true"/>
+    </alerts>
+    <alerts>
+        <fullName>SolutionAdoptionGMSSupportHandoverEmailAlert</fullName>
+        <ccEmails>emailtracker@v-232mcbwt0cqk89ovamh03bmjyxsuk8xkciyaheyy8uztttd8x.3-6ctneae.na110.apex.salesforce.com</ccEmails>
+        <description>Solution Adoption GMS Support Handover Email Alert</description>
+        <protected>false</protected>
+        <recipients>
+            <field>ContactId</field>
+            <type>contactLookup</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template xsi:nil="true"/>
+    </alerts>
+    <alerts>
+        <fullName>SolutionAdoptionGMSWelcomeEmailAlert</fullName>
+        <ccEmails>emailtracker@v-232mcbwt0cqk89ovamh03bmjyxsuk8xkciyaheyy8uztttd8x.3-6ctneae.na110.apex.salesforce.com</ccEmails>
+        <description>Solution Adoption GMS Welcome Email Alert</description>
+        <protected>false</protected>
+        <recipients>
+            <field>ContactId</field>
+            <type>contactLookup</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template xsi:nil="true"/>
+    </alerts>
+    <alerts>
+        <fullName>SolutionAdoptionRESClosingReminderEmailAlert</fullName>
+        <ccEmails>emailtracker@v-232mcbwt0cqk89ovamh03bmjyxsuk8xkciyaheyy8uztttd8x.3-6ctneae.na110.apex.salesforce.com</ccEmails>
+        <description>Solution Adoption RES Closing Reminder Email Alert</description>
+        <protected>false</protected>
+        <recipients>
+            <field>ContactId</field>
+            <type>contactLookup</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template xsi:nil="true"/>
+    </alerts>
+    <alerts>
+        <fullName>SolutionAdoptionRESFollowUp1EmailAlert</fullName>
+        <ccEmails>emailtracker@v-232mcbwt0cqk89ovamh03bmjyxsuk8xkciyaheyy8uztttd8x.3-6ctneae.na110.apex.salesforce.com</ccEmails>
+        <description>Solution Adoption RES Follow Up 1 Email Alert</description>
+        <protected>false</protected>
+        <recipients>
+            <field>ContactId</field>
+            <type>contactLookup</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template xsi:nil="true"/>
+    </alerts>
+    <alerts>
+        <fullName>SolutionAdoptionRESFollowUp2EmailAlert</fullName>
+        <ccEmails>emailtracker@v-232mcbwt0cqk89ovamh03bmjyxsuk8xkciyaheyy8uztttd8x.3-6ctneae.na110.apex.salesforce.com</ccEmails>
+        <description>Solution Adoption RES Follow Up 2 Email Alert</description>
+        <protected>false</protected>
+        <recipients>
+            <field>ContactId</field>
+            <type>contactLookup</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template xsi:nil="true"/>
+    </alerts>
+    <alerts>
+        <fullName>SolutionAdoptionRESSolutionAdoptionReminderEmailAlert</fullName>
+        <ccEmails>emailtracker@v-232mcbwt0cqk89ovamh03bmjyxsuk8xkciyaheyy8uztttd8x.3-6ctneae.na110.apex.salesforce.com</ccEmails>
+        <description>Solution Adoption RES Solution Adoption Reminder Email Alert</description>
+        <protected>false</protected>
+        <recipients>
+            <field>ContactId</field>
+            <type>contactLookup</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template xsi:nil="true"/>
+    </alerts>
+    <alerts>
+        <fullName>SolutionAdoptionRESSupportHandoverEmailAlert</fullName>
+        <ccEmails>emailtracker@v-232mcbwt0cqk89ovamh03bmjyxsuk8xkciyaheyy8uztttd8x.3-6ctneae.na110.apex.salesforce.com</ccEmails>
+        <description>Solution Adoption RES Support Handover Email Alert</description>
+        <protected>false</protected>
+        <recipients>
+            <field>ContactId</field>
+            <type>contactLookup</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template xsi:nil="true"/>
+    </alerts>
+    <alerts>
+        <fullName>SolutionAdoptionRESWelcomeEmailAlert</fullName>
+        <ccEmails>emailtracker@v-232mcbwt0cqk89ovamh03bmjyxsuk8xkciyaheyy8uztttd8x.3-6ctneae.na110.apex.salesforce.com</ccEmails>
+        <description>Solution Adoption RES Welcome Email Alert</description>
+        <protected>false</protected>
+        <recipients>
+            <field>ContactId</field>
+            <type>contactLookup</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template xsi:nil="true"/>
+    </alerts>
+    <alerts>
+        <fullName>SolutionAdoptionSOExtendingProgram</fullName>
+        <ccEmails>emailtracker@v-232mcbwt0cqk89ovamh03bmjyxsuk8xkciyaheyy8uztttd8x.3-6ctneae.na110.apex.salesforce.com</ccEmails>
+        <description>Solution Adoption SO Extending Solution Adoption Program</description>
+        <protected>false</protected>
+        <recipients>
+            <field>ContactId</field>
+            <type>contactLookup</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template xsi:nil="true"/>
+    </alerts>
+    <alerts>
+        <fullName>Solution_Adoption_ASEMClosing_Reminder_Email_Alert</fullName>
+        <ccEmails>emailtracker@v-232mcbwt0cqk89ovamh03bmjyxsuk8xkciyaheyy8uztttd8x.3-6ctneae.na110.apex.salesforce.com</ccEmails>
+        <description>Solution Adoption ASEM Closing Reminder Email Alert</description>
+        <protected>false</protected>
+        <recipients>
+            <field>ContactId</field>
+            <type>contactLookup</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template xsi:nil="true"/>
+    </alerts>
+    <alerts>
+        <fullName>Solution_Adoption_ASEMFollowUp1_Email_Alert</fullName>
+        <ccEmails>emailtracker@v-232mcbwt0cqk89ovamh03bmjyxsuk8xkciyaheyy8uztttd8x.3-6ctneae.na110.apex.salesforce.com</ccEmails>
+        <description>Solution Adoption ASEM Follow Up 1 Email Alert</description>
+        <protected>false</protected>
+        <recipients>
+            <field>ContactId</field>
+            <type>contactLookup</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template xsi:nil="true"/>
+    </alerts>
+    <alerts>
+        <fullName>Solution_Adoption_ASEMFollowUp2_Email_Alert</fullName>
+        <ccEmails>emailtracker@v-232mcbwt0cqk89ovamh03bmjyxsuk8xkciyaheyy8uztttd8x.3-6ctneae.na110.apex.salesforce.com</ccEmails>
+        <description>Solution Adoption ASEM Follow Up 2 Email Alert</description>
+        <protected>false</protected>
+        <recipients>
+            <field>ContactId</field>
+            <type>contactLookup</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template xsi:nil="true"/>
+    </alerts>
+    <alerts>
+        <fullName>Solution_Adoption_ASEMSupport_Handover_Email_Alert</fullName>
+        <ccEmails>emailtracker@v-232mcbwt0cqk89ovamh03bmjyxsuk8xkciyaheyy8uztttd8x.3-6ctneae.na110.apex.salesforce.com</ccEmails>
+        <description>Solution Adoption ASEM Support Handover Email Alert</description>
+        <protected>false</protected>
+        <recipients>
+            <field>ContactId</field>
+            <type>contactLookup</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template xsi:nil="true"/>
+    </alerts>
+    <alerts>
+        <fullName>Solution_Adoption_ASEMWelcome_Email_Alert</fullName>
+        <ccEmails>emailtracker@v-232mcbwt0cqk89ovamh03bmjyxsuk8xkciyaheyy8uztttd8x.3-6ctneae.na110.apex.salesforce.com</ccEmails>
+        <description>Solution Adoption ASEM Welcome Email Alert</description>
+        <protected>false</protected>
+        <recipients>
+            <field>ContactId</field>
+            <type>contactLookup</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template xsi:nil="true"/>
+    </alerts>
+    <alerts>
+        <fullName>Solution_Adoption_PMSClosing_Reminder_Email_Alert</fullName>
+        <ccEmails>emailtracker@v-232mcbwt0cqk89ovamh03bmjyxsuk8xkciyaheyy8uztttd8x.3-6ctneae.na110.apex.salesforce.com</ccEmails>
+        <description>Solution Adoption PMS Closing Reminder Email Alert</description>
+        <protected>false</protected>
+        <recipients>
+            <field>ContactId</field>
+            <type>contactLookup</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template xsi:nil="true"/>
+    </alerts>
+    <alerts>
+        <fullName>Solution_Adoption_PMSFollowUp1_Email_Alert</fullName>
+        <ccEmails>emailtracker@v-232mcbwt0cqk89ovamh03bmjyxsuk8xkciyaheyy8uztttd8x.3-6ctneae.na110.apex.salesforce.com</ccEmails>
+        <description>Solution Adoption PMS Follow Up 1 Email Alert</description>
+        <protected>false</protected>
+        <recipients>
+            <field>ContactId</field>
+            <type>contactLookup</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template xsi:nil="true"/>
+    </alerts>
+    <alerts>
+        <fullName>Solution_Adoption_PMSFollowUp2_Email_Alert</fullName>
+        <ccEmails>emailtracker@v-232mcbwt0cqk89ovamh03bmjyxsuk8xkciyaheyy8uztttd8x.3-6ctneae.na110.apex.salesforce.com</ccEmails>
+        <description>Solution Adoption PMS Follow Up 2 Email Alert</description>
+        <protected>false</protected>
+        <recipients>
+            <field>ContactId</field>
+            <type>contactLookup</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template xsi:nil="true"/>
+    </alerts>
+    <alerts>
+        <fullName>Solution_Adoption_PMSWelcome_Email_Alert</fullName>
+        <ccEmails>emailtracker@v-232mcbwt0cqk89ovamh03bmjyxsuk8xkciyaheyy8uztttd8x.3-6ctneae.na110.apex.salesforce.com</ccEmails>
+        <description>Solution Adoption PMS Welcome Email Alert</description>
+        <protected>false</protected>
+        <recipients>
+            <field>ContactId</field>
+            <type>contactLookup</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template xsi:nil="true"/>
+    </alerts>
+    <alerts>
+        <fullName>Solution_Adoption_PMS_Support_Handover_Email_Alert</fullName>
+        <ccEmails>emailtracker@v-232mcbwt0cqk89ovamh03bmjyxsuk8xkciyaheyy8uztttd8x.3-6ctneae.na110.apex.salesforce.com</ccEmails>
+        <description>Solution Adoption PMS Support Handover Email Alert</description>
+        <protected>false</protected>
+        <recipients>
+            <field>ContactId</field>
+            <type>contactLookup</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template xsi:nil="true"/>
+    </alerts>
+    <alerts>
+        <fullName>Solution_Adoption_SOClosing_Reminder_Email_Alert</fullName>
+        <ccEmails>emailtracker@v-232mcbwt0cqk89ovamh03bmjyxsuk8xkciyaheyy8uztttd8x.3-6ctneae.na110.apex.salesforce.com</ccEmails>
+        <description>Solution Adoption SO Closing Reminder Email Alert</description>
+        <protected>false</protected>
+        <recipients>
+            <field>ContactId</field>
+            <type>contactLookup</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template xsi:nil="true"/>
+    </alerts>
+    <alerts>
+        <fullName>Solution_Adoption_SOFollowUp1_Email_Alert</fullName>
+        <ccEmails>emailtracker@v-232mcbwt0cqk89ovamh03bmjyxsuk8xkciyaheyy8uztttd8x.3-6ctneae.na110.apex.salesforce.com</ccEmails>
+        <description>Solution Adoption SO Follow Up 1 Email Alert</description>
+        <protected>false</protected>
+        <recipients>
+            <field>ContactId</field>
+            <type>contactLookup</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template xsi:nil="true"/>
+    </alerts>
+    <alerts>
+        <fullName>Solution_Adoption_SOFollowUp2_Email_Alert</fullName>
+        <ccEmails>emailtracker@v-232mcbwt0cqk89ovamh03bmjyxsuk8xkciyaheyy8uztttd8x.3-6ctneae.na110.apex.salesforce.com</ccEmails>
+        <description>Solution Adoption SO Follow Up 2 Email Alert</description>
+        <protected>false</protected>
+        <recipients>
+            <field>ContactId</field>
+            <type>contactLookup</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template xsi:nil="true"/>
+    </alerts>
+    <alerts>
+        <fullName>Solution_Adoption_SOSupport_Handover_Email_Alert</fullName>
+        <ccEmails>emailtracker@v-232mcbwt0cqk89ovamh03bmjyxsuk8xkciyaheyy8uztttd8x.3-6ctneae.na110.apex.salesforce.com</ccEmails>
+        <description>Solution Adoption SO Support Handover Email Alert</description>
+        <protected>false</protected>
+        <recipients>
+            <field>ContactId</field>
+            <type>contactLookup</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template xsi:nil="true"/>
+    </alerts>
+    <alerts>
+        <fullName>Solution_Adoption_SOWelcome_Email_Alert</fullName>
+        <ccEmails>emailtracker@v-232mcbwt0cqk89ovamh03bmjyxsuk8xkciyaheyy8uztttd8x.3-6ctneae.na110.apex.salesforce.com</ccEmails>
+        <description>Solution Adoption SO Welcome Email Alert</description>
+        <protected>false</protected>
+        <recipients>
+            <field>ContactId</field>
+            <type>contactLookup</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template xsi:nil="true"/>
+    </alerts>
+    <alerts>
+        <fullName>TS_New_Case_ARPA_Email_Alert</fullName>
+        <description>TS - New Case - ARPA - Email Alert</description>
+        <protected>false</protected>
+        <recipients>
+            <recipient>TS_ARPA</recipient>
+            <type>group</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template xsi:nil="true"/>
+    </alerts>
+    <alerts>
+        <fullName>TS_New_Case_PowerPlatform_Email_Alert</fullName>
+        <description>TS - New Case - PowerPlatform - Email Alert</description>
+        <protected>false</protected>
+        <recipients>
+            <recipient>TS_PowerPlatform</recipient>
+            <type>group</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template xsi:nil="true"/>
+    </alerts>
+    <alerts>
+        <fullName>TS_New_Case_UDC_Email_Alert</fullName>
+        <description>TS - New Case - UDC - Email Alert</description>
+        <protected>false</protected>
+        <recipients>
+            <recipient>TS_UDC</recipient>
+            <type>group</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template xsi:nil="true"/>
+    </alerts>
+    <alerts>
+        <fullName>X24_Hour_Queue_Manager_Case_Alert</fullName>
+        <description>24 Hour - Queue Manager Case Alert</description>
+        <protected>false</protected>
+        <recipients>
+            <type>owner</type>
+        </recipients>
+        <recipients>
+            <recipient>semery@newmarketinc.com</recipient>
+            <type>user</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>Support_Email_Templates/X24hr_Manager_Case_Alert</template>
+    </alerts>
+    <fieldUpdates>
+        <fullName>Approval_Status_Approved</fullName>
+        <description>Set the Approval Status to &quot;Approved&quot;</description>
+        <field>Approval_Status__c</field>
+        <literalValue>Approved</literalValue>
+        <name>Approval Status - Approved</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Literal</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>Approval_Status_Recalled</fullName>
+        <description>NICC-024099</description>
+        <field>Approval_Status__c</field>
+        <literalValue>Recalled</literalValue>
+        <name>Approval Status - Recalled</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Literal</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>Approval_Status_Rejected</fullName>
+        <description>Set the Approval Status to &quot;Rejected&quot;</description>
+        <field>Approval_Status__c</field>
+        <literalValue>Rejected</literalValue>
+        <name>Approval Status - Rejected</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Literal</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>true</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>Approval_Status_Submitted</fullName>
+        <description>Set the Approval Status to &quot;Submitted&quot;</description>
+        <field>Approval_Status__c</field>
+        <literalValue>Submitted</literalValue>
+        <name>Approval Status - Submitted</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Literal</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>Assign_to_Q_Level_3_In_Progress</fullName>
+        <description>NICC-052681</description>
+        <field>OwnerId</field>
+        <lookupValue>QLevel3</lookupValue>
+        <lookupValueType>Queue</lookupValueType>
+        <name>Assign to Q-Level 3 In Progress</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>LookupValue</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>Blank_Approval_Status</fullName>
+        <description>If new record is created, and approval status is not null, then blank Approval Status field. Created for Kathy Cilley. NICC-024099.</description>
+        <field>Approval_Status__c</field>
+        <name>Blank Approval Status</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Literal</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>CRS_Set_Rejected_Case</fullName>
+        <description>Test of if this will allow us to set the Rejected Case field when the status goes to Rejected</description>
+        <field>Rejected_Case__c</field>
+        <literalValue>1</literalValue>
+        <name>CRS Set Rejected Case</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Literal</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>CRS_Set_Stat</fullName>
+        <description>When the status is changed, this will update the Status Date/Time field</description>
+        <field>Status_Date_Time__c</field>
+        <formula>NOW()</formula>
+        <name>CRS Set Status Date</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Formula</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>CRS_Update_Case_Origin</fullName>
+        <description>Updates Case Origin when a ticket is created by the W@ Integration User</description>
+        <field>Origin</field>
+        <literalValue>Win@proach Integration</literalValue>
+        <name>CRS Update Case Origin</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Literal</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>CRS_Update_Logger_Group</fullName>
+        <description>Updates the logger group to IHG when the ticket creator is IHG SN User</description>
+        <field>Amadeus_ExternalSystemLoggerGroup__c</field>
+        <literalValue>Intercontinental Hotels Group</literalValue>
+        <name>CRS Update Logger Group</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Literal</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>CRS_Update_Logger_TEL</fullName>
+        <description>Updates the Logger TEL number to the IHG GSS number when the case is created by the IHG SN Integration User</description>
+        <field>Winaproach_Logger_Phone_Number__c</field>
+        <formula>&quot;800 810 4499&quot;</formula>
+        <name>CRS Update Logger TEL</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Formula</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>CRS_Update_to_Logger_Agent_Name</fullName>
+        <description>Updates the Logger Name to that of IHG GSS Desk when the created by is the IHG SN User</description>
+        <field>Winaproach_Logger__c</field>
+        <formula>&quot;IHG GSS Team&quot;</formula>
+        <name>CRS Update to Logger/Agent Name</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Formula</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>Case_Owner_Q_Finance_Billing</fullName>
+        <description>NICC-029814</description>
+        <field>OwnerId</field>
+        <lookupValue>Q_Finance_Billing</lookupValue>
+        <lookupValueType>Queue</lookupValueType>
+        <name>Case Owner Q-Finance Billing</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>LookupValue</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>Change_NI_Professional_Services_New_Case</fullName>
+        <field>OwnerId</field>
+        <lookupValue>Q_Professional_Services</lookupValue>
+        <lookupValueType>Queue</lookupValueType>
+        <name>Change NI Professional Services New Case</name>
+        <notifyAssignee>true</notifyAssignee>
+        <operation>LookupValue</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>Close_Case_Record_Type</fullName>
+        <field>RecordTypeId</field>
+        <lookupValue>Close_Case</lookupValue>
+        <lookupValueType>RecordType</lookupValueType>
+        <name>Close Case Record Type</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>LookupValue</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>Date_Time_Assigned</fullName>
+        <description>Salesforce.com Change Request: NICC-010231
+
+Update the Date/Time Assigned field to the current date and time</description>
+        <field>Date_Time_Assigned__c</field>
+        <formula>NOW()</formula>
+        <name>Date/Time Assigned</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Formula</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>Default_Origin_to_Pager_After_Hours</fullName>
+        <field>Origin</field>
+        <literalValue>Pager/After Hours</literalValue>
+        <name>Default Origin to Pager/After Hours</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Literal</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>Internal_Services_Request</fullName>
+        <description>If PS Hold Request or Priority Scheduling are selecting when creating a new PSR, update the Case Type from Professional Services Request to Internal Services Request</description>
+        <field>Type</field>
+        <literalValue>Internal Services Request</literalValue>
+        <name>Internal Services Request</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Literal</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>Rally_UserStoryCreateDate_Stamp</fullName>
+        <field>User_Story_Create_Date__c</field>
+        <formula>NOW()</formula>
+        <name>Rally_UserStoryCreateDate_Stamp</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Formula</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>Record_Type_to_Case</fullName>
+        <description>Changes Record Type on a Case to &quot;Case&quot;</description>
+        <field>RecordTypeId</field>
+        <lookupValue>Case</lookupValue>
+        <lookupValueType>RecordType</lookupValueType>
+        <name>Record Type to Case</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>LookupValue</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>Reopen_Count_Increment</fullName>
+        <description>MTech Support Consolidation - Round 2
+https://na26.salesforce.com/aEQ32000000Kyki</description>
+        <field>Case_Reopen_Count__c</field>
+        <formula>Case_Reopen_Count__c + 1</formula>
+        <name>Reopen Count Increment</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Formula</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>SLA_Update_Case_Severity</fullName>
+        <description>NICC-020113</description>
+        <field>Customer_Severity__c</field>
+        <literalValue>4 - Procedural</literalValue>
+        <name>SLA Update Case Severity</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Literal</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>SLA_Update_Priority</fullName>
+        <description>NICC-020113</description>
+        <field>Priority</field>
+        <literalValue>4 - Low</literalValue>
+        <name>SLA Update Priority</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Literal</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>Set_Case_New_record_type</fullName>
+        <description>Update case record type to Case New if Case Owner contains SO. NICC-023734.</description>
+        <field>RecordTypeId</field>
+        <lookupValue>Case_New</lookupValue>
+        <lookupValueType>RecordType</lookupValueType>
+        <name>Set Case New record type</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>LookupValue</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>Set_Case_Owner_to_Q_Professional_Service</fullName>
+        <description>NICC-047227 - Set Case Owner to Q-Professional Services</description>
+        <field>OwnerId</field>
+        <lookupValue>Q_Professional_Services</lookupValue>
+        <lookupValueType>Queue</lookupValueType>
+        <name>Set Case Owner to Q-Professional Service</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>LookupValue</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>Set_Status_to_Paused_Dev_Team_Review</fullName>
+        <field>Status</field>
+        <literalValue>Paused - Development Team Review</literalValue>
+        <name>Set Status to Paused Dev Team Review</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Literal</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>Update_Close_Record_Type</fullName>
+        <field>RecordTypeId</field>
+        <lookupValue>Case</lookupValue>
+        <lookupValueType>RecordType</lookupValueType>
+        <name>Update Close Record Type</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>LookupValue</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>true</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>Update_Customer_Severity</fullName>
+        <field>Customer_Severity__c</field>
+        <literalValue>4 - Procedural</literalValue>
+        <name>Update Customer Severity</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Literal</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>Update_RealLastActivityDate</fullName>
+        <field>RealLastActivityDate__c</field>
+        <formula>NOW()</formula>
+        <name>Update RealLastActivityDate Field</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Formula</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>Update_RealLastActivityDate_Field</fullName>
+        <description>Update RealLastActivityDate Field with Case Created Date.</description>
+        <field>RealLastActivityDate__c</field>
+        <formula>Now()</formula>
+        <name>Update RealLastActivityDate Field</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Formula</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>Update_Resolved_Date_Time</fullName>
+        <description>NICC 047510
+NICC 046786</description>
+        <field>Resolved_DateTime__c</field>
+        <formula>/* ALL BASED ON CHANGE OF CASE STATUS */
+IF (
+/* RESOLVED DATE/TIME IS NULL AND STATUS IS VALID (SET TO NOW) */
+AND(
+ISBLANK(Resolved_DateTime__c),
+CONTAINS(&quot;Resolved - Pending Customer Confirmation:Closed:Duplicate:Platform Completed&quot;, TEXT(Status))
+),
+NOW(),
+/* RESOLVED DATE/TIME IS NOT NULL AND STATUS IS VALID (DO NOT SET TO NOW) */
+IF (
+AND(
+NOT(ISBLANK(Resolved_DateTime__c)),
+CONTAINS(&quot;Resolved - Pending Customer Confirmation:Closed:Duplicate:Platform Completed&quot;, TEXT(Status))
+),
+Resolved_DateTime__c,
+/* STATUS WAS VALID BUT NO LONGER VALID (SET TO NULL) */
+IF (
+AND (
+CONTAINS(&quot;Resolved - Pending Customer Confirmation:Closed:Duplicate&quot;, TEXT(PRIORVALUE(Status))),
+NOT (CONTAINS(&quot;Resolved - Pending Customer Confirmation:Closed:Duplicate:Platform Completed&quot;, TEXT(Status)))
+),
+NULL,
+/* DEFAULT TO EQUAL SELF (SET TO NULL) */
+Resolved_DateTime__c
+)
+)
+)</formula>
+        <name>Update Resolved Date Time</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Formula</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>Update_Status</fullName>
+        <field>Status</field>
+        <literalValue>Working</literalValue>
+        <name>Update Status</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Literal</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>Update_Status_Field_To_Not_Submitted</fullName>
+        <field>Approval_Status__c</field>
+        <literalValue>Not Submitted</literalValue>
+        <name>Update Status Field To Not Submitted</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Literal</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>Update_Status_Field_To_Submitted</fullName>
+        <field>Approval_Status__c</field>
+        <literalValue>Submitted</literalValue>
+        <name>Update Status Field To Submitted</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Literal</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>Update_the_Type_field_to_TC_Implementati</fullName>
+        <description>NICC-052614: Created to update the Case Type field to TC Implementation when a case is created and sent to Q-BI Implementations queue or Q-EMEA BI Implementations queue.</description>
+        <field>Type</field>
+        <literalValue>TC Implementation</literalValue>
+        <name>Update the Type field to TC Implementati</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Literal</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>Visible_in_Self_Service_Portal_False</fullName>
+        <description>Salesforce.com Change Request: NICC-009114
+
+Set the &quot;Visible in Self-Service Portal&quot; field to &quot;False&quot;</description>
+        <field>IsVisibleInSelfService</field>
+        <literalValue>0</literalValue>
+        <name>Visible in Self-Service Portal - False</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Literal</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <rules>
+        <fullName>24 Hour - Q-Dev Escalation Manager Case Alert</fullName>
+        <active>true</active>
+        <criteriaItems>
+            <field>Case.OwnerId</field>
+            <operation>equals</operation>
+            <value>Q-Dev Escalation</value>
+        </criteriaItems>
+        <description>Salesforce.com Change Request: NICC-006079
+Send an e-mail to the members of the &quot;Q-Dev Escalation&quot; Queue if the Case was created 24 hours ago and it is still assigned to the &quot;Q-Dev Escalation&quot; Queue</description>
+        <triggerType>onCreateOrTriggeringUpdate</triggerType>
+        <workflowTimeTriggers>
+            <actions>
+                <name>X24_Hour_Queue_Manager_Case_Alert</name>
+                <type>Alert</type>
+            </actions>
+            <offsetFromField>Case.CreatedDate</offsetFromField>
+            <timeLength>24</timeLength>
+            <workflowTimeTriggerUnit>Hours</workflowTimeTriggerUnit>
+        </workflowTimeTriggers>
+    </rules>
+    <rules>
+        <fullName>24 Hour - Q-Sales Engineers Case Alert</fullName>
+        <active>true</active>
+        <criteriaItems>
+            <field>Case.OwnerId</field>
+            <operation>equals</operation>
+            <value>Q-Sales Engineers</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Case.Status</field>
+            <operation>equals</operation>
+            <value>Working,New</value>
+        </criteriaItems>
+        <description>Update by LE on 12.5.17. NICC-025016
+Salesforce.com Change Request: NICC-
+Send an e-mail to the members of the &quot;Q-Sales Engineers&quot; Queue if the Case was created 24 hours ago and it is still assigned to the &quot;Q-Sales Engineers&quot; Queue</description>
+        <triggerType>onCreateOrTriggeringUpdate</triggerType>
+        <workflowTimeTriggers>
+            <actions>
+                <name>X24_Hour_Queue_Manager_Case_Alert</name>
+                <type>Alert</type>
+            </actions>
+            <offsetFromField>Case.CreatedDate</offsetFromField>
+            <timeLength>24</timeLength>
+            <workflowTimeTriggerUnit>Hours</workflowTimeTriggerUnit>
+        </workflowTimeTriggers>
+    </rules>
+    <rules>
+        <fullName>Account Finance Case Ownership</fullName>
+        <actions>
+            <name>Case_Owner_Q_Finance_Billing</name>
+            <type>FieldUpdate</type>
+        </actions>
+        <active>true</active>
+        <criteriaItems>
+            <field>Case.Origin</field>
+            <operation>equals</operation>
+            <value>Internal</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Case.RecordTypeId</field>
+            <operation>equals</operation>
+            <value>NI Finance Case</value>
+        </criteriaItems>
+        <description>Created to assign case to Q-Finance Billing, when action created from Account object. NICC-029814; NICC-032475</description>
+        <triggerType>onCreateOnly</triggerType>
+    </rules>
+    <rules>
+        <fullName>Approval Status Update</fullName>
+        <actions>
+            <name>Blank_Approval_Status</name>
+            <type>FieldUpdate</type>
+        </actions>
+        <active>true</active>
+        <criteriaItems>
+            <field>Case.RecordTypeId</field>
+            <operation>equals</operation>
+            <value>Case,Close Case</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Case.Approval_Status__c</field>
+            <operation>notEqual</operation>
+        </criteriaItems>
+        <description>If new record is created, and approval status is not null, then blank Approval Status field. Created for Kathy Cilley. NICC-024099.</description>
+        <triggerType>onCreateOrTriggeringUpdate</triggerType>
+    </rules>
+    <rules>
+        <fullName>Assign ES Reviewed Cases to Q-Professional Services</fullName>
+        <actions>
+            <name>Set_Case_Owner_to_Q_Professional_Service</name>
+            <type>FieldUpdate</type>
+        </actions>
+        <active>true</active>
+        <criteriaItems>
+            <field>Case.Status</field>
+            <operation>equals</operation>
+            <value>ES Reviewed</value>
+        </criteriaItems>
+        <description>NICC-047227</description>
+        <triggerType>onCreateOrTriggeringUpdate</triggerType>
+    </rules>
+    <rules>
+        <fullName>CRS - Send Email to Set Recovery Plan</fullName>
+        <active>true</active>
+        <booleanFilter>1 AND 2 AND 3 AND 4 AND 5 AND 6</booleanFilter>
+        <criteriaItems>
+            <field>Case.Acknowledged__c</field>
+            <operation>notEqual</operation>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Case.Status</field>
+            <operation>equals</operation>
+            <value>Acknowledged</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Case.INTGR_Recovery_Plan__c</field>
+            <operation>equals</operation>
+            <value>False</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Case.Customer_Severity__c</field>
+            <operation>equals</operation>
+            <value>3,4</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Case.RecordTypeId</field>
+            <operation>equals</operation>
+            <value>CRS Incident</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Case.Customer_Ticket_Number__c</field>
+            <operation>notEqual</operation>
+        </criteriaItems>
+        <description>updated by LE on 12.21.18 NICC-025365
+NICC-024607</description>
+        <triggerType>onCreateOrTriggeringUpdate</triggerType>
+        <workflowTimeTriggers>
+            <actions>
+                <name>CRS_Case_Set_Recovery_Plan</name>
+                <type>Alert</type>
+            </actions>
+            <offsetFromField>Case.Acknowledged__c</offsetFromField>
+            <timeLength>6</timeLength>
+            <workflowTimeTriggerUnit>Hours</workflowTimeTriggerUnit>
+        </workflowTimeTriggers>
+    </rules>
+    <rules>
+        <fullName>CRS Case Origin and Logger Group</fullName>
+        <actions>
+            <name>CRS_Update_Case_Origin</name>
+            <type>FieldUpdate</type>
+        </actions>
+        <active>true</active>
+        <criteriaItems>
+            <field>Case.CreatedById</field>
+            <operation>equals</operation>
+            <value>Winaproach Integration User</value>
+        </criteriaItems>
+        <description>NICC-020492
+USED IN THE INTEGRATION BETWEEN SERVICENOW,SALESFORCE AND WINAPROACH 
+DO NOT MAKE ANY CHANGES WITHOUT APPROVAL FROM DAVE MARVEZ AND THE CRS SUPPORT TEAM!
+Sets the Case Origin to Win@proach when a ticket is created by the W@ Integration User</description>
+        <triggerType>onCreateOnly</triggerType>
+    </rules>
+    <rules>
+        <fullName>CRS Case Status Acknowledged</fullName>
+        <actions>
+            <name>Acknowledged_Case</name>
+            <type>Alert</type>
+        </actions>
+        <active>true</active>
+        <description>NICC-025193
+USED IN THE INTEGRATION BETWEEN SERVICENOW,SALESFORCE AND WINAPROACH 
+DO NOT MAKE ANY CHANGES WITHOUT APPROVAL FROM DAVE MARVEZ AND THE CRS SUPPORT TEAM! 
+Checks the Case status has been moved to acknowledged.</description>
+        <formula>AND (  ISCHANGED(Status),  ISPICKVAL(Status, &quot;Acknowledged&quot;),  OR (  TEXT(PRIORVALUE(Status)) = &quot;Open&quot;,  TEXT(PRIORVALUE(Status)) = &quot;Rejected&quot;,  TEXT(PRIORVALUE(Status)) = &quot;Recovered&quot;,  TEXT(PRIORVALUE(Status)) = &quot;Pending Master Recovery&quot;,  TEXT(PRIORVALUE(Status)) = &quot;Pending Problem Resolution&quot;      ), NOT(ISNEW()) )</formula>
+        <triggerType>onAllChanges</triggerType>
+    </rules>
+    <rules>
+        <fullName>CRS Customer Service Escalation</fullName>
+        <actions>
+            <name>CRS_Customer_Service_Email_Alert</name>
+            <type>Alert</type>
+        </actions>
+        <active>true</active>
+        <criteriaItems>
+            <field>Case.Customer_Service_Escalation__c</field>
+            <operation>equals</operation>
+            <value>True</value>
+        </criteriaItems>
+        <description>NICC-020492
+USED IN THE INTEGRATION BETWEEN SERVICENOW,SALESFORCE AND WINAPROACH 
+DO NOT MAKE ANY CHANGES WITHOUT APPROVAL FROM DAVE MARVEZ AND THE CRS SUPPORT TEAM!
+Executes when a customer service escalation flag is enabled by the customer.</description>
+        <triggerType>onCreateOrTriggeringUpdate</triggerType>
+    </rules>
+    <rules>
+        <fullName>CRS Customer Severity Status Alert</fullName>
+        <actions>
+            <name>CRS_Customer_Severity_Status_Email_Alert</name>
+            <type>Alert</type>
+        </actions>
+        <active>true</active>
+        <description>USED IN THE INTEGRATION BETWEEN SERVICENOW,SALESFORCE AND WINAPROACH 
+DO NOT MAKE ANY CHANGES WITHOUT APPROVAL FROM DAVE MARVEZ AND THE CRS SUPPORT TEAM! 
+Updated by LE NICC-024286
+If the Customer Severity status is a 1 or 2. NICC- 024155</description>
+        <formula>AND
+(
+NOT(ISNEW()),
+ISCHANGED(Customer_Severity__c),
+RecordType.Name = &quot;CRS Incident&quot;,
+OR(
+ISPICKVAL(Customer_Severity__c,&quot;1&quot;),
+ISPICKVAL(Customer_Severity__c,&quot;2&quot;),
+ISPICKVAL(Customer_Severity__c,&quot;2 Urgent&quot;))
+)</formula>
+        <triggerType>onAllChanges</triggerType>
+    </rules>
+    <rules>
+        <fullName>CRS Set Reject Flag</fullName>
+        <actions>
+            <name>CRS_Set_Rejected_Case</name>
+            <type>FieldUpdate</type>
+        </actions>
+        <active>true</active>
+        <criteriaItems>
+            <field>Case.Status</field>
+            <operation>equals</operation>
+            <value>Rejected,Rejected PCP,Returned to Customer</value>
+        </criteriaItems>
+        <description>USED IN THE INTEGRATION BETWEEN SERVICENOW,SALESFORCE AND WINAPROACH 
+DO NOT MAKE ANY CHANGES WITHOUT APPROVAL FROM DAVE MARVEZ AND THE CRS SUPPORT TEAM! 
+NICC-    When case status is set to Rejected, Rejected to PCP and/or RTC set flag to rejected.</description>
+        <triggerType>onCreateOrTriggeringUpdate</triggerType>
+    </rules>
+    <rules>
+        <fullName>CRS Set Status Date%2FTime</fullName>
+        <actions>
+            <name>CRS_Set_Stat</name>
+            <type>FieldUpdate</type>
+        </actions>
+        <active>true</active>
+        <description>NICC-020492 
+USED IN THE INTEGRATION BETWEEN SERVICENOW,SALESFORCE AND WINAPROACH 
+DO NOT MAKE ANY CHANGES WITHOUT APPROVAL FROM DAVE MARVEZ AND THE CRS SUPPORT TEAM!
+Sets the Status Date/Time whenever the Status field is updated</description>
+        <formula>ISCHANGED(Status)</formula>
+        <triggerType>onAllChanges</triggerType>
+    </rules>
+    <rules>
+        <fullName>CRS Update Logger and Logger Tel</fullName>
+        <actions>
+            <name>CRS_Update_Logger_Group</name>
+            <type>FieldUpdate</type>
+        </actions>
+        <actions>
+            <name>CRS_Update_Logger_TEL</name>
+            <type>FieldUpdate</type>
+        </actions>
+        <actions>
+            <name>CRS_Update_to_Logger_Agent_Name</name>
+            <type>FieldUpdate</type>
+        </actions>
+        <active>true</active>
+        <criteriaItems>
+            <field>Case.CreatedById</field>
+            <operation>equals</operation>
+            <value>IHG ServiceNow Integration User</value>
+        </criteriaItems>
+        <description>NICC-020492 
+USED IN THE INTEGRATION BETWEEN SERVICENOW,SALESFORCE AND WINAPROACH 
+DO NOT MAKE ANY CHANGES WITHOUT APPROVAL FROM DAVE MARVEZ AND THE CRS SUPPORT TEAM!
+Sets the logger and the logger TEL when the created by is the IHG ServiceNow User</description>
+        <triggerType>onCreateOnly</triggerType>
+    </rules>
+    <rules>
+        <fullName>Case Created Date Updated</fullName>
+        <actions>
+            <name>Update_RealLastActivityDate_Field</name>
+            <type>FieldUpdate</type>
+        </actions>
+        <active>true</active>
+        <criteriaItems>
+            <field>Case.CreatedDate</field>
+            <operation>notEqual</operation>
+        </criteriaItems>
+        <description>Rule used to update the RealLastActivityDate field on the case as soon as the create date field on the case is written.</description>
+        <triggerType>onCreateOnly</triggerType>
+    </rules>
+    <rules>
+        <fullName>Case Reminder Alerts</fullName>
+        <active>true</active>
+        <criteriaItems>
+            <field>Case.OwnerId</field>
+            <operation>equals</operation>
+            <value>Q-AP Install,Q-DS,Q-Go Live,Q-Integration,Q-Level 3,Q-OnDemand,Q-PMT Review,Q-PSS,Q-Knowledge Manager,Q-Specialists</value>
+        </criteriaItems>
+        <description>Case Owner IN (Q-AP Install, Q-DS, Q-Go Live, Q-Integration, Q-Level 3, Q-OnDemand, Q-PMT Review, Q-PSS, Q-Knowledge Manager, Q-Specialists)</description>
+        <triggerType>onCreateOnly</triggerType>
+        <workflowTimeTriggers>
+            <offsetFromField>Case.Hidden_30_Minute_Calculation__c</offsetFromField>
+            <timeLength>1</timeLength>
+            <workflowTimeTriggerUnit>Hours</workflowTimeTriggerUnit>
+        </workflowTimeTriggers>
+        <workflowTimeTriggers>
+            <offsetFromField>Case.CreatedDate</offsetFromField>
+            <timeLength>2</timeLength>
+            <workflowTimeTriggerUnit>Hours</workflowTimeTriggerUnit>
+        </workflowTimeTriggers>
+        <workflowTimeTriggers>
+            <offsetFromField>Case.Hidden_30_Minute_Calculation__c</offsetFromField>
+            <timeLength>2</timeLength>
+            <workflowTimeTriggerUnit>Hours</workflowTimeTriggerUnit>
+        </workflowTimeTriggers>
+    </rules>
+    <rules>
+        <fullName>Case Status Is Closed</fullName>
+        <actions>
+            <name>Alertcaseownerthatacasehasbeenclosed</name>
+            <type>Alert</type>
+        </actions>
+        <active>true</active>
+        <description>Case Status equals &quot;Closed&quot; - Alert the case owner when a case has been closed.
+
+NICC-049365 - Case owner should not receive email notification when closing their own case.</description>
+        <formula>AND(
+OwnerId &lt;&gt; LastModifiedById,
+ISPICKVAL (Status, &quot;Closed&quot;)
+)</formula>
+        <triggerType>onCreateOrTriggeringUpdate</triggerType>
+    </rules>
+    <rules>
+        <fullName>Case Type field update to TC Implementation</fullName>
+        <actions>
+            <name>Update_the_Type_field_to_TC_Implementati</name>
+            <type>FieldUpdate</type>
+        </actions>
+        <active>true</active>
+        <booleanFilter>1 OR 2</booleanFilter>
+        <criteriaItems>
+            <field>Case.owner_name__c</field>
+            <operation>equals</operation>
+            <value>Q-BI Implementations</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Case.owner_name__c</field>
+            <operation>equals</operation>
+            <value>Q-INTL BI Implementations</value>
+        </criteriaItems>
+        <description>NICC-052614 and NICC-055512: Created to update the Case Type field to TC Implementation when a case is created and sent to Q-BI Implementations queue or Q-INTL BI Implementations queue.</description>
+        <triggerType>onCreateOnly</triggerType>
+    </rules>
+    <rules>
+        <fullName>Case is Reopened</fullName>
+        <actions>
+            <name>Alert_Case_Owner_Of_Reopened</name>
+            <type>Alert</type>
+        </actions>
+        <actions>
+            <name>Reopen_Count_Increment</name>
+            <type>FieldUpdate</type>
+        </actions>
+        <active>true</active>
+        <description>AND (
+    ISCHANGED(Status), 
+    TEXT(PRIORVALUE(Status)) = &quot;Closed&quot;, 
+    NOT (ISPICKVAL(Status, &quot;Closed&quot;)) 
+)</description>
+        <formula>AND (
+    ISCHANGED(Status), 
+    TEXT(PRIORVALUE(Status)) = &quot;Closed&quot;, 
+    NOT (ISPICKVAL(Status, &quot;Closed&quot;)) 
+)</formula>
+        <triggerType>onAllChanges</triggerType>
+    </rules>
+    <rules>
+        <fullName>Change Case Record Type</fullName>
+        <actions>
+            <name>Close_Case_Record_Type</name>
+            <type>FieldUpdate</type>
+        </actions>
+        <actions>
+            <name>Update_RealLastActivityDate</name>
+            <type>FieldUpdate</type>
+        </actions>
+        <active>true</active>
+        <criteriaItems>
+            <field>Case.Status</field>
+            <operation>equals</operation>
+            <value>Closed</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Case.RecordTypeId</field>
+            <operation>equals</operation>
+            <value>Case New,Case</value>
+        </criteriaItems>
+        <description>Rule used to update the RealLastActivityDate &amp; Case Record Type fields on the Case when the case status is changed to closed.</description>
+        <triggerType>onCreateOrTriggeringUpdate</triggerType>
+    </rules>
+    <rules>
+        <fullName>Change Record Type of Close Case</fullName>
+        <actions>
+            <name>Update_Close_Record_Type</name>
+            <type>FieldUpdate</type>
+        </actions>
+        <active>true</active>
+        <criteriaItems>
+            <field>Case.Status</field>
+            <operation>notEqual</operation>
+            <value>Closed</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Case.RecordTypeId</field>
+            <operation>equals</operation>
+            <value>Close Case</value>
+        </criteriaItems>
+        <description>Rule used to set the Case Record Type back to &quot;Case&apos; when the case status not equals &quot;Closed&quot;.</description>
+        <triggerType>onCreateOrTriggeringUpdate</triggerType>
+    </rules>
+    <rules>
+        <fullName>Custom Service Request has been Closed</fullName>
+        <actions>
+            <name>Custom_Service_Request_has_been_Closed</name>
+            <type>Alert</type>
+        </actions>
+        <active>true</active>
+        <criteriaItems>
+            <field>Case.RecordTypeId</field>
+            <operation>equals</operation>
+            <value>NI Professional Services</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Case.Status</field>
+            <operation>equals</operation>
+            <value>Closed</value>
+        </criteriaItems>
+        <triggerType>onCreateOrTriggeringUpdate</triggerType>
+    </rules>
+    <rules>
+        <fullName>Date%2FTime Assigned</fullName>
+        <actions>
+            <name>Date_Time_Assigned</name>
+            <type>FieldUpdate</type>
+        </actions>
+        <active>true</active>
+        <description>Salesforce.com Change Request: NICC-010231 
+
+Update the Date/Time Assigned field with the current date and time</description>
+        <formula>OR(ISNEW(),ISCHANGED(OwnerId))</formula>
+        <triggerType>onAllChanges</triggerType>
+    </rules>
+    <rules>
+        <fullName>Default Origin to Pager%2FAfter Hours</fullName>
+        <actions>
+            <name>Default_Origin_to_Pager_After_Hours</name>
+            <type>FieldUpdate</type>
+        </actions>
+        <active>true</active>
+        <booleanFilter>(1 OR 4 or 5) AND 2 AND 3</booleanFilter>
+        <criteriaItems>
+            <field>Case.SuppliedEmail</field>
+            <operation>equals</operation>
+            <value>AppletreeILG@myappletree.net</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Case.Status</field>
+            <operation>equals</operation>
+            <value>New</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Case.RecordTypeId</field>
+            <operation>equals</operation>
+            <value>Case New</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Case.SuppliedEmail</field>
+            <operation>equals</operation>
+            <value>yourmessagesjcf@stericycle.com</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Case.SuppliedEmail</field>
+            <operation>equals</operation>
+            <value>noreply@stericycle.com</value>
+        </criteriaItems>
+        <description>Updated per NICC-032280</description>
+        <triggerType>onCreateOnly</triggerType>
+    </rules>
+    <rules>
+        <fullName>Disable Customer Portal Access</fullName>
+        <actions>
+            <name>Visible_in_Self_Service_Portal_False</name>
+            <type>FieldUpdate</type>
+        </actions>
+        <active>true</active>
+        <criteriaItems>
+            <field>Case.RecordTypeId</field>
+            <operation>equals</operation>
+            <value>NI Professional Services,NI Finance Case,Sales Case,License Compliance,Partner Community Case,PS Escalations Case</value>
+        </criteriaItems>
+        <description>Salesforce.com Change Request: NICC-009114
+
+Prevent NI Professional Servers Cases and NI Finance Cases from showing in the Customer Portal</description>
+        <triggerType>onCreateOrTriggeringUpdate</triggerType>
+    </rules>
+    <rules>
+        <fullName>Internal Services Request</fullName>
+        <actions>
+            <name>Internal_Services_Request</name>
+            <type>FieldUpdate</type>
+        </actions>
+        <active>true</active>
+        <criteriaItems>
+            <field>Case.Type</field>
+            <operation>equals</operation>
+            <value>Professional Services Request</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Case.PS_Case_Reason__c</field>
+            <operation>equals</operation>
+            <value>Priority Scheduling Request,PS Hold Request</value>
+        </criteriaItems>
+        <description>Salesforce.com Change Request: NICC-014344</description>
+        <triggerType>onCreateOrTriggeringUpdate</triggerType>
+    </rules>
+    <rules>
+        <fullName>Neighborhood User Created a Case</fullName>
+        <actions>
+            <name>Record_Type_to_Case</name>
+            <type>FieldUpdate</type>
+        </actions>
+        <active>true</active>
+        <booleanFilter>1 OR 2 OR 3 OR 4</booleanFilter>
+        <criteriaItems>
+            <field>User.ProfileId</field>
+            <operation>contains</operation>
+            <value>Overage</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>User.ProfileId</field>
+            <operation>contains</operation>
+            <value>Customer Portal</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>User.ProfileId</field>
+            <operation>contains</operation>
+            <value>Neighborhood</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>User.ProfileId</field>
+            <operation>startsWith</operation>
+            <value>AH Customer Community</value>
+        </criteriaItems>
+        <description>Uses profile contains to determine if the case is created or edited by a community user.</description>
+        <triggerType>onCreateOnly</triggerType>
+    </rules>
+    <rules>
+        <fullName>Notify PS Case Owner that Case is Past Due Date</fullName>
+        <actions>
+            <name>PS_Case_Open_past_it_s_Due_Date</name>
+            <type>Alert</type>
+        </actions>
+        <active>true</active>
+        <formula>AND( RecordTypeId =&quot;012W00000004KAO&quot;, PS_Due_Date__c &lt; today(),  NOT( ISPICKVAL( Status , &quot;Closed&quot;) ) )</formula>
+        <triggerType>onCreateOrTriggeringUpdate</triggerType>
+    </rules>
+    <rules>
+        <fullName>Q-PS Escalations - 4 Hours Real Last Activity</fullName>
+        <active>true</active>
+        <criteriaItems>
+            <field>Case.OwnerId</field>
+            <operation>equals</operation>
+            <value>Q-PS Escalations</value>
+        </criteriaItems>
+        <description>NICC - 021419  Sends email to Professional Services managers and team leads.</description>
+        <triggerType>onCreateOrTriggeringUpdate</triggerType>
+        <workflowTimeTriggers>
+            <actions>
+                <name>PS_Escalations_4_hour_E_mail_Alert</name>
+                <type>Alert</type>
+            </actions>
+            <offsetFromField>Case.RealLastActivityDate__c</offsetFromField>
+            <timeLength>4</timeLength>
+            <workflowTimeTriggerUnit>Hours</workflowTimeTriggerUnit>
+        </workflowTimeTriggers>
+    </rules>
+    <rules>
+        <fullName>Rally_UserStoryCreateDate</fullName>
+        <actions>
+            <name>Rally_UserStoryCreateDate_Stamp</name>
+            <type>FieldUpdate</type>
+        </actions>
+        <active>true</active>
+        <criteriaItems>
+            <field>Case.User_Story_Id__c</field>
+            <operation>notEqual</operation>
+        </criteriaItems>
+        <description>When the User Story ID field is populated, input NOW.</description>
+        <triggerType>onCreateOrTriggeringUpdate</triggerType>
+    </rules>
+    <rules>
+        <fullName>SLA Update Case Severity %26 Priority</fullName>
+        <actions>
+            <name>SLA_Update_Case_Severity</name>
+            <type>FieldUpdate</type>
+        </actions>
+        <actions>
+            <name>SLA_Update_Priority</name>
+            <type>FieldUpdate</type>
+        </actions>
+        <active>true</active>
+        <description>NICC-020113</description>
+        <formula>AND (     NOT(ISPICKVAL(Status, &quot;Closed&quot;)),       Account.Has_SLA__c = true )</formula>
+        <triggerType>onCreateOrTriggeringUpdate</triggerType>
+    </rules>
+    <rules>
+        <fullName>Status Changed Update Resolve Date</fullName>
+        <actions>
+            <name>Update_Resolved_Date_Time</name>
+            <type>FieldUpdate</type>
+        </actions>
+        <active>true</active>
+        <description>Used to conditionally update the Resolved Date/Time field on Case</description>
+        <formula>AND (     ISCHANGED(Status) )</formula>
+        <triggerType>onAllChanges</triggerType>
+    </rules>
+    <rules>
+        <fullName>Support Created Case</fullName>
+        <actions>
+            <name>Update_Status</name>
+            <type>FieldUpdate</type>
+        </actions>
+        <active>true</active>
+        <criteriaItems>
+            <field>Case.Origin</field>
+            <operation>equals</operation>
+            <value>Phone,Pager/After Hours,Internal,Trainer/Onsite</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Case.Status</field>
+            <operation>equals</operation>
+            <value>New</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Case.RecordTypeId</field>
+            <operation>equals</operation>
+            <value>Case</value>
+        </criteriaItems>
+        <description>Used to conditionally set Case Status from New to Working
+removed Case New. Per NICC-039598
+NICC-053786</description>
+        <triggerType>onCreateOnly</triggerType>
+    </rules>
+</Workflow>

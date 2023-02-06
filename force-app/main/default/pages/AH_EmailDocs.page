@@ -1,4 +1,10 @@
 <apex:page sidebar="false" standardController="NI_Documentation__c" Extensions="AH_EmailDocs_Ext" Showheader="false">
+    
+    <script type="text/javascript">
+        var dvOps = "Devops says...";
+        var dummyVar = 'hello world!';
+    </script>
+    
     <apex:pageMessages id="showmsg" />
     <apex:form >        
         <apex:pageblock id="pbMain" title="">

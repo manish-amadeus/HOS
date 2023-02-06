@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
-    <fullName>Date_of_Travel_required_if_Sub_is_Airfar</fullName>
-    <active>true</active>
-    <errorConditionFormula>and(ISPICKVAL( Sub_Category__c , &quot;Airfare&quot;), isnull( Date_of_Travel__c ))</errorConditionFormula>
-    <errorDisplayField>Date_of_Travel__c</errorDisplayField>
-    <errorMessage>Please indicate what date you will be traveling as advanced tickets need to be expensed during the month of the travel</errorMessage>
-</ValidationRule>

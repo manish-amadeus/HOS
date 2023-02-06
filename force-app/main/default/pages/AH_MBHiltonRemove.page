@@ -73,9 +73,14 @@
                 theForm.Prop_Holidex_Code__c.focus();
                 return (false);
             }
-
             
-            theForm.description.value = "Inn Code = " + theForm.Prop_Holidex_Code__c.value;
+            theForm.description.value = "";            
+            theForm.description.value = theForm.description.value + "Requestor First Name = " + theForm.first_name.value + "\n";
+            theForm.description.value = theForm.description.value + "Requestor Last Name = " + theForm.last_name.value + "\n";
+            theForm.description.value = theForm.description.value + "Requestor Email = " + theForm.email.value + "\n";
+            theForm.description.value = theForm.description.value + "Requestor Phone = " + theForm.phone.value + "\n";
+            theForm.description.value = theForm.description.value + "HIDB Property Legal Name = " + theForm.company.value + "\n";
+            theForm.description.value = theForm.description.value + "Inn Code = " + theForm.Prop_Holidex_Code__c.value;   
 
             return (true);
         }

@@ -7,7 +7,7 @@
     User Story ID :
     Change History:
 -->
-<apex:page controller="AH_UDC_Chatter" action="{!UpdateChatterAccessDetails}" showheader="false" applybodytag="true" applyhtmltag="false" doctype="html-5.0">
+<apex:page controller="AH_UDC_Chatter" showheader="false" applybodytag="true" applyhtmltag="false" doctype="html-5.0">
    <html>
    <head>
       <apex:slds />
@@ -15,11 +15,13 @@
          /* ****************************************
             CSS Variables
             ****************************************  */
+         body {
+            font-family: 'Source Sans Pro' !important;
+         }
          :root {
             --text-color: #515e59;
             --primary-color: #005eb8;
          }
-
          .logo {
             background-color: var(--primary-color);
             box-shadow: 0px 2px 4px rgba(0,0,0,.2);
@@ -29,10 +31,10 @@
             width: 100%;
          }
 
-            .logo img {
-               height: 25px;
-               padding-left: 2em;
-            }
+         .logo img {
+            height: 25px;
+            padding-left: 2em;
+         }
 
          .chatTitle {
             font-size: 1.5em;
@@ -54,11 +56,12 @@
          .slds-feed__item-comments {
             border: 1px solid rgb(217, 219, 221) !important;
             border-top: none !important;
+            padding-top: 5px;
          }
 
-            .slds-feed__item-comments .slds-post {
-               background: rgb(249, 249, 250) !important;
-            }
+         .slds-feed__item-comments .slds-post {
+            background: rgb(249, 249, 250) !important;
+         }
 
          .slds-feed__item .slds-post__content, .slds-feed__item .slds-post__content p {
             margin-bottom: 15px !important;
@@ -73,15 +76,23 @@
             padding-right: 7px !important;
          }
 
-         @media (max-width: 30em) { /*Fixes for comment button padding issue in small devices*/
-            .slds-scope .slds-post__footer-actions-list {
-               padding: 0 10px 10px;
-            }
+         .slds-scope .slds-publisher__input {
+            line-height: 1.5rem;
+            resize: vertical;
+            max-height: 10rem;
+            width: 100%;
+            border-radius: 0.25rem;
          }
 
-         @media (max-width: 700px) {
-            #divEditCommentBox .slds-col:first-child, #divCommentBox .slds-col:first-child {
-               width: 63% !important;
+         #divCommentBox {
+            margin-left: auto;
+            margin-right: auto;
+            resize: horizontal;
+         }
+
+         @media (max-width: 30em) { /*Fixes for comment button padding issue in small devices*/
+            .slds-scope .slds-post__footer-actions-list; {
+               padding: 0 10px 10px;
             }
          }
 
@@ -91,18 +102,44 @@
             }
          }
       </style>
-      <apex:includescript value="{!$Resource.AH_UDC_Jquery}" />
+      <apex:includescript value="{!URLFOR($Resource.AH_UDC_Jquery)}" />
       <!--Hover Tooltip - Tippy JS-->
       <c:AH_UDC_Tool_Tip />
    </head>
    <body>
       <apex:form >
          <div class="logo">
-            <img src="{!$Resource.AH_UDC_AmadeusWhiteLogo}" alt="Amadeus Logo" />
+            <img src="{!URLFOR($Resource.AH_UDC_AmadeusWhiteLogo)}" alt="Amadeus Logo" />
          </div>
 
+         <!-- BEGIN ALL Action Functions for this page-->
          <!--This action function is used to mark a step complete-->
-         <apex:actionfunction name="serverAgreeToUseChatter" action="{!AgreeToUseChatter}" oncomplete="AgreeToUseChatterOnComplete();return false;" rerender="pageMessage,EnableChatter,chatter" />
+         <apex:actionfunction name="serverAgreeToUseChatter" action="{!AgreeToUseChatter}" oncomplete="AgreeToUseChatterOnComplete();return false;" rerender="pageMessage,EnableChatter,chatter,serverside" />
+         <!--Call action method to set chatter access time when window/tab is activated-->
+         <apex:actionfunction name="actionfunction_UpdateChatterLastViewed" action="{!serverUpdateChatterLastViewed}" rerender="serverside" oncomplete="javascript:UpdateChatterLastViewedCallback();return false;" />
+         <!--Call action method to get messages with comments-->
+         <apex:actionfunction name="getFeedDetails" action="{!GetFeedDetails}" rerender="pageMessage,feedsGrid,scriptPanel,serverside" oncomplete="javascript:actionCompleted();return false;" />
+         <!--Call action method to post a message-->
+         <apex:actionfunction name="postFeedMessage" action="{!PostFeedMessage}" rerender="pageMessage,feedsGrid,scriptPanel,serverside" oncomplete="javascript:actionCompleted();return false;">
+            <apex:param name="message" value="" />
+         </apex:actionfunction>
+         <!--Call action method to post a comment-->
+         <apex:actionfunction name="postFeedComment" action="{!PostFeedComment}" rerender="pageMessage,feedsGrid,scriptPanel,serverside" oncomplete="javascript:actionCompleted();return false;">
+            <apex:param name="feedItemId" value="" />
+            <apex:param name="comment" value="" />
+         </apex:actionfunction>
+         <!--Call action method to update an existing message-->
+         <apex:actionfunction name="updateFeedMessage" action="{!UpdateFeedMessage}" rerender="pageMessage,feedsGrid,scriptPanel,serverside" oncomplete="javascript:actionCompleted();return false;">
+            <apex:param name="feeditemid" value="" />
+            <apex:param name="message" value="" />
+         </apex:actionfunction>
+         <!--Call action method to update an existing comment-->
+         <apex:actionfunction name="updateFeedComment" action="{!UpdateFeedComment}" rerender="pageMessage,feedsGrid,scriptPanel,serverside" oncomplete="javascript:actionCompleted();return false;">
+            <apex:param name="feedcommentid" value="" />
+            <apex:param name="comment" value="" />
+         </apex:actionfunction>
+         <!-- END ALL Action Functions for this page-->
+
          <!--Section for showing errors-->
          <apex:pagemessages id="pageMessage" />
          <!--This action function is used to log entries that occurred on loading of the page-->
@@ -111,10 +148,11 @@
          <apex:outputpanel rendered="{!IsErrorOccurred=false}">
             <div class="chatTitle">
                <span>{!$Label.AH_UDC_Chatter_ChatterFor} <span class="chatTitleDocName">{!NIDocumentName}</span></span>
+               ({!$Label.AH_UDC_Chatter_AsOf} {!ChatterAsOf} )
             </div>
          </apex:outputpanel>
          <apex:outputpanel id="EnableChatter">
-            <apex:pageblock rendered="{!IsChatterEnableError == false && ChatterEnabled == false}">
+            <apex:pageblock rendered="{!ChatterEnabled == false}">
                <div class="slds-text-heading_medium">
                   Salesforce Chatter
                </div>
@@ -124,7 +162,7 @@
                      <span class="slds-form-element__label"><b>{!$Label.AH_UDC_Terms_Conditions_opt_into_social_media_Checkbox}</b></span>
                   </label>
                   <br /><br />
-                  <input type="button" value="Click to Agree" onclick="AgreeToUseChatter();return false;" />
+                  <input type="button" class="slds-button slds-button_brand" value="Click to Agree" onclick="AgreeToUseChatter();return false;" />
                </div>
             </apex:pageblock>
          </apex:outputpanel>
@@ -138,290 +176,373 @@
                </div>
             </div>
          </div>
-         <apex:outputpanel id="chatter" rendered="{!IsChatterEnableError == false && ChatterEnabled == true}">
-            <!--Call action method to set chatter access time when window/tab is activated-->
-            <apex:actionfunction name="setChatterAccessDetails" action="{!UpdateChatterAccessDetails}" />
-
-            <!--Call action method to get messages with comments-->
-            <apex:actionfunction name="getFeedDetails" action="{!GetFeedDetails}" rerender="pageMessage,feedsGrid,scriptPanel" oncomplete="javascript:actionCompleted();" />
-            <!--Call action method to post a message-->
-            <apex:actionfunction name="postFeedMessage" action="{!PostFeedMessage}" rerender="pageMessage,feedsGrid,scriptPanel" oncomplete="javascript:actionCompleted();">
-               <apex:param name="message" value="" />
-            </apex:actionfunction>
-            <!--Call action method to post a comment-->
-            <apex:actionfunction name="postFeedComment" action="{!PostFeedComment}" rerender="pageMessage,feedsGrid,scriptPanel" oncomplete="javascript:actionCompleted();">
-               <apex:param name="feedItemId" value="" />
-               <apex:param name="comment" value="" />
-            </apex:actionfunction>
-            <!--Call action method to update an existing message-->
-            <apex:actionfunction name="updateFeedMessage" action="{!UpdateFeedMessage}" rerender="pageMessage,feedsGrid,scriptPanel" oncomplete="javascript:actionCompleted();">
-               <apex:param name="feeditemid" value="" />
-               <apex:param name="message" value="" />
-            </apex:actionfunction>
-            <!--Call action method to update an existing comment-->
-            <apex:actionfunction name="updateFeedComment" action="{!UpdateFeedComment}" rerender="pageMessage,feedsGrid,scriptPanel" oncomplete="javascript:actionCompleted();">
-               <apex:param name="feedcommentid" value="" />
-               <apex:param name="comment" value="" />
-            </apex:actionfunction>
-
-            <div class="slds-feed" style="{!IF(IsErrorOccurred, 'display:none;', '')} max-width:none; margin: 10px 30px;">
-               <ul class="slds-feed__list">
-                  <li>
-                     <div class="slds-publisher slds-is-active">
-                        <textarea id="txtMessage" onkeyup="javascript: enablePostButton(this, false);" class="slds-publisher__input slds-textarea slds-text-longform" maxlength="10000" placeholder="{!$Label.AH_UDC_Chatter_Write_Comment_Place_Holder}"></textarea>
-                        <div class="slds-grid">
-                           <div class="slds-col">
-                              <!--Toggle Button-->
-                              <div class="slds-grid">
-                                 <span class="slds-form-element__label slds-m-bottom_none" style="font-weight:bold;">{!$Label.AH_UDC_Chatter_Show_All_Question}</span>
-                                 <label class="slds-checkbox_toggle slds-grid" style="width:auto;">
-                                    <apex:inputcheckbox value="{!IsShowAllQuestions}" onchange="javascript:$('#spinner').show(); getFeedDetails(); return false;" />
-                                    <span id="spnShowAllQuestions" class="slds-checkbox_faux_container" aria-live="assertive">
-                                       <span class="slds-checkbox_faux"></span>
-                                       <span class="slds-checkbox_on">{!$Label.AH_UDC_Enabled_Text}</span>
-                                       <span class="slds-checkbox_off">{!$Label.AH_UDC_Disabled_Text}</span>
-                                    </span>
-                                 </label>
+         <apex:outputpanel id="chatter">
+            <apex:pageblock rendered="{!ChatterEnabled == true}">
+               <div class="slds-feed" style="{!IF(IsErrorOccurred, 'display:none;', '')} max-width:none; margin: 10px 30px;">
+                  <ul class="slds-feed__list">
+                     <li>
+                        <div class="slds-publisher slds-is-active">
+                           <textarea id="txtMessage" onkeyup="javascript: enablePostButton(this, false);" class="slds-publisher slds-publisher__input slds-textarea slds-text-longform" maxlength="{!ChatterPostMaxLength}" placeholder="{!$Label.AH_UDC_Chatter_Write_Comment_Place_Holder}"></textarea>
+                           <div class="slds-grid">
+                              <div class="slds-col">
+                                 <!--Toggle Button-->
+                                 <div class="slds-grid">
+                                    <span class="slds-form-element__label slds-m-bottom_none" style="font-weight:bold;">{!$Label.AH_UDC_Chatter_Show_All_Question}</span>
+                                    <label class="slds-checkbox_toggle slds-grid" style="width:auto;">
+                                       <apex:inputcheckbox value="{!IsShowAllQuestions}" onchange="javascript:$('#spinner').show(); getFeedDetails(); return false;" />
+                                       <span id="spnShowAllQuestions" class="slds-checkbox_faux_container" aria-live="assertive">
+                                          <span class="slds-checkbox_faux"></span>
+                                          <span class="slds-checkbox_on">{!$Label.AH_UDC_Enabled_Text}</span>
+                                          <span class="slds-checkbox_off">{!$Label.AH_UDC_Disabled_Text}</span>
+                                       </span>
+                                    </label>
+                                 </div>
                               </div>
-                           </div>
-                           <div class="slds-col" style="text-align: right;">
-                              <button id="btnPostMessage" disabled="disabled" onclick="javascript:$('#spinner').show(); postMessageOrComment(this); return false;" class="slds-button slds-button_brand">{!$Label.AH_UDC_Chatter_Post_Button}</button>
-                              <button id="btnClose" onclick="javascript:window.parent.close();" class="slds-button slds-button_brand" style="margin-left: 0px;">{!$Label.AH_UDC_Close}</button>
+                              <div class="slds-col" style="text-align: right;">
+                                 <button id="btnPostMessage" disabled="disabled" onclick="javascript:$('#spinner').show(); postMessageOrComment(this); return false;" class="slds-button slds-button_brand">{!$Label.AH_UDC_Chatter_Post_Button}</button>
+                              </div>
                            </div>
                         </div>
-                     </div>
-                  </li>
-                  <apex:outputpanel id="feedsGrid">
-                     <apex:repeat value="{!FeedList}" var="feed">
-                        <li class="slds-feed__item" style="padding-top:5px;">
-                           <article class="slds-post" style="border: 1px solid rgb(217, 219, 221);">
-                              <header class="slds-post__header slds-media">
-                                 <div class="slds-media__body">
-                                    <div class="slds-grid slds-grid_align-spread slds-has-flexi-truncate">
-                                       <p class="slds-truncate" title="{!feed.UserName}">
-                                          <span style="color:rgb(0, 109, 204);">{!feed.UserName}</span>
-                                       </p>
-                                       <button style="{!IF(feed.IsEditable == true, '', 'display:none;')}" onclick="javascript:editComment(this); return false;" class="btn-edit slds-button slds-button_icon slds-button_icon-border slds-button_icon-x-small" data-tooltip="{!$Label.AH_UDC_Edit_Button_Text}">
-                                          <svg class="slds-button__icon">
-                                             <use xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="{!URLFOR($Asset.SLDS, 'assets/icons/utility-sprite/svg/symbols.svg#edit')}"></use>
-                                          </svg>
-                                       </button>
+                     </li>
+                     <apex:outputpanel id="feedsGrid">
+                        <apex:repeat value="{!FeedList}" var="feed">
+                           <li class="slds-feed__item" style="padding-top:5px;">
+                              <article class="slds-post" style="border: 1px solid rgb(217, 219, 221);">
+                                 <header class="slds-post__header slds-media">
+                                    <div class="slds-media__body">
+                                       <div class="slds-grid slds-grid_align-spread slds-has-flexi-truncate">
+                                          <p class="slds-truncate" title="{!feed.UserName}">
+                                             <span style="color:rgb(0, 109, 204);">{!feed.UserName}</span>
+                                          </p>
+                                          <button style="{!IF(feed.IsEditable == true, '', 'display:none;')}" onclick="javascript:editQuestionComment(this, '{!(feed.BodyText)}'); return false;" class="btn-edit slds-button slds-button_icon slds-button_icon-border slds-button_icon-x-small" data-tooltip="{!$Label.AH_UDC_Edit_Button_Text}">
+                                             <svg class="slds-button__icon">
+                                                <use xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="{!URLFOR($Asset.SLDS, 'assets/icons/utility-sprite/svg/symbols.svg#edit')}"></use>
+                                             </svg>
+                                          </button>
+                                       </div>
+                                       <p class="slds-text-body_small">{!feed.SentBefore}</p>
                                     </div>
-                                    <p class="slds-text-body_small">{!feed.SentBefore}</p>
+                                 </header>
+                                 <div id="divQuestionCommentBody">
+                                    <apex:outputtext style="word-wrap: break-word;" escape="false" value="{!feed.BodyText}" />
                                  </div>
-                              </header>
-                              <div id="divCommentBody" class="slds-post__content slds-text-longform">
-                                 <apex:outputtext escape="false" value="{!JSINHTMLENCODE(feed.BodyText)}" />
-                              </div>
-                              <div id="divEditCommentBox" class="slds-grid" style="display: none; width: 100%;">
-                                 <div class="slds-col" style="width: 86%;">
-                                    <textarea id="txtComment" onkeyup="javascript: enableUpdateButton(this);" class="comment-box slds-publisher__input slds-input_bare slds-textarea slds-text-longform" maxlength="10000" placeholder="{!$Label.AH_UDC_Chatter_Comment_Place_Holder}"></textarea>
+                                 <div id="divCommentBox" class="slds-grid" style="white-space: nowrap;">
+                                    <textarea id="txtComment" onkeyup="javascript: enablePostButton(this, true);" class="comment-box slds-publisher slds-publisher__input slds-textarea slds-text-longform" maxlength="{!ChatterPostMaxLength}" placeholder="{!$Label.AH_UDC_Chatter_Reply_Place_Holder}"></textarea>
+                                    <div class="slds-col">
+                                       <button id="btnPostComment" disabled="disabled" onclick="javascript:postMessageOrComment(this, '{!feed.Id}'); return false;" class="slds-button slds-button_brand" style="margin-left: 5px;">{!$Label.AH_UDC_Chatter_Post_Button}</button>
+                                    </div>
                                  </div>
-                                 <div class="slds-col">
-                                    <button id="btnUpdate" onclick="javascript:updateMessageOrComment(this, 'message', '{!feed.Id}'); return false;" class="slds-button slds-button_brand" style="margin-left: 5px;">{!$Label.AH_UDC_Chatter_Post_Button}</button>
-                                    <button id="btnCancel" onclick="javascript:hideEditCommentBox(this); return false;" class="slds-button slds-button_brand" style="margin-left: 0px;">{!$Label.AH_UDC_Cancel}</button>
+                                 <div id="divEditQuestionCommentBox" class="slds-grid " style="display: none; white-space: nowrap; width: 100%;">
+                                    <textarea id="txtComment" onkeyup="javascript: enableUpdateButton(this);" class="comment-box slds-publisher slds-publisher__input slds-textarea slds-text-longform" maxlength="{!ChatterPostMaxLength}"></textarea>
+                                    <div class="slds-col" style="align-items:center">
+                                       <button id="btnUpdate" onclick="javascript:updateMessageOrComment(this, 'message', '{!feed.Id}'); return false;" class="slds-button slds-button_brand" style="margin-left: 5px; margin-bottom: 5px;">{!$Label.AH_UDC_Chatter_Post_Button}</button>
+                                       <br /> <button id="btnCancel" onclick="javascript:hideEditCommentBox(this); return false;" class="slds-button slds-button_brand" style="margin-left: 5px;">{!$Label.AH_UDC_Cancel}</button>
+                                    </div>
                                  </div>
-                              </div>
-                              <div id="divCommentBox" class="slds-grid" style="display: none; width: 100%;">
-                                 <div class="slds-col" style="width:86%;">
-                                    <textarea id="txtComment" onkeyup="javascript: enablePostButton(this, true);" class="comment-box slds-publisher__input slds-input_bare slds-textarea slds-text-longform" maxlength="10000" placeholder="{!$Label.AH_UDC_Chatter_Comment_Place_Holder}"></textarea>
+                                 <apex:variable var="index" value="{!feed.Comments.size}" />
+                                 <div id="divAllReplyBox" style="display: none; padding-top: 10px; width: 100%;">
+                                    <apex:repeat value="{!feed.Comments}" var="comment">
+                                       <div class="slds-feed__item-comments">
+                                          <ul>
+                                             <li style="margin-left:20px;">
+                                                <article class="slds-post">
+                                                   <header class="slds-post__header slds-media">
+                                                      <div class="slds-media__body">
+                                                         <div class="slds-grid slds-grid_align-spread slds-has-flexi-truncate">
+                                                            <p class="slds-truncate" title="{!comment.UserName}">
+                                                               <span style="color:rgb(0, 109, 204);">{!comment.UserName}</span>
+                                                            </p>
+                                                            <span class="slds-text-body_small slds-col_bump-left" style="margin-right: 10px;">{!index} {!$Label.AH_UDC_Progressbar_Of_Label_Text} {!feed.Comments.size}</span>
+                                                            <button style="{!IF(comment.IsEditable == true, '', 'display:none;')}" onclick="javascript:editComment(this,'{!comment.BodyText}'); return false;" class="btn-edit slds-button slds-button_icon slds-button_icon-border slds-button_icon-x-small" data-tooltip="{!$Label.AH_UDC_Edit_Button_Text}">
+                                                               <svg class="slds-button__icon">
+                                                                  <use xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="{!URLFOR($Asset.SLDS, 'assets/icons/utility-sprite/svg/symbols.svg#edit')}"></use>
+                                                               </svg>
+                                                            </button>
+                                                         </div>
+                                                         <p class="slds-text-body_small">{!comment.SentBefore}</p>
+                                                      </div>
+                                                   </header>
+                                                   <div id="divCommentBody" class="slds-post__content slds-text-longform">
+                                                      <apex:outputtext escape="false" value="{!(comment.BodyText)}" style="word-wrap: break-word; " />
+                                                   </div>
+                                                   <div id="divEditCommentBox" class="slds-grid" style="display: none; width: 100%;">
+                                                      <textarea id="txtComment" onkeyup="javascript: enableUpdateButton(this);" class="comment-box slds-publisher slds-publisher__input slds-textarea slds-text-longform" maxlength="{!ChatterPostMaxLength}"></textarea>
+                                                      <div class="slds-col" style="align-items:flex-start">
+                                                         <button id="btnUpdate" onclick="javascript:updateMessageOrComment(this, 'reply', '{!comment.Id}'); return false;" class="slds-button slds-button_brand" style="margin-left: 5px;margin-bottom:5px;">{!$Label.AH_UDC_Chatter_Post_Button}</button>
+                                                         <br /> <button id="btnCancel" onclick="javascript:hideEditCommentBox(this); return false;" class="slds-button slds-button_brand" style="margin-left: 5px;">{!$Label.AH_UDC_Cancel}</button>
+                                                      </div>
+                                                   </div>
+                                                </article>
+                                             </li>
+                                          </ul>
+                                       </div>
+                                       <apex:variable var="index" value="{!index - 1}" />
+                                    </apex:repeat>
                                  </div>
-                                 <div class="slds-col">
-                                    <button id="btnPostComment" disabled="disabled" onclick="javascript:postMessageOrComment(this, '{!feed.Id}'); return false;" class="slds-button slds-button_brand" style="margin-left: 5px;">{!$Label.AH_UDC_Chatter_Post_Button}</button>
-                                    <button id="btnCancel" onclick="javascript:hideCommentBox(this); return false;" class="slds-button slds-button_brand" style="margin-left: 0px;">{!$Label.AH_UDC_Cancel}</button>
-                                 </div>
-                              </div>
-                              <footer class="slds-post__footer">
-                                 <ul style="border: none;" class="slds-post__footer-actions-list slds-list_horizontal">
-                                    <li class="slds-col slds-item slds-m-right_medium">
-                                       <button id="btnComment" class="slds-button_reset slds-post__footer-action" style="padding: 0px;" onclick="javascript:showCommentBox(this); return false;">
-                                          <svg class="slds-icon slds-icon-text-default slds-icon_x-small slds-align-middle" aria-hidden="true">
-                                             <use xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="{!URLFOR($Asset.SLDS, 'assets/icons/utility-sprite/svg/symbols.svg#share_post')}"></use>
-                                          </svg> {!$Label.AH_UDC_Chatter_Comment_Button}
-                                       </button>
-                                    </li>
-                                 </ul>
-                              </footer>
-                           </article>
-                           <apex:variable var="index" value="{!1}" />
-                           <apex:repeat value="{!feed.Comments}" var="comment">
-                              <div class="slds-feed__item-comments">
-                                 <ul>
-                                    <li style="margin-left:20px;">
-                                       <article class="slds-post">
-                                          <header class="slds-post__header slds-media">
-                                             <div class="slds-media__body">
-                                                <div class="slds-grid slds-grid_align-spread slds-has-flexi-truncate">
-                                                   <p class="slds-truncate" title="{!comment.UserName}">
-                                                      <span style="color:rgb(0, 109, 204);">{!comment.UserName}</span>
-                                                   </p>
-                                                   <span class="slds-text-body_small slds-col_bump-left" style="margin-right: 10px;">{!index} {!$Label.AH_UDC_Progressbar_Of_Label_Text} {!feed.Comments.size}</span>
-                                                   <button style="{!IF(comment.IsEditable == true, '', 'display:none;')}" onclick="javascript:editComment(this); return false;" class="btn-edit slds-button slds-button_icon slds-button_icon-border slds-button_icon-x-small" data-tooltip="{!$Label.AH_UDC_Edit_Button_Text}">
-                                                      <svg class="slds-button__icon">
-                                                         <use xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="{!URLFOR($Asset.SLDS, 'assets/icons/utility-sprite/svg/symbols.svg#edit')}"></use>
-                                                      </svg>
-                                                   </button>
+                                 <div id="divLatestReplyBox" style="padding-top: 10px;">
+                                    <div class="slds-feed__item-comments" style="{!IF(feed.LatestComment != null, '', 'display:none;width: 100%')}">
+                                       <ul>
+                                          <li style="margin-left:20px;">
+                                             <article class="slds-post">
+                                                <header class="slds-post__header slds-media">
+                                                   <div class="slds-media__body">
+                                                      <div class="slds-grid slds-grid_align-spread slds-has-flexi-truncate">
+                                                         <p class="slds-truncate" title="{!feed.LatestComment.UserName}">
+                                                            <span style="color:rgb(0, 109, 204);">{!feed.LatestComment.UserName}</span>
+                                                         </p>
+                                                         <button style="{!IF(feed.LatestComment.IsEditable == true, '', 'display:none;')}" onclick="javascript:editComment(this,'{!feed.LatestComment.BodyText}'); return false;" class="btn-edit slds-button slds-button_icon slds-button_icon-border slds-button_icon-x-small" data-tooltip="{!$Label.AH_UDC_Edit_Button_Text}">
+                                                            <svg class="slds-button__icon">
+                                                               <use xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="{!URLFOR($Asset.SLDS, 'assets/icons/utility-sprite/svg/symbols.svg#edit')}"></use>
+                                                            </svg>
+                                                         </button>
+                                                      </div>
+                                                      <p class="slds-text-body_small">{!feed.LatestComment.SentBefore}</p>
+                                                   </div>
+                                                </header>
+                                                <div id="divCommentBody" class="slds-post__content slds-text-longform">
+                                                   <apex:outputtext escape="false" value="{!(feed.LatestComment.BodyText)}" style="word-wrap: break-word; " />
                                                 </div>
-                                                <p class="slds-text-body_small">{!comment.SentBefore}</p>
-                                             </div>
-                                          </header>
-                                          <div id="divCommentBody" class="slds-post__content slds-text-longform">
-                                             <apex:outputtext escape="false" value="{!comment.BodyText}" />
+                                                <div id="divEditCommentBox" class="slds-grid" style="display: none; width: 100%;">
+                                                   <textarea id="txtComment" onkeyup="javascript: enableUpdateButton(this);" class="comment-box slds-publisher slds-publisher__input slds-textarea slds-text-longform" maxlength="{!ChatterPostMaxLength}"></textarea>
+                                                   <!--  <div class="slds-col" style="width:86%;"> </div>-->
+                                                   <div class="slds-col" style="align-items:center">
+                                                      <button id="btnUpdate" onclick="javascript:updateMessageOrComment(this, 'reply', '{!feed.LatestComment.Id}'); return false;" class="slds-button slds-button_brand" style="margin-left: 5px; margin-bottom: 5px;">{!$Label.AH_UDC_Chatter_Post_Button}</button>
+                                                      <br /> <button id="btnCancel" onclick="javascript:hideEditCommentBox(this); return false;" class="slds-button slds-button_brand" style="margin-left: 5px;">{!$Label.AH_UDC_Cancel}</button>
+                                                   </div>
+                                                </div>
+                                             </article>
+                                          </li>
+                                       </ul>
+                                    </div>
+                                 </div>
+                                 <footer class="slds-post__footer">
+                                    <ul style="border: none;" class="slds-list_horizontal">
+                                       <li class="slds-item slds-m-right_medium">
+                                          Total replies: {!feed.Comments.size}
+                                       </li>
+                                    </ul>
+                                    <ul style="border: none;" class="slds-list_horizontal">
+                                       <li class="slds-item slds-m-left_none">
+                                          <div>
+                                             <a id="hideReplies" class="" style="display: none; float: left; cursor: pointer;" onclick="javascript:hideReplyDiv(this); return false;">Hide replies</a>
+                                             <a id="showReplies" class="" style="{!IF(feed.Comments.size <= 1, 'display:none;','float: left; cursor: pointer;')}" onclick="javascript:showReplyDiv(this); return false;">Show more replies</a>
                                           </div>
-                                          <div id="divEditCommentBox" class="slds-grid" style="display: none; width: 100%;">
-                                             <div class="slds-col" style="width:86%;">
-                                                <textarea id="txtComment" onkeyup="javascript: enableUpdateButton(this);" class="comment-box slds-publisher__input slds-input_bare slds-textarea slds-text-longform" maxlength="10000" placeholder="{!$Label.AH_UDC_Chatter_Comment_Place_Holder}"></textarea>
-                                             </div>
-                                             <div class="slds-col">
-                                                <button id="btnUpdate" onclick="javascript:updateMessageOrComment(this, 'reply', '{!comment.Id}'); return false;" class="slds-button slds-button_brand" style="margin-left: 5px;">{!$Label.AH_UDC_Chatter_Post_Button}</button>
-                                                <button id="btnCancel" onclick="javascript:hideEditCommentBox(this); return false;" class="slds-button slds-button_brand" style="margin-left: 0px;">{!$Label.AH_UDC_Cancel}</button>
-                                             </div>
-                                          </div>
-                                       </article>
-                                    </li>
-                                 </ul>
-                              </div>
-                              <apex:variable var="index" value="{!index + 1}" />
-                           </apex:repeat>
-                        </li>
-                     </apex:repeat>
-                  </apex:outputpanel>
-               </ul>
-            </div>
+                                       </li>
+                                    </ul>
+                                 </footer>
+                              </article>
+                           </li>
+                        </apex:repeat>
+                     </apex:outputpanel>
+                  </ul>
+               </div>
+            </apex:pageblock>
          </apex:outputpanel>
       </apex:form>
+      <!--IMPORTANT : This block is re-rendered to bring server side variables into client variables-->
+      <apex:outputpanel id="serverside">
+         <script>
+            var DisplayConsoleLogMessages = {!DisplayConsoleLogMessages};
+         </script>
+      </apex:outputpanel>
       <script type="text/javascript">
-            document.addEventListener("visibilitychange", setChatterAccessDetails);
+         function consolelog(message)
+         {
+            if (DisplayConsoleLogMessages) console.log(message);
+         }
 
-            //On click of comment button display comment box
-            function showCommentBox(elem) {
-               var parent = $(elem).parents('.slds-post');
-               $('.slds-post__footer', parent).hide();
-               $('#divCommentBox', parent).show();
-            }
+         function UpdateChatterLastViewed()
+         {
+            consolelog('UpdateChatterLastViewed Started');
+            actionfunction_UpdateChatterLastViewed();
+         }
+         function UpdateChatterLastViewedCallback()
+         {
+            consolelog('UpdateChatterLastViewed Complete');
+         }
 
-            //On click of cancel button hide comment box
-            function hideCommentBox(elem) {
-               var parent = $(elem).parents('.slds-post');
-               $('#divCommentBox #txtComment', parent).val('');
-               $('#divCommentBox #btnPostComment', parent).prop('disabled', true);
-               $('#divCommentBox', parent).hide();
-               $('.slds-post__footer', parent).show();
-            }
+         //On click of comment button display comment box
+         function showCommentBox(elem) {
+            var parent = $(elem).parents('.slds-post');
+            $('.slds-post__footer', parent).hide();
+            $('#divCommentBox', parent).show();
+         }
 
-            //Called on click of edit button on the message/comment
-            function editComment(elem) {
-               var parent = $(elem).parents('.slds-post');
-               $('#divCommentBody', parent).hide(); //Hide comment/message text
-               $('#divEditCommentBox', parent).show();
-               //Fill comment text into textarea for edit
-               $('#divEditCommentBox #txtComment', parent).val($.trim($('#divCommentBody', parent).text()));
-               $('#btnUpdate', parent).prop('disabled', false);
-               if($('#divCommentBox', parent).is(':visible')) {
-                  //If comment box is displaying then hide it to prevent multiple textboxes at same time
-                  $('#divCommentBox #btnCancel', parent).click();
-               }
-               $('.slds-post__footer', parent).hide(); //Hide comment button
-            }
+         //On click of cancel button hide comment box
+         function hideCommentBox(elem) {
+            var parent = $(elem).parents('.slds-post');
+            $('#divCommentBox #txtComment', parent).val('');
+            $('#divCommentBox #btnPostComment', parent).prop('disabled', true);
+            $('#divCommentBox #btnPostComment', parent).prop('disabled', true);
+            $('#divCommentBox', parent).hide();
+            $('.slds-post__footer', parent).show();
+         }
 
-            //Called on click of cancel button in edit comment section
-            function hideEditCommentBox(elem) {
-               var parent = $(elem).parents('.slds-post');
-               $('#divEditCommentBox #txtComment', parent).val('');
+         //On click of showReplies link show all the replies
+         function showReplyDiv(elem) {
+            var parent = $(elem).parents('.slds-post');
+            $('#divLatestReplyBox', parent).hide();
+            $('#divAllReplyBox', parent).show();
+            $('#hideReplies', parent).show();
+            $('#showReplies', parent).hide();
+         }
+         //On click of hidereplies link hide all the reply except latest one
+         function hideReplyDiv(elem) {
+            var parent = $(elem).parents('.slds-post');
+            $('#hideReplies', parent).hide();
+            $('#showReplies', parent).show();
+            $('#divLatestReplyBox', parent).show();
+            $('#divAllReplyBox', parent).hide();
+         }
+         //Called on click of edit button on the question/comment
+         function editQuestionComment(elem, comment) {
+            var parent = $(elem).parents('.slds-post');
+            $('#divQuestionCommentBody', parent).hide(); //Hide comment/message text
+            $('#divCommentBox', parent).hide();
+            $('#divEditQuestionCommentBox', parent).show();
+            //Fill comment text into textarea for edit
+            comment = unescapeHTML(comment);
+            comment = comment.replaceAll("<p>","").replaceAll("</p>","\n").trim();
+            comment = comment.replaceAll(/(&)quot;/g,'\"').replaceAll("&#39;","\'");
+            $('#divEditQuestionCommentBox #txtComment', parent).val(comment);
+            $('#btnUpdate', parent).prop('disabled', false);
+         }
+         //Called on click of edit button on the message/comment
+         function editComment(elem, comment) {
+            let parent;
+            var parents = $(elem).parents('.slds-post');
+            if(parents.length == 2)
+               parent = parents[0];
+            else
+               parent = parents;
+            $('#divCommentBody', parent).hide(); //Hide comment/message text
+            $('#divEditCommentBox', parent).show();
+            //Fill comment text into textarea for edit
+            comment = unescapeHTML(comment);
+            comment = comment.replaceAll("<p>","").replaceAll("</p>","\n").trim();
+            comment = comment.replaceAll(/(&)quot;/g,'\"').replaceAll("&#39;","\'");
+            $('#divEditCommentBox #txtComment', parent).val(comment.trim());
+            $('#btnUpdate', parent).prop('disabled', false);
+         }
+
+         //Called on click of cancel button in edit comment section
+         function hideEditCommentBox(elem) {
+            var parent = $(elem).parents('.slds-post');
+            $('#divEditCommentBox #txtComment', parent).val('');
+            $('#divEditQuestionCommentBox #txtComment', parent).val('');
+            if($('#divEditCommentBox', parent).is(':visible'))
                $('#divEditCommentBox', parent).hide();
-               $('#divCommentBody', parent).show(); //Display message/comment text
-               $('.slds-post__footer', parent).show(); //Display comment button
+            if($('#divEditQuestionCommentBox', parent).is(':visible'))
+               $('#divEditQuestionCommentBox', parent).hide();
+            $('#divCommentBox', parent).show();
+            $('#divCommentBody', parent).show();
+            $('#divQuestionCommentBody', parent).show(); //Display message/comment text
+         }
+
+         //Enable post button if message added
+         function enablePostButton(elem, flagCommentPost) {
+            if('{!IsArchivedWorkbook}'.toLowerCase() == 'true') return;
+
+            var btnPost = $('#btnPostMessage');
+            if(typeof(flagCommentPost) != 'undefined' && flagCommentPost != null && flagCommentPost == true) {
+               btnPost = $(elem).parents('#divCommentBox').find('#btnPostComment');
             }
 
-            //Enable post button if message added
-            function enablePostButton(elem, flagCommentPost) {
-               var btnPost = $('#btnPostMessage');
-               if(typeof(flagCommentPost) != 'undefined' && flagCommentPost != null && flagCommentPost == true) {
-                  btnPost = $(elem).parents('#divCommentBox').find('#btnPostComment');
-               }
-
-               if($(elem).val().trim() != '') {
-                  btnPost.prop('disabled', false);
-               }
-               else {
-                  btnPost.prop('disabled', true);
-               }
+            if($(elem).val().trim() != '') {
+               btnPost.prop('disabled', false);
             }
-
-            //Enable update button if message is being edited
-            function enableUpdateButton(elem) {
-               var parent = $(elem).parents('#divEditCommentBox');
-               if($(elem).val().trim() != '') {
-                  $('#btnUpdate', parent).prop('disabled', false);
-               }
-               else {
-                  $('#btnUpdate', parent).prop('disabled', true);
-               }
+            else {
+               btnPost.prop('disabled', true);
             }
+         }
 
-            //Post a new message or reply on existing message
-            function postMessageOrComment(btnPost, feedItemId) {
-               if(typeof(feedItemId) != 'undefined' && feedItemId != null && feedItemId != '') { //Click on post button from comment section
-                  var strComment = $(btnPost).parents('#divCommentBox').find('#txtComment').val().trim();
-                  $('#spinner').show();
-                  postFeedComment(feedItemId, strComment);
-                  $(btnPost).parents('#divCommentBox').find('#txtComment').val('');
-               }
-               else { //Click on post button from main message posting
-                  var strMessage = $('#txtMessage').val().trim();
-                  $('#spinner').show();
-                  postFeedMessage(strMessage);
-                  $('#txtMessage').val('');
-               }
-               $(btnPost).prop('disabled', true);
+         //Enable update button if message is being edited
+         function enableUpdateButton(elem) {
+            var parent = $(elem).parents('#divEditCommentBox');
+            if($(elem).val().trim() != '') {
+               $('#btnUpdate', parent).prop('disabled', false);
             }
-
-            //Update an existing message or reply
-            function updateMessageOrComment(btnUpdate, messageType, Id) {
-               var strComment = $(btnUpdate).parents('#divEditCommentBox').find('#txtComment').val().trim();
-               if(typeof(messageType) != 'undefined' && messageType != null && messageType == 'reply') { //Click on post button from comment section
-                  $('#spinner').show();
-                  updateFeedComment(Id, strComment);
-               }
-               else { //Click on post button from main message posting
-                  $('#spinner').show();
-                  updateFeedMessage(Id, strComment);
-               }
-               $(btnUpdate).parents('#divEditCommentBox').find('#txtComment').val('');
-               $(btnUpdate).prop('disabled', true);
+            else {
+               $('#btnUpdate', parent).prop('disabled', true);
             }
+         }
 
-            function AgreeToUseChatter(){
+         //Post a new message or reply on existing message
+         function postMessageOrComment(btnPost, feedItemId) {
+            if(typeof(feedItemId) != 'undefined' && feedItemId != null && feedItemId != '') { //Click on post button from comment section
+               var strComment = $(btnPost).parents('#divCommentBox').find('#txtComment').val().trim();
                $('#spinner').show();
-               serverAgreeToUseChatter();
+               postFeedComment(feedItemId, strComment);
+               $(btnPost).parents('#divCommentBox').find('#txtComment').val('');
             }
-            function AgreeToUseChatterOnComplete(){
-               location.reload();
+            else { //Click on post button from main message posting
+               var strMessage = $('#txtMessage').val().trim();
+               $('#spinner').show();
+               postFeedMessage(strMessage);
+               $('#txtMessage').val('');
             }
+            $(btnPost).prop('disabled', true);
+         }
+
+         //Update an existing message or reply
+         function updateMessageOrComment(btnUpdate, messageType, Id) {
+            var strComment;
+            $(btnUpdate).parents('#divEditCommentBox').find('#btnCancel').hide();
+            if($(btnUpdate).parents('#divEditCommentBox').find('#txtComment').val()!= undefined || $(btnUpdate).parents('#divEditCommentBox').find('#txtComment').val()!=null)
+               strComment = $(btnUpdate).parents('#divEditCommentBox').find('#txtComment').val().trim();
+            else
+               strComment = $(btnUpdate).parents('#divEditQuestionCommentBox').find('#txtComment').val().trim();
+            if(typeof(messageType) != 'undefined' && messageType != null && messageType == 'reply') { //Click on post button from comment section
+               $('#spinner').show();
+               updateFeedComment(Id, strComment);
+            }
+            else { //Click on post button from main message posting
+               $('#spinner').show();
+               updateFeedMessage(Id, strComment);
+            }
+            $(btnUpdate).parents('#divEditCommentBox').find('#txtComment').val('');
+            $(btnUpdate).parents('#divEditQuestionCommentBox').find('#txtComment').val('');
+            $(btnUpdate).prop('disabled', true);
+         }
+
+         function AgreeToUseChatter(){
+            $('#spinner').show();
+            serverAgreeToUseChatter();
+         }
+         function AgreeToUseChatterOnComplete(){
+            location.reload();
+         }
       </script>
       <apex:outputpanel id="scriptPanel">
          <script type="text/javascript">
-               $(document).ready(function() {
-                  //Log Any Messages
-                  if ('{!HasPageLoadLogMessages}'.toLowerCase() == 'true') {
-                     setTimeout(actionfunction_LogMessages, 500);
-                  }
-                  //Set community page height based on our page content height to remove extra scroll bars
-
-                  $('.btn-edit:visible').each(function() { //Display tooltip on edit button
-                     bindToolTip(this, $(this).data('tooltip'));
-                  });
-               });
-
-               //This function will call automatically once messge or comment is posted
-               function actionCompleted() {
-                  if('{!IsErrorOccurred}'.toLowerCase() == 'true') {
-                     //Hide all controls if error occurred
-                     $('.slds-feed').hide();
-                     window.parent.scrollTo(0, 0); //Scroll to top and display error message
-                  }
-                  $('#spinner').hide();
+            $(document).ready(function() {
+               //Log Any Messages
+               if ('{!HasPageLoadLogMessages}'.toLowerCase() == 'true') {
+                  setTimeout(actionfunction_LogMessages, 500);
                }
+               //If no error, Update Chatter Last Viewed
+               if ('{!HasPageLoadLogMessages}'.toLowerCase() == 'false') {
+                  setTimeout(UpdateChatterLastViewed, 500);
+               }
+
+               if ('{!IsArchivedWorkbook}'.toLowerCase() == 'true') {
+                  $('.btn-edit').prop('disabled', true);
+               }
+
+               $('.btn-edit:visible').each(function() { //Display tooltip on edit button
+                  bindToolTip(this, $(this).data('tooltip'));
+               });
+            });
+
+            //This function will call automatically once messge or comment is posted
+            function actionCompleted() {
+               if('{!IsErrorOccurred}'.toLowerCase() == 'true') {
+                  //Hide all controls if error occurred
+                  $('.slds-feed').hide();
+                  window.parent.scrollTo(0, 0); //Scroll to top and display error message
+               }
+               $('#spinner').hide();
+            }
          </script>
       </apex:outputpanel>
    </body>

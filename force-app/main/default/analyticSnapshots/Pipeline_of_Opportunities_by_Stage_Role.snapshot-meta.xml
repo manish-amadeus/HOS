@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<AnalyticSnapshot xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>Number of Open Opportunities by Stage and Role - Grouped by Stage, Opportunity Owner and Owner Role. Summarizes Amount, number of records and average age</description>
+    <groupColumn>FULL_NAME</groupColumn>
+    <mappings>
+        <sourceField>CLOSE_MONTH</sourceField>
+        <sourceType>tabular</sourceType>
+        <targetField>Commit_Snapshot_Data__c.Close_Month__c</targetField>
+    </mappings>
+    <mappings>
+        <sourceField>ExecutionTime</sourceField>
+        <sourceType>snapshot</sourceType>
+        <targetField>Commit_Snapshot_Data__c.As_Of_Date__c</targetField>
+    </mappings>
+    <mappings>
+        <sourceField>STAGE_NAME</sourceField>
+        <sourceType>tabular</sourceType>
+        <targetField>Commit_Snapshot_Data__c.Stage__c</targetField>
+    </mappings>
+    <mappings>
+        <sourceField>RowCount</sourceField>
+        <sourceType>summary</sourceType>
+        <targetField>Commit_Snapshot_Data__c.Number_of_Opportunities__c</targetField>
+    </mappings>
+    <mappings>
+        <aggregateType>Average</aggregateType>
+        <sourceField>AGE</sourceField>
+        <sourceType>summary</sourceType>
+        <targetField>Commit_Snapshot_Data__c.Average_Age__c</targetField>
+    </mappings>
+    <mappings>
+        <aggregateType>Sum</aggregateType>
+        <sourceField>AMOUNT.CONVERT</sourceField>
+        <sourceType>summary</sourceType>
+        <targetField>Commit_Snapshot_Data__c.Amount_Converted__c</targetField>
+    </mappings>
+    <mappings>
+        <sourceField>FULL_NAME</sourceField>
+        <sourceType>tabular</sourceType>
+        <targetField>Commit_Snapshot_Data__c.Oppty_Owner__c</targetField>
+    </mappings>
+    <name>Pipeline - # of Opportunities by Stage &amp; Role</name>
+    <runningUser>jpriester@newmarketinc.com</runningUser>
+    <sourceReport>NIAccountPlanReports/Number_of_Open_Opptys_by_Stage_and_Role</sourceReport>
+    <targetObject>Commit_Snapshot_Data__c</targetObject>
+</AnalyticSnapshot>

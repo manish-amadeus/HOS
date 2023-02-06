@@ -3,12 +3,11 @@
       .tippy-box[data-theme~=custom] {
          background-color: white;
          color: black;
-         font-family: Raleway, sans-serif;
+         font-family: 'Source Sans Pro';
          font-size: 18px;
          border: solid 2px gray;
          border-radius: 10px;
          font-size: 0.8125rem;
-         font-family: inherit;
          white-space: -moz-pre-wrap !important;
          white-space: -webkit-pre-wrap;
          white-space: -pre-wrap;
@@ -84,23 +83,52 @@
          border-color: transparent;
          border-style: solid;
       }
-      .charecter-wrap {
+      .character-wrap {
          word-wrap: break-word !important;
          word-break: break-all !important;
       }
    </style>
-   <apex:includeScript value="{!$Resource.AH_UDC_Proper_JS}"/>
-   <apex:includeScript value="{!$Resource.AH_UDC_Tippy_JS}"/>
+   <apex:includeScript value="{!URLFOR($Resource.AH_UDC_Proper_JS)}"/>
+   <apex:includeScript value="{!URLFOR($Resource.AH_UDC_Tippy_JS)}"/>
     
    <script type="text/javascript">
-      function bindToolTip(element, tootipText) {
-         var TooptipContent = '<div style="text-align: center;">' + tootipText + '</div>';
-         new tippy(element, {
-               content: TooptipContent,
-               allowHTML: true,
-               theme : 'custom',
-               placement: 'bottom'
-         });
+      function bindToolTip(element, tootipText, placement, maxWidth, className) {
+         var objTippyInstance = element._tippy;
+         if(typeof(objTippyInstance) != 'undefined' && objTippyInstance != null) {
+            objTippyInstance.setContent(tootipText);
+            return;
+         }
+
+         if(typeof(placement) == 'undefined' || placement == null) {
+            placement = 'bottom';
+         }
+
+         var TooptipContent = '<div style="text-align: center;" class="tippy-content">' + tootipText + '</div>';
+         var options = {
+            content: TooptipContent,
+            allowHTML: true,
+            theme : 'custom',
+            placement: placement
+         }
+
+         if(typeof(maxWidth) != 'undefined' && maxWidth != null) {
+            options.maxWidth = maxWidth;
+         }
+
+         if(typeof(className) != 'undefined' && $.trim(className) != '') {
+            options.onShow = function() { $('body').addClass(className); }
+            options.onHidden = function() { $('body').removeClass(className); }
+         }
+
+         //Bind tippy JS tooltip
+         new tippy(element, options);
+      }
+
+      function unBindToolTip(element) {
+         var objTippyInstance = element._tippy;
+         if(typeof(objTippyInstance) != 'undefined' && objTippyInstance != null) {
+            objTippyInstance.destroy();
+         }
       }
    </script>
 </apex:component>

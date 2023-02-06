@@ -2,7 +2,7 @@
 Name            : NI_EmailMessage_TriggerHandler_Test Class
 Author          : Sean Harris
 Created Date    : 02/02/2017
-Last Mod Date   : 07/23/2020
+Last Mod Date   : 03/01/2022
 Last Mod By     : Sean Harris
 NICC Reference  : NICC-020976
 Description     : UPDATED 07/02/2020 PER NICC-044303 
@@ -50,31 +50,40 @@ public class NI_EmailMessage_TriggerHandler_Test
         insert di;
         
         // CREATE TEST CASE
+        
+        List<Case> lstCases = new List<Case>();
         Case c = NI_TestClassData.createTestCase(1, a.Id);
         c.AssetId = di.Id;
         c.AccountId = a.Id;
         c.ContactId = cnt.Id;
         c.Status = 'New';
-        c.Subject = 'TEST E2CP APEX TEST CASE';
-        insert c;
-
+        c.Subject = 'TEST E2CP APEX TEST CASE 1';
+        //insert c;
+		lstCases.add(c);
+        
         Case c2 = NI_TestClassData.createTestCase(2, a.Id);
         c2.AssetId = di.Id;
         c2.AccountId = a.Id;
         c2.ContactId = cnt.Id;
         c2.Status = 'New';
         c2.Subject = 'TEST E2CP APEX TEST CASE 2';
-        insert c2;
+        //insert c2;
+        lstCases.add(c2);
+        
+        Database.insert(lstCases);
         
         // CREATE TEST EMAILMESSAGE RECORDS
         List<EmailMessage> lstEmailMessageInserts = new List<EmailMessage>();
         
-        EmailMessage em1 = NI_TestClassData.createTestEmailMessage(1, c.Id, 'Joe Doe', 'jdoe@newsoft.com', 'jdoe@newsoft.com', 'jdoe@newsoft.com', 'jdoe@newsoft.com', 'Apex Test Email', 'Apex Test Email Body', '1');
+        Case cs1 = [SELECT Id FROM Case WHERE Subject = 'TEST E2CP APEX TEST CASE 1'];
+        Case cs2 = [SELECT Id FROM Case WHERE Subject = 'TEST E2CP APEX TEST CASE 2'];    
+        
+        EmailMessage em1 = NI_TestClassData.createTestEmailMessage(1, cs1.Id, 'Joe Doe', 'jdoe@newsoft.com', 'jdoe@newsoft.com', 'jdoe@newsoft.com', 'jdoe@newsoft.com', 'Apex Test Email', 'Apex Test Email Body', '1');
         em1.Incoming = true;
         lstEmailMessageInserts.add(em1);
         
-        EmailMessage em2 = NI_TestClassData.createTestEmailMessage(2, c2.Id, 'Joe Doe', 'jdoe@cybage.com', 'jdoe@newsoft.com', 'jdoe@newsoft.com', 'jdoe@newsoft.com', 'Apex Test Email', 'Apex Test Email Body', '1');
-        em2.RelatedToId = c.Id;
+        EmailMessage em2 = NI_TestClassData.createTestEmailMessage(2, cs2.Id, 'Joe Doe', 'jdoe@cybage.com', 'jdoe@newsoft.com', 'jdoe@newsoft.com', 'jdoe@newsoft.com', 'Apex Test Email', 'Apex Test Email Body', '1');
+        em2.RelatedToId = cs2.Id;
         lstEmailMessageInserts.add(em2);
         
         database.insert(lstEmailMessageInserts);
@@ -87,7 +96,7 @@ public class NI_EmailMessage_TriggerHandler_Test
     @isTest static void test1() 
     {  
 
-        List<Case> lstCaseAsserts = new List<Case>([SELECT Id, Number_of_Emails_Sent__c FROM Case WHERE Subject = 'TEST E2CP APEX TEST CASE']);
+        List<Case> lstCaseAsserts = new List<Case>([SELECT Id, Number_of_Emails_Sent__c FROM Case WHERE Subject = 'TEST E2CP APEX TEST CASE 1']);
         system.assertEquals(1, lstCaseAsserts.Size());
 
     }

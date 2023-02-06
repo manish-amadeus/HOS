@@ -52,13 +52,13 @@ public with sharing class AH_UDC_ConfigHelper
    // Returns the number of keys that were found and loaded into the cache
    public static Integer PrefetchValues(List<string> keys) {
       string orgIdPrefix = UserInfo.getOrganizationId().left(15) + '||%';
-      AH_UDC_SystemContext sysContext = new AH_UDC_SystemContext();
+      //AH_UDC_SystemContext sysContext = new AH_UDC_SystemContext();
       List<String> filteredKeys = new List<String> ();
       for (String key : keys) {
          key = String.escapeSingleQuotes(key);
          filteredKeys.add(key);
       }
-      AH_UDC_ConfigurationSetting__c[] settings = sysContext.query('SELECT NAME,SettingType__c,SettingValue__c,SettingTextAreaValue__c,SettingValueDefault__c ' +
+      AH_UDC_ConfigurationSetting__c[] settings = AH_UDC_SystemContext.query('SELECT NAME,SettingType__c,SettingValue__c,SettingTextAreaValue__c,SettingValueDefault__c ' +
                                                                    'FROM AH_UDC_ConfigurationSetting__c ' +
                                                                    'WHERE (OrgName__c = \'' + String.valueOf(UserInfo.getOrganizationName()) + '\' or OrgName__c like \'' + String.valueOf(orgIdPrefix) + '\') ' +
                                                                    'AND name in (\'' + String.join(filteredKeys, '\',\'') + '\')');
@@ -157,7 +157,12 @@ public with sharing class AH_UDC_ConfigHelper
 
    // Returns the value associated with the key 
    public static Boolean GetBoolean(string key, Boolean defaultValue) {
-      Object ret = GetValue(key);
+      return GetBoolean(key, defaultValue, false);
+   }
+
+   // Returns the value associated with the key 
+   public static Boolean GetBoolean(string key, Boolean defaultValue, Boolean silent) {
+      Object ret = GetValue(key, silent);
       if (ret == null) {
          ret = (Object) defaultValue;
       }
@@ -175,12 +180,10 @@ public with sharing class AH_UDC_ConfigHelper
       if (ret == null) {
          ret = (Object) ReplaceParametersInValue(defaultValue);
       }
-      String retString = '';
-      if (ret != null) {
-         retString = String.valueOf(ret);
-      }
 
-      return retString;
+      if (ret == null) { ret = (object)''; }
+
+      return String.valueOf(ret);
    }
 
    // Returns the value associated with the key 
@@ -220,8 +223,8 @@ public with sharing class AH_UDC_ConfigHelper
 
       // Retrieve the Configuration Setting for this Key
       string orgIdPrefix = UserInfo.getOrganizationId().left(15) + '||%';
-      AH_UDC_SystemContext sysContext = new AH_UDC_SystemContext();
-      AH_UDC_ConfigurationSetting__c[] settings = sysContext.query('SELECT NAME,SettingType__c,SettingValue__c,SettingTextAreaValue__c,SettingValueDefault__c ' +
+
+      AH_UDC_ConfigurationSetting__c[] settings = AH_UDC_SystemContext.query('SELECT NAME,SettingType__c,SettingValue__c,SettingTextAreaValue__c,SettingValueDefault__c ' +
                                                                    'FROM AH_UDC_ConfigurationSetting__c ' +
                                                                    'WHERE (OrgName__c = \'' + String.valueOf(UserInfo.getOrganizationName()) + '\' or OrgName__c like \'' + String.valueOf(orgIdPrefix) + '\') ' +
                                                                    'AND name = \'' + String.valueOf(key) + '\'');

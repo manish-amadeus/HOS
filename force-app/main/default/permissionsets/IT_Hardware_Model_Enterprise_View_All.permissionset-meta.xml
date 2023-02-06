@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PermissionSet xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>Members of this group have view access to Enterprise Hardware models.</description>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>IT_Hardware_Model__c.Manufacturer__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <hasActivationRequired>false</hasActivationRequired>
+    <label>IT Hardware Model - Enterprise - View All</label>
+    <objectPermissions>
+        <allowCreate>false</allowCreate>
+        <allowDelete>false</allowDelete>
+        <allowEdit>false</allowEdit>
+        <allowRead>true</allowRead>
+        <modifyAllRecords>false</modifyAllRecords>
+        <object>IT_Hardware_Model__c</object>
+        <viewAllRecords>true</viewAllRecords>
+    </objectPermissions>
+    <tabSettings>
+        <tab>IT_Hardware_Model__c</tab>
+        <visibility>Visible</visibility>
+    </tabSettings>
+</PermissionSet>

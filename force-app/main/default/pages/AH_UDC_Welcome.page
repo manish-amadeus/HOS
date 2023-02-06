@@ -6,32 +6,25 @@ Last Mod Date   : 4-Feb-2021
 Last Mod By     : Sanjay Parmar
 User Story ID   : 572107,572108,580135
 Change History  :
-                  1. 590045 - Refactoring Code - Changed by Sanjay Parmar on 4-Feb-2021
+  1. 590045 - Refactoring Code - Changed by Sanjay Parmar on 4-Feb-2021
+  2. 702801 - Refactoring Code - Changed by Vaishali Patel on 24-Mar-2022
 -->
 <apex:page controller="AH_UDC_Welcome" showheader="false" applybodytag="true" applyhtmltag="false" doctype="html-5.0">
    <head>
       <title>Welcome Page</title>
       <apex:slds />
-      
       <!--Include for Common CSS-->
       <c:AH_UDC_CommonCSS />
-
       <style type="text/css">
          .message { /*Make proper alignment of error message div*/
             margin: 0px;
             margin-bottom: 10px;
          }
 
-         .slds-table > tbody > tr:nth-child(odd) > td,
-         .slds-table > tbody > tr:nth-child(odd) > th {
-            background-color: #CFD5EA !important;
+         .infoM3 td:first-child { /*Make proper alignment between icon and message for informational messages*/
+            width: 26px;
          }
-
-         .slds-table > tbody > tr:nth-child(even) > td,
-         .slds-table > tbody > tr:nth-child(even) > th {
-            background-color: #E9EBF5 !important;
-         }
-
+         
          .header-color {
             background-color: #4472C4 !important;
             color: white !important;
@@ -62,86 +55,86 @@ Change History  :
          .sorting_desc .sort-img-desc {
             display: inline-block;
          }
-
+          
          .slds-scope .slds-table .slds-cell-wrap {
             white-space: initial !important;
          }
       </style>
-      <apex:stylesheet value="{!$Resource.AH_UDC_Jquery_DataTables_CSS}" /> <!--JQuery Datatable CSS-->
-      <apex:includescript value="{!$Resource.AH_UDC_Jquery}" /> <!--JQuery Library-->
+      <apex:stylesheet value="{!URLFOR($Resource.AH_UDC_Jquery_DataTables_CSS)}" /> <!--JQuery Datatable CSS-->
+      <apex:includescript value="{!URLFOR($Resource.AH_UDC_Jquery)}" /> <!--JQuery Library-->
       <c:AH_UDC_Jquery_DataTables_Min_1_10_13 /> <!--JQuery Datatable Library-->
    </head>
    <body>
       <div class="slds-wrap" style="overflow-x: hidden; overflow-y: hidden;">
          <apex:form id="frmWelcome">
+            <!--This action function is used to log entries that occurred on loading of the page-->
+            <apex:actionfunction name="actionfunction_LogMessages" action="{!serverLogMessages}" rerender="serverside" />
             <!-- Spinner-->
             <div id="spinner">
                <div class="slds-spinner_container">
                   <div role="status" class="slds-spinner slds-spinner_medium slds-spinner_brand">
                      <span class="slds-assistive-text">Loading</span>
-                     <div class="slds-spinner__dot-a"></div> 
+                     <div class="slds-spinner__dot-a"></div>
                      <div class="slds-spinner__dot-b"></div>
                   </div>
                </div>
             </div>
-
             <!-- Welcome Screen-->
-            <div class="main-section" id="divUDCWelcome" style="position: relative;">
+            <div class="main-section" id="divUDCWelcome" style="position: relative; {!IF(IsErrorOccurred || IsCommunityEnabled == false, 'padding-top: 10px;', '') }">
                <!--This action function is used for Terms And Condition Next Button-->
                <apex:actionfunction name="serverTermsAndConditionNext" oncomplete="javascript:actionCompleted();" action="{!TermsAndConditionNext}" rerender="pageMessage, content, scriptPanel">
                   <apex:param id="Opt_Into_Social_Media_Feature" name="Opt_Into_Social_Media_Feature" assignto="{!Opt_Into_Social_Media_Feature}" value="" />
                </apex:actionfunction>
-
                <!--Display error message to user-->
                <apex:pagemessages id="pageMessage" />
-
-               <apex:outputpanel id="content">
+               <apex:outputpanel id="content" rendered="{!IsCommunityEnabled}">
                   <!--Terms and Conditions-->
                   <apex:outputpanel id="TermsAndCondition" rendered="{!IsTermsandConditionAccepted==false}">
                      <div class="section-d" id="divUDCTermsandConditions">
                         <c:AH_UDC_Terms />
                      </div>
                   </apex:outputpanel>
-
                   <!--Workbook Grid-->
                   <apex:outputpanel id="workbooklist" rendered="{!IsTermsandConditionAccepted==true}">
                      <!--Display User Name-->
-                     <div class="slds-form-element__static slds-text-align_center" style="padding-top: 10px; padding-bottom: 10px;">
+                     <div class="slds-form-element__static slds-text-align_left" style="padding-top: 10px; padding-bottom: 10px;">
                         <apex:outputtext escape="false" styleclass="welcome-username-style" value="{!$Label.AH_UDC_Welcome_User_Name}">
-                           <apex:param value="{!UserFullName}" />
+                           <apex:param value="{!UserDisplayName}" />
                         </apex:outputtext>
                      </div>
-                     <div class="slds-form-element__static slds-text-align_center">
-                        <apex:outputtext escape="false" value="{!$Label.AH_UDC_Welcome_Message}" />
+                     <div class="slds-form-element__static slds-text-align_left">
+                        <p style="font-size:16px">
+                           <apex:outputtext escape="false" value="{!$Label.AH_UDC_Welcome_Message}" />
+                        </p>
                      </div>
                      <div style="padding-top:10px;">
-                        <table id="tblWorkbook" class="slds-table slds-wrap slds-table_cell-buffer slds-table_bordered slds-table_striped slds-table_col-bordered">
+                        <table id="tblWorkbook" class="slds-table slds-wrap  slds-table_cell-buffer slds-table_bordered slds-table_col-bordered ">
                            <thead>
-                              <tr class="slds-line-height_reset ">
+                              <tr class="slds-line-height_reset">
                                  <th class="header-color" scope="col" id="thWorkbookName">
                                     <div class="slds-truncate slds-cell-wrap">{!$label.AH_UDC_Welcome_Workbook_Name_Column_Text}</div>
-                                    <img src="{!$Resource.AH_UDC_Sort_Asc_Image}" class="sort-img sort-img-asc" />
-                                    <img src="{!$Resource.AH_UDC_Sort_Desc_Image}" class="sort-img sort-img-desc" />
+                                    <img src="{!URLFOR($Resource.AH_UDC_Sort_Asc_Image)}" class="sort-img sort-img-asc" />
+                                    <img src="{!URLFOR($Resource.AH_UDC_Sort_Desc_Image)}" class="sort-img sort-img-desc" />
                                  </th>
                                  <th class="header-color" scope="col" id="thDuedate">
                                     <div class="slds-truncate slds-cell-wrap">{!$label.AH_UDC_Welcome_Due_Date_Column_Text}</div>
-                                    <img src="{!$Resource.AH_UDC_Sort_Asc_Image}" class="sort-img sort-img-asc" />
-                                    <img src="{!$Resource.AH_UDC_Sort_Desc_Image}" class="sort-img sort-img-desc" />
+                                    <img src="{!URLFOR($Resource.AH_UDC_Sort_Asc_Image)}" class="sort-img sort-img-asc" />
+                                    <img src="{!URLFOR($Resource.AH_UDC_Sort_Desc_Image)}" class="sort-img sort-img-desc" />
                                  </th>
                                  <th class="header-color sorting_asc" id="thStatus" scope="col">
                                     <div class="slds-truncate">{!$label.AH_UDC_Welcome_Status_Column_Text}</div>
-                                    <img src="{!$Resource.AH_UDC_Sort_Asc_Image}" class="sort-img sort-img-asc" />
-                                    <img src="{!$Resource.AH_UDC_Sort_Desc_Image}" class="sort-img sort-img-desc" />
+                                    <img src="{!URLFOR($Resource.AH_UDC_Sort_Asc_Image)}" class="sort-img sort-img-asc" />
+                                    <img src="{!URLFOR($Resource.AH_UDC_Sort_Desc_Image)}" class="sort-img sort-img-desc" />
                                  </th>
                                  <th class="header-color" scope="col">
                                     <div class="slds-truncate">{!$label.AH_UDC_Welcome_Product_Column_Text}</div>
-                                    <img src="{!$Resource.AH_UDC_Sort_Asc_Image}" class="sort-img sort-img-asc" />
-                                    <img src="{!$Resource.AH_UDC_Sort_Desc_Image}" class="sort-img sort-img-desc" />
+                                    <img src="{!URLFOR($Resource.AH_UDC_Sort_Asc_Image)}" class="sort-img sort-img-asc" />
+                                    <img src="{!URLFOR($Resource.AH_UDC_Sort_Desc_Image)}" class="sort-img sort-img-desc" />
                                  </th>
                                  <th class="header-color" scope="col">
                                     <div class="slds-truncate">{!$label.AH_UDC_Welcome_Property_Column_Text}</div>
-                                    <img src="{!$Resource.AH_UDC_Sort_Asc_Image}" class="sort-img sort-img-asc" />
-                                    <img src="{!$Resource.AH_UDC_Sort_Desc_Image}" class="sort-img sort-img-desc" />
+                                    <img src="{!URLFOR($Resource.AH_UDC_Sort_Asc_Image)}" class="sort-img sort-img-asc" />
+                                    <img src="{!URLFOR($Resource.AH_UDC_Sort_Desc_Image)}" class="sort-img sort-img-desc" />
                                  </th>
                                  <th id="thStatusNumber" style="display:none">
                                     <div>Status Number</div>
@@ -149,34 +142,33 @@ Change History  :
                               </tr>
                            </thead>
                            <tbody>
-                              <apex:repeat value="{!WorkbookList}" var="workbook">
-                                 <!--TODO change highlight/pointer/hyperlink to entire row rather than just workbook name-->
+                              <apex:repeat value="{!WorkbookList}" var="workbook">                                
                                  <tr class="slds-hint-parent">
-                                    <td data-label="{!$Label.AH_UDC_Welcome_Workbook_Name_Column_Text}">
+                                    <td role="gridcell">
                                        <div class="slds-truncate slds-cell-wrap wrapword">
-                                          <apex:outputPanel rendered="{!workbook.Status!='Completed/Locked'}">
-                                             <a class="workbook-name" onclick="javascript: removeCommunityImageAndSearchBar();" href="/customers/AH_UDC_ViewWorkbook?id={!workbook.Id}" target="_top" tabindex="-1">{!workbook.WorkbookName}</a>
-                                          </apex:outputPanel>
-                                          <apex:outputPanel rendered="{!workbook.Status=='Completed/Locked'}">
-                                             <span class="workbook-name" title="This workbook is complete" tabindex="-1" style="cursor:pointer;">{!workbook.WorkbookName}</span>
-                                          </apex:outputPanel>                                     
+                                          <apex:outputpanel rendered="{!workbook.Status!='Completed/Locked'}">
+                                             <a class="workbook-name" onclick="javascript: removeCommunityImageAndSearchBar(); " href="/customers/AH_UDC_ViewWorkbook?id={!workbook.Id}" target="_top" tabindex="-1">{!workbook.DocumentName}</a>
+                                          </apex:outputpanel>
+                                          <apex:outputpanel rendered="{!workbook.Status=='Completed/Locked'}">
+                                             <span class="workbook-name" title="This workbook is complete" tabindex="-1" style="cursor:pointer;">{!workbook.DocumentName}</span>
+                                          </apex:outputpanel>
                                        </div>
                                     </td>
-                                    <td data-label="{!$Label.AH_UDC_Welcome_Due_Date_Column_Text}">
+                                    <td role="gridcell">
                                        <apex:outputtext styleclass="slds-truncate slds-cell-wrap" value="{0,date,YYYY-MMM-dd}">
                                           <apex:param value="{!workbook.dueDate}" />
                                        </apex:outputtext>
                                     </td>
-                                    <td data-label="{!$Label.AH_UDC_Welcome_Status_Column_Text}">
+                                    <td role="gridcell">                                  
                                        <div class="slds-truncate slds-cell-wrap">{!workbook.Status}</div>
                                     </td>
-                                    <td data-label="{!$Label.AH_UDC_Welcome_Product_Column_Text}">
+                                    <td role="gridcell">
                                        <div class="slds-truncate slds-cell-wrap">{!workbook.Product}</div>
                                     </td>
-                                    <td data-label="{!$Label.AH_UDC_Welcome_Property_Column_Text}">
+                                    <td role="gridcell">
                                        <div class="slds-truncate slds-cell-wrap">{!workbook.PropertyName}</div>
                                     </td>
-                                    <td data-label="Status Number" style="display:none">
+                                    <td style="display:none" role="gridcell">
                                        <div class="slds-truncate slds-cell-wrap">{!workbook.StatusNumber}</div>
                                     </td>
                                  </tr>
@@ -188,8 +180,14 @@ Change History  :
                </apex:outputpanel>
             </div>
          </apex:form>
-         <apex:outputPanel id="scriptPanel">
+         <apex:outputpanel id="scriptPanel">
             <script type="text/javascript">
+               var logMessages = '{!HasPageLoadLogMessages}';
+               //Log Any Messages
+               if (logMessages=='true')
+               {
+                  setTimeout(actionfunction_LogMessages, 500);
+               }
                function actionCompleted() {
                   if('{!IsErrorOccurred}'.toLowerCase() == 'true') {
                      //Hide all controls if error occurred
@@ -200,13 +198,11 @@ Change History  :
                   //Initialize the datatable
                   initializeDataTable();
                   window.parent.scrollTo(0, 0); //Scroll to top and display error message
-                  //Set community page height based on our page content height to remove extra space at bottom
-                  setCommunityPageHeight();
                   $('#spinner').hide();
-               }
+               }             
+               
             </script>
-         </apex:outputPanel>
-
+         </apex:outputpanel>
          <script type="text/javascript">
             function OnTermsAndConditionClickNext(cbOptIntoChatter) {
                serverTermsAndConditionNext(cbOptIntoChatter);
@@ -215,7 +211,7 @@ Change History  :
             //Initialize the datatable
             function initializeDataTable() {
                var tblWorkbook = $('#tblWorkbook').DataTable({ //Bind jquery datatable for sorting and pagination
-                  "lengthMenu": [[5, 10, 25, 50, 100], [5 ,10, 25, 50, 100]],
+                  "lengthMenu": [[10, 25, 50, 100], [10, 25, 50, 100]],
                   "order": [[ 2, "asc" ],[ 1, "asc" ],[ 0, "asc" ]],
                   "columnDefs": [{ "orderData": [ 5 ], "targets": 2 }]
                });
@@ -229,72 +225,16 @@ Change History  :
             }
 
             $(document).ready(function () {
-               //Set community page height based on our page content height to remove extra space at bottom
-               setTimeout(setCommunityPageHeight, 200);
-
                if('{!IsTermsandConditionAccepted}'.toLowerCase() == 'true') {
                   //Initialize the datatable
                   initializeDataTable();
                }
-
-                window.onbeforeunload = function() { //Before leaving Product Workbook tab
-                    var parentWindow = window.parent.document;
-                    //Display top white-space which was removed previously on community layout
-                    $('div[data-region-name="customHeader"]', parentWindow).show();
-
-                    //Display Section-A (Search bar and Profile Menu) which was hide prviously on community layout
-                    $('.cHeaderLine', parentWindow).show();
-                    $('.cNavBarCon', parentWindow).css('position', 'absolute');
-                }
-
+               
                 $('#spinner').hide();
             });
 
-            $(window.parent.document).ready(function() { //Onload of community page
-                var parentWindow = window.parent.document;
 
-                //Hide top white-space from community layout
-                $('div[data-region-name="customHeader"]', parentWindow).hide();
-
-                //Hide Section-A (Search bar and Profile Menu) from community layout
-                $('.cHeaderLine', parentWindow).hide();
-                $('.cNavBarCon', parentWindow).css('position', 'initial');
-
-                //Hide top image
-                $('.comm-content-header', parentWindow).hide();
-
-                //Optimizing white space
-                if(window.parent.document.body.getElementsByClassName('cCenterPanel')) {
-                  window.parent.document.body.getElementsByClassName('cCenterPanel')[0].style['max-width'] = '1400px';
-                }
-            });
-
-            $(window.parent).resize(function() {
-               //Set community page height based on our page content height to remove extra space at bottom
-               setTimeout(setCommunityPageHeight, 200);
-            });
-
-            function removeCommunityImageAndSearchBar() {
-               var parentWindow = window.parent.document;
-               //Remove top white-space from community layout
-               $('div[data-region-name="customHeader"]', parentWindow).remove();
-
-               //Remove Section-A (Search bar and Profile Menu) from community layout
-               $('.cHeaderLine', parentWindow).remove();
-               var strHtml = $('.cNavBarCon', parentWindow).html();
-               $('.cNavBarCon', parentWindow).empty();
-               $('.cNavBarCon', parentWindow).parent().append(strHtml);
-               $('.cNavBarCon', parentWindow).remove();
-
-               //Remove top image
-               $('.comm-content-header', parentWindow).remove();
-            }
-
-            //Set community page height based on our page content height to remove extra scroll bars
-            function setCommunityPageHeight() {
-               var parentWindow = window.parent.document;
-               $('.comm-layout-column .forceCommunityTabset .forceCommunityVisualforcePage iframe', parentWindow).attr('height', $('#divUDCWelcome').outerHeight() + 70);
-            }
+            
          </script>
       </div>
    </body>

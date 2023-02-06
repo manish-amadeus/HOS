@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PermissionSet xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>NICC-030470
+Part of the &quot;Cancellation - Consolidate General and Specific Reasons&quot; project to give access to update the General Reason Field on existing records.  Original assigned to Mary Dugdale to update this field for the Cancellation KPI Report.</description>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>NI_Cancellation__c.General_Reason__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <hasActivationRequired>false</hasActivationRequired>
+    <label>Cancellations - Update General Reason Field</label>
+    <license>Salesforce</license>
+    <objectPermissions>
+        <allowCreate>false</allowCreate>
+        <allowDelete>false</allowDelete>
+        <allowEdit>true</allowEdit>
+        <allowRead>true</allowRead>
+        <modifyAllRecords>false</modifyAllRecords>
+        <object>NI_Cancellation__c</object>
+        <viewAllRecords>false</viewAllRecords>
+    </objectPermissions>
+</PermissionSet>

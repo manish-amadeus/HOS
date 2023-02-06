@@ -1,0 +1,15 @@
+<script src="{!Scontrol.URL}" type="text/javascript"></script>
+<script language="JavaScript"> 
+     sforceClient.init("{!API.Session_ID}", "{!API.Partner_Server_URL_60}");
+	//Check to see if we are standalone or hosted in scontrol
+	if (sforceClient.getSessionId().indexOf("API_Session_ID") != -1)
+	{
+	     alert("Invalid! User not Logged In");
+	     self.parent.location.replace( "/{!Opportunity.Id}");	
+	}
+	else
+	{
+	      var url="/a04?fcf=00B600000033kK8";
+           self.parent.location.replace(url);
+	}
+</script>

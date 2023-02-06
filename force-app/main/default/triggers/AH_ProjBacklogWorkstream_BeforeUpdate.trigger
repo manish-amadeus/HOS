@@ -10,11 +10,8 @@ Description     : Handles the before update logic of the
                 :
                 :
 ******************************************************************************************/
-
 trigger AH_ProjBacklogWorkstream_BeforeUpdate on AH_Project_Backlog_Workstreams__c (before update) 
-
 {
-            AH_ProjBacklogWorkstream_TriggerHandler handler = new AH_ProjBacklogWorkstream_TriggerHandler();
-            handler.OnBeforeUpdate(Trigger.new,Trigger.oldMap);
-
+    AH_ProjBacklogWorkstream_TriggerHandler handler = new AH_ProjBacklogWorkstream_TriggerHandler();
+    handler.OnBeforeUpdate(Trigger.new, Trigger.oldMap);
 }

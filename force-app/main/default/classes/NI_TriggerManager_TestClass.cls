@@ -126,6 +126,9 @@ private class NI_TriggerManager_TestClass
         NI_TriggerManager.is1stInsert_Case_Report_Detail = false;
         system.assertEquals(false, NI_TriggerManager.is1stInsert_Case_Report_Detail);
         
+//        NI_TriggerManager.processedSolutions = true; 
+//        system.assertEquals(true, NI_TriggerManager.processedSolutions);
+        
     }
 
     static testMethod void testDIIndexGlobals() 

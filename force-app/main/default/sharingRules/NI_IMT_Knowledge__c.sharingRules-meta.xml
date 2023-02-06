@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<SharingRules xmlns="http://soap.sforce.com/2006/04/metadata">
+    <sharingCriteriaRules>
+        <fullName>InterContinental_Hotels_Group</fullName>
+        <accessLevel>Edit</accessLevel>
+        <description>Share IMT Knowledge records that have the &quot;InterContinental Hotels Group&quot; Record Type</description>
+        <label>InterContinental Hotels Group</label>
+        <sharedTo>
+            <portalRoleAndSubordinates>InterContinentalHotelsGroupAmericasCustomerUser</portalRoleAndSubordinates>
+        </sharedTo>
+        <criteriaItems>
+            <field>RecordTypeId</field>
+            <operation>equals</operation>
+            <value>InterContinental Hotels Group</value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>false</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
+</SharingRules>

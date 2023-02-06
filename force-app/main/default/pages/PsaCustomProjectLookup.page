@@ -1,97 +1,97 @@
 <apex:page controller="PsaCustomProjectLookupController" showHeader="false">
-<body class="lookupTab"> 
-<div class="lookup"> 
-  <div class="bPageTitle">
-    <div class="ptBody secondaryPalette">
-      <div class="content">
-        <img title="" class="pageTitleIcon" alt="" src="/s.gif" />
-          <h1>Choose Project and Milestone</h1>
-      </div>
-    </div>
-
-  </div>
-</div>
-<font size="2" color="red" id="errorTd"></font>
-</body>
-
-<script>   
+    <body class="lookupTab"> 
+        <div class="lookup"> 
+            <div class="bPageTitle">
+                <div class="ptBody secondaryPalette">
+                    <div class="content">
+                        <img title="" class="pageTitleIcon" alt="" src="/s.gif" />
+                        <h1>Choose Project and Milestone</h1>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+        <font size="2" color="red" id="errorTd"></font>
+    </body>
+    
+    <script>   
     function setParentParameters(projectId, projectName, milestoneId, milestoneName)
     {
         top.window.opener.setProjectValue('PsaCustomSelfAssignment','pgSA:frmSA:pbSA:pbs1:project_lkid','pgSA:frmSA:pbSA:pbs1:project_lkold',projectId,projectName);
         top.window.opener.setMilestoneValue('PsaCustomSelfAssignment','pgSA:frmSA:pbSA:pbs1:milestone_lkid','pgSA:frmSA:pbSA:pbs1:milestone_lkold',milestoneId,milestoneName);
         parent.window.close();
     }
-   
-</script>
-<apex:form >
-<apex:outputPanel id="pb">
-    <apex:actionstatus startText="Please wait.." id="status"/><br/>
-    <apex:outputLabel for="name">Search</apex:outputLabel>&nbsp;&nbsp;
-    <apex:inputText value="{!projectName}"/>&nbsp;&nbsp;
-    <apex:commandButton value="Go"  onclick="goAF();return false;" status="status"/>
-</apex:outputPanel>
-<br/><br/>
-<apex:messages style="color:#ff0000;" id="msg"/>
-
-<apex:pageBlock id="projectBlock">
-<apex:outputPanel rendered="{!IF(milestones.size > 0,true,false)}">
-      <table  cellpadding="0" cellspacing="0">  
-        <tr>
-          <td width="30%">
-            <apex:actionStatus startStyle="color:Red;font-weight:bold" startText="Loading...Please wait" stopText="" id="myStatus1"/>
-          </td>
-          <td align="Right">
-            &nbsp;&nbsp;&nbsp;
-            <apex:commandLink action="{!milestoneStdSetCntrl.first}"  value="First" id="firstLnk" status="myStatus1" rendered="{!milestoneStdSetCntrl.hasPrevious}"/>&nbsp;
-            <apex:outputLabel value="First" id="firstLabel" rendered="{!NOT(milestoneStdSetCntrl.hasPrevious)}" style="color:#A2A2A2;"/>&nbsp;
-            <apex:commandLink action="{!milestoneStdSetCntrl.previous}" value="Previous" id="prevLnk" status="myStatus1" rendered="{!milestoneStdSetCntrl.hasPrevious}"/>
-            <apex:outputLabel value="Previous" id="prevLabel" rendered="{!NOT(milestoneStdSetCntrl.hasPrevious)}" style="color:#A2A2A2;"/>
-            &nbsp;
-          </td>  
-          <td align="Left" >
-            &nbsp;&nbsp;
-            <apex:commandLink action="{!milestoneStdSetCntrl.next}" value="Next" id="nextLnk" status="myStatus1" rendered="{!milestoneStdSetCntrl.hasNext}"/>&nbsp;
-            <apex:outputLabel value="Next" id="nextLabel" rendered="{!NOT(milestoneStdSetCntrl.hasNext)}" style="color:#A2A2A2;"/>&nbsp;
-            <apex:commandLink action="{!milestoneStdSetCntrl.last}" value="Last" id="lastLnk" status="myStatus1" rendered="{!milestoneStdSetCntrl.hasNext}"/>
-            <apex:outputLabel value="Last" id="lastLabel" rendered="{!NOT(milestoneStdSetCntrl.hasNext)}" style="color:#A2A2A2;"/>
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
-         </tr> 
-      </table>
-    </apex:outputPanel>
-    <apex:pageBlockTable value="{!milestones}" var="milestone" id="milestones" >
-        <apex:column headerValue="Project">
-            <a href="javascript:void(0);" onclick='setParentParameters("{!milestone.pse__Project__r.Id}","{!milestone.pse__Project__r.Name}","{!milestone.Id}","{!milestone.Name}");'>{!milestone.pse__Project__r.Name}</a>
-        </apex:column>
+    
+    </script>
+    <apex:form >
+        <apex:outputPanel id="pb">
+            <apex:actionstatus startText="Please wait.." id="status"/><br/>
+            <apex:outputLabel for="name">Search</apex:outputLabel>&nbsp;&nbsp;
+            <apex:inputText value="{!projectName}"/>&nbsp;&nbsp;
+            <apex:commandButton value="Go"  onclick="goAF();return false;" status="status"/>
+        </apex:outputPanel>
+        <br/><br/>
+        <apex:messages style="color:#ff0000;" id="msg"/>
         
-        <apex:column headerValue="Milestone">
-            <!-- <a href="javascript:void(0);" onclick='setProjectParentParameter("{!milestone.Id}","{!milestone.Name}");'>{!milestone.Name}</a> -->
-            <a href="javascript:void(0);" onclick='setParentParameters("{!milestone.pse__Project__r.Id}","{!milestone.pse__Project__r.Name}","{!milestone.Id}","{!milestone.Name}");'>{!milestone.Name}</a>
-        </apex:column>
-        <apex:column headerValue="Override Project Practice">
-            <apex:outputText value="{!milestone.pse__Override_Project_Practice__r.Name}"/>    
-        </apex:column>
-        <apex:column headerValue="Milestone Type">
-           <apex:outputText value="{!milestone.Milestone_Type__c}"/>
-        </apex:column>
-        <apex:column >
-        <apex:facet name="header">
-            <apex:outputText value="Milestone Target Date"/>
-               </apex:facet>             
-                  <apex:outputText value="{0,date,MM'/'dd'/'yyyy}">
-                  <apex:param value="{!milestone.pse__Target_Date__c}"/>
-               </apex:outputText> 
-        </apex:column>
-        <apex:column headerValue="Managed Property">
-           <apex:outputText value="{!milestone.Managed_Property__r.Name}"/>
-        </apex:column>
-     
-    </apex:pageBlockTable>
-    <br/>
-    <apex:outputLabel value="No Records Found" rendered="{!milestones.size == 0}" />
-    
-    <apex:actionFunction name="goAF" action="{!go}" rerender="projectBlock,msg"/>
-    
-</apex:pageBlock>
-
-</apex:form>
+        <apex:pageBlock id="projectBlock">
+            <apex:outputPanel rendered="{!IF(milestones.size > 0,true,false)}">
+                <table  cellpadding="0" cellspacing="0">  
+                    <tr>
+                        <td width="30%">
+                            <apex:actionStatus startStyle="color:Red;font-weight:bold" startText="Loading...Please wait" stopText="" id="myStatus1"/>
+                        </td>
+                        <td align="Right">
+                            &nbsp;&nbsp;&nbsp;
+                            <apex:commandLink action="{!milestoneStdSetCntrl.first}"  value="First" id="firstLnk" status="myStatus1" rendered="{!milestoneStdSetCntrl.hasPrevious}"/>&nbsp;
+                            <apex:outputLabel value="First" id="firstLabel" rendered="{!NOT(milestoneStdSetCntrl.hasPrevious)}" style="color:#A2A2A2;"/>&nbsp;
+                            <apex:commandLink action="{!milestoneStdSetCntrl.previous}" value="Previous" id="prevLnk" status="myStatus1" rendered="{!milestoneStdSetCntrl.hasPrevious}"/>
+                            <apex:outputLabel value="Previous" id="prevLabel" rendered="{!NOT(milestoneStdSetCntrl.hasPrevious)}" style="color:#A2A2A2;"/>
+                            &nbsp;
+                        </td>  
+                        <td align="Left" >
+                            &nbsp;&nbsp;
+                            <apex:commandLink action="{!milestoneStdSetCntrl.next}" value="Next" id="nextLnk" status="myStatus1" rendered="{!milestoneStdSetCntrl.hasNext}"/>&nbsp;
+                            <apex:outputLabel value="Next" id="nextLabel" rendered="{!NOT(milestoneStdSetCntrl.hasNext)}" style="color:#A2A2A2;"/>&nbsp;
+                            <apex:commandLink action="{!milestoneStdSetCntrl.last}" value="Last" id="lastLnk" status="myStatus1" rendered="{!milestoneStdSetCntrl.hasNext}"/>
+                            <apex:outputLabel value="Last" id="lastLabel" rendered="{!NOT(milestoneStdSetCntrl.hasNext)}" style="color:#A2A2A2;"/>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                    </tr> 
+                </table>
+            </apex:outputPanel>
+            <apex:pageBlockTable value="{!milestones}" var="milestone" id="milestones" >
+                <apex:column headerValue="Project">
+                    <a href="javascript:void(0);" onclick='setParentParameters("{!milestone.pse__Project__r.Id}","{!milestone.pse__Project__r.Name}","{!milestone.Id}","{!milestone.Name}");'>{!milestone.pse__Project__r.Name}</a>
+                </apex:column>
+                
+                <apex:column headerValue="Milestone">
+                    <!-- <a href="javascript:void(0);" onclick='setProjectParentParameter("{!milestone.Id}","{!milestone.Name}");'>{!milestone.Name}</a> -->
+                    <a href="javascript:void(0);" onclick='setParentParameters("{!milestone.pse__Project__r.Id}","{!milestone.pse__Project__r.Name}","{!milestone.Id}","{!milestone.Name}");'>{!milestone.Name}</a>
+                </apex:column>
+                <apex:column headerValue="Override Project Practice">
+                    <apex:outputText value="{!milestone.pse__Override_Project_Practice__r.Name}"/>    
+                </apex:column>
+                <apex:column headerValue="Milestone Type">
+                    <apex:outputText value="{!milestone.Milestone_Type__c}"/>
+                </apex:column>
+                <apex:column >
+                    <apex:facet name="header">
+                        <apex:outputText value="Milestone Target Date"/>
+                    </apex:facet>             
+                    <apex:outputText value="{0,date,MM'/'dd'/'yyyy}">
+                        <apex:param value="{!milestone.pse__Target_Date__c}"/>
+                    </apex:outputText> 
+                </apex:column>
+                <apex:column headerValue="Managed Property">
+                    <apex:outputText value="{!milestone.Managed_Property__r.Name}"/>
+                </apex:column>
+                
+            </apex:pageBlockTable>
+            <br/>
+            <apex:outputLabel value="No Records Found" rendered="{!milestones.size == 0}" />
+            
+            <apex:actionFunction name="goAF" action="{!go}" rerender="projectBlock,msg"/>
+            
+        </apex:pageBlock>
+        
+    </apex:form>
 </apex:page>

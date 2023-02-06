@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PermissionSet xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>Members of this permission set are able to edit the &quot;Missing Pieces Y-N&quot; field on the opportunity object</description>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Opportunity.Missing_Pieces_Y_N__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <hasActivationRequired>false</hasActivationRequired>
+    <label>Opportunity - Missing Pieces Edit</label>
+    <license>Salesforce</license>
+</PermissionSet>

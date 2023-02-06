@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PermissionSet xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>This permission set gives edit access to the State, Reason, Public Status and Public Status Description fields on the Change Request (SFDC_CSP_Development_Request__c) object. This was originally created for the Breda Office for CRs not integrated to TFS</description>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>SFDC_CSP_Development_Request__c.Public_Status_Description__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>SFDC_CSP_Development_Request__c.Public_Status__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>SFDC_CSP_Development_Request__c.Reason__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>SFDC_CSP_Development_Request__c.State__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <hasActivationRequired>false</hasActivationRequired>
+    <label>CR - Edit State, Reason, Public Status, Public Status Description Fields</label>
+    <objectPermissions>
+        <allowCreate>false</allowCreate>
+        <allowDelete>false</allowDelete>
+        <allowEdit>true</allowEdit>
+        <allowRead>true</allowRead>
+        <modifyAllRecords>false</modifyAllRecords>
+        <object>SFDC_CSP_Development_Request__c</object>
+        <viewAllRecords>false</viewAllRecords>
+    </objectPermissions>
+    <tabSettings>
+        <tab>SFDC_CSP_Development_Request__c</tab>
+        <visibility>Visible</visibility>
+    </tabSettings>
+</PermissionSet>

@@ -9,7 +9,7 @@ Description     : Created because test class failed after deleting Product_Group
                 : on Case Object. Pulled this test code out into its own class.
                 : 
 ******************************************************************************************/
-@isTest //(SeeAllData=true)
+@isTest
 private class PushSolutions_Test 
 {
 
@@ -81,7 +81,8 @@ private class PushSolutions_Test
             lstSols.Add(s2);       
             
             Solution s3 = NI_TestClassData.createSolution(3); 
-            s3.RecordTypeId = rtId;         
+            s3.RecordTypeId = rtId;    
+            s3.Origin_Case__c = childCase.Id;
             lstSols.Add(s3); 
             
             Database.Insert(lstSols);

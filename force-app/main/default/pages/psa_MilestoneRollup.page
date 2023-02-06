@@ -1,13 +1,11 @@
 <apex:page standardController="pse__Milestone__c">
-
-<flow:interview name="MilestoneTotalRecalc"
-
-finishLocation="/{!pse__Milestone__c.pse__Project__c}">
-
-<apex:param name="varProjectId" value="{!pse__Milestone__c.pse__Project__c}"/>
-
-<apex:param name="varMilestoneId" value="{!pse__Milestone__c.Id}"/>
-
-</flow:interview>
-
+    
+    <flow:interview name="MilestoneTotalRecalc" finishLocation="/{!pse__Milestone__c.pse__Project__c}">
+        
+        <apex:param name="varProjectId" value="{!pse__Milestone__c.pse__Project__c}"/>
+        
+        <apex:param name="varMilestoneId" value="{!pse__Milestone__c.Id}"/>
+        
+    </flow:interview>
+    
 </apex:page>

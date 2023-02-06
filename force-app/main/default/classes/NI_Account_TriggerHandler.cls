@@ -22,17 +22,17 @@ public with sharing class NI_Account_TriggerHandler
     // ========================================================================================================================
     //  ENTRY METHODS =========================================================================================================
     // ========================================================================================================================    
-
     public void OnBeforeInsert(List<Account> newListTrigger)
     {
-        for(Account acc : newListTrigger)
+        for (Account acc : newListTrigger)
         {
             // Update "Type"
             if (acc.Billing_Verification__c)
             {
                 acc.Type = 'Needs Verification';
             }
-            else {
+            else 
+            {
                 if (acc.Permanently_Closed__c)
                 {
                     acc.Type = 'Permanently Closed';
@@ -47,7 +47,7 @@ public with sharing class NI_Account_TriggerHandler
         List<Id> updateDIListtarClus = new List<Id>();       
         for (Account acc : newMapTrigger.values())
         {
-            //Check Current Cluster or Current Meetingmatrix clutser is Not a Null Value    
+            // Check Current Cluster or Current Meetingmatrix clutser is Not a Null Value    
             if (acc.current_MPE_Cluster__c != null || acc.Current_MeetingMatrix_MPE_Cluster__c != Null)
             {
                 updateDIListcurClus.add(acc.Id);
@@ -155,23 +155,17 @@ public with sharing class NI_Account_TriggerHandler
             } 
         }
     } 
-    
-//    public void OnAfterDelete(List<Account> oldTrigger)
-//    {
-//    }
-    
-
-    
+   
     // ========================================================================================================================
     //  HANDLER FUNCTIONS =====================================================================================================
     // ========================================================================================================================  
-    
-    // Added By: Sunita Mittal
-    // Added On: 12/10/2015
-    // Description:Updates the Version, Products, Status Fields on Deployment Instaces if Deployment Instance found related Cluster    
-    //             Create new Deployment Instance if related DI no found
     public void updateDIObj(List<Id> updateDIcurClus)
     {
+        
+        // Added By: Sunita Mittal
+        // Added On: 12/10/2015
+        // Description:Updates the Version, Products, Status Fields on Deployment Instaces if Deployment Instance found related Cluster    
+        //             Create new Deployment Instance if related DI no found
         
         Set<Id> clusAccIds = new Set<Id>(); 
         Set<Id> meetMatrxclusAccIds = new Set<Id>(); 
@@ -212,8 +206,7 @@ public with sharing class NI_Account_TriggerHandler
                         meetmtrxDataList.add(String.valueOf(a.Current_MeetingMatrix_MPE_Cluster__r.Hosted__c));                        
                         diMeetmtrxClusMap.put(String.valueOf(a.Id) + String.valueOf(a.Current_MeetingMatrix_MPE_Cluster__r.DI_Index__c), meetmtrxDataList);
                     }                    
-                } 
-                // system.debug('****diClusMap*****'+diClusMap);                                                            
+                }                                                       
             }
             
             for (List<Asset> depInsList : [SELECT Version__c, IsHostedDI__c, AccountId_DIIndexID__c, Account.current_MPE_Cluster__c 
@@ -222,7 +215,6 @@ public with sharing class NI_Account_TriggerHandler
                                            AND (AccountId_DIIndexID__c IN : diClusMap.keyset() OR AccountId_DIIndexID__c IN : diMeetmtrxClusMap.keySet())])
             {
                 List<Asset> diList = new List<Asset>();
-                // system.debug('****depInsList *****' + depInsList ); 
                 // if DI's related to Current Cluster or Current Meeting Matrix cluster are found, then update the DI with cluster's Data
                 for (Asset depIns : depInsList)
                 {   
@@ -249,10 +241,11 @@ public with sharing class NI_Account_TriggerHandler
         
     }  
     
-    //@ Added On: 02/19/2016
-    //@ Description:Verify that Account has the active DI related to selected DI 
     public void checkDIExistsforCluster(Set<Id> delphiClusterIds, Set<Id> meetMatrixClusterIds, Map<id, Account> accntMap, List<Account> accList)
     { 
+        
+        //@ Added On: 02/19/2016
+        //@ Description:Verify that Account has the active DI related to selected DI 
         
         Set<String> accIdIndexId = new Set<String>();
         

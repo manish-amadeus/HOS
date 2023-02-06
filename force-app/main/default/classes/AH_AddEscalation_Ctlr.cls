@@ -123,7 +123,8 @@ public class AH_AddEscalation_Ctlr
             bShowSelectRecType = false;
             bEscalationAttached = false;        
 
-            pr = new pageReference('/' + esca.Id + '/e');
+            pr = new pageReference('/' + esca.Id + '/e?retURL=' + esca.Id);
+
             pr.setRedirect(true);
             
         }

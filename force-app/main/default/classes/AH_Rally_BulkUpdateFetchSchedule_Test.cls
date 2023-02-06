@@ -93,7 +93,7 @@ public class AH_Rally_BulkUpdateFetchSchedule_Test
                 
         Test.startTest();
         
-        String CRON_EXP = '0 0 0 3 9 ? 2022';
+        String CRON_EXP = '0 0 0 3 9 ? 2032';
         String jobId = System.schedule('testBasicScheduledApex', CRON_EXP, new AH_Rally_BulkUpdateFetchSchedule());
 
         Test.stopTest();
@@ -112,7 +112,7 @@ public class AH_Rally_BulkUpdateFetchSchedule_Test
         
         Test.startTest();
         
-        String CRON_EXP = '0 0 0 3 9 ? 2022';
+        String CRON_EXP = '0 0 0 3 9 ? 2032';
         String jobId = System.schedule('testBasicScheduledApex', CRON_EXP, new AH_Rally_BulkUpdateFetchSchedule());
         
         Test.stopTest(); 

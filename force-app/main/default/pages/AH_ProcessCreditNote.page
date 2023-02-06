@@ -92,30 +92,33 @@
     <apex:form >
         <apex:pageBlock title="Process Credit Note">
         <apex:pageBlockButtons >
-            <apex:commandButton value="Save" onclick="showLoadingModal();" reRender="dataSection" oncomplete="hideLoadingModal();checkAllFunction();" action="{!createBCLI}"/>
-            <apex:commandButton value="Back to Finance Request" action="{!backToBC}" />
+            <apex:commandButton value="Save" onclick="showLoadingModal();" reRender="dataSection" oncomplete="hideLoadingModal();checkAllFunction();" action="{!createBCLI}" rendered="{!!isProcessCreditNote}"/>
+            <apex:commandButton value="Back to Finance Request" action="{!backToBC}" /> 
         </apex:pageBlockButtons>
-        <!--<apex:outputText >
-            <div class="alert-box notice"><span>Instructions: </span>Select invoiced lines and optionally adjust the amount to be credited to the customer.</div>
-        </apex:outputText>-->
+        <apex:outputText rendered="{!isProcessCreditNote}">
+            <div class="alert-box notice"><span>Instructions: </span>This finance request already processed credit note.</div>
+        </apex:outputText>
         
-            <apex:pageBlockSection title="Invoiced Billing Lines" id="dataSection" columns="1">
+            <apex:pageBlockSection title="Invoiced Billing Lines" id="dataSection" columns="1" rendered="{!!isProcessCreditNote}">
                 
             <apex:pageMessages />
                 
                 <!-- 
                     Billing Lines to Credit
                 -->
-               <apex:pageBlockTable value="{!wrapperList}" var="wrapper">
+               <apex:pageBlockTable value="{!wrapperList}" var="wrapper" >
                    <apex:column headerValue="Include">
                        <!--<apex:facet name="header">
                         <apex:inputCheckbox value="{!isAllChecked}" styleClass="checkAll"/>
                         </apex:facet>-->
-                       <apex:inputCheckbox value="{!wrapper.check}" styleClass="checkbox"/>
+                       <apex:inputCheckbox value="{!wrapper.check}" styleClass="checkbox" disabled="{!wrapper.disabled}"/>
                    </apex:column>
                    <apex:column headerValue="Product Name">
                        <apex:outputLink value="/{!wrapper.silObject.c2g__Product__r.Name}" target="_blank">{!wrapper.silObject.c2g__Product__r.Name}</apex:outputLink>
                    </apex:column>
+                   <apex:column headerValue="Credit Processed?">
+	                    <apex:inputCheckbox value="{!wrapper.disabled}" disabled="true"/>
+	                </apex:column>
                    <!--<apex:column headerValue="Line Item">
                        <apex:outputLink value="/{!wrapper.silObject.Id}" target="_blank">{!wrapper.silObject.Name}</apex:outputLink>
                    </apex:column>
@@ -124,7 +127,7 @@
                    </apex:column>-->
                    
                    <apex:column headerValue="Quantity">
-                       <apex:inputField value="{!wrapper.silObject.c2g__Quantity__c}"/>
+                       <apex:outputField value="{!wrapper.silObject.c2g__Quantity__c}"/>
                    </apex:column>
                    <apex:column headerValue="Unit Price">
                        <apex:inputText value="{!wrapper.unitPrice}"/>

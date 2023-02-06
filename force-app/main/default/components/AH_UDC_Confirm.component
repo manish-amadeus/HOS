@@ -16,27 +16,31 @@
       .div {
          width: 100%;
       }
+      .tdSpacer {
+         width: 3px;
+      }
+
+      .tdLabel {
+         width: 120px;
+      }
    </style>
 
    <div id="divIntroduction">
-      <h2>
-         <span title="{!$Label.AH_UDC_Confirm_Label_Property_Information}">{!$Label.AH_UDC_Confirm_Label_Property_Information}</span>
-      </h2>
       <div>
          <table>
             <tr>
-               <td><label for="Name-input"><b>{!$Label.AH_UDC_Confirm_Label_Name}</b></label></td>
-               <td style="width:10px;"></td>
+               <td class="tdLabel"><label for="Name-input"><b>{!$Label.AH_UDC_Confirm_Label_Name}</b></label></td>
+               <td class="tdSpacer"></td>
                <td><label id="Workbook-Name-input">{!attributeWorkbook.propertyInfo.name}</label></td>
             </tr>
             <tr>
-               <td><label for="Address-input"><b>{!$Label.AH_UDC_Confirm_Label_Address}</b></label></td>
-               <td></td>
+               <td class="tdLabel"><label for="Address-input"><b>{!$Label.AH_UDC_Confirm_Label_Address}</b></label></td>
+               <td class="tdSpacer"></td>
                <td><label id="Address-input">{!attributeWorkbook.propertyInfo.address}</label></td>
             </tr>
             <tr>
-               <td><label for="Phone-input"><b>{!$Label.AH_UDC_Confirm_Label_Phone}</b></label></td>
-               <td></td>
+               <td class="tdLabel"><label for="Phone-input"><b>{!$Label.AH_UDC_Confirm_Label_Phone}</b></label></td>
+               <td class="tdSpacer"></td>
                <td><label id="Phone-input">{!attributeWorkbook.propertyInfo.phone}</label></td>
             </tr>
          </table>

@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
-    <fullName>PartnerLiveDateInFuture</fullName>
-    <active>true</active>
-    <description>Cannot Enter a Live Date in Future</description>
-    <errorConditionFormula>Live_Date__c &gt; TODAY()</errorConditionFormula>
-    <errorDisplayField>Live_Date__c</errorDisplayField>
-    <errorMessage>Cannot Enter a Live Date in Future</errorMessage>
-</ValidationRule>

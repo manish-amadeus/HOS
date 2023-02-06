@@ -20,6 +20,9 @@
             /* ****************************************
             CSS Variables
             ****************************************  */
+            body {
+               font-family: 'Source Sans Pro';
+            }
             :root {
                --text-color: #515e59;
                --primary-color: #005eb8;
@@ -97,10 +100,13 @@
       </head>
       <body>
          <apex:form >
+            <!--This action function is used to log entries that occurred on loading of the page-->
+            <apex:actionfunction name="actionfunction_LogMessages" action="{!ServerLogMessages}" oncomplete="return false;" />
+
             <!--Shown when in a dedicated window-->
             <apex:outputPanel rendered="{!PopOut}">
                <div class="logo">
-                  <img src="{!$Resource.AH_UDC_AmadeusWhiteLogo}" alt="Amadeus Logo" />
+                  <img src="{!URLFOR($Resource.AH_UDC_AmadeusWhiteLogo)}" alt="Amadeus Logo" />
                </div>
          
                <!--Section for showing errors-->
@@ -141,6 +147,11 @@
          </apex:form>
 
          <script>
+            //Log Any Messages
+            if ('{!HasPageLoadLogMessages}'.toLowerCase() == 'true') {
+               setTimeout(actionfunction_LogMessages, 500);
+            }
+
             //Open Help in Seaprate Window on click of popout button
             function onClickPopOut() {
                //Tell the parent to close the help sidebar

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PermissionSet xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>Members of this permission set have edit permission to the following fields on the Account object:
+SCE/SPE Server 
+SCE/SPE Company 
+SCE/SPE Site 
+SCE/SPE Option
+SVP Company 
+SVP Property</description>
+    <hasActivationRequired>false</hasActivationRequired>
+    <label>Account - Edit Technical HSP Fields</label>
+    <license>Salesforce</license>
+    <objectPermissions>
+        <allowCreate>false</allowCreate>
+        <allowDelete>false</allowDelete>
+        <allowEdit>true</allowEdit>
+        <allowRead>true</allowRead>
+        <modifyAllRecords>false</modifyAllRecords>
+        <object>Account</object>
+        <viewAllRecords>true</viewAllRecords>
+    </objectPermissions>
+</PermissionSet>

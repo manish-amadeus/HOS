@@ -6,7 +6,7 @@ Last Mod Date   : 11/18/2020
 Last Mod By     : Sean Harris 
 NICC Reference  : 
 Description     : Test class for AH_AddEscalation_Ctlr Controller.
-                           
+                :            
 ******************************************************************************************/
 @isTest
 public class AH_AddEscalation_Ctlr_Test 
@@ -167,7 +167,8 @@ public class AH_AddEscalation_Ctlr_Test
         system.assertEquals(1, lstEsc2Case.size());
         system.assertEquals(c.Id, lstEsc2Case[0].Case__c); 
         
-        Test.stopTest();     
+        Test.stopTest(); 
+        
     }
     
 }

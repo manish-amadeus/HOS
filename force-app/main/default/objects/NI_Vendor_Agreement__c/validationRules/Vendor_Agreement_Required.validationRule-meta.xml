@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
-    <fullName>Vendor_Agreement_Required</fullName>
-    <active>true</active>
-    <description>The Vendor Agreement field is required for Custom Vendor Agreement records</description>
-    <errorConditionFormula>AND(RecordType.Name = &quot;Custom Vendor Agreement&quot;,ISBLANK( Vendor_Agreement__c))</errorConditionFormula>
-    <errorDisplayField>Vendor_Agreement__c</errorDisplayField>
-    <errorMessage>The Vendor Agreement field is required on Customer Agreement records</errorMessage>
-</ValidationRule>

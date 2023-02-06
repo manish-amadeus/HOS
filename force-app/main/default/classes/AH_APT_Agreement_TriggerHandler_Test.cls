@@ -142,10 +142,10 @@ public class AH_APT_Agreement_TriggerHandler_Test
         o.Name = 'AH_APT_Agreement_TriggerHandler_Test';
         o.RecordTypeId = Schema.SObjectType.Opportunity.getRecordTypeInfosByName().get('Small Deal Opportunity').getRecordTypeId();
         o.Pricebook2Id = pb2.Id;
-        o.License_Program_Payment_Terms__c = pt1.Id;
-        o.Services_Payment_Terms__c = pt1.Id;
-        o.Subscription_Payment_Terms__c = pt1.Id;
-        o.Hosting_and_Support_Payment_Terms__c = pt1.Id; 
+//        o.License_Program_Payment_Terms__c = pt1.Id;
+//        o.Services_Payment_Terms__c = pt1.Id;
+//        o.Subscription_Payment_Terms__c = pt1.Id;
+//        o.Hosting_and_Support_Payment_Terms__c = pt1.Id; 
         insert o;
         
         Test.stopTest();
@@ -191,92 +191,7 @@ public class AH_APT_Agreement_TriggerHandler_Test
         update agr1;         
         
         Test.StopTest();
-        
-for (Apttus__APTS_Agreement__c x : [SELECT Id, Name, Apttus__Account__c, Apttus_CMConfig__PriceListId__c FROM Apttus__APTS_Agreement__c])   
-{
-    system.debug('*^* Apttus__APTS_Agreement__c = ' + x);
-}
-        
-        
-/*        
-        // VERIFY THAT THE AGREEMENT FIELDS HAVE BEEN UPDATED  
-        Apttus__APTS_Agreement__c agrAssert = [SELECT Id, Apttus__Account__c 
-                                               FROM Apttus__APTS_Agreement__c 
-                                               WHERE Id =: agr1.Id
-                                               AND Name =: o.Name
-                                               AND Apttus_CMConfig__PriceListId__c =: apl.Id];
-        
-        system.Assert(agrAssert.Apttus__Account__c == a.Id);
-*/        
+  
     }
-    
-    //================================================================================================================================
-    // BULK INSERT AGREEMENT TEST  
-    //================================================================================================================================
-/*
-    static testMethod void bulkInsertAgreementTest() 
-    {    
-        
-        AH_APT_Agreement_TriggerHandler handler = new AH_APT_Agreement_TriggerHandler();
 
-        //CREATE TEST PRICE BOOK RECORD  
-        Pricebook2 pb2 = new Pricebook2();
-        pb2.Name = 'Apex Test Pricebook';   
-        pb2.Description = 'Apex Test Pricebook';
-        pb2.IsActive = true;
-        insert pb2;
-        
-        //CREATE TEST APTTUS PRICE LIST RECORD  
-        Apttus_Config2__PriceList__c apl = new Apttus_Config2__PriceList__c();
-        apl.Name = 'Apex Test Pricebook';
-        apl.Related_Salesforce_Price_Book__c = pb2.Id;   
-        apl.Apttus_Config2__Active__c = true;
-        insert apl;    
-        
-        //GET OPPORTUNITY RECORD TYPE ID
-        Id rtInit = NI_TestClassData.getRecordTypeId('Opportunity', 'Small Deal Opportunity');
-        
-        //CREATE TEST ACCOUNT RECORD  
-        Account a = NI_TestClassData.createTestAccount(1);
-        insert a;     
-        
-        //CREATE TEST OPPORTUNITY RECORD  
-        List<Opportunity> lstOppInserts = new List<Opportunity>();
-        
-        Opportunity opp1 = NI_TestClassData.createTestOpportunity(1, a.Id); 
-        opp1.RecordTypeId = rtInit;
-        opp1.Pricebook2Id = pb2.Id;
-        lstOppInserts.add(opp1);
-        
-        Database.Insert(lstOppInserts);
-        
-        //CREATE TEST AGREEMENT RECORDS
-        List<Apttus__APTS_Agreement__c> lstAgreementsToInsert = new List<Apttus__APTS_Agreement__c>();  
-        
-        for (Integer j = 0; j < 200; j++) 
-        {
-            Apttus__APTS_Agreement__c agr = new Apttus__APTS_Agreement__c();
-            agr.Name = 'APTTUS TEST AGREEMENT' + j;
-            agr.Apttus__Related_Opportunity__c = opp1.Id; 
-            lstAgreementsToInsert.add(agr);
-        }
-        
-        //START TEST TO INVOKE AFTER INSERT TRIGGER LOGIC  
-        Test.StartTest();
-        Database.Insert(lstAgreementsToInsert);
-        Test.StopTest();      
-        
-        
-        //VERIFY THAT THE AGREEMENT FIELDS HAVE BEEN UPDATED USING SYSTEM.ASSERT METHOD  
-        List<Apttus__APTS_Agreement__c> lstInsertedAgreements = [SELECT Id, Apttus__Account__c 
-                                                                 FROM Apttus__APTS_Agreement__c 
-                                                                 WHERE Apttus__Account__c =: a.Id
-                                                                 AND Name =: opp1.Name
-                                                                 AND Apttus_CMConfig__PriceListId__c =: apl.Id];
-        
-        //VERIFY THERE ARE 200 AGREEMENT RECORDS WHERE Apttus__Account__c IS EQUAL TO THE a.Id  
-        system.Assert(lstInsertedAgreements.size() == 200);
-        
-    }    
-*/    
 }

@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<AssignmentRules xmlns="http://soap.sforce.com/2006/04/metadata">
+    <assignmentRule>
+        <fullName>Lead Assignments</fullName>
+        <active>true</active>
+        <ruleEntry>
+            <assignedTo>aransom@newmarketinc.com</assignedTo>
+            <assignedToType>User</assignedToType>
+            <criteriaItems>
+                <field>Campaign.Name</field>
+                <operation>equals</operation>
+                <value>Delphi.Net Webinar 8-27-2008,Delphi.Net Webinar 8-13-2008</value>
+            </criteriaItems>
+            <template>SalesMarketing/LeadsNewassignmentnotificationSAMPLE</template>
+        </ruleEntry>
+        <ruleEntry>
+            <assignedTo>aransom@newmarketinc.com</assignedTo>
+            <assignedToType>User</assignedToType>
+            <criteriaItems>
+                <field>Lead.LeadSource</field>
+                <operation>equals</operation>
+                <value>Web Site</value>
+            </criteriaItems>
+            <criteriaItems>
+                <field>Lead.Status</field>
+                <operation>equals</operation>
+                <value>Open</value>
+            </criteriaItems>
+            <criteriaItems>
+                <field>Campaign.Name</field>
+                <operation>equals</operation>
+                <value>EMEA 2009 Middle East Conference</value>
+            </criteriaItems>
+            <template>SalesMarketing/LeadAssignmentNotificationEMEAUCRegistration</template>
+        </ruleEntry>
+        <ruleEntry>
+            <assignedTo>eoppegaard@newmarketinc.com</assignedTo>
+            <assignedToType>User</assignedToType>
+            <criteriaItems>
+                <field>Lead.LeadSource</field>
+                <operation>equals</operation>
+                <value>Web Site</value>
+            </criteriaItems>
+            <criteriaItems>
+                <field>Lead.Status</field>
+                <operation>equals</operation>
+                <value>Open</value>
+            </criteriaItems>
+            <criteriaItems>
+                <field>Campaign.Name</field>
+                <operation>equals</operation>
+                <value>Webcast -- Webcast 04242008</value>
+            </criteriaItems>
+            <template>SalesMarketing/LeadsNewassignmentnotificationSAMPLE</template>
+        </ruleEntry>
+        <ruleEntry>
+            <assignedTo>eoppegaard@newmarketinc.com</assignedTo>
+            <assignedToType>User</assignedToType>
+            <criteriaItems>
+                <field>Lead.LeadSource</field>
+                <operation>equals</operation>
+                <value>Web Site</value>
+            </criteriaItems>
+            <criteriaItems>
+                <field>Lead.Status</field>
+                <operation>equals</operation>
+                <value>Open</value>
+            </criteriaItems>
+            <criteriaItems>
+                <field>Campaign.Name</field>
+                <operation>equals</operation>
+                <value>Webcast -- Webcast 04222008</value>
+            </criteriaItems>
+            <template>SalesMarketing/LeadsNewassignmentnotificationSAMPLE</template>
+        </ruleEntry>
+        <ruleEntry>
+            <assignedTo>eoppegaard@newmarketinc.com</assignedTo>
+            <assignedToType>User</assignedToType>
+            <criteriaItems>
+                <field>Lead.LeadSource</field>
+                <operation>equals</operation>
+                <value>Web Site</value>
+            </criteriaItems>
+            <criteriaItems>
+                <field>Lead.Status</field>
+                <operation>equals</operation>
+                <value>Open</value>
+            </criteriaItems>
+            <criteriaItems>
+                <field>Campaign.Name</field>
+                <operation>equals</operation>
+                <value>Email -- Restaurant Prospects: Gain Competitive Edge</value>
+            </criteriaItems>
+            <template>SalesMarketing/LeadsNewassignmentnotificationSAMPLE</template>
+        </ruleEntry>
+        <ruleEntry>
+            <assignedTo>eoppegaard@newmarketinc.com</assignedTo>
+            <assignedToType>User</assignedToType>
+            <criteriaItems>
+                <field>Lead.LeadSource</field>
+                <operation>equals</operation>
+                <value>Web Site</value>
+            </criteriaItems>
+            <criteriaItems>
+                <field>Lead.Status</field>
+                <operation>equals</operation>
+                <value>Open</value>
+            </criteriaItems>
+            <criteriaItems>
+                <field>Campaign.Name</field>
+                <operation>notEqual</operation>
+            </criteriaItems>
+            <template>SalesMarketing/LeadsNewassignmentnotificationSAMPLE</template>
+        </ruleEntry>
+        <ruleEntry>
+            <assignedTo>eoppegaard@newmarketinc.com</assignedTo>
+            <assignedToType>User</assignedToType>
+            <criteriaItems>
+                <field>Lead.LeadSource</field>
+                <operation>equals</operation>
+                <value>Web Site</value>
+            </criteriaItems>
+            <criteriaItems>
+                <field>Lead.Status</field>
+                <operation>equals</operation>
+                <value>Open</value>
+            </criteriaItems>
+            <template>SalesMarketing/LeadsQueueassignmentnotificationSAMPLE</template>
+        </ruleEntry>
+        <ruleEntry>
+            <assignedTo>eoppegaard@newmarketinc.com</assignedTo>
+            <assignedToType>User</assignedToType>
+            <criteriaItems>
+                <field>Lead.Country</field>
+                <operation>notEqual</operation>
+                <value>United States,US,USA,U.S.,U.S.A.</value>
+            </criteriaItems>
+            <criteriaItems>
+                <field>Lead.Status</field>
+                <operation>equals</operation>
+                <value>Open</value>
+            </criteriaItems>
+            <template>SalesMarketing/LeadsNewassignmentnotificationSAMPLE</template>
+        </ruleEntry>
+        <ruleEntry>
+            <assignedTo>eoppegaard@newmarketinc.com</assignedTo>
+            <assignedToType>User</assignedToType>
+            <booleanFilter>1 AND 2</booleanFilter>
+            <criteriaItems>
+                <field>Lead.LeadSource</field>
+                <operation>equals</operation>
+                <value>Web Site</value>
+            </criteriaItems>
+            <criteriaItems>
+                <field>Lead.Website</field>
+                <operation>equals</operation>
+                <value>http:///product/meeting-intelligence-solutions</value>
+            </criteriaItems>
+            <template>SalesMarketing/LeadsNewassignmentnotificationSAMPLE</template>
+        </ruleEntry>
+    </assignmentRule>
+</AssignmentRules>

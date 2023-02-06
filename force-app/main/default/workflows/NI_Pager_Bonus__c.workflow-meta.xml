@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Workflow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <alerts>
+        <fullName>Pager_Bonus_Approved</fullName>
+        <description>Pager Bonus Approved</description>
+        <protected>false</protected>
+        <recipients>
+            <field>Employee_Name__c</field>
+            <type>userLookup</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>Pager_Bonus_Email_Templates/Pager_Bonus_Approved</template>
+    </alerts>
+    <alerts>
+        <fullName>Pager_Bonus_Rejected</fullName>
+        <description>Pager Bonus Rejected</description>
+        <protected>false</protected>
+        <recipients>
+            <field>Employee_Name__c</field>
+            <type>userLookup</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>Pager_Bonus_Email_Templates/Pager_Bonus_Rejected</template>
+    </alerts>
+    <fieldUpdates>
+        <fullName>Status_Approved</fullName>
+        <description>Set the Status to Approved</description>
+        <field>Status__c</field>
+        <literalValue>Approved</literalValue>
+        <name>Status: Approved</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Literal</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>Status_Pending_Approval</fullName>
+        <field>Status__c</field>
+        <literalValue>Pending Approval</literalValue>
+        <name>Status: Pending Approval</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Literal</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>Status_Rejected</fullName>
+        <description>Set Status to Rejected</description>
+        <field>Status__c</field>
+        <literalValue>Rejected</literalValue>
+        <name>Status: Rejected</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Literal</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>Submitted_to_Payroll</fullName>
+        <description>Rule where is Date/Time Submitted to Payroll has a value, updated status to Submitted to Payroll. NICC-024777</description>
+        <field>Status__c</field>
+        <literalValue>Submitted to Payroll</literalValue>
+        <name>Submitted to Payroll</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Literal</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <rules>
+        <fullName>Submitted to Payroll</fullName>
+        <actions>
+            <name>Submitted_to_Payroll</name>
+            <type>FieldUpdate</type>
+        </actions>
+        <active>true</active>
+        <criteriaItems>
+            <field>NI_Pager_Bonus__c.Date_Time_Submitted_to_Payroll__c</field>
+            <operation>notEqual</operation>
+        </criteriaItems>
+        <description>Rule to update the status to Submitted to Payroll when Date/Time Submitted to Payroll field has a value. NICC-024777</description>
+        <triggerType>onCreateOrTriggeringUpdate</triggerType>
+    </rules>
+</Workflow>

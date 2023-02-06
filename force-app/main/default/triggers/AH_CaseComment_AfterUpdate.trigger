@@ -19,7 +19,7 @@ trigger AH_CaseComment_AfterUpdate on CaseComment (after update)
         WinSN.OnAfterUpdate(Trigger.new, Trigger.OldMap);                         
     }     
 
-    NI_CaseComment_TriggerHandler handler = new NI_CaseComment_TriggerHandler();
-    handler.OnAfterUpdate(Trigger.new, Trigger.OldMap);
+    //NI_CaseComment_TriggerHandler handler = new NI_CaseComment_TriggerHandler();
+    //handler.OnAfterUpdate(Trigger.new, Trigger.OldMap);
         
 }

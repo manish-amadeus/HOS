@@ -10,11 +10,8 @@ Description     : Handles the before insert logic of the
                 :
                 :
 ******************************************************************************************/
-
 trigger AH_ProjBacklogWorkstream_BeforeInsert on AH_Project_Backlog_Workstreams__c (before insert) 
 {
-    
     AH_ProjBacklogWorkstream_TriggerHandler handler = new AH_ProjBacklogWorkstream_TriggerHandler();
     handler.OnBeforeInsert(Trigger.new);
-
 }

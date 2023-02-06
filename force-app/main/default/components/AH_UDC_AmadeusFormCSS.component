@@ -1,0 +1,623 @@
+<apex:component >
+   <style type="text/css">
+      .error-field {
+         border-color: red !important;
+      }
+
+      #divErrorSummary ul {
+         margin-top: 5px;
+      }
+      
+      .amadeus-custom-form .content { height:auto !important; }
+      
+      .form-container {
+         box-sizing: border-box;
+         width: 100%;
+      }
+      .picklistInvalid {
+         background-color: lightyellow !important;
+      }
+         
+      .form-container:before {
+         display: table;
+         content: " ";
+      }
+
+      .form-container:after {
+         clear: both;
+      }
+
+      .form-container .section-wrapper {
+         clear: both;
+      }
+
+      .section-wrapper .inside-section-wrapper {
+         margin-top: 5px;
+         clear: both;
+      }
+
+      .form-container .section-wrapper:nth-child(2) {
+         margin-top: 0px !important;
+      }
+
+      .form-container a {
+         color: #007aff;
+         text-decoration: none;
+      }
+
+      .form-container a:hover {
+         text-decoration: underline;
+      }
+
+      .form-container p {
+         white-space: break-spaces;
+         margin: 0px;
+         margin-bottom: 10px;
+         clear: both;
+      }
+
+      .btn-save-form {
+         float:right;
+      }
+      
+      .btn-common {
+         text-decoration: none;
+         padding: 5px;
+         border: 1px solid #72A9E1;
+         border-radius: 2px;
+         font-size: 12px;
+         font-weight: bold;
+         white-space: nowrap;
+      }
+
+      .btn-common:hover, .btn-common:focus {
+         text-decoration: none;
+      }
+
+      button:disabled {
+         border: none;
+         background-color: #cccccc;
+         cursor: no-drop;
+      }
+
+      .field-wrapper {
+         margin-bottom: 5px;
+      }
+         .field-wrapper > label {
+            margin-top: 0px !important;
+            font-weight: normal !important;
+         }
+
+      fieldset:first-child {
+         margin-top: 0;
+      }
+
+      fieldset.scrollable {
+         white-space: nowrap;
+         overflow-x: scroll;
+      }
+
+      fieldset {
+         min-width: 0;
+         border: 1px solid #000;
+         border-radius: 2px;
+         margin: 1em 0 0.5em 0;
+         padding: 10px;
+      }
+
+      fieldset fieldset {
+         margin-top: 0;
+      }
+
+      fieldset legend {
+         width: auto;
+         margin: 0;
+         padding: 0 8px;
+         font-size: 16px;
+         font-weight: normal;
+         border: none;
+         color: #1a1a1a;
+      }
+
+      div.inline {
+         display: table;
+         white-space: break-spaces;
+      }
+
+      .inline div {
+         display: inline-grid;
+         margin-top: 5px;
+      }
+
+      .inline label, .inline input[type=text], .inline input[type=date], .inline select {
+         display: inline-block;
+      }
+
+      .form-container input[type=text], .form-container input[type=date] {
+         border: 1px solid;
+         border-radius: 2px;
+         line-height: 0;
+         padding: 3px;
+         width: 80%;
+         height: 1.2em;
+      }
+
+      .form-container input[type=date] {
+         line-height: unset !important;
+         width: 81% !important;
+      }
+      
+      .form-container select {
+         border: 1px solid;
+         border-radius: 2px;
+         line-height: 0;
+         padding: 3px;
+         width: 80%;
+         height: 1.75em;
+      }
+
+      .inline input[type=checkbox] {
+         margin: 5px 3px 3px 0px; 
+      }
+      
+      .inline input[type=text], .inline select {
+         width: 10em;
+      }
+
+      .radio-group input[type=radio] {
+         float: left;
+         clear: none;
+         margin: 4px 0 0 0;
+      }
+
+      .radio-group label {
+         float: left;
+         clear: none;
+         display: block;
+         margin-left: 5px;
+         font-weight: normal;
+      }
+
+      .radio-group label { margin-right: 10px}
+
+      .radio-group {
+         margin-top: 1px;
+      }
+
+      .removeLink {
+         position: absolute;
+         float: right !important;
+         background-color: #72A9E1;
+         border: none;
+         color: white !important;
+         padding: 2px 10px !important;
+         text-align: center;
+         text-decoration: none !important;
+         display: inline-block;
+         margin: 4px 2px !important;
+         cursor: pointer;
+         border-radius: 16px;
+      }
+
+      .btn-remove-section {
+         float: right;
+         margin-top: -18px;
+         margin-right: -8px;
+         color: #000;
+         font-size: 30px;
+         font-weight: 700;
+         line-height: 1;
+         color: #000;
+         text-shadow: 0 1px 0 #fff;
+         opacity: .5;
+         cursor: pointer;
+      }
+
+      .btn-remove-section:hover {
+         opacity: 1;
+      }
+
+      table.jexcel thead td {
+         z-index: 0; /*Fixed issue - Header overlap on amadeus logo in community page when scroll bottom*/
+      }
+
+      .jexcel > thead > tr:first-child > td {
+         font-weight: normal;
+         padding: 4px;
+      }
+
+      .jexcel tr td {
+         font-size: 16px;
+      }
+
+      .jexcel td[data-longtext="true"] {
+         white-space: nowrap !important;
+      }
+
+      .jexcel_container {
+         width: 100%;
+         margin-bottom: 5px;
+      }
+
+      .jexcel_content {
+         box-shadow: none !important;
+         display: block;
+      }
+
+      table.jexcel {
+         width: 100%;
+      }
+
+      .jexcel_filters input[type=text] {
+         width: 18.5em !important;
+      }
+
+      .jexcel .jdropdown-header {
+         padding: 2.7px !important;
+      }
+      
+      .jexcel .jexcel_column_filter {
+         position: sticky !important; /*Freeze Header Row*/
+         top: 26px !important;
+      }
+      
+      .jexcel > tbody > tr > td > input[type=radio] {
+         margin: 0 2px 0 5px !important;
+      }
+
+      .jexcel_column_filter .jdropdown-container {
+         text-overflow: ellipsis;
+      }
+
+      .opened-sidebar .jexcel_column_filter .jdropdown-container {
+         top: auto !important;
+      }
+      
+      td[data-longtext="true"] .popover {
+         min-width: 370px;
+      }
+
+      .form-container label {
+         display: inline-block;
+         font-size: 16px;
+         max-width: 100%;
+         margin-bottom: 5px;
+         margin-top: 0px;
+         font-weight: normal;
+      }
+
+      .tippy-content {
+         font-size: 16px;
+         padding: 5px;      
+      }
+
+      /*Modal CSS : Start*/
+      .btn-primary {
+         cursor: pointer;
+         font-family: 'Source Sans Pro';
+         border-color: var(--primary-color);
+         background-color: var(--primary-color);
+         border-radius: 0.175rem;
+         color: white;
+         padding: 0.5em 1em;
+      }
+
+      .modal .btn {
+         display: inline-block;
+         margin-bottom: 0;
+         font-weight: 400;
+         text-align: center;
+         white-space: nowrap;
+         vertical-align: middle;
+         -ms-touch-action: manipulation;
+         touch-action: manipulation;
+         cursor: pointer;
+         background-image: none;
+         border: 1px solid transparent;
+         padding: 6px 12px;
+         line-height: 1.42857143;
+         border-radius: 4px;
+         -webkit-user-select: none;
+         -moz-user-select: none;
+         -ms-user-select: none;
+         user-select: none;
+      }
+
+      .modal .close {
+         float: right;
+         font-size: 16px;
+         font-weight: 700;
+         line-height: 1;
+         color: #000;
+         text-shadow: 0 1px 0 #fff;
+         filter: alpha(opacity=20);
+         opacity: 0.2;
+      }
+
+      .modal .close:focus,
+      .modal .close:hover {
+         color: #000;
+         text-decoration: none;
+         cursor: pointer;
+         filter: alpha(opacity=50);
+         opacity: 0.5;
+      }
+
+      button.close {
+         padding: 0;
+         cursor: pointer;
+         background: 0 0;
+         border: 0;
+         -webkit-appearance: none;
+         -moz-appearance: none;
+         appearance: none;
+      }
+
+      .modal-open {
+         overflow: hidden;         
+      }
+
+      .modal-open .modal-backdrop {
+         display: block;
+      }
+
+      .modal {
+         position: fixed;
+         top: 0;
+         left: 0;
+         right: 0;
+         bottom: 0;         
+         z-index: 1050;
+         display: none;
+         overflow: hidden;
+         -webkit-overflow-scrolling: touch;
+         outline: 0;
+         font-size: 16px;
+      }
+
+      .modal.fade .modal-dialog {
+         -webkit-transform: translate(0, -25%);
+         -ms-transform: translate(0, -25%);
+         -o-transform: translate(0, -25%);
+         transform: translate(0, -25%);
+         -webkit-transition: -webkit-transform 0.3s ease-out;
+         -o-transition: -o-transform 0.3s ease-out;
+         transition: -webkit-transform 0.3s ease-out;
+         transition: transform 0.3s ease-out;
+         transition: transform 0.3s ease-out, -webkit-transform 0.3s ease-out, -o-transform 0.3s ease-out;
+      }
+
+      .modal.in .modal-dialog {
+         -webkit-transform: translate(0, 0);
+         -ms-transform: translate(0, 0);
+         -o-transform: translate(0, 0);
+         transform: translate(0, 0);
+      }
+
+      .modal-open .modal {
+         overflow-x: hidden;
+         overflow-y: auto;
+      }
+
+      .modal-dialog {
+         position: relative;
+         width: auto;
+         margin: 10px;
+      }
+
+      .modal-content {
+         position: relative;
+         background-color: #fff;
+         background-clip: padding-box;
+         border: 1px solid #999;
+         border: 1px solid rgba(0, 0, 0, 0.2);
+         border-radius: 6px;
+         -webkit-box-shadow: 0 3px 9px rgba(0, 0, 0, 0.5);
+         box-shadow: 0 3px 9px rgba(0, 0, 0, 0.5);
+         outline: 0;
+      }
+
+      .modal-backdrop {
+         display: none;
+         position: fixed;
+         top: 0;
+         right: 0;
+         bottom: 0;
+         left: 0;
+         z-index: 1040;
+         background-color: #000;
+      }
+
+      .modal-backdrop.fade {
+         filter: alpha(opacity=0);
+         opacity: 0;
+      }
+
+      .modal-backdrop.in {
+         filter: alpha(opacity=50);
+         opacity: 0.5;
+      }
+
+      .modal-header {
+         padding: 15px;
+         border-bottom: 1px solid #e5e5e5;
+      }
+
+      .modal-header .close {
+         margin-top: -2px;
+      }
+
+      .modal-title {
+         margin: 0;
+         line-height: 1.42857143;
+      }
+
+      .modal-body {
+         position: relative;
+         padding: 15px;
+      }
+
+      .modal-footer {
+         padding: 15px;
+         text-align: right;
+         border-top: 1px solid #e5e5e5;
+      }
+
+      .modal-footer .btn + .btn {
+         margin-bottom: 0;
+      }
+
+      .modal-footer .btn-group .btn + .btn {
+         margin-left: -1px;
+      }
+
+      .modal-footer .btn-block + .btn-block {
+         margin-left: 0;
+      }
+
+      .modal-scrollbar-measure {
+         position: absolute;
+         top: -9999px;
+         width: 50px;
+         height: 50px;
+         overflow: scroll;
+      }
+
+      @media (min-width: 768px) and (max-width: 992px) {
+         .modal-dialog {
+            width: 600px;
+            margin: 30px auto;
+         }
+
+         .modal-content {
+            -webkit-box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+         }
+
+         .modal-sm {
+            width: 300px;
+         }
+
+         .form-container input[type=text], .form-container select {
+            /*width: 100%;*/
+         }
+      }
+
+      @media (min-width: 992px) {
+         .modal-lg {
+            width: 900px;
+         }
+
+         #longTextModal .modal-dialog {
+            width: 70%;
+         }
+      }
+
+      #addRowsModal .modal-dialog {
+         width: 318px;
+      }
+
+      .modal-dialog-centered {
+         -webkit-transform: translate(0,-50%) !important;
+         -o-transform: translate(0,-50%) !important;
+         transform: translate(0,-50%) !important;
+         margin: 0 auto !important;
+      }
+
+      #addRowsModal .modal-content input[type='text'], #addRowsModal .modal-content input[type='number'] {
+         width: 9em;
+         font-family: inherit;
+         font-size: inherit;
+         line-height: inherit;
+         border-radius: 2px;
+      }
+
+      .modal-content input[type='number'] { border: 1px solid darkgray; }
+      
+      .modal .modal-title; {
+         font-weight: 700;
+         font-size: 16px;
+      }
+
+      .modal .modal-title, .modal .close {
+         display: inline-block;
+      }
+
+      body.modal-open .jexcel {
+         /*Fixed issue - Hover text display on longtext cell when modal popup is opened*/
+         pointer-events: none;
+      }
+
+      #longTextModal textarea {
+         display: block;
+         width: 95%;
+         height: auto;
+         padding: 6px 12px;
+         font-family: 'Source Sans Pro';
+         font-size: 16px;
+         line-height: 1.42857143;
+         color: #1a1a1a;
+         background-color: #fff;
+         background-image: none;
+         border: 1px solid #ccc;
+         border-radius: 4px;
+         -webkit-box-shadow: inset 0 1px 1px rgb(0 0 0 / 8%);
+         box-shadow: inset 0 1px 1px rgb(0 0 0 / 8%);
+         -webkit-transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+         -o-transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+         -webkit-transition: border-color ease-in-out .15s,-webkit-box-shadow ease-in-out .15s;
+         transition: border-color ease-in-out .15s,-webkit-box-shadow ease-in-out .15s;
+         transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+         transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s,-webkit-box-shadow ease-in-out .15s;
+      }
+
+      #longTextModal textarea:focus {
+         border-color: #66afe9;
+         outline: 0;
+         -webkit-box-shadow: inset 0 1px 1px rgb(0 0 0 / 8%), 0 0 8px rgb(102 175 233 / 60%);
+         box-shadow: inset 0 1px 1px rgb(0 0 0 / 8%), 0 0 8px rgb(102 175 233 / 60%);
+      }
+      /*Modal CSS : End */
+
+      .jdropdown-default .jdropdown-item {
+         padding-left: 5px;
+         padding-right: 5px;
+      }
+
+      /*Fixed BUG 751873: All filter options not being showed in Firefox browser*/
+      @-moz-document url-prefix() {
+         .filter-dropdown-open .jdropdown-container {
+            position: fixed;
+         }
+
+         .filter-dropdown-open .jexcel .jexcel_column_filter {
+            position: unset !important;
+         }
+
+         .jdropdown-default .jdropdown-content {
+            max-height: none !important;
+         }
+      }
+
+      /*CSS For Save Message*/
+      .save_title {
+         color: rgba(0,0,0,0.8);
+         font-family: 'Source Sans Pro', sans-serif;
+         font-size: 1.3em;
+         font-weight: bold;
+      }
+
+      .save_message {
+         color: rgba(0,0,0,0.8);
+         font-family: 'Source Sans Pro', sans-serif;
+         font-size: 16px;
+      }
+
+      .save_mark_complete {
+         color: #005eb8;
+         cursor: pointer;
+         text-decoration: underline;
+      }
+
+   </style>
+</apex:component>

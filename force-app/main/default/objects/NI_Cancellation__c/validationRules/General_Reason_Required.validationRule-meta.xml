@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
-    <fullName>General_Reason_Required</fullName>
-    <active>false</active>
-    <description>Inactivated NICC-026959</description>
-    <errorConditionFormula>ISBLANK(TEXT(General_Reason__c))</errorConditionFormula>
-    <errorDisplayField>General_Reason__c</errorDisplayField>
-    <errorMessage>You must select a General Reason in order to save this NI Cancellation record</errorMessage>
-</ValidationRule>

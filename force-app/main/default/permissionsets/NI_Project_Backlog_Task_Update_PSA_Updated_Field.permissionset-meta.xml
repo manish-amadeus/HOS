@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PermissionSet xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>NICC-026811
+
+Members of this permission set have the ability to update the PSA Updated (PSA_Updated__c) field on the NI Project Backlog Task (NI_Project_Backlog_Tasks__c) Object</description>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>NI_Project_Backlog_Tasks__c.PSA_Updated__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <hasActivationRequired>false</hasActivationRequired>
+    <label>NI Project Backlog Task: Update &quot;PSA Updated&quot; Field</label>
+    <license>Salesforce</license>
+    <objectPermissions>
+        <allowCreate>false</allowCreate>
+        <allowDelete>false</allowDelete>
+        <allowEdit>true</allowEdit>
+        <allowRead>true</allowRead>
+        <modifyAllRecords>false</modifyAllRecords>
+        <object>NI_Project_Backlog_Tasks__c</object>
+        <viewAllRecords>false</viewAllRecords>
+    </objectPermissions>
+    <objectPermissions>
+        <allowCreate>false</allowCreate>
+        <allowDelete>false</allowDelete>
+        <allowEdit>false</allowEdit>
+        <allowRead>true</allowRead>
+        <modifyAllRecords>false</modifyAllRecords>
+        <object>NI_Project_Backlog__c</object>
+        <viewAllRecords>false</viewAllRecords>
+    </objectPermissions>
+    <tabSettings>
+        <tab>NI_Project_Backlog_Tasks__c</tab>
+        <visibility>Visible</visibility>
+    </tabSettings>
+</PermissionSet>

@@ -1,0 +1,608 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CaseSettings xmlns="http://soap.sforce.com/2006/04/metadata">
+    <caseAssignNotificationTemplate>Support_Email_Templates/Case_Assigned_Template</caseAssignNotificationTemplate>
+    <caseAutoProcUser>false</caseAutoProcUser>
+    <caseFeedItemSettings>
+        <characterLimit>400</characterLimit>
+        <displayFormat>Default</displayFormat>
+        <feedItemType>EmailMessageEvent</feedItemType>
+    </caseFeedItemSettings>
+    <caseFeedReadUnreadLtng>false</caseFeedReadUnreadLtng>
+    <caseMergeInLightning>false</caseMergeInLightning>
+    <closeCaseThroughStatusChange>true</closeCaseThroughStatusChange>
+    <defaultCaseFeedLayoutOn>false</defaultCaseFeedLayoutOn>
+    <defaultCaseOwner>QeSupportDefault</defaultCaseOwner>
+    <defaultCaseOwnerType>Queue</defaultCaseOwnerType>
+    <defaultCaseUser>integration_user@newmarketinc.com</defaultCaseUser>
+    <emailToCase>
+        <enableE2CAttachmentAsFile>true</enableE2CAttachmentAsFile>
+        <enableE2CSourceTracking>true</enableE2CSourceTracking>
+        <enableEmailToCase>true</enableEmailToCase>
+        <enableHtmlEmail>true</enableHtmlEmail>
+        <enableOnDemandEmailToCase>true</enableOnDemandEmailToCase>
+        <enableThreadIDInBody>true</enableThreadIDInBody>
+        <enableThreadIDInSubject>true</enableThreadIDInSubject>
+        <notifyOwnerOnNewCaseEmail>true</notifyOwnerOnNewCaseEmail>
+        <overEmailLimitAction>Bounce</overEmailLimitAction>
+        <preQuoteSignature>false</preQuoteSignature>
+        <routingAddresses>
+            <addressType>EmailToCase</addressType>
+            <caseOrigin>IDEAS</caseOrigin>
+            <caseOwner>Q_CRS_GES</caseOwner>
+            <caseOwnerType>Queue</caseOwnerType>
+            <casePriority>-None-</casePriority>
+            <createTask>false</createTask>
+            <emailAddress>crs.incident@amadeus.com</emailAddress>
+            <isVerified>true</isVerified>
+            <routingName>APMS Case</routingName>
+            <saveEmailHeaders>false</saveEmailHeaders>
+        </routingAddresses>
+        <routingAddresses>
+            <addressType>EmailToCase</addressType>
+            <caseOrigin>Consortia Email-to-Case</caseOrigin>
+            <casePriority>3 - Medium</casePriority>
+            <createTask>false</createTask>
+            <emailAddress>consortia.tc@amadeus.com</emailAddress>
+            <isVerified>true</isVerified>
+            <routingName>Amadeus Hospitality - Consortia Support</routingName>
+            <saveEmailHeaders>true</saveEmailHeaders>
+        </routingAddresses>
+        <routingAddresses>
+            <addressType>EmailToCase</addressType>
+            <caseOrigin>Email</caseOrigin>
+            <casePriority>3 - Medium</casePriority>
+            <createTask>false</createTask>
+            <emailAddress>hospitality.hspsupport@amadeus.com</emailAddress>
+            <isVerified>true</isVerified>
+            <routingName>Amadeus Hospitality - Customer Support</routingName>
+            <saveEmailHeaders>true</saveEmailHeaders>
+        </routingAddresses>
+        <routingAddresses>
+            <addressType>EmailToCase</addressType>
+            <caseOrigin>Email</caseOrigin>
+            <casePriority>3 - Medium</casePriority>
+            <createTask>false</createTask>
+            <emailAddress>hospitality.supportuk@amadeus.com</emailAddress>
+            <isVerified>true</isVerified>
+            <routingName>Amadeus Hospitality - Customer Support</routingName>
+            <saveEmailHeaders>true</saveEmailHeaders>
+        </routingAddresses>
+        <routingAddresses>
+            <addressType>EmailToCase</addressType>
+            <caseOrigin>Email</caseOrigin>
+            <casePriority>3 - Medium</casePriority>
+            <createTask>false</createTask>
+            <emailAddress>hospitality.supportsg@amadeus.com</emailAddress>
+            <isVerified>true</isVerified>
+            <routingName>Amadeus Hospitality - Customer Support</routingName>
+            <saveEmailHeaders>true</saveEmailHeaders>
+        </routingAddresses>
+        <routingAddresses>
+            <addressType>EmailToCase</addressType>
+            <caseOrigin>Email</caseOrigin>
+            <casePriority>3 - Medium</casePriority>
+            <createTask>false</createTask>
+            <emailAddress>hospitality.support@amadeus.com</emailAddress>
+            <isVerified>true</isVerified>
+            <routingName>Amadeus Hospitality - Customer Support</routingName>
+            <saveEmailHeaders>true</saveEmailHeaders>
+        </routingAddresses>
+        <routingAddresses>
+            <addressType>EmailToCase</addressType>
+            <caseOrigin>Email</caseOrigin>
+            <casePriority>3 - Medium</casePriority>
+            <createTask>false</createTask>
+            <emailAddress>soutien.tc@amadeus.com</emailAddress>
+            <isVerified>true</isVerified>
+            <routingName>Amadeus Hospitality - Customer Support</routingName>
+            <saveEmailHeaders>true</saveEmailHeaders>
+        </routingAddresses>
+        <routingAddresses>
+            <addressType>EmailToCase</addressType>
+            <caseOrigin>Email</caseOrigin>
+            <casePriority>3 - Medium</casePriority>
+            <createTask>false</createTask>
+            <emailAddress>soporte.tc@amadeus.com</emailAddress>
+            <isVerified>true</isVerified>
+            <routingName>Amadeus Hospitality - Customer Support</routingName>
+            <saveEmailHeaders>true</saveEmailHeaders>
+        </routingAddresses>
+        <routingAddresses>
+            <addressType>EmailToCase</addressType>
+            <caseOrigin>Email</caseOrigin>
+            <casePriority>3 - Medium</casePriority>
+            <createTask>false</createTask>
+            <emailAddress>obsluga.klienta.tc@amadeus.com</emailAddress>
+            <isVerified>false</isVerified>
+            <routingName>Amadeus Hospitality - Customer Support</routingName>
+            <saveEmailHeaders>true</saveEmailHeaders>
+        </routingAddresses>
+        <routingAddresses>
+            <addressType>EmailToCase</addressType>
+            <caseOrigin>Email</caseOrigin>
+            <casePriority>3 - Medium</casePriority>
+            <createTask>false</createTask>
+            <emailAddress>mandarin.help.tc@amadeus.com</emailAddress>
+            <isVerified>true</isVerified>
+            <routingName>Amadeus Hospitality - Customer Support</routingName>
+            <saveEmailHeaders>true</saveEmailHeaders>
+        </routingAddresses>
+        <routingAddresses>
+            <addressType>EmailToCase</addressType>
+            <caseOrigin>Email</caseOrigin>
+            <casePriority>3 - Medium</casePriority>
+            <createTask>false</createTask>
+            <emailAddress>kundenbetreuung.tc@amadeus.com</emailAddress>
+            <isVerified>true</isVerified>
+            <routingName>Amadeus Hospitality - Customer Support</routingName>
+            <saveEmailHeaders>true</saveEmailHeaders>
+        </routingAddresses>
+        <routingAddresses>
+            <addressType>EmailToCase</addressType>
+            <caseOrigin>Email</caseOrigin>
+            <casePriority>3 - Medium</casePriority>
+            <createTask>false</createTask>
+            <emailAddress>csportugues.tc@amadeus.com</emailAddress>
+            <isVerified>true</isVerified>
+            <routingName>Amadeus Hospitality - Customer Support</routingName>
+            <saveEmailHeaders>true</saveEmailHeaders>
+        </routingAddresses>
+        <routingAddresses>
+            <addressType>EmailToCase</addressType>
+            <caseOrigin>Email</caseOrigin>
+            <casePriority>3 - Medium</casePriority>
+            <createTask>false</createTask>
+            <emailAddress>csemea.tc@amadeus.com</emailAddress>
+            <isVerified>true</isVerified>
+            <routingName>Amadeus Hospitality - Customer Support</routingName>
+            <saveEmailHeaders>true</saveEmailHeaders>
+        </routingAddresses>
+        <routingAddresses>
+            <addressType>EmailToCase</addressType>
+            <caseOrigin>Email</caseOrigin>
+            <casePriority>3 - Medium</casePriority>
+            <createTask>false</createTask>
+            <emailAddress>cs.tc@amadeus.com</emailAddress>
+            <isVerified>true</isVerified>
+            <routingName>Amadeus Hospitality - Customer Support</routingName>
+            <saveEmailHeaders>true</saveEmailHeaders>
+        </routingAddresses>
+        <routingAddresses>
+            <addressType>EmailToCase</addressType>
+            <caseOrigin>Email</caseOrigin>
+            <casePriority>3 - Medium</casePriority>
+            <createTask>false</createTask>
+            <emailAddress>atendimentoaocliente.tc@amadeus.com</emailAddress>
+            <isVerified>true</isVerified>
+            <routingName>Amadeus Hospitality - Customer Support</routingName>
+            <saveEmailHeaders>true</saveEmailHeaders>
+        </routingAddresses>
+        <routingAddresses>
+            <addressType>EmailToCase</addressType>
+            <caseOrigin>Email</caseOrigin>
+            <casePriority>3 - Medium</casePriority>
+            <createTask>false</createTask>
+            <emailAddress>atencion.cliente.tc@amadeus.com</emailAddress>
+            <isVerified>true</isVerified>
+            <routingName>Amadeus Hospitality - Customer Support</routingName>
+            <saveEmailHeaders>true</saveEmailHeaders>
+        </routingAddresses>
+        <routingAddresses>
+            <addressType>EmailToCase</addressType>
+            <caseOrigin>Email</caseOrigin>
+            <casePriority>3 - Medium</casePriority>
+            <createTask>false</createTask>
+            <emailAddress>assistenza.clienti.tc@amadeus.com</emailAddress>
+            <isVerified>true</isVerified>
+            <routingName>Amadeus Hospitality - Customer Support</routingName>
+            <saveEmailHeaders>true</saveEmailHeaders>
+        </routingAddresses>
+        <routingAddresses>
+            <addressType>EmailToCase</addressType>
+            <caseOrigin>Email</caseOrigin>
+            <casePriority>3 - Medium</casePriority>
+            <createTask>false</createTask>
+            <emailAddress>aspachelp.tc@amadeus.com</emailAddress>
+            <isVerified>true</isVerified>
+            <routingName>Amadeus Hospitality - Customer Support</routingName>
+            <saveEmailHeaders>true</saveEmailHeaders>
+        </routingAddresses>
+        <routingAddresses>
+            <addressType>EmailToCase</addressType>
+            <caseOrigin>Email_PSS_TC</caseOrigin>
+            <casePriority>3 - Medium</casePriority>
+            <createTask>false</createTask>
+            <emailAddress>premierservice.tc@amadeus.com</emailAddress>
+            <isVerified>true</isVerified>
+            <routingName>Amadeus Hospitality - Customer Support</routingName>
+            <saveEmailHeaders>true</saveEmailHeaders>
+        </routingAddresses>
+        <routingAddresses>
+            <addressType>EmailToCase</addressType>
+            <caseOrigin>Email_PSS_TC</caseOrigin>
+            <casePriority>3 - Medium</casePriority>
+            <createTask>false</createTask>
+            <emailAddress>premier.soutien.tc@amadeus.com</emailAddress>
+            <isVerified>true</isVerified>
+            <routingName>Amadeus Hospitality - Customer Support</routingName>
+            <saveEmailHeaders>true</saveEmailHeaders>
+        </routingAddresses>
+        <routingAddresses>
+            <addressType>EmailToCase</addressType>
+            <caseOrigin>Email_PSS_TC</caseOrigin>
+            <casePriority>3 - Medium</casePriority>
+            <createTask>false</createTask>
+            <emailAddress>premier.kundenbetreuung.tc@amadeus.com</emailAddress>
+            <isVerified>true</isVerified>
+            <routingName>Amadeus Hospitality - Customer Support</routingName>
+            <saveEmailHeaders>true</saveEmailHeaders>
+        </routingAddresses>
+        <routingAddresses>
+            <addressType>EmailToCase</addressType>
+            <caseOrigin>Email_PSS_TC</caseOrigin>
+            <casePriority>3 - Medium</casePriority>
+            <createTask>false</createTask>
+            <emailAddress>premier.atencion.cliente.tc@amadeus.com</emailAddress>
+            <isVerified>true</isVerified>
+            <routingName>Amadeus Hospitality - Customer Support</routingName>
+            <saveEmailHeaders>true</saveEmailHeaders>
+        </routingAddresses>
+        <routingAddresses>
+            <addressType>EmailToCase</addressType>
+            <caseOrigin>Email_PSS_TC</caseOrigin>
+            <casePriority>3 - Medium</casePriority>
+            <createTask>false</createTask>
+            <emailAddress>premier.assistenza.clienti.tc@amadeus.com</emailAddress>
+            <isVerified>true</isVerified>
+            <routingName>Amadeus Hospitality - Customer Support</routingName>
+            <saveEmailHeaders>true</saveEmailHeaders>
+        </routingAddresses>
+        <routingAddresses>
+            <addressType>EmailToCase</addressType>
+            <caseOrigin>Email</caseOrigin>
+            <casePriority>3 - Medium</casePriority>
+            <createTask>false</createTask>
+            <emailAddress>hospitality.sosupport@amadeus.com</emailAddress>
+            <isVerified>true</isVerified>
+            <routingName>Amadeus Hospitality - Customer Support</routingName>
+            <saveEmailHeaders>false</saveEmailHeaders>
+        </routingAddresses>
+        <routingAddresses>
+            <addressType>EmailToCase</addressType>
+            <caseOrigin>Email</caseOrigin>
+            <casePriority>3 - Medium</casePriority>
+            <createTask>false</createTask>
+            <emailAddress>hospitality.pmssupport@amadeus.com</emailAddress>
+            <isVerified>true</isVerified>
+            <routingName>Amadeus Hospitality - Customer Support</routingName>
+            <saveEmailHeaders>false</saveEmailHeaders>
+        </routingAddresses>
+        <routingAddresses>
+            <addressType>EmailToCase</addressType>
+            <caseOrigin>DMSS Email-to-Case</caseOrigin>
+            <casePriority>3 - Medium</casePriority>
+            <createTask>false</createTask>
+            <emailAddress>datamediasupportservices.tc@amadeus.com</emailAddress>
+            <isVerified>true</isVerified>
+            <routingName>Amadeus Hospitality - Data Media Support Services</routingName>
+            <saveEmailHeaders>true</saveEmailHeaders>
+        </routingAddresses>
+        <routingAddresses>
+            <addressType>EmailToCase</addressType>
+            <caseOrigin>Email_Professional Services</caseOrigin>
+            <caseOwner>Q_BI_Implementations</caseOwner>
+            <caseOwnerType>Queue</caseOwnerType>
+            <casePriority>3 - Medium</casePriority>
+            <createTask>false</createTask>
+            <emailAddress>biimplementations.tc@amadeus.com</emailAddress>
+            <isVerified>true</isVerified>
+            <routingName>Amadeus Hospitality - Delivery</routingName>
+            <saveEmailHeaders>false</saveEmailHeaders>
+        </routingAddresses>
+        <routingAddresses>
+            <addressType>EmailToCase</addressType>
+            <caseOrigin>Email_Professional Services</caseOrigin>
+            <caseOwner>Q_IGT_Implementations</caseOwner>
+            <caseOwnerType>Queue</caseOwnerType>
+            <casePriority>3 - Medium</casePriority>
+            <createTask>false</createTask>
+            <emailAddress>igtimplementations.tc@amadeus.com</emailAddress>
+            <isVerified>true</isVerified>
+            <routingName>Amadeus Hospitality - Delivery</routingName>
+            <saveEmailHeaders>false</saveEmailHeaders>
+        </routingAddresses>
+        <routingAddresses>
+            <addressType>EmailToCase</addressType>
+            <caseOrigin>Email_Professional Services</caseOrigin>
+            <caseOwner>Q_CM_Conversions</caseOwner>
+            <caseOwnerType>Queue</caseOwnerType>
+            <casePriority>3 - Medium</casePriority>
+            <createTask>false</createTask>
+            <emailAddress>apiactivation.tc@amadeus.com</emailAddress>
+            <isVerified>true</isVerified>
+            <routingName>Amadeus Hospitality - Delivery</routingName>
+            <saveEmailHeaders>false</saveEmailHeaders>
+        </routingAddresses>
+        <routingAddresses>
+            <addressType>EmailToCase</addressType>
+            <caseOrigin>Email_Professional Services</caseOrigin>
+            <caseOwner>Q_INTL_BI_Implementations</caseOwner>
+            <caseOwnerType>Queue</caseOwnerType>
+            <casePriority>3 - Medium</casePriority>
+            <createTask>false</createTask>
+            <emailAddress>emeabiimplementation.tc@amadeus.com</emailAddress>
+            <isVerified>true</isVerified>
+            <routingName>Amadeus Hospitality - Delivery</routingName>
+            <saveEmailHeaders>false</saveEmailHeaders>
+        </routingAddresses>
+        <routingAddresses>
+            <addressType>EmailToCase</addressType>
+            <caseOrigin>Email_Professional Services</caseOrigin>
+            <caseOwner>Q_Consortia_Implementations</caseOwner>
+            <caseOwnerType>Queue</caseOwnerType>
+            <casePriority>3 - Medium</casePriority>
+            <createTask>false</createTask>
+            <emailAddress>consortianeworders.tc@amadeus.com</emailAddress>
+            <isVerified>true</isVerified>
+            <routingName>Amadeus Hospitality - Delivery</routingName>
+            <saveEmailHeaders>false</saveEmailHeaders>
+        </routingAddresses>
+        <routingAddresses>
+            <addressType>EmailToCase</addressType>
+            <caseOrigin>GDS Email-to-Case</caseOrigin>
+            <casePriority>3 - Medium</casePriority>
+            <createTask>false</createTask>
+            <emailAddress>gds.tc@amadeus.com</emailAddress>
+            <isVerified>true</isVerified>
+            <routingName>Amadeus Hospitality - GDS Team</routingName>
+            <saveEmailHeaders>true</saveEmailHeaders>
+        </routingAddresses>
+        <routingAddresses>
+            <addressType>EmailToCase</addressType>
+            <caseOrigin>GDS Email-to-Case</caseOrigin>
+            <casePriority>3 - Medium</casePriority>
+            <createTask>false</createTask>
+            <emailAddress>gdseurope.tc@amadeus.com</emailAddress>
+            <isVerified>true</isVerified>
+            <routingName>Amadeus Hospitality - GDS Team</routingName>
+            <saveEmailHeaders>true</saveEmailHeaders>
+        </routingAddresses>
+        <routingAddresses>
+            <addressType>EmailToCase</addressType>
+            <caseOrigin>Email_Professional Services</caseOrigin>
+            <caseOwner>Q_Creative</caseOwner>
+            <caseOwnerType>Queue</caseOwnerType>
+            <casePriority>3 - Medium</casePriority>
+            <createTask>false</createTask>
+            <emailAddress>ebeyonds.tc@amadeus.com</emailAddress>
+            <isVerified>true</isVerified>
+            <routingName>Amadeus Hospitality - Global Creative</routingName>
+            <saveEmailHeaders>false</saveEmailHeaders>
+        </routingAddresses>
+        <routingAddresses>
+            <addressType>EmailToCase</addressType>
+            <caseOrigin>SEH Email-to-Case</caseOrigin>
+            <casePriority>3 - Medium</casePriority>
+            <createTask>false</createTask>
+            <emailAddress>business-box.support.tc@amadeus.com</emailAddress>
+            <isVerified>true</isVerified>
+            <routingName>Amadeus Hospitality - OGH Support</routingName>
+            <saveEmailHeaders>true</saveEmailHeaders>
+        </routingAddresses>
+        <routingAddresses>
+            <addressType>EmailToCase</addressType>
+            <caseOrigin>Email_PSS</caseOrigin>
+            <casePriority>3 - Medium</casePriority>
+            <createTask>false</createTask>
+            <emailAddress>hospitality.pss@amadeus.com</emailAddress>
+            <isVerified>true</isVerified>
+            <routingName>Amadeus Hospitality - Platinum Support</routingName>
+            <saveEmailHeaders>true</saveEmailHeaders>
+        </routingAddresses>
+        <routingAddresses>
+            <addressType>EmailToCase</addressType>
+            <caseOrigin>Email</caseOrigin>
+            <caseOwner>Q_L1_Tier_2_Support</caseOwner>
+            <caseOwnerType>Queue</caseOwnerType>
+            <casePriority>3 - Medium</casePriority>
+            <createTask>false</createTask>
+            <emailAddress>websupport.tc@amadeus.com</emailAddress>
+            <isVerified>true</isVerified>
+            <routingName>Amadeus Hospitality - Web Solutions</routingName>
+            <saveEmailHeaders>true</saveEmailHeaders>
+        </routingAddresses>
+        <routingAddresses>
+            <addressType>EmailToCase</addressType>
+            <caseOrigin>Email</caseOrigin>
+            <caseOwner>Q_L1_Tier_2_Support</caseOwner>
+            <caseOwnerType>Queue</caseOwnerType>
+            <casePriority>3 - Medium</casePriority>
+            <createTask>false</createTask>
+            <emailAddress>cswebsolutions.tc@amadeus.com</emailAddress>
+            <isVerified>true</isVerified>
+            <routingName>Amadeus Hospitality - Web Solutions</routingName>
+            <saveEmailHeaders>true</saveEmailHeaders>
+        </routingAddresses>
+        <routingAddresses>
+            <addressType>EmailToCase</addressType>
+            <caseOrigin>Phone</caseOrigin>
+            <casePriority>3 - Medium</casePriority>
+            <createTask>false</createTask>
+            <emailAddress>hos-adoption@amadeus.com</emailAddress>
+            <isVerified>true</isVerified>
+            <routingName>Amadeus Hospitality Solution Adoption</routingName>
+            <saveEmailHeaders>false</saveEmailHeaders>
+        </routingAddresses>
+        <routingAddresses>
+            <addressType>EmailToCase</addressType>
+            <caseOrigin>Email_Crel</caseOrigin>
+            <casePriority>3 - Medium</casePriority>
+            <createTask>false</createTask>
+            <emailAddress>hospitality.crelsupport@amadeus.com</emailAddress>
+            <isVerified>true</isVerified>
+            <routingName>Crel Support</routingName>
+            <saveEmailHeaders>true</saveEmailHeaders>
+        </routingAddresses>
+        <routingAddresses>
+            <addressType>EmailToCase</addressType>
+            <caseOrigin>Email_ODO</caseOrigin>
+            <casePriority>3 - Medium</casePriority>
+            <createTask>false</createTask>
+            <emailAddress>hospitality.dco_case@amadeus.com</emailAddress>
+            <isVerified>true</isVerified>
+            <routingName>DCO Case</routingName>
+            <saveEmailHeaders>false</saveEmailHeaders>
+        </routingAddresses>
+        <routingAddresses>
+            <addressType>EmailToCase</addressType>
+            <caseOrigin>Email_InvoiceHelp</caseOrigin>
+            <casePriority>3 - Medium</casePriority>
+            <createTask>false</createTask>
+            <emailAddress>hospitality.invoicehelp@amadeus.com</emailAddress>
+            <isVerified>true</isVerified>
+            <routingName>Finance Invoice Help Case</routingName>
+            <saveEmailHeaders>false</saveEmailHeaders>
+        </routingAddresses>
+        <routingAddresses>
+            <addressType>EmailToCase</addressType>
+            <caseOrigin>Email_License Compliance</caseOrigin>
+            <casePriority>3 - Medium</casePriority>
+            <createTask>false</createTask>
+            <emailAddress>hospitality.licensecompliance@amadeus.com</emailAddress>
+            <isVerified>true</isVerified>
+            <routingName>License Compliance</routingName>
+            <saveEmailHeaders>false</saveEmailHeaders>
+        </routingAddresses>
+        <routingAddresses>
+            <addressType>EmailToCase</addressType>
+            <caseOrigin>New Partner Inquiries</caseOrigin>
+            <casePriority>3 - Medium</casePriority>
+            <createTask>false</createTask>
+            <emailAddress>dg-hospitality-newpartnerinquiries@amadeus.com</emailAddress>
+            <isVerified>true</isVerified>
+            <routingName>New Partner Inquiries</routingName>
+            <saveEmailHeaders>false</saveEmailHeaders>
+        </routingAddresses>
+        <routingAddresses>
+            <addressType>EmailToCase</addressType>
+            <caseOrigin>Email_PSCaseEsc</caseOrigin>
+            <casePriority>3 - Medium</casePriority>
+            <createTask>false</createTask>
+            <emailAddress>hospitality.pscaseesc@amadeus.com</emailAddress>
+            <isVerified>true</isVerified>
+            <routingName>PS Escalations Case</routingName>
+            <saveEmailHeaders>false</saveEmailHeaders>
+        </routingAddresses>
+        <routingAddresses>
+            <addressType>EmailToCase</addressType>
+            <caseOrigin>Email_Professional Services</caseOrigin>
+            <casePriority>4 Business Days</casePriority>
+            <createTask>false</createTask>
+            <emailAddress>hospitality.professionalservicescase@amadeus.com</emailAddress>
+            <isVerified>true</isVerified>
+            <routingName>Professional Services Case</routingName>
+            <saveEmailHeaders>false</saveEmailHeaders>
+        </routingAddresses>
+        <routingAddresses>
+            <addressType>Outlook</addressType>
+            <caseOrigin>Email_US (S&amp;C)</caseOrigin>
+            <caseOwner>QeSupportDefault</caseOwner>
+            <caseOwnerType>Queue</caseOwnerType>
+            <casePriority>3 - Medium</casePriority>
+            <isVerified>false</isVerified>
+            <routingName>Q-Americas</routingName>
+        </routingAddresses>
+        <routingAddresses>
+            <addressType>Outlook</addressType>
+            <caseOrigin>Salesforce for Outlook</caseOrigin>
+            <caseOwner>Q_Finance_Billing</caseOwner>
+            <caseOwnerType>Queue</caseOwnerType>
+            <casePriority>3 - Medium</casePriority>
+            <isVerified>false</isVerified>
+            <routingName>Q-Finance Billing</routingName>
+        </routingAddresses>
+        <routingAddresses>
+            <addressType>EmailToCase</addressType>
+            <caseOrigin>Email_LP</caseOrigin>
+            <casePriority>3 - Medium</casePriority>
+            <createTask>false</createTask>
+            <emailAddress>hospitality.sfdclicenseprocurement@amadeus.com</emailAddress>
+            <isVerified>true</isVerified>
+            <routingName>SFLicenseProcurement</routingName>
+            <saveEmailHeaders>true</saveEmailHeaders>
+        </routingAddresses>
+        <routingAddresses>
+            <addressType>EmailToCase</addressType>
+            <caseOrigin>Email Solution Delivery</caseOrigin>
+            <casePriority>3 - Medium</casePriority>
+            <createTask>false</createTask>
+            <emailAddress>hospitality.solutions_delivery_case@amadeus.com</emailAddress>
+            <isVerified>true</isVerified>
+            <routingName>Solutions Delivery</routingName>
+            <saveEmailHeaders>true</saveEmailHeaders>
+        </routingAddresses>
+        <routingAddresses>
+            <addressType>Outlook</addressType>
+            <caseOrigin>Email</caseOrigin>
+            <caseOwner>kcilley@newmarketinc.com</caseOwner>
+            <caseOwnerType>User</caseOwnerType>
+            <casePriority>3 - Medium</casePriority>
+            <isVerified>false</isVerified>
+            <routingName>Standard Case</routingName>
+        </routingAddresses>
+        <routingAddresses>
+            <addressType>EmailToCase</addressType>
+            <caseOrigin>Email_Subscription Management</caseOrigin>
+            <casePriority>3 - Medium</casePriority>
+            <createTask>false</createTask>
+            <emailAddress>hospitality.subscriptionmgt_case@amadeus.com</emailAddress>
+            <isVerified>true</isVerified>
+            <routingName>SubscriptionManagemen</routingName>
+            <saveEmailHeaders>false</saveEmailHeaders>
+        </routingAddresses>
+        <routingAddresses>
+            <addressType>EmailToCase</addressType>
+            <caseOrigin>Web Form Proc</caseOrigin>
+            <casePriority>3 - Medium</casePriority>
+            <createTask>false</createTask>
+            <emailAddress>hospitality.webformprocessing@amadeus.com</emailAddress>
+            <isVerified>true</isVerified>
+            <routingName>Web Form Processing</routingName>
+            <saveEmailHeaders>false</saveEmailHeaders>
+        </routingAddresses>
+        <unauthorizedSenderAction>Discard</unauthorizedSenderAction>
+    </emailToCase>
+    <enableCaseFeed>false</enableCaseFeed>
+    <enableCaseSwarming>false</enableCaseSwarming>
+    <enableCollapseEmailThread>false</enableCollapseEmailThread>
+    <enableEarlyEscalationRuleTriggers>false</enableEarlyEscalationRuleTriggers>
+    <enableEscalateQfiToCaseInternal>false</enableEscalateQfiToCaseInternal>
+    <enableEscalateQfiToCaseNetworks>false</enableEscalateQfiToCaseNetworks>
+    <enableMultiLangSolnSrchCSS>true</enableMultiLangSolnSrchCSS>
+    <enableMultiLangSolnSrchPKB>true</enableMultiLangSolnSrchPKB>
+    <enableMultiLangSolution>true</enableMultiLangSolution>
+    <enableSolutionCategory>true</enableSolutionCategory>
+    <enableSolutionInlineCategory>true</enableSolutionInlineCategory>
+    <enableSolutionShortSummary>true</enableSolutionShortSummary>
+    <enableSuggestedArticlesApplication>false</enableSuggestedArticlesApplication>
+    <enableSuggestedArticlesCustomerPortal>false</enableSuggestedArticlesCustomerPortal>
+    <enableSuggestedArticlesPartnerPortal>false</enableSuggestedArticlesPartnerPortal>
+    <enableSuggestedSolutions>true</enableSuggestedSolutions>
+    <escalateCaseBefore>false</escalateCaseBefore>
+    <keepRecordTypeOnAssignmentRule>true</keepRecordTypeOnAssignmentRule>
+    <notifyContactOnCaseComment>false</notifyContactOnCaseComment>
+    <notifyDefaultCaseOwner>true</notifyDefaultCaseOwner>
+    <notifyOwnerOnCaseComment>true</notifyOwnerOnCaseComment>
+    <notifyOwnerOnCaseOwnerChange>true</notifyOwnerOnCaseOwnerChange>
+    <showEmailAttachmentsInCaseAttachmentsRL>true</showEmailAttachmentsInCaseAttachmentsRL>
+    <showFewerCloseActions>true</showFewerCloseActions>
+    <systemUserEmail>automatedcase@00d300000006ctneae.ext</systemUserEmail>
+    <useSystemEmailAddress>true</useSystemEmailAddress>
+    <useSystemUserAsDefaultCaseUser>false</useSystemUserAsDefaultCaseUser>
+    <visibleInCssCheckbox>false</visibleInCssCheckbox>
+    <webToCase>
+        <caseOrigin>WebToCase</caseOrigin>
+        <defaultResponseTemplate>Support_Portal_Email_Templates/SUPPORTWebtoCaseemailresponse</defaultResponseTemplate>
+        <enableWebToCase>true</enableWebToCase>
+    </webToCase>
+</CaseSettings>

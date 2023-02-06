@@ -1,0 +1,489 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <actionCalls>
+        <description>Submits the Milestone for Approval</description>
+        <name>SubmitMilestoneForApproval</name>
+        <label>SubmitMilestoneForApproval</label>
+        <locationX>1294</locationX>
+        <locationY>495</locationY>
+        <actionName>submit</actionName>
+        <actionType>submit</actionType>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <inputParameters>
+            <name>objectId</name>
+            <value>
+                <elementReference>GetMilestone.Id</elementReference>
+            </value>
+        </inputParameters>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </actionCalls>
+    <apiVersion>54.0</apiVersion>
+    <assignments>
+        <description>Counts the total number of Timecard Splits associated with the Timecard entry</description>
+        <name>CountOfSplits</name>
+        <label>Count Of Splits</label>
+        <locationX>324</locationX>
+        <locationY>293</locationY>
+        <assignmentItems>
+            <assignToReference>varCountOfTimecardSplits</assignToReference>
+            <operator>AssignCount</operator>
+            <value>
+                <elementReference>varTimecardSplitsCollection</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>GetProjectManager</targetReference>
+        </connector>
+    </assignments>
+    <decisions>
+        <description>Decides if the Month/Year of the Assignment End Date matches the Month/Year of the Milestone Target Date. If it does, assign the Approver and send for Approval. If it doesn&apos;t the Flow ends and does nothing.</description>
+        <name>AssignmentMatchesMilestoneDecision</name>
+        <label>AssignmentMatchesMilestoneDecision</label>
+        <locationX>610</locationX>
+        <locationY>460</locationY>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>AssignmentMatchesMilestone</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>formulaAssignmentEndDate</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <elementReference>formulaMilestoneTargetDate</elementReference>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>UpdateApproverAndActualDate</targetReference>
+            </connector>
+            <label>AssignmentMatchesMilestone</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <description>Decides if the Assignment associated to the Timecard is a Billable assignment. If not, the Flow ends and no further action is taken. If it is a billable assignment, the Flow continues.</description>
+        <name>BillableAssignmentDecision</name>
+        <label>BillableAssignmentDecision</label>
+        <locationX>219</locationX>
+        <locationY>541</locationY>
+        <defaultConnectorLabel>NotBillable</defaultConnectorLabel>
+        <rules>
+            <name>Billable</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>GetAssignment.pse__Is_Billable__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>GetTimecardSplits</targetReference>
+            </connector>
+            <label>Billable</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <description>Decides if the Milestone Type is either Billable Milestone or Stale and Status = Open. If not, the Flow ends and no further action is taken. If it matches the criteria, the Flow continues.</description>
+        <name>MilestoneTypeDecision</name>
+        <label>MilestoneTypeDecision</label>
+        <locationX>467</locationX>
+        <locationY>33</locationY>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>MilestoneMatchesCriteria</name>
+            <conditionLogic>(1 or 2) AND 3</conditionLogic>
+            <conditions>
+                <leftValueReference>GetMilestone.Milestone_Type__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Billable Milestone</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>GetMilestone.Milestone_Type__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Stale</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>GetMilestone.pse__Status__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Open</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>TimecardProjectPhaseDecision</targetReference>
+            </connector>
+            <label>MilestoneMatchesCriteria</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <description>Decides if the Project is a customer project and if the &quot;Timecard Requires Milestone&quot; = TRUE. If not, the Flow stops and no further action is taken.</description>
+        <name>ProjectDecision</name>
+        <label>ProjectDecision</label>
+        <locationX>130</locationX>
+        <locationY>371</locationY>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>MoveForward</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>GetProject.pse__Project_Type__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Customer Project</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>GetProject.Timecards_Require_Milestone__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>GetAssignment</targetReference>
+            </connector>
+            <label>MoveForward</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <description>Decides if the Month/Year of the Timecard Split End Date matches the Month/Year of the Milestone Target Date. If it matches, the Milestone will be submitted for approval. If not, the next Timecard Split record will be looped.</description>
+        <name>SplitMatchesMilestoneDecision</name>
+        <label>SplitMatchesMilestoneDecision</label>
+        <locationX>1269</locationX>
+        <locationY>34</locationY>
+        <defaultConnector>
+            <targetReference>LoopTimecardSplit</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>No Match</defaultConnectorLabel>
+        <rules>
+            <name>SplitMatchesMilestone</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>formulaTimecardSplitEndDate</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <elementReference>formulaMilestoneTargetDate</elementReference>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>UpdateApproverAndActualDate</targetReference>
+            </connector>
+            <label>SplitMatchesMilestone</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <description>Decides if the Month/Year of the Timecard End Date matches the Month/Year of the Milestone Target Date. If it does, assign the Approver and send for Approval. If it doesn&apos;t move it on to compare against the Assignment.</description>
+        <name>TimecardDateMatchesMilestoneDecision</name>
+        <label>TimecardDateMatchesMilestoneDecision</label>
+        <locationX>722</locationX>
+        <locationY>254</locationY>
+        <defaultConnector>
+            <targetReference>AssignmentMatchesMilestoneDecision</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>TimecardDateMatches</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>formulaTimecardEndDate</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <elementReference>formulaMilestoneTargetDate</elementReference>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>UpdateApproverAndActualDate</targetReference>
+            </connector>
+            <label>TimecardDateMatches</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <description>Decides the Project Phase on the Timecard. If the Project Phase = Milestone Complete the Milestone will be automatically submitted for approval.</description>
+        <name>TimecardProjectPhaseDecision</name>
+        <label>TimecardProjectPhaseDecision</label>
+        <locationX>675</locationX>
+        <locationY>39</locationY>
+        <defaultConnector>
+            <targetReference>LoopTimecardSplit</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Milestone In Progress</defaultConnectorLabel>
+        <rules>
+            <name>MilestoneComplete</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.pse__Project_Phase__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Milestone Complete</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>UpdateApproverAndActualDate</targetReference>
+            </connector>
+            <label>MilestoneComplete</label>
+        </rules>
+    </decisions>
+    <description>NICC-058198; Submits a PSA Milestone for approval when applicable.</description>
+    <formulas>
+        <description>Shows the Month/Year of the Assignment End Date</description>
+        <name>formulaAssignmentEndDate</name>
+        <dataType>String</dataType>
+        <expression>TEXT(MONTH( {!GetAssignment.pse__End_Date__c} ) ) &amp;&quot;/&quot;&amp; TEXT(YEAR( {!GetAssignment.pse__End_Date__c} ) )</expression>
+    </formulas>
+    <formulas>
+        <description>If the Timecard Total Days Worked &gt; 0, then use Timecard End Date, otherwise use Timecard Start Date</description>
+        <name>formulaMilestoneActualDate</name>
+        <dataType>Date</dataType>
+        <expression>IF( {!$Record.pse__Saturday_Hours__c} &gt; 0,  {!$Record.pse__End_Date__c}, 
+ IF( {!$Record.pse__Friday_Hours__c}&gt; 0, {!$Record.pse__End_Date__c} - 1, 
+ IF( {!$Record.pse__Thursday_Hours__c} &gt;0 , {!$Record.pse__End_Date__c} - 2, 
+ IF( {!$Record.pse__Wednesday_Hours__c} &gt; 0, {!$Record.pse__End_Date__c} - 3, 
+ IF( {!$Record.pse__Tuesday_Hours__c} &gt; 0, {!$Record.pse__End_Date__c} - 4, 
+ IF( {!$Record.pse__Monday_Hours__c} &gt; 0, {!$Record.pse__End_Date__c} - 5, 
+ IF( {!$Record.pse__Sunday_Hours__c} &gt; 0, {!$Record.pse__End_Date__c} - 6, 
+{!$Record.pse__Start_Date__c}
+)))))))</expression>
+    </formulas>
+    <formulas>
+        <description>Shows the Month/Year of the Milestone Target Date</description>
+        <name>formulaMilestoneTargetDate</name>
+        <dataType>String</dataType>
+        <expression>TEXT(MONTH( {!GetMilestone.pse__Target_Date__c} ) ) &amp;&quot;/&quot;&amp; TEXT(YEAR( {!GetMilestone.pse__Target_Date__c} ) )</expression>
+    </formulas>
+    <formulas>
+        <description>Shows the Month/Year of the Timecard End Date</description>
+        <name>formulaTimecardEndDate</name>
+        <dataType>String</dataType>
+        <expression>TEXT(MONTH( {!$Record.pse__End_Date__c} ) ) &amp;&quot;/&quot;&amp; TEXT(YEAR( {!$Record.pse__End_Date__c} ) )</expression>
+    </formulas>
+    <formulas>
+        <description>Shows the Month/Year of the Timecard Split End Date</description>
+        <name>formulaTimecardSplitEndDate</name>
+        <dataType>String</dataType>
+        <expression>TEXT(MONTH({!LoopTimecardSplit.pse__End_Date__c})) &amp;&quot;/&quot;&amp; TEXT(YEAR({!LoopTimecardSplit.pse__End_Date__c}))</expression>
+    </formulas>
+    <interviewLabel>Timecard - PSA Milestone Approval {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Timecard - PSA Milestone Approval</label>
+    <loops>
+        <description>Loops through each Timecard Split to determine if the Month/Year of the Timecard Split matches the Month/Year of the Milestone Target Date.</description>
+        <name>LoopTimecardSplit</name>
+        <label>LoopTimecardSplit</label>
+        <locationX>929</locationX>
+        <locationY>34</locationY>
+        <collectionReference>varTimecardSplitsCollection</collectionReference>
+        <iterationOrder>Asc</iterationOrder>
+        <nextValueConnector>
+            <targetReference>SplitMatchesMilestoneDecision</targetReference>
+        </nextValueConnector>
+        <noMoreValuesConnector>
+            <targetReference>TimecardDateMatchesMilestoneDecision</targetReference>
+        </noMoreValuesConnector>
+    </loops>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>FREE_FORM_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <recordLookups>
+        <description>Gets the Assignment associated to the Timecard record</description>
+        <name>GetAssignment</name>
+        <label>GetAssignment</label>
+        <locationX>39</locationX>
+        <locationY>557</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>BillableAssignmentDecision</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>$Record.pse__Assignment__r.Id</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>pse__Assignment__c</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
+        <description>Gets the Milestone associated with the Timecard entry</description>
+        <name>GetMilestone</name>
+        <label>GetMilestone</label>
+        <locationX>369</locationX>
+        <locationY>61</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>MilestoneTypeDecision</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>$Record.pse__Milestone__r.Id</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>pse__Milestone__c</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
+        <description>Gets the Project associated with the Timecard entry</description>
+        <name>GetProject</name>
+        <label>GetProject</label>
+        <locationX>30</locationX>
+        <locationY>282</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>ProjectDecision</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>$Record.pse__Project__r.Id</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>pse__Proj__c</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
+        <description>Gets the Contact record for the Project Manager associated with the Project</description>
+        <name>GetProjectManager</name>
+        <label>GetProjectManager</label>
+        <locationX>403</locationX>
+        <locationY>198</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>GetMilestone</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>GetProject.pse__Project_Manager__r.pse__Salesforce_User__r.Id</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>User</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
+        <description>Gets all of the Timecard Splits associated with the Timecard entry</description>
+        <name>GetTimecardSplits</name>
+        <label>GetTimecardSplits</label>
+        <locationX>408</locationX>
+        <locationY>409</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>CountOfSplits</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>pse__Timecard_Header__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>$Record.Id</elementReference>
+            </value>
+        </filters>
+        <object>pse__Timecard__c</object>
+        <outputReference>varTimecardSplitsCollection</outputReference>
+        <queriedFields>Id</queriedFields>
+        <queriedFields>pse__End_Date__c</queriedFields>
+    </recordLookups>
+    <recordUpdates>
+        <description>Updates the Approver on the Milestone to the Project Manager and updates the &quot;Actual Date&quot; on the Milestone record to the last-entered Date on the timecard.</description>
+        <name>UpdateApproverAndActualDate</name>
+        <label>UpdateApproverAndActualDate</label>
+        <locationX>1263</locationX>
+        <locationY>259</locationY>
+        <connector>
+            <targetReference>SubmitMilestoneForApproval</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>GetMilestone.Id</elementReference>
+            </value>
+        </filters>
+        <inputAssignments>
+            <field>pse__Actual_Date__c</field>
+            <value>
+                <elementReference>formulaMilestoneActualDate</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>pse__Approver__c</field>
+            <value>
+                <elementReference>GetProjectManager.Id</elementReference>
+            </value>
+        </inputAssignments>
+        <object>pse__Milestone__c</object>
+    </recordUpdates>
+    <start>
+        <locationX>21</locationX>
+        <locationY>11</locationY>
+        <connector>
+            <targetReference>GetProject</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>pse__Approved__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </filters>
+        <object>pse__Timecard_Header__c</object>
+        <recordTriggerType>Update</recordTriggerType>
+        <triggerType>RecordAfterSave</triggerType>
+    </start>
+    <status>Draft</status>
+    <variables>
+        <name>varCountOfTimecardSplits</name>
+        <dataType>Number</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>true</isOutput>
+        <scale>0</scale>
+    </variables>
+    <variables>
+        <name>varProjectId</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>true</isOutput>
+    </variables>
+    <variables>
+        <description>Holds a collection of all Timecard Splits for a Timecard</description>
+        <name>varTimecardSplitsCollection</name>
+        <dataType>SObject</dataType>
+        <isCollection>true</isCollection>
+        <isInput>true</isInput>
+        <isOutput>true</isOutput>
+        <objectType>pse__Timecard__c</objectType>
+    </variables>
+</Flow>

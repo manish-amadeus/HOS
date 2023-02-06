@@ -1,0 +1,188 @@
+<!--
+  Name            : AH_UDC_Users
+  Author          : Rob.Stevens@Amadeus.com
+  Created Date    : 2022-04-27
+  Description     : Page to control UDC Permission Sets assigned to users
+-->
+<apex:page id="AH_UDC_UsersPage" controller="AH_UDC_Users" title="UDC Users" setup="false" lightningstylesheets="true" doctype="html-5.0">
+   <head>
+      <title>UDC Users</title>
+      <apex:slds />
+      <style>
+         .frm {
+            margin-left: 1rem;
+            margin-right: 1rem;
+         }
+      </style>
+   </head>
+   <body>
+      <apex:form id="frmChangeUser" styleClass="frm">
+         <!--This action function is used to log entries that occurred on loading of the page-->
+         <apex:actionfunction name="actionfunction_LogMessages" action="{!serverLogMessages}" rerender="serverside" />
+
+         <!--This action function is used to grant the permission set-->
+         <apex:actionfunction name="actionfunction_grantPermissionSet" oncomplete="javascript:grantPermissionSetCallback();return false;" action="{!grantPermissionSet}" rerender="GrantedUsers,pageMessages,UserSearchTable">
+            <apex:param name="UserId" value="" assignto="{!UserId}" />
+            <apex:param name="UserName" value="" assignto="{!UserName}" />
+         </apex:actionfunction>
+          <!--This action function is used to revoke the permission set-->
+         <apex:actionfunction name="actionfunction_revokePermissionSet" oncomplete="javascript:revokePermissionSetCallback();return false;" action="{!revokePermissionSet}" rerender="GrantedUsers,pageMessages">
+            <apex:param name="UserId" value="" assignto="{!UserId}" />
+            <apex:param name="UserName" value="" assignto="{!UserName}" />
+         </apex:actionfunction>
+         <apex:actionfunction name="actionfunction_searchUsers" oncomplete="javascript:searchUsersCallback();return false;" action="{!searchUsers}" rerender="UserSearchTable,pageMessages"/>
+         <apex:actionfunction name="actionfunction_clearSearchUsers" oncomplete="javascript:clearSearchUsersCallback();return false;" action="{!clearSearchUsers}" rerender="UserSearchTable,pageMessages,searchUserNameInput" />
+         
+         <div class="slds-page-header" style="margin-top: 0.4rem; margin-bottom: 0.4rem">
+            <div class="slds-page-header__row">
+               <div class="slds-page-header__col-title">
+                  <h1>
+                     <span class="slds-page-header__title slds-truncate" title="UDC Settings">
+                        UDC Users
+                     </span>
+                  </h1>
+               </div>
+            </div>
+         </div>
+         
+         <apex:pageMessages id="pageMessages"/>
+
+         <div id="spinner" class="slds-spinner_container" style="display: none;">
+            <div role="status" class="slds-spinner slds-spinner_medium slds-spinner_brand">
+               <span class="slds-assistive-text">Loading</span>
+               <div class="slds-spinner__dot-a"></div>
+               <div class="slds-spinner__dot-b"></div>
+            </div>
+         </div>
+
+         <apex:pageblock title="Choose a UDC Permission Set" rendered="{!isException == false}">
+            <apex:selectradio id="selectPermissionSet" value="{!PermissionSet}">
+               <apex:selectoptions value="{!PermissionSets}" />
+               <apex:actionsupport event="onchange" rerender="GrantedUsers,pbUserSearch" />
+            </apex:selectradio>
+         </apex:pageblock>
+         
+         <apex:pageblock id="pbUserSearch" title="Grant {!PermissionSets[PermissionSet].label} to a User" rendered="{!isException == false}">
+            Search User Name:&nbsp;<apex:input id="searchUserNameInput" value="{!SearchUserName}"/>
+            &nbsp;&nbsp;<apex:commandlink value="Search" onclick="searchUsers();return false;"/>
+            &nbsp;&nbsp;<apex:commandlink value="Clear" onclick="clearSearchUsers();return false;"/>
+
+            <apex:outputPanel id="UserSearchTable">
+               <apex:outputPanel layout="block" style="overflow:auto;height:200px" rendered="{!ShowUserSearchResults==true}">
+                  <apex:pageblocktable columns="4" value="{!SearchUserResults}" var="SearchUserResult">
+                     <apex:column title="Grant">
+                        <apex:facet name="header">Action</apex:facet>
+                        <apex:commandlink value="Grant" onclick="grantPermissionSet('{!SearchUserResult.Id}','{!SearchUserResult.Name}');return false;" />
+                     </apex:column>
+                     <apex:column title="User Name">
+                        <apex:facet name="header">Name</apex:facet>
+                        {!SearchUserResult.Name}
+                     </apex:column>
+                     <apex:column title="User Login Name">
+                        <apex:facet name="header">Login Name</apex:facet>
+                        {!SearchUserResult.Username}
+                     </apex:column>
+                     <apex:column title="User Email">
+                        <apex:facet name="header">User Email</apex:facet>
+                        {!SearchUserResult.Email}
+                     </apex:column>
+                  </apex:pageblocktable>
+               </apex:outputPanel>
+            </apex:outputPanel>
+         </apex:pageblock>
+         
+         <apex:pageblock id="GrantedUsers" title="Users Currently Granted: {!DisplayPermissionSetName}"  rendered="{!isException == false}">
+            <apex:pageblocktable columns="4" value="{!PermissionSetAssignments}" var="PermissionSetAssignment">
+               <apex:column title="Revoke">
+                  <apex:facet name="header">Action</apex:facet>
+                  <apex:commandlink value="Revoke" rendered="{!$User.Id != PermissionSetAssignment.Assignee.Id}" onclick="revokePermissionSet('{!PermissionSetAssignment.Assignee.Id}','{!PermissionSetAssignment.Assignee.Name}');return false;" />
+               </apex:column>
+               <apex:column title="User Name">
+                  <apex:facet name="header">Name</apex:facet>
+                  {!PermissionSetAssignment.Assignee.Name}
+               </apex:column>
+               <apex:column title="User Login Name">
+                  <apex:facet name="header">Login Name</apex:facet>
+                  {!PermissionSetAssignment.Assignee.Username}
+               </apex:column>
+               <apex:column title="User Email">
+                  <apex:facet name="header">User Email</apex:facet>
+                  {!PermissionSetAssignment.Assignee.Email}
+               </apex:column>
+            </apex:pageblocktable>
+         </apex:pageblock>
+      </apex:form>
+   </body>
+
+   <script type="text/javascript">
+      function searchUsers(){
+         showSpinner();
+         actionfunction_searchUsers();
+      }
+
+      function searchUsersCallback(){
+         hideSpinner();
+         actionfunction_LogMessages();
+      }
+
+      function clearSearchUsers(){
+         showSpinner();
+         actionfunction_clearSearchUsers();
+      }
+
+      function clearSearchUsersCallback(){
+         hideSpinner();
+         actionfunction_LogMessages();
+      }
+
+      function grantPermissionSet(UserId, UserName)
+      {
+         showSpinner();
+         actionfunction_grantPermissionSet(UserId, UserName);
+      }
+
+      function grantPermissionSetCallback()
+      {
+         hideSpinner();
+         actionfunction_LogMessages();
+      }
+
+      function revokePermissionSet(UserId, UserName)
+      {
+         showSpinner();
+         actionfunction_revokePermissionSet(UserId, UserName);
+      }
+
+      function revokePermissionSetCallback()
+      {
+         hideSpinner();
+         actionfunction_LogMessages();
+      }
+
+       // show the spinner
+      function showSpinner() {
+         var spinner = document.getElementById("spinner");
+         spinner.style.display = "block";
+      }
+
+      // hide the spinner
+      function hideSpinner() {
+         var spinner = document.getElementById("spinner");
+         spinner.style.display = "none";
+      }
+
+      document.onreadystatechange = function () {
+         if (document.readyState == "complete") {
+            actionfunction_LogMessages();
+
+            document.onkeydown = function(e) {
+               if (e.target.nodeName.toLowerCase() != 'a' && e.target.nodeName.toLowerCase() != 'button'
+                     && e.target.type.toLowerCase() != 'submit' && e.key == 'Enter') {
+                  searchUsers(); //On pressing enter perform search
+                  e.preventDefault(); //Prevent form submission
+               }
+            }
+         }
+      }
+   </script>
+</apex:page>

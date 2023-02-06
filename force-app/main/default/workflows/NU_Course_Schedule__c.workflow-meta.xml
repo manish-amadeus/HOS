@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Workflow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fieldUpdates>
+        <fullName>Update_Status_To_Closed</fullName>
+        <field>Status__c</field>
+        <literalValue>Closed</literalValue>
+        <name>Update Status To Closed</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Literal</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>Update_Status_To_Full</fullName>
+        <field>Status__c</field>
+        <literalValue>Full</literalValue>
+        <name>Update Status To Full</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Literal</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>Update_Status_To_In_Progress</fullName>
+        <field>Status__c</field>
+        <literalValue>In Progress</literalValue>
+        <name>Update Status To In Progress</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Literal</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>Update_Status_To_Open_Enrollment</fullName>
+        <field>Status__c</field>
+        <literalValue>Open Enrollment</literalValue>
+        <name>Update Status To Open Enrollment</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Literal</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <rules>
+        <fullName>Class is Full</fullName>
+        <actions>
+            <name>Update_Status_To_Full</name>
+            <type>FieldUpdate</type>
+        </actions>
+        <active>true</active>
+        <formula>AND(Start__c &gt; NOW(), Maximum_Enrollment__c = Number_of_Attendees__c)</formula>
+        <triggerType>onCreateOrTriggeringUpdate</triggerType>
+    </rules>
+    <rules>
+        <fullName>Class is closed</fullName>
+        <actions>
+            <name>Update_Status_To_Closed</name>
+            <type>FieldUpdate</type>
+        </actions>
+        <active>true</active>
+        <formula>End__c &lt; NOW()</formula>
+        <triggerType>onCreateOrTriggeringUpdate</triggerType>
+    </rules>
+    <rules>
+        <fullName>Class is in progress</fullName>
+        <actions>
+            <name>Update_Status_To_In_Progress</name>
+            <type>FieldUpdate</type>
+        </actions>
+        <active>true</active>
+        <formula>AND(Start__c &lt; NOW(), End__c &gt; NOW())</formula>
+        <triggerType>onCreateOrTriggeringUpdate</triggerType>
+    </rules>
+    <rules>
+        <fullName>Class no longer full</fullName>
+        <actions>
+            <name>Update_Status_To_Open_Enrollment</name>
+            <type>FieldUpdate</type>
+        </actions>
+        <active>true</active>
+        <description>If attendee drops class and space opens up, then change status back to Open Enrollment</description>
+        <formula>AND(Start__c &gt; NOW(), Maximum_Enrollment__c  &lt;&gt; Number_of_Attendees__c)</formula>
+        <triggerType>onCreateOrTriggeringUpdate</triggerType>
+    </rules>
+</Workflow>

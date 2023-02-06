@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Workflow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fieldUpdates>
+        <fullName>Check_Create_Migration_Case</fullName>
+        <description>NICC-034281</description>
+        <field>Create_Migration_Case__c</field>
+        <literalValue>1</literalValue>
+        <name>Check Create Migration Case</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Literal</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>Check_Migration_Complete</fullName>
+        <description>NICC-034281</description>
+        <field>Migration_Complete__c</field>
+        <literalValue>1</literalValue>
+        <name>Check Migration Complete</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Literal</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <rules>
+        <fullName>Day After Cut-Off Date</fullName>
+        <active>true</active>
+        <criteriaItems>
+            <field>AH_Product_Migration__c.Cut_Off_Date__c</field>
+            <operation>notEqual</operation>
+        </criteriaItems>
+        <criteriaItems>
+            <field>AH_Product_Migration__c.BypassCaseAndAsset__c</field>
+            <operation>equals</operation>
+            <value>False</value>
+        </criteriaItems>
+        <description>NICC-034281 - Time-dependent workflow that creates a migration case and inactivates DIs
+NICC-036315 - Added Do Not Create Case Or Deactivate DI checkbox condition</description>
+        <triggerType>onCreateOrTriggeringUpdate</triggerType>
+        <workflowTimeTriggers>
+            <actions>
+                <name>Check_Create_Migration_Case</name>
+                <type>FieldUpdate</type>
+            </actions>
+            <actions>
+                <name>Check_Migration_Complete</name>
+                <type>FieldUpdate</type>
+            </actions>
+            <offsetFromField>AH_Product_Migration__c.Cut_Off_Date__c</offsetFromField>
+            <timeLength>1</timeLength>
+            <workflowTimeTriggerUnit>Days</workflowTimeTriggerUnit>
+        </workflowTimeTriggers>
+    </rules>
+</Workflow>

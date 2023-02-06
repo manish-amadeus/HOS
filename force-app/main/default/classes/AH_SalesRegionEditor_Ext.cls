@@ -11,53 +11,68 @@ Description     : Controller Extension for the AH_SalesRegionEditor Visualforce 
 public class AH_SalesRegionEditor_Ext 
 {
    
-    //LIST TO HOLD THE USER RECORDS  
+    // LIST TO HOLD THE USER RECORDS  
     public List<User> lstUsers {get; set;}
     
-    //STRING TO HOLD THE NAME OF THE USER 
+    // STRING TO HOLD THE NAME OF THE USER 
     public String strName {get; set;}
     
-    //STRING TO HOLD THE WILDCARD NAME OF THE USER FOR THE SEARCH 
+    // STRING TO HOLD THE WILDCARD NAME OF THE USER FOR THE SEARCH 
     public String strNameSearch {get; set;}
     
-    //USED TO CONDITIONALLY RENDER THE CANCEL BUTTON  
+    // USED TO CONDITIONALLY RENDER THE CANCEL BUTTON  
     public Boolean bShowCancel {get; set;}
     
-    //USED TO CONDITIONALLY RENDER THE SAVE BUTTON  
+    // USED TO CONDITIONALLY RENDER THE SAVE BUTTON  
     public Boolean bShowSave {get; set;}
     
-    //USED TO CONDITIONALLY RENDER THE CLOSE BUTTON  
+    // USED TO CONDITIONALLY RENDER THE CLOSE BUTTON  
     public Boolean bShowClose {get; set;}
     
-    //USED TO ENABLE OR DISABLE THE CANCEL CHECKBOX ON THE VF PAGE  
+    // USED TO ENABLE OR DISABLE THE CANCEL CHECKBOX ON THE VF PAGE  
     public Boolean bDisabled {get; set;}
     
-    //USED TO CONDITIONALLY RENDER THE searchPanelContainer OUTPUTPANEL  
+    // USED TO CONDITIONALLY RENDER THE searchPanelContainer OUTPUTPANEL  
     public Boolean showSearch {get; set;}
     
-    //VARIABLE TO HOLD THE COUNT OF USER RECORDS DISPLAYED  
+    // VARIABLE TO HOLD THE COUNT OF USER RECORDS DISPLAYED  
     public integer lstSize {get; set;}
     
-    //USED TO FILTER USERS WITH MISSING ADP NUMBERS ON THE VF PAGE  
+    // USED TO FILTER USERS WITH MISSING ADP NUMBERS ON THE VF PAGE  
     public Boolean bMissingADP {get; set;}
     
-    //LIST TO HOLD THE VALUES OF THE USER RECORDS BEFORE CHANGES ARE COMMITTED TO THE DATABASE
+    // LIST TO HOLD THE VALUES OF THE USER RECORDS BEFORE CHANGES ARE COMMITTED TO THE DATABASE
     List<objUserBeforeValues> lstUserBeforeValues = new List<objUserBeforeValues>();
     
-    //LIST TO HOLD THE USER RECORDS TO UPDATE
+    // LIST TO HOLD THE USER RECORDS TO UPDATE
     List<User> lstUsersToUpdate = new List<User>();
     
-    //LIST TO HOLD THE NI USER HISTORY RECORDS TO INSERT
+    // LIST TO HOLD THE NI USER HISTORY RECORDS TO INSERT
     List<NI_User_History__c> lstUserHistoryToInsert = new List<NI_User_History__c>();
     
+    //
+    public List<SelectOption> lstRegions {get; set;} 
     
+    //
+    //public string selRegion {get; set;} 
+        
+
     public AH_SalesRegionEditor_Ext(ApexPages.StandardController stdController)
     { 
         //CALL THE DISABLELISTEDIT METHOD  
-        disableListEdit();     
+        disableListEdit();   
+        
+        lstRegions = new List<SelectOption>();
+        Schema.DescribeFieldResult dfr2 = User.Sales_Region__c.getDescribe();
+        lstRegions.add(new SelectOption('', ''));
+        for (Schema.PicklistEntry plv2 : dfr2.getPicklistValues())
+        {
+            lstRegions.add(new SelectOption(plv2.getValue(), plv2.getLabel()));
+        }
+
     }
     
-    //DISABLE EDIT MODE  
+    // DISABLE EDIT MODE  
     public void disableListEdit()
     {
         bDisabled = true;
@@ -66,7 +81,7 @@ public class AH_SalesRegionEditor_Ext
         getUsers();      
     }
     
-    //ENABLE EDIT MODE  
+    // ENABLE EDIT MODE  
     public void EnableListEdit()
     {
         bDisabled = false;
@@ -74,9 +89,10 @@ public class AH_SalesRegionEditor_Ext
         getUsers();        
     }
     
-    //QUERY TO RETURN A LIST OF USER RECORDS
-    public List<User> getUsers() 
+    // QUERY TO RETURN A LIST OF USER RECORDS
+    public void getUsers() 
     {
+        
         bShowCancel = false;
         bShowSave = false;
         bShowClose = true;
@@ -86,7 +102,7 @@ public class AH_SalesRegionEditor_Ext
         lstUserHistoryToInsert.clear();
         //bMissingADP = true;  
         
-        if(strName == null && (bMissingADP == false || bMissingADP == null))
+        if (strName == null && (bMissingADP == false || bMissingADP == null))
         {                                                        
             lstUsers = [SELECT Name, Email, DepartmentCode__c, Sales_Region__c, IsActive, UserType
                         FROM User
@@ -98,17 +114,18 @@ public class AH_SalesRegionEditor_Ext
             
             lstSize = lstUsers.size();
             
-            if(lstUsers.size()>0)
+            if (lstUsers.size() > 0)
             {
-                for(User usr : lstUsers)
+                for (User usr : lstUsers)
                 {
                     lstUserBeforeValues.add(new objUserBeforeValues(usr.Id, usr.Sales_Region__c));  
                 }
             }
             
-            return lstUsers;                                  
+            return;// lstUsers;                                  
         }
-        if(strName == null && bMissingADP == true)
+        
+        if (strName == null && bMissingADP == true)
         {
             lstUsers = [SELECT Name, Email, DepartmentCode__c, Sales_Region__c, IsActive, UserType
                         FROM User
@@ -120,17 +137,18 @@ public class AH_SalesRegionEditor_Ext
             
             lstSize = lstUsers.size();
             
-            if(lstUsers.size()>0)
+            if (lstUsers.size() > 0)
             {
-                for(User usr : lstUsers)
+                for (User usr : lstUsers)
                 {
                     lstUserBeforeValues.add(new objUserBeforeValues(usr.Id, usr.Sales_Region__c));  
                 }
             }
             
-            return lstUsers;  
+            return; // lstUsers;  
         }  
-        if(strName != null && (bMissingADP == false || bMissingADP == null))
+        
+        if (strName != null && (bMissingADP == false || bMissingADP == null))
         {
             strNameSearch = '%' + strName + '%';                                   
             lstUsers = [SELECT Name, Email, DepartmentCode__c, Sales_Region__c, IsActive, UserType
@@ -143,17 +161,19 @@ public class AH_SalesRegionEditor_Ext
             
             lstSize = lstUsers.size();
             
-            if(lstUsers.size()>0)
+            if (lstUsers.size() > 0)
             {
-                for(User usr : lstUsers)
+                for (User usr : lstUsers)
                 {
                     lstUserBeforeValues.add(new objUserBeforeValues(usr.Id, usr.Sales_Region__c));  
                 }
             }
             
-            return lstUsers;                                  
+            return; // lstUsers;
+            
         }
-        if(strName != null && bMissingADP == true)
+        
+        if (strName != null && bMissingADP == true)
         {
             strNameSearch = '%' + strName + '%';
             lstUsers = [SELECT Name, Email, DepartmentCode__c, Sales_Region__c, IsActive, UserType
@@ -167,33 +187,36 @@ public class AH_SalesRegionEditor_Ext
             
             lstSize = lstUsers.size();
             
-            if(lstUsers.size()>0)
+            if (lstUsers.size() > 0)
             {
-                for(User usr : lstUsers)
+                for (User usr : lstUsers)
                 {
                     lstUserBeforeValues.add(new objUserBeforeValues(usr.Id, usr.Sales_Region__c));  
                 }
             }
-            return lstUsers;
+            
+            return; //lstUsers;
+            
         }      
-        return null;  
+         
     }         
     
     //CUSTOM SAVE METHOD
-    public PageReference save() {
+    public PageReference save() 
+    {
         
         bShowCancel = false;
         bShowSave = false;
         bShowClose = true;
         showSearch = true;
         
-        if(lstUsers.size() > 0)
+        if (lstUsers.size() > 0)
         {
-            for(User uNew : lstUsers)
+            for (User uNew : lstUsers)
             {
-                for(objUserBeforeValues uOld : lstUserBeforeValues)
+                for (objUserBeforeValues uOld : lstUserBeforeValues)
                 {
-                    if(uNew.Id == uOld.UserId && uNew.Sales_Region__c != uOld.strAdp)
+                    if (uNew.Id == uOld.UserId && uNew.Sales_Region__c != uOld.strAdp)
                     {
                         System.debug('User to update Id:' + uNew.Id);
                         lstUsersToUpdate.add(uNew);
@@ -207,16 +230,15 @@ public class AH_SalesRegionEditor_Ext
                     }
                 }
             } 
-            System.debug('NUMBER OF USERS TO UPDATE: ' + lstUsersToUpdate.size());
-            if(lstUsersToUpdate.size()>0)
-                
+            
+            if (lstUsersToUpdate.size()>0)    
             {
                 //USE DATABASE DML METHOD TO UPDATE THE USER RECORDS
                 integer intSuccess = 0;
                 Database.SaveResult[] results = Database.update(lstUsersToUpdate,false);
-                for(Database.SaveResult sr: results)
+                for (Database.SaveResult sr: results)
                 {
-                    if(!sr.isSuccess())
+                    if (!sr.isSuccess())
                     {
                         Database.Error err = sr.getErrors()[0];
                         System.debug(err.getMessage());
@@ -232,13 +254,13 @@ public class AH_SalesRegionEditor_Ext
                 ApexPages.AddMessage(new ApexPages.Message(ApexPages.Severity.INFO, 'Total User Records Updated:  ' + intSuccess));
             }
             
-            if(lstUserHistoryToInsert.size()>0)
+            if (lstUserHistoryToInsert.size()>0)
             {
                 //USE DATABASE DML METHOD TO INSERT THE USER HISTORY RECORDS
                 Database.SaveResult[] results2 = Database.insert(lstUserHistoryToInsert, false);
-                for(Database.SaveResult sr2: results2)
+                for (Database.SaveResult sr2: results2)
                 {
-                    if(!sr2.isSuccess())
+                    if (!sr2.isSuccess())
                     {
                         Database.Error err = sr2.getErrors()[0];
                         System.debug(err.getMessage());
@@ -256,11 +278,13 @@ public class AH_SalesRegionEditor_Ext
         
         return null;
     }
-    public PageReference search() {
-        
+    
+    public PageReference search() 
+    {        
         getUsers();
         return null;
     }
+    
     //===========================================================================    
     
     //INNER CLASS TO HOLD THE OLD FIELD VALUES  

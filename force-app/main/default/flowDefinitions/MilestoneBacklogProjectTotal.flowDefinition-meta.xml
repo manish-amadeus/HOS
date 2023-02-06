@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<FlowDefinition xmlns="http://soap.sforce.com/2006/04/metadata">
+    <activeVersionNumber>3</activeVersionNumber>
+    <description>Invoked by onBefore and onAfter triggers on the PSA Milestone object, this flow will pull the value of the PSA Milestone IsActive field and add a sum on the Project to be used for a validation rule.</description>
+    <masterLabel>MilestoneBacklogProjectTotal</masterLabel>
+</FlowDefinition>

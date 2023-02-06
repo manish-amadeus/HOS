@@ -181,7 +181,7 @@ public class AH_SolutionSearch_Ctlr_Test
     @isTest static void test2() 
     {
         
-        User u = NI_TestClassData.createTestUser(1, 'NI Support CSR'); 
+        User u = NI_TestClassData.createTestUser(1, 'AH Support CSR - Lightning'); 
         insert u;
 
         Support_Tier_Designation__c std = NI_TestClassData.createSupportTierDesignation(1, u.Id, 'Level 1 Support');

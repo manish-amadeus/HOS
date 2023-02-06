@@ -85,6 +85,8 @@ public class AH_CostControlUpdate_Ext_Test
             cstController.doSave();
             cstController.getDisablePrevious();
             cstController.getDisableNext();
+            cstController.search();
+            cstController.clear();
             cstController.Next();
             cstController.Previous();
             

@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>55.0</apiVersion>
+    <description>NICC-060980; updated vis NICC-061775; When a user creates a Defect (Bug) through the custom button called “Create a Defect” on the AH Test Cases object, this Flow associates the newly-created Defect (Bug) record to the Parent User Story that the Test Case originated with.</description>
+    <environments>Default</environments>
+    <interviewLabel>Work - Create Parent/Child Relationship for SLTC Bugs {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Work - Create Parent/Child Relationship for SLTC Bugs</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>FREE_FORM_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <recordCreates>
+        <description>Creates a parent/child relationship between the Bug (child) and the User Story (parent) where the bug originated from.</description>
+        <name>CreateParentChildAssociation</name>
+        <label>CreateParentChildAssociation</label>
+        <locationX>408</locationX>
+        <locationY>404</locationY>
+        <inputAssignments>
+            <field>agf__Child_Work__c</field>
+            <value>
+                <elementReference>$Record.Id</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>agf__Parent_Work__c</field>
+            <value>
+                <elementReference>$Record.AH_TestCase__r.User_Story__r.Id</elementReference>
+            </value>
+        </inputAssignments>
+        <object>agf__ADM_Parent_Work__c</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordCreates>
+    <start>
+        <locationX>68</locationX>
+        <locationY>43</locationY>
+        <connector>
+            <targetReference>CreateParentChildAssociation</targetReference>
+        </connector>
+        <filterFormula>{!$Record.agf__Scrum_Team__r.Name} &lt;&gt; &quot;SLTC Operations&quot; &amp;&amp;
+NOT(ISBLANK({!$Record.AH_TestCase__c})) &amp;&amp;
+OR(
+{!$Record.agf__Scrum_Team__r.Name} = &quot;SLTC Hospitality Transformation&quot;,
+{!$Record.agf__Scrum_Team__r.Name} = &quot;SLTC- Integrations team&quot;,
+CONTAINS({!$Record.agf__Product_Tag__r.Name}, &quot;SLTC&quot;)
+)</filterFormula>
+        <object>agf__ADM_Work__c</object>
+        <recordTriggerType>Create</recordTriggerType>
+        <triggerType>RecordAfterSave</triggerType>
+    </start>
+    <status>Active</status>
+</Flow>

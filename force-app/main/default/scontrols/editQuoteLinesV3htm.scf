@@ -1,0 +1,448 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Product Selection</title>
+<link  href="/dCSS/Theme2/default/common.css" type="text/css" media="handheld,print,projection,screen,tty,tv" rel="stylesheet" >
+<link  href="/dCSS/Theme2/default/custom.css" type="text/css" media="handheld,print,projection,screen,tty,tv" rel="stylesheet" >
+<link  href="/css/assistive.css" type="text/css" media="aural,braille,embossed" rel="stylesheet" >
+<script src="http://www.salesforce.com/services/lib/ajax/beta3.3/sforceclient.js" type="text/javascript"></script>
+
+<script type="text/javascript" src="/js/functions.js"></script>
+<script type="text/javascript" src="/js/setup.js"></script>
+<script type="text/javascript" src="/js/roletreenode.js"></script>
+<link rel="shortcut icon" href="https://na1.salesforce.com/favicon.ico">
+<script language="javascript" type="text/javascript">
+/* 
+ *
+ */
+var has_multicurrency = true;
+var edit_sales_price = false; // turn on to enable edit list price column
+var sapp = new Sforce.Application(); // to get browser version
+var Currency = null; // the current quote and opp currency to use
+function jumpbackQuote() { jumpback("/{!SFDC_520_Quote__c.Id}") }
+function jumpbackOpp() { jumpback("/{!SFDC_520_Quote__c.OpportunityId__c}"); }
+var PriceBook;  var Products; var AllProducts; var Opportunity;
+var showFields = new Array('Id', 'Product2__c', 'Qty_Ordered__c', 'Unit_Price__c', 
+	'Sales_Discount__c','ServiceDate__c','Description__c'); 
+	
+function initPage() {
+	sforceClient.useCookies = true;
+	sforceClient.registerInitCallback(setup);
+	sforceClient.init("{!API.Session_ID}", "{!API.Partner_Server_URL_70}", true); 
+}
+function setup_multicurrency() { // see if we have > 1 currency
+	var qr = sforceClient.Query("select id, ConversionRate,IsActive,IsCorporate,IsoCode from CurrencyType where IsCorporate = true ") ; 
+	if (qr.className == 'Fault') { 
+		if (/INVALID_TYPE/.test(qr.faultcode) ) { return false; }
+	}
+	return true;
+} 
+function setup() { 
+	has_multicurrency = setup_multicurrency(); // see if this org has multiple currencies turned on
+	Opportunity = get_opp(); 
+	
+	var queryStr = "select "+ showFields.join(", ") + 
+		" from SFDC_520_QuoteLine__c where Quote__c = '{!SFDC_520_Quote__c.Id}' ";
+	var QuoteLineQ = sforceClient.query(queryStr);
+	if ( QuoteLineQ.className != 'QueryResult') { 
+		alert ( "Query failed for quote lines") ;
+		if (QuoteLineQ.className == 'Fault' ) alert('fault: '+QuoteLineQ.toString());
+		jumpbackQuote(); 
+	}
+	if ( QuoteLineQ.size < 1 ) {alert("No Line Items in this Quote ?");jumpbackQuote();}
+	
+	var Productsids = []; 
+	for (var k=0;k<QuoteLineQ.size;k++) { // list the product ids
+		Productsids.push(QuoteLineQ.records[k].get("Product2__c")) ;
+	}
+	
+	AllProducts = sforceClient.retrieve("name","Product2",Productsids);
+	if ( AllProducts.length < 1) { alert("No products found !");jumpbackQuote(); return;}
+
+	// products is AllProducts is all from this ( the opp's ) price book
+	Products = AllProducts; 
+	top.QLines = QuoteLineQ.records;
+	doEditLines(QuoteLineQ.records);
+	curTotal(); 
+}
+
+function get_opp() { 
+	var fields = " id,Name, Pricebook2Id ";
+	if ( has_multicurrency) { fields += ", CurrencyIsoCode "; }
+	var oppRes = sforceClient.Query(
+		"select "+fields+" from opportunity where id = '{!SFDC_520_Quote__c.OpportunityId__c}'");
+	if ( oppRes.size < 1 || oppRes.className != 'QueryResult') { 
+		alert ( 'no opportunity found?' ) ;
+		jumpbackQuote(); 
+		return;
+	}
+	if ( has_multicurrency) { Currency = oppRes.records[0].get("CurrencyIsoCode");}
+	return  oppRes.records[0];
+}
+</script> <!-- init and query -->
+<script language="javascript" type="text/javascript">
+/* 	this section of script tag represents the HTML body of 	Edit page
+ 	draw the entire form to allow lines to be edited 
+ 	should look like the edit product lines form on opps  */
+var pad=1;
+var quoteCurrTotal = 0; 
+function doEditLines(sobjects) { 
+	var li = document.getElementById('pagebody');
+	document.getElementById('descript').innerHTML= "Edit product line items for this quote, click Save to update the Quote.";
+	document.getElementById('pdes').innerHTML=  "Quote Product Line Edit";
+	
+	// build the new table
+	var form = createTag(li,"form",{'id':'editPage'}); 	
+	var ta = createTag(form,"table",{'class':'genericTable'} );
+	var tb = createTag(ta,"tbody",[]);
+	var tr = makeRow([] ); tb.appendChild(tr);
+	// save cancel
+	var td = createTag(tr,"td",{ 'colspan':'5','align':"center" } ).innerHTML = 
+	  "<input value=\" Save \" class=\"btn\" title=\"Save\" name=\"save\" type=\"button\" onclick=\"return doSave();\">&nbsp; " +
+	  "<input value=\"Cancel\" class=\"btn\" title=\"Cancel\" name=\"cancel\" type=\"button\" onclick=\"jumpbackQuote();\">";
+	
+	// refresh button not needed as we now use onchange to update this field
+	createTag(tr,"td",{ 'nowrap':'nowrap'} ).innerHTML = 
+		"&nbsp;Quote Amount:&nbsp;<span id=\"curTotal\" name=\"curTotal\"  class=\"bodyBold\">0</span>";
+	
+	padcells(tr,pad);
+	
+	tr = makeRow({'class':'genericTable'}); tb.appendChild(tr);
+	createTag(tr,"td",{ 'height':"15"} );
+	
+	// header row 
+	tr = makeRow([]); tb.appendChild(tr);
+	createTag(tr,"td",{'nowrap':'nowrap'}).innerHTML="Product";
+	
+	createTag(tr,"td",{'nowrap':'nowrap'}).innerHTML=
+		"<span style=\"color: rgb(153, 0, 0);\"><span>Quantity</span></span>";
+	
+	createTag( 
+		createTag(tr,"td",{'nowrap':'nowrap'}), 
+			"span", edit_sales_price?{ 'style':'color: rgb(153, 0, 0)'}:[]
+			).innerHTML = "List Price";
+
+	// discount all input box
+	td = createTag(tr,"td",{'nowrap':'nowrap'});
+	createTag(td,"a",{'href':'#','onclick':'fillDiscount()'}).innerHTML = "Discount";
+	td.innerHTML += '&nbsp;';
+	td.innerHTML += "<input id=\"newDiscount\" name=\"newDiscount\" type=\"text\" size=\"1\" " + 
+		"onchange=\"return numonly(this,'Discount')\">";
+	td.innerHTML += "<div class=\"errorMsg\"id=\"errDiscount\" name=\"errDiscount\"></div>";
+	
+	// fill in today's date
+	createTag(tr,"td",{'nowrap':'nowrap'}).innerHTML= 
+		"<span>Date</span>&nbsp;<span class=\"dateFormat\">[&nbsp;<a href=\"#\" onclick=\"fillToday();\">{!Today}</a>&nbsp;]</span>";
+		
+	createTag(tr,"td",{'nowrap':'nowrap'}).innerHTML="<span>Line Description</span>";	
+	
+	padcells(tr,pad);
+	
+	tr = makeRow([]); tb.appendChild(tr); createTag(tr,"td",{'colspan':'100','bgcolor':"#000000",'height':"1"});
+
+	// start looping adding cells across and rows down
+	try { 
+	for (var k = 0; k< sobjects.length; k++) { var pid = sobjects[k].get("Id");
+		tr = makeRow({'valign':"top"}); tb.appendChild(tr);
+		tr.sobject = sobjects[k];
+		// needs to be product name...
+		
+		createTag(tr,"td",{'class':'bodyBold'}).innerHTML = 
+			grep ("Id",sobjects[k].get("Product2__c"),AllProducts).get("Name")
+			//sobjects[k].get("Product2__c");
+		
+		td = createTag(tr,"td",{'class':'bodyBold'});
+		var qty = sobjects[k].get('Qty_Ordered__c'); 
+		if (qty == null) { qty = "0";} // special case
+		var ii=createTag(td,"input",
+			{'id':'Quantity'+pid,'size':'8','type':'text',
+			'value':qty,
+			'onchange':"return (numonly(this,'Quantity') && curTotal());" });
+		// holder for possible errmsg
+		createTag(td,"br",[]);
+		ii.er=createTag(td,"span",{'class':'errorMsg','id':'QuantityError'+pid});
+		
+		td = createTag(tr,"td",{'class':'bodyBold'});
+		var uprice = sobjects[k].get("Unit_Price__c"); uprice=uprice?uprice:'0.00';
+		var attr = {'id':'UnitPrice'+pid,'value':uprice,'size':'10','type':'text',
+			'onchange':"return (numonly(this,'Price') && curTotal());" };
+		if (!edit_sales_price) {attr['style']='color: rgb(0, 0, 0)'; attr['disabled']=1;}
+		var jj=createTag(td,"input",attr);
+		createTag(td,"br",[]);
+		jj.er=createTag(td,"span",{'class':'errorMsg','id':'UnitPriceError'+pid});
+		
+		td = createTag(tr,"td",{'class':'bodyBold','align':'center'});
+		var sdisc = sobjects[k].get("Sales_Discount__c"); sdisc=sdisc?sdisc:'0';
+		createTag(td,"input",{'id':'SalesDiscount'+pid,'value':sdisc,'size':'1','type':'text',
+			'onchange':"return (numonly(this,'Discount') && curTotal());" });
+		createTag(td,"span",[]).innerHTML="%";
+		
+		td = createTag(tr,"td",{'class':'bodyBold'});
+		span = createTag(td,"span",{'class':'dateInput'});
+		var sdate = sobjects[k].get("ServiceDate__c");
+		if (sdate) { sdate = Sforce.Util.FormatDate(sdate,"M/dd/yyyy"); }
+		if (sdate==null) { sdate = '';}
+		dateinp = createTag(span,"input",{'id':'ServiceDate'+pid, 'size':'10','type':'text','value':sdate } );
+			
+		createTag(span,"a",{'href':"javascript:openPopupFocus('/home/calendar.jsp?form=editPage&field=ServiceDate"+pid+"&mo=0', '_blank', 186, 170, 'width=186,height=170,resizable=yes,toolbar=no,status=no,scrollbars=no,menubar=no,directories=no,location=no,dependant=yes', true, true);",
+							'class':"datePicker",
+							'title':"Pick A Date (New Window)" ,
+							'onclick':"setLastMousePosition(event)", 
+							'id':"ServiceDate"+pid+"PopCal" 
+							}).innerHTML = 
+					"<img src=\"/s.gif\" alt=\"Pick A Date (New Window)\" class=\"datePickerIcon\">";
+		
+		td = createTag(tr,"td",{'class':'bodyBold'});
+		var desc = sobjects[k].get("Description__c") ;
+		// check for null description, dont' write 'null' into the field
+		if (desc == null) { desc = ''; }
+		createTag(td,"input",{'id':'Description'+pid,'size':'25','type':'text',
+			'value':desc
+			});	
+		
+		padcells(tr,pad);
+	} 
+	// close out the edit list
+	} catch(e){alert('caught '+e)}
+	
+	tr = makeRow([]); tb.appendChild(tr);
+	createTag(tr,"td",{'colspan':"80%", 'height':"15"} );
+	
+	tr = makeRow([]); tb.appendChild(tr);
+	createTag(tr,"td",{'colspan':"5", 'align':"center"} ).innerHTML = 
+	  "<input value=\" Save \" class=\"btn\" title=\"Save\" name=\"save\" type=\"button\" onclick=\"return doSave();\">&nbsp; " +
+	  "<input value=\"Cancel\" class=\"btn\" title=\"Cancel\" name=\"cancel\" type=\"button\" onclick=\"jumpbackQuote();\">";
+	
+	createTag(tr,"td",{ 'nowrap':'nowrap'} ).innerHTML = 
+//		"<input value=\"Refresh\" class=\"btn\" title=\"Refresh Total\" name=\"refresh\" type=\"button\" onclick=\"curTotal();\">"+
+		"&nbsp;Quote Amount:&nbsp;<span id=\"curTotal2\" name=\"curTotal2\"  class=\"bodyBold\">0</span>";
+	
+}
+function doSave() { // called when it's time to save
+// re=write to look at the form and load quote lines, not products
+	var lines = new Array(); 
+	var sawerror = 0;
+	try { for (key = 0; key< top.QLines.length; key++) { 
+			var l = new Sforce.Dynabean("SFDC_520_QuoteLine__c");
+			var qtlineid = top.QLines[key].get("Id");
+			l.set("Id",qtlineid); 
+			
+			var elementid = "Quantity"+qtlineid;
+			var units = document.forms['editPage'].elements[elementid].value;
+			if (!units) { // error msg
+				document.forms['editPage'].elements[elementid].er.innerHTML = 
+					"Error: You must enter a value";
+				sawerror++;
+			} else { 
+				document.forms['editPage'].elements[elementid].er.innerHTML = '';
+				l.set("Qty_Ordered__c",units); 
+			}
+			
+			var elementid = "UnitPrice"+qtlineid;
+			var uprice = document.forms['editPage'].elements[elementid].value;
+			if (!uprice) { // error msg
+				document.forms['editPage'].elements[elementid].er.innerHTML = 
+					"Error: You must enter a value";
+				sawerror++;
+			} else { 
+				document.forms['editPage'].elements[elementid].er.innerHTML = '';
+				l.set("Unit_Price__c",uprice); 
+			}
+			
+			var elementid = "SalesDiscount"+qtlineid;
+			var sdics = document.forms['editPage'].elements[elementid].value;
+			if ( sdics > 0 ) {
+				l.set("Sales_Discount__c",sdics); 
+			} else { // must null it out
+				l.fieldsToNull.push('Sales_Discount__c');
+			}
+			
+			var elementid = "ServiceDate"+qtlineid;
+			var sdate = document.forms['editPage'].elements[elementid].value;
+			if (sdate) { l.set("ServiceDate__c", Sforce.Util.ParseDate(sdate) ); }
+			
+			var elementid = "Description"+qtlineid;
+			var desc = document.forms['editPage'].elements[elementid].value;
+			if ( desc == null || desc == '') { 
+				l.fieldsToNull.push('Description__c'); // api requires setting null speical
+			} else { 
+				l.set("Description__c",desc); 
+			}
+			
+			lines.push(l);
+		} 
+		
+		if (sawerror>0) { return false; } // keep them on this page
+		
+		if (lines.length>0) { 
+			var sr = sforceClient.Update(lines);
+			var err = sr.grep( function (t) { return ! t.success } ) 
+			if (err ) {
+				alert("could not save record with data provided \n"+ sr.toString() );
+			}
+			
+		}
+	} catch ( e) { alert("Could not create quote lines \n"+e); }
+	
+	// update the quote amount also !! since we have the math here and saves the user 
+	// clicking on the custom link later.
+	// value is in -> quoteCurrTotal (always), use that to write Quote_Amount__c
+	var upd = new Sforce.Dynabean("SFDC_520_Quote__c");
+	upd.set("Id","{!SFDC_520_Quote__c.Id}");
+	upd.set("Quote_Amount__c",quoteCurrTotal);
+	upd.save();
+	
+	jumpbackQuote(); 
+	return true;
+} 
+</script> <!-- do edit lines -->
+<script language="javascript" type="text/javascript"> // utils
+function fillToday() { // when clicked, we fill all date fields with current date
+	var els = document.forms['editPage'].elements;
+	for (var i =0;i< els.length; i++) {
+		if ( /^ServiceDate/.test(els[i].id) ) els[i].value = "{!Today}"; 
+	}
+} 
+function fillDiscount() { // when clicked, we fill all discount fields with new discount
+	var els = document.forms['editPage'].elements;
+	var newDiscount = document.forms['editPage'].newDiscount.value;
+	if (newDiscount == '' ) return;
+	if (newDiscount > 100) { // oops, the word discount was not clear...
+		document.getElementById('errDiscount').innerHTML = "Discount must be less than 100%";
+	} else { 
+		document.getElementById('errDiscount').innerHTML = "";
+	}
+	// this could be a zero, so allow that
+	for (var i =0;i< els.length; i++) {
+		if ( /^SalesDiscount/.test(els[i].id) ) els[i].value = newDiscount;
+	}
+	// call the refresh total here?
+	curTotal();
+}
+function find_value (els,id) { 
+	for (var i =0;i< els.length; i++) { if (els[i].id == id) return els[i].value; } 
+	alert('find_value could not locate form element by id '+id); return 0;
+}
+
+function curTotal() { // do the math with the current prices, qty and discount
+	var els = document.forms['editPage'].elements;
+	var line_net_ext = []; 
+	for (var i =0;i< els.length; i++) {
+		// find a qty, get the id from that
+		if ( /^Quantity/.test(els[i].id) ) { 
+			var pid = els[i].id.replace(/Quantity(\S{15,18})/,'$1');
+			//alert(pid); return;
+			// find all price and discount for this qty
+			var qty = els[i].value;
+			var price = find_value(els,'UnitPrice'+pid);
+			var discount = find_value(els,'SalesDiscount'+pid);
+			line_net_ext.push( ( qty * price ) * (1- (discount / 100)) );
+			//alert(line_net_ext[line_net_ext.length-1]);			
+		}
+	}
+	// total the amounts in line_net
+	quoteCurrTotal = 0; 
+	line_net_ext.map(function tot(q) { quoteCurrTotal += q } );	
+	//alert('total is '+quoteCurrTotal);
+	var tot = quoteCurrTotal.toFixed(2);
+	if ( has_multicurrency && Currency != null ) { tot = Currency + ' ' + tot; } 
+	document.getElementById('curTotal').innerHTML = tot;// TODO format for multi-currency
+	document.getElementById('curTotal2').innerHTML = tot; // and single currency 
+	return true;
+} 
+function padcells(tr,cnt) { // adds some spaces? 
+	for (i=0;i<cnt;i++) { createTag(tr,"td",{'class':'bodyBold'}).innerHTML="&nbsp;";}
+}
+function numonly (ele,which) { //alert(ele.value);
+	var a = ele.value; 
+	var illegalChars = /\D/; // allow numbers
+  	if ( illegalChars.test(a) ) { 
+		alert (' The '+which+' field accepts numbers only '); 
+		ele.value = ''; 
+		return false;
+	}
+	return true;
+}
+function createTag(parent, name, keyvalPairs) {
+	var ret; 
+	if (sapp.get_type() == Sforce.Application.Type.InternetExplorer) {
+		var trTag = "<"+name+" ";
+		for (key in keyvalPairs) {
+				trTag += key + "=\"" + keyvalPairs[key] + "\"";
+		}
+		trTag += ">";
+		ret = document.createElement(trTag);
+	} else { 
+		ret = document.createElement(name);
+		for (key in keyvalPairs) {
+			ret.setAttribute(key, keyvalPairs[key]);
+		}
+	} 
+	parent.appendChild(ret);
+	return ret;
+}
+function makeRow(atts) {
+	if (sapp.get_type() == Sforce.Application.Type.InternetExplorer) {
+		var trTag = "<TR ";
+		for (key in atts) {
+			trTag += key + "=\"" + atts[key] + "\"";
+		}
+		trTag += ">";
+		var ret = document.createElement(trTag);
+	} else {
+		var tr = document.createElement("TR");
+		for (key in atts) {
+			tr.setAttribute(key, atts[key]);
+		}
+		var ret = tr;
+	}
+	ret.active = false;
+	return ret;
+}
+function grep(fld,val,ary) { // function for looking thru an array, see also object method below
+	var ret = null;
+	for (key =0;key<ary.length; key++) { if (ary[key].get(fld) == val) ret = ary[key]; }
+	return ret;
+}
+Array.prototype.contains = function(r)  { // match for object or string 
+  for(var x=0;x<this.length;x++)  {
+    if(this[x]==r)  {
+      return true;
+    }}  return false;
+}
+Array.prototype.grep = function(func)  { // works if input param is a function returning true
+	// TODO make this work with a regexp or string also
+	var ret = []; for(var x=0;x<this.length;x++)  {
+		if( func(this[x]) ) { ret.push(this[x]); }
+	}
+	return ret.length>0?ret:null;
+}
+Array.prototype.map = function(func)  { // function called on each element of the array
+	var ret = [];
+	for(var x=0;x<this.length;x++)  {
+		func(this[x]);
+		ret.push(this[x]); // return the entire list
+	}
+	return ret.length>0?ret:null;
+}
+function jumpback(retUrl) { 
+	window.parent.parent.location.href = retUrl; // works when in a frame of sfdc
+}
+</script> <!-- // utils -->
+</head>
+<body onload="javascript:initPage();"  class="customTab18  listPage" > 
+<a name="skiplink"><img src="/s.gif" height='1' width='1' 
+	alt="Content Starts Here" class="skiplink"></a><div class="bPageTitle">
+
+<div class="ptBody secondaryPalette">
+	<div class="content"><img src="/s.gif" alt="Opportunity"  class="pageTitleIcon">
+	<h1 class="pageType">Quote {!SFDC_520_Quote__c.Name}<span class="titleSeparatingColon">:</span></h1>
+	<h2 class="pageDescription" id="pdes" >Edit Quote Lines</h2>
+	<!--  --> <br >
+	<!-- <div class="blank">&nbsp;</div>
+	-->
+	</div>
+</div> <!-- end ptBody -->
+<div class="bDescription" id="descript">Edit lines, click Save</div>
+<div id="pagebody" >  
+</div>
+</body>
+</html>

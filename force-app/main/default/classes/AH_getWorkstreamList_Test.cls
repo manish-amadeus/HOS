@@ -8,12 +8,13 @@ NICC Reference  : NICC-047197
 Description     : Test class for the AH_getWorkstreamList class
                 : 
 *************************************************************************************************/
-
 @isTest
-public class AH_getWorkstreamList_Test {
+public class AH_getWorkstreamList_Test 
+{
 
     @isTest
-    public static void testMethod1(){
+    public static void testMethod1()
+    {
         
         Test.startTest();
         
@@ -31,5 +32,7 @@ public class AH_getWorkstreamList_Test {
         system.assertEquals(5, outputList[0].outputBusinessWorkstreams.size(), 'List size is not matching...');
         
         Test.stopTest();
+        
     }
+    
 }

@@ -2,7 +2,7 @@
 Name            : CaseControllerExtension 
 Author          : Black Iron Group
 Created Date    : 07/18/2010 
-Last Mod Date   : 04/13/2017 
+Last Mod Date   : 11/09/2021
 Last Mod By     : Sean Harris
 NICC Reference  : 
 Description     : This class is used by the VisualForce page called OverrideCase.
@@ -12,18 +12,17 @@ Description     : This class is used by the VisualForce page called OverrideCase
 				: use to update the case with the number of solutions field that
 				: is used in validation rule to block case closure when not solutions 
 				: are attached to a case.
-				: 
+				: NICC-054506 - COMMENTED BLOCK
 ****************************************************************************************/
 public with sharing class CaseControllerExtension 
 {
 
 	private final Id caseId;
-//	private final Case caseInst; 
+    
     
     public CaseControllerExtension(ApexPages.StandardController controller) 
     { 
 	    caseId = controller.getRecord().Id;
-	    // caseInst = (Case)controller.getRecord(); 
     } 
     
     public pageReference caseRedirect() 
@@ -79,8 +78,9 @@ public with sharing class CaseControllerExtension
             catch (Exception ex2) {}
 		}
 
-        // NICC-020860 - UPDATE Number_of_Cases_Linked__c ROLLUP ON CR
-        try 
+        // NICC-020860 - UPDATE Number_of_Cases_Linked__c ROLLUP ON CR 
+        // NICC-054506 - COMMENTED
+      	/*  try 
         {
         	Case c = [SELECT Id, Change_Request__c FROM Case WHERE Id =: caseId]; 
             SFDC_CSP_Development_Request__c cr = [SELECT Id, Number_of_Cases_Linked__c FROM SFDC_CSP_Development_Request__c WHERE Id =: c.Change_Request__c];
@@ -92,7 +92,7 @@ public with sharing class CaseControllerExtension
             }
         }
         catch (Exception ex3) {}
-        
+        */
         
 		return new pageReference('/' + caseId + '?nooverride=1');
 

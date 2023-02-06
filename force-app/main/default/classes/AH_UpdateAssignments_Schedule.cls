@@ -17,18 +17,14 @@ global class AH_UpdateAssignments_Schedule implements Schedulable
     
     public AH_UpdateAssignments_Schedule(Set<Id> asnmtIds, String sJobName)
     {
-        system.debug('ENTERING Scheduler constructor method. ' + asnmtIds);
         assignmentIds.addAll(asnmtIds);
         strApexJobName = sJobName;
-        system.debug('In scheduler Apex Job Name : ' + strApexJobName);
     }
     
 	global void execute(SchedulableContext sc)
     {
-        system.debug('ENTERING Scheduler execute method.');
         AH_UpdateAssignments_Batch batchable = new AH_UpdateAssignments_Batch(assignmentIds, strApexJobName);
         Database.executeBatch(batchable, 10); 
-        system.debug('EXITING Scheduler execute method.');
     }
     
 }

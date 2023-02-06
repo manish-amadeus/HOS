@@ -14,9 +14,7 @@ private class AH_UpdateAssignments_Schedule_Test
 {
     @isTest static void testMethod1() 
     {
-        
-        system.debug(' START - AH_UpdateAssignments_Schedule_Test.createTestData() - NUMBER OF QUERIES = ' + Limits.getQueries());
-        
+
         Date dt = system.date.today();
         
         Test.StartTest();
@@ -36,14 +34,14 @@ private class AH_UpdateAssignments_Schedule_Test
             insert u1; 
             
             // CREATE TEST RESOURCE MANAGER USER 
-            User u2 = NI_TestClassData.createTestUser(3, 'NI PSA Management'); 
+            User u2 = NI_TestClassData.createTestUser(3, 'AH PSA Management - Lightning'); 
             u2.FirstName = 'PSAResource';
             u2.LastName = 'Manager';
             u2.Alias = 'MGR1TST'; 
             insert u2; 
             
             // CREATE TEST RESOURCE USER 
-            User u3 = NI_TestClassData.createTestUser(4, 'NI PSA T&E - Salesforce'); 
+            User u3 = NI_TestClassData.createTestUser(4, 'AH PSA T&E - SF - Lightning'); 
             u3.FirstName = 'PSAResource';
             u3.LastName = 'Resource';
             u3.Alias = 'RSC1TST'; 
@@ -54,8 +52,7 @@ private class AH_UpdateAssignments_Schedule_Test
         // GET TEST USERS CREATED BY FAKE ADMIN
         User regionApprover = [SELECT Id FROM User WHERE Alias = 'RGA1TST'];
         User resrceMgr = [SELECT Id FROM User WHERE Alias = 'MGR1TST'];
-        User resrce = [SELECT Id FROM User WHERE Alias = 'RSC1TST'];
-        
+        User resrce = [SELECT Id FROM User WHERE Alias = 'RSC1TST'];        
         
         // CREATE A TEST ACCOUNT
         Account a = NI_TestClassData.createTestAccount(1);
@@ -145,8 +142,7 @@ private class AH_UpdateAssignments_Schedule_Test
         insert prj;
         
         pse__Proj__c prjAsserts = [SELECT Id, pse__Project_Manager__r.pse__Salesforce_User__c FROM pse__Proj__c WHERE Name = 'Expense Test Project'];
-        system.debug(' *** prjAsserts.pse__Project_Manager__r.pse__Salesforce_User__c = ' + prjAsserts.pse__Project_Manager__r.pse__Salesforce_User__c);
-        
+  
         pse__Project_Task__c projTask = new pse__Project_Task__c();
         projTask.Name = 'Test Project task';
         projTask.pse__Project__c = prj.Id;
@@ -173,7 +169,7 @@ private class AH_UpdateAssignments_Schedule_Test
         
         pse__Assignment__c assignment = [SELECT Id, OwnerId, Owner.Name, Project_Manager__c, Project_Manager__r.Name FROM pse__Assignment__c WHERE Name = 'Test Assignment 1']; 
         
-        system.assertNotEquals(NULL, assignment.id, 'Assignment not created');
+        system.assertNotEquals(null, assignment.id, 'Assignment not created');
         
         pse__Project_Task_Assignment__c prkTaskAssignment = new pse__Project_Task_Assignment__c();
         prkTaskAssignment.pse__Resource__c = cntMgr.id;
@@ -182,10 +178,8 @@ private class AH_UpdateAssignments_Schedule_Test
         prkTaskAssignment.pse__Resource_Role__c = 'Contractor';
         insert prkTaskAssignment;
         
-        system.assertNotEquals(NULL, prkTaskAssignment.id, 'Project Task Assignment not created');
-        
-        system.debug(' END - AH_UpdateAssignments_Schedule_Test.createTestData() - NUMBER OF QUERIES = ' + Limits.getQueries());
-        
+        system.assertNotEquals(null, prkTaskAssignment.id, 'Project Task Assignment not created');
+
     }
     
 }

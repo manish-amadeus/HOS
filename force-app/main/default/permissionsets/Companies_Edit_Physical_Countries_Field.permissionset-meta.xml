@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PermissionSet xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>NICC-024530
+Members of this permission set have edit permission on the Physical Countries (Physical_Countries__c) field on the Financialforce Accounting &quot;Company&quot; object. The api name for the FFA Company object is c2g__codaCompany__c</description>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>c2g__codaCompany__c.Physical_Countries__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <hasActivationRequired>false</hasActivationRequired>
+    <label>Companies - Edit Physical Countries Field</label>
+    <license>Salesforce</license>
+    <objectPermissions>
+        <allowCreate>false</allowCreate>
+        <allowDelete>false</allowDelete>
+        <allowEdit>true</allowEdit>
+        <allowRead>true</allowRead>
+        <modifyAllRecords>false</modifyAllRecords>
+        <object>c2g__codaCompany__c</object>
+        <viewAllRecords>false</viewAllRecords>
+    </objectPermissions>
+</PermissionSet>

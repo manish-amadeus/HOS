@@ -4,6 +4,8 @@
 
         function Validate(theForm) 
         {
+
+            // VALIDATION (START) ===================================================================
             
             try  
             {
@@ -61,31 +63,31 @@
                 }            
                 
                 // HOLIDEX CODE VALIDATION 
-                if (document.forms[0].elements[5].value == "") {
+                if (theForm.propertyCode.value == "") {
                     alert("Please choose a value for the \"Property Holidex code\" field.");
-                    document.forms[0].elements[5].focus();
+                    theForm.propertyCode.focus();
                     return (false);
                 }
-                if (document.forms[0].elements[5].length < 1) {
+                if (theForm.propertyCode.length < 1) {
                     alert("Please enter at least 1 characters in the \"Property Holidex code\" field.");
-                    theForm.first_name.focus();
+                    theForm.propertyCode.focus();
                     return (false);
                 }
                 
                 // PROPERTY PHYSICAL ADDRESS VALIDATION
                 if (theForm.street.value == "") {
-                    alert("Please enter a value for the \"Property Physical Address\" field.");
+                    alert("Please enter a value for the \"Property Address Line 1\" field.");
                     theForm.street.focus();
                     return (false);
                 }
                 if (theForm.street.length < 1) {
-                    alert("Please enter at least 1 character in the \"Property Physical Address\" field.");
+                    alert("Please enter at least 1 character in the \"Property Address Line 1\" field.");
                     theForm.street.focus();
                     return (false);
                 }
                  // Added by Pete D - 9/18/2017            
                 if (theForm.street.length > 120) {
-                    alert("The maximum length for the \"Property Physical Address\" field is 120 characters.");
+                    alert("The maximum length for the \"Property Address Line 1\" field is 120 characters.");
                     theForm.street.focus();
                     return (false);
                 }
@@ -120,12 +122,12 @@
 //                }              
 
                 // POSTAL CODE VALIDATION
-                if (theForm.ZipCode.value == "") {
+                if (theForm.zip.value == "") {
                     alert("Please enter a value for the \"Postal Code\" field.");
-                    theForm.ZipCode.focus();
+                    theForm.zip.focus();
                     return (false);
                 }
-                if (theForm.ZipCode.length < 1) {
+                if (theForm.zip.length < 1) {
                     alert("Please enter at least 1 character in the \"Postal Code\" field.");
                     theForm.ZipCode.focus();
                     return (false);
@@ -161,20 +163,46 @@
                     pl3.focus();
                     return (false);
                 }     
-                           
+ 
+              // VALIDATION (END) ===================================================================
+                            
+                                
+                // BUILD CASE DESCRIPTION STRING (START) ==============================================
                 
-                theForm.description.value = "\nProperty Postal Code = " + theForm.ZipCode.value
-                theForm.description.value = theForm.description.value + "\nDLC Name = " + theForm.dlcfirst_name.value + " " + theForm.dlclast_name.value + "\nEMail = " + theForm.dlcemail.value + "\nPhone = " + theForm.dlcphone.value;
-                theForm.description.value = theForm.description.value + "\nCurrency Code = " + theForm.CurrencyCode.value + "\nUnits of Measure = " + theForm.Units1.value + " and " + theForm.Units2.value;
-                theForm.description.value = theForm.description.value + "\nBrand Identifer = " + theForm.BrandID.value;
-                theForm.description.value = theForm.description.value + "\nTime Zone = " + theForm.TimeZone.value;
+                theForm.description.value = "";
                 
-                theForm.description.value = theForm.description.value + "\nLanguage = " + theForm.Language.value;
-                theForm.description.value = theForm.description.value + "\neProposal Primary Language = " + theForm.eProposalPrimaryLanguage.value;
-                theForm.description.value = theForm.description.value + "\neProposal Secondary Language = " + theForm.eProposalSecondaryLanguage.value;
-                theForm.description.value = theForm.description.value + "\nDate Format = " + theForm.DateFormat.value;
-                theForm.description.value = theForm.description.value + "\nComments = " + theForm.SubmitterComments.value;
+                theForm.description.value = theForm.description.value + "Requestor Name: " + theForm.first_name.value + " " + theForm.last_name.value + "\n";
+                theForm.description.value = theForm.description.value + "Requestor Telephone: " + theForm.phone.value + "\n";
+                theForm.description.value = theForm.description.value + "Requestor Email: " + theForm.email.value + "\n\n";
                 
+                theForm.description.value = theForm.description.value + "Property Name: " + theForm.company.value + "\n";
+                theForm.description.value = theForm.description.value + "Property Inn Code: " + theForm.propertyCode.value + "\n";
+                theForm.description.value = theForm.description.value + "Property Address:\n";
+                theForm.description.value = theForm.description.value + "Line 1. Address: " + theForm.street.value + "\n";
+                theForm.description.value = theForm.description.value + "Line 2. City: " + theForm.city.value + "\n";
+                var pStateField = document.getElementById("state");
+                var pStateValue = pStateField.options[pStateField.selectedIndex].value;
+                theForm.description.value = theForm.description.value + "Line 3. State: " + pStateValue + "\n";
+                theForm.description.value = theForm.description.value + "Line 4. Postal Code: " + theForm.zip.value + "\n";
+                theForm.description.value = theForm.description.value + "Line 5. Country: " + theForm.country.value + "\n\n";
+                
+                theForm.description.value = theForm.description.value + "Additional Info:\n\n";
+                
+                
+                theForm.description.value = theForm.description.value + "DLC Name = " + theForm.dlcfirst_name.value + " " + theForm.dlclast_name.value + "\nEMail = " + theForm.dlcemail.value + "\nPhone = " + theForm.dlcphone.value + "\n";
+                theForm.description.value = theForm.description.value + "Currency Code = " + theForm.CurrencyCode.value + "\nUnits of Measure = " + theForm.Units1.value + " and " + theForm.Units2.value + "\n";
+                theForm.description.value = theForm.description.value + "Brand Identifer = " + theForm.BrandID.value + "\n";
+                theForm.description.value = theForm.description.value + "Time Zone = " + theForm.TimeZone.value + "\n";
+                
+                theForm.description.value = theForm.description.value + "Language = " + theForm.Language.value + "\n";
+                theForm.description.value = theForm.description.value + "eProposal Primary Language = " + theForm.eProposalPrimaryLanguage.value + "\n";
+                theForm.description.value = theForm.description.value + "eProposal Secondary Language = " + theForm.eProposalSecondaryLanguage.value + "\n";
+                theForm.description.value = theForm.description.value + "Date Format = " + theForm.DateFormat.value + "\n";
+                theForm.description.value = theForm.description.value + "Comments = " + theForm.SubmitterComments.value + "\n";
+
+                // BUILD CASE DESCRIPTION STRING (END) ==============================================
+                
+                //alert(theForm.description.value);                
                 return (true);
                 
             }
@@ -262,7 +290,7 @@
                                         <b>Property Holidex Code * :</b>
                                     </td>
                                     <td align="left">
-                                        <input id="00N60000001Zzy0" maxlength="10" name="00N60000001Zzy0" size="20" type="text" />
+                                        <input name="propertyCode" maxlength="10" size="20" type="text" />
                                     </td>
                                 </tr>
                                 <tr>
@@ -299,15 +327,15 @@
                                 </tr>
                                 <tr>
                                     <td align="right">
-                                        &nbsp;
+                                         
                                     </td>
                                     <td align="left">
-                                        &nbsp;
+                                         
                                     </td>
                                 </tr>
                                 <tr>
                                     <td align="right" valign="top">
-                                        <b>Property Physical Address * :</b>
+                                        <b>Property Address Line 1 * :</b>
                                     </td>
                                     <td align="left">
                                         <textarea name="street" rows="4" cols="40"></textarea>
@@ -326,7 +354,7 @@
                                         <b>Property Physical State/Province:</b>
                                     </td>
                                     <td align="left">
-                                        <select id="PhysicalState" name="PhysicalState">
+                                        <select id="state" name="state">
                                             <option value="">-- US/Canada Only --</option>
                                             <option value="AL">Alabama</option>
                                             <option value="AK">Alaska</option>
@@ -401,7 +429,7 @@
                                         <b>Postal Code * :</b>
                                     </td>
                                     <td align="left">
-                                        <input name="ZipCode" size="30"/>
+                                        <input name="zip" size="30"/>
                                     </td>
                                 </tr>
                                 <tr>
@@ -462,7 +490,7 @@
                                             <option value="KM">Comoros</option>
                                             <option value="CK">Cook Islands</option>
                                             <option value="CR">Costa Rica</option>
-                                            <option value="CI">Cote D&#39;Ivoire (Ivory Coast)</option>
+                                            <option value="CI">Cote D'Ivoire (Ivory Coast)</option>
                                             <option value="HR">Croatia (Hrvatska)</option>
                                             <option value="CY">Cyprus</option>
                                             <option value="CZ">Czech Republic</option>
@@ -657,7 +685,7 @@
                                             <option value="Change">Change</option>
                                             <option value="Remove">Remove</option>
                                         </select>
-                                        &nbsp;<i>if Change is chosen, please describe below</i>
+                                         <i>if Change is chosen, please describe below</i>
                                     </td>
                                 </tr>
                                 <tr>
@@ -675,10 +703,11 @@
                                             <option value="Hotel Indigo (IN)">Hotel Indigo (IN)</option>
                                             <option value="Holiday Inn (HI)">Holiday Inn (HI)</option>
                                             <option value="Holiday Inn Express (EX)">Holiday Inn Express (EX)</option>
-                                            <option value="Hualuxe Hotels & Resorts (UL)">Hualuxe Hotels &amp; Resorts (UL)</option>
+                                            <option value="Hualuxe Hotels &amp; Resorts (UL)">Hualuxe Hotels &amp; Resorts (UL)</option>
+                                            <option value="Iberostar">Iberostar</option>
                                             <option value="InterContinental (IC)">InterContinental (IC)</option>
                                             <option value="Kimpton">Kimpton</option>
-                                            <option value="Regent Hotels & Resorts (RE)">Regent Hotels &amp; Resorts (RE)</option>
+                                            <option value="Regent Hotels &amp; Resorts (RE)">Regent Hotels &amp; Resorts (RE)</option>
                                             <option value="Six Senses (SX)">Six Senses (SX)</option>                                            
                                             <option value="Staybridge Suites (SB)">Staybridge Suites (SB)</option>
                                             <option value="SP">SP</option>
@@ -704,7 +733,7 @@
                                             <option value="Square Feet">Square Feet</option>
                                             <option value="Square Meters">Square Meters</option>
                                         </select>
-                                        &nbsp;&nbsp;&nbsp;
+                                           
                                         <select id="Units2" name="Units2">
                                             <option value="N/A">--None--</option>
                                             <option value="Miles">Miles</option>
@@ -776,16 +805,16 @@
                                             <option value="(GMT-03:00) Greenland">(GMT-03:00) Greenland</option>
                                             <option value="(GMT-03:30) Newfoundland">(GMT-03:30) Newfoundland</option>
                                             <option value="(GMT-04:00) Atlantic Time (Canada)">(GMT-04:00) Atlantic Time (Canada)</option>
-                                            <option value="(GMT-05:00) Eastern Time (US & Canada)">(GMT-05:00) Eastern Time (US &amp; Canada)</option>
+                                            <option value="(GMT-05:00) Eastern Time (US &amp; Canada)">(GMT-05:00) Eastern Time (US &amp; Canada)</option>
                                             <option value="(GMT-05:00) Indiana (East)">(GMT-05:00) Indiana (East)</option>
                                             <option value="(GMT-06:00) Central America">(GMT-06:00) Central America</option>
-                                            <option value="(GMT-06:00) Central Time (US & Canada)">(GMT-06:00) Central Time (US &amp; Canada)</option>
+                                            <option value="(GMT-06:00) Central Time (US &amp; Canada)">(GMT-06:00) Central Time (US &amp; Canada)</option>
                                             <option value="(GMT-06:00) Guadalajara, Mexico City, Monterrey">(GMT-06:00) Guadalajara, Mexico City, Monterrey</option>
                                             <option value="(GMT-06:00) Saskatchewan">(GMT-06:00) Saskatchewan</option>
                                             <option value="(GMT-07:00) Arizona">(GMT-07:00) Arizona</option>
                                             <option value="(GMT-07:00) Chihuahua, La Paz, Mazatlan">(GMT-07:00) Chihuahua, La Paz, Mazatlan</option>
-                                            <option value="(GMT-07:00) Mountain Time (US & Canada)">(GMT-07:00) Mountain Time (US &amp; Canada)</option>
-                                            <option value="(GMT-08:00) Pacific Time (US & Canada); Tijuana">(GMT-08:00) Pacific Time (US &amp; Canada); Tijuana</option>
+                                            <option value="(GMT-07:00) Mountain Time (US &amp; Canada)">(GMT-07:00) Mountain Time (US &amp; Canada)</option>
+                                            <option value="(GMT-08:00) Pacific Time (US &amp; Canada); Tijuana">(GMT-08:00) Pacific Time (US &amp; Canada); Tijuana</option>
                                             <option value="(GMT-09:00) Alaska">(GMT-09:00) Alaska</option>
                                             <option value="(GMT-10:00) Hawaii">(GMT-10:00) Hawaii</option>
                                             <option value="(GMT-11:00) Midway Island, Samoa">(GMT-11:00) Midway Island, Samoa</option>
@@ -876,18 +905,18 @@
                                 </tr>
                                 <tr>
                                     <td align="right">
-                                        &nbsp;
+                                         
                                     </td>
                                     <td align="left">
-                                        &nbsp;
+                                         
                                     </td>
                                 </tr>
                                 <tr>
                                     <td align="right">
-                                        &nbsp;
+                                         
                                     </td>
                                     <td align="left">
-                                        <input type="Submit" value="Submit" onclick="return Validate(this.form)"/>&nbsp;&nbsp;
+                                        <input type="Submit" value="Submit" onclick="return Validate(this.form)"/>  
                                         <input type="Reset" value="Clear"/>
                                     </td>
                                 </tr>
@@ -899,7 +928,7 @@
                 </tr>
                 <tr>
                     <td width="20%">
-                        &nbsp;
+                         
                     </td>
                     <td width="60%">
                         <p>
@@ -907,7 +936,7 @@
                         </p>
                     </td>
                     <td width="20%">
-                        &nbsp;
+                         
                     </td>
                 </tr>
             </table>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PathAssistant xmlns="http://soap.sforce.com/2006/04/metadata">
+    <active>true</active>
+    <entityName>NI_Project_Backlog__c</entityName>
+    <fieldName>Phase__c</fieldName>
+    <masterLabel>AH Project Backlog CBS Project Phase</masterLabel>
+    <pathAssistantSteps>
+        <fieldNames>Approval_Status__c</fieldNames>
+        <fieldNames>Solution_Design_Approved_Date__c</fieldNames>
+        <info>&lt;p&gt;At this stage, the Solution Design needs to be completed and approved before development work begins.&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;Approval Status should be &amp;quot;Solution Design Approved&amp;quot; before proceeding with Development.&lt;/p&gt;</info>
+        <picklistValueName>Development</picklistValueName>
+    </pathAssistantSteps>
+    <pathAssistantSteps>
+        <fieldNames>Request_Status__c</fieldNames>
+        <fieldNames>Project_Completion_Date__c</fieldNames>
+        <fieldNames>Business_Requirements_Quip_Document__c</fieldNames>
+        <fieldNames>Solution_Design_Quip_Document__c</fieldNames>
+        <info>&lt;p&gt;Before we can close the project, confirm we have the following attached:&lt;/p&gt;&lt;ul&gt;&lt;li&gt;Business Requirements&lt;/li&gt;&lt;li&gt;Solution Design&lt;/li&gt;&lt;li&gt;Tech Design (if applicable)&lt;/li&gt;&lt;li&gt;Support Handoff&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;When Closing the project, make sure the Status is set to &amp;quot;Completed&amp;quot; and enter the Date the project was Completed.&lt;/p&gt;</info>
+        <picklistValueName>Project Closure</picklistValueName>
+    </pathAssistantSteps>
+    <pathAssistantSteps>
+        <fieldNames>Solution_Design_Quip_Document__c</fieldNames>
+        <fieldNames>Requirements_Received_Date__c</fieldNames>
+        <fieldNames>Project_Contact__c</fieldNames>
+        <info>&lt;p&gt;To submit your project for Approval, ensure you the following:&lt;/p&gt;&lt;ul&gt;&lt;li&gt;Solution Design is attached via the Quip tab&lt;/li&gt;&lt;li&gt;Requirements Received Date is populated.&lt;/li&gt;&lt;li&gt;Populate the Project Contact field (required due to Approval Process setup)&lt;/li&gt;&lt;/ul&gt;</info>
+        <picklistValueName>Solution Design</picklistValueName>
+    </pathAssistantSteps>
+    <recordTypeName>Business_Systems</recordTypeName>
+</PathAssistant>

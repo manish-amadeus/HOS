@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Workflow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fieldUpdates>
+        <fullName>Update_Given</fullName>
+        <field>Given__c</field>
+        <formula>NI_Global_Acceptance_Criterion__r.Given__c</formula>
+        <name>Update Given</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Formula</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>Update_Then</fullName>
+        <field>Then__c</field>
+        <formula>NI_Global_Acceptance_Criterion__r.Then__c</formula>
+        <name>Update Then</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Formula</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>Update_When</fullName>
+        <field>When__c</field>
+        <formula>NI_Global_Acceptance_Criterion__r.When__c</formula>
+        <name>Update When</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Formula</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <rules>
+        <fullName>Update Given When Then</fullName>
+        <actions>
+            <name>Update_Given</name>
+            <type>FieldUpdate</type>
+        </actions>
+        <actions>
+            <name>Update_Then</name>
+            <type>FieldUpdate</type>
+        </actions>
+        <actions>
+            <name>Update_When</name>
+            <type>FieldUpdate</type>
+        </actions>
+        <active>true</active>
+        <formula>OR(   ISNEW(),   ISCHANGED( NI_Global_Acceptance_Criterion__c ) )</formula>
+        <triggerType>onAllChanges</triggerType>
+    </rules>
+</Workflow>

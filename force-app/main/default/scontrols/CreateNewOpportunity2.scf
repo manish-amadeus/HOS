@@ -1,0 +1,15 @@
+<script src="{!Scontrol.URL}" type="text/javascript"></script>
+<script language="JavaScript"> 
+     sforceClient.init("{!API.Session_ID}", "{!API.Partner_Server_URL_60}");
+	//Check to see if we are standalone or hosted in scontrol
+	if (sforceClient.getSessionId().indexOf("API_Session_ID") != -1)
+	{
+	     alert("Invalid! User not Logged In");
+	     self.parent.location.replace( "/{!Account.Id}");	
+	}
+	else
+	{
+	      var url="/006/e?retURL=%2F{!Account.Id}&accid={!Account.Id}&RecordType=012600000000w4S&rt=Opportunity&cancelURL=%2F{!Account.Id}&opp3={!Account.Name}+ - &CF00N60000001W7OD={!Account.Cluster__c}&00N60000001TzGh={!Account.No_PO_Letter_On_File__c}&00N30000001H8OZ={!Account.Territory__c}&00N60000001U2fA={!Account.Pricing_Classification__c}&00N30000001H8Nq={!Account.Legal_Entity_Name__c}&00N60000001UZTq={!Account.AccountNumber}&opp11=Identification - Probe%20%&#48;&#37;";
+           self.parent.location.replace(url);
+	}
+</script>

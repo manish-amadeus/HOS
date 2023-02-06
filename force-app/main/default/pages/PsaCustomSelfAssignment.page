@@ -1,5 +1,6 @@
 <apex:page id="pgSA" controller="PsaCustomSelfAssignmentController" >
- <script>
+    
+    <script>
     
     function validate()
     {
@@ -51,7 +52,7 @@
             projectNameTag.value = name;
         }
     }
- 
+    
     function setMilestoneValue(pageId,lookupId,lookupName,id,name)
     {
         var idComp = document.getElementById(lookupId);
@@ -70,52 +71,52 @@
             milestoneNameTag.value = name;
         }
     }
- 
- 
- </script>
-  <apex:form id="frmSA"> 
-    <apex:pageBlock id="pbSA" title="Self Assignment">
-      <apex:pageBlockButtons location="bottom" >
-        <apex:commandButton value="Create Assignment" action="{!createAssignment}" onClick="return validate();"/>
-        <apex:commandButton value="Cancel" action="{!cancel}"/>
-      </apex:pageBlockButtons>
-      <apex:messages style="color:red;" />
-      <apex:pageBlockSection id="pbs1" title="Assignment Information">
-         <apex:inputField id="resource" value="{!assignment.pse__Resource__c}" />
-         <apex:outputLabel />
-         <apex:inputField id="project" value="{!assignment.pse__Project__c}"  />
-         <apex:inputField id="milestone" value="{!assignment.pse__Milestone__c}"  />
-         <apex:inputField id="startdate" value="{!schedule.pse__Start_Date__c}" />
-         <apex:inputField id="enddate" value="{!schedule.pse__End_Date__c}" />
-      </apex:pageBlockSection>
-    </apex:pageBlock>
-  </apex:form>
-
-  <script>
-    // Disable the lookup icon on Resource field
-    var resourceImage = document.getElementById('pgSA:frmSA:pbSA:pbs1:resource_lkwgt');
-    if(resourceImage != null)
-    {
-        resourceImage.style.display = 'none';
-    }
-
-    // Disable the lookup icon on Milestone field
-    var milestoneImage = document.getElementById('pgSA:frmSA:pbSA:pbs1:milestone_lkwgt');
-    if(milestoneImage != null)
-    {
-        milestoneImage.style.display = 'none';
-    }
     
-    var aTag = document.getElementById('pgSA:frmSA:pbSA:pbs1:project_lkwgt');
-    if(aTag != null)
-    {
-        aTag.href = "javascript:OpenChildWindow('/apex/psaCustomProjectLookup')";
-    }
     
-    var bTag = document.getElementById('pgSA:frmSA:pbSA:pbs1:milestone_lkwgt');
-    if(bTag != null)
-    {
-        bTag.href = "javascript:OpenChildWindow('/apex/psaCustomProjectLookup')";
-    }
-  </script>
+    </script>
+    <apex:form id="frmSA"> 
+        <apex:pageBlock id="pbSA" title="Self Assignment">
+            <apex:pageBlockButtons location="bottom" >
+                <apex:commandButton value="Create Assignment" action="{!createAssignment}" onClick="return validate();"/>
+                <apex:commandButton value="Cancel" action="{!cancel}"/>
+            </apex:pageBlockButtons>
+            <apex:messages style="color:red;" />
+            <apex:pageBlockSection id="pbs1" title="Assignment Information">
+                <apex:inputField id="resource" value="{!assignment.pse__Resource__c}" />
+                <apex:outputLabel />
+                <apex:inputField id="project" value="{!assignment.pse__Project__c}"  />
+                <apex:inputField id="milestone" value="{!assignment.pse__Milestone__c}"  />
+                <apex:inputField id="startdate" value="{!schedule.pse__Start_Date__c}" />
+                <apex:inputField id="enddate" value="{!schedule.pse__End_Date__c}" />
+            </apex:pageBlockSection>
+        </apex:pageBlock>
+    </apex:form>
+    
+    <script>
+        // Disable the lookup icon on Resource field
+        var resourceImage = document.getElementById('pgSA:frmSA:pbSA:pbs1:resource_lkwgt');
+        if(resourceImage != null)
+        {
+            resourceImage.style.display = 'none';
+        }
+        
+        // Disable the lookup icon on Milestone field
+        var milestoneImage = document.getElementById('pgSA:frmSA:pbSA:pbs1:milestone_lkwgt');
+        if(milestoneImage != null)
+        {
+            milestoneImage.style.display = 'none';
+        }
+        
+        var aTag = document.getElementById('pgSA:frmSA:pbSA:pbs1:project_lkwgt');
+        if(aTag != null)
+        {
+            aTag.href = "javascript:OpenChildWindow('/apex/psaCustomProjectLookup')";
+        }
+        
+        var bTag = document.getElementById('pgSA:frmSA:pbSA:pbs1:milestone_lkwgt');
+        if(bTag != null)
+        {
+            bTag.href = "javascript:OpenChildWindow('/apex/psaCustomProjectLookup')";
+        }
+    </script>
 </apex:page>

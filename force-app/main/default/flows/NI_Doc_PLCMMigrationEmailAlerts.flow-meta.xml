@@ -1,0 +1,444 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <actionCalls>
+        <description>Sends the email alert &quot;PLCM MeetingMatrix Migration 1 Day Reminder&quot;</description>
+        <name>MeetingMatrix_Migration_1_Day_Reminder</name>
+        <label>MeetingMatrix Migration 1 Day Reminder</label>
+        <locationX>906</locationX>
+        <locationY>45</locationY>
+        <actionName>NI_Documentation__c.PLCM_MeetingMatrix_Migration_1_Day_Reminder</actionName>
+        <actionType>emailAlert</actionType>
+        <connector>
+            <targetReference>EmailProjectContact_Project</targetReference>
+        </connector>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <inputParameters>
+            <name>SObjectRowId</name>
+            <value>
+                <elementReference>$Record.Id</elementReference>
+            </value>
+        </inputParameters>
+    </actionCalls>
+    <actionCalls>
+        <description>Sends the email alert &quot;PLCM MeetingMatrix Migration + 5 days&quot;</description>
+        <name>MeetingMatrix_Migration_5_Day_Follow_Up</name>
+        <label>MeetingMatrix Migration 5 Day Follow Up</label>
+        <locationX>771</locationX>
+        <locationY>210</locationY>
+        <actionName>NI_Documentation__c.PLCM_MeetingMatrix_Migration_Plus_5_Days</actionName>
+        <actionType>emailAlert</actionType>
+        <connector>
+            <targetReference>EmailProjectContact_Project</targetReference>
+        </connector>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <inputParameters>
+            <name>SObjectRowId</name>
+            <value>
+                <elementReference>$Record.Id</elementReference>
+            </value>
+        </inputParameters>
+    </actionCalls>
+    <actionCalls>
+        <description>Sends the email alert &quot;PLCM MeetingMatrix Migration Complete&quot;</description>
+        <name>MeetingMatrix_Migration_Complete</name>
+        <label>MeetingMatrix Migration Complete</label>
+        <locationX>502</locationX>
+        <locationY>320</locationY>
+        <actionName>NI_Documentation__c.PLCM_MeetingMatrix_Migration_Complete</actionName>
+        <actionType>emailAlert</actionType>
+        <connector>
+            <targetReference>EmailProjectContact_Project</targetReference>
+        </connector>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <inputParameters>
+            <name>SObjectRowId</name>
+            <value>
+                <elementReference>$Record.Id</elementReference>
+            </value>
+        </inputParameters>
+    </actionCalls>
+    <actionCalls>
+        <description>Sends the email alert &quot;PLCM MeetingMatrix Migration Date Scheduled&quot;</description>
+        <name>MeetingMatrix_Migration_Date_Scheduled</name>
+        <label>MeetingMatrix Migration Date Scheduled</label>
+        <locationX>500</locationX>
+        <locationY>490</locationY>
+        <actionName>NI_Documentation__c.PLCM_MeetingMatrix_Migration_Date_Scheduled</actionName>
+        <actionType>emailAlert</actionType>
+        <connector>
+            <targetReference>EmailProjectContact_Project</targetReference>
+        </connector>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <inputParameters>
+            <name>SObjectRowId</name>
+            <value>
+                <elementReference>$Record.Id</elementReference>
+            </value>
+        </inputParameters>
+    </actionCalls>
+    <apiVersion>56.0</apiVersion>
+    <assignments>
+        <name>CountOfEmailMessages</name>
+        <label>CountOfEmailMessages</label>
+        <locationX>1164</locationX>
+        <locationY>200</locationY>
+        <assignmentItems>
+            <assignToReference>varCountOfEmailMessages</assignToReference>
+            <operator>AssignCount</operator>
+            <value>
+                <elementReference>varEmailMessageCollection</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>CreateEmailMessages</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <description>Creates an Email Message to attach to the Project Contact and Project record</description>
+        <name>EmailProjectContact_Project</name>
+        <label>EmailProjectContact+Project</label>
+        <locationX>991</locationX>
+        <locationY>368</locationY>
+        <assignmentItems>
+            <assignToReference>varNewEmailMessage.FromAddress</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <stringValue>hospitality.plcm@amadeus.com</stringValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>varNewEmailMessage.FromName</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <stringValue>Amadeus Migration Team</stringValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>varNewEmailMessage.MessageDate</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>$Flow.CurrentDateTime</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>varNewEmailMessage.HtmlBody</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>formulaHTMLBody</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>varNewEmailMessage.Subject</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>formulaSubject</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>varNewEmailMessage.RelatedToId</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>$Record.Project__r.Id</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>varNewEmailMessage.Status</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <stringValue>3</stringValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>varNewEmailMessage.ToAddress</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>$Record.AH_PLCM_Project_Contact__r.Id</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>varEmailMessageCollection</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>varNewEmailMessage</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>CountOfEmailMessages</targetReference>
+        </connector>
+    </assignments>
+    <decisions>
+        <description>Decides if the record is a new record or if the Migration Progress field has changed to &quot;Migration Complete&quot;.</description>
+        <name>MigrationScheduledOrMigrationCompleteDecision</name>
+        <label>MigrationScheduledOrMigrationCompleteDecision</label>
+        <locationX>161</locationX>
+        <locationY>395</locationY>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>MigrationScheduledMeetingMatrix</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.AH_PLCM_Product__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Meeting Matrix Conversion</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.AH_PLCM_Migration_Date__c</leftValueReference>
+                <operator>IsChanged</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.AH_PLCM_Migration_Date__c</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>MeetingMatrix_Migration_Date_Scheduled</targetReference>
+            </connector>
+            <label>MigrationScheduledMeetingMatrix</label>
+        </rules>
+        <rules>
+            <name>MigrationCompleteMeetingMatrix</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.AH_PLCM_MigrationProgress__c</leftValueReference>
+                <operator>IsChanged</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.AH_PLCM_MigrationProgress__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Migration Complete</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.AH_PLCM_Product__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Meeting Matrix Conversion</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>MeetingMatrix_Migration_Complete</targetReference>
+            </connector>
+            <label>MigrationCompleteMeetingMatrix</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <description>Decides which email to send: the day-before-migration reminder or a follow up after migration is complete</description>
+        <name>ReminderOrFollowUpDecision</name>
+        <label>ReminderOrFollowUpDecision</label>
+        <locationX>508</locationX>
+        <locationY>122</locationY>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>MeetingMatrixDayBefore</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.AH_PLCM_Product__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Meeting Matrix Conversion</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.AH_PLCM_Migration_Reminder_2_Date__c</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.AH_PLCM_MigrationProgress__c</leftValueReference>
+                <operator>NotEqualTo</operator>
+                <rightValue>
+                    <stringValue>Migration Complete</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>MeetingMatrix_Migration_1_Day_Reminder</targetReference>
+            </connector>
+            <label>MeetingMatrixDayBefore</label>
+        </rules>
+        <rules>
+            <name>MeetingMatrix5Days</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.AH_PLCM_Product__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Meeting Matrix Conversion</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.AH_PLCM_Migration_Reminder_3_Date__c</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.AH_PLCM_MigrationProgress__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Migration Complete</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>MeetingMatrix_Migration_5_Day_Follow_Up</targetReference>
+            </connector>
+            <label>MeetingMatrix5Days</label>
+        </rules>
+    </decisions>
+    <description>NICC-061820; updated via NICC-######
+Automation to send out Email Alerts for PLCM MM Migration projects</description>
+    <environments>Default</environments>
+    <formulas>
+        <name>formulaHTMLBody</name>
+        <dataType>String</dataType>
+        <expression>IF({!MigrationScheduledMeetingMatrix},{!templatePLCM_MMTechTransferEmail1} , 
+IF({!MigrationCompleteMeetingMatrix},{!templatePLCM_MMTechTransferEmail3}, 
+IF({!MeetingMatrixDayBefore}, {!templatePLCM_MMTechTransferEmail2}, 
+IF({!MeetingMatrix5Days}, {!templatePLCM_MMTechTransferEmail4}, 
+&quot;&quot;
+)
+)
+)
+)</expression>
+    </formulas>
+    <formulas>
+        <name>formulaSubject</name>
+        <dataType>String</dataType>
+        <expression>IF({!MigrationScheduledMeetingMatrix},&quot;Moving Away from MeetingMatrix - Migration Date Confirmed!&quot; , 
+IF({!MigrationCompleteMeetingMatrix},&quot;Your MeetingMatrix to Delphi Diagramming Migration is Complete!&quot;, 
+IF({!MeetingMatrixDayBefore}, &quot;Moving Away from MeetingMatrix - Your Migration is Almost Here!&quot;, 
+IF({!MeetingMatrix5Days}, &quot;Delphi Diagramming Migration Follow-up&quot;, 
+&quot;&quot;
+)
+)
+)
+)</expression>
+    </formulas>
+    <interviewLabel>NI Doc - PLCM Migration Email Alerts {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>NI Doc - PLCM MM Migration Email Alerts</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>FREE_FORM_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <recordCreates>
+        <description>Creates additional email message to relate the email just sent to the Project Contact and the Project</description>
+        <name>CreateEmailMessages</name>
+        <label>CreateEmailMessages</label>
+        <locationX>1333</locationX>
+        <locationY>141</locationY>
+        <inputReference>varEmailMessageCollection</inputReference>
+    </recordCreates>
+    <start>
+        <locationX>68</locationX>
+        <locationY>48</locationY>
+        <connector>
+            <targetReference>MigrationScheduledOrMigrationCompleteDecision</targetReference>
+        </connector>
+        <filterFormula>{!$Record.RecordType.DeveloperName} = &quot;PLCM_Migrations&quot; &amp;&amp;
+ISPICKVAL({!$Record.AH_PLCM_Product__c}, &quot;Meeting Matrix Conversion&quot;) &amp;&amp;
+{!$Record.Stop_Email_Notifications__c}= FALSE</filterFormula>
+        <object>NI_Documentation__c</object>
+        <recordTriggerType>CreateAndUpdate</recordTriggerType>
+        <scheduledPaths>
+            <name>DayBeforeMigration</name>
+            <connector>
+                <targetReference>ReminderOrFollowUpDecision</targetReference>
+            </connector>
+            <label>DayBeforeMigration</label>
+            <offsetNumber>0</offsetNumber>
+            <offsetUnit>Days</offsetUnit>
+            <recordField>AH_PLCM_Migration_Reminder_2_Date__c</recordField>
+            <timeSource>RecordField</timeSource>
+        </scheduledPaths>
+        <scheduledPaths>
+            <name>Migration_5Days</name>
+            <connector>
+                <targetReference>ReminderOrFollowUpDecision</targetReference>
+            </connector>
+            <label>Migration+5Days</label>
+            <offsetNumber>0</offsetNumber>
+            <offsetUnit>Days</offsetUnit>
+            <recordField>AH_PLCM_Migration_Reminder_3_Date__c</recordField>
+            <timeSource>RecordField</timeSource>
+        </scheduledPaths>
+        <triggerType>RecordAfterSave</triggerType>
+    </start>
+    <status>Active</status>
+    <textTemplates>
+        <description>Email template sent to customers for MeetingMatrix sunset projects to inform them their migration date has been scheduled.</description>
+        <name>templatePLCM_MMTechTransferEmail1</name>
+        <isViewedAsPlainText>false</isViewedAsPlainText>
+        <text>&lt;p&gt;&lt;span style=&quot;font-size: 11px; font-family: Verdana, Arial, Helvetica, sans-serif; color: rgb(59, 53, 45);&quot;&gt;Hello&amp;nbsp;{!$Record.ContactNameForEmails__c},&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;font-size: 11px; font-family: Verdana, Arial, Helvetica, sans-serif; color: rgb(59, 53, 45);&quot;&gt;Congratulations on your decision to&amp;nbsp;transfer&amp;nbsp;to&amp;nbsp;Delphi Diagramming Property Edition (formerly known as Amadeus Hospitality Diagramming Venue Edition). You are going to love this more&amp;nbsp;modern and secure system that is designed by hospitality professionals who understand your needs.&amp;nbsp;&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;font-size: 11px; font-family: Verdana, Arial, Helvetica, sans-serif; color: rgb(59, 53, 45);&quot;&gt;&amp;nbsp;&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;strong style=&quot;font-size: 12px; font-family: Verdana, Arial, Helvetica, sans-serif; color: rgb(59, 53, 45);&quot;&gt;Property Administrator&lt;/strong&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;font-size: 11px; font-family: Verdana, Arial, Helvetica, sans-serif; color: rgb(59, 53, 45);&quot;&gt;You, &lt;/span&gt;&lt;span style=&quot;font-size: 11px; font-family: Verdana, Arial, Helvetica, sans-serif; color: rgb(59, 53, 45); background-color: rgb(255, 255, 255);&quot;&gt;{!$Record.ContactNameForEmails__c}&lt;/span&gt;&lt;span style=&quot;font-size: 11px; font-family: Verdana, Arial, Helvetica, sans-serif; color: rgb(59, 53, 45);&quot;&gt;, have been identified as your property’s administrator for Delphi Diagramming. If this is incorrect, it’s very important that you reply with the name and email address of the appropriate property administrator at your first opportunity.&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;&lt;strong style=&quot;font-size: 12px; font-family: Verdana, Arial, Helvetica, sans-serif; color: rgb(59, 53, 45);&quot;&gt;Migration&amp;nbsp;Date&lt;/strong&gt;&lt;span style=&quot;font-size: 11px; font-family: Verdana, Arial, Helvetica, sans-serif; color: rgb(59, 53, 45);&quot;&gt;&amp;nbsp;&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;font-size: 11px;&quot;&gt;We are so excited to let you know that your migration is&amp;nbsp;scheduled for&amp;nbsp;&lt;/span&gt;&lt;strong style=&quot;font-size: 11px; font-family: Verdana, Arial, Helvetica, sans-serif; color: rgb(59, 53, 45);&quot;&gt;{!$Record.AH_PLCM_Migration_Date__c}&lt;/strong&gt;&lt;span style=&quot;font-size: 11px; font-family: Verdana, Arial, Helvetica, sans-serif; color: rgb(59, 53, 45);&quot;&gt;.&lt;/span&gt;&lt;strong style=&quot;font-size: 11px; font-family: Verdana, Arial, Helvetica, sans-serif; color: rgb(59, 53, 45);&quot;&gt;&amp;nbsp;&lt;/strong&gt;&lt;span style=&quot;font-size: 11px; font-family: Verdana, Arial, Helvetica, sans-serif; color: rgb(59, 53, 45);&quot;&gt;This is the date we will take all the diagrams, setups, and system configurations we did for you in MeetingMatrix and transfer&amp;nbsp;them to Delphi Diagramming. When we’re done, you will receive your login.&amp;nbsp;As the administrator, you will have some tasks to do when the migration is complete, so block a couple of hours on your calendar for the following day.&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;&lt;strong style=&quot;font-size: 12px; font-family: Verdana, Arial, Helvetica, sans-serif; color: rgb(59, 53, 45);&quot;&gt;Next Steps&lt;/strong&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;font-size: 11px; font-family: Verdana, Arial, Helvetica, sans-serif; color: rgb(59, 53, 45);&quot;&gt;Make sure you and your team are ready! Review and share the links below with appropriate team members as you prepare for the migration date above.&amp;nbsp;&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;font-size: 11px; font-family: Verdana, Arial, Helvetica, sans-serif; color: rgb(59, 53, 45);&quot;&gt;The MeetingMatrix Technology Migration Promotion&amp;nbsp;&lt;/span&gt;&lt;a href=&quot;https://connect.amadeus-hospitality.com/hubfs/legal/Definition-of-Services-Meeting-Matrix-Tech-Transfer-Promotion.pdf&quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot; style=&quot;font-size: 11px; font-family: Verdana, Arial, Helvetica, sans-serif; color: rgb(0, 94, 184);&quot;&gt;Definition of Services&lt;/a&gt;&lt;span style=&quot;font-size: 11px; font-family: Verdana, Arial, Helvetica, sans-serif; color: rgb(59, 53, 45);&quot;&gt;&amp;nbsp;document outlines exactly what is and is not included in the migration process. This document should be carefully&amp;nbsp;reviewed&amp;nbsp;by&amp;nbsp;your Property Administrator and Head of Catering, so you understand exactly what to expect when you first log in. The complimentary transfer is designed to be zero effort for you beforehand, with a bit of review and self-service tweaking after you get into the new system.&amp;nbsp;&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;color: rgb(59, 53, 45);&quot;&gt;&amp;nbsp;&lt;/span&gt;&lt;/p&gt;&lt;ul&gt;&lt;li&gt;&lt;span style=&quot;color: rgb(59, 53, 45);&quot;&gt;Visit the following topics in our online Training &amp;amp; Help to&amp;nbsp;prepare for this exciting transition.&amp;nbsp;&amp;nbsp;&lt;/span&gt;&lt;a href=&quot;https://help.amadeus-hospitality.com/sales-and-event-management/diagramming/index.html#Migration-FAQs.htm?TocPath=MeetingMatrix%2520transfer%257C_____1&quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot; style=&quot;font-family: Verdana, Arial, Helvetica, sans-serif;&quot;&gt;Migration Frequently Asked Questions&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;https://help.amadeus-hospitality.com/sales-and-event-management/diagramming/index.html#Migration-Property-Administration.htm?TocPath=MeetingMatrix%2520transfer%257C_____2&quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot; style=&quot;font-size: 11px; font-family: Verdana, Arial, Helvetica, sans-serif;&quot;&gt;Property Administrator tasks following migration&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;https://help.amadeus-hospitality.com/sales-and-event-management/diagramming/index.html#Migration-Glossary.htm?TocPath=MeetingMatrix%2520transfer%257C_____4&quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot; style=&quot;font-size: 11px; font-family: Verdana, Arial, Helvetica, sans-serif;&quot;&gt;Glossary of Terms between MeetingMatrix and Delphi Diagramming&lt;/a&gt;&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;&lt;span style=&quot;font-size: 11px; font-family: Verdana, Arial, Helvetica, sans-serif; color: rgb(59, 53, 45);&quot;&gt;As explained in the FAQ topic, when the migration is complete, we will send a login to you, the Property Administrator. You will then complete the property administrator task list linked above to ensure your property configuration matches what you have in MeetingMatrix (estimate about 5 minutes per function room). When that’s done, you will create the logins for the remaining users, and you’ll be ready to have fun exploring the cool new bells and whistles in Delphi Diagramming.&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;font-size: 11px; font-family: Verdana, Arial, Helvetica, sans-serif; color: rgb(59, 53, 45);&quot;&gt;While the basics of creating a diagram are very similar between the systems, it might take a few tries before everyone is as fast as they were in MeetingMatrix. Suggest that the team reserve some time on their calendar in the days following your migration to get logged in, review the training materials, and start creating all new diagrams there.&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;font-size: 11px; font-family: Verdana, Arial, Helvetica, sans-serif; color: rgb(59, 53, 45);&quot;&gt;You’ll want to set a date no more than a couple of weeks after they receive their logins to fully transition over and remove MeetingMatrix from their workstations. They should still have access to a shared drive where they can find the .mms files if they want to import those, but you need to plan for a specific date when they no longer use MeetingMatrix.&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;font-size: 11px; font-family: Verdana, Arial, Helvetica, sans-serif; color: rgb(59, 53, 45);&quot;&gt;Thank you so much, we&amp;nbsp;appreciate your choice to partner with Amadeus&amp;nbsp;as we&amp;nbsp;shape the future of travel together.&amp;nbsp;&amp;nbsp;&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;font-size: 11px; font-family: Verdana, Arial, Helvetica, sans-serif; color: rgb(59, 53, 45);&quot;&gt;Migration Team&amp;nbsp;&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;strong style=&quot;font-size: 11px; font-family: Verdana, Arial, Helvetica, sans-serif; color: rgb(59, 53, 45);&quot;&gt;Platform Life Cycle Management&lt;/strong&gt;&lt;span style=&quot;font-size: 11px; font-family: Verdana, Arial, Helvetica, sans-serif; color: rgb(59, 53, 45);&quot;&gt;&amp;nbsp;&lt;/span&gt;&lt;/p&gt;&lt;p&gt;Amadeus Hospitality&lt;/p&gt;&lt;p&gt;&lt;a href=&quot;http://www.amadeus-hospitality.com/&quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot; style=&quot;font-size: 11px; font-family: Verdana, Arial, Helvetica, sans-serif; color: rgb(0, 94, 184);&quot;&gt;www.amadeus-hospitality.com&lt;/a&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;font-size: 8px; font-family: &amp;quot;Times New Roman&amp;quot;; color: rgb(0, 0, 0);&quot;&gt;Email Ref Id: {!$Record.Email_Ref_Id__c}&lt;/span&gt;&lt;/p&gt;</text>
+    </textTemplates>
+    <textTemplates>
+        <description>Email template sent to customers for MeetingMatrix sunset projects to remind them their migration date is tomorrow</description>
+        <name>templatePLCM_MMTechTransferEmail2</name>
+        <isViewedAsPlainText>false</isViewedAsPlainText>
+        <text>&lt;p&gt;&lt;span style=&quot;font-size: 11px; font-family: Verdana, Arial, Helvetica, sans-serif; color: rgb(59, 53, 45);&quot;&gt;Hello&amp;nbsp;{!$Record.ContactNameForEmails__c},&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;font-size: 11px; font-family: Verdana, Arial, Helvetica, sans-serif; color: rgb(59, 53, 45);&quot;&gt;Time to get excited! We will be migrating your MeetingMatrix data to Delphi Diagramming on&amp;nbsp;&lt;/span&gt;&lt;strong style=&quot;font-size: 11px; font-family: Verdana, Arial, Helvetica, sans-serif; color: rgb(59, 53, 45);&quot;&gt;{!$Record.AH_PLCM_Migration_Date__c}&lt;/strong&gt;&lt;span style=&quot;font-size: 11px; font-family: Verdana, Arial, Helvetica, sans-serif; color: rgb(59, 53, 45);&quot;&gt;.&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;&lt;strong style=&quot;font-size: 11px; font-family: Verdana, Arial, Helvetica, sans-serif; color: rgb(59, 53, 45);&quot;&gt;Next steps &lt;/strong&gt;&lt;/p&gt;&lt;ol&gt;&lt;li&gt;&lt;span style=&quot;font-size: 11px; font-family: Verdana, Arial, Helvetica, sans-serif; color: rgb(59, 53, 45);&quot;&gt;Because you have been identified as the property administrator, you will receive a login as soon as the migration is completed.&amp;nbsp;&lt;/span&gt;&lt;em style=&quot;font-size: 11px; font-family: Verdana, Arial, Helvetica, sans-serif; color: rgb(59, 53, 45);&quot;&gt;&lt;u&gt;This is the only login we will create for your property, so please reply immediately with the appropriate administrator&apos;s name and email address if it is not you.&lt;/u&gt;&lt;/em&gt;&lt;/li&gt;&lt;li&gt;&lt;span style=&quot;font-size: 11px; font-family: Verdana, Arial, Helvetica, sans-serif; color: rgb(59, 53, 45);&quot;&gt;As stated in the MeetingMatrix Technology Migration Promotion&amp;nbsp;&lt;/span&gt;&lt;a href=&quot;https://https//connect.amadeus-hospitality.com/hubfs/legal/Definition-of-Services-Meeting-Matrix-Tech-Transfer-Promotion.pdf&quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot; style=&quot;font-size: 11px; font-family: Verdana, Arial, Helvetica, sans-serif; color: rgb(41, 128, 185);&quot;&gt;Definition of Services&lt;/a&gt;&lt;span style=&quot;font-size: 11px;&quot;&gt;&amp;nbsp;&lt;/span&gt;&lt;span style=&quot;font-size: 11px; color: rgb(59, 53, 45); font-family: Verdana, Arial, Helvetica, sans-serif;&quot;&gt;document, you need to review the migrated data within two business days and alert us if you find any issues. The best way to review the migrated data is by completing this checklist:&amp;nbsp;&lt;/span&gt;&lt;a href=&quot;https://help.amadeus-hospitality.com/sales-and-event-management/diagramming/index.html#Migration-Property-Administration.htm?TocPath=MeetingMatrix%2520transfer%257C_____2&quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot; style=&quot;font-size: 11px; color: rgb(41, 128, 185); font-family: Verdana, Arial, Helvetica, sans-serif;&quot;&gt;Property Administrator tasks following the migration&lt;/a&gt;&lt;span style=&quot;font-size: 11px; color: rgb(59, 53, 45); font-family: Verdana, Arial, Helvetica, sans-serif;&quot;&gt;.&amp;nbsp;Plan for approximately 5 minutes per function room. If you’re at a large property, create users for other administrators to help you with the list.&lt;/span&gt;&lt;/li&gt;&lt;li&gt;&lt;span style=&quot;font-size: 11px; font-family: Verdana, Arial, Helvetica, sans-serif; color: rgb(59, 53, 45);&quot;&gt;When the checklist is complete, create the users for the rest of the team (plan for 2 minutes per user). Note: the registration email expires after 7 days, so if someone is on vacation, create them later.&lt;/span&gt;&lt;/li&gt;&lt;li&gt;&lt;span style=&quot;font-size: 11px; font-family: Verdana, Arial, Helvetica, sans-serif; color: rgb(59, 53, 45);&quot;&gt;Give the team a deadline for getting comfortable with the new system and removing MeetingMatrix (MM) from their workstations. Encourage them to create all new diagrams in DD instead of MM. They can even import their existing MM plans into DD! Provide access to a shared drive where their MM setup (.mms) files are saved so they can import them, but make a full transition over to the new system within a couple of weeks to ensure adoption and consistency.&lt;/span&gt;&lt;/li&gt;&lt;/ol&gt;&lt;p&gt;&lt;strong style=&quot;font-size: 11px; font-family: Verdana, Arial, Helvetica, sans-serif; color: rgb(59, 53, 45);&quot;&gt;You’ll hear from us next when your migration is complete.&lt;/strong&gt;&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;font-size: 11px; font-family: Verdana, Arial, Helvetica, sans-serif; color: rgb(59, 53, 45);&quot;&gt;Thank you,&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;font-size: 11px; font-family: Verdana, Arial, Helvetica, sans-serif; color: rgb(59, 53, 45);&quot;&gt;Migration Team&amp;nbsp;&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;strong style=&quot;font-size: 11px; font-family: Verdana, Arial, Helvetica, sans-serif; color: rgb(59, 53, 45);&quot;&gt;Platform Life Cycle Management&lt;/strong&gt;&lt;span style=&quot;font-size: 11px; font-family: Verdana, Arial, Helvetica, sans-serif; color: rgb(59, 53, 45);&quot;&gt;&amp;nbsp;&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;font-size: 11px; font-family: Verdana, Arial, Helvetica, sans-serif; color: rgb(59, 53, 45);&quot;&gt;Amadeus Hospitality&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;a href=&quot;http://www.amadeus-hospitality.com/&quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot; style=&quot;font-size: 11px; font-family: Verdana, Arial, Helvetica, sans-serif; color: rgb(0, 94, 184);&quot;&gt;www.amadeus-hospitality.com&lt;/a&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;font-size: 8px; font-family: &amp;quot;Times New Roman&amp;quot;; color: rgb(0, 0, 0);&quot;&gt;Email Ref Id: {!$Record.Email_Ref_Id__c}&lt;/span&gt;&lt;/p&gt;</text>
+    </textTemplates>
+    <textTemplates>
+        <description>Email template sent to customers for MeetingMatrix sunset projects to inform them their migration has been completed.</description>
+        <name>templatePLCM_MMTechTransferEmail3</name>
+        <isViewedAsPlainText>false</isViewedAsPlainText>
+        <text>&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;color: rgb(59, 53, 45); font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 11px;&quot;&gt;Hello&amp;nbsp;{!$Record.ContactNameForEmails__c},&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;color: rgb(59, 53, 45); font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 11px;&quot;&gt;Congratulations,&amp;nbsp;your migration from MeetingMatrix is complete and you’re ready to get started in Delphi Diagramming. Here’s what you need to do next:&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;&lt;strong style=&quot;color: rgb(59, 53, 45); font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 12px;&quot;&gt;Verify your account &lt;/strong&gt;&lt;/p&gt;&lt;ol&gt;&lt;li&gt;&lt;span style=&quot;color: rgb(59, 53, 45); font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 11px;&quot;&gt;Check your Inbox for an email from &quot;&lt;/span&gt;&lt;strong style=&quot;color: rgb(59, 53, 45); font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 11px;&quot;&gt;support@diagramming.mail.amadeus.com&quot;.&lt;/strong&gt;&lt;/li&gt;&lt;li&gt;&lt;span style=&quot;color: rgb(59, 53, 45); font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 11px;&quot;&gt;The Subject line will be “&lt;/span&gt;&lt;strong style=&quot;color: rgb(59, 53, 45); font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 11px;&quot;&gt;Welcome to Amadeus Hospitality Diagramming!&lt;/strong&gt;&lt;span style=&quot;color: rgb(59, 53, 45); font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 11px;&quot;&gt;” (we’re still completing the name change over to Delphi Diagramming).&amp;nbsp;Click&amp;nbsp;‘&lt;/span&gt;&lt;strong style=&quot;color: rgb(59, 53, 45); font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 11px;&quot;&gt;Get Started&lt;/strong&gt;&lt;span style=&quot;color: rgb(59, 53, 45); font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 11px;&quot;&gt;’&amp;nbsp;and follow the on-screen instructions to set up your account.&amp;nbsp;The link expires in seven days, so make sure you log in as soon as possible.&lt;/span&gt;&lt;/li&gt;&lt;/ol&gt;&lt;p&gt;&lt;span style=&quot;color: rgb(59, 53, 45); font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 11px;&quot;&gt;Didn’t get the email? First, check your Spam or Clutter folders. If you still can’t find it,&amp;nbsp;&lt;/span&gt;&lt;a href=&quot;https://help.amadeus-hospitality.com/sales-and-event-management/diagramming/index.html#Support-Contacting-Support.htm&quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot; style=&quot;color: rgb(0, 94, 184); font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 11px;&quot;&gt;contact Support&lt;/a&gt;&lt;span style=&quot;color: rgb(59, 53, 45); font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 11px;&quot;&gt;&amp;nbsp;and we’ll resend it.&amp;nbsp;Please mention that you have just completed a migration from MeetingMatrix.&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;&lt;strong style=&quot;color: rgb(59, 53, 45); font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 12px;&quot;&gt;Log in &lt;/strong&gt;&lt;/p&gt;&lt;ol&gt;&lt;li&gt;&lt;span style=&quot;color: rgb(59, 53, 45); font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 11px;&quot;&gt;Navigate to the Login page&amp;nbsp;&lt;/span&gt;&lt;a href=&quot;https://venue.amadeus-hospitality.com/&quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot; style=&quot;color: rgb(0, 94, 184); font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 11px;&quot;&gt;https://venue.amadeus-hospitality.com/&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;span style=&quot;color: rgb(59, 53, 45); font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 11px;&quot;&gt;Save that in your Favorites&lt;/span&gt;&lt;/li&gt;&lt;li&gt;&lt;span style=&quot;color: rgb(59, 53, 45); font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 11px;&quot;&gt;Enter your&amp;nbsp;Username, Password, and click&amp;nbsp;“Log In”&lt;/span&gt;&lt;/li&gt;&lt;/ol&gt;&lt;p&gt;&lt;strong style=&quot;color: rgb(59, 53, 45); font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 12px;&quot;&gt;Make it your own&lt;/strong&gt;&lt;span style=&quot;color: rgb(59, 53, 45); font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 12px;&quot;&gt;&amp;nbsp;&lt;/span&gt;&lt;/p&gt;&lt;ol&gt;&lt;li&gt;&lt;span style=&quot;color: rgb(59, 53, 45); font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 11px;&quot;&gt;Complete this checklist:&amp;nbsp;&lt;/span&gt;&lt;a href=&quot;https://help.amadeus-hospitality.com/sales-and-event-management/diagramming/Content/Migration-Property-Administration.htm&quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot; style=&quot;color: rgb(0, 94, 184); font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 11px;&quot;&gt;Property administrator tasks following the migration&lt;/a&gt;&lt;span style=&quot;color: rgb(59, 53, 45); font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 11px;&quot;&gt;. Plan for approximately 5 minutes per function room. If you’re at a large property, create users for other administrators to help you with the list. If you believe there is an issue with your migrated data, reply to this email within two business days.&lt;/span&gt;&lt;/li&gt;&lt;li&gt;&lt;span style=&quot;color: rgb(59, 53, 45); font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 11px;&quot;&gt;When you have completed all the tasks for resources, meeting space, seating preferences, and layout editor, create the users for the rest of the team (plan for 2 minutes per user). Note: the registration email expires after 7 days, so if someone is on vacation, create them later. When you create the users, send this link to help them get started:&amp;nbsp;&lt;/span&gt;&lt;a href=&quot;https://help.amadeus-hospitality.com/sales-and-event-management/diagramming/index.html#Migration-New-User-Guide.htm&quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot; style=&quot;color: rgb(0, 94, 184); font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 11px;&quot;&gt;New User Guide for MeetingMatrix Migrations&lt;/a&gt;&lt;span style=&quot;color: rgb(59, 53, 45); font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 11px;&quot;&gt;.&lt;/span&gt;&lt;/li&gt;&lt;li&gt;&lt;span style=&quot;color: rgb(59, 53, 45); font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 11px;&quot;&gt;Give the team a deadline for getting comfortable with the new system and removing MeetingMatrix (MM) from their workstations. Encourage them to create all new diagrams in DD instead of MM. They can even import their existing MM plans into DD! Provide access to a shared drive where their MM setup (.mms) files are saved so they can import them, but make a full transition over to the new system within a couple of weeks to ensure adoption and consistency. When everyone is using DD, you can batch print all the diagrams for the upcoming BEO packet in a matter of minutes! Just one of the many new features you’re going to love!&lt;/span&gt;&lt;/li&gt;&lt;/ol&gt;&lt;p&gt;&lt;strong style=&quot;color: rgb(59, 53, 45); font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 12px;&quot;&gt;Need more help?&lt;/strong&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;color: rgb(59, 53, 45); font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 11px;&quot;&gt;We’ve got you covered. Let the&lt;/span&gt;&lt;strong style=&quot;color: rgb(59, 53, 45); font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 11px;&quot;&gt;&amp;nbsp;&lt;/strong&gt;&lt;a href=&quot;https://help.amadeus-hospitality.com/sales-and-event-management/diagramming/index.html#Welcome-to-Amadeus-Hospitality-Diagramming.htm&quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot; style=&quot;color: rgb(0, 94, 184); font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 11px;&quot;&gt;Training &amp;amp; Help&lt;/a&gt;&lt;span style=&quot;color: rgb(59, 53, 45); font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 11px;&quot;&gt;&amp;nbsp;guide you as you go, and for any technical questions,&amp;nbsp;&lt;/span&gt;&lt;a href=&quot;https://help.amadeus-hospitality.com/sales-and-event-management/diagramming/index.html#Support-Contacting-Support.htm&quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot; style=&quot;color: rgb(0, 94, 184); font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 11px;&quot;&gt;contact&amp;nbsp;Amadeus Support&lt;/a&gt;&lt;span style=&quot;color: rgb(59, 53, 45); font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 11px;&quot;&gt;.&amp;nbsp;&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;&lt;strong style=&quot;color: rgb(59, 53, 45); font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 12px;&quot;&gt;Need even more help?&lt;/strong&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;color: rgb(59, 53, 45); font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 11px;&quot;&gt;We also have a range of professional services capable of guiding, configuring, and enhancing your new Delphi Diagramming experience.&amp;nbsp;&lt;/span&gt;&lt;a href=&quot;https://www.amadeus-hospitality.com/transition-to-delphi-diagramming/&quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot; style=&quot;color: rgb(0, 94, 184); font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 11px;&quot;&gt;Contact Amadeus Sales&lt;/a&gt;&lt;span style=&quot;color: rgb(59, 53, 45); font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 11px;&quot;&gt;&amp;nbsp;to find out about add-on services like instructor-led training, adding new meeting space, and integration with Delphi.&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;color: rgb(59, 53, 45); font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 11px;&quot;&gt;We’re so excited to have you in the Delphi Diagramming community! Enjoy, and thank you again for being our valued partner!&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;color: rgb(59, 53, 45); font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 11px;&quot;&gt;Thank you,&amp;nbsp;&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;color: rgb(59, 53, 45); font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 11px;&quot;&gt;Migration Team&amp;nbsp;&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;strong style=&quot;color: rgb(59, 53, 45); font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 11px;&quot;&gt;Platform Life Cycle Management&lt;/strong&gt;&lt;span style=&quot;color: rgb(59, 53, 45); font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 11px;&quot;&gt;&amp;nbsp;&lt;/span&gt;&lt;/p&gt;&lt;p&gt;Amadeus Hospitality&lt;/p&gt;&lt;p&gt;&lt;a href=&quot;http://www.amadeus-hospitality.com/&quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot; style=&quot;color: rgb(0, 94, 184); font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 11px;&quot;&gt;www.amadeus-hospitality.com&lt;/a&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;color: rgb(0, 0, 0); font-family: &amp;quot;Times New Roman&amp;quot;; font-size: 8px;&quot;&gt;Email Ref Id: {!$Record.Email_Ref_Id__c}&lt;/span&gt;&lt;/p&gt;</text>
+    </textTemplates>
+    <textTemplates>
+        <description>Email template sent to customers for MeetingMatrix sunset projects to check in one week after their migration.</description>
+        <name>templatePLCM_MMTechTransferEmail4</name>
+        <isViewedAsPlainText>false</isViewedAsPlainText>
+        <text>&lt;p&gt;&lt;span style=&quot;color: rgb(59, 53, 45); font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 11px;&quot;&gt;Hello&amp;nbsp;{!$Record.ContactNameForEmails__c},&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;color: rgb(59, 53, 45); font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 11px;&quot;&gt;We hope your first week using Delphi Diagramming is going well and want to make sure you’ve made progress on your full transition.&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;color: rgb(59, 53, 45); font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 11px;&quot;&gt;If not, please set aside an hour or two and knock it out. Don’t forget, you can create another user as an administrator to help (that only takes a couple of minutes). Take advantage of your new subscription and get the team in so they can have fun discovering all the new things they can do.&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;&lt;strong style=&quot;color: rgb(59, 53, 45); font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 12px;&quot;&gt;As a reminder, here’s the plan: &lt;/strong&gt;&lt;/p&gt;&lt;ol&gt;&lt;li&gt;&lt;span style=&quot;color: rgb(59, 53, 45); font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 11px;&quot;&gt;Complete this checklist:&amp;nbsp;&lt;/span&gt;&lt;a href=&quot;https://help.amadeus-hospitality.com/sales-and-event-management/diagramming/Content/Migration-Property-Administration.htm&quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot; style=&quot;color: rgb(0, 94, 184); font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 11px;&quot;&gt;Property administrator tasks following the migration&lt;/a&gt;&lt;span style=&quot;color: rgb(59, 53, 45); font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 11px;&quot;&gt;.&lt;/span&gt;&lt;/li&gt;&lt;li&gt;&lt;span style=&quot;color: rgb(59, 53, 45); font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 11px;&quot;&gt;Create the users for the rest of the team and send this link:&amp;nbsp;&lt;/span&gt;&lt;a href=&quot;https://help.amadeus-hospitality.com/sales-and-event-management/diagramming/index.html#Migration-New-User-Guide.htm&quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot; style=&quot;color: rgb(0, 94, 184); font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 11px;&quot;&gt;New User Guide for MeetingMatrix Migrations&lt;/a&gt;&lt;span style=&quot;color: rgb(59, 53, 45); font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 11px;&quot;&gt;.&lt;/span&gt;&lt;/li&gt;&lt;li&gt;&lt;span style=&quot;color: rgb(59, 53, 45); font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 11px;&quot;&gt;Give the team a deadline for getting comfortable with the new system and removing MeetingMatrix from their workstations. The next time you’re running a BEO packet is a good target date. Have all diagrams for that packet&amp;nbsp;&lt;/span&gt;&lt;a href=&quot;https://help.amadeus-hospitality.com/sales-and-event-management/diagramming/index.html#Room-Plans-Importing.htm&quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot; style=&quot;color: rgb(0, 94, 184); font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 11px;&quot;&gt;imported from MM&lt;/a&gt;&lt;span style=&quot;color: rgb(59, 53, 45); font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 11px;&quot;&gt;&amp;nbsp;or created in Delphi Diagramming and discover the joy of&amp;nbsp;&lt;/span&gt;&lt;a href=&quot;https://help.amadeus-hospitality.com/sales-and-event-management/diagramming/index.html#Batch-Print.htm&quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot; style=&quot;color: rgb(0, 94, 184); font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 11px;&quot;&gt;batch printing&lt;/a&gt;&lt;span style=&quot;color: rgb(59, 53, 45); font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 11px;&quot;&gt;.&lt;/span&gt;&lt;/li&gt;&lt;/ol&gt;&lt;p&gt;&lt;strong style=&quot;color: rgb(59, 53, 45); font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 12px;&quot;&gt;Need help?&lt;/strong&gt;&lt;/p&gt;&lt;ol&gt;&lt;li&gt;&lt;span style=&quot;color: rgb(59, 53, 45); font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 11px;&quot;&gt;Click the Help link in any screen for information about that page.&lt;/span&gt;&lt;/li&gt;&lt;li&gt;&lt;span style=&quot;color: rgb(59, 53, 45); font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 11px;&quot;&gt;If you can’t find the answer in Help or you have any technical issues,&amp;nbsp;&lt;/span&gt;&lt;a href=&quot;https://help.amadeus-hospitality.com/sales-and-event-management/diagramming/index.html#Support-Contacting-Support.htm&quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot; style=&quot;color: rgb(0, 94, 184); font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 11px;&quot;&gt;contact&amp;nbsp;Amadeus Support&lt;/a&gt;&lt;span style=&quot;color: rgb(59, 53, 45); font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 11px;&quot;&gt;.&amp;nbsp;&lt;/span&gt;&lt;/li&gt;&lt;li&gt;&lt;span style=&quot;color: rgb(59, 53, 45); font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 11px;&quot;&gt;If you want to purchase an integration with Delphi, time with a trainer, have our team create new meeting space, or you just can’t find the time to complete the above tasks and want us to coach you,&amp;nbsp;&lt;/span&gt;&lt;a href=&quot;https://www.amadeus-hospitality.com/transition-to-delphi-diagramming/&quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot; style=&quot;color: rgb(0, 94, 184); font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 11px;&quot;&gt;contact Amadeus Sales&lt;/a&gt;&lt;span style=&quot;color: rgb(59, 53, 45); font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 11px;&quot;&gt;&amp;nbsp;for a quote.&lt;/span&gt;&lt;/li&gt;&lt;li&gt;&amp;nbsp;&lt;/li&gt;&lt;/ol&gt;&lt;p&gt;&lt;strong style=&quot;color: rgb(59, 53, 45); font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 12px;&quot;&gt;New releases and product feedback&lt;/strong&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;color: rgb(59, 53, 45); font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 11px;&quot;&gt;We upgrade the product and release new features every few months, which you will immediately receive. You’ll be notified by a little pop up when you log in that an update has happened – make sure you always read about what’s new so you get the most out of your subscription.&amp;nbsp;We decide what goes in the upgrades based on your feedback, so if you have suggestions for product improvements, please email those to Support. You can easily find their contact information in Help.&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;color: rgb(59, 53, 45); font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 11px;&quot;&gt;Thank you ever so much for choosing Delphi Diagramming. We look forward to partnering with you to make your daily diagramming tasks enjoyable!&amp;nbsp;&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;color: rgb(59, 53, 45); font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 11px;&quot;&gt;Migration Team&amp;nbsp;&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;strong style=&quot;color: rgb(59, 53, 45); font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 11px;&quot;&gt;Platform Life Cycle Management&lt;/strong&gt;&lt;span style=&quot;color: rgb(59, 53, 45); font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 11px;&quot;&gt;&amp;nbsp;&lt;/span&gt;&lt;/p&gt;&lt;p&gt;Amadeus Hospitality&lt;/p&gt;&lt;p&gt;&lt;a href=&quot;http://www.amadeus-hospitality.com/&quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot; style=&quot;color: rgb(0, 94, 184); font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 11px;&quot;&gt;www.amadeus-hospitality.com&lt;/a&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;font-family: &amp;quot;Calibri Light&amp;quot;, sans-serif; color: rgb(0, 0, 0); font-size: 8px;&quot;&gt;Email Ref Id: {!$Record.Email_Ref_Id__c}&lt;/span&gt;&lt;/p&gt;</text>
+    </textTemplates>
+    <variables>
+        <name>varCountOfEmailMessages</name>
+        <dataType>Number</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <scale>0</scale>
+    </variables>
+    <variables>
+        <name>varEmailMessageCollection</name>
+        <dataType>SObject</dataType>
+        <isCollection>true</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <objectType>EmailMessage</objectType>
+    </variables>
+    <variables>
+        <description>Record variable to create new Email Messages</description>
+        <name>varNewEmailMessage</name>
+        <dataType>SObject</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <objectType>EmailMessage</objectType>
+    </variables>
+</Flow>

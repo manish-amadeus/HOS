@@ -25,7 +25,7 @@ public class SolutionSearch
         List<Profile> lstProfiles = [SELECT Id, Name FROM Profile WHERE Id =: userinfo.getProfileId() LIMIT 1];
 		String pn = lstProfiles[0].Name;
         
-        if ((pn == 'System Administrator') || (pn == 'NI Support Managers'))
+        if ((pn == 'System Administrator') || (pn == 'AH Support Managers - Lightning'))
         {
             showStatusFilter = true;
         }

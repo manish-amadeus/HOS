@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Queue xmlns="http://soap.sforce.com/2006/04/metadata">
+    <doesSendEmailToMembers>true</doesSendEmailToMembers>
+    <name>Q-Support Pager Bonus Approval</name>
+    <queueMembers>
+        <publicGroups>
+            <publicGroup>Support_Pager_Bonus_Approval</publicGroup>
+        </publicGroups>
+    </queueMembers>
+    <queueSobject>
+        <sobjectType>NI_Pager_Bonus__c</sobjectType>
+    </queueSobject>
+</Queue>

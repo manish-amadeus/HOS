@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
-    <fullName>Manual_Override_Uncheck</fullName>
-    <active>true</active>
-    <description>The Manual Override check box field cannot be unchecked if there are existing Distribution records related to this Customer Agreement</description>
-    <errorConditionFormula>AND(Manual_Override__c = false,PRIORVALUE(Manual_Override__c) = true, Number_of_Distributions__c &gt; 0)</errorConditionFormula>
-    <errorDisplayField>Manual_Override__c</errorDisplayField>
-    <errorMessage>The Manual Override cannot be unchecked because there are distribution records related to this Customer Agreement.   All of the distribution records must be deleted in order to uncheck the Manual Override check box.</errorMessage>
-</ValidationRule>

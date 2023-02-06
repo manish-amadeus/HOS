@@ -35,17 +35,17 @@ private class NI_PSA_Milestone_TriggerHandler_Test
         system.runAs(saUser)
         {
             // CREATE TEST REGIONAL APPROVER USER
-            User u1 = NI_TestClassData.createTestUser(2, 'NI PSA Administrator'); 
+            User u1 = NI_TestClassData.createTestUser(2, 'AH PSA Administrator - Lightning'); 
             u1.Alias = 'RGA1TST'; 
             insert u1; 
             
             // CREATE TEST RESOURCE MANAGER USER 
-            User u2 = NI_TestClassData.createTestUser(3, 'NI PSA Management'); 
+            User u2 = NI_TestClassData.createTestUser(3, 'AH PSA Management - Lightning'); 
             u2.Alias = 'MGR1TST'; 
             insert u2; 
             
             // CREATE TEST RESOURCE USER 
-            User u3 = NI_TestClassData.createTestUser(4, 'NI PSA T&E - Salesforce'); 
+            User u3 = NI_TestClassData.createTestUser(4, 'AH PSA T&E - SF - Lightning'); 
             u3.Alias = 'RSC1TST'; 
             u3.ManagerId = u2.Id;
             insert u3;             

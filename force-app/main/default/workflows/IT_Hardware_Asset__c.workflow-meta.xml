@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Workflow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fieldUpdates>
+        <fullName>Blank_Out_Charity</fullName>
+        <field>Charity__c</field>
+        <name>Blank Out Charity</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Null</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>Blank_Out_Retirement_Date</fullName>
+        <field>Retirement_Date__c</field>
+        <name>Blank Out Retirement Date</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Null</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>Blank_Out_Retirement_Method</fullName>
+        <field>Retirement_Method__c</field>
+        <name>Blank Out Retirement Method</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Literal</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>Populate_Retired_Date_field_with_today</fullName>
+        <description>When a User Asset record is set to Retired, populate the Retired Date field with today&apos;s date.</description>
+        <field>Retirement_Date__c</field>
+        <formula>IF(
+  ISBLANK(Retirement_Date__c),
+  TODAY(),
+  Retirement_Date__c
+)</formula>
+        <name>Populate Retired Date field with today</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Formula</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>Update_Acquisition_Date</fullName>
+        <field>Acquisition_Date__c</field>
+        <formula>IF(
+  ISBLANK(Acquisition_Date__c),
+  Date_Purchased__c,
+  Acquisition_Date__c
+)</formula>
+        <name>Update Warranty Start Date</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Formula</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>Update_Custodian_to_Null</fullName>
+        <description>Update the Custodian field to remove any assigned user and leave the value as null.</description>
+        <field>User__c</field>
+        <name>Update Custodian to Null</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>LookupValue</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>Update_Date_Retired</fullName>
+        <field>Retirement_Date__c</field>
+        <formula>TODAY()</formula>
+        <name>Update Date Retired</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Formula</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>Update_RAM</fullName>
+        <field>RAM__c</field>
+        <formula>TEXT(Product_ID__r.RAM__c)</formula>
+        <name>Update RAM</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Formula</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>Update_Warranty_Expires</fullName>
+        <field>Warranty_Expires__c</field>
+        <formula>DATE(
+  YEAR(Acquisition_Date__c)+Warranty_Term__c,   
+  MONTH(Acquisition_Date__c ),
+  DAY(Acquisition_Date__c )
+)</formula>
+        <name>Update Warranty End Date</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Formula</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <rules>
+        <fullName>Blank out retired fields when asset is unretired</fullName>
+        <actions>
+            <name>Blank_Out_Charity</name>
+            <type>FieldUpdate</type>
+        </actions>
+        <actions>
+            <name>Blank_Out_Retirement_Date</name>
+            <type>FieldUpdate</type>
+        </actions>
+        <actions>
+            <name>Blank_Out_Retirement_Method</name>
+            <type>FieldUpdate</type>
+        </actions>
+        <active>true</active>
+        <criteriaItems>
+            <field>IT_Hardware_Asset__c.Status__c</field>
+            <operation>notEqual</operation>
+            <value>Retired</value>
+        </criteriaItems>
+        <description>If the asset is un-retired, blank out the retirement date, retirement method and charity fields.</description>
+        <triggerType>onCreateOrTriggeringUpdate</triggerType>
+    </rules>
+    <rules>
+        <fullName>Remove custodian and update date on retired assets</fullName>
+        <actions>
+            <name>Populate_Retired_Date_field_with_today</name>
+            <type>FieldUpdate</type>
+        </actions>
+        <actions>
+            <name>Update_Custodian_to_Null</name>
+            <type>FieldUpdate</type>
+        </actions>
+        <active>true</active>
+        <criteriaItems>
+            <field>IT_Hardware_Asset__c.Status__c</field>
+            <operation>equals</operation>
+            <value>Retired</value>
+        </criteriaItems>
+        <description>If the asset is retired, blank out the assigned user name from the asset record and update the retirement date with today&apos;s date.</description>
+        <triggerType>onCreateOrTriggeringUpdate</triggerType>
+    </rules>
+    <rules>
+        <fullName>Update Date Retired</fullName>
+        <actions>
+            <name>Update_Date_Retired</name>
+            <type>FieldUpdate</type>
+        </actions>
+        <active>true</active>
+        <description>If the retirement method is updated and the &quot;Date Retired&quot; is not filled in, then enter today&apos;s date into the &quot;Date Retired&quot; field.</description>
+        <formula>AND(   ISBLANK( Retirement_Date__c ),   NOT ISBLANK( TEXT(Retirement_Method__c) ) )</formula>
+        <triggerType>onCreateOrTriggeringUpdate</triggerType>
+    </rules>
+    <rules>
+        <fullName>Update IT Asset Dates</fullName>
+        <actions>
+            <name>Update_Acquisition_Date</name>
+            <type>FieldUpdate</type>
+        </actions>
+        <actions>
+            <name>Update_Warranty_Expires</name>
+            <type>FieldUpdate</type>
+        </actions>
+        <active>true</active>
+        <description>Updates the Warranty Start Date to the Date Purchased from the Purchase Order (unless the Start Date is already filled in), and updates the warranty end date based on the purchase date plus the warranty term.</description>
+        <formula>OR(   ISBLANK(Acquisition_Date__c),   ISBLANK(Warranty_Expires__c),   Warranty_Expires__c &lt;&gt;    DATE(      YEAR(Acquisition_Date__c)+Warranty_Term__c,      MONTH(Acquisition_Date__c),      DAY(Acquisition_Date__c)    )  )</formula>
+        <triggerType>onAllChanges</triggerType>
+    </rules>
+    <rules>
+        <fullName>Update RAM if left blank</fullName>
+        <actions>
+            <name>Update_RAM</name>
+            <type>FieldUpdate</type>
+        </actions>
+        <active>true</active>
+        <criteriaItems>
+            <field>IT_Hardware_Asset__c.RAM__c</field>
+            <operation>equals</operation>
+        </criteriaItems>
+        <triggerType>onCreateOrTriggeringUpdate</triggerType>
+    </rules>
+</Workflow>

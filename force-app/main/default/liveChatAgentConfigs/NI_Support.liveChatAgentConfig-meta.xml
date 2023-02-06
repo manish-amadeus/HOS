@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LiveChatAgentConfig xmlns="http://soap.sforce.com/2006/04/metadata">
+    <assignments>
+        <users>
+            <user>jmetivier@newmarketinc.com</user>
+            <user>kdodson@newmarketinc.com</user>
+            <user>sharris@newmarketinc.com</user>
+            <user>slepine@newmarketinc.com</user>
+            <user>salland@newmarketinc.com</user>
+            <user>semery@newmarketinc.com</user>
+        </users>
+    </assignments>
+    <autoGreeting>Hello, welcome to Newmarket International&apos;s Live Support Chat!</autoGreeting>
+    <capacity>3</capacity>
+    <disableTransferConferenceGreeting>false</disableTransferConferenceGreeting>
+    <enableAgentFileTransfer>true</enableAgentFileTransfer>
+    <enableAgentSneakPeek>false</enableAgentSneakPeek>
+    <enableAssistanceFlag>false</enableAssistanceFlag>
+    <enableAutoAwayOnDecline>false</enableAutoAwayOnDecline>
+    <enableAutoAwayOnPushTimeout>false</enableAutoAwayOnPushTimeout>
+    <enableChatConferencing>false</enableChatConferencing>
+    <enableChatMonitoring>true</enableChatMonitoring>
+    <enableChatTransferToAgent>true</enableChatTransferToAgent>
+    <enableChatTransferToButton>false</enableChatTransferToButton>
+    <enableChatTransferToSkill>true</enableChatTransferToSkill>
+    <enableLogoutSound>true</enableLogoutSound>
+    <enableNotifications>true</enableNotifications>
+    <enableRequestSound>true</enableRequestSound>
+    <enableSneakPeek>true</enableSneakPeek>
+    <enableVisitorBlocking>false</enableVisitorBlocking>
+    <enableWhisperMessage>true</enableWhisperMessage>
+    <label>NI Support</label>
+    <supervisorSkills>
+        <skill>Technical_Issues</skill>
+    </supervisorSkills>
+    <transferableSkills>
+        <skill>Technical_Issues</skill>
+    </transferableSkills>
+</LiveChatAgentConfig>

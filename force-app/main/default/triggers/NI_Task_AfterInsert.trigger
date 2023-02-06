@@ -2,33 +2,38 @@
 Name            : NI_Task_AfterInsert Trigger
 Author          : Sean Harris
 Created Date    : 11/30/2016
-Last Mod Date   : 07/23/2019
-Last Mod By     : Bhuleshwar Deshpande
+Last Mod Date   : 03/01/2022
+Last Mod By     : Sean Harris
 NICC Reference  : 
-Description     : Call the After Insert Methods in the NI_Task_TriggerHandler Class
-                : 
+Description     : 03/01/2022 - Added if/else block to skip code when new Case created via email-to-case 
                 : 
 ******************************************************************************************/
 trigger NI_Task_AfterInsert on Task (after insert) 
 {
-    // INTEGRATION - DO NOT ALTER!!! 
-    if (!NI_FUNCTIONS.bypassTriggerCode('WIN@PROACH'))
-    { 
-        INTGR_WinSN_Task_Handler WinSN = new INTGR_WinSN_Task_Handler();
-        WinSN.OnAfterInsert(Trigger.new); 
+    
+    if (NI_TriggerManager.bypassTriggersInvokedByCaseDML)
+    {
+        system.debug(' ***** NI_Task_AfterInsert WAS BYPASSED VIA NI_TriggerManager.bypassTriggersInvokedByCaseDML'); 
+    }
+    else
+    {         
+        
+        NI_TriggerBypassSwitches__c bpSwitch = NI_TriggerBypassSwitches__c.getOrgDefaults();
+        
+        if (!bpSwitch.Bypass_Winaproach_ON__c)
+        { 
+            INTGR_WinSN_Task_Handler WinSN = new INTGR_WinSN_Task_Handler();
+            WinSN.OnAfterInsert(Trigger.new); 
+        }
+        
+        if (!bpSwitch.Bypass_Task_ON__c)
+        {
+            NI_Task_TriggerHandler handler = new NI_Task_TriggerHandler(); 
+            handler.OnAfterInsert(Trigger.new);
+        }
+
     }
     
-    if (!NI_FUNCTIONS.bypassTriggerCode('TASK'))
-    {
-        try 
-        {
-        	NI_Task_TriggerHandler handler = new NI_Task_TriggerHandler(); 
-        	handler.OnAfterInsert(Trigger.new);
-        }
-        catch(Exception e)
-        {
-            system.debug('Exception found : '+e);
-        }
-    }
-    system.debug('** Task OnAfterInsert Limits.getQueries() : ' + Limits.getQueries());
+    system.debug(' ***** NI_Task_AfterInsert SUMMARY: Limits.getQueries() = ' + Limits.getQueries()); 
+    
 }

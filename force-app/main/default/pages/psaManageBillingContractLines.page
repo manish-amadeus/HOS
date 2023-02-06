@@ -122,11 +122,6 @@
             </apex:pageBlockSection>
     	</apex:pageBlock>
 
-        <!-- Sample Instructions -->
-        <!--  <apex:outputText rendered="{!!bcExists || !loadError}">
-                <div class="alert-box notice"><span>Step 1: </span>Instructions go here.</div>
-        </apex:outputText> -->
-
     	<apex:pageBlock id="open_pb" title="Open Billing Lines">
             <apex:pageMessages />
     	    <apex:pageBlockButtons location="top">

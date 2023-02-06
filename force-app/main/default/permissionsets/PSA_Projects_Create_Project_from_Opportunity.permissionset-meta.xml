@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PermissionSet xmlns="http://soap.sforce.com/2006/04/metadata">
+    <classAccesses>
+        <apexClass>pse__CreateProjectFromOpportunityController</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>pse__CreateProjectFromOpportunityFormBean</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>pse__CreateProjectFromOpportunityService</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <description>For project office staff</description>
+    <hasActivationRequired>false</hasActivationRequired>
+    <label>PSA Projects - Create Project from Opportunity</label>
+    <license>Salesforce</license>
+    <userPermissions>
+        <enabled>true</enabled>
+        <name>AllowViewKnowledge</name>
+    </userPermissions>
+    <userPermissions>
+        <enabled>true</enabled>
+        <name>ShareFilesWithNetworks</name>
+    </userPermissions>
+</PermissionSet>
