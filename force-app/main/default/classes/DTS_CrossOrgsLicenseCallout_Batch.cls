@@ -2,7 +2,7 @@
 Name            : DTS_CrossOrgsLicenseCallout_Batch Class
 Author          : Arul Geetha Amalraj
 Created Date    : 12/02/2020
-Last Mod Date   : 
+Last Mod Date   : 02/22/2023
 Last Mod By     : 
 NICC Reference  : NICC-046831
 Description     : Callout to the connected Amadeus Cross Orgs to pull UserLicenses,PermissionSet Licenses, Usage Based Entitlements.
