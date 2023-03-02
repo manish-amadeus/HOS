@@ -2,6 +2,10 @@
 <SecuritySettings xmlns="http://soap.sforce.com/2006/04/metadata">
     <canUsersGrantLoginAccess>true</canUsersGrantLoginAccess>
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+    <enableAdminLoginAsAnyUser>false</enableAdminLoginAsAnyUser>
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
 =======
     <enableAdminLoginAsAnyUser>false</enableAdminLoginAsAnyUser>
 >>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
@@ -750,6 +754,10 @@ Amadeus Network_Portsmouth</description>
     <sessionSettings>
         <allowUserAuthenticationByCertificate>false</allowUserAuthenticationByCertificate>
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+        <allowUserCertBasedAuthenticationWithOcspValidation>false</allowUserCertBasedAuthenticationWithOcspValidation>
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
 =======
         <allowUserCertBasedAuthenticationWithOcspValidation>false</allowUserCertBasedAuthenticationWithOcspValidation>
 >>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
@@ -767,7 +775,11 @@ Amadeus Network_Portsmouth</description>
         <enableClickjackSetup>true</enableClickjackSetup>
         <enableCoepHeader>false</enableCoepHeader>
 <<<<<<< HEAD
+<<<<<<< HEAD
         <enableContentSniffingProtection>false</enableContentSniffingProtection>
+=======
+        <enableContentSniffingProtection>true</enableContentSniffingProtection>
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
 =======
         <enableContentSniffingProtection>true</enableContentSniffingProtection>
 >>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
@@ -787,7 +799,11 @@ Amadeus Network_Portsmouth</description>
         <hasRetainedLoginHints>false</hasRetainedLoginHints>
         <hasUserSwitching>true</hasUserSwitching>
 <<<<<<< HEAD
+<<<<<<< HEAD
         <identityConfirmationOnEmailChange>true</identityConfirmationOnEmailChange>
+=======
+        <identityConfirmationOnEmailChange>false</identityConfirmationOnEmailChange>
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
 =======
         <identityConfirmationOnEmailChange>false</identityConfirmationOnEmailChange>
 >>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
@@ -802,7 +818,11 @@ Amadeus Network_Portsmouth</description>
         <referrerPolicy>true</referrerPolicy>
         <requireHttpOnly>false</requireHttpOnly>
 <<<<<<< HEAD
+<<<<<<< HEAD
         <sessionTimeout>FifteenMinutes</sessionTimeout>
+=======
+        <sessionTimeout>TwelveHours</sessionTimeout>
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
 =======
         <sessionTimeout>TwelveHours</sessionTimeout>
 >>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a

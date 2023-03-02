@@ -1,0 +1,283 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ApprovalProcess xmlns="http://soap.sforce.com/2006/04/metadata">
+    <active>false</active>
+    <allowRecall>true</allowRecall>
+    <allowedSubmitters>
+        <type>creator</type>
+    </allowedSubmitters>
+    <approvalPageFields>
+        <field>Name</field>
+        <field>Account__c</field>
+        <field>Owner</field>
+        <field>Anticipated_Revenue_Loss__c</field>
+        <field>Cancellation_Notes__c</field>
+        <field>Cancel_Renewal_By_Date__c</field>
+        <field>Competitor_Lost_To__c</field>
+        <field>Activity_Line_Item__c</field>
+        <field>Account_Number__c</field>
+        <field>Product__c</field>
+        <field>Renewal_Cancellation_Quantity__c</field>
+        <field>Renewal_Cancellation_Requester__c</field>
+    </approvalPageFields>
+    <approvalStep>
+        <allowDelegate>false</allowDelegate>
+        <assignedApprover>
+            <approver>
+                <name>Renewal_Cancellation_Requester__c</name>
+                <type>relatedUserField</type>
+            </approver>
+            <whenMultipleApprovers>FirstResponse</whenMultipleApprovers>
+        </assignedApprover>
+        <entryCriteria>
+            <formula>AND (
+    Days_Late__c &gt;= 1, 
+    Days_Late__c &lt;= 10, 
+    OR (
+        ISPICKVAL(Product2__r.Product_Line_Global__c, &quot;Delphi.fdc&quot;),
+        ISPICKVAL(Product2__r.Product_Line_Global__c, &quot;Libra&quot;),
+        ISPICKVAL(Product2__r.Product_Line_Global__c, &quot;HRM&quot;)
+    )
+)</formula>
+        </entryCriteria>
+        <ifCriteriaNotMet>GotoNextStep</ifCriteriaNotMet>
+        <label>SFDC 0-10 Days Past Cancellation Required Date</label>
+        <name>SFDC_0_10_Days_Past_Cancellation_Required_Date</name>
+    </approvalStep>
+    <approvalStep>
+        <allowDelegate>false</allowDelegate>
+        <assignedApprover>
+            <approver>
+                <name>Renewal_Cancellation_Requester__c</name>
+                <type>relatedUserField</type>
+            </approver>
+            <whenMultipleApprovers>FirstResponse</whenMultipleApprovers>
+        </assignedApprover>
+        <entryCriteria>
+            <formula>AND (
+    Days_Late__c &gt;= 11, 
+    Days_Late__c &lt;= 20, 
+    OR (
+        ISPICKVAL(Product2__r.Product_Line_Global__c, &quot;Delphi.fdc&quot;),
+        ISPICKVAL(Product2__r.Product_Line_Global__c, &quot;Libra&quot;),
+        ISPICKVAL(Product2__r.Product_Line_Global__c, &quot;HRM&quot;)
+    )
+)</formula>
+        </entryCriteria>
+        <ifCriteriaNotMet>GotoNextStep</ifCriteriaNotMet>
+        <label>SFDC 11-20 Days Past Cancellation Required Date</label>
+        <name>SFDC_11_20_Days_Past_Cancellation_Required_Date</name>
+        <rejectBehavior>
+            <type>RejectRequest</type>
+        </rejectBehavior>
+    </approvalStep>
+    <approvalStep>
+        <allowDelegate>false</allowDelegate>
+        <assignedApprover>
+            <approver>
+                <name>Renewal_Cancellation_Requester__c</name>
+                <type>relatedUserField</type>
+            </approver>
+            <whenMultipleApprovers>FirstResponse</whenMultipleApprovers>
+        </assignedApprover>
+        <entryCriteria>
+            <formula>AND (
+    Days_Late__c &gt;= 21, 
+    Days_Late__c &lt;= 55, 
+    OR (
+        ISPICKVAL(Product2__r.Product_Line_Global__c, &quot;Delphi.fdc&quot;),
+        ISPICKVAL(Product2__r.Product_Line_Global__c, &quot;Libra&quot;),
+        ISPICKVAL(Product2__r.Product_Line_Global__c, &quot;HRM&quot;)
+    )
+)</formula>
+        </entryCriteria>
+        <ifCriteriaNotMet>GotoNextStep</ifCriteriaNotMet>
+        <label>SFDC 21-55 Days Past Cancellation Required Date</label>
+        <name>SFDC_21_55_Days_Past_Cancellation_Required_Date</name>
+        <rejectBehavior>
+            <type>RejectRequest</type>
+        </rejectBehavior>
+    </approvalStep>
+    <approvalStep>
+        <allowDelegate>false</allowDelegate>
+        <assignedApprover>
+            <approver>
+                <name>Renewal_Cancellation_Requester__c</name>
+                <type>relatedUserField</type>
+            </approver>
+            <whenMultipleApprovers>FirstResponse</whenMultipleApprovers>
+        </assignedApprover>
+        <entryCriteria>
+            <formula>AND (
+    Days_Late__c &gt; 55,
+    OR (
+        ISPICKVAL(Product2__r.Product_Line_Global__c, &quot;Delphi.fdc&quot;),
+        ISPICKVAL(Product2__r.Product_Line_Global__c, &quot;Libra&quot;),
+        ISPICKVAL(Product2__r.Product_Line_Global__c, &quot;HRM&quot;)
+    )
+)</formula>
+        </entryCriteria>
+        <ifCriteriaNotMet>GotoNextStep</ifCriteriaNotMet>
+        <label>SFDC &gt;55 Days Past Cancellation Required Date</label>
+        <name>SFDC_55_Days_Past_Cancellation_Required_Date</name>
+        <rejectBehavior>
+            <type>RejectRequest</type>
+        </rejectBehavior>
+    </approvalStep>
+    <approvalStep>
+        <allowDelegate>false</allowDelegate>
+        <assignedApprover>
+            <approver>
+                <name>Renewal_Cancellation_Requester__c</name>
+                <type>relatedUserField</type>
+            </approver>
+            <whenMultipleApprovers>FirstResponse</whenMultipleApprovers>
+        </assignedApprover>
+        <entryCriteria>
+            <formula>AND (
+    Days_Late__c &gt;= 1, 
+    Days_Late__c &lt;= 5, 
+    NOT(ISPICKVAL(Product2__r.Product_Line_Global__c, &quot;Delphi.fdc&quot;)),
+    NOT(ISPICKVAL(Product2__r.Product_Line_Global__c, &quot;Libra&quot;)),
+    NOT(ISPICKVAL(Product2__r.Product_Line_Global__c, &quot;HRM&quot;))
+)</formula>
+        </entryCriteria>
+        <ifCriteriaNotMet>GotoNextStep</ifCriteriaNotMet>
+        <label>NON SFDC 1-5 Days Past Cancellation Required Date</label>
+        <name>NON_SFDC_1_5_Days_Past_Cancellation_Required_Date</name>
+        <rejectBehavior>
+            <type>RejectRequest</type>
+        </rejectBehavior>
+    </approvalStep>
+    <approvalStep>
+        <allowDelegate>false</allowDelegate>
+        <assignedApprover>
+            <approver>
+                <name>Renewal_Cancellation_Requester__c</name>
+                <type>relatedUserField</type>
+            </approver>
+            <whenMultipleApprovers>FirstResponse</whenMultipleApprovers>
+        </assignedApprover>
+        <entryCriteria>
+            <formula>AND (
+    Days_Late__c &gt;= 6, 
+    Days_Late__c &lt;= 25, 
+    NOT(ISPICKVAL(Product2__r.Product_Line_Global__c, &quot;Delphi.fdc&quot;)),
+    NOT(ISPICKVAL(Product2__r.Product_Line_Global__c, &quot;Libra&quot;)),
+    NOT(ISPICKVAL(Product2__r.Product_Line_Global__c, &quot;HRM&quot;))
+)</formula>
+        </entryCriteria>
+        <ifCriteriaNotMet>GotoNextStep</ifCriteriaNotMet>
+        <label>NON SFDC 6-25 Days Past Cancellation Required Date</label>
+        <name>NON_SFDC_6_25_Days_Past_Cancellation_Required_Date</name>
+        <rejectBehavior>
+            <type>RejectRequest</type>
+        </rejectBehavior>
+    </approvalStep>
+    <approvalStep>
+        <allowDelegate>false</allowDelegate>
+        <assignedApprover>
+            <approver>
+                <name>Renewal_Cancellation_Requester__c</name>
+                <type>relatedUserField</type>
+            </approver>
+            <whenMultipleApprovers>FirstResponse</whenMultipleApprovers>
+        </assignedApprover>
+        <entryCriteria>
+            <formula>AND (
+    Days_Late__c &gt; 25,
+    NOT(ISPICKVAL(Product2__r.Product_Line_Global__c, &quot;Delphi.fdc&quot;)),
+    NOT(ISPICKVAL(Product2__r.Product_Line_Global__c, &quot;Libra&quot;)),
+    NOT(ISPICKVAL(Product2__r.Product_Line_Global__c, &quot;HRM&quot;))
+)</formula>
+        </entryCriteria>
+        <ifCriteriaNotMet>ApproveRecord</ifCriteriaNotMet>
+        <label>NON SFDC &gt;25 Days Past Cancellation Required Date</label>
+        <name>NON_SFDC_25_Days_Past_Cancellation_Required_Date</name>
+        <rejectBehavior>
+            <type>RejectRequest</type>
+        </rejectBehavior>
+    </approvalStep>
+    <approvalStep>
+        <allowDelegate>false</allowDelegate>
+        <assignedApprover>
+            <approver>
+                <name>prantilla@newmarketinc.com</name>
+                <type>user</type>
+            </approver>
+            <whenMultipleApprovers>FirstResponse</whenMultipleApprovers>
+        </assignedApprover>
+        <entryCriteria>
+            <formula>Days_Late__c &gt; 10</formula>
+        </entryCriteria>
+        <label>Final Approval</label>
+        <name>Final_Approval</name>
+        <rejectBehavior>
+            <type>RejectRequest</type>
+        </rejectBehavior>
+    </approvalStep>
+    <description>NICC-027857</description>
+    <emailTemplate>Cancellations/Late_Cx_approval_needed_Sales_Executive</emailTemplate>
+    <enableMobileDeviceAccess>false</enableMobileDeviceAccess>
+    <entryCriteria>
+        <criteriaItems>
+            <field>NI_Cancellation__c.Late_Cancellation__c</field>
+            <operation>equals</operation>
+            <value>True</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>NI_Cancellation__c.Effective_Date__c</field>
+            <operation>greaterThan</operation>
+            <value>TODAY</value>
+        </criteriaItems>
+    </entryCriteria>
+    <finalApprovalActions>
+        <action>
+            <name>Create_Case_from_Cancellation</name>
+            <type>FieldUpdate</type>
+        </action>
+        <action>
+            <name>Late_Cancellation_Approval_Email_to_Record_Creator</name>
+            <type>Alert</type>
+        </action>
+        <action>
+            <name>Notify_Finance_Biling_of_approved_late_cancellation</name>
+            <type>Alert</type>
+        </action>
+        <action>
+            <name>Update_Late_Cancellation_Approved</name>
+            <type>FieldUpdate</type>
+        </action>
+        <action>
+            <name>Update_Late_Cx_Approved_Date</name>
+            <type>FieldUpdate</type>
+        </action>
+        <action>
+            <name>Update_to_Flagged_for_Cancellation</name>
+            <type>FieldUpdate</type>
+        </action>
+    </finalApprovalActions>
+    <finalApprovalRecordLock>false</finalApprovalRecordLock>
+    <finalRejectionActions>
+        <action>
+            <name>Late_Cancellation_Not_Approved</name>
+            <type>FieldUpdate</type>
+        </action>
+        <action>
+            <name>Late_Cancellation_Rejected_Email_to_Record_Creator</name>
+            <type>Alert</type>
+        </action>
+        <action>
+            <name>Set_Status_to_Late_Cancellation_Rejected</name>
+            <type>FieldUpdate</type>
+        </action>
+        <action>
+            <name>Update_late_cx_rejected_date</name>
+            <type>FieldUpdate</type>
+        </action>
+    </finalRejectionActions>
+    <finalRejectionRecordLock>false</finalRejectionRecordLock>
+    <label>Late CXL - Effective Date &gt; TODAY</label>
+    <processOrder>1</processOrder>
+    <recordEditability>AdminOnly</recordEditability>
+    <showApprovalHistory>true</showApprovalHistory>
+</ApprovalProcess>

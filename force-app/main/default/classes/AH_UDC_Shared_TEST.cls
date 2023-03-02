@@ -19,7 +19,11 @@ public class AH_UDC_Shared_TEST {
    @TestSetup private static void setup() {
       AH_UDC_InitializationHelper.Initialize('ConfigurationSettings');
 <<<<<<< HEAD
+<<<<<<< HEAD
 
+=======
+      AH_UDC_Shared.InitializeFormTokenEncryptionKey();
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
 =======
       AH_UDC_Shared.InitializeFormTokenEncryptionKey();
 >>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
@@ -34,7 +38,11 @@ public class AH_UDC_Shared_TEST {
 
       //Insert into Account object
 <<<<<<< HEAD
+<<<<<<< HEAD
       AH_UDC_PropertyAccount__c objProperty = AH_UDC_TestData.GetPropertyObject('UDC Test Account 2', 'Portsmouth', 'US','03801', 'NH', '75 New Hampshire Ave', '3410 Via Mercato, St 105');
+=======
+      AH_UDC_PropertyAccount__c objProperty = AH_UDC_TestData.GetPropertyObject('UDC Test Account 2', 'Portsmouth', 'US', '03801', 'NH', '75 New Hampshire Ave', '3410 Via Mercato, St 105');
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
 =======
       AH_UDC_PropertyAccount__c objProperty = AH_UDC_TestData.GetPropertyObject('UDC Test Account 2', 'Portsmouth', 'US', '03801', 'NH', '75 New Hampshire Ave', '3410 Via Mercato, St 105');
 >>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
@@ -138,11 +146,14 @@ public class AH_UDC_Shared_TEST {
    public static void testGetSecurityCode()
    {
 <<<<<<< HEAD
+<<<<<<< HEAD
       Test.startTest();
       String s = AH_UDC_Shared.GetSecurityCode();
       System.assertEquals(false, String.isEmpty(s), 'A security code was expected but was instead null or empty');
       System.assertEquals(72, s.length(), 'A security code of length 72 was expected');
 =======
+=======
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
       List<User> lstSystemAdminUser = [SELECT Id FROM User WHERE Username = :('test' + UDC_SYSTEM_ADMIN + '@amadeus.com')];
       System.assert(lstSystemAdminUser.size() > 0, 'System Admin users could not be found.');
       Test.startTest();
@@ -170,6 +181,9 @@ public class AH_UDC_Shared_TEST {
          System.assertEquals('a0w290000022Yu5AAE', token.FormId, 'FormId did not match');
          System.assertEquals('a1029000002cpToAAI', token.StepId, 'StepId did not match');
       }
+<<<<<<< HEAD
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
+=======
 >>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
       Test.stopTest();
    }
@@ -177,6 +191,7 @@ public class AH_UDC_Shared_TEST {
    @IsTest
    public static void testCharAt()
    {
+<<<<<<< HEAD
 <<<<<<< HEAD
       Test.startTest();
       String s = AH_UDC_Shared.charAt(null, 1);
@@ -188,6 +203,8 @@ public class AH_UDC_Shared_TEST {
       s = AH_UDC_Shared.charAt('123', 7);
       System.assertEquals(null, s, 'Expected CharAt to return null string');
 =======
+=======
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
       List<User> lstSystemAdminUser = [SELECT Id FROM User WHERE Username = :('test' + UDC_SYSTEM_ADMIN + '@amadeus.com')];
       System.assert(lstSystemAdminUser.size() > 0, 'System Admin users could not be found.');
       Test.startTest();
@@ -201,6 +218,9 @@ public class AH_UDC_Shared_TEST {
          s = AH_UDC_Shared.charAt('123', 7);
          System.assertEquals(null, s, 'Expected CharAt to return null string');
       }
+<<<<<<< HEAD
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
+=======
 >>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
       Test.stopTest();
    }
@@ -270,6 +290,7 @@ public class AH_UDC_Shared_TEST {
    public static void testAmadeusFormDefinition()
    {
       Test.startTest();
+<<<<<<< HEAD
 <<<<<<< HEAD
       String definitionAF = '{"product":"","formulas":[{"type":"hide","formula":"{product} == \'SO\'","formulafields":"product","ids":"UDC10"}],"sections":[{"title":"Floors","apiname":"UDC0","gridview":"false","inline":"true","scrollable":"true","insidesections":[{"title":"Rooms","apiname":"UDC1","gridview":"true","scrollable":"true","fields":[{"title":"Room #","name":"UDC2","type":"number","width":"200","labelabove":"true","tooltip":"Room Number","defaultvalue":"","placeholder":"Room Number","validation":{"required":"true","maxlength":"6","minlength":"3","onlynumber":"true"}},{"type":"dropdown","name":"UDC3","title":"Room Type","width":120,"source":[],"autocomplete":true,"dynamicsource":{"formid":"a0w290000022FyNAAU","formfield":"tfa_1"}},{"type":"dropdown","name":"UDC4","title":"Floor no.","width":120,"source":[],"autocomplete":true,"dynamicsource":{"formid":"a0w290000022HTrAAM","formfield":"tfa_11"}},{"title":"Room Code","name":"UDC5","type":"text","width":"200","labelabove":"true","tooltip":"Room Code","defaultvalue":""},{"title":"Extension","name":"UDC6","type":"text","width":"200","labelabove":"true","tooltip":"Extension","defaultvalue":"","placeholder":"Extension"}]}],"fields":[{"title":"Floor #","name":"UDC7","type":"text","width":"200","labelabove":"true","tooltip":"Floor Number","defaultvalue":"","placeholder":"Floor Number"},{"width":"200","validation":null,"type":"dropdown","tooltip":"Floor No?","title":"Floor No?","source":[{"name":"Yes","id":"UDC8-0"},{"name":"No","id":"UDC8-1"}],"placeholder":"","name":"UDC8","labelabove":"true","formulas":[{"type":"hide","formula":"{UDC8} == \'UDC8-1\'","formulafields":"UDC8","ids":"UDC4"}]},{"title":"Total Rooms","name":"UDC9","type":"dropdown","width":"200","labelabove":"true","tooltip":"Total Rooms","source":[],"dynamicsource":{"formid":"a0w290000022FyNAAU","formfield":"tfa_1"}},{"title":"Show multiple columns?","name":"UDC10","type":"radiogroup","width":"200","labelabove":"true","tooltip":"Show multiple columns?","defaultvalue":"UDC10-0","placeholder":"","source":[{"id":"UDC10-0","name":"Yes"},{"id":"UDC10-1","name":"No"}]},{"title":"Dynamic RoomType?","name":"UDC11","type":"radiogroup","width":"200","labelabove":"true","tooltip":"Do you have Rooms?","defaultvalue":"no","placeholder":"","source":[{"id":"UDC11-0","name":"Yes"},{"id":"UDC11-1","name":"No"}],"dynamicsource":{"formid":"a0w290000022FyNAAU","formfield":"tfa_10"}}]}]}';
       AH_UDC_Shared.AmadeusFormDefinition amadeusFormDefinition = (AH_UDC_Shared.AmadeusFormDefinition) JSON.deserialize(definitionAF, AH_UDC_Shared.AmadeusFormDefinition.class);
@@ -398,6 +419,8 @@ public class AH_UDC_Shared_TEST {
       System.assertEquals(1, lstDynamicRadioGroup.size(), 'AmadeusFormDefinition for step2 should have 1 dynamic radiogroup');
 
 =======
+=======
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
       List<User> lstUser = [SELECT Id FROM User WHERE Username = :('Test' + UDC_COMMUNITY_USER_NO_CHATTER + '@amadeus.com' + AH_UDC_Constants.DEFAULT_COMMUNITY_USER_NAME_POSTFIX)];
       System.assert(lstUser.size() > 0, 'User could not be found.');
 
@@ -554,6 +577,9 @@ public class AH_UDC_Shared_TEST {
          field = formDefinition.getFieldByName('Default');
          System.assertEquals('tfa_54', field.APIName, 'APIName should match');
       }
+<<<<<<< HEAD
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
+=======
 >>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
       Test.stopTest();
    }
@@ -583,7 +609,11 @@ public class AH_UDC_Shared_TEST {
 
          Boolean token = AH_UDC_Shared.InitializeFormTokenEncryptionKey();
 <<<<<<< HEAD
+<<<<<<< HEAD
          System.assertEquals(false, token, 'Form token encryption key could not valid');
+=======
+         System.assertEquals(true, token, 'Form token encryption key could not valid');
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
 =======
          System.assertEquals(true, token, 'Form token encryption key could not valid');
 >>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
@@ -613,7 +643,11 @@ public class AH_UDC_Shared_TEST {
       System.runAs(lstUser[0]) {
          Boolean hasAccess = AH_UDC_SharedWithoutSharing.SetupCommunityAccess(lstContactWithoutExternalUser[0].Id);
 <<<<<<< HEAD
+<<<<<<< HEAD
          //System.assert(hasAccess, 'Unable to setup community access');
+=======
+         System.assert(hasAccess, 'Unable to setup community access');
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
 =======
          System.assert(hasAccess, 'Unable to setup community access');
 >>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
@@ -635,7 +669,11 @@ public class AH_UDC_Shared_TEST {
          //Change the external user profile
          Boolean isChanged = AH_UDC_SharedWithoutSharing.ChangeUserProfileToChatter(UserInfo.getUserId());
 <<<<<<< HEAD
+<<<<<<< HEAD
          //System.assertEquals(true, isChanged, 'External User profile was not changed');
+=======
+         System.assertEquals(true, isChanged, 'External User profile was not changed');
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
 =======
          System.assertEquals(true, isChanged, 'External User profile was not changed');
 >>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
@@ -647,6 +685,12 @@ public class AH_UDC_Shared_TEST {
    private static void testCreateStepToken() {
       Test.startTest();
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+      List<User> lstUser = [SELECT Id FROM User WHERE Username = :('Test' + UDC_COMMUNITY_USER_NO_CHATTER + '@amadeus.com' + AH_UDC_Constants.DEFAULT_COMMUNITY_USER_NAME_POSTFIX)];
+      System.assert(lstUser.size() > 0, 'User could not be found.');
+
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
 =======
       List<User> lstUser = [SELECT Id FROM User WHERE Username = :('Test' + UDC_COMMUNITY_USER_NO_CHATTER + '@amadeus.com' + AH_UDC_Constants.DEFAULT_COMMUNITY_USER_NAME_POSTFIX)];
       System.assert(lstUser.size() > 0, 'User could not be found.');
@@ -669,15 +713,21 @@ public class AH_UDC_Shared_TEST {
       objForm.FormAssemblyId__c = String.valueOf(intFormAssemblyId);
       insert objForm;
 <<<<<<< HEAD
+<<<<<<< HEAD
       
       Id workbookStepRecordTypeId = Schema.SObjectType.AH_UDC_WorkbookStep__c.getRecordTypeInfosByDeveloperName().get(AH_UDC_Constants.RECORD_TYPE_WORKBOOK_STEP).getRecordTypeId();
       System.assert(String.isNotBlank(String.valueOf(workbookStepRecordTypeId)), 'Record Type not found - ' + AH_UDC_Constants.RECORD_TYPE_WORKBOOK_STEP);
       
 =======
+=======
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
 
       Id workbookStepRecordTypeId = Schema.SObjectType.AH_UDC_WorkbookStep__c.getRecordTypeInfosByDeveloperName().get(AH_UDC_Constants.RECORD_TYPE_WORKBOOK_STEP).getRecordTypeId();
       System.assert(String.isNotBlank(String.valueOf(workbookStepRecordTypeId)), 'Record Type not found - ' + AH_UDC_Constants.RECORD_TYPE_WORKBOOK_STEP);
 
+<<<<<<< HEAD
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
+=======
 >>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
       AH_UDC_WorkbookStep__c objWorkbookStep = new AH_UDC_WorkbookStep__c();
       objWorkbookStep.RecordTypeId = workbookStepRecordTypeId;
@@ -688,6 +738,7 @@ public class AH_UDC_Shared_TEST {
       insert objWorkbookStep;
 
 <<<<<<< HEAD
+<<<<<<< HEAD
       List<AH_UDC_WorkbookStep__c> lstWorkbookSteps = [SELECT Workbook__r.SecurityCode__c, Form__c
                                                       FROM AH_UDC_WorkbookStep__c
                                                       WHERE Id = :objWorkbookStep.Id];
@@ -696,6 +747,8 @@ public class AH_UDC_Shared_TEST {
       String strToken = AH_UDC_Shared.CreateStepToken(lstWorkbookSteps[0].Workbook__r.SecurityCode__c, lstWorkbookSteps[0].Form__c);
       System.assert(String.isNotBlank(strToken), 'Step token not generated');
 =======
+=======
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
       List<AH_UDC_WorkbookStep__c> lstWorkbookSteps = [SELECT Id, Workbook__r.SecurityCode__c, Form__c
                                                        FROM AH_UDC_WorkbookStep__c
                                                        WHERE Id = :objWorkbookStep.Id];
@@ -723,6 +776,9 @@ public class AH_UDC_Shared_TEST {
          System.assertEquals(true, String.isBlank(newToken.FormId), 'FormId should be blank');
          System.assertEquals(true, String.isBlank(newToken.StepId), 'StepId should be blank');
       }
+<<<<<<< HEAD
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
+=======
 >>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
       Test.stopTest();
    }
@@ -731,11 +787,14 @@ public class AH_UDC_Shared_TEST {
    private static void testGetFieldByName() {
       Test.startTest();
 <<<<<<< HEAD
+<<<<<<< HEAD
       String strJSON = '{"title":"Test Form","FormAssemblyId":"4853750","CustomUrlId":"4853750","fields":[{"Name":"Security Code","APIName":"tfa_1","Repeat":"","Picklist":"false","InputType":"Text"},{"Name":"Token","APIName":"tfa_2","Repeat":"","Picklist":"false","InputType":"Text"}]}';
       AH_UDC_Shared.FormDefinition objFormDefinition = (AH_UDC_Shared.FormDefinition) JSON.deserialize(strJSON, AH_UDC_Shared.FormDefinition.class);
       String strAPIName = objFormDefinition.getFieldByName('Security Code').APIName;
       System.assertEquals('tfa_1', strAPIName, 'Step token not generated');
 =======
+=======
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
       List<User> lstUser = [SELECT Id FROM User WHERE Username = :('Test' + UDC_COMMUNITY_USER_NO_CHATTER + '@amadeus.com' + AH_UDC_Constants.DEFAULT_COMMUNITY_USER_NAME_POSTFIX)];
       System.assert(lstUser.size() > 0, 'User could not be found.');
       System.runAs(lstUser[0]) {
@@ -744,6 +803,9 @@ public class AH_UDC_Shared_TEST {
          String strAPIName = objFormDefinition.getFieldByName('Security Code').APIName;
          System.assertEquals('tfa_1', strAPIName, 'Step token not generated');
       }
+<<<<<<< HEAD
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
+=======
 >>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
       Test.stopTest();
    }

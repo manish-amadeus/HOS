@@ -2,7 +2,11 @@
 <Flow xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <apiVersion>54.0</apiVersion>
 <<<<<<< HEAD
+<<<<<<< HEAD
     <description>NICC-057703; updated via NICC-062907; Screen flow to enable Creative Team members to enter time spent on a Creative Request</description>
+=======
+    <description>NICC-057703; Screen flow to enable Creative Team members to enter time and change Request Status from a single screen.</description>
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
 =======
     <description>NICC-057703; Screen flow to enable Creative Team members to enter time and change Request Status from a single screen.</description>
 >>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
@@ -43,6 +47,12 @@
         <locationX>478</locationX>
         <locationY>219</locationY>
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+        <faultConnector>
+            <targetReference>RecordUpdateErrorScreen</targetReference>
+        </faultConnector>
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
 =======
         <faultConnector>
             <targetReference>RecordUpdateErrorScreen</targetReference>
@@ -99,7 +109,10 @@
     </recordLookups>
     <screens>
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
+=======
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
         <name>RecordUpdateErrorScreen</name>
         <label>RecordUpdateErrorScreen</label>
         <locationX>660</locationX>
@@ -116,6 +129,9 @@
         <showHeader>false</showHeader>
     </screens>
     <screens>
+<<<<<<< HEAD
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
+=======
 >>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
         <name>TimeEntryRequestRecordUpdateScreen</name>
         <label>Time Entry and Request Record Update</label>

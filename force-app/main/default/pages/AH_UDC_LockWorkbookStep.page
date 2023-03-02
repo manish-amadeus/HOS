@@ -1,4 +1,5 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 <!---
     DESCRIPTION   : Workbook Step Sent Lock Page
     Created By    : Umang Ankleshwaria
@@ -106,6 +107,115 @@
          </script>
       </div>
    </apex:form>
+=======
+<!---
+    DESCRIPTION   : Workbook Step Sent Lock Page
+    Created By    : Umang Ankleshwaria
+    Created On    : 19-Apr-2021
+    Last Mod Date : 21-Apr-2021
+    Last Mod By   : Sanjay Parmar
+    User Story ID :
+    Change History:
+-->
+<apex:page standardcontroller="AH_UDC_WorkbookStep__c" extensions="AH_UDC_LockWorkbookStep" action="{!LockWorkbookStepSent}" cache="false" showheader="false" sidebar="false">
+   <apex:slds />
+   <style type="text/css">
+      .wrapword {
+         white-space: -moz-pre-wrap !important;
+         white-space: -webkit-pre-wrap;
+         white-space: -pre-wrap;
+         white-space: -o-pre-wrap;
+         white-space: pre-wrap;
+         word-wrap: break-word;
+         word-break: break-all;
+         white-space: normal;
+      }
+
+      .slds-scope .slds-popover_prompt {
+         width: 26rem !important;
+      }
+   </style>
+
+   <apex:form >
+      <!-- Display error message and OK button in case of exception-->
+      <apex:outputPanel id="opErrorMessage">
+         <apex:pageblock title="{!$Label.AH_UDC_WorkbookStepLockTitleText}" rendered="{!IsErrorOccurred}">
+            <apex:pagemessages id="pageErrorMsg" />
+            <center>
+               <button class="slds-button slds-button_brand" onclick="closeAndRefresh(false); return false;" id="btnOK">{!$Label.AH_UDC_OK}</button>
+            </center>
+         </apex:pageblock>
+      </apex:outputPanel>
+      <!--This action function is used to log entries that occurred on loading of the page-->
+      <apex:actionfunction name="actionfunction_LogMessages" action="{!ServerLogMessages}" oncomplete="return false;" />
+
+      <div style="{!IF(IsErrorOccurred == false && IsWorkbookComplete == true, '', 'display:none;')}">
+         <section aria-describedby="dialog-body-id-98" aria-labelledby="dialog-heading-id-5" class="slds-popover slds-popover_prompt slds-popover_prompt_top popup-custom popup-custom-border" role="dialog" style="border-color: #0171C0; border-width: 4px; border-radius: 25px;">
+            <div class="slds-popover__body" id="dialog-body-id-989">
+               <div class="slds-media">
+                  <div class="slds-media__body">
+                     <p class="slds-text-align--center">{!$Label.AH_UDC_Lock_Workbook_Step_Sent_Workbook_Completed_Message_Text}</p>
+                  </div>
+               </div>
+            </div>
+            <div class="slds-grid slds-align_absolute-center">
+               <button class="slds-button slds-button_brand" onclick="javascript: closeAndRefresh(false);">{!$Label.AH_UDC_OK}</button>
+            </div>
+            <div class="slds-var-p-around_small"></div>
+         </section>
+      </div>
+      <div style="{!IF(IsErrorOccurred || IsStepNotCompleted == false || IsWorkbookComplete == true, 'display:none;', '')}">
+         <section aria-describedby="dialog-body-id-98" aria-labelledby="dialog-heading-id-5" class="slds-popover slds-popover_prompt slds-popover_prompt_top popup-custom popup-custom-border" role="dialog" style="border-color: #0171C0; border-width: 4px; border-radius: 25px;">
+            <div class="slds-popover__body" id="dialog-body-id-98">
+               <div class="slds-media">
+                  <div class="slds-media__body">
+                     <p class="slds-text-align--center wrapword">{!$Label.AH_UDC_LockWorkbookStepSent_LockedWorkbook_Message_Text}</p>
+                  </div>
+               </div>
+            </div>
+            <div class="slds-grid slds-align_absolute-center">
+               <button class="slds-button slds-button_brand" onclick="javascript: closeAndRefresh(false);">{!$Label.AH_UDC_OK}</button>
+            </div>
+            <div class="slds-var-p-around_small"></div>
+         </section>
+         <script type="text/javascript">
+            window.onload = function() {
+               if('{!HasPageLoadLogMessages}'.toLowerCase() == 'true') {
+                  //Log error messages if error occurred in constructor
+                  setTimeout(actionfunction_LogMessages, 500);
+               }
+               else if('{!IsErrorOccurred == false && IsStepNotCompleted == false && IsWorkbookComplete == false}'.toLowerCase() == 'true') {
+                  //If step is already locked then close window without refresh otherwise refresh the page
+                  closeAndRefresh(true);
+               }
+            }
+
+            //Redirect back to step record
+            function closeAndRefresh(flagRefresh) {
+               var id = "{!$CurrentPage.parameters.id}";
+               if((typeof sforce != 'undefined') && sforce && (!!sforce.one)) { //Lightning View
+                  if(flagRefresh) {
+                     //Refresh workbook record on click of Confirm button
+                     window.parent.location.href = "/" + id;
+                     //window.top.close();
+                  }
+                  else {
+                     //Do not refresh if cancel button clicked
+                     sforce.one.navigateToSObject(id);
+                  }
+               }
+               else { //Classic View
+                  if(flagRefresh) {
+                     //Refresh workbook record on click of Confirm button
+                     window.opener.location.href = "/" + id;
+                  }
+                  window.top.close();
+               }
+            }
+         </script>
+      </div>
+   </apex:form>
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
 =======
 <!---
     DESCRIPTION   : Workbook Step Sent Lock Page

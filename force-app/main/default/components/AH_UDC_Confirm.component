@@ -1,4 +1,5 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 <apex:component >
    <!-- Declare the attributes -->
    <apex:attribute name="attributeOnClickConfirm" description="JS function name to call on confirm button click" type="String" required="true" />
@@ -58,6 +59,67 @@
          </div>
       </apex:outputpanel>
    </div>
+=======
+<apex:component >
+   <!-- Declare the attributes -->
+   <apex:attribute name="attributeOnClickConfirm" description="JS function name to call on confirm button click" type="String" required="true" />
+   <apex:attribute name="attributeOnClickCancel" description="JS function name to call on cancel button click" type="String" required="true" />
+   <apex:attribute name="attributeWorkbook" description="Current Workbook" type="AH_UDC_CommunityWorkbook" required="true" />
+   <style type="text/css">
+      .slds-input {
+         margin-top: -4px !important;
+      }
+
+      .lbl-input {
+         display: inline-block;
+         margin-top: 5px;
+      }
+
+      .div {
+         width: 100%;
+      }
+      .tdSpacer {
+         width: 3px;
+      }
+
+      .tdLabel {
+         width: 120px;
+      }
+   </style>
+
+   <div id="divIntroduction">
+      <div>
+         <table>
+            <tr>
+               <td class="tdLabel"><label for="Name-input"><b>{!$Label.AH_UDC_Confirm_Label_Name}</b></label></td>
+               <td class="tdSpacer"></td>
+               <td><label id="Workbook-Name-input">{!attributeWorkbook.propertyInfo.name}</label></td>
+            </tr>
+            <tr>
+               <td class="tdLabel"><label for="Address-input"><b>{!$Label.AH_UDC_Confirm_Label_Address}</b></label></td>
+               <td class="tdSpacer"></td>
+               <td><label id="Address-input">{!attributeWorkbook.propertyInfo.address}</label></td>
+            </tr>
+            <tr>
+               <td class="tdLabel"><label for="Phone-input"><b>{!$Label.AH_UDC_Confirm_Label_Phone}</b></label></td>
+               <td class="tdSpacer"></td>
+               <td><label id="Phone-input">{!attributeWorkbook.propertyInfo.phone}</label></td>
+            </tr>
+         </table>
+      </div>
+      <apex:outputpanel rendered="{!attributeWorkbook.propertyInfo.isPropertyConfirmed==false}">
+         <br />
+         <div>
+            {!$Label.AH_UDC_Confirm_Prompt}
+         </div>
+         <br />
+         <div class="button-group">
+            <input type="button" class="udc-community-button" onclick="{!attributeOnClickConfirm}"  value="{!$Label.AH_UDC_Confirm}" />
+            <input type="button" class="udc-community-button" onclick="{!attributeOnClickCancel}" value="{!$Label.AH_UDC_Cancel}" />
+         </div>
+      </apex:outputpanel>
+   </div>
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
 =======
 <apex:component >
    <!-- Declare the attributes -->

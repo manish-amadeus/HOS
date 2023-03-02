@@ -30,7 +30,11 @@ public class AH_UDC_Security_TEST {
    @isTest
    static void isTest_Security() {
 <<<<<<< HEAD
+<<<<<<< HEAD
 
+=======
+      Test.startTest();
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
 =======
       Test.startTest();
 >>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
@@ -152,6 +156,10 @@ public class AH_UDC_Security_TEST {
          System.assertEquals(retValue, false, 'getIsStrictSecurityCheck() did not return the expected value');
       }
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+      Test.stopTest();
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
 =======
       Test.stopTest();
 >>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
@@ -162,7 +170,11 @@ public class AH_UDC_Security_TEST {
       String objectTypeName = 'Rfp__c';
       String fieldName = 'Status__c';
 <<<<<<< HEAD
+<<<<<<< HEAD
 
+=======
+      Test.startTest();
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
 =======
       Test.startTest();
 >>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
@@ -178,6 +190,10 @@ public class AH_UDC_Security_TEST {
          System.assert(false, 'An unexpected exception type occurred while trying to test an Insufficient Privileges Exception');
       }
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+      Test.stopTest();
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
 =======
       Test.stopTest();
 >>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a

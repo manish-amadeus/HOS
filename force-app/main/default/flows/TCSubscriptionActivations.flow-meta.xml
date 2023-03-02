@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Flow xmlns="http://soap.sforce.com/2006/04/metadata">
 <<<<<<< HEAD
+<<<<<<< HEAD
     <apiVersion>50.0</apiVersion>
     <assignments>
         <name>AddtoCollection</name>
@@ -24,12 +25,17 @@
         <locationX>741</locationX>
         <locationY>465</locationY>
 =======
+=======
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
     <apiVersion>56.0</apiVersion>
     <assignments>
         <name>AssignNewSubscriptionRecord_0</name>
         <label>AssignNewSubscriptionRecord</label>
         <locationX>584</locationX>
         <locationY>423</locationY>
+<<<<<<< HEAD
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
+=======
 >>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
         <assignmentItems>
             <assignToReference>NewSubscriptionActivationRecord.Account__c</assignToReference>
@@ -50,7 +56,11 @@
             <operator>Assign</operator>
             <value>
 <<<<<<< HEAD
+<<<<<<< HEAD
                 <elementReference>ReviewTCSubscriptions.TCSubscription_Code__c</elementReference>
+=======
+                <elementReference>LoopGMSNonSubscriptionPkgMilestones.TCSubscription_Code__c</elementReference>
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
 =======
                 <elementReference>LoopGMSNonSubscriptionPkgMilestones.TCSubscription_Code__c</elementReference>
 >>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
@@ -68,7 +78,11 @@
             <operator>Assign</operator>
             <value>
 <<<<<<< HEAD
+<<<<<<< HEAD
                 <elementReference>ReviewTCSubscriptions.TCSubscription_Name__c</elementReference>
+=======
+                <elementReference>LoopGMSNonSubscriptionPkgMilestones.TCSubscription_Name__c</elementReference>
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
 =======
                 <elementReference>LoopGMSNonSubscriptionPkgMilestones.TCSubscription_Name__c</elementReference>
 >>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
@@ -93,7 +107,11 @@
             <operator>Assign</operator>
             <value>
 <<<<<<< HEAD
+<<<<<<< HEAD
                 <elementReference>GroupId</elementReference>
+=======
+                <elementReference>varGroupRecordFlow2.Id</elementReference>
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
 =======
                 <elementReference>varGroupRecordFlow2.Id</elementReference>
 >>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
@@ -110,6 +128,7 @@
             <assignToReference>NewSubscriptionActivationRecord.Opportunity__c</assignToReference>
             <operator>Assign</operator>
             <value>
+<<<<<<< HEAD
 <<<<<<< HEAD
                 <elementReference>OppId</elementReference>
             </value>
@@ -128,6 +147,11 @@
             </value>
         </assignmentItems>
 >>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
+=======
+                <elementReference>varOpportunityRecordFlow2.Id</elementReference>
+            </value>
+        </assignmentItems>
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
         <assignmentItems>
             <assignToReference>NewSubscriptionActivationColl</assignToReference>
             <operator>Add</operator>
@@ -136,6 +160,7 @@
             </value>
         </assignmentItems>
         <connector>
+<<<<<<< HEAD
 <<<<<<< HEAD
             <targetReference>LoopPkgMilestones</targetReference>
         </connector>
@@ -146,6 +171,8 @@
         <locationX>1338</locationX>
         <locationY>150</locationY>
 =======
+=======
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
             <targetReference>LoopGMSNonSubscriptionPkgMilestones</targetReference>
         </connector>
     </assignments>
@@ -154,6 +181,9 @@
         <label>New RES Subscription</label>
         <locationX>870</locationX>
         <locationY>459</locationY>
+<<<<<<< HEAD
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
+=======
 >>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
         <assignmentItems>
             <assignToReference>NewSubscriptionActivationRecord.Account__c</assignToReference>
@@ -170,6 +200,7 @@
             </value>
         </assignmentItems>
         <assignmentItems>
+<<<<<<< HEAD
 <<<<<<< HEAD
             <assignToReference>NewSubscriptionActivationRecord.CurrencyIsoCode</assignToReference>
             <operator>Assign</operator>
@@ -211,6 +242,8 @@
             <value>
                 <elementReference>LoopPkgMilestones.TCSubscription_Name__c</elementReference>
 =======
+=======
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
             <assignToReference>NewSubscriptionActivationRecord.Product_Code__c</assignToReference>
             <operator>Assign</operator>
             <value>
@@ -257,6 +290,9 @@
             <operator>Assign</operator>
             <value>
                 <elementReference>varGroupRecordFlow2.Id</elementReference>
+<<<<<<< HEAD
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
+=======
 >>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
             </value>
         </assignmentItems>
@@ -268,6 +304,7 @@
             </value>
         </assignmentItems>
         <assignmentItems>
+<<<<<<< HEAD
 <<<<<<< HEAD
             <assignToReference>NewSubscriptionActivationRecord.Region__c</assignToReference>
             <operator>Assign</operator>
@@ -292,6 +329,8 @@
         <locationX>933</locationX>
         <locationY>67</locationY>
 =======
+=======
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
             <assignToReference>NewSubscriptionActivationRecord.Opportunity__c</assignToReference>
             <operator>Assign</operator>
             <value>
@@ -354,6 +393,9 @@
         <label>Notes2SubscriptionMgmt</label>
         <locationX>392</locationX>
         <locationY>57</locationY>
+<<<<<<< HEAD
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
+=======
 >>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
         <defaultConnectorLabel>Blank</defaultConnectorLabel>
         <rules>
@@ -361,7 +403,11 @@
             <conditionLogic>and</conditionLogic>
             <conditions>
 <<<<<<< HEAD
+<<<<<<< HEAD
                 <leftValueReference>GetOppty.Notes_to_Subscription_Management__c</leftValueReference>
+=======
+                <leftValueReference>varOpportunityRecordFlow2.Notes_to_Subscription_Management__c</leftValueReference>
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
 =======
                 <leftValueReference>varOpportunityRecordFlow2.Notes_to_Subscription_Management__c</leftValueReference>
 >>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
@@ -380,8 +426,13 @@
         <name>ProjectType</name>
         <label>ProjectType</label>
 <<<<<<< HEAD
+<<<<<<< HEAD
         <locationX>754</locationX>
         <locationY>25</locationY>
+=======
+        <locationX>140</locationX>
+        <locationY>173</locationY>
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
 =======
         <locationX>140</locationX>
         <locationY>173</locationY>
@@ -392,7 +443,11 @@
             <conditionLogic>and</conditionLogic>
             <conditions>
 <<<<<<< HEAD
+<<<<<<< HEAD
                 <leftValueReference>GetGroup.Name</leftValueReference>
+=======
+                <leftValueReference>varGroupRecordFlow2.Name</leftValueReference>
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
 =======
                 <leftValueReference>varGroupRecordFlow2.Name</leftValueReference>
 >>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
@@ -403,7 +458,11 @@
             </conditions>
             <connector>
 <<<<<<< HEAD
+<<<<<<< HEAD
                 <targetReference>LoopOLI</targetReference>
+=======
+                <targetReference>LoopOppLineItems</targetReference>
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
 =======
                 <targetReference>LoopOppLineItems</targetReference>
 >>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
@@ -415,7 +474,11 @@
             <conditionLogic>and</conditionLogic>
             <conditions>
 <<<<<<< HEAD
+<<<<<<< HEAD
                 <leftValueReference>GetGroup.Name</leftValueReference>
+=======
+                <leftValueReference>varGroupRecordFlow2.Name</leftValueReference>
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
 =======
                 <leftValueReference>varGroupRecordFlow2.Name</leftValueReference>
 >>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
@@ -434,7 +497,11 @@
             <conditionLogic>and</conditionLogic>
             <conditions>
 <<<<<<< HEAD
+<<<<<<< HEAD
                 <leftValueReference>GetGroup.Name</leftValueReference>
+=======
+                <leftValueReference>varGroupRecordFlow2.Name</leftValueReference>
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
 =======
                 <leftValueReference>varGroupRecordFlow2.Name</leftValueReference>
 >>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
@@ -445,7 +512,11 @@
             </conditions>
             <connector>
 <<<<<<< HEAD
+<<<<<<< HEAD
                 <targetReference>GetPackageDetails</targetReference>
+=======
+                <targetReference>RESPackage</targetReference>
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
 =======
                 <targetReference>RESPackage</targetReference>
 >>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
@@ -457,7 +528,11 @@
             <conditionLogic>and</conditionLogic>
             <conditions>
 <<<<<<< HEAD
+<<<<<<< HEAD
                 <leftValueReference>GetGroup.Name</leftValueReference>
+=======
+                <leftValueReference>varGroupRecordFlow2.Name</leftValueReference>
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
 =======
                 <leftValueReference>varGroupRecordFlow2.Name</leftValueReference>
 >>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
@@ -467,15 +542,19 @@
                 </rightValue>
             </conditions>
 <<<<<<< HEAD
+<<<<<<< HEAD
             <connector>
                 <targetReference>CreateDIBundleProduct</targetReference>
             </connector>
+=======
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
 =======
 >>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
             <label>SO</label>
         </rules>
     </decisions>
     <decisions>
+<<<<<<< HEAD
 <<<<<<< HEAD
         <name>Subscriptions</name>
         <label>Subscriptions</label>
@@ -513,6 +592,8 @@
         <nextValueConnector>
             <targetReference>GetProduct</targetReference>
 =======
+=======
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
         <name>RES_Subscription</name>
         <label>RES Subscription</label>
         <locationX>1064</locationX>
@@ -549,6 +630,9 @@
         <iterationOrder>Asc</iterationOrder>
         <nextValueConnector>
             <targetReference>RES_Subscription</targetReference>
+<<<<<<< HEAD
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
+=======
 >>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
         </nextValueConnector>
         <noMoreValuesConnector>
@@ -556,6 +640,7 @@
         </noMoreValuesConnector>
     </loops>
     <loops>
+<<<<<<< HEAD
 <<<<<<< HEAD
         <name>LoopPkgMilestones</name>
         <label>LoopPkgMilestones</label>
@@ -580,6 +665,8 @@
         <nextValueConnector>
             <targetReference>Subscriptions</targetReference>
 =======
+=======
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
         <description>Loops through all of the Product Package Milestones for the GMS Product Package attached to the Product</description>
         <name>LoopGMSNonSubscriptionPkgMilestones</name>
         <label>LoopGMSNonSubscriptionPkgMilestones</label>
@@ -603,6 +690,9 @@
         <iterationOrder>Asc</iterationOrder>
         <nextValueConnector>
             <targetReference>GMSProductTypeDecision</targetReference>
+<<<<<<< HEAD
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
+=======
 >>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
         </nextValueConnector>
         <noMoreValuesConnector>
@@ -632,20 +722,27 @@
         <name>CreateSubscriptionActivations</name>
         <label>CreateSubscriptionActivations</label>
 <<<<<<< HEAD
+<<<<<<< HEAD
         <locationX>619</locationX>
         <locationY>230</locationY>
         <connector>
             <targetReference>CreateDIBundleProduct</targetReference>
 =======
+=======
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
         <locationX>1050</locationX>
         <locationY>192</locationY>
         <connector>
             <targetReference>CreateDIBundleProductV22</targetReference>
+<<<<<<< HEAD
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
+=======
 >>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
         </connector>
         <inputReference>NewSubscriptionActivationColl</inputReference>
     </recordCreates>
     <recordLookups>
+<<<<<<< HEAD
 <<<<<<< HEAD
         <name>GetGroup</name>
         <label>GetGroup</label>
@@ -718,6 +815,8 @@
         <connector>
             <targetReference>ReviewTCSubscriptions</targetReference>
 =======
+=======
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
         <description>Gets the Milestones associated with the current Opportunity Line Item in the loop</description>
         <name>GetPackageMilestones</name>
         <label>GetPackageMilestones</label>
@@ -726,6 +825,9 @@
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>LoopGMSNonSubscriptionPkgMilestones</targetReference>
+<<<<<<< HEAD
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
+=======
 >>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
         </connector>
         <filterLogic>and</filterLogic>
@@ -734,7 +836,11 @@
             <operator>EqualTo</operator>
             <value>
 <<<<<<< HEAD
+<<<<<<< HEAD
                 <stringValue>a373g000000LfNaAAK</stringValue>
+=======
+                <elementReference>LoopOppLineItems.Product2.Product_Package__r.Id</elementReference>
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
 =======
                 <elementReference>LoopOppLineItems.Product2.Product_Package__r.Id</elementReference>
 >>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
@@ -742,6 +848,7 @@
         </filters>
         <getFirstRecordOnly>false</getFirstRecordOnly>
         <object>PSA_Product_Package_Milestone__c</object>
+<<<<<<< HEAD
 <<<<<<< HEAD
         <sortField>Id</sortField>
         <sortOrder>Asc</sortOrder>
@@ -756,6 +863,8 @@
         <connector>
             <targetReference>LoopPkgMilestones</targetReference>
 =======
+=======
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordLookups>
     <recordLookups>
@@ -766,6 +875,9 @@
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>Loop_RES_Package</targetReference>
+<<<<<<< HEAD
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
+=======
 >>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
         </connector>
         <filterLogic>and</filterLogic>
@@ -774,7 +886,11 @@
             <operator>EqualTo</operator>
             <value>
 <<<<<<< HEAD
+<<<<<<< HEAD
                 <elementReference>GetProduct.Product_Package__c</elementReference>
+=======
+                <stringValue>a373g000000LfNaAAK</stringValue>
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
 =======
                 <stringValue>a373g000000LfNaAAK</stringValue>
 >>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
@@ -784,6 +900,7 @@
         <object>PSA_Product_Package_Milestone__c</object>
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordLookups>
+<<<<<<< HEAD
 <<<<<<< HEAD
     <recordLookups>
         <name>GetProduct</name>
@@ -819,11 +936,16 @@
         <locationX>1105</locationX>
         <locationY>21</locationY>
 =======
+=======
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
     <recordUpdates>
         <name>UpdateBISubActivation</name>
         <label>UpdateBISubActivation</label>
         <locationX>543</locationX>
         <locationY>17</locationY>
+<<<<<<< HEAD
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
+=======
 >>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
         <filterLogic>and</filterLogic>
         <filters>
@@ -865,7 +987,11 @@
             <field>Notes__c</field>
             <value>
 <<<<<<< HEAD
+<<<<<<< HEAD
                 <elementReference>GetOppty.Notes_to_Subscription_Management__c</elementReference>
+=======
+                <elementReference>varOpportunityRecordFlow2.Notes_to_Subscription_Management__c</elementReference>
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
 =======
                 <elementReference>varOpportunityRecordFlow2.Notes_to_Subscription_Management__c</elementReference>
 >>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
@@ -875,30 +1001,42 @@
     </recordUpdates>
     <start>
 <<<<<<< HEAD
+<<<<<<< HEAD
         <locationX>50</locationX>
         <locationY>50</locationY>
         <connector>
             <targetReference>GetOppty</targetReference>
 =======
+=======
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
         <locationX>25</locationX>
         <locationY>25</locationY>
         <connector>
             <targetReference>ProjectType</targetReference>
+<<<<<<< HEAD
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
+=======
 >>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
         </connector>
     </start>
     <status>Active</status>
     <subflows>
 <<<<<<< HEAD
+<<<<<<< HEAD
         <name>CreateDIBundleProduct</name>
         <label>CreateDIBundleProduct</label>
         <locationX>1028</locationX>
         <locationY>340</locationY>
 =======
+=======
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
         <name>CreateDIBundleProductV22</name>
         <label>CreateDIBundleProductV22</label>
         <locationX>1202</locationX>
         <locationY>51</locationY>
+<<<<<<< HEAD
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
+=======
 >>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
         <flowName>CreateDIBundleProductVersion2</flowName>
         <inputAssignments>
@@ -920,7 +1058,10 @@
             </value>
         </inputAssignments>
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
+=======
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
         <inputAssignments>
             <name>varGroupRecordFlow3</name>
             <value>
@@ -933,6 +1074,9 @@
                 <elementReference>varOpportunityRecordFlow2</elementReference>
             </value>
         </inputAssignments>
+<<<<<<< HEAD
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
+=======
 >>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </subflows>
@@ -988,7 +1132,10 @@
         <isOutput>true</isOutput>
     </variables>
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
+=======
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
     <variables>
         <description>Holds the Group record passed from the first Flow</description>
         <name>varGroupRecordFlow2</name>
@@ -1016,5 +1163,8 @@
         <isOutput>true</isOutput>
         <objectType>Opportunity</objectType>
     </variables>
+<<<<<<< HEAD
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
+=======
 >>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
 </Flow>

@@ -27,7 +27,11 @@ public without sharing class AH_UDC_Users {
       {
          //Unit Test Force Exception
 <<<<<<< HEAD
+<<<<<<< HEAD
          if (AH_UDC_ConfigHelper.GetBoolean('AH_UDC_UnitTestUDCUsersLoadingError', FALSE)) throw(new AH_UDC_Shared.UDCException(AH_UDC_Constants.UNIT_TEST_EXCEPTION_PREFIX + 'UDC Users Load'));
+=======
+         if (AH_UDC_ConfigHelper.GetBoolean('AH_UDC_UnitTestUDCUsersLoadingError', FALSE, true)) throw(new AH_UDC_Shared.UDCException(AH_UDC_Constants.UNIT_TEST_EXCEPTION_PREFIX + 'UDC Users Load'));
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
 =======
          if (AH_UDC_ConfigHelper.GetBoolean('AH_UDC_UnitTestUDCUsersLoadingError', FALSE, true)) throw(new AH_UDC_Shared.UDCException(AH_UDC_Constants.UNIT_TEST_EXCEPTION_PREFIX + 'UDC Users Load'));
 >>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
@@ -96,7 +100,11 @@ public without sharing class AH_UDC_Users {
 
          //Unit Test Force Exception
 <<<<<<< HEAD
+<<<<<<< HEAD
          if (AH_UDC_ConfigHelper.GetBoolean('AH_UDC_UnitTestUDCUsersRevokeError', FALSE)) throw(new AH_UDC_Shared.UDCException(AH_UDC_Constants.UNIT_TEST_EXCEPTION_PREFIX + 'UDC Users Revoke'));
+=======
+         if (AH_UDC_ConfigHelper.GetBoolean('AH_UDC_UnitTestUDCUsersRevokeError', FALSE, true)) throw(new AH_UDC_Shared.UDCException(AH_UDC_Constants.UNIT_TEST_EXCEPTION_PREFIX + 'UDC Users Revoke'));
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
 =======
          if (AH_UDC_ConfigHelper.GetBoolean('AH_UDC_UnitTestUDCUsersRevokeError', FALSE, true)) throw(new AH_UDC_Shared.UDCException(AH_UDC_Constants.UNIT_TEST_EXCEPTION_PREFIX + 'UDC Users Revoke'));
 >>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
@@ -151,7 +159,11 @@ public without sharing class AH_UDC_Users {
 
          //Unit Test Force Exception
 <<<<<<< HEAD
+<<<<<<< HEAD
          if (AH_UDC_ConfigHelper.GetBoolean('AH_UDC_UnitTestUDCUsersGrantError', FALSE)) throw(new AH_UDC_Shared.UDCException(AH_UDC_Constants.UNIT_TEST_EXCEPTION_PREFIX + 'UDC Users Grant'));
+=======
+         if (AH_UDC_ConfigHelper.GetBoolean('AH_UDC_UnitTestUDCUsersGrantError', FALSE, true)) throw(new AH_UDC_Shared.UDCException(AH_UDC_Constants.UNIT_TEST_EXCEPTION_PREFIX + 'UDC Users Grant'));
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
 =======
          if (AH_UDC_ConfigHelper.GetBoolean('AH_UDC_UnitTestUDCUsersGrantError', FALSE, true)) throw(new AH_UDC_Shared.UDCException(AH_UDC_Constants.UNIT_TEST_EXCEPTION_PREFIX + 'UDC Users Grant'));
 >>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a

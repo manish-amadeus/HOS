@@ -61,6 +61,7 @@
         <name>ChangeNeeded</name>
         <label>ChangeNeeded</label>
 <<<<<<< HEAD
+<<<<<<< HEAD
         <locationX>709</locationX>
         <locationY>235</locationY>
         <defaultConnectorLabel>No Changes Needed</defaultConnectorLabel>
@@ -68,12 +69,17 @@
             <name>NewProjectPMAssignment</name>
             <conditionLogic>and</conditionLogic>
 =======
+=======
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
         <locationX>710</locationX>
         <locationY>236</locationY>
         <defaultConnectorLabel>No Changes Needed</defaultConnectorLabel>
         <rules>
             <name>NewProjectPMAssignment</name>
             <conditionLogic>1 AND ((2 AND 3) OR (4 AND 5))</conditionLogic>
+<<<<<<< HEAD
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
+=======
 >>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
             <conditions>
                 <leftValueReference>$Record.pse__Project_Manager__c</leftValueReference>
@@ -117,7 +123,11 @@
         </rules>
         <rules>
 <<<<<<< HEAD
+<<<<<<< HEAD
             <name>ChangeToPMSameStart_EndDates</name>
+=======
+            <name>ChangeToPMSameStartEndDates</name>
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
 =======
             <name>ChangeToPMSameStartEndDates</name>
 >>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
@@ -171,8 +181,13 @@
         </rules>
         <rules>
 <<<<<<< HEAD
+<<<<<<< HEAD
             <name>ChangeToStartOrEndDate</name>
             <conditionLogic>1 AND 4 and (2 or 3)</conditionLogic>
+=======
+            <name>ChangeToStartOrEndDateSamePM</name>
+            <conditionLogic>1 and 2 and ((3 and 4) or (5 and 6))</conditionLogic>
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
 =======
             <name>ChangeToStartOrEndDateSamePM</name>
             <conditionLogic>1 and 2 and ((3 and 4) or (5 and 6))</conditionLogic>
@@ -186,7 +201,10 @@
             </conditions>
             <conditions>
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
+=======
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
                 <leftValueReference>$Record__Prior.pse__Project_Manager__c</leftValueReference>
                 <operator>EqualTo</operator>
                 <rightValue>
@@ -194,6 +212,9 @@
                 </rightValue>
             </conditions>
             <conditions>
+<<<<<<< HEAD
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
+=======
 >>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
                 <leftValueReference>$Record.pse__Start_Date__c</leftValueReference>
                 <operator>IsChanged</operator>
@@ -203,7 +224,10 @@
             </conditions>
             <conditions>
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
+=======
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
                 <leftValueReference>$Record.pse__Start_Date__c</leftValueReference>
                 <operator>IsNull</operator>
                 <rightValue>
@@ -211,6 +235,9 @@
                 </rightValue>
             </conditions>
             <conditions>
+<<<<<<< HEAD
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
+=======
 >>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
                 <leftValueReference>$Record.pse__End_Date__c</leftValueReference>
                 <operator>IsChanged</operator>
@@ -220,15 +247,21 @@
             </conditions>
             <conditions>
 <<<<<<< HEAD
+<<<<<<< HEAD
                 <leftValueReference>$Record__Prior.pse__Project_Manager__c</leftValueReference>
                 <operator>EqualTo</operator>
                 <rightValue>
                     <elementReference>$Record.pse__Project_Manager__c</elementReference>
 =======
+=======
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
                 <leftValueReference>$Record.pse__End_Date__c</leftValueReference>
                 <operator>IsNull</operator>
                 <rightValue>
                     <booleanValue>false</booleanValue>
+<<<<<<< HEAD
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
+=======
 >>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
                 </rightValue>
             </conditions>
@@ -236,12 +269,15 @@
                 <targetReference>LoopAssignments</targetReference>
             </connector>
 <<<<<<< HEAD
+<<<<<<< HEAD
             <label>ChangeToStartOrEndDate</label>
         </rules>
     </decisions>
     <description>NICC-062687; Replacing the process Builder and Flow that used to auto-create PM TT assignments.</description>
     <environments>Default</environments>
 =======
+=======
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
             <label>ChangeToStartOrEndDateSamePM</label>
         </rules>
     </decisions>
@@ -265,6 +301,9 @@ DATE(1900,01,01)
 DATE(1900,01,01)
 )</expression>
     </formulas>
+<<<<<<< HEAD
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
+=======
 >>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
     <interviewLabel>Project - PSA PM Assignment Autocreation {!$Flow.CurrentDateTime}</interviewLabel>
     <label>Project - PSA PM Assignment Autocreation</label>
@@ -495,7 +534,11 @@ DATE(1900,01,01)
     <start>
         <locationX>50</locationX>
 <<<<<<< HEAD
+<<<<<<< HEAD
         <locationY>24</locationY>
+=======
+        <locationY>23</locationY>
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
 =======
         <locationY>23</locationY>
 >>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
@@ -509,7 +552,11 @@ OR(ISCHANGED({!$Record.pse__Project_Manager__c}),ISCHANGED({!$Record.pse__Start_
         <triggerType>RecordAfterSave</triggerType>
     </start>
 <<<<<<< HEAD
+<<<<<<< HEAD
     <status>Active</status>
+=======
+    <status>Obsolete</status>
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
 =======
     <status>Obsolete</status>
 >>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a

@@ -53,6 +53,7 @@ private class AH_UDC_REST_AmadeusFormResponse_TEST {
    }
 
 <<<<<<< HEAD
+<<<<<<< HEAD
    private static string GetToken(string SecurityCode, string UserId, string FormId)
    {
       //Generate Token
@@ -69,6 +70,8 @@ private class AH_UDC_REST_AmadeusFormResponse_TEST {
       return token;
    }
 
+=======
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
 =======
 >>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
    private static void testData1()
@@ -258,7 +261,11 @@ private class AH_UDC_REST_AmadeusFormResponse_TEST {
    private static void TestGetForDymnamicFields() { //Test for dynamic radio/picklist
       testData4();
 <<<<<<< HEAD
+<<<<<<< HEAD
       string token = GetToken(m_oWB1.SecurityCode__c, m_oUser.id, m_oForm.id);
+=======
+      string token = AH_UDC_Shared.CreateStepToken(m_oWB1.SecurityCode__c, m_oForm.id, m_oWBS1.id);
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
 =======
       string token = AH_UDC_Shared.CreateStepToken(m_oWB1.SecurityCode__c, m_oForm.id, m_oWBS1.id);
 >>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
@@ -295,7 +302,11 @@ private class AH_UDC_REST_AmadeusFormResponse_TEST {
       testData3();
       String strJSON = '';
 <<<<<<< HEAD
+<<<<<<< HEAD
       string token = GetToken(m_oWB1.SecurityCode__c, m_oUser.id, m_oForm.id);
+=======
+      string token = AH_UDC_Shared.CreateStepToken(m_oWB3.SecurityCode__c, m_oForm3.id, m_oWBS3.id);
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
 =======
       string token = AH_UDC_Shared.CreateStepToken(m_oWB3.SecurityCode__c, m_oForm3.id, m_oWBS3.id);
 >>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
@@ -354,7 +365,11 @@ private class AH_UDC_REST_AmadeusFormResponse_TEST {
       testData1();
 
 <<<<<<< HEAD
+<<<<<<< HEAD
       string token = GetToken(m_oWB1.SecurityCode__c, m_oUser.id, m_oForm.id);
+=======
+      string token = AH_UDC_Shared.CreateStepToken(m_oWB1.SecurityCode__c, m_oForm.id, m_oWBS1.id);
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
 =======
       string token = AH_UDC_Shared.CreateStepToken(m_oWB1.SecurityCode__c, m_oForm.id, m_oWBS1.id);
 >>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
@@ -399,7 +414,11 @@ private class AH_UDC_REST_AmadeusFormResponse_TEST {
       testData1();
 
 <<<<<<< HEAD
+<<<<<<< HEAD
       string token = GetToken(m_oWB1.SecurityCode__c, m_oUser.id, m_oForm.id);
+=======
+      string token = AH_UDC_Shared.CreateStepToken(m_oWB1.SecurityCode__c, m_oForm.id, m_oWBS1.id);
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
 =======
       string token = AH_UDC_Shared.CreateStepToken(m_oWB1.SecurityCode__c, m_oForm.id, m_oWBS1.id);
 >>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
@@ -463,7 +482,11 @@ private class AH_UDC_REST_AmadeusFormResponse_TEST {
       testData2(); //This sets up 2 Workbooks with steps for a shared form
 
 <<<<<<< HEAD
+<<<<<<< HEAD
       string token = GetToken(m_oWB1.SecurityCode__c, m_oUser.id, m_oForm.id);
+=======
+      string token = AH_UDC_Shared.CreateStepToken(m_oWB2.SecurityCode__c, m_oForm.id, m_oWBS2.id);
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
 =======
       string token = AH_UDC_Shared.CreateStepToken(m_oWB2.SecurityCode__c, m_oForm.id, m_oWBS2.id);
 >>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
@@ -508,7 +531,11 @@ private class AH_UDC_REST_AmadeusFormResponse_TEST {
       testData1();
 
 <<<<<<< HEAD
+<<<<<<< HEAD
       string token = GetToken(m_oWB1.SecurityCode__c, m_oUser.Id, m_oForm.Id);
+=======
+      string token = AH_UDC_Shared.CreateStepToken(m_oWB1.SecurityCode__c, m_oForm.id, m_oWBS1.id);
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
 =======
       string token = AH_UDC_Shared.CreateStepToken(m_oWB1.SecurityCode__c, m_oForm.id, m_oWBS1.id);
 >>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
@@ -543,6 +570,7 @@ private class AH_UDC_REST_AmadeusFormResponse_TEST {
    }
 
    @isTest
+<<<<<<< HEAD
 <<<<<<< HEAD
    private static void TestPostInvalidUser() {
       testData1();
@@ -584,12 +612,18 @@ private class AH_UDC_REST_AmadeusFormResponse_TEST {
    @isTest
 =======
 >>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
+=======
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
    private static void TestPostBadToken() {
       testData1();
 
       string unknownSecurityCode = AH_UDC_Shared.GetSecurityCode();
 <<<<<<< HEAD
+<<<<<<< HEAD
       string token = GetToken(unknownSecurityCode, m_oUser.id, m_oForm.id);
+=======
+      string token = AH_UDC_Shared.CreateStepToken(unknownSecurityCode, m_oForm.id, m_oWBS1.id);
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
 =======
       string token = AH_UDC_Shared.CreateStepToken(unknownSecurityCode, m_oForm.id, m_oWBS1.id);
 >>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
@@ -631,7 +665,11 @@ private class AH_UDC_REST_AmadeusFormResponse_TEST {
       testData1();
 
 <<<<<<< HEAD
+<<<<<<< HEAD
       string token = GetToken(m_oWB1.SecurityCode__c, m_oUser.id, m_oForm.id);
+=======
+      string token = AH_UDC_Shared.CreateStepToken(m_oWB1.SecurityCode__c, m_oForm.id, m_oWBS1.id);
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
 =======
       string token = AH_UDC_Shared.CreateStepToken(m_oWB1.SecurityCode__c, m_oForm.id, m_oWBS1.id);
 >>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
@@ -669,7 +707,11 @@ private class AH_UDC_REST_AmadeusFormResponse_TEST {
       testData1();
 
 <<<<<<< HEAD
+<<<<<<< HEAD
       string token = GetToken(m_oWB1.SecurityCode__c, m_oUser.id, m_oForm.id);
+=======
+      string token = AH_UDC_Shared.CreateStepToken(m_oWB1.SecurityCode__c, m_oForm.id, m_oWBS1.id);
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
 =======
       string token = AH_UDC_Shared.CreateStepToken(m_oWB1.SecurityCode__c, m_oForm.id, m_oWBS1.id);
 >>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
@@ -720,7 +762,11 @@ private class AH_UDC_REST_AmadeusFormResponse_TEST {
       testData3();
       String strJSON = '';
 <<<<<<< HEAD
+<<<<<<< HEAD
       string token = GetToken(m_oWB1.SecurityCode__c, m_oUser.id, m_oForm.id);
+=======
+      string token = AH_UDC_Shared.CreateStepToken(m_oWB3.SecurityCode__c, m_oForm3.id, m_oWBS3.id);
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
 =======
       string token = AH_UDC_Shared.CreateStepToken(m_oWB3.SecurityCode__c, m_oForm3.id, m_oWBS3.id);
 >>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
@@ -826,7 +872,11 @@ private class AH_UDC_REST_AmadeusFormResponse_TEST {
       testData1();
 
 <<<<<<< HEAD
+<<<<<<< HEAD
       string token = GetToken(m_oWB1.SecurityCode__c, m_oUser.id, m_oForm.id);
+=======
+      string token = AH_UDC_Shared.CreateStepToken(m_oWB1.SecurityCode__c, m_oForm.id, m_oWBS1.id);
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
 =======
       string token = AH_UDC_Shared.CreateStepToken(m_oWB1.SecurityCode__c, m_oForm.id, m_oWBS1.id);
 >>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
@@ -865,7 +915,11 @@ private class AH_UDC_REST_AmadeusFormResponse_TEST {
       testData1();
 
 <<<<<<< HEAD
+<<<<<<< HEAD
       string token = GetToken(m_oWB1.SecurityCode__c, m_oUser.id, m_oForm.id);
+=======
+      string token = AH_UDC_Shared.CreateStepToken(m_oWB1.SecurityCode__c, m_oForm.id, m_oWBS1.id);
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
 =======
       string token = AH_UDC_Shared.CreateStepToken(m_oWB1.SecurityCode__c, m_oForm.id, m_oWBS1.id);
 >>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
@@ -990,7 +1044,11 @@ private class AH_UDC_REST_AmadeusFormResponse_TEST {
       testData1();
       string unknownSecurityCode = AH_UDC_Shared.GetSecurityCode();
 <<<<<<< HEAD
+<<<<<<< HEAD
       string token = GetToken(unknownSecurityCode, m_oUser.id, m_oForm.id);
+=======
+      string token = AH_UDC_Shared.CreateStepToken(unknownSecurityCode, m_oForm.id, m_oWBS1.id);
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
 =======
       string token = AH_UDC_Shared.CreateStepToken(unknownSecurityCode, m_oForm.id, m_oWBS1.id);
 >>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
@@ -1027,7 +1085,11 @@ private class AH_UDC_REST_AmadeusFormResponse_TEST {
    private static void TestGetBadTokenWithoutSecurityCode() {
       testData1();
 <<<<<<< HEAD
+<<<<<<< HEAD
       string token = GetToken('', m_oUser.id, m_oForm.id);
+=======
+      string token = AH_UDC_Shared.CreateStepToken('', m_oForm.id, m_oWBS1.id);
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
 =======
       string token = AH_UDC_Shared.CreateStepToken('', m_oForm.id, m_oWBS1.id);
 >>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a

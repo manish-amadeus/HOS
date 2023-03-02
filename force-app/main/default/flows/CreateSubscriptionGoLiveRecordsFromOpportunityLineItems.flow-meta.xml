@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Flow xmlns="http://soap.sforce.com/2006/04/metadata">
 <<<<<<< HEAD
+<<<<<<< HEAD
     <apiVersion>49.0</apiVersion>
+=======
+    <apiVersion>56.0</apiVersion>
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
 =======
     <apiVersion>56.0</apiVersion>
 >>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
@@ -10,8 +14,13 @@
         <name>Assignment_Subscription_GoLive</name>
         <label>Assignment Subscription Activation</label>
 <<<<<<< HEAD
+<<<<<<< HEAD
         <locationX>1450</locationX>
         <locationY>601</locationY>
+=======
+        <locationX>1034</locationX>
+        <locationY>547</locationY>
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
 =======
         <locationX>1034</locationX>
         <locationY>547</locationY>
@@ -122,6 +131,7 @@
             </value>
         </assignmentItems>
 <<<<<<< HEAD
+<<<<<<< HEAD
         <connector>
             <targetReference>Update_SubscriptionGoLive</targetReference>
         </connector>
@@ -156,6 +166,8 @@
         <locationX>1806</locationX>
         <locationY>50</locationY>
 =======
+=======
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
         <assignmentItems>
             <assignToReference>CollSubscriptionGoLive</assignToReference>
             <operator>Add</operator>
@@ -190,6 +202,9 @@
         <label>CreateTCSubActivation</label>
         <locationX>817</locationX>
         <locationY>41</locationY>
+<<<<<<< HEAD
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
+=======
 >>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
         <assignmentItems>
             <assignToReference>indSubscriptionGoLive.Account__c</assignToReference>
@@ -203,7 +218,11 @@
             <operator>Assign</operator>
             <value>
 <<<<<<< HEAD
+<<<<<<< HEAD
                 <elementReference>LoopTCOli.Quantity</elementReference>
+=======
+                <elementReference>LoopTCOppLineItems.Quantity</elementReference>
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
 =======
                 <elementReference>LoopTCOppLineItems.Quantity</elementReference>
 >>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
@@ -221,7 +240,11 @@
             <operator>Assign</operator>
             <value>
 <<<<<<< HEAD
+<<<<<<< HEAD
                 <elementReference>GetOpportunity.CurrencyIsoCode</elementReference>
+=======
+                <elementReference>varOpportunityRecordFlow1.CurrencyIsoCode</elementReference>
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
 =======
                 <elementReference>varOpportunityRecordFlow1.CurrencyIsoCode</elementReference>
 >>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
@@ -239,7 +262,11 @@
             <operator>Assign</operator>
             <value>
 <<<<<<< HEAD
+<<<<<<< HEAD
                 <elementReference>LoopTCOli.ProductCode</elementReference>
+=======
+                <elementReference>LoopTCOppLineItems.ProductCode</elementReference>
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
 =======
                 <elementReference>LoopTCOppLineItems.ProductCode</elementReference>
 >>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
@@ -292,12 +319,15 @@
             <operator>Assign</operator>
             <value>
 <<<<<<< HEAD
+<<<<<<< HEAD
                 <elementReference>LoopTCOli.Id</elementReference>
             </value>
         </assignmentItems>
         <connector>
             <targetReference>TCCollection</targetReference>
 =======
+=======
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
                 <elementReference>LoopTCOppLineItems.Id</elementReference>
             </value>
         </assignmentItems>
@@ -341,6 +371,9 @@
         </assignmentItems>
         <connector>
             <targetReference>Loop_Through_OppLineItems</targetReference>
+<<<<<<< HEAD
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
+=======
 >>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
         </connector>
     </assignments>
@@ -348,8 +381,13 @@
         <name>TCCollection</name>
         <label>TCCollection</label>
 <<<<<<< HEAD
+<<<<<<< HEAD
         <locationX>1391</locationX>
         <locationY>177</locationY>
+=======
+        <locationX>1705</locationX>
+        <locationY>40</locationY>
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
 =======
         <locationX>1705</locationX>
         <locationY>40</locationY>
@@ -362,9 +400,12 @@
             </value>
         </assignmentItems>
 <<<<<<< HEAD
+<<<<<<< HEAD
         <connector>
             <targetReference>TCUpdates</targetReference>
         </connector>
+=======
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
 =======
 >>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
     </assignments>
@@ -373,8 +414,13 @@
         <name>Update_CollOppLineItem</name>
         <label>Update CollOppLineItem</label>
 <<<<<<< HEAD
+<<<<<<< HEAD
         <locationX>839</locationX>
         <locationY>727</locationY>
+=======
+        <locationX>1725</locationX>
+        <locationY>307</locationY>
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
 =======
         <locationX>1725</locationX>
         <locationY>307</locationY>
@@ -387,9 +433,12 @@
             </value>
         </assignmentItems>
 <<<<<<< HEAD
+<<<<<<< HEAD
         <connector>
             <targetReference>Loop_Through_OppLineItems</targetReference>
         </connector>
+=======
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
 =======
 >>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
     </assignments>
@@ -398,8 +447,13 @@
         <name>Update_SubscriptionGoLive</name>
         <label>Update SubscriptionGoLive</label>
 <<<<<<< HEAD
+<<<<<<< HEAD
         <locationX>1243</locationX>
         <locationY>607</locationY>
+=======
+        <locationX>1713</locationX>
+        <locationY>156</locationY>
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
 =======
         <locationX>1713</locationX>
         <locationY>156</locationY>
@@ -412,9 +466,12 @@
             </value>
         </assignmentItems>
 <<<<<<< HEAD
+<<<<<<< HEAD
         <connector>
             <targetReference>Loop_Through_ActivityLineItems</targetReference>
 =======
+=======
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
     </assignments>
     <assignments>
         <description>Updates the Synced checkbox on the Opp Product record and adds the record into a collection for later update</description>
@@ -445,6 +502,9 @@
         </assignmentItems>
         <connector>
             <targetReference>LoopTCOppLineItems</targetReference>
+<<<<<<< HEAD
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
+=======
 >>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
         </connector>
     </assignments>
@@ -452,7 +512,11 @@
         <name>AdditionalSubscriptions</name>
         <label>AdditionalSubscriptions</label>
 <<<<<<< HEAD
+<<<<<<< HEAD
         <locationX>1497</locationX>
+=======
+        <locationX>1217</locationX>
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
 =======
         <locationX>1217</locationX>
 >>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
@@ -463,7 +527,11 @@
             <conditionLogic>or</conditionLogic>
             <conditions>
 <<<<<<< HEAD
+<<<<<<< HEAD
                 <leftValueReference>GetGroup.Name</leftValueReference>
+=======
+                <leftValueReference>varGroupRecordFlow1.Name</leftValueReference>
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
 =======
                 <leftValueReference>varGroupRecordFlow1.Name</leftValueReference>
 >>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
@@ -474,7 +542,11 @@
             </conditions>
             <conditions>
 <<<<<<< HEAD
+<<<<<<< HEAD
                 <leftValueReference>GetGroup.Name</leftValueReference>
+=======
+                <leftValueReference>varGroupRecordFlow1.Name</leftValueReference>
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
 =======
                 <leftValueReference>varGroupRecordFlow1.Name</leftValueReference>
 >>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
@@ -485,7 +557,11 @@
             </conditions>
             <conditions>
 <<<<<<< HEAD
+<<<<<<< HEAD
                 <leftValueReference>GetGroup.Name</leftValueReference>
+=======
+                <leftValueReference>varGroupRecordFlow1.Name</leftValueReference>
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
 =======
                 <leftValueReference>varGroupRecordFlow1.Name</leftValueReference>
 >>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
@@ -496,7 +572,11 @@
             </conditions>
             <conditions>
 <<<<<<< HEAD
+<<<<<<< HEAD
                 <leftValueReference>GetGroup.Name</leftValueReference>
+=======
+                <leftValueReference>varGroupRecordFlow1.Name</leftValueReference>
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
 =======
                 <leftValueReference>varGroupRecordFlow1.Name</leftValueReference>
 >>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
@@ -515,15 +595,21 @@
         <name>GroupMatch</name>
         <label>GroupMatch</label>
 <<<<<<< HEAD
+<<<<<<< HEAD
         <locationX>1278</locationX>
         <locationY>46</locationY>
         <defaultConnector>
             <targetReference>LoopTCOli</targetReference>
 =======
+=======
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
         <locationX>624</locationX>
         <locationY>47</locationY>
         <defaultConnector>
             <targetReference>LoopTCOppLineItems</targetReference>
+<<<<<<< HEAD
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
+=======
 >>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
         </defaultConnector>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
@@ -532,7 +618,11 @@
             <conditionLogic>and</conditionLogic>
             <conditions>
 <<<<<<< HEAD
+<<<<<<< HEAD
                 <leftValueReference>GetGroup.Name</leftValueReference>
+=======
+                <leftValueReference>varGroupRecordFlow1.Name</leftValueReference>
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
 =======
                 <leftValueReference>varGroupRecordFlow1.Name</leftValueReference>
 >>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
@@ -550,7 +640,11 @@
             </conditions>
             <connector>
 <<<<<<< HEAD
+<<<<<<< HEAD
                 <targetReference>TCAssignment</targetReference>
+=======
+                <targetReference>CreateTCSubActivation</targetReference>
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
 =======
                 <targetReference>CreateTCSubActivation</targetReference>
 >>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
@@ -562,7 +656,11 @@
             <conditionLogic>and</conditionLogic>
             <conditions>
 <<<<<<< HEAD
+<<<<<<< HEAD
                 <leftValueReference>GetGroup.Name</leftValueReference>
+=======
+                <leftValueReference>varGroupRecordFlow1.Name</leftValueReference>
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
 =======
                 <leftValueReference>varGroupRecordFlow1.Name</leftValueReference>
 >>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
@@ -580,7 +678,11 @@
             </conditions>
             <connector>
 <<<<<<< HEAD
+<<<<<<< HEAD
                 <targetReference>TCAssignment</targetReference>
+=======
+                <targetReference>CreateTCSubActivation</targetReference>
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
 =======
                 <targetReference>CreateTCSubActivation</targetReference>
 >>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
@@ -592,7 +694,11 @@
             <conditionLogic>and</conditionLogic>
             <conditions>
 <<<<<<< HEAD
+<<<<<<< HEAD
                 <leftValueReference>GetGroup.Name</leftValueReference>
+=======
+                <leftValueReference>varGroupRecordFlow1.Name</leftValueReference>
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
 =======
                 <leftValueReference>varGroupRecordFlow1.Name</leftValueReference>
 >>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
@@ -610,7 +716,11 @@
             </conditions>
             <connector>
 <<<<<<< HEAD
+<<<<<<< HEAD
                 <targetReference>TCAssignment</targetReference>
+=======
+                <targetReference>CreateTCSubActivation</targetReference>
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
 =======
                 <targetReference>CreateTCSubActivation</targetReference>
 >>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
@@ -622,7 +732,11 @@
             <conditionLogic>1 AND (2 OR 3)</conditionLogic>
             <conditions>
 <<<<<<< HEAD
+<<<<<<< HEAD
                 <leftValueReference>GetGroup.Name</leftValueReference>
+=======
+                <leftValueReference>varGroupRecordFlow1.Name</leftValueReference>
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
 =======
                 <leftValueReference>varGroupRecordFlow1.Name</leftValueReference>
 >>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
@@ -647,7 +761,11 @@
             </conditions>
             <connector>
 <<<<<<< HEAD
+<<<<<<< HEAD
                 <targetReference>TCAssignment</targetReference>
+=======
+                <targetReference>CreateTCSubActivation</targetReference>
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
 =======
                 <targetReference>CreateTCSubActivation</targetReference>
 >>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
@@ -659,7 +777,11 @@
             <conditionLogic>and</conditionLogic>
             <conditions>
 <<<<<<< HEAD
+<<<<<<< HEAD
                 <leftValueReference>GetGroup.Name</leftValueReference>
+=======
+                <leftValueReference>varGroupRecordFlow1.Name</leftValueReference>
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
 =======
                 <leftValueReference>varGroupRecordFlow1.Name</leftValueReference>
 >>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
@@ -677,7 +799,11 @@
             </conditions>
             <connector>
 <<<<<<< HEAD
+<<<<<<< HEAD
                 <targetReference>TCAssignment</targetReference>
+=======
+                <targetReference>CreateTCSubActivation</targetReference>
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
 =======
                 <targetReference>CreateTCSubActivation</targetReference>
 >>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
@@ -689,8 +815,13 @@
         <name>Sales_and_Catering</name>
         <label>Sales and Catering</label>
 <<<<<<< HEAD
+<<<<<<< HEAD
         <locationX>1028</locationX>
         <locationY>868</locationY>
+=======
+        <locationX>866</locationX>
+        <locationY>663</locationY>
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
 =======
         <locationX>866</locationX>
         <locationY>663</locationY>
@@ -723,8 +854,13 @@
         <name>TCOpportunity</name>
         <label>TCOpportunity</label>
 <<<<<<< HEAD
+<<<<<<< HEAD
         <locationX>647</locationX>
         <locationY>252</locationY>
+=======
+        <locationX>240</locationX>
+        <locationY>347</locationY>
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
 =======
         <locationX>240</locationX>
         <locationY>347</locationY>
@@ -738,7 +874,11 @@
             <conditionLogic>and</conditionLogic>
             <conditions>
 <<<<<<< HEAD
+<<<<<<< HEAD
                 <leftValueReference>GetOpportunity.RecordType.Name</leftValueReference>
+=======
+                <leftValueReference>varRecordType.Name</leftValueReference>
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
 =======
                 <leftValueReference>varRecordType.Name</leftValueReference>
 >>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
@@ -755,6 +895,10 @@
     </decisions>
     <description>Flow to create Subscription Activation records based on opportunity line items and then update the opportunity line items in order to prevent duplicate records; updated via NICC-053482</description>
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+    <environments>Default</environments>
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
 =======
     <environments>Default</environments>
 >>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
@@ -783,8 +927,13 @@
         <name>TCSalesCredit</name>
         <dataType>Currency</dataType>
 <<<<<<< HEAD
+<<<<<<< HEAD
         <expression>IF({!GetOpportunity.Agreement_Term_End_Date__c} - {!GetOpportunity.Agreement_Term_Begin_Date__c} &lt;= 365, {!LoopTCOli.TotalPrice},
 {!LoopTCOli.TotalPrice}/({!GetOpportunity.Agreement_Term_End_Date__c} - {!GetOpportunity.Agreement_Term_Begin_Date__c}) * 365)</expression>
+=======
+        <expression>IF({!varOpportunityRecordFlow1.Agreement_Term_End_Date__c} - {!varOpportunityRecordFlow1.Agreement_Term_Begin_Date__c} &lt;= 365, {!LoopTCOppLineItems.TotalPrice},
+{!LoopTCOppLineItems.TotalPrice}/({!varOpportunityRecordFlow1.Agreement_Term_End_Date__c} - {!varOpportunityRecordFlow1.Agreement_Term_Begin_Date__c}) * 365)</expression>
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
 =======
         <expression>IF({!varOpportunityRecordFlow1.Agreement_Term_End_Date__c} - {!varOpportunityRecordFlow1.Agreement_Term_Begin_Date__c} &lt;= 365, {!LoopTCOppLineItems.TotalPrice},
 {!LoopTCOppLineItems.TotalPrice}/({!varOpportunityRecordFlow1.Agreement_Term_End_Date__c} - {!varOpportunityRecordFlow1.Agreement_Term_Begin_Date__c}) * 365)</expression>
@@ -798,8 +947,13 @@
         <name>Loop_Through_ActivityLineItems</name>
         <label>Loop Through ActivityLineItems</label>
 <<<<<<< HEAD
+<<<<<<< HEAD
         <locationX>1068</locationX>
         <locationY>454</locationY>
+=======
+        <locationX>799</locationX>
+        <locationY>409</locationY>
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
 =======
         <locationX>799</locationX>
         <locationY>409</locationY>
@@ -819,8 +973,13 @@
         <name>Loop_Through_OppLineItems</name>
         <label>Loop Through OppLineItems</label>
 <<<<<<< HEAD
+<<<<<<< HEAD
         <locationX>646</locationX>
         <locationY>451</locationY>
+=======
+        <locationX>350</locationX>
+        <locationY>498</locationY>
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
 =======
         <locationX>350</locationX>
         <locationY>498</locationY>
@@ -830,7 +989,11 @@
         <iterationOrder>Asc</iterationOrder>
         <nextValueConnector>
 <<<<<<< HEAD
+<<<<<<< HEAD
             <targetReference>Fast_Lookup_Activity_Line_Item</targetReference>
+=======
+            <targetReference>Get_Activity_Line_Item</targetReference>
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
 =======
             <targetReference>Get_Activity_Line_Item</targetReference>
 >>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
@@ -841,15 +1004,21 @@
     </loops>
     <loops>
 <<<<<<< HEAD
+<<<<<<< HEAD
         <name>LoopTCOli</name>
         <label>LoopTCOli</label>
         <locationX>858</locationX>
         <locationY>234</locationY>
 =======
+=======
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
         <name>LoopTCOppLineItems</name>
         <label>LoopTCOppLineItems</label>
         <locationX>597</locationX>
         <locationY>230</locationY>
+<<<<<<< HEAD
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
+=======
 >>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
         <collectionReference>CollOppLineItems</collectionReference>
         <iterationOrder>Asc</iterationOrder>
@@ -875,6 +1044,7 @@
     <processType>Flow</processType>
     <recordCreates>
 <<<<<<< HEAD
+<<<<<<< HEAD
         <name>CreateTCCoreProduct</name>
         <label>CreateTCCoreProduct</label>
         <locationX>1102</locationX>
@@ -882,6 +1052,8 @@
         <connector>
             <targetReference>AdditionalSubscriptions</targetReference>
 =======
+=======
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
         <description>Creates Subscription Activation records from the collection CollSubscriptionGoLive</description>
         <name>CreateTCCoreProduct</name>
         <label>CreateTCCoreProduct</label>
@@ -889,6 +1061,9 @@
         <locationY>317</locationY>
         <connector>
             <targetReference>TCUpdates</targetReference>
+<<<<<<< HEAD
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
+=======
 >>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
         </connector>
         <inputReference>CollSubscriptionGoLive</inputReference>
@@ -897,8 +1072,13 @@
         <name>Enable_Channel</name>
         <label>Enable Channel</label>
 <<<<<<< HEAD
+<<<<<<< HEAD
         <locationX>1300</locationX>
         <locationY>869</locationY>
+=======
+        <locationX>1080</locationX>
+        <locationY>671</locationY>
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
 =======
         <locationX>1080</locationX>
         <locationY>671</locationY>
@@ -976,8 +1156,13 @@
         <name>Fast_Create_SubscriptionGoLive</name>
         <label>Fast Create SubscriptionGoLive</label>
 <<<<<<< HEAD
+<<<<<<< HEAD
         <locationX>644</locationX>
         <locationY>865</locationY>
+=======
+        <locationX>504</locationX>
+        <locationY>637</locationY>
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
 =======
         <locationX>504</locationX>
         <locationY>637</locationY>
@@ -990,15 +1175,21 @@
     <recordLookups>
         <description>Look up the activity line associated with the opportunity line item and assign them to the IndlActivityLine SO Variable as we&apos;ll be passing the activity line to the new subscription record.</description>
 <<<<<<< HEAD
+<<<<<<< HEAD
         <name>Fast_Lookup_Activity_Line_Item</name>
         <label>Fast Lookup Activity Line Item</label>
         <locationX>894</locationX>
         <locationY>453</locationY>
 =======
+=======
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
         <name>Get_Activity_Line_Item</name>
         <label>Get Activity Line Item</label>
         <locationX>659</locationX>
         <locationY>385</locationY>
+<<<<<<< HEAD
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
+=======
 >>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
@@ -1039,17 +1230,23 @@
         <name>GetGroup</name>
         <label>GetGroup</label>
 <<<<<<< HEAD
+<<<<<<< HEAD
         <locationX>655</locationX>
         <locationY>65</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>LoopTCOli</targetReference>
 =======
+=======
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
         <locationX>335</locationX>
         <locationY>203</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>LoopTCOppLineItems</targetReference>
+<<<<<<< HEAD
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
+=======
 >>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
         </connector>
         <filterLogic>and</filterLogic>
@@ -1061,19 +1258,26 @@
             </value>
         </filters>
 <<<<<<< HEAD
+<<<<<<< HEAD
         <getFirstRecordOnly>true</getFirstRecordOnly>
         <object>pse__Grp__c</object>
         <storeOutputAutomatically>true</storeOutputAutomatically>
 =======
+=======
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
         <object>pse__Grp__c</object>
         <outputReference>varGroupRecordFlow1</outputReference>
         <queriedFields>Id</queriedFields>
         <queriedFields>Name</queriedFields>
+<<<<<<< HEAD
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
+=======
 >>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
     </recordLookups>
     <recordLookups>
         <name>GetOpportunity</name>
         <label>GetOpportunity</label>
+<<<<<<< HEAD
 <<<<<<< HEAD
         <locationX>429</locationX>
         <locationY>251</locationY>
@@ -1081,11 +1285,16 @@
         <connector>
             <targetReference>TCOpportunity</targetReference>
 =======
+=======
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
         <locationX>70</locationX>
         <locationY>495</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>GetRecordType</targetReference>
+<<<<<<< HEAD
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
+=======
 >>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
         </connector>
         <filterLogic>and</filterLogic>
@@ -1097,10 +1306,13 @@
             </value>
         </filters>
 <<<<<<< HEAD
+<<<<<<< HEAD
         <getFirstRecordOnly>true</getFirstRecordOnly>
         <object>Opportunity</object>
         <storeOutputAutomatically>true</storeOutputAutomatically>
 =======
+=======
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
         <object>Opportunity</object>
         <outputReference>varOpportunityRecordFlow1</outputReference>
         <queriedFields>Id</queriedFields>
@@ -1111,6 +1323,9 @@
         <queriedFields>CurrencyIsoCode</queriedFields>
         <queriedFields>Agreement_Term_Begin_Date__c</queriedFields>
         <queriedFields>Agreement_Term_End_Date__c</queriedFields>
+<<<<<<< HEAD
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
+=======
 >>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
     </recordLookups>
     <recordLookups>
@@ -1118,8 +1333,13 @@
         <name>GetProduct</name>
         <label>GetProduct</label>
 <<<<<<< HEAD
+<<<<<<< HEAD
         <locationX>856</locationX>
         <locationY>9</locationY>
+=======
+        <locationX>430</locationX>
+        <locationY>45</locationY>
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
 =======
         <locationX>430</locationX>
         <locationY>45</locationY>
@@ -1134,7 +1354,11 @@
             <operator>EqualTo</operator>
             <value>
 <<<<<<< HEAD
+<<<<<<< HEAD
                 <elementReference>LoopTCOli.Product2Id</elementReference>
+=======
+                <elementReference>LoopTCOppLineItems.Product2Id</elementReference>
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
 =======
                 <elementReference>LoopTCOppLineItems.Product2Id</elementReference>
 >>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
@@ -1146,6 +1370,7 @@
     </recordLookups>
     <recordLookups>
 <<<<<<< HEAD
+<<<<<<< HEAD
         <description>Pull all subscriptions where the NotServiceSubscription checkbox is not selected, the project opportunity ID equals the opportunity ID on the opportunity line item, the order of delivery date is 1 or blank and the synched checkbox is not selected and store values in a SO collection variable named CollOppLineItems.  Once pull, store the follwowing fields in order to update the Subscription Go-Live detail object: Opportunity ID, Product Code, Name, Unit Price, Total Price, Quanity and Synch.</description>
         <name>Lookup_CollOppLineItems</name>
         <label>Lookup CollOppLineItems</label>
@@ -1155,6 +1380,8 @@
         <connector>
             <targetReference>GetOpportunity</targetReference>
 =======
+=======
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
         <description>Gets the record corresponding to the Opportunity record type</description>
         <name>GetRecordType</name>
         <label>GetRecordType</label>
@@ -1194,6 +1421,9 @@
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>CountOfOppLineItems</targetReference>
+<<<<<<< HEAD
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
+=======
 >>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
         </connector>
         <filterLogic>and</filterLogic>
@@ -1274,8 +1504,13 @@
         <name>LookupProductDetails</name>
         <label>LookupProductDetails</label>
 <<<<<<< HEAD
+<<<<<<< HEAD
         <locationX>1271</locationX>
         <locationY>459</locationY>
+=======
+        <locationX>989</locationX>
+        <locationY>444</locationY>
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
 =======
         <locationX>989</locationX>
         <locationY>444</locationY>
@@ -1302,8 +1537,13 @@
         <name>Fast_Update_Original_Line_Items</name>
         <label>Fast Update Original Line Items</label>
 <<<<<<< HEAD
+<<<<<<< HEAD
         <locationX>832</locationX>
         <locationY>866</locationY>
+=======
+        <locationX>674</locationX>
+        <locationY>656</locationY>
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
 =======
         <locationX>674</locationX>
         <locationY>656</locationY>
@@ -1316,6 +1556,7 @@
     <recordUpdates>
         <name>TCUpdates</name>
         <label>TCUpdates</label>
+<<<<<<< HEAD
 <<<<<<< HEAD
         <locationX>1256</locationX>
         <locationY>194</locationY>
@@ -1349,6 +1590,8 @@
         <locationX>50</locationX>
         <locationY>433</locationY>
 =======
+=======
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
         <locationX>1068</locationX>
         <locationY>314</locationY>
         <connector>
@@ -1359,6 +1602,9 @@
     <start>
         <locationX>48</locationX>
         <locationY>32</locationY>
+<<<<<<< HEAD
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
+=======
 >>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
         <connector>
             <targetReference>Lookup_CollOppLineItems</targetReference>
@@ -1369,8 +1615,13 @@
         <name>TCSubscriptions</name>
         <label>TCSubscriptions</label>
 <<<<<<< HEAD
+<<<<<<< HEAD
         <locationX>1812</locationX>
         <locationY>298</locationY>
+=======
+        <locationX>1488</locationX>
+        <locationY>129</locationY>
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
 =======
         <locationX>1488</locationX>
         <locationY>129</locationY>
@@ -1407,7 +1658,10 @@
             </value>
         </inputAssignments>
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
+=======
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
         <inputAssignments>
             <name>varGroupRecordFlow2</name>
             <value>
@@ -1426,6 +1680,9 @@
                 <elementReference>varOpportunityRecordFlow1</elementReference>
             </value>
         </inputAssignments>
+<<<<<<< HEAD
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
+=======
 >>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </subflows>
@@ -1462,7 +1719,10 @@
     </variables>
     <variables>
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
+=======
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
         <description>Collection to hold Opportunity Products to update the Synced checkbox.</description>
         <name>collUpdateOppProductSyncedCheckbox</name>
         <dataType>SObject</dataType>
@@ -1472,6 +1732,9 @@
         <objectType>OpportunityLineItem</objectType>
     </variables>
     <variables>
+<<<<<<< HEAD
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
+=======
 >>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
         <name>CollUPOppLineItems</name>
         <dataType>SObject</dataType>
@@ -1593,7 +1856,10 @@
         <isOutput>true</isOutput>
     </variables>
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
+=======
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
     <variables>
         <description>Count of the number of Opportunity Line Items that were found</description>
         <name>varCountOfOppLineItemsFound</name>
@@ -1642,5 +1908,8 @@
         <isOutput>true</isOutput>
         <objectType>OpportunityLineItem</objectType>
     </variables>
+<<<<<<< HEAD
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
+=======
 >>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
 </Flow>

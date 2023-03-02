@@ -1,9 +1,14 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 <apex:component >
    <apex:attribute name="Token" description="Token Value" type="String" required="true" />
    <apex:attribute name="SaveButtonText" description="Save button text" type="String" required="true" />
    <apex:attribute name="LoadingText" description="Loading text to display before rendring form" type="String" required="true" />
    <apex:attribute name="SaveResponseSuccessMessage" description="Message to display in form response is saved" type="String" required="true" />
+=======
+<apex:component >   
+   <apex:attribute name="attributeWorkbook" description="Current Workbook" type="AH_UDC_CommunityWorkbook" required="true" />
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
 =======
 <apex:component >   
    <apex:attribute name="attributeWorkbook" description="Current Workbook" type="AH_UDC_CommunityWorkbook" required="true" />
@@ -18,9 +23,14 @@
    <script type="text/javascript">
       var objJSON = null;
 <<<<<<< HEAD
+<<<<<<< HEAD
       var token = '{!Token}';
    </script>
    <c:AH_UDC_AmadeusFormJS />
+=======
+   </script>
+   <c:AH_UDC_AmadeusFormJS attributeWorkbook="{!attributeWorkbook}"/>
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
 =======
    </script>
    <c:AH_UDC_AmadeusFormJS attributeWorkbook="{!attributeWorkbook}"/>
@@ -39,9 +49,15 @@
    <div class="form-container">
       <div id="divButtons" style="display:none;">
 <<<<<<< HEAD
+<<<<<<< HEAD
          <button id="btnSave" class="btn btn-primary btn-save-form" onclick="javascript:validateFormAndSaveResponse(); return false;">{!SaveButtonText}</button>
       </div>
       <div id="formRender" style="margin:0px;padding:0px;min-height:100px;"><strong>{!LoadingText}</strong></div>
+=======
+         <button id="btnSave" class="btn btn-primary btn-save-form" onclick="javascript:validateFormAndSaveResponse(); return false;">{!$Label.AH_UDC_AmadeusFormSaveButtonText}</button>
+      </div>
+      <div id="formRender" style="margin:0px;padding:0px;min-height:100px;"><strong>{!$Label.AH_UDC_AmadeusFormLoadingText}</strong></div>
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
 =======
          <button id="btnSave" class="btn btn-primary btn-save-form" onclick="javascript:validateFormAndSaveResponse(); return false;">{!$Label.AH_UDC_AmadeusFormSaveButtonText}</button>
       </div>

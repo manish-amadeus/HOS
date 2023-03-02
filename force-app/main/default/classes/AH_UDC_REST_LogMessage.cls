@@ -20,7 +20,12 @@ global with sharing class AH_UDC_REST_LogMessage {
          if (req != null && req.requestBody != null) { requestBody = req.requestBody.toString(); }
          LogMessage LogMessage = (LogMessage) JSON.deserialize(requestBody, LogMessage.class);
 <<<<<<< HEAD
+<<<<<<< HEAD
          AH_UDC_REST_LogMessageException exc = new AH_UDC_REST_LogMessageException(LogMessage.e);
+=======
+         AH_UDC_REST_LogMessageException exc = null;
+         if (String.isNotBlank(LogMessage.e)) exc = new AH_UDC_REST_LogMessageException(LogMessage.e);
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
 =======
          AH_UDC_REST_LogMessageException exc = null;
          if (String.isNotBlank(LogMessage.e)) exc = new AH_UDC_REST_LogMessageException(LogMessage.e);

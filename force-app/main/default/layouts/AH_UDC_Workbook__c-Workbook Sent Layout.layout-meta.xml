@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Layout xmlns="http://soap.sforce.com/2006/04/metadata">
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+    <customButtons>ReleaseWorkbook</customButtons>
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
 =======
     <customButtons>ReleaseWorkbook</customButtons>
 >>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
@@ -30,8 +34,13 @@
             </layoutItems>
             <layoutItems>
 <<<<<<< HEAD
+<<<<<<< HEAD
                 <behavior>Readonly</behavior>
                 <field>WorkbookSentDueDate__c</field>
+=======
+                <behavior>Required</behavior>
+                <field>Product__c</field>
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
 =======
                 <behavior>Required</behavior>
                 <field>Product__c</field>
@@ -47,6 +56,7 @@
             </layoutItems>
             <layoutItems>
 <<<<<<< HEAD
+<<<<<<< HEAD
                 <behavior>Readonly</behavior>
                 <field>Withdrawn__c</field>
             </layoutItems>
@@ -58,6 +68,8 @@
                 <behavior>Readonly</behavior>
                 <field>PercentageComplete__c</field>
 =======
+=======
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
                 <behavior>Edit</behavior>
                 <field>EmailTemplate__c</field>
             </layoutItems>
@@ -74,12 +86,16 @@
             <layoutItems>
                 <behavior>Edit</behavior>
                 <field>Released__c</field>
+<<<<<<< HEAD
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
+=======
 >>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
                 <field>InternalUseOnly__c</field>
             </layoutItems>
+<<<<<<< HEAD
 <<<<<<< HEAD
         </layoutColumns>
         <layoutColumns>
@@ -101,6 +117,8 @@
             </layoutItems>
             <layoutItems>
 =======
+=======
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
             <layoutItems>
                 <behavior>Readonly</behavior>
                 <field>Withdrawn__c</field>
@@ -141,6 +159,9 @@
         </layoutColumns>
         <layoutColumns>
             <layoutItems>
+<<<<<<< HEAD
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
+=======
 >>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
                 <behavior>Readonly</behavior>
                 <field>RelatedTo__c</field>
@@ -152,6 +173,7 @@
             <layoutItems>
                 <behavior>Readonly</behavior>
 <<<<<<< HEAD
+<<<<<<< HEAD
                 <field>TimeToComplete__c</field>
             </layoutItems>
             <layoutItems>
@@ -161,16 +183,22 @@
         </layoutColumns>
         <style>TwoColumnsTopToBottom</style>
 =======
+=======
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
                 <field>OriginalWorkbook__c</field>
             </layoutItems>
         </layoutColumns>
         <style>TwoColumnsLeftToRight</style>
+<<<<<<< HEAD
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
+=======
 >>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
     </layoutSections>
     <layoutSections>
         <customLabel>true</customLabel>
         <detailHeading>true</detailHeading>
         <editHeading>true</editHeading>
+<<<<<<< HEAD
 <<<<<<< HEAD
         <label>Sent Details</label>
         <layoutColumns>
@@ -182,6 +210,8 @@
                 <behavior>Edit</behavior>
                 <field>CompletedBy__c</field>
 =======
+=======
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
         <label>Reminders</label>
         <layoutColumns>
             <layoutItems>
@@ -215,11 +245,15 @@
             <layoutItems>
                 <behavior>Edit</behavior>
                 <field>Reminder2Sent__c</field>
+<<<<<<< HEAD
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
+=======
 >>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
             </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>
+<<<<<<< HEAD
 <<<<<<< HEAD
                 <behavior>Readonly</behavior>
                 <field>OriginalWorkbook__c</field>
@@ -227,6 +261,8 @@
         </layoutColumns>
         <style>TwoColumnsLeftToRight</style>
 =======
+=======
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
                 <behavior>Edit</behavior>
                 <field>Reminder3Enabled__c</field>
             </layoutItems>
@@ -260,6 +296,9 @@
             </layoutItems>
         </layoutColumns>
         <style>TwoColumnsTopToBottom</style>
+<<<<<<< HEAD
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
+=======
 >>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
     </layoutSections>
     <layoutSections>
@@ -348,7 +387,11 @@
         </platformActionListItems>
         <platformActionListItems>
 <<<<<<< HEAD
+<<<<<<< HEAD
             <actionName>AH_UDC_ViewResponses</actionName>
+=======
+            <actionName>ReleaseWorkbook</actionName>
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
 =======
             <actionName>ReleaseWorkbook</actionName>
 >>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
@@ -357,11 +400,14 @@
         </platformActionListItems>
         <platformActionListItems>
 <<<<<<< HEAD
+<<<<<<< HEAD
             <actionName>AH_UDC_Archive</actionName>
             <actionType>CustomButton</actionType>
             <sortOrder>10</sortOrder>
         </platformActionListItems>
 =======
+=======
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
             <actionName>AH_UDC_ViewResponses</actionName>
             <actionType>CustomButton</actionType>
             <sortOrder>10</sortOrder>
@@ -371,6 +417,9 @@
             <actionType>CustomButton</actionType>
             <sortOrder>11</sortOrder>
         </platformActionListItems>
+<<<<<<< HEAD
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
+=======
 >>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
     </platformActionList>
     <relatedLists>
@@ -425,7 +474,11 @@
     <summaryLayout>
         <masterLabel>00h29000000MFUU</masterLabel>
 <<<<<<< HEAD
+<<<<<<< HEAD
         <sizeX>4</sizeX>
+=======
+        <sizeX>3</sizeX>
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
 =======
         <sizeX>3</sizeX>
 >>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a

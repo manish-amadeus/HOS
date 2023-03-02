@@ -1,26 +1,38 @@
 <apex:component >
 <<<<<<< HEAD
+<<<<<<< HEAD
    <script type="text/javascript">
 =======
+=======
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
    <apex:attribute name="attributeWorkbook" description="Current Workbook" type="AH_UDC_CommunityWorkbook" required="true" />
    <script type="text/javascript">
       function consolelog(message)
       {
          if (DisplayConsoleLogMessages) console.log(message);
       }
+<<<<<<< HEAD
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
+=======
 >>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
       var fileIdToDelete = null;
       var validFileCount = 0;
       $(document).ready(function () {
          try {
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
+=======
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
             if (isSent.toUpperCase() == 'FALSE'){
                $('#addFiles').prop('disabled', true);
             }
             var maxFileUploadCount = parseInt({!attributeWorkbook.currentStep.fileUploadInfo.maxFileUploadCount});
             var arrayOfFileExtension = '{!attributeWorkbook.currentStep.fileUploadInfo.fileUploadExtension}'.toLowerCase().replace(/\s*\,\s*/g, ",").trim().split(",");
             var acceptFileExtension = arrayOfFileExtension.map(function (value) { return " ." + value; }).toString();
+<<<<<<< HEAD
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
+=======
 >>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
             document.getElementById("FileUploadList").accept = acceptFileExtension;
             $('[id$="btnFileUpload"]').prop('disabled', true);
@@ -73,7 +85,11 @@
                      const fileSize = uploadFileList[i].size;
 
 <<<<<<< HEAD
+<<<<<<< HEAD
                      if (fileSize > (fileUploadMaxSize * 1024 * 1024)) {
+=======
+                     if (fileSize > (parseInt({!attributeWorkbook.currentStep.fileUploadInfo.fileUploadMaximumSize}) * 1024 * 1024)) {
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
 =======
                      if (fileSize > (parseInt({!attributeWorkbook.currentStep.fileUploadInfo.fileUploadMaximumSize}) * 1024 * 1024)) {
 >>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
@@ -97,8 +113,12 @@
                      }
 
 <<<<<<< HEAD
+<<<<<<< HEAD
                      if (isFileMaxSize == false && isFileSupported == true)
                      {
+=======
+                     if (isFileMaxSize == false && isFileSupported == true){
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
 =======
                      if (isFileMaxSize == false && isFileSupported == true){
 >>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
@@ -107,7 +127,11 @@
                         isFileUpload = true;
                         validFileCount = validFileCount + 1;
 <<<<<<< HEAD
+<<<<<<< HEAD
                         if (validFileCount > maxFileUploadCount) {
+=======
+                        if (validFileCount > parseInt({!attributeWorkbook.currentStep.fileUploadInfo.maxFileUploadCount})) {
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
 =======
                         if (validFileCount > parseInt({!attributeWorkbook.currentStep.fileUploadInfo.maxFileUploadCount})) {
 >>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
@@ -116,7 +140,11 @@
                            $('#file-upload-filename').hide();
                            $('[id$="btnFileUpload"]').prop('disabled', true);
 <<<<<<< HEAD
+<<<<<<< HEAD
                            var maxFileCountStringMessage = LABEL_MaxFileUploadCountMessage.replace('{0}', maxFileUploadCount);
+=======
+                           var maxFileCountStringMessage = '{!$Label.AH_UDC_MaxFileUploadCountMessage}'.replace('{0}', maxFileUploadCount);
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
 =======
                            var maxFileCountStringMessage = '{!$Label.AH_UDC_MaxFileUploadCountMessage}'.replace('{0}', maxFileUploadCount);
 >>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
@@ -134,6 +162,7 @@
                   }
                   if (isFileUpload == true) {
 <<<<<<< HEAD
+<<<<<<< HEAD
                      $('#file-upload-header').html(LABEL_SelectedFileMessage);
                   }
                   if (isAnyMaxFileSize == true) {
@@ -143,6 +172,8 @@
                   if (isAnyUnsupportedFile == true) {
                      $('#file-upload-extensionheader').html('<br/> ' + LABEL_ValidFileExtensionMessage);
 =======
+=======
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
                      $('#file-upload-header').html('{!$Label.AH_UDC_SelectedFileMessage}');
                   }
                   if (isAnyMaxFileSize == true) {
@@ -155,6 +186,9 @@
                   if(validFileCount > 0) {
                      disableButtons();
                      $('[id$="btnFileUpload"]').prop('disabled', false);
+<<<<<<< HEAD
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
+=======
 >>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
                   }
                } else {
@@ -173,7 +207,10 @@
       });
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
+=======
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
       function doUpload(reader, fileName, i, totalFileCount, arrErrorMsgs){
          var filebase64encodedstring = reader.result.toString().replace(/^data:(.*,)?/, '');
          var requestBody = '{"Token" : "' + securityToken + '","fileName":"' + fileName + '","fileContentBase64String":"' + filebase64encodedstring + '"}';
@@ -235,6 +272,9 @@
          });
       }
 
+<<<<<<< HEAD
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
+=======
 >>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
       function uploadFilesUsingApi(file, i, totalFileCount, arrErrorMsgs) {
          try {
@@ -260,6 +300,7 @@
 
             var toBeUploadFileList = $('#file-upload-filename').html();
 <<<<<<< HEAD
+<<<<<<< HEAD
             if(toBeUploadFileList.indexOf(fileName + '<span class="failed"> - ' + LABEL_FileUploadStatusFailedtoUpload + '</span>') > -1) {
                //If upload is failed previously and user is trying to upload same file again then replace failed status with uploading
                $('#file-upload-filename').html(toBeUploadFileList.replace(fileName + '<span class="failed"> - ' + LABEL_FileUploadStatusFailedtoUpload + '</span>',
@@ -268,6 +309,8 @@
             else {
                $('#file-upload-filename').html(toBeUploadFileList.replace(fileName, fileName + '<span class="uploading"> - ' + LABEL_FileUploadStatusUploading + '</span>'));
 =======
+=======
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
             if(toBeUploadFileList.indexOf(fileName + '<span class="failed"> - {!$Label.AH_UDC_FileUploadStatusFailedtoUpload}</span>') > -1) {
                //If upload is failed previously and user is trying to upload same file again then replace failed status with uploading
                $('#file-upload-filename').html(toBeUploadFileList.replace(fileName + '<span class="failed"> - {!$Label.AH_UDC_FileUploadStatusFailedtoUpload}</span>',
@@ -275,6 +318,9 @@
             }
             else {
                $('#file-upload-filename').html(toBeUploadFileList.replace(fileName, fileName + '<span class="uploading"> - {!$Label.AH_UDC_FileUploadStatusUploading}</span>'));
+<<<<<<< HEAD
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
+=======
 >>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
             }
             var reader = new FileReader();
@@ -283,6 +329,7 @@
                showSpinner(); //Show spinner before starting upload of first file then it will be hide once last file is uploaded
                disableButtons();
             }
+<<<<<<< HEAD
 <<<<<<< HEAD
             reader.onload = function () {
                var filebase64encodedstring = reader.result.toString().replace(/^data:(.*,)?/, '');
@@ -343,6 +390,8 @@
                   }
                });
 =======
+=======
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
             reader.onload = (e) => {
                var FNU = fileName.toUpperCase();
                if(FNU.endsWith("BMP") || FNU.endsWith("JPEG") || FNU.endsWith("PNG") || FNU.endsWith("JPG") || FNU.endsWith("GIF") || FNU.endsWith("SVG")){
@@ -377,6 +426,9 @@
                else{
                   doUpload(reader, fileName, i, totalFileCount, arrErrorMsgs);
                }
+<<<<<<< HEAD
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
+=======
 >>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
             };
             reader.onerror = function (uploaderror) {
@@ -439,7 +491,11 @@
          try {
             var failedfileList = $('#file-upload-filename').html();
 <<<<<<< HEAD
+<<<<<<< HEAD
             $('#file-upload-filename').html(failedfileList.replace(fileName + '<span class="uploading"> - ' + LABEL_FileUploadStatusUploading + '</span>', fileName + '<span class="failed"> - ' + LABEL_FileUploadStatusFailedtoUpload + '</span>'));
+=======
+            $('#file-upload-filename').html(failedfileList.replace(fileName + '<span class="uploading"> - {!$Label.AH_UDC_FileUploadStatusUploading} </span>', fileName + '<span class="failed"> - {!$Label.AH_UDC_FileUploadStatusFailedtoUpload}</span>'));
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
 =======
             $('#file-upload-filename').html(failedfileList.replace(fileName + '<span class="uploading"> - {!$Label.AH_UDC_FileUploadStatusUploading} </span>', fileName + '<span class="failed"> - {!$Label.AH_UDC_FileUploadStatusFailedtoUpload}</span>'));
 >>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
@@ -473,7 +529,11 @@
          try {
             if (blockNavigation == true) return; //If server action is in progress then don't allow to delete file
 <<<<<<< HEAD
+<<<<<<< HEAD
             showNotificationsWithButtons(LABEL_DeleteFileConfirmationMessage, 'DeleteUploadedFile');
+=======
+            showNotificationsWithButtons('{!$Label.AH_UDC_DeleteFileConfirmationMessage}', 'DeleteUploadedFile');
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
 =======
             showNotificationsWithButtons('{!$Label.AH_UDC_DeleteFileConfirmationMessage}', 'DeleteUploadedFile');
 >>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
@@ -490,7 +550,11 @@
                enableButtons();
                hideSpinner();
 <<<<<<< HEAD
+<<<<<<< HEAD
                if(isPageLoadErrorMessage == true && NotificationToShow != '') showNotifications(LABEL_FileDeleteSuccessfulMessage);
+=======
+               if(isPageLoadErrorMessage == true && NotificationToShow != '') showNotifications('{!$Label.AH_UDC_FileDeleteSuccessfulMessage}');
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
 =======
                if(isPageLoadErrorMessage == true && NotificationToShow != '') showNotifications('{!$Label.AH_UDC_FileDeleteSuccessfulMessage}');
 >>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
@@ -508,7 +572,11 @@
             actionfunction_LogClientException(strMethodName, strErrorMessage);
             $('.form-container-file-Upload').hide();
 <<<<<<< HEAD
+<<<<<<< HEAD
             $('#spnFileUploadErrorMsg').text(LABEL_FileUploadFormRenderErrorMessage);
+=======
+            $('#spnFileUploadErrorMsg').text('{!$Label.AH_UDC_FileUploadFormRenderErrorMessage}');
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
 =======
             $('#spnFileUploadErrorMsg').text('{!$Label.AH_UDC_FileUploadFormRenderErrorMessage}');
 >>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a

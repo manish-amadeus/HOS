@@ -5,7 +5,11 @@
  * Description   : This class creates a community user
  * Dependencies  : 
 <<<<<<< HEAD
+<<<<<<< HEAD
  **/ 
+=======
+ **/
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
 =======
  **/
 >>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
@@ -24,6 +28,7 @@ global without sharing class AH_UDC_REST_CreateCommunityUser {
 
       try {
          CreateCommunityUserRequest ccuRequest = (CreateCommunityUserRequest) JSON.deserialize(requestBody, CreateCommunityUserRequest.class);
+<<<<<<< HEAD
 <<<<<<< HEAD
          if (Test.isRunningTest() && ccuRequest.FirstName == 'Exception1') integer i=1/0;
          
@@ -45,6 +50,8 @@ global without sharing class AH_UDC_REST_CreateCommunityUser {
          AH_UDC_TestData.InsertWithRetries(new List<User> { newCommunityUser });
          resp.contactId=newCommunityUser.Id;
 =======
+=======
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
          if (Test.isRunningTest() && ccuRequest.FirstName == 'Exception1') integer i = 1 / 0;
          resp.userId = ccuRequest.ExistingUserId;
          if (String.isEmpty(ccuRequest.ExistingUserId)) {
@@ -67,6 +74,9 @@ global without sharing class AH_UDC_REST_CreateCommunityUser {
             resp.userId = newCommunityUser.Id;
          }
          AH_UDC_SharedWithoutSharing.GrantUserPermissionSet(resp.userId, AH_UDC_ConfigHelper.GetString('AH_UDC_PermissionSetCommunityUser', ''));
+<<<<<<< HEAD
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
+=======
 >>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
 
          //Set the Return code
@@ -97,15 +107,21 @@ global without sharing class AH_UDC_REST_CreateCommunityUser {
    @TestVisible
    public class CreateCommunityUserResponse {
 <<<<<<< HEAD
+<<<<<<< HEAD
       public String statusCode {get;set;}
       public String message {get;set;}
       public String exceptionMessage {get;set;}
       public String contactId {get;set;}
 =======
+=======
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
       public String statusCode { get; set; }
       public String message { get; set; }
       public String exceptionMessage { get; set; }
       public String userId { get; set; }
+<<<<<<< HEAD
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
+=======
 >>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
 
       public CreateCommunityUserResponse() {
@@ -120,6 +136,7 @@ global without sharing class AH_UDC_REST_CreateCommunityUser {
    @TestVisible
    public class CreateCommunityUserRequest {
 <<<<<<< HEAD
+<<<<<<< HEAD
       public String FirstName {get;set;}
       public String lastName {get;set;}
       public String ContactId {get;set;}
@@ -133,6 +150,8 @@ global without sharing class AH_UDC_REST_CreateCommunityUser {
       public String LanguageLocaleKey {get;set;}
       public String ProfileId {get;set;}
 =======
+=======
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
       public String ExistingUserId { get; set; }
       public String FirstName { get; set; }
       public String lastName { get; set; }
@@ -146,6 +165,9 @@ global without sharing class AH_UDC_REST_CreateCommunityUser {
       public String EmailEncodingKey { get; set; }
       public String LanguageLocaleKey { get; set; }
       public String ProfileId { get; set; }
+<<<<<<< HEAD
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
+=======
 >>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
 
       public CreateCommunityUserRequest() {

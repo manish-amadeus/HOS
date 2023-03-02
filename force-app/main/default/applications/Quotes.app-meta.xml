@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomApplication xmlns="http://soap.sforce.com/2006/04/metadata">
+    <defaultLandingTab>standard-home</defaultLandingTab>
+    <description>Quote and Quote line items, this provides a single tab which can be used as an app or added to the Salesforce app. The quote tab tracks quotes and detail lines presented to customers, many quotes can be related to a single opportunity</description>
+    <formFactors>Large</formFactors>
+    <isNavAutoTempTabsDisabled>false</isNavAutoTempTabsDisabled>
+    <isNavPersonalizationDisabled>false</isNavPersonalizationDisabled>
+    <isNavTabPersistenceDisabled>false</isNavTabPersistenceDisabled>
+    <label>Quotes</label>
+    <logo>ButtonsLogosImages/appexchange_transprnt_bkgrngif.gif</logo>
+    <tabs>SFDC_520_Quote__c</tabs>
+    <tabs>standard-Account</tabs>
+    <tabs>standard-Contact</tabs>
+    <tabs>standard-Opportunity</tabs>
+    <tabs>standard-Product2</tabs>
+    <tabs>standard-report</tabs>
+    <tabs>standard-Document</tabs>
+    <tabs>standard-Dashboard</tabs>
+    <tabs>PSA_Mobile_Expense</tabs>
+</CustomApplication>

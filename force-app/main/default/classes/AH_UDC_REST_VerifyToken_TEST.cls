@@ -19,7 +19,11 @@ private class AH_UDC_REST_VerifyToken_TEST {
    @TestSetup
    private static void setup() {
 <<<<<<< HEAD
+<<<<<<< HEAD
       AH_UDC_InitializationHelper.Initialize('All');
+=======
+      AH_UDC_InitializationHelper.Initialize('All'); 
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
 =======
       AH_UDC_InitializationHelper.Initialize('All'); 
 >>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
@@ -55,6 +59,7 @@ private class AH_UDC_REST_VerifyToken_TEST {
    }
 
 <<<<<<< HEAD
+<<<<<<< HEAD
    private static string GetToken(string SecurityCode, string UserId, string FormId)
    {
       //Generate Token
@@ -71,6 +76,8 @@ private class AH_UDC_REST_VerifyToken_TEST {
       return token;
    }
 
+=======
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
 =======
 >>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
    private static void testData1()
@@ -119,6 +126,7 @@ private class AH_UDC_REST_VerifyToken_TEST {
    }
 
 <<<<<<< HEAD
+<<<<<<< HEAD
    @isTest
    private static void TestGet() {
       testData1();
@@ -153,6 +161,8 @@ private class AH_UDC_REST_VerifyToken_TEST {
       }
    }
 =======
+=======
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
    //@isTest
    //private static void TestGet() {
       //testData1();
@@ -186,6 +196,9 @@ private class AH_UDC_REST_VerifyToken_TEST {
          //System.assertEquals(0, logMessages.size(), 'Log Messages found and not expected: ' + logMessages);
       //}
    //}
+<<<<<<< HEAD
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
+=======
 >>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
    @isTest
    private static void TestGetException() {
@@ -289,7 +302,11 @@ private class AH_UDC_REST_VerifyToken_TEST {
       testData1();
       string unknownSecurityCode = AH_UDC_Shared.GetSecurityCode();
 <<<<<<< HEAD
+<<<<<<< HEAD
       string token = GetToken(unknownSecurityCode, m_oUser.id, m_oForm.id);
+=======
+      string token = AH_UDC_Shared.CreateStepToken(unknownSecurityCode, m_oForm.id, m_oWBS1.id);
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
 =======
       string token = AH_UDC_Shared.CreateStepToken(unknownSecurityCode, m_oForm.id, m_oWBS1.id);
 >>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
@@ -327,7 +344,11 @@ private class AH_UDC_REST_VerifyToken_TEST {
    private static void TestGetBadTokenWithoutSecurityCode() {
       testData1();
 <<<<<<< HEAD
+<<<<<<< HEAD
       string token = GetToken('', m_oUser.id, m_oForm.id);
+=======
+      string token = AH_UDC_Shared.CreateStepToken('', m_oForm.id, m_oWBS1.id);
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
 =======
       string token = AH_UDC_Shared.CreateStepToken('', m_oForm.id, m_oWBS1.id);
 >>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a

@@ -1,4 +1,5 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 <apex:page controller="AH_UDC_ViewWorkbook" showheader="false" sidebar="false" standardstylesheets="false">
    <html lang="en">
    <head>
@@ -346,6 +347,328 @@
       </apex:form>
    </body>
 </html>
+=======
+<apex:page controller="AH_UDC_ViewWorkbook" showheader="false" sidebar="false" standardstylesheets="false">
+   <html lang="en">
+   <head>
+      <title>{!$Label.AH_UDC_CompanyName} - {!$Label.AH_UDC_ProductName}</title>
+      <!--Hover Tooltip - Tippy JS-->
+      <c:AH_UDC_Tool_Tip />
+      <!--Include for all CSS-->
+      <c:AH_UDC_AmadeusBrand />
+      <c:AH_UDC_ViewWorkbookCSS />
+      <apex:includescript value="{!URLFOR($Resource.AH_UDC_Jquery)}" />
+   </head>
+   <body>
+      <apex:form >
+         <apex:outputpanel id="displayMessages">
+            <apex:outputpanel rendered="{!isPageLoadErrorMessage}">
+               <nav class="navbar" id="top-banner">
+                  <div class="logo">
+                     <img src="{!URLFOR($Resource.AH_UDC_AmadeusWhiteLogo)}" alt="Amadeus Logo" />
+                  </div>
+                  <div class="navbar-nav">
+                     <div class="nav-item active">
+                        <a href="{!ReturnToWelcomePageUrl}" class="nav-link {!IF(IsCommunityView==true,'IsCommunityViewTrue','IsCommunityViewFalse')}">{!$Label.AH_UDC_Return_To_Welcome_Page}</a>
+                     </div>
+                  </div>
+               </nav>
+               <div class="container">
+                  <div class="content">
+                     <apex:pagemessages ></apex:pagemessages>
+                  </div>
+               </div>
+            </apex:outputpanel>
+         </apex:outputpanel>
+         <!--Workbook Update Timer-->
+         <apex:actionfunction name="actionfunction_UpdateTimer" oncomplete="javascript:UpdateTimerCallback();return false;" action="{!serverUpdateTimer}" rerender="displayMessages,serverside,opExpandedMenu,opCollapsedMenu,opStart,contenttitle" />
+         <!--This action function is used to change steps-->
+         <apex:actionfunction name="actionfunction_ChangeToNextStepNotCompleted" oncomplete="javascript:changeToStepCallback();return false;" action="{!serverChangeToNextStepNotCompleted}" rerender="displayMessages,changeStep,serverside,opExpandedMenu,opCollapsedMenu,contenttitle,contenttitlebuttons,primaryContent" />
+         <!--This action function is used to change steps-->
+         <apex:actionfunction name="actionfunction_ChangeToStep" oncomplete="javascript:changeToStepCallback();return false;" action="{!serverChangeToStep}" rerender="displayMessages,changeStep,serverside,contenttitle,contenttitlebuttons,primaryContent">
+            <apex:param id="changeToPositionNumber" name="changeToPositionNumber" assignto="{!changeToPositionNumber}" value="" />
+         </apex:actionfunction>
+         <!--This action function is used to move the collapsed menu up and down-->
+         <apex:actionfunction name="actionfunction_CollapsedMenuMove" oncomplete="return false;" action="{!serverCollapsedMenuMove}" rerender="displayMessages,serverside,opCollapsedMenu">
+            <apex:param id="collapsedMenuMoveDirection" name="collapsedMenuMoveDirection" assignto="{!collapsedMenuMoveDirection}" value="" />
+         </apex:actionfunction>
+         <!--This action function is used to mark a step complete-->
+         <apex:actionfunction name="actionfunction_MarkStepComplete" oncomplete="javascript:markStepCompleteCallback();return false;" action="{!serverMarkStepComplete}" rerender="displayMessages,serverside,opExpandedMenu,opCollapsedMenu,opStart,contenttitle,contenttitlebuttons" />
+         <!--This action function is used to mark a step complete-->
+         <apex:actionfunction name="actionfunction_ConfirmProperty" oncomplete="javascript:confirmPropertyCallback();return false;" action="{!serverConfirmProperty}" rerender="displayMessages,serverside,opStart" />
+         <!--This action function is used to submit the workbook-->
+         <apex:actionfunction name="actionfunction_Submit" oncomplete="javascript:submitCallback();return false;" action="{!serverSubmit}" rerender="displayMessages,serverside,opExpandedMenu,opCollapsedMenu,opStart,completionarea" />
+         <!--This action function is used to log entries that occurred on loading of the page-->
+         <apex:actionfunction name="actionfunction_LogMessages" action="{!serverLogMessages}" rerender="serverside" />
+         <!--This action function is used to log entries that occurred javascript code-->
+         <apex:actionfunction name="actionfunction_LogClientException" action="{!serverLogClientException}" rerender="">
+            <apex:param id="methodname" name="methodname" value="" />
+            <apex:param id="errormsg" name="errormsg" value="" />
+         </apex:actionfunction>
+
+         <!--These are action functions for File Upload-->
+         <apex:actionfunction name="actionfunction_GetUserFiles" action="{!serverGetFiles}" rerender="fileUploadPanel" oncomplete="hideSpinner(); enableButtons();" />
+         <apex:actionfunction name="actionfunction_DeleteFile" action="{!serverDeleteFile}" oncomplete="onCompleteDeleteFile()" rerender="displayMessages,FileListArea,displayMessages,serverside">
+            <apex:param id="DeleteFileID" name="DeleteFileID" assignTo="{!workbook.currentStep.fileUploadInfo.fileId}" value="" />
+         </apex:actionfunction>
+         <!--This action function is used to change step status to in-progress-->
+         <apex:actionfunction name="actionfunction_SetStepInProgress" action="{!serverSetStepInProgress}" rerender="displayMessages,serverside,opExpandedMenu,opCollapsedMenu,opStart" />
+         
+         <apex:outputpanel rendered="{!isPageLoadErrorMessage==false}">
+            <div class="sidebar opened">
+               <!-- This div is the expanded step menu-->
+               <apex:outputpanel id="opExpandedMenu">
+                  <div class="left-side">
+                     <div class="heading">
+                        <span class="title">{!workbook.Title}</span>
+                     </div>
+                     <ul class="steps-list">
+                        <li class="step-item start-finish" onclick="changeToStep('0');">
+                           <span class="step-name">
+                              <a>
+                                 {!$Label.AH_UDC_Start}
+                              </a>
+                           </span>
+                           <i class="start-step-circle fas fa-star" style="color:white;"></i>
+                        </li>
+                        <div id="workbook-steps-details">
+                           <apex:repeat value="{!workbook.steps}" var="step">
+                              <li id="step_{!step.position}" class="step-item {!step.css}" onclick="changeToStep('{!step.position}', '{!step.isLocked}', '{!step.isPrerequisiteStepNotCompleted}', '{!step.prerequisiteStepPosition}', '{!step.prerequisiteStepName}');">
+                                 <span class="step-name">
+                                    {!$Label.AH_UDC_ViewWorkbook_Menu_Step} {!step.position}<br />{!step.name}
+                                 </span>
+                                 <i class="{!step.cssI}"></i>
+                              </li>
+                           </apex:repeat>
+                        </div>
+                        <li class="step-item start-finish" onclick="changeToStep('-1');">
+                           <span class="step-name">
+                              <a>
+                                 {!$Label.AH_UDC_Complete}
+                              </a>
+                           </span>
+                           <i class="complete-step-circle fas fa-clipboard-check" style="color:white;width:14px"></i>
+                        </li>
+                     </ul>
+                  </div>
+               </apex:outputpanel>
+               <!-- This div is the collapsed step menu circles-->
+               <div class="right-side">
+                  <div class="open-close-sidebar" onclick="toggleSidebar()">
+                     <i class="toggle-indicator fas fa-chevron-left"></i>
+                  </div>
+                  <div id="steps_summary" class="steps-summary" style="display:none;">
+                     <div id="start-step" onclick="changeToStep('0');">
+                        <div class="step tooltip">
+                           <a class="start-step-circle">
+                              <i class="fas fa-star"></i>
+                           </a>
+                           <span class="tooltiptext">{!$Label.AH_UDC_Start}</span>
+                        </div>
+                     </div>
+                     <apex:outputpanel id="opCollapsedMenu">
+                        <div id="arrow_up" class='up-down-navigation fas fa-angle-double-up arrow-indicator' onclick="actionfunction_CollapsedMenuMove(-1);" style="{!if(ShowCollapsedMenuUpNavigation,'','display:none;')}"></div>
+                        <apex:repeat value="{!workbook.steps}" var="step">
+                           <div class="step tooltip {!step.cssCollapsedMenuStep}">
+                              <a id="rmStep{!step.position}" class="{!step.css} {!step.cssCurrent}" onclick="changeToStep('{!step.position}', '{!step.isLocked}', '{!step.isPrerequisiteStepNotCompleted}', '{!step.prerequisiteStepPosition}', '{!step.prerequisiteStepName}');">{!step.position}</a>
+                              <span class="tooltiptext">{!step.name}</span>
+                           </div>
+                        </apex:repeat>
+                        <div id="arrow_down" class='up-down-navigation fas fa-angle-double-down arrow-indicator' onclick="actionfunction_CollapsedMenuMove(1);" style="{!if(ShowCollapsedMenuDownNavigation,'','display:none;')}"></div>
+                     </apex:outputpanel>
+                     <div id="finish-step" onclick="changeToStep('-1');">
+                        <div class="tooltip">
+                           <a class="complete-step-circle">
+                              <i class="fas fa-clipboard-check"></i>
+                           </a>
+                           <span class="tooltiptext">{!$Label.AH_UDC_Complete}</span>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+            <div class="container">
+               <!-- This nav is the top menu with the Amadeus logo-->
+               <nav class="navbar" id="logo">
+                  <div class="logo opened-sidebar">
+                     <img src="{!URLFOR($Resource.AH_UDC_AmadeusWhiteLogo)}" alt="Amadeus Logo" />
+                  </div>
+                  <div class="navbar-nav {!IF(IsCommunityView==true,'IsCommunityViewTrue','IsCommunityViewFalse')}">
+                     <div class="nav-item active">
+                        <a href="{!ReturnToWelcomePageUrl}" class="nav-link">{!$Label.AH_UDC_Return_To_Welcome_Page}</a>
+                     </div>
+                  </div>
+               </nav>
+               <div class="content opened-sidebar" id="opened-sidebar-div">
+                  <!-- This div is the header above the form step menu-->
+                  <div class="header" id="div-header">
+                     <div class="workbook-info" style="width: 100%;">
+                        <h2 class="title">
+                           <span class="name">{!workbook.name}</span>
+                        </h2>
+                        <!--Notifications-->
+                        <div id="notification_background" class="notification_background">
+                           <div id="notification_message" class="notification_message">Are you sure the form is saved? Do you want to:</div>
+                           <div id="notification_buttons_saveform" class="notification_buttons">
+                              <a id="notification_ok" class="notification_button" onclick="saveformContinue();">{!$Label.AH_UDC_Continue}</a>
+                              <a id="notification_cancel" class="notification_button" onclick="saveformCancel();">{!$Label.AH_UDC_Cancel}</a>
+                           </div>
+                        </div>
+                        <!-- Spinner-->
+                        <div id="spinner_background" class="spinner_background"></div>
+                        <div id="spinner" class="spinner"></div>
+                        <!--Header Above Form-->
+                        <apex:outputpanel id="contenttitle">
+                           <apex:outputpanel rendered="{!currentPosition==0}">
+                              <h3 class="title-step-name">
+                                 {!$Label.AH_UDC_Start}
+                              </h3>
+                           </apex:outputpanel>
+                           <apex:outputpanel rendered="{!currentPosition>0}">
+                              <h3 class="title-step-name">
+                                 {!$Label.AH_UDC_ViewWorkbook_Menu_Step} {!currentStep.position} of {!workbook.totalSteps}: {!currentStep.name}
+                              </h3>
+                              <!--Last Updated By-->
+                              <apex:outputpanel id="lastUpdatedByUsersList" rendered="{!currentStep.lastUpdatedByUsersList.size > 0}">
+                                 <label>{!$Label.AH_UDC_ViewWorkbook_LastUpdatedBy}:</label>
+                                 <apex:selectList value="{!currentStep.selectedLastUpdatedById}" size="1" styleClass="common-dropdowns" style="margin-left: 5px;">
+                                     <apex:selectOptions value="{!currentStep.lastUpdatedByUsersList}"></apex:selectOptions>
+                                 </apex:selectList>
+                                 <apex:outputPanel rendered="{!IsCommunityView}">
+                                    <i class="toggle-indicator far fa-question-circle" id="infoIcon" data-tooltip="{!LastUpdatedByHelpText}"></i>
+                                 </apex:outputPanel>
+                              </apex:outputpanel>
+                           </apex:outputpanel>
+                           <apex:outputpanel rendered="{!currentPosition==-1}">
+                              <h3 class="title-step-name">
+                                 {!$Label.AH_UDC_Complete}
+                              </h3>
+                           </apex:outputpanel>
+                        </apex:outputpanel>
+                     </div>
+                     <div class="button-group">
+                        <apex:outputpanel id="contenttitlebuttons">
+                           <a id="mark_complete_button" class="btn btn-primary" href="#" onclick="MarkStepComplete();">{!$Label.AH_UDC_Common_Buttons_Mark_Step_Complete_Btn}</a>
+                           <a id="completed_button" class="btn btn-green" style="display:none">{!$Label.AH_UDC_ViewWorkbook_CompletedStep}</a>
+                           <a id="chatterButton" class="btn {!IF(IsCommunityView==true,'IsCommunityViewTrue','IsCommunityViewFalse')}" onclick="onClickChatterButton();">
+                              <i id="chatterButtonImage" class="fas fa-comment-dots"></i>
+                           </a>
+                        </apex:outputpanel>
+                     </div>
+                  </div>
+                  <!--This is the primary content area where Start/Steps/Complete are shown-->
+                  <apex:outputpanel id="primaryContent" style="{!IF(workbook.isArchived, 'pointer-events: none; cursor: not-allowed;', '')}">
+                     <apex:outputpanel id="opStart" rendered="{!currentPosition==0}">
+                        <c:AH_UDC_Confirm attributeonclickconfirm="ConfirmOnClickConfirm(); return false;"
+                                          attributeonclickcancel="ConfirmOnClickCancel(); return false;"
+                                          attributeworkbook="{!workbook}" />
+                        <div style="height:25px"></div>
+                        <c:AH_UDC_Start workbook="{!workbook}" />
+                     </apex:outputpanel>
+                     <!--This is the iframe where Form Assembly forms and External URLs are shown-->
+                     <apex:outputpanel rendered="{!currentPosition > 0 && (currentStep.isFormAssemblyForm || currentStep.isExternalUrl)}">
+                        <iframe id="contentarea" src="{!currentStep.url}" frameborder="0"></iframe>
+                     </apex:outputpanel>
+
+                     <!--Display Amadeus Custom Form-->
+                     <apex:outputpanel rendered="{!currentPosition > 0 && currentStep.isAmadeusCustomForm}">
+                        <div id="divAmadeusForm">
+                           <c:AH_UDC_AmadeusForm attributeWorkbook="{!workbook}" />
+                        </div>
+                     </apex:outputpanel>
+                     <!--Display Amadeus File Upload-->
+                     <apex:outputpanel id="fileUploadPanel" rendered="{!currentPosition > 0 && currentStep.isAmadeusFileUpload}">
+                        <div id="divAmadeusfileUpload">
+                           <apex:outputpanel id="FileUploadArea">
+                              <c:AH_UDC_FileUpload id="AmadeusFileUpload"
+                                                   attributeWorkbook="{!workbook}"
+                                                   attributeDisplayConsoleLogMessages="{!DisplayConsoleLogMessages}"/>
+                           </apex:outputpanel>
+                        </div>
+                     </apex:outputpanel>
+                     <!--This is the Complete step-->
+                     <apex:outputpanel id="completionarea" rendered="{!currentPosition == -1}">
+                        <c:AH_UDC_Workbook_Completion attributeonclicksubmit="Submit();return false;"
+                                                      attributeworkbook="{!workbook}" />
+                     </apex:outputpanel>
+                  </apex:outputpanel>
+               </div>
+            </div>
+            <div class="help-bar closed">
+               <div class="left-side" id="left-bluebar-closed">
+                  <div id="helpopenclose" class="open-close-help-bar" onclick="onClickHelp();">
+                     <i Id="helpicon" class="toggle-indicator far fa-question-circle"></i>
+                  </div>
+               </div>
+               <div class="right-side">
+                  <iframe id="helparea" src="{!currentStep.helpurl}" frameborder="0"></iframe>
+               </div>
+            </div>
+         </apex:outputpanel>
+         <!--Include for all JS on this page-->
+         <c:AH_UDC_ViewWorkbookJS workbookdocumentid="{!workbook.documentId}" />
+
+         <!--IMPORTANT: This block does not rerender but does use serverside values-->
+         <script>            
+            var NotificationDisplayMilliseconds = {!NotificationDisplayMilliseconds};
+            var UpdateTimerIntervalInMilliSeconds = {!UpdateTimerIntervalInMilliSeconds};
+         </script>
+
+         <!--IMPORTANT : This block is re-rendered only on the change of a step-->
+         <apex:outputpanel id="changeStep">
+            <script>
+               //Amadeus Custom Form
+               $(document).ready(function() {
+                  if('{!currentPosition > 0}'.toLocaleLowerCase() == 'true')
+                     $('.help-bar').show(); //Show help bar only for step page
+                  else
+                     $('.help-bar').hide();
+
+                  if('{!isPageLoadErrorMessage}' != 'true' && '{!currentStep.isamadeuscustomform}' == 'true') {
+                     showSpinner();
+                     $('.modal-backdrop').hide();
+                     $('body').addClass('amadeus-custom-form');
+                     getAmadeusFormResponse();
+                  }
+                  else {
+                     $('body').removeClass('amadeus-custom-form');
+                  }
+               });
+            </script>
+         </apex:outputpanel>
+
+         <!--IMPORTANT : This block is re-rendered to bring server side variables into client variables-->
+         <apex:outputpanel id="serverside">
+            <script>
+               var DisplayConsoleLogMessages = {!DisplayConsoleLogMessages};
+               //var changeToStepUrl = "changeToStepUrl";
+               var currentPosition = "{!currentPosition}";
+               var currentStepId = '{!currentStep.id}';
+               var currentStepURL = '{!currentStep.url}';
+               var IsCommunityView = {!IsCommunityView};
+               var currentStepHelpUrl = '{!currentStep.helpurl}';
+               var currentStepStatus = '{!currentStep.status}';
+               var isPageLoadErrorMessage = {!isPageLoadErrorMessage};
+               var logMessages = '{!HasPageLoadLogMessages}';
+               var returnToWelcomePageUrl = '{!JSINHTMLENCODE(ReturnToWelcomePageUrl)}';
+               var isPropertyConfirmed = {!workbook.propertyInfo.isPropertyConfirmed};
+               var isWorkbookCompleted = {!workbook.isCompleted};
+               var isWorkbookSent = {!workbook.IsSent};
+               var isWorkbookArchived = {!workbook.isArchived};
+               var chatterUpdate = {!chatterUpdate};
+               var documentationId = '{!workbook.documentId}';
+               var NotificationToShow = "{!NotificationToShow}";               
+               console.log('NotificationToShow: ' + NotificationToShow);
+               completeReRender();
+            </script>
+         </apex:outputpanel>
+         <script>
+            completeInitialRender();
+         </script>
+      </apex:form>
+   </body>
+</html>
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
 =======
 <apex:page controller="AH_UDC_ViewWorkbook" showheader="false" sidebar="false" standardstylesheets="false">
    <html lang="en">

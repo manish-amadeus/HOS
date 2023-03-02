@@ -777,7 +777,11 @@
         </rules>
     </decisions>
 <<<<<<< HEAD
+<<<<<<< HEAD
     <description>NICC-062947; Flow to send out email alerts for BE4 upgrade projects for PLCM</description>
+=======
+    <description>NICC-######; Flow to send out email alerts for BE4 upgrade projects for PLCM</description>
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
 =======
     <description>NICC-######; Flow to send out email alerts for BE4 upgrade projects for PLCM</description>
 >>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
@@ -876,13 +880,19 @@ IF(OR({!UpgradeCompleteAB} ,{!UpgradeCompleteC1} ,{!UpgradeCompleteC2} ), &quot;
         <filterFormula>{!$Record.RecordType.DeveloperName} = &quot;PLCM_Migrations&quot; &amp;&amp;
 ISPICKVAL({!$Record.AH_PLCM_Product__c}, &quot;BE4 to BE5 Upgrade&quot;) &amp;&amp;
 <<<<<<< HEAD
+<<<<<<< HEAD
 {!$Record.Stop_Email_Notifications__c}= FALSE</filterFormula>
 =======
+=======
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
 {!$Record.Stop_Email_Notifications__c}= FALSE ||
 
 {!$Record.RecordType.DeveloperName} = &quot;PLCM_Migrations&quot; &amp;&amp;
 ISPICKVAL({!$Record.AH_PLCM_Product__c}, &quot;BE4 to BE5 Upgrade&quot;) &amp;&amp;
 AND(ISCHANGED({!$Record.Stop_Email_Notifications__c}),{!$Record.Stop_Email_Notifications__c}= FALSE,{!$Record__Prior.Stop_Email_Notifications__c} = TRUE)</filterFormula>
+<<<<<<< HEAD
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
+=======
 >>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
         <object>NI_Documentation__c</object>
         <recordTriggerType>CreateAndUpdate</recordTriggerType>
@@ -922,7 +932,11 @@ AND(ISCHANGED({!$Record.Stop_Email_Notifications__c}),{!$Record.Stop_Email_Notif
         <triggerType>RecordAfterSave</triggerType>
     </start>
 <<<<<<< HEAD
+<<<<<<< HEAD
     <status>Active</status>
+=======
+    <status>Obsolete</status>
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
 =======
     <status>Obsolete</status>
 >>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Flow xmlns="http://soap.sforce.com/2006/04/metadata">
 <<<<<<< HEAD
+<<<<<<< HEAD
     <apiVersion>55.0</apiVersion>
     <assignments>
         <name>AddToCollection</name>
@@ -18,13 +19,21 @@
 =======
     <apiVersion>56.0</apiVersion>
 >>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
+=======
+    <apiVersion>56.0</apiVersion>
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
     <assignments>
         <description>Adds a count of 1 everytime a record is matched in the loop. Used to decide if the record in the loop needs a new DI created.</description>
         <name>AssignMatchingRecordCount</name>
         <label>AssignMatchingRecordCount</label>
 <<<<<<< HEAD
+<<<<<<< HEAD
         <locationX>1406</locationX>
         <locationY>63</locationY>
+=======
+        <locationX>1212</locationX>
+        <locationY>64</locationY>
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
 =======
         <locationX>1212</locationX>
         <locationY>64</locationY>
@@ -45,8 +54,13 @@
         <name>AssignTempNewDIRecord</name>
         <label>AssignTempNewDIRecord</label>
 <<<<<<< HEAD
+<<<<<<< HEAD
         <locationX>844</locationX>
         <locationY>315</locationY>
+=======
+        <locationX>717</locationX>
+        <locationY>295</locationY>
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
 =======
         <locationX>717</locationX>
         <locationY>295</locationY>
@@ -88,6 +102,7 @@
         </assignmentItems>
         <assignmentItems>
 <<<<<<< HEAD
+<<<<<<< HEAD
             <assignToReference>varTempNewDIRecord.AccountId_ProductId__c</assignToReference>
             <operator>Assign</operator>
             <value>
@@ -95,6 +110,8 @@
             </value>
         </assignmentItems>
         <assignmentItems>
+=======
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
 =======
 >>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
             <assignToReference>varTempNewDIRecordCollection</assignToReference>
@@ -112,8 +129,13 @@
         <name>CountExistingDeploymentInstances</name>
         <label>CountExistingDeploymentInstances</label>
 <<<<<<< HEAD
+<<<<<<< HEAD
         <locationX>49</locationX>
         <locationY>529</locationY>
+=======
+        <locationX>58</locationX>
+        <locationY>439</locationY>
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
 =======
         <locationX>58</locationX>
         <locationY>439</locationY>
@@ -134,8 +156,13 @@
         <name>CountNewDIRecords</name>
         <label>CountNewDIRecords</label>
 <<<<<<< HEAD
+<<<<<<< HEAD
         <locationX>808</locationX>
         <locationY>641</locationY>
+=======
+        <locationX>789</locationX>
+        <locationY>551</locationY>
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
 =======
         <locationX>789</locationX>
         <locationY>551</locationY>
@@ -153,12 +180,15 @@
     </assignments>
     <assignments>
 <<<<<<< HEAD
+<<<<<<< HEAD
         <description>Counts the total number of records in the TempNewDIRecordCollection</description>
         <name>CountTempDIRecords</name>
         <label>CountTempDIRecords</label>
         <locationX>367</locationX>
         <locationY>486</locationY>
 =======
+=======
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
         <description>Counts the number of subscription activations records found the &quot;GetSubscriptionActivation&quot; element</description>
         <name>CountSubscriptionActivations</name>
         <label>CountSubscriptionActivations</label>
@@ -181,6 +211,9 @@
         <label>CountTempDIRecords</label>
         <locationX>397</locationX>
         <locationY>490</locationY>
+<<<<<<< HEAD
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
+=======
 >>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
         <assignmentItems>
             <assignToReference>varCountTempDIRecords</assignToReference>
@@ -198,8 +231,13 @@
         <name>FinalCollectionList</name>
         <label>FinalCollectionList</label>
 <<<<<<< HEAD
+<<<<<<< HEAD
         <locationX>1437</locationX>
         <locationY>447</locationY>
+=======
+        <locationX>1218</locationX>
+        <locationY>375</locationY>
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
 =======
         <locationX>1218</locationX>
         <locationY>375</locationY>
@@ -220,8 +258,13 @@
         <name>ResetNumberOfMatchingRecords</name>
         <label>ResetNumberOfMatchingRecords</label>
 <<<<<<< HEAD
+<<<<<<< HEAD
         <locationX>501</locationX>
         <locationY>287</locationY>
+=======
+        <locationX>492</locationX>
+        <locationY>254</locationY>
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
 =======
         <locationX>492</locationX>
         <locationY>254</locationY>
@@ -242,8 +285,13 @@
         <name>TempAssignAcctIdIndexID</name>
         <label>TempAssignAcctIdIndexID</label>
 <<<<<<< HEAD
+<<<<<<< HEAD
         <locationX>1249</locationX>
         <locationY>444</locationY>
+=======
+        <locationX>1070</locationX>
+        <locationY>351</locationY>
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
 =======
         <locationX>1070</locationX>
         <locationY>351</locationY>
@@ -264,8 +312,13 @@
         <elementSubtype>SortCollectionProcessor</elementSubtype>
         <label>SortTempCollection</label>
 <<<<<<< HEAD
+<<<<<<< HEAD
         <locationX>688</locationX>
         <locationY>489</locationY>
+=======
+        <locationX>614</locationX>
+        <locationY>413</locationY>
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
 =======
         <locationX>614</locationX>
         <locationY>413</locationY>
@@ -286,8 +339,13 @@
         <name>AddToFinalListDecision</name>
         <label>AddToFinalListDecision</label>
 <<<<<<< HEAD
+<<<<<<< HEAD
         <locationX>1352</locationX>
         <locationY>630</locationY>
+=======
+        <locationX>1100</locationX>
+        <locationY>555</locationY>
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
 =======
         <locationX>1100</locationX>
         <locationY>555</locationY>
@@ -317,8 +375,13 @@
         <name>CreateNewDIRecordDecision</name>
         <label>CreateNewDIRecordDecision</label>
 <<<<<<< HEAD
+<<<<<<< HEAD
         <locationX>1122</locationX>
         <locationY>269</locationY>
+=======
+        <locationX>1102</locationX>
+        <locationY>161</locationY>
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
 =======
         <locationX>1102</locationX>
         <locationY>161</locationY>
@@ -348,7 +411,11 @@
         <name>DecisionHasExistingDIRecords</name>
         <label>DecisionHasExistingDIRecords</label>
 <<<<<<< HEAD
+<<<<<<< HEAD
         <locationX>902</locationX>
+=======
+        <locationX>849</locationX>
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
 =======
         <locationX>849</locationX>
 >>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
@@ -378,8 +445,13 @@
         <name>DIRecordCompareDecision</name>
         <label>DIRecordCompareDecision</label>
 <<<<<<< HEAD
+<<<<<<< HEAD
         <locationX>1424</locationX>
         <locationY>303</locationY>
+=======
+        <locationX>1252</locationX>
+        <locationY>221</locationY>
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
 =======
         <locationX>1252</locationX>
         <locationY>221</locationY>
@@ -399,6 +471,7 @@
                 </rightValue>
             </conditions>
 <<<<<<< HEAD
+<<<<<<< HEAD
             <conditions>
                 <leftValueReference>formulaAccountId_DIIndexID</leftValueReference>
                 <operator>EqualTo</operator>
@@ -415,6 +488,8 @@
             </conditions>
 =======
 >>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
+=======
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
             <connector>
                 <targetReference>AssignMatchingRecordCount</targetReference>
             </connector>
@@ -426,8 +501,13 @@
         <name>ProductHasDI_IndexDecision</name>
         <label>Product Has DI Index Decision</label>
 <<<<<<< HEAD
+<<<<<<< HEAD
         <locationX>525</locationX>
         <locationY>46</locationY>
+=======
+        <locationX>473</locationX>
+        <locationY>43</locationY>
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
 =======
         <locationX>473</locationX>
         <locationY>43</locationY>
@@ -453,7 +533,11 @@
         </rules>
     </decisions>
 <<<<<<< HEAD
+<<<<<<< HEAD
     <description>NICC-053482; NICC-053773; NICC-053660; NICC-057398; NICC-058163; updated via NICC-060001; updated via NICC-061384
+=======
+    <description>NICC-053482; NICC-053773; NICC-053660; NICC-057398; NICC-058163
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
 =======
     <description>NICC-053482; NICC-053773; NICC-053660; NICC-057398; NICC-058163
 >>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
@@ -473,12 +557,15 @@ Creates a Deployment Instance record for each product in a bundle that doesn&apo
         <expression>{!AccountId}&amp;{!DI_Index_Details.Id}</expression>
     </formulas>
 <<<<<<< HEAD
+<<<<<<< HEAD
     <formulas>
         <description>Concatenates the Account Id and Product Id of the potential new Subscription Activation record</description>
         <name>formulaAccountID_ProductID</name>
         <dataType>String</dataType>
         <expression>{!AccountId}&amp;{!ProductDetail.Id}</expression>
     </formulas>
+=======
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
 =======
 >>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
     <interviewLabel>CreateDIBundleProduct {!$Flow.CurrentDateTime}</interviewLabel>
@@ -488,8 +575,13 @@ Creates a Deployment Instance record for each product in a bundle that doesn&apo
         <name>LoopDIRecords</name>
         <label>LoopDIRecords</label>
 <<<<<<< HEAD
+<<<<<<< HEAD
         <locationX>1136</locationX>
         <locationY>48</locationY>
+=======
+        <locationX>1013</locationX>
+        <locationY>42</locationY>
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
 =======
         <locationX>1013</locationX>
         <locationY>42</locationY>
@@ -521,8 +613,13 @@ Creates a Deployment Instance record for each product in a bundle that doesn&apo
         <name>LoopTempNewDIRecord</name>
         <label>LoopTempNewDIRecord</label>
 <<<<<<< HEAD
+<<<<<<< HEAD
         <locationX>1064</locationX>
         <locationY>539</locationY>
+=======
+        <locationX>931</locationX>
+        <locationY>477</locationY>
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
 =======
         <locationX>931</locationX>
         <locationY>477</locationY>
@@ -558,6 +655,7 @@ Creates a Deployment Instance record for each product in a bundle that doesn&apo
     <recordCreates>
         <name>CreateDeploymentInstances</name>
         <label>CreateDeploymentInstances</label>
+<<<<<<< HEAD
 <<<<<<< HEAD
         <locationX>534</locationX>
         <locationY>551</locationY>
@@ -609,18 +707,28 @@ Creates a Deployment Instance record for each product in a bundle that doesn&apo
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordCreates>
 =======
+=======
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
         <locationX>545</locationX>
         <locationY>576</locationY>
         <inputReference>CreateNewDeploymentInstanceColl</inputReference>
     </recordCreates>
+<<<<<<< HEAD
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
+=======
 >>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
     <recordLookups>
         <description>Gets the existing Deployment Instances on the Account record</description>
         <name>GetDeploymentInstances</name>
         <label>GetDeploymentInstances</label>
 <<<<<<< HEAD
+<<<<<<< HEAD
         <locationX>50</locationX>
         <locationY>386</locationY>
+=======
+        <locationX>64</locationX>
+        <locationY>268</locationY>
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
 =======
         <locationX>64</locationX>
         <locationY>268</locationY>
@@ -645,6 +753,7 @@ Creates a Deployment Instance record for each product in a bundle that doesn&apo
             </value>
         </filters>
 <<<<<<< HEAD
+<<<<<<< HEAD
         <filters>
             <field>DI_Index_Name__c</field>
             <operator>IsNull</operator>
@@ -654,12 +763,15 @@ Creates a Deployment Instance record for each product in a bundle that doesn&apo
         </filters>
 =======
 >>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
+=======
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
         <object>Asset</object>
         <outputReference>ExistingDeploymentInstancesColl</outputReference>
         <queriedFields>Id</queriedFields>
         <queriedFields>Product2Id</queriedFields>
         <queriedFields>DI_Index_Name__c</queriedFields>
         <queriedFields>AccountId_DIIndexID__c</queriedFields>
+<<<<<<< HEAD
 <<<<<<< HEAD
         <queriedFields>AccountId_ProductId__c</queriedFields>
     </recordLookups>
@@ -708,14 +820,21 @@ Creates a Deployment Instance record for each product in a bundle that doesn&apo
         <storeOutputAutomatically>true</storeOutputAutomatically>
 =======
 >>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
+=======
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
     </recordLookups>
     <recordLookups>
         <description>Gets the Name of the Deployment Instance Index associated with the Product. This will be used for comparing potential new records against existing DI records on the Account. Only one DI Index can exist on an Account record.</description>
         <name>GetProductDI_IndexDetails</name>
         <label>GetProductDI_IndexDetails</label>
 <<<<<<< HEAD
+<<<<<<< HEAD
         <locationX>724</locationX>
         <locationY>67</locationY>
+=======
+        <locationX>641</locationX>
+        <locationY>39</locationY>
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
 =======
         <locationX>641</locationX>
         <locationY>39</locationY>
@@ -795,17 +914,23 @@ Creates a Deployment Instance record for each product in a bundle that doesn&apo
         <name>GetSubscriptionActivation</name>
         <label>GetSubscriptionActivation</label>
 <<<<<<< HEAD
+<<<<<<< HEAD
         <locationX>190</locationX>
         <locationY>516</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>LoopSubActRecords</targetReference>
 =======
+=======
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
         <locationX>63</locationX>
         <locationY>592</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>CountSubscriptionActivations</targetReference>
+<<<<<<< HEAD
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
+=======
 >>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
         </connector>
         <filterLogic>(1) and (4) and (5) and (NOT(2)) AND (NOT(3) AND NOT(6))</filterLogic>
@@ -814,7 +939,11 @@ Creates a Deployment Instance record for each product in a bundle that doesn&apo
             <operator>EqualTo</operator>
             <value>
 <<<<<<< HEAD
+<<<<<<< HEAD
                 <elementReference>OppId</elementReference>
+=======
+                <elementReference>varOpportunityRecordFlow3.Id</elementReference>
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
 =======
                 <elementReference>varOpportunityRecordFlow3.Id</elementReference>
 >>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
@@ -846,7 +975,11 @@ Creates a Deployment Instance record for each product in a bundle that doesn&apo
             <operator>EqualTo</operator>
             <value>
 <<<<<<< HEAD
+<<<<<<< HEAD
                 <elementReference>GroupId</elementReference>
+=======
+                <elementReference>varGroupRecordFlow3.Id</elementReference>
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
 =======
                 <elementReference>varGroupRecordFlow3.Id</elementReference>
 >>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
@@ -869,15 +1002,21 @@ Creates a Deployment Instance record for each product in a bundle that doesn&apo
     </recordLookups>
     <start>
 <<<<<<< HEAD
+<<<<<<< HEAD
         <locationX>26</locationX>
         <locationY>22</locationY>
         <connector>
             <targetReference>GetOppty</targetReference>
 =======
+=======
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
         <locationX>38</locationX>
         <locationY>83</locationY>
         <connector>
             <targetReference>GetDeploymentInstances</targetReference>
+<<<<<<< HEAD
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
+=======
 >>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
         </connector>
     </start>
@@ -1006,7 +1145,10 @@ Creates a Deployment Instance record for each product in a bundle that doesn&apo
     </variables>
     <variables>
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
+=======
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
         <description>Holds the count of Subscription Activation records</description>
         <name>varCountSubscriptionActivations</name>
         <dataType>Number</dataType>
@@ -1019,6 +1161,9 @@ Creates a Deployment Instance record for each product in a bundle that doesn&apo
         </value>
     </variables>
     <variables>
+<<<<<<< HEAD
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
+=======
 >>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
         <name>varCountTempDIRecords</name>
         <dataType>Number</dataType>
@@ -1029,7 +1174,10 @@ Creates a Deployment Instance record for each product in a bundle that doesn&apo
     </variables>
     <variables>
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
+=======
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
         <description>Holds the Group record passed in from the second flow</description>
         <name>varGroupRecordFlow3</name>
         <dataType>SObject</dataType>
@@ -1039,6 +1187,9 @@ Creates a Deployment Instance record for each product in a bundle that doesn&apo
         <objectType>pse__Grp__c</objectType>
     </variables>
     <variables>
+<<<<<<< HEAD
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
+=======
 >>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
         <name>varNumberOfMatchingRecords</name>
         <dataType>Number</dataType>
@@ -1052,7 +1203,10 @@ Creates a Deployment Instance record for each product in a bundle that doesn&apo
     </variables>
     <variables>
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
+=======
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
         <description>Holds the Opportunity record passed in from the 2nd Flow</description>
         <name>varOpportunityRecordFlow3</name>
         <dataType>SObject</dataType>
@@ -1062,6 +1216,9 @@ Creates a Deployment Instance record for each product in a bundle that doesn&apo
         <objectType>Opportunity</objectType>
     </variables>
     <variables>
+<<<<<<< HEAD
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
+=======
 >>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
         <name>varTempAssignAcctIDDIIndexID</name>
         <dataType>String</dataType>

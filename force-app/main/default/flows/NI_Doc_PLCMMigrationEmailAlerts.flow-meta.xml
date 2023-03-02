@@ -5,6 +5,7 @@
         <name>MeetingMatrix_Migration_1_Day_Reminder</name>
         <label>MeetingMatrix Migration 1 Day Reminder</label>
 <<<<<<< HEAD
+<<<<<<< HEAD
         <locationX>656</locationX>
         <locationY>199</locationY>
         <actionName>NI_Documentation__c.PLCM_MeetingMatrix_Migration_1_Day_Reminder</actionName>
@@ -12,12 +13,17 @@
         <connector>
             <targetReference>GetTemplate2</targetReference>
 =======
+=======
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
         <locationX>906</locationX>
         <locationY>45</locationY>
         <actionName>NI_Documentation__c.PLCM_MeetingMatrix_Migration_1_Day_Reminder</actionName>
         <actionType>emailAlert</actionType>
         <connector>
             <targetReference>EmailProjectContact_Project</targetReference>
+<<<<<<< HEAD
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
+=======
 >>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
         </connector>
         <flowTransactionModel>CurrentTransaction</flowTransactionModel>
@@ -33,6 +39,7 @@
         <name>MeetingMatrix_Migration_5_Day_Follow_Up</name>
         <label>MeetingMatrix Migration 5 Day Follow Up</label>
 <<<<<<< HEAD
+<<<<<<< HEAD
         <locationX>663</locationX>
         <locationY>42</locationY>
         <actionName>NI_Documentation__c.PLCM_MeetingMatrix_Migration_Plus_5_Days</actionName>
@@ -40,12 +47,17 @@
         <connector>
             <targetReference>GetTemplate4</targetReference>
 =======
+=======
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
         <locationX>771</locationX>
         <locationY>210</locationY>
         <actionName>NI_Documentation__c.PLCM_MeetingMatrix_Migration_Plus_5_Days</actionName>
         <actionType>emailAlert</actionType>
         <connector>
             <targetReference>EmailProjectContact_Project</targetReference>
+<<<<<<< HEAD
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
+=======
 >>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
         </connector>
         <flowTransactionModel>CurrentTransaction</flowTransactionModel>
@@ -61,6 +73,7 @@
         <name>MeetingMatrix_Migration_Complete</name>
         <label>MeetingMatrix Migration Complete</label>
 <<<<<<< HEAD
+<<<<<<< HEAD
         <locationX>430</locationX>
         <locationY>322</locationY>
         <actionName>NI_Documentation__c.PLCM_MeetingMatrix_Migration_Complete</actionName>
@@ -68,12 +81,17 @@
         <connector>
             <targetReference>GetTemplate3</targetReference>
 =======
+=======
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
         <locationX>502</locationX>
         <locationY>320</locationY>
         <actionName>NI_Documentation__c.PLCM_MeetingMatrix_Migration_Complete</actionName>
         <actionType>emailAlert</actionType>
         <connector>
             <targetReference>EmailProjectContact_Project</targetReference>
+<<<<<<< HEAD
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
+=======
 >>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
         </connector>
         <flowTransactionModel>CurrentTransaction</flowTransactionModel>
@@ -89,6 +107,7 @@
         <name>MeetingMatrix_Migration_Date_Scheduled</name>
         <label>MeetingMatrix Migration Date Scheduled</label>
 <<<<<<< HEAD
+<<<<<<< HEAD
         <locationX>404</locationX>
         <locationY>472</locationY>
         <actionName>NI_Documentation__c.PLCM_MeetingMatrix_Migration_Date_Scheduled</actionName>
@@ -96,12 +115,17 @@
         <connector>
             <targetReference>GetTemplate1</targetReference>
 =======
+=======
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
         <locationX>500</locationX>
         <locationY>490</locationY>
         <actionName>NI_Documentation__c.PLCM_MeetingMatrix_Migration_Date_Scheduled</actionName>
         <actionType>emailAlert</actionType>
         <connector>
             <targetReference>EmailProjectContact_Project</targetReference>
+<<<<<<< HEAD
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
+=======
 >>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
         </connector>
         <flowTransactionModel>CurrentTransaction</flowTransactionModel>
@@ -113,12 +137,15 @@
         </inputParameters>
     </actionCalls>
 <<<<<<< HEAD
+<<<<<<< HEAD
     <apiVersion>55.0</apiVersion>
     <decisions>
         <description>Decides if the record is a new record or if the Migration Progress field has changed to &quot;Migration Complete&quot;.</description>
         <name>NewRecordOrMigrationCompleteDecision</name>
         <label>NewRecordOrMigrationCompleteDecision</label>
 =======
+=======
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
     <apiVersion>56.0</apiVersion>
     <assignments>
         <name>CountOfEmailMessages</name>
@@ -213,6 +240,9 @@
         <description>Decides if the record is a new record or if the Migration Progress field has changed to &quot;Migration Complete&quot;.</description>
         <name>MigrationScheduledOrMigrationCompleteDecision</name>
         <label>MigrationScheduledOrMigrationCompleteDecision</label>
+<<<<<<< HEAD
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
+=======
 >>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
         <locationX>161</locationX>
         <locationY>395</locationY>
@@ -278,17 +308,23 @@
     </decisions>
     <decisions>
 <<<<<<< HEAD
+<<<<<<< HEAD
         <description>Decides which product the record is for</description>
         <name>ReminderEmailProductDecision</name>
         <label>ReminderEmailProductDecision</label>
         <locationX>506</locationX>
         <locationY>119</locationY>
 =======
+=======
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
         <description>Decides which email to send: the day-before-migration reminder or a follow up after migration is complete</description>
         <name>ReminderOrFollowUpDecision</name>
         <label>ReminderOrFollowUpDecision</label>
         <locationX>508</locationX>
         <locationY>122</locationY>
+<<<<<<< HEAD
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
+=======
 >>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
@@ -309,7 +345,10 @@
                 </rightValue>
             </conditions>
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
+=======
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
             <conditions>
                 <leftValueReference>$Record.AH_PLCM_MigrationProgress__c</leftValueReference>
                 <operator>NotEqualTo</operator>
@@ -317,6 +356,9 @@
                     <stringValue>Migration Complete</stringValue>
                 </rightValue>
             </conditions>
+<<<<<<< HEAD
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
+=======
 >>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
             <connector>
                 <targetReference>MeetingMatrix_Migration_1_Day_Reminder</targetReference>
@@ -341,7 +383,10 @@
                 </rightValue>
             </conditions>
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
+=======
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
             <conditions>
                 <leftValueReference>$Record.AH_PLCM_MigrationProgress__c</leftValueReference>
                 <operator>EqualTo</operator>
@@ -349,6 +394,9 @@
                     <stringValue>Migration Complete</stringValue>
                 </rightValue>
             </conditions>
+<<<<<<< HEAD
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
+=======
 >>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
             <connector>
                 <targetReference>MeetingMatrix_Migration_5_Day_Follow_Up</targetReference>
@@ -357,11 +405,14 @@
         </rules>
     </decisions>
 <<<<<<< HEAD
+<<<<<<< HEAD
     <description>NICC-061820; Automation to send out Email Alerts for PLCM MeetingMatrix Migration projects</description>
     <environments>Default</environments>
     <interviewLabel>NI Doc - PLCM Migration Email Alerts {!$Flow.CurrentDateTime}</interviewLabel>
     <label>NI Doc - PLCM Migration Email Alerts</label>
 =======
+=======
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
     <description>NICC-061820; updated via NICC-######
 Automation to send out Email Alerts for PLCM MM Migration projects</description>
     <environments>Default</environments>
@@ -393,6 +444,9 @@ IF({!MeetingMatrix5Days}, &quot;Delphi Diagramming Migration Follow-up&quot;,
     </formulas>
     <interviewLabel>NI Doc - PLCM Migration Email Alerts {!$Flow.CurrentDateTime}</interviewLabel>
     <label>NI Doc - PLCM MM Migration Email Alerts</label>
+<<<<<<< HEAD
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
+=======
 >>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
     <processMetadataValues>
         <name>BuilderType</name>
@@ -414,6 +468,7 @@ IF({!MeetingMatrix5Days}, &quot;Delphi Diagramming Migration Follow-up&quot;,
     </processMetadataValues>
     <processType>AutoLaunchedFlow</processType>
     <recordCreates>
+<<<<<<< HEAD
 <<<<<<< HEAD
         <description>Creates an additional &quot;migration date + 5 days&quot; email to associate with the Project and Project Contact</description>
         <name>CreateEmail5DayReminder</name>
@@ -731,6 +786,8 @@ IF({!MeetingMatrix5Days}, &quot;Delphi Diagramming Migration Follow-up&quot;,
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordLookups>
 =======
+=======
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
         <description>Creates additional email message to relate the email just sent to the Project Contact and the Project</description>
         <name>CreateEmailMessages</name>
         <label>CreateEmailMessages</label>
@@ -738,13 +795,20 @@ IF({!MeetingMatrix5Days}, &quot;Delphi Diagramming Migration Follow-up&quot;,
         <locationY>141</locationY>
         <inputReference>varEmailMessageCollection</inputReference>
     </recordCreates>
+<<<<<<< HEAD
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
+=======
 >>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
     <start>
         <locationX>68</locationX>
         <locationY>48</locationY>
         <connector>
 <<<<<<< HEAD
+<<<<<<< HEAD
             <targetReference>NewRecordOrMigrationCompleteDecision</targetReference>
+=======
+            <targetReference>MigrationScheduledOrMigrationCompleteDecision</targetReference>
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
 =======
             <targetReference>MigrationScheduledOrMigrationCompleteDecision</targetReference>
 >>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
@@ -758,7 +822,11 @@ ISPICKVAL({!$Record.AH_PLCM_Product__c}, &quot;Meeting Matrix Conversion&quot;) 
             <name>DayBeforeMigration</name>
             <connector>
 <<<<<<< HEAD
+<<<<<<< HEAD
                 <targetReference>ReminderEmailProductDecision</targetReference>
+=======
+                <targetReference>ReminderOrFollowUpDecision</targetReference>
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
 =======
                 <targetReference>ReminderOrFollowUpDecision</targetReference>
 >>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
@@ -773,7 +841,11 @@ ISPICKVAL({!$Record.AH_PLCM_Product__c}, &quot;Meeting Matrix Conversion&quot;) 
             <name>Migration_5Days</name>
             <connector>
 <<<<<<< HEAD
+<<<<<<< HEAD
                 <targetReference>ReminderEmailProductDecision</targetReference>
+=======
+                <targetReference>ReminderOrFollowUpDecision</targetReference>
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
 =======
                 <targetReference>ReminderOrFollowUpDecision</targetReference>
 >>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
@@ -788,7 +860,10 @@ ISPICKVAL({!$Record.AH_PLCM_Product__c}, &quot;Meeting Matrix Conversion&quot;) 
     </start>
     <status>Active</status>
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
+=======
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
     <textTemplates>
         <description>Email template sent to customers for MeetingMatrix sunset projects to inform them their migration date has been scheduled.</description>
         <name>templatePLCM_MMTechTransferEmail1</name>
@@ -838,5 +913,8 @@ ISPICKVAL({!$Record.AH_PLCM_Product__c}, &quot;Meeting Matrix Conversion&quot;) 
         <isOutput>false</isOutput>
         <objectType>EmailMessage</objectType>
     </variables>
+<<<<<<< HEAD
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
+=======
 >>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
 </Flow>

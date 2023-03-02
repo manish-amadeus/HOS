@@ -2,6 +2,7 @@
 <Flow xmlns="http://soap.sforce.com/2006/04/metadata">
     <actionCalls>
 <<<<<<< HEAD
+<<<<<<< HEAD
         <name>Email_sent_to_PM_on_Project</name>
         <label>Email sent to PM on Project</label>
         <locationX>944</locationX>
@@ -11,6 +12,8 @@
         <connector>
             <targetReference>Project_Loop</targetReference>
 =======
+=======
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
         <description>Email Alert name: Target HRM Org updated</description>
         <name>Email_sent_to_PM_on_Project</name>
         <label>Email sent to PM on Project</label>
@@ -20,6 +23,9 @@
         <actionType>emailAlert</actionType>
         <connector>
             <targetReference>CountOfEmailsSent</targetReference>
+<<<<<<< HEAD
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
+=======
 >>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
         </connector>
         <flowTransactionModel>CurrentTransaction</flowTransactionModel>
@@ -35,8 +41,13 @@
         <name>Count_of_Projects</name>
         <label>Count of Projects</label>
 <<<<<<< HEAD
+<<<<<<< HEAD
         <locationX>526</locationX>
         <locationY>533</locationY>
+=======
+        <locationX>544</locationX>
+        <locationY>604</locationY>
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
 =======
         <locationX>544</locationX>
         <locationY>604</locationY>
@@ -49,7 +60,10 @@
             </value>
         </assignmentItems>
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
+=======
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
         <assignmentItems>
             <assignToReference>varFinalCountOfEmails</assignToReference>
             <operator>Assign</operator>
@@ -74,6 +88,9 @@
         <connector>
             <targetReference>Project_Loop</targetReference>
         </connector>
+<<<<<<< HEAD
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
+=======
 >>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
     </assignments>
     <decisions>
@@ -81,8 +98,13 @@
         <name>Project_Mgr_not_NULL</name>
         <label>Project Mgr not NULL</label>
 <<<<<<< HEAD
+<<<<<<< HEAD
         <locationX>755</locationX>
         <locationY>416</locationY>
+=======
+        <locationX>726</locationX>
+        <locationY>511</locationY>
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
 =======
         <locationX>726</locationX>
         <locationY>511</locationY>
@@ -93,7 +115,11 @@
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
 <<<<<<< HEAD
+<<<<<<< HEAD
             <name>Project_MgrNotNULL</name>
+=======
+            <name>Project_MgrnotNULL</name>
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
 =======
             <name>Project_MgrnotNULL</name>
 >>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
@@ -114,12 +140,18 @@
     <description>NICC-063040 - When the Target HRM Org field is updated on an Opp, an email alert will trigger to send an email to the Project Manager on any related Projects.</description>
     <environments>Default</environments>
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
+=======
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
     <formulas>
         <name>formulaEmailFromName</name>
         <dataType>String</dataType>
         <expression>{!$User.FirstName} &amp;&quot; &quot;&amp; {!$User.LastName}</expression>
     </formulas>
+<<<<<<< HEAD
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
+=======
 >>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
     <interviewLabel>Notify PM that Target HRM Org field updated on Opp {!$Flow.CurrentDateTime}</interviewLabel>
     <label>Notify PM that Target HRM Org field updated on Opp</label>
@@ -127,8 +159,13 @@
         <name>Project_Loop</name>
         <label>Project Loop</label>
 <<<<<<< HEAD
+<<<<<<< HEAD
         <locationX>593</locationX>
         <locationY>342</locationY>
+=======
+        <locationX>460</locationX>
+        <locationY>373</locationY>
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
 =======
         <locationX>460</locationX>
         <locationY>373</locationY>
@@ -140,7 +177,11 @@
         </nextValueConnector>
         <noMoreValuesConnector>
 <<<<<<< HEAD
+<<<<<<< HEAD
             <targetReference>Count_of_Projects</targetReference>
+=======
+            <targetReference>Email_Message</targetReference>
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
 =======
             <targetReference>Email_Message</targetReference>
 >>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
@@ -166,12 +207,15 @@
     </processMetadataValues>
     <processType>AutoLaunchedFlow</processType>
 <<<<<<< HEAD
+<<<<<<< HEAD
     <recordLookups>
         <name>Get_projects</name>
         <label>Get projects</label>
         <locationX>428</locationX>
         <locationY>342</locationY>
 =======
+=======
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
     <recordCreates>
         <name>Email_Message</name>
         <label>Email Message</label>
@@ -230,6 +274,9 @@
         <label>Get projects</label>
         <locationX>230</locationX>
         <locationY>378</locationY>
+<<<<<<< HEAD
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
+=======
 >>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
@@ -267,12 +314,18 @@
     </start>
     <status>Active</status>
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
+=======
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
     <textTemplates>
         <name>templateBodyofEmail</name>
         <isViewedAsPlainText>false</isViewedAsPlainText>
         <text>&lt;p&gt;Hello,&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;This email is to notify you that the &quot;Target HRM Org&quot; field has been changed on the related Projects for this Opportunity.&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;Please take appropriate action to ensure your project is successful. Thank you!&lt;/p&gt;</text>
     </textTemplates>
+<<<<<<< HEAD
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
+=======
 >>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
     <variables>
         <name>varCountofProjects</name>
@@ -283,7 +336,10 @@
         <scale>0</scale>
     </variables>
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
+=======
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
     <variables>
         <name>varEmailMessageRecord</name>
         <dataType>SObject</dataType>
@@ -323,5 +379,8 @@
             <numberValue>0.0</numberValue>
         </value>
     </variables>
+<<<<<<< HEAD
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
+=======
 >>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
 </Flow>

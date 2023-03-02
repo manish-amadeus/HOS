@@ -14,11 +14,14 @@ private class AH_UDC_REST_FormResponse_TEST {
    private static AH_UDC_Workbook__c m_oWB = null;
    private static AH_UDC_Workbook__c m_oWB2 = null;
 <<<<<<< HEAD
+<<<<<<< HEAD
    private static AH_UDC_WorkbookStep__c m_oWBS = null;
    private static AH_UDC_WorkbookStep__c m_oWBS2 = null;
    private static AH_UDC_Form__c m_oForm = null;
    private static AH_UDC_Form__c m_oForm2 = null;
 =======
+=======
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
    private static AH_UDC_Workbook__c m_oWB3 = null;
    private static AH_UDC_WorkbookStep__c m_oWBS = null;
    private static AH_UDC_WorkbookStep__c m_oWBS2 = null;
@@ -28,6 +31,9 @@ private class AH_UDC_REST_FormResponse_TEST {
    private static AH_UDC_Form__c m_oForm2 = null;
    private static AH_UDC_Form__c m_oForm3= null;
    private static AH_UDC_Form__c m_oForm4 = null;
+<<<<<<< HEAD
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
+=======
 >>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
    private static User m_oUser = null;
 
@@ -36,7 +42,11 @@ private class AH_UDC_REST_FormResponse_TEST {
 
    @TestSetup private static void setup() {
 <<<<<<< HEAD
+<<<<<<< HEAD
 
+=======
+      AH_UDC_InitializationHelper.Initialize('All');
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
 =======
       AH_UDC_InitializationHelper.Initialize('All');
 >>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
@@ -70,6 +80,7 @@ private class AH_UDC_REST_FormResponse_TEST {
    }
 
 <<<<<<< HEAD
+<<<<<<< HEAD
    private static string GetToken(string SecurityCode, string UserId, string FormId)
    {
       //Generate Token
@@ -91,6 +102,11 @@ private class AH_UDC_REST_FormResponse_TEST {
       try {
          AH_UDC_InitializationHelper.Initialize('All');
 
+=======
+   private static void testData1()
+   {
+      try {
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
 =======
    private static void testData1()
    {
@@ -173,6 +189,7 @@ private class AH_UDC_REST_FormResponse_TEST {
    }
 
 <<<<<<< HEAD
+<<<<<<< HEAD
    private static void testData_DefaultField()
    {
       try {
@@ -193,6 +210,8 @@ private class AH_UDC_REST_FormResponse_TEST {
          m_oForm2 = AH_UDC_TestData.GetForm(definitionStep2, '4853373', 'UDCSB - Unit Test - Default - Step2', '4853373');
          insert m_oForm2;
 =======
+=======
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
    private static void testData_DefaultAndPicklistField()
    {
       try {
@@ -210,6 +229,9 @@ private class AH_UDC_REST_FormResponse_TEST {
          String definitionStep2 = AH_UDC_TestData.getFormDefinition_DefaultAndPicklistStep2();
          m_oForm4 = AH_UDC_TestData.GetForm(definitionStep2, '4853375', 'UDCSB - Unit Test - Default and Picklist - Step2', '4853375');
          insert m_oForm4;
+<<<<<<< HEAD
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
+=======
 >>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
 
          // Find the "Workbook Sent" record type Id
@@ -226,6 +248,7 @@ private class AH_UDC_REST_FormResponse_TEST {
 
          // Create Workbook Sent Step
 <<<<<<< HEAD
+<<<<<<< HEAD
          m_oWBS = AH_UDC_TestData.GetWorkbookStepObject(m_oWB.Id, 'Step1');
          m_oWBS.RecordTypeId = rtWbsSentId;
          m_oWBS.Workbook__c = m_oWB.Id;
@@ -239,6 +262,8 @@ private class AH_UDC_REST_FormResponse_TEST {
          m_oWBS2.Form__c = m_oForm2.Id;
          insert m_oWBS2;
 =======
+=======
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
          m_oWBS3 = AH_UDC_TestData.GetWorkbookStepObject(m_oWB.Id, 'Step3');
          m_oWBS3.RecordTypeId = rtWbsSentId;
          m_oWBS3.Workbook__c = m_oWB.Id;
@@ -251,6 +276,9 @@ private class AH_UDC_REST_FormResponse_TEST {
          m_oWBS4.Workbook__c = m_oWB.Id;
          m_oWBS4.Form__c = m_oForm4.Id;
          insert m_oWBS4;
+<<<<<<< HEAD
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
+=======
 >>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
 
          //Create Response record for Step1
@@ -263,7 +291,11 @@ private class AH_UDC_REST_FormResponse_TEST {
          AH_UDC_WorkbookStepResponse__c wbsResponse = new AH_UDC_WorkbookStepResponse__c(
                                                                                          Response__c = response.Id,
 <<<<<<< HEAD
+<<<<<<< HEAD
                                                                                          WorkbookStep__c = m_oWBS.id,
+=======
+                                                                                         WorkbookStep__c = m_oWBS3.id,
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
 =======
                                                                                          WorkbookStep__c = m_oWBS3.id,
 >>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
@@ -272,6 +304,7 @@ private class AH_UDC_REST_FormResponse_TEST {
          insert wbsResponse;
 
          //Create ResponsQA records for Step1
+<<<<<<< HEAD
 <<<<<<< HEAD
          AH_UDC_ResponseQA__c responseQA = new AH_UDC_ResponseQA__c(
                                                                     QuestionField__c = 'tfa_8',
@@ -282,6 +315,8 @@ private class AH_UDC_REST_FormResponse_TEST {
          );
          insert responseQA;
 =======
+=======
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
          AH_UDC_ResponseQA__c responseQA  = null;
          List<AH_UDC_ResponseQA__c> lstResponseQA = new List<AH_UDC_ResponseQA__c>();
          responseQA = new AH_UDC_ResponseQA__c(QuestionField__c = 'tfa_8', Question__c = 'Test Default', Answer__c = 'test1', Response__c = response.id);
@@ -293,6 +328,9 @@ private class AH_UDC_REST_FormResponse_TEST {
          responseQA = new AH_UDC_ResponseQA__c(QuestionField__c = 'tfa_33', Question__c = 'Default Test', Answer__c = 'Test Default', Response__c = response.id);
          lstResponseQA.add(responseQA);
          insert lstResponseQA;
+<<<<<<< HEAD
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
+=======
 >>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
 
          // Query the Community User
@@ -304,6 +342,7 @@ private class AH_UDC_REST_FormResponse_TEST {
       }
    }
 <<<<<<< HEAD
+<<<<<<< HEAD
 
    @isTest
    private static void TestGet_DefaultField() {
@@ -311,11 +350,16 @@ private class AH_UDC_REST_FormResponse_TEST {
 
       string token = GetToken(m_oWB.SecurityCode__c, m_oUser.id, m_oForm.id);
 =======
+=======
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
    @isTest
    private static void TestGet_DefaultAndPicklistField() {
       testData_DefaultAndPicklistField();
 
       string token = AH_UDC_Shared.CreateStepToken(m_oWB.SecurityCode__c, m_oForm4.id, m_oWBS4.id);
+<<<<<<< HEAD
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
+=======
 >>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
 
       AH_UDC_TestData.ClearLogs();
@@ -323,8 +367,11 @@ private class AH_UDC_REST_FormResponse_TEST {
       System.runAs(UDCServiceUser1)
       {         
 <<<<<<< HEAD
+<<<<<<< HEAD
          AH_UDC_REST_FormResponse.FindResponseQuestion t = new AH_UDC_REST_FormResponse.FindResponseQuestion('t1', 't2', 't3', 't4');
 
+=======
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
 =======
 >>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
          RestRequest reqPost = new RestRequest();
@@ -333,8 +380,12 @@ private class AH_UDC_REST_FormResponse_TEST {
          reqPost.httpMethod = 'POST'; //HTTP Request Type
          reqPost.requestBody = Blob.valueof('{"QuestionAnswers":[' +
 <<<<<<< HEAD
+<<<<<<< HEAD
                                             '{"QuestionField":"' + AH_UDC_TestData.GetFormDefinitionTokenTFAFieldAPIName + '","Question":"Token","AnswerField":"","Answer":"' + token + '"},' +
                                             '{"QuestionField":"tfa_1","Question":"My Test Question","AnswerField":"tfa_2","Answer":"My Test Answer"}]}"'); RestContext.request = reqPost;
+=======
+                                            '{"QuestionField":"' + AH_UDC_TestData.GetFormDefinitionTokenTFAFieldAPIName + '","Question":"Token","AnswerField":"","Answer":"' + token + '"}]}"'); RestContext.request = reqPost;                                            
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
 =======
                                             '{"QuestionField":"' + AH_UDC_TestData.GetFormDefinitionTokenTFAFieldAPIName + '","Question":"Token","AnswerField":"","Answer":"' + token + '"}]}"'); RestContext.request = reqPost;                                            
 >>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
@@ -372,7 +423,11 @@ private class AH_UDC_REST_FormResponse_TEST {
       testData2(); //This sets up 2 Workbooks with steps for a shared form
 
 <<<<<<< HEAD
+<<<<<<< HEAD
       string token = GetToken(m_oWB.SecurityCode__c, m_oUser.id, m_oForm.id);
+=======
+      string token = AH_UDC_Shared.CreateStepToken(m_oWB2.SecurityCode__c, m_oForm.id, m_oWBS2.id);
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
 =======
       string token = AH_UDC_Shared.CreateStepToken(m_oWB2.SecurityCode__c, m_oForm.id, m_oWBS2.id);
 >>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
@@ -417,7 +472,11 @@ private class AH_UDC_REST_FormResponse_TEST {
       testData1();
 
 <<<<<<< HEAD
+<<<<<<< HEAD
       string token = GetToken(m_oWB.SecurityCode__c, m_oUser.id, m_oForm.id);
+=======
+      string token = AH_UDC_Shared.CreateStepToken(m_oWB.SecurityCode__c, m_oForm.id, m_oWBS.id);
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
 =======
       string token = AH_UDC_Shared.CreateStepToken(m_oWB.SecurityCode__c, m_oForm.id, m_oWBS.id);
 >>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
@@ -463,7 +522,11 @@ private class AH_UDC_REST_FormResponse_TEST {
       testData1();
 
 <<<<<<< HEAD
+<<<<<<< HEAD
       string token = GetToken(m_oWB.SecurityCode__c, m_oUser.id, m_oForm.id);
+=======
+      string token = AH_UDC_Shared.CreateStepToken(m_oWB.SecurityCode__c, m_oForm.id, m_oWBS.id);
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
 =======
       string token = AH_UDC_Shared.CreateStepToken(m_oWB.SecurityCode__c, m_oForm.id, m_oWBS.id);
 >>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
@@ -498,6 +561,7 @@ private class AH_UDC_REST_FormResponse_TEST {
    }
 
    @isTest
+<<<<<<< HEAD
 <<<<<<< HEAD
    private static void TestPostInvalidUser() {
       testData1();
@@ -541,10 +605,15 @@ private class AH_UDC_REST_FormResponse_TEST {
 
       string token = GetToken(m_oWB.SecurityCode__c, m_oUser.id, m_oForm.id);
 =======
+=======
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
    private static void TestPost201QAa() {
       testData1();
 
       string token = AH_UDC_Shared.CreateStepToken(m_oWB.SecurityCode__c, m_oForm.id, m_oWBS.id);
+<<<<<<< HEAD
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
+=======
 >>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
 
       AH_UDC_TestData.ClearLogs();
@@ -592,7 +661,11 @@ private class AH_UDC_REST_FormResponse_TEST {
 
       string unknownSecurityCode = AH_UDC_Shared.GetSecurityCode();
 <<<<<<< HEAD
+<<<<<<< HEAD
       string token = GetToken(unknownSecurityCode, m_oUser.id, m_oForm.id);
+=======
+      string token = AH_UDC_Shared.CreateStepToken(unknownSecurityCode, m_oForm.id, m_oWBS.id);
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
 =======
       string token = AH_UDC_Shared.CreateStepToken(unknownSecurityCode, m_oForm.id, m_oWBS.id);
 >>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
@@ -635,8 +708,12 @@ private class AH_UDC_REST_FormResponse_TEST {
       testData1();
 
 <<<<<<< HEAD
+<<<<<<< HEAD
       string token = GetToken(m_oWB.SecurityCode__c, m_oUser.id, m_oForm.id);
 
+=======
+      string token = AH_UDC_Shared.CreateStepToken(m_oWB.SecurityCode__c, m_oForm.id, m_oWBS.id);
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
 =======
       string token = AH_UDC_Shared.CreateStepToken(m_oWB.SecurityCode__c, m_oForm.id, m_oWBS.id);
 >>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
@@ -674,7 +751,11 @@ private class AH_UDC_REST_FormResponse_TEST {
       testData1();
 
 <<<<<<< HEAD
+<<<<<<< HEAD
       string token = GetToken(m_oWB.SecurityCode__c, m_oUser.id, m_oForm.id);
+=======
+      string token = AH_UDC_Shared.CreateStepToken(m_oWB.SecurityCode__c, m_oForm.id, m_oWBS.id);
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
 =======
       string token = AH_UDC_Shared.CreateStepToken(m_oWB.SecurityCode__c, m_oForm.id, m_oWBS.id);
 >>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
@@ -758,7 +839,11 @@ private class AH_UDC_REST_FormResponse_TEST {
       testData1();
 
 <<<<<<< HEAD
+<<<<<<< HEAD
       string token = GetToken(m_oWB.SecurityCode__c, m_oUser.id, m_oForm.id);
+=======
+      string token = AH_UDC_Shared.CreateStepToken(m_oWB.SecurityCode__c, m_oForm.id, m_oWBS.id);
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
 =======
       string token = AH_UDC_Shared.CreateStepToken(m_oWB.SecurityCode__c, m_oForm.id, m_oWBS.id);
 >>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
@@ -798,7 +883,11 @@ private class AH_UDC_REST_FormResponse_TEST {
       testData1();
 
 <<<<<<< HEAD
+<<<<<<< HEAD
       string token = GetToken(m_oWB.SecurityCode__c, m_oUser.id, m_oForm.id);
+=======
+      string token = AH_UDC_Shared.CreateStepToken(m_oWB.SecurityCode__c, m_oForm.id, m_oWBS.id);
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
 =======
       string token = AH_UDC_Shared.CreateStepToken(m_oWB.SecurityCode__c, m_oForm.id, m_oWBS.id);
 >>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
@@ -925,7 +1014,11 @@ private class AH_UDC_REST_FormResponse_TEST {
       testData1();
       string unknownSecurityCode = AH_UDC_Shared.GetSecurityCode();
 <<<<<<< HEAD
+<<<<<<< HEAD
       string token = GetToken(unknownSecurityCode, m_oUser.id, m_oForm.id);
+=======
+      string token = AH_UDC_Shared.CreateStepToken(unknownSecurityCode, m_oForm.id, m_oWBS.id);
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
 =======
       string token = AH_UDC_Shared.CreateStepToken(unknownSecurityCode, m_oForm.id, m_oWBS.id);
 >>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a

@@ -28,7 +28,11 @@ public with sharing class AH_UDC_Archive  {
 
          //Unit Test Force Exception
 <<<<<<< HEAD
+<<<<<<< HEAD
          if (AH_UDC_ConfigHelper.GetBoolean('AH_UDC_UnitTestForceArchivePageLoadError', FALSE))
+=======
+         if (AH_UDC_ConfigHelper.GetBoolean('AH_UDC_UnitTestForceArchivePageLoadError', FALSE, true))
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
 =======
          if (AH_UDC_ConfigHelper.GetBoolean('AH_UDC_UnitTestForceArchivePageLoadError', FALSE, true))
 >>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
@@ -104,7 +108,11 @@ public with sharing class AH_UDC_Archive  {
 
          //Unit Test Force Exception
 <<<<<<< HEAD
+<<<<<<< HEAD
          if (AH_UDC_ConfigHelper.GetBoolean('AH_UDC_UnitTestForceArchiveError', FALSE))
+=======
+         if (AH_UDC_ConfigHelper.GetBoolean('AH_UDC_UnitTestForceArchiveError', FALSE, true))
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
 =======
          if (AH_UDC_ConfigHelper.GetBoolean('AH_UDC_UnitTestForceArchiveError', FALSE, true))
 >>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a

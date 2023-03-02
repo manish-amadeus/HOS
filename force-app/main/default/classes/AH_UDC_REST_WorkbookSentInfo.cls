@@ -20,7 +20,11 @@ global with sharing class AH_UDC_REST_WorkbookSentInfo {
       try {
          String workbookSentId = RestContext.request.params.get('workbookSentId');
 <<<<<<< HEAD
+<<<<<<< HEAD
          if (Test.isRunningTest() && workbookSentId=='exception1') integer e = 1/0;
+=======
+         if (Test.isRunningTest() && workbookSentId == 'exception1') integer e = 1 / 0;
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
 =======
          if (Test.isRunningTest() && workbookSentId == 'exception1') integer e = 1 / 0;
 >>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
@@ -34,6 +38,7 @@ global with sharing class AH_UDC_REST_WorkbookSentInfo {
 
          //Check that Workbook Sent ID is valid and that the user has access to it
 <<<<<<< HEAD
+<<<<<<< HEAD
          List<AH_UDC_WorkbookStep__c> workbooksteps = [SELECT id, name, StepStatus__c, StepCompleted__c,
                                                        Workbook__r.SecurityCode__c, Workbook__r.RelatedToDocName__c, Workbook__r.SentDate__c, Workbook__r.SentStatus__c,
                                                        Workbook__r.RelatedTo__r.Name, Workbook__r.RelatedTo__r.Document_Name__c,
@@ -45,6 +50,8 @@ global with sharing class AH_UDC_REST_WorkbookSentInfo {
 
          if (workbooksteps == null || workbooksteps.size() == 0) {
 =======
+=======
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
          List<AH_UDC_Workbook__c> workbooks = [SELECT id, name, SecurityCode__c, RelatedToDocName__c, SentDate__c, SentStatus__c, CreatedById, CreatedBy.Name, LastModifiedBy.Id, LastModifiedBy.Name,
                                                RelatedTo__c, RelatedTo__r.AH_UDC_PropertyAccount__c, OriginalWorkbook__c, ParentWorkbookSent__c
                                                FROM AH_UDC_Workbook__c
@@ -67,12 +74,16 @@ global with sharing class AH_UDC_REST_WorkbookSentInfo {
                                                    WHERE id = :workbooks[0].OriginalWorkbook__c];
          AH_UDC_LogHelper.Debug('AH_UDC_REST_WorkbookSentInfo.Get - origWorkbooks.size(): ' + origWorkbooks.size());
          if (origWorkbooks.size() != 1) {
+<<<<<<< HEAD
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
+=======
 >>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
             resp.statusCode = '404';
             resp.message = 'Not Found';
             RestContext.response.responseBody = Blob.valueOf(resp.compileResponse());
             return;
          }
+<<<<<<< HEAD
 <<<<<<< HEAD
 
          resp.workbookSentId = workbookSentId;
@@ -83,6 +94,8 @@ global with sharing class AH_UDC_REST_WorkbookSentInfo {
 
          string StepToken = AH_UDC_Shared.CreateStepToken(workbooksteps[0].Workbook__r.SecurityCode__c, workbooksteps[0].Form__r.id);
 =======
+=======
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
          resp.originalWorkbook = origWorkbooks[0];
 
          //Get the parent workbook
@@ -158,6 +171,9 @@ global with sharing class AH_UDC_REST_WorkbookSentInfo {
          resp.sentStatus = workbooks[0].SentStatus__c;
 
          string StepToken = AH_UDC_Shared.CreateStepToken(workbooks[0].SecurityCode__c, workbooksteps[0].Form__r.id, workbooksteps[0].id);
+<<<<<<< HEAD
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
+=======
 >>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
          string ExportUrl = AH_UDC_ConfigHelper.GetString('AH_UDC_ExportUrl', '');
          resp.ExportCsvUrl = ExportUrl.replace('{TOKEN}', StepToken).replace('{MODE}', 'CSV').replace('{STEP}', '*');
@@ -168,10 +184,13 @@ global with sharing class AH_UDC_REST_WorkbookSentInfo {
             wbs.id = WorkbookStep.Id;
             wbs.name = WorkbookStep.name;
 <<<<<<< HEAD
+<<<<<<< HEAD
             wbs.stepStatus = WorkbookStep.StepStatus__c;
             wbs.ExportCsvUrl = ExportUrl.replace('{TOKEN}', StepToken).replace('{MODE}', 'CSV').replace('{STEP}', WorkbookStep.id);
             wbs.ExportJsonUrl = ExportUrl.replace('{TOKEN}', StepToken).replace('{MODE}', 'JSON').replace('{STEP}', WorkbookStep.id);
 =======
+=======
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
             wbs.description = WorkbookStep.Description__c;
             wbs.enabled = WorkbookStep.Enabled__c;
             wbs.recordTypeName = WorkbookStep.RecordType.Name;
@@ -200,6 +219,9 @@ global with sharing class AH_UDC_REST_WorkbookSentInfo {
                   wbs.responseHistory.add(response);
                }
             }
+<<<<<<< HEAD
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
+=======
 >>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
             resp.WorkbookSteps.add(wbs);
          }
@@ -210,6 +232,10 @@ global with sharing class AH_UDC_REST_WorkbookSentInfo {
       }
       catch(Exception e) {
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+         AH_UDC_LogHelper.Debug('AH_UDC_REST_WorkbookSentInfo.Get - Error Occurred: ' + e.getMessage() + ' at line number ' + e.getLineNumber());
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
 =======
          AH_UDC_LogHelper.Debug('AH_UDC_REST_WorkbookSentInfo.Get - Error Occurred: ' + e.getMessage() + ' at line number ' + e.getLineNumber());
 >>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
@@ -220,6 +246,10 @@ global with sharing class AH_UDC_REST_WorkbookSentInfo {
 
          //Set the Return code
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+         resp = new WorkbookSentInfoResponse();
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
 =======
          resp = new WorkbookSentInfoResponse();
 >>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
@@ -243,6 +273,10 @@ global with sharing class AH_UDC_REST_WorkbookSentInfo {
       public String statusCode { get; set; }
       public String message { get; set; }
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
 =======
 
 >>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
@@ -256,8 +290,11 @@ global with sharing class AH_UDC_REST_WorkbookSentInfo {
       public string exportJsonUrl { get; set; }
 
 <<<<<<< HEAD
+<<<<<<< HEAD
       public List<WorkbookStep> WorkbookSteps { get; set; }
 =======
+=======
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
       public AH_UDC_Workbook__c workbook { get; set; }
       public AH_UDC_Workbook__c parentWorkbook { get; set; }
       public AH_UDC_Workbook__c originalWorkbook { get; set; }
@@ -265,6 +302,9 @@ global with sharing class AH_UDC_REST_WorkbookSentInfo {
       public AH_UDC_PropertyAccount__c propertyAccount { get; set; }
 
       public List<WorkbookStep> workbookSteps { get; set; }
+<<<<<<< HEAD
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
+=======
 >>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
 
       public WorkbookSentInfoResponse() {
@@ -281,6 +321,7 @@ global with sharing class AH_UDC_REST_WorkbookSentInfo {
       public string id { get; set; }
       public string name { get; set; }
 <<<<<<< HEAD
+<<<<<<< HEAD
       public string stepStatus { get; set; }
 
       public string exportCsvUrl { get; set; }
@@ -289,6 +330,8 @@ global with sharing class AH_UDC_REST_WorkbookSentInfo {
 
 
 =======
+=======
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
       public string description { get; set; }
       public Boolean enabled { get; set; }
       public string recordTypeName { get; set; }
@@ -307,5 +350,8 @@ global with sharing class AH_UDC_REST_WorkbookSentInfo {
 
 
 
+<<<<<<< HEAD
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
+=======
 >>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
 }

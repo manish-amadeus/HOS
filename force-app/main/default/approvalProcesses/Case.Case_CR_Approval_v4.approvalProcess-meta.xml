@@ -1,0 +1,250 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ApprovalProcess xmlns="http://soap.sforce.com/2006/04/metadata">
+    <active>false</active>
+    <allowRecall>true</allowRecall>
+    <allowedSubmitters>
+        <type>owner</type>
+    </allowedSubmitters>
+    <approvalPageFields>
+        <field>Account</field>
+        <field>CaseNumber</field>
+        <field>Owner</field>
+        <field>Change_Request__c</field>
+    </approvalPageFields>
+    <approvalStep>
+        <allowDelegate>false</allowDelegate>
+        <approvalActions>
+            <action>
+                <name>Approval_Status_Approved</name>
+                <type>FieldUpdate</type>
+            </action>
+        </approvalActions>
+        <assignedApprover>
+            <approver>
+                <name>QKnowledgeManager</name>
+                <type>queue</type>
+            </approver>
+            <whenMultipleApprovers>FirstResponse</whenMultipleApprovers>
+        </assignedApprover>
+        <description>Send to the Q-Knowledge Manager for approval if the Case is owned by the Q-Knowledge Manager</description>
+        <entryCriteria>
+            <criteriaItems>
+                <field>Case.Owner</field>
+                <operation>equals</operation>
+                <value>Q-Knowledge Manager</value>
+            </criteriaItems>
+        </entryCriteria>
+        <ifCriteriaNotMet>GotoNextStep</ifCriteriaNotMet>
+        <label>Q-Knowledge Manager Approval Step</label>
+        <name>Q_Knowledge_Manager_Approval_Step</name>
+    </approvalStep>
+    <approvalStep>
+        <allowDelegate>false</allowDelegate>
+        <assignedApprover>
+            <approver>
+                <name>Case_CR_Approvers_Asia</name>
+                <type>queue</type>
+            </approver>
+            <whenMultipleApprovers>FirstResponse</whenMultipleApprovers>
+        </assignedApprover>
+        <description>If the &quot;Support Tier Designation Region&quot; field equals &quot;Asia&quot; then enter this step
+
+NICC-019336
+Changed &quot;Asia&quot; to &quot;APAC&quot;</description>
+        <entryCriteria>
+            <criteriaItems>
+                <field>Case.Support_Tier_Designation_Region__c</field>
+                <operation>equals</operation>
+                <value>APAC</value>
+            </criteriaItems>
+            <criteriaItems>
+                <field>Case.Approval_Status__c</field>
+                <operation>notEqual</operation>
+                <value>Approved</value>
+            </criteriaItems>
+        </entryCriteria>
+        <ifCriteriaNotMet>GotoNextStep</ifCriteriaNotMet>
+        <label>AP Approval</label>
+        <name>AP_Approval</name>
+        <rejectBehavior>
+            <type>RejectRequest</type>
+        </rejectBehavior>
+    </approvalStep>
+    <approvalStep>
+        <allowDelegate>false</allowDelegate>
+        <assignedApprover>
+            <approver>
+                <name>Case_CR_Approvers_EMEA</name>
+                <type>queue</type>
+            </approver>
+            <whenMultipleApprovers>FirstResponse</whenMultipleApprovers>
+        </assignedApprover>
+        <description>If the &quot;Support Tier Designation Region&quot; field equals &quot;UK&quot; then enter this step
+
+NICC-019336; NICC-045974
+Changed &quot;UK&quot; to &quot;EMEAI&quot;</description>
+        <entryCriteria>
+            <criteriaItems>
+                <field>Case.Support_Tier_Designation_Region__c</field>
+                <operation>equals</operation>
+                <value>EMEA</value>
+            </criteriaItems>
+            <criteriaItems>
+                <field>Case.Approval_Status__c</field>
+                <operation>notEqual</operation>
+                <value>Approved</value>
+            </criteriaItems>
+        </entryCriteria>
+        <ifCriteriaNotMet>GotoNextStep</ifCriteriaNotMet>
+        <label>EMEA Approval</label>
+        <name>EMEA_Approval</name>
+        <rejectBehavior>
+            <type>RejectRequest</type>
+        </rejectBehavior>
+    </approvalStep>
+    <approvalStep>
+        <allowDelegate>false</allowDelegate>
+        <assignedApprover>
+            <approver>
+                <name>Case_CR_Approvers_US</name>
+                <type>queue</type>
+            </approver>
+            <whenMultipleApprovers>FirstResponse</whenMultipleApprovers>
+        </assignedApprover>
+        <description>If the &quot;Support Tier Designation Region&quot; field equals &quot;US&quot; then enter this step
+
+NICC-019336; NICC-045974
+Changed &quot;US&quot; to &quot;AMER&quot;</description>
+        <entryCriteria>
+            <criteriaItems>
+                <field>Case.Support_Tier_Designation_Region__c</field>
+                <operation>equals</operation>
+                <value>Americas</value>
+            </criteriaItems>
+            <criteriaItems>
+                <field>Case.Approval_Status__c</field>
+                <operation>notEqual</operation>
+                <value>Approved</value>
+            </criteriaItems>
+        </entryCriteria>
+        <ifCriteriaNotMet>GotoNextStep</ifCriteriaNotMet>
+        <label>US Approval</label>
+        <name>US_Approval</name>
+        <rejectBehavior>
+            <type>RejectRequest</type>
+        </rejectBehavior>
+    </approvalStep>
+    <approvalStep>
+        <allowDelegate>false</allowDelegate>
+        <assignedApprover>
+            <approver>
+                <name>Case_CR_Approvers_US</name>
+                <type>queue</type>
+            </approver>
+            <whenMultipleApprovers>FirstResponse</whenMultipleApprovers>
+        </assignedApprover>
+        <description>Default Approval Step; NICC-045974</description>
+        <entryCriteria>
+            <booleanFilter>1 AND 2 AND 3 AND 4</booleanFilter>
+            <criteriaItems>
+                <field>Case.Support_Tier_Designation_Region__c</field>
+                <operation>notEqual</operation>
+                <value>APAC</value>
+            </criteriaItems>
+            <criteriaItems>
+                <field>Case.Support_Tier_Designation_Region__c</field>
+                <operation>notEqual</operation>
+                <value>EMEA</value>
+            </criteriaItems>
+            <criteriaItems>
+                <field>Case.Support_Tier_Designation_Region__c</field>
+                <operation>notEqual</operation>
+                <value>Americas</value>
+            </criteriaItems>
+            <criteriaItems>
+                <field>Case.Approval_Status__c</field>
+                <operation>notEqual</operation>
+                <value>Approved</value>
+            </criteriaItems>
+        </entryCriteria>
+        <label>Default</label>
+        <name>Default</name>
+        <rejectBehavior>
+            <type>RejectRequest</type>
+        </rejectBehavior>
+    </approvalStep>
+    <description>Case CR Approval v4.  Added Approval Steps based on Q-Knowledge Manager as the Case Owner
+
+This Approval Process is invoked automatically by the &quot;Case - Invoke CR Approval Process&quot; Process Builder Flow
+
+LE - Added Recall Steps - NICC-024099
+JZ - Removed SO exclusions - NICC-049241
+LE - NICC 052681</description>
+    <emailTemplate>Support_Email_Templates/CR_Case_Approval</emailTemplate>
+    <enableMobileDeviceAccess>false</enableMobileDeviceAccess>
+    <entryCriteria>
+        <formula>NOT(ISBLANK(Change_Request__c)) 
+&amp;&amp; 
+NOT(ISPICKVAL(Approval_Status__c,&quot;Submitted&quot;)) 
+&amp;&amp; 
+NOT(ISPICKVAL(Approval_Status__c,&quot;Approved&quot;))</formula>
+    </entryCriteria>
+    <finalApprovalActions>
+        <action>
+            <name>Approval_Status_Approved</name>
+            <type>FieldUpdate</type>
+        </action>
+        <action>
+            <name>Assign_to_Q_Level_3_In_Progress</name>
+            <type>FieldUpdate</type>
+        </action>
+    </finalApprovalActions>
+    <finalApprovalRecordLock>false</finalApprovalRecordLock>
+    <finalRejectionActions>
+        <action>
+            <name>Approval_Status_Rejected</name>
+            <type>FieldUpdate</type>
+        </action>
+        <action>
+            <name>CR_Case_Approval_Rejected_Alert</name>
+            <type>Alert</type>
+        </action>
+        <action>
+            <name>Update_Close_Record_Type</name>
+            <type>FieldUpdate</type>
+        </action>
+        <action>
+            <name>Update_Status</name>
+            <type>FieldUpdate</type>
+        </action>
+    </finalRejectionActions>
+    <finalRejectionRecordLock>false</finalRejectionRecordLock>
+    <initialSubmissionActions>
+        <action>
+            <name>Approval_Status_Submitted</name>
+            <type>FieldUpdate</type>
+        </action>
+        <action>
+            <name>Set_Status_to_Paused_Dev_Team_Review</name>
+            <type>FieldUpdate</type>
+        </action>
+    </initialSubmissionActions>
+    <label>Case CR Approval v4</label>
+    <processOrder>1</processOrder>
+    <recallActions>
+        <action>
+            <name>Approval_Status_Recalled</name>
+            <type>FieldUpdate</type>
+        </action>
+        <action>
+            <name>Update_Close_Record_Type</name>
+            <type>FieldUpdate</type>
+        </action>
+        <action>
+            <name>Update_Status</name>
+            <type>FieldUpdate</type>
+        </action>
+    </recallActions>
+    <recordEditability>AdminOnly</recordEditability>
+    <showApprovalHistory>false</showApprovalHistory>
+</ApprovalProcess>

@@ -506,8 +506,12 @@ public with sharing class AH_UDC_Security {
       Security.checkAreFieldsUpdateable(objectTypeName, new List<String> (mutableMap.keySet()));
    }
 <<<<<<< HEAD
+<<<<<<< HEAD
 */
 /*
+=======
+
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
 =======
 
 >>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
@@ -537,7 +541,11 @@ public with sharing class AH_UDC_Security {
       return listProfiles[0].Name.equalsIgnoreCase(profileName);
    }
 <<<<<<< HEAD
+<<<<<<< HEAD
 */
+=======
+
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
 =======
 
 >>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
@@ -561,6 +569,10 @@ public with sharing class AH_UDC_Security {
       return count > 0;
    }
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+*/
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
 =======
 */
 >>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a

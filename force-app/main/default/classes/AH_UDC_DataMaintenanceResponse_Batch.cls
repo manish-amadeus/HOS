@@ -14,7 +14,11 @@ global class AH_UDC_DataMaintenanceResponse_Batch implements Database.Batchable<
    }
    global database.querylocator start(database.BatchableContext bc) {
 <<<<<<< HEAD
+<<<<<<< HEAD
       AH_UDC_LogHelper.Log(AH_UDC_LogHelper.LogLevel_MESSAGE, 'AH_UDC_DataMaintenanceResponse_Batch', 'start', 'DataMaintenance response deletion Job started', null, null, null);
+=======
+      AH_UDC_LogHelper.Log(AH_UDC_LogHelper.LogLevel_MESSAGE, 'AH_UDC_DataMaintenanceResponse_Batch', 'start', 'Data Maintenance Response Job: Started', null, null, null);
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
 =======
       AH_UDC_LogHelper.Log(AH_UDC_LogHelper.LogLevel_MESSAGE, 'AH_UDC_DataMaintenanceResponse_Batch', 'start', 'Data Maintenance Response Job: Started', null, null, null);
 >>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
@@ -47,7 +51,11 @@ global class AH_UDC_DataMaintenanceResponse_Batch implements Database.Batchable<
             delete lstResponsesToDelete;
             database.emptyRecycleBin(lstResponsesToDelete);
 <<<<<<< HEAD
+<<<<<<< HEAD
             String strDelete = 'Data Maintenance Responses : Total deleted responses ' + lstResponsesToDelete.size();
+=======
+            String strDelete = 'Data Maintenance Response Job: Total deleted responses ' + lstResponsesToDelete.size();
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
 =======
             String strDelete = 'Data Maintenance Response Job: Total deleted responses ' + lstResponsesToDelete.size();
 >>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
@@ -67,7 +75,11 @@ global class AH_UDC_DataMaintenanceResponse_Batch implements Database.Batchable<
                         FROM AsyncApexJob
                         WHERE Id = :bc.getJobId()];
 <<<<<<< HEAD
+<<<<<<< HEAD
       String strStatusMessage = 'Data Maintenance Response Batch Status : ' + a.Status + '. The batch Apex job processed ' + a.TotalJobItems + ' batches with ' + a.NumberOfErrors + ' failures.';
+=======
+      String strStatusMessage = 'Data Maintenance Response Job Status: ' + a.Status + '. The batch Apex job processed ' + a.TotalJobItems + ' batches with ' + a.NumberOfErrors + ' failures.';
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
 =======
       String strStatusMessage = 'Data Maintenance Response Job Status: ' + a.Status + '. The batch Apex job processed ' + a.TotalJobItems + ' batches with ' + a.NumberOfErrors + ' failures.';
 >>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a

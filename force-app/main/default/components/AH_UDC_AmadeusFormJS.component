@@ -1,18 +1,28 @@
 <apex:component >
 <<<<<<< HEAD
+<<<<<<< HEAD
    <script type="text/javascript">
 =======
+=======
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
    <apex:attribute name="attributeWorkbook" description="Current Workbook" type="AH_UDC_CommunityWorkbook" required="true" />
    <script type="text/javascript">
       var amdeusFormAPIUrl = '{!attributeWorkbook.currentStep.amdeusFormAPIUrl}';
       var token = '{!attributeWorkbook.currentStep.token}';
+<<<<<<< HEAD
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
+=======
 >>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
       var longTextModal = null;
       var product = '';
       $(document).ready(function () {
          longTextModal = document.getElementById('longTextModal');
 <<<<<<< HEAD
+<<<<<<< HEAD
          $('#spnAmadeusFormErrorMsg').text(LABEL_AmadeusFormRenderErrorMessage);
+=======
+         $('#spnAmadeusFormErrorMsg').text('{!$Label.AH_UDC_AmadeusFormRenderErrorMessage}');
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
 =======
          $('#spnAmadeusFormErrorMsg').text('{!$Label.AH_UDC_AmadeusFormRenderErrorMessage}');
 >>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
@@ -170,7 +180,11 @@
             var errorSummary = $('#formRender #divErrorSummary');
             if(errorSummary.length == 0) {
 <<<<<<< HEAD
+<<<<<<< HEAD
                var errorSummary = $('<div id="divErrorSummary" style="color: red;">' + LABEL_AmadeusFormValidationErrorMessage + '</div>');
+=======
+               var errorSummary = $('<div id="divErrorSummary" style="color: red;">{!$Label.AH_UDC_AmadeusFormValidationErrorMessage}</div>');
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
 =======
                var errorSummary = $('<div id="divErrorSummary" style="color: red;">{!$Label.AH_UDC_AmadeusFormValidationErrorMessage}</div>');
 >>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
@@ -218,11 +232,14 @@
 
             if($('input[type=text]', objField).length > 0) {
 <<<<<<< HEAD
+<<<<<<< HEAD
                if($(objField).data('required') == true && $.trim($('input[type=text]', objField).val()) == '') {
                   flagError = true;
                   $('input[type=text]', objField).addClass('error-field');
                   bindToolTip(objField, LABEL_AmadeusFormRequiredValidationMessage);
 =======
+=======
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
                var intMinLength = parseInt($.trim($(objField).data('minlength')));
                var strValue = $.trim($('input[type=text]', objField).val());
                if($(objField).data('required') == true && strValue == '') {
@@ -234,6 +251,9 @@
                   flagError = true;
                   $('input[type=text]', objField).addClass('error-field');
                   bindToolTip(objField, '{!$Label.AH_UDC_AmadeusFormMinLengthValidationMessage}'.replace('{0}', intMinLength));
+<<<<<<< HEAD
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
+=======
 >>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
                }
                else {
@@ -247,7 +267,11 @@
                   flagError = true;
                   $('select', objField).addClass('error-field');
 <<<<<<< HEAD
+<<<<<<< HEAD
                   bindToolTip(objField, LABEL_AmadeusFormRequiredValidationMessage);
+=======
+                  bindToolTip(objField, '{!$Label.AH_UDC_AmadeusFormRequiredValidationMessage}');
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
 =======
                   bindToolTip(objField, '{!$Label.AH_UDC_AmadeusFormRequiredValidationMessage}');
 >>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
@@ -257,7 +281,12 @@
                   unBindToolTip(objField);
                   objData.A = $.trim($('select option:selected', objField).text());
 <<<<<<< HEAD
+<<<<<<< HEAD
                   objData.AF = $.trim($('select', objField).val());
+=======
+                  if(!$('select', objField).data('dynamicsource'))
+                     objData.AF = $.trim($('select', objField).val());
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
 =======
                   if(!$('select', objField).data('dynamicsource'))
                      objData.AF = $.trim($('select', objField).val());
@@ -269,7 +298,11 @@
                   flagError = true;
                   $(objField).addClass('error-field');
 <<<<<<< HEAD
+<<<<<<< HEAD
                   bindToolTip(objField, LABEL_AmadeusFormRequiredValidationMessage);
+=======
+                  bindToolTip(objField, '{!$Label.AH_UDC_AmadeusFormRequiredValidationMessage}');
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
 =======
                   bindToolTip(objField, '{!$Label.AH_UDC_AmadeusFormRequiredValidationMessage}');
 >>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
@@ -285,7 +318,11 @@
                   flagError = true;
                   $('.radio-group', objField).css('border', '1px solid red');
 <<<<<<< HEAD
+<<<<<<< HEAD
                   bindToolTip(objField, LABEL_AmadeusFormRequiredValidationMessage);
+=======
+                  bindToolTip(objField, '{!$Label.AH_UDC_AmadeusFormRequiredValidationMessage}');
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
 =======
                   bindToolTip(objField, '{!$Label.AH_UDC_AmadeusFormRequiredValidationMessage}');
 >>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
@@ -311,6 +348,7 @@
                   flagError = true;
                   $(this).addClass('error-field');
 <<<<<<< HEAD
+<<<<<<< HEAD
                   bindToolTip(this, LABEL_AmadeusFormRequiredValidationMessage);
                }
                else if(intMinLength > 0 && $.trim($(this).text()).length < intMinLength) {
@@ -318,19 +356,28 @@
                   $(this).addClass('error-field');
                   bindToolTip(this, LABEL_AmadeusFormMinLengthValidationMessage.replace('{0}', intMinLength));
 =======
+=======
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
                   bindToolTip(this, '{!$Label.AH_UDC_AmadeusFormRequiredValidationMessage}');
                }
                else if(intMinLength > 0 && $.trim($(this).text()).length > 0 && $.trim($(this).text()).length < intMinLength) {
                   flagError = true;
                   $(this).addClass('error-field');
                   bindToolTip(this, '{!$Label.AH_UDC_AmadeusFormMinLengthValidationMessage}'.replace('{0}', intMinLength));
+<<<<<<< HEAD
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
+=======
 >>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
                }
                else if(intMaxLength > 0 && $.trim($(this).text()).length > intMaxLength) {
                   flagError = true;
                   $(this).addClass('error-field');
 <<<<<<< HEAD
+<<<<<<< HEAD
                   bindToolTip(this, LABEL_AmadeusFormMaxLengthValidationMessage.replace('{0}', intMaxLength));
+=======
+                  bindToolTip(this, '{!$Label.AH_UDC_AmadeusFormMaxLengthValidationMessage}'.replace('{0}', intMaxLength));
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
 =======
                   bindToolTip(this, '{!$Label.AH_UDC_AmadeusFormMaxLengthValidationMessage}'.replace('{0}', intMaxLength));
 >>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
@@ -352,13 +399,19 @@
                   var columnIndex = 0;
                   $.each(valueMain, function(key, value) {
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
+=======
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
                      var cellName = jexcel.getColumnNameFromId([columnIndex, rowIndex]);
                      var cell = objJExcel.getCell(cellName);
                      if(!$(cell).is(':visible') && objJExcel.options.columns[columnIndex].type != 'hidden') {
                         columnIndex++;
                         return; //Don't save response of hidden column which are hide based on formula
                      }
+<<<<<<< HEAD
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
+=======
 >>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
                      var rowData = {};
                      rowData.QF = key + '_' + rowIndex;
@@ -399,7 +452,11 @@
                type: "GET",
                async: true,
 <<<<<<< HEAD
+<<<<<<< HEAD
                url: AmdeusCustomFormAPIUrl + token, //Url comming from configuration
+=======
+               url: amdeusFormAPIUrl + token, //Url comming from configuration
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
 =======
                url: amdeusFormAPIUrl + token, //Url comming from configuration
 >>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
@@ -422,6 +479,7 @@
                   //show save button only when work is not completed
                   //if(isWorkbookCompleted  == false)
 <<<<<<< HEAD
+<<<<<<< HEAD
          	  $('#divButtons').show();
                },
                error: function (error) {
@@ -430,12 +488,17 @@
                   hideSpinner();
                   $('.modal-backdrop').hide();
 =======
+=======
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
          	      $('#divButtons').show();
                },
                error: function (error) {
                   var strErrorMsg = 'There is a network issue or some technical error while calling api for getting amadeus form response. API call state: ';
                   strErrorMsg += typeof(error.state) == 'function' ? error.state() : '';
                   handleJSError('getAmadeusFormResponse', strErrorMsg);
+<<<<<<< HEAD
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
+=======
 >>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
                }
             });
@@ -458,7 +521,11 @@
                contentType: 'application/json',
                dataType: "json",
 <<<<<<< HEAD
+<<<<<<< HEAD
                url: AmdeusCustomFormAPIUrl, //Url comming from configuration
+=======
+               url: amdeusFormAPIUrl, //Url comming from configuration
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
 =======
                url: amdeusFormAPIUrl, //Url comming from configuration
 >>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
@@ -476,7 +543,11 @@
                   }
                   else {
 <<<<<<< HEAD
+<<<<<<< HEAD
                      $('#spnAmadeusFormErrorMsg').text(LABEL_AmadeusFormSaveErrorMessage);
+=======
+                     $('#spnAmadeusFormErrorMsg').text('{!$Label.AH_UDC_AmadeusFormSaveErrorMessage}');
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
 =======
                      $('#spnAmadeusFormErrorMsg').text('{!$Label.AH_UDC_AmadeusFormSaveErrorMessage}');
 >>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
@@ -490,7 +561,11 @@
                   //Log error in db
                   actionfunction_LogClientException('saveAmadeusFormResponse', typeof(error) == 'string' ? error : JSON.stringify(error));
 <<<<<<< HEAD
+<<<<<<< HEAD
                   $('#spnAmadeusFormErrorMsg').text(LABEL_AmadeusFormSaveErrorMessage);
+=======
+                  $('#spnAmadeusFormErrorMsg').text('{!$Label.AH_UDC_AmadeusFormSaveErrorMessage}');
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
 =======
                   $('#spnAmadeusFormErrorMsg').text('{!$Label.AH_UDC_AmadeusFormSaveErrorMessage}');
 >>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
@@ -506,7 +581,11 @@
             //Log error in db
             actionfunction_LogClientException('saveAmadeusFormResponse', typeof(ex) == 'string' ? ex : ex.stack);
 <<<<<<< HEAD
+<<<<<<< HEAD
             $('#spnAmadeusFormErrorMsg').text(LABEL_AmadeusFormSaveErrorMessage);
+=======
+            $('#spnAmadeusFormErrorMsg').text('{!$Label.AH_UDC_AmadeusFormSaveErrorMessage}');
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
 =======
             $('#spnAmadeusFormErrorMsg').text('{!$Label.AH_UDC_AmadeusFormSaveErrorMessage}');
 >>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
@@ -715,8 +794,12 @@
                objSection.fields.forEach(function (objField, fieldIndex) {
                   if (objField.type.toLowerCase() == 'paragraph') {
 <<<<<<< HEAD
+<<<<<<< HEAD
                      wrapperDiv.append($('<p style="white-space: break-spaces; margin:0px; margin-bottom: 10px;"  id="' + objField.name + '">' + objField.title + '</p>'));
                      //wrapperDiv.append($('<p>' + objField.title + '</p>'));
+=======
+                     wrapperDiv.append($('<p id="' + objField.name + '">' + objField.title + '</p>'));
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
 =======
                      wrapperDiv.append($('<p id="' + objField.name + '">' + objField.title + '</p>'));
 >>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
@@ -726,10 +809,13 @@
                   fieldWrapper.addClass('field-wrapper');
                   var strLabelText = objField.title;
 <<<<<<< HEAD
+<<<<<<< HEAD
                   if (typeof(objField.validation) != 'undefined' && objField.validation != null && objField.validation.required == 'true') {
                      strLabelText += '<span style="color:#f00; font-weight:bold;">*</span>';
                      fieldWrapper.attr('data-required', 'true');
 =======
+=======
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
                   var intMaxLength = 0;
 
                   if (typeof(objField.validation) != 'undefined' && objField.validation != null) {
@@ -739,6 +825,9 @@
                      }
                      if (typeof(objField.validation.maxlength) != 'undefined' && parseInt(objField.validation.maxlength) > 0)
                         intMaxLength = parseInt(objField.validation.maxlength);
+<<<<<<< HEAD
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
+=======
 >>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
                   }
 
@@ -762,7 +851,12 @@
                   var inputField = null, inputFieldValue = null;
                   var flagDynamciSource = typeof(objField.dynamicsource != null) != 'undefined' && objField.dynamicsource != null;
 <<<<<<< HEAD
+<<<<<<< HEAD
                   if(typeof(objField.value) != 'undefined' && objField.value != null && objField.value != '')
+=======
+
+                  if(typeof(objField.value) != 'undefined' && objField.value != null)
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
 =======
 
                   if(typeof(objField.value) != 'undefined' && objField.value != null)
@@ -775,6 +869,11 @@
                      inputField = $('<input type="text" />');
                      inputField.val(inputFieldValue);
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+                     if(intMaxLength > 0 )
+                        inputField.attr('maxlength', intMaxLength);
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
 =======
                      if(intMaxLength > 0 )
                         inputField.attr('maxlength', intMaxLength);
@@ -785,12 +884,15 @@
                         inputField.attr('placeholder', objField.placeholder);
 
 <<<<<<< HEAD
+<<<<<<< HEAD
                      if (typeof objSection.inline == 'undefined' || objSection.inline != 'true')
                         fieldWrapper.css('margin-bottom', '8px');
                   }
                   else if (objField.type.toLowerCase() == 'dropdown') {
                      inputField = $('<select title="' + objField.tooltip + '"/></select>');
 =======
+=======
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
                      if(flagDynamciSource)
                         inputField.prop('disabled', true); //readonly text control in case of dynamic source
 
@@ -805,6 +907,9 @@
                      inputField = $('<select title="' + objField.tooltip + '"/></select>');
                      if(flagDynamciSource)
                         inputField.data('dynamicsource', true);
+<<<<<<< HEAD
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
+=======
 >>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
                      if(flagDynamciSource && inputFieldValue != null && inputFieldValue != '') {
                         //Blank option added to dynamic picklist
@@ -869,6 +974,12 @@
 
                   fieldWrapper.append(inputField);
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+                  if (typeof(objField.type) != 'undefined' && $.trim(objField.type).toLowerCase() == 'text'
+                     && typeof(objField.validation) != 'undefined' && objField.validation != null)
+                     bindValidationsOnTextControl(objField, fieldWrapper);
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
 =======
                   if (typeof(objField.type) != 'undefined' && $.trim(objField.type).toLowerCase() == 'text'
                      && typeof(objField.validation) != 'undefined' && objField.validation != null)
@@ -1224,6 +1335,7 @@
       function bindJSpreadSheet(wrapperDiv, APIName, objSection) {
          try {
 <<<<<<< HEAD
+<<<<<<< HEAD
             var defaultValues = [];
             if(objSection.data != null) {
                defaultValues = JSON.parse(JSON.stringify(objSection.data));
@@ -1232,6 +1344,8 @@
             arrFields.forEach(function(objField) {
                objField.wordWrap = false; //Disable word wrap in all cells
 =======
+=======
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
             var today = new Date();
             var strToday = today.getFullYear() + '-' + String(today.getMonth() + 1).padStart(2, '0') + '-' + String(today.getDate()).padStart(2, '0');
             var defaultValues = [];
@@ -1259,6 +1373,9 @@
                if(typeof(objField.validation) != 'undefined' && objField.validation != null
                   && typeof(objField.validation.allowpastdate) != 'undefined' && objField.validation.allowpastdate != null && objField.validation.allowpastdate.toLowerCase() == 'false')
                   objField.options.validRange = [strToday, null];
+<<<<<<< HEAD
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
+=======
 >>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
             });
 
@@ -1281,7 +1398,11 @@
                },
                onload: function (containerDiv, objInstance) {
 <<<<<<< HEAD
+<<<<<<< HEAD
                   bindValidation(objSection.fields, containerDiv);
+=======
+                  bindValidationsOnGrid(objSection.fields, containerDiv);
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
 =======
                   bindValidationsOnGrid(objSection.fields, containerDiv);
 >>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
@@ -1298,7 +1419,12 @@
                   });
 
 <<<<<<< HEAD
+<<<<<<< HEAD
                   bindValidation(objSection.fields, containerDiv);
+=======
+                  setRowDefaultValues(containerDiv.jexcel, objSection.fields, rowNumber + 1, rowNumber + numOfRows);
+                  bindValidationsOnGrid(objSection.fields, containerDiv);
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
 =======
                   setRowDefaultValues(containerDiv.jexcel, objSection.fields, rowNumber + 1, rowNumber + numOfRows);
                   bindValidationsOnGrid(objSection.fields, containerDiv);
@@ -1310,7 +1436,11 @@
                },
                onpaste: function (containerDiv, arrData) {
 <<<<<<< HEAD
+<<<<<<< HEAD
                   bindValidation(objSection.fields, containerDiv);
+=======
+                  bindValidationsOnGrid(objSection.fields, containerDiv);
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
 =======
                   bindValidationsOnGrid(objSection.fields, containerDiv);
 >>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
@@ -1351,13 +1481,19 @@
                   else {
                      setTimeout(function() {
 <<<<<<< HEAD
+<<<<<<< HEAD
                         bindEventsOnCell(cell);
 =======
+=======
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
                         var intMaxLength = parseInt($(cell).data('maxlength'));
                         if(intMaxLength > 0) {
                            $('input', cell).attr('maxlength', intMaxLength);
                         }
                         bindEventsOnInput(cell, true);
+<<<<<<< HEAD
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
+=======
 >>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
                      }, 100);
                   }
@@ -1370,6 +1506,7 @@
          }
       }
 
+<<<<<<< HEAD
 <<<<<<< HEAD
       function bindEventsOnCell(cell) {
          var intMaxLength = parseInt($(cell).data('maxlength'));
@@ -1413,6 +1550,8 @@
                else if($(cell).data('alphanumeric') == true && /^[a-z 0-9]+$/i.test(strValue) == false) {
                   $('input', cell).val('');
 =======
+=======
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
       function setRowDefaultValues(objSpreadSheet, objFields, startRow, endRow) {
          var index = objFields.findIndex(x => typeof(x.defaultvalue) != 'undefined' && x.defaultvalue != null);
          if (index == -1) return; //Don't procedd further if default values are not provided
@@ -1505,6 +1644,9 @@
                }
                else if($(parent).data('alphanumeric') == true && /^[a-z 0-9]+$/i.test(strValue) == false) {
                   $('input', parent).val('');
+<<<<<<< HEAD
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
+=======
 >>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
                }
             }
@@ -1512,7 +1654,10 @@
       }
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
+=======
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
       function checkRequiredAndMinLength(value, parent, isGrid) {
          var intMinLength = parseInt($(parent).data('minlength'));
          var errorMsg = '';
@@ -1533,6 +1678,9 @@
          }
       }
 
+<<<<<<< HEAD
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
+=======
 >>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
       function startEditionLongText(objJExcel, columnName, cell, cellName) {
          objJExcel.resetSelection();
@@ -1679,6 +1827,7 @@
             var strErrorMessage = '';
             if($(cell).data('required') == true && (value == null || $.trim(value) == '')) {
 <<<<<<< HEAD
+<<<<<<< HEAD
                strErrorMessage = LABEL_AmadeusFormRequiredValidationMessage;
             }
             else if(intMinLength > 0 && (value == null || $.trim(value).length < intMinLength)) {
@@ -1687,6 +1836,8 @@
             else if(intMaxLength > 0 && $.trim(value).length > intMaxLength) {
                strErrorMessage = LABEL_AmadeusFormMaxLengthValidationMessage.replace('{0}', intMinLength);
 =======
+=======
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
                strErrorMessage = '{!$Label.AH_UDC_AmadeusFormRequiredValidationMessage}';
             }
             else if(intMinLength > 0 && (value == null || $.trim(value).length < intMinLength)) {
@@ -1694,6 +1845,9 @@
             }
             else if(intMaxLength > 0 && $.trim(value).length > intMaxLength) {
                strErrorMessage = '{!$Label.AH_UDC_AmadeusFormMaxLengthValidationMessage}'.replace('{0}', intMinLength);
+<<<<<<< HEAD
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
+=======
 >>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
             }
 
@@ -1802,8 +1956,11 @@
       }
 
 <<<<<<< HEAD
+<<<<<<< HEAD
       function bindValidation(fields, jspreadsheetEl) {
 =======
+=======
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
       function bindValidationsOnTextControl(objField, fieldWrapper) {
          if (typeof(objField.type) == 'undefined' || $.trim(objField.type).toLowerCase() != 'text'
             || typeof(objField.validation) == 'undefined' || objField.validation == null)
@@ -1822,6 +1979,9 @@
       }
 
       function bindValidationsOnGrid(fields, jspreadsheetEl) {
+<<<<<<< HEAD
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
+=======
 >>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
          var arrFields = fields.filter(x => x.validation != null);
          arrFields.forEach(function (obj, i) {
@@ -2042,7 +2202,11 @@
          actionfunction_LogClientException(strMethodName, strErrorMessage);
          $('.form-container').hide();
 <<<<<<< HEAD
+<<<<<<< HEAD
          $('#spnAmadeusFormErrorMsg').text(LABEL_AmadeusFormRenderErrorMessage);
+=======
+         $('#spnAmadeusFormErrorMsg').text('{!$Label.AH_UDC_AmadeusFormRenderErrorMessage}');
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
 =======
          $('#spnAmadeusFormErrorMsg').text('{!$Label.AH_UDC_AmadeusFormRenderErrorMessage}');
 >>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a

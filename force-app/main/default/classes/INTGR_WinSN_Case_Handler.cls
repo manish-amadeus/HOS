@@ -61,6 +61,7 @@ public class INTGR_WinSN_Case_Handler
         system.debug(' *%*%* INTGR_WinSN_Case_Handler CONSTRUCTOR (END)');
         
 <<<<<<< HEAD
+<<<<<<< HEAD
     }
 
 	public void OnBeforeInsert(List<Case> newTrigger)
@@ -214,15 +215,95 @@ public class INTGR_WinSN_Case_Handler
             }
             else
             {
+=======
+    }
+    
+    public void OnBeforeInsert(List<Case> newTrigger)
+    {
+        
+        List<Case> lstValidCases = new List<Case>();
+        lstValidCases = lstValidCasesToProcess(newTrigger, true);
+        if (lstValidCases.Size() > 0)
+        {
+            // IF USER DOES NOT HAVE 'Case Integration Customers' PROFILE AND NOT CALLED AS A RESULT OF AN INTGR_Case__c INSERT (LEGACY CONTEXT)
+            if (isUser_CUSTOMER_IHG)  // NICC-039247
+            {
+                processBeforeInsert(lstValidCases);
+            }
+            
+            // IF USER HAS 'Case Integration Customers' PROFILE
+            if (isUser_CUSTOMER)
+            {
+                INTGR_IntegrationHelper.populateIntegrationAccountOnCase(lstValidCases);
+            }
+        }
+        
+    }
+    
+    public void OnAfterInsert(List<Case> newTrigger)
+    {
+        system.debug(' *** ENTERING INTGR_WinSN_Case_Handler.OnAfterInsert() - QUERIES ISSUED = ' + Limits.getQueries());
+        
+        List<Case> lstValidCases = new List<Case>();
+        lstValidCases = lstValidCasesToProcess(newTrigger, false);
+        if (lstValidCases.Size() > 0)
+        {
+            processAfterInsert(lstValidCases);
+        }
+        
+        system.debug(' *** EXITING INTGR_WinSN_Case_Handler.OnAfterInsert() - QUERIES ISSUED = ' + Limits.getQueries());
+    }
+    
+    public void OnBeforeUpdate(List<Case> newTrigger, Map<Id, Case> oldMapTrigger)
+    {
+        system.debug(' *** ENTERING INTGR_WinSN_Case_Handler.OnBeforeUpdate() - QUERIES ISSUED = ' + Limits.getQueries());
+        
+        List<Case> lstValidCases = new List<Case>();
+        lstValidCases = lstValidCasesToProcess(newTrigger, false);
+        if (lstValidCases.Size() > 0)
+        {        
+            if (isUser_CUSTOMER_IHG)
+            {
+                setClosedCaseCheckboxes(newTrigger, oldMapTrigger);
+            }
+            processBeforeUpdate(lstValidCases, oldMapTrigger);
+        }
+        
+        system.debug(' *** EXITING INTGR_WinSN_Case_Handler.OnBeforeUpdate() - QUERIES ISSUED = ' + Limits.getQueries());
+    }
+    
+    public void OnAfterUpdate(List<Case> newTrigger, Map<Id, Case> oldMapTrigger)
+    {
+        system.debug(' *** ENTERING INTGR_WinSN_Case_Handler.OnAfterUpdate() - QUERIES ISSUED = ' + Limits.getQueries());
+        
+        List<Case> lstValidCases = new List<Case>();
+        lstValidCases = lstValidCasesToProcess(newTrigger, false);
+        
+        if (lstValidCases.Size() > 0)
+        {
+            processAfterUpdate(lstValidCases, oldMapTrigger);
+            
+            // IF USER DOES NOT HAVE 'Case Integration Customers' PROFILE AND IS NOT UPDATE TO FLAGS AND IS NOT CASE COMMENT FROM STANDARD CASE FLAGGED OPERATION
+            if (!isUser_CUSTOMER && !INTGR_IntegrationHelper.isUpdateOncaseFlags && !INTGR_IntegrationHelper.isCCFromSC) // !INTGR_IntegrationHelper.uProfileName.containsIgnoreCase(INTGR_IntegrationHelper.INT_PROFILENAME))
+            {
+                processICAfterSCUpdate(lstValidCases, oldMapTrigger);
+            }
+            else
+            {
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
                 List<Case> lstCaseUpdates = new List<Case>();
                 
                 for (Case c : lstValidCases)
                 {
+<<<<<<< HEAD
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
+=======
 >>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
                     // IF USER HAS 'Case Integration Customers' PROFILE AND WAS LAST TO MODIFY CASE
                     // if (INTGR_IntegrationHelper.uProfileName.containsIgnoreCase(INTGR_IntegrationHelper.INT_PROFILENAME) && c.LastModifiedById == UserInfo.getUserId())
                     if (isUser_CUSTOMER && c.LastModifiedById == UserInfo.getUserId())
                     {
+<<<<<<< HEAD
 <<<<<<< HEAD
 						lstCaseUpdates.add(c);
 					}
@@ -284,6 +365,8 @@ public class INTGR_WinSN_Case_Handler
 			}
 		}
 =======
+=======
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
                         lstCaseUpdates.add(c);
                     }
                 }
@@ -343,6 +426,9 @@ public class INTGR_WinSN_Case_Handler
                 setRecordTypeIds.Add(rr.getRecordTypeId());
             }
         }
+<<<<<<< HEAD
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
+=======
 >>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
         
         // FILL LIST WITH CUSTOM METADATA TYPES
@@ -353,8 +439,13 @@ public class INTGR_WinSN_Case_Handler
              LIMIT 1]);         
         
 <<<<<<< HEAD
+<<<<<<< HEAD
 		for (Case c : newTrigger)
 		{
+=======
+        for (Case c : newTrigger)
+        {
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
 =======
         for (Case c : newTrigger)
         {
@@ -364,17 +455,23 @@ public class INTGR_WinSN_Case_Handler
             //Boolean bWinAprchOnly = false;
             //Id acctID = null;
 <<<<<<< HEAD
+<<<<<<< HEAD
 
 system.debug(' *%*%* lstWinAprchOnlys = ' + lstWinAprchOnlys); 
 system.debug(' *%*%* isBeforeInsert = ' + isBeforeInsert);
 system.debug(' *%*%* c.Subject = ' + c.Subject); 
 
 =======
+=======
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
             
             system.debug(' *%*%* lstWinAprchOnlys = ' + lstWinAprchOnlys); 
             system.debug(' *%*%* isBeforeInsert = ' + isBeforeInsert);
             system.debug(' *%*%* c.Subject = ' + c.Subject); 
             
+<<<<<<< HEAD
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
+=======
 >>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
             for (WINAPROACH_ONLY_Membership_Customer__mdt mdt : lstWinAprchOnlys)
             {
@@ -387,6 +484,7 @@ system.debug(' *%*%* c.Subject = ' + c.Subject);
                     }
                 }
             }            
+<<<<<<< HEAD
 <<<<<<< HEAD
 
 			// IF CASE IS OF A WIN@PROACH / SERVICE NOW INTEGRATION RECORD TYPE -AND- IS IHG INTEGRATION
@@ -562,6 +660,8 @@ system.debug(' *%*%* c.Subject = ' + c.Subject);
 			{
 				if ((cs.Status == 'Acknowledged' && (cs.Status != oldMapTrigger.get(cs.Id).Status)) || 
 =======
+=======
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
             
             // IF CASE IS OF A WIN@PROACH / SERVICE NOW INTEGRATION RECORD TYPE -AND- IS IHG INTEGRATION
             if (setRecordTypeIds.contains(c.RecordTypeId)) // && bWinAprchOnly == false)
@@ -735,6 +835,9 @@ system.debug(' *%*%* c.Subject = ' + c.Subject);
             if (isUser_CUSTOMER || isUser_CUSTOMER_IHG)
             {
                 if ((cs.Status == 'Acknowledged' && (cs.Status != oldMapTrigger.get(cs.Id).Status)) || 
+<<<<<<< HEAD
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
+=======
 >>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
                     (cs.Assignment_Group__c == 'VN-GLBL-GRS Amadeus Level 3' && (cs.Assignment_Group__c != oldMapTrigger.get(cs.Id).Assignment_Group__c)))
                 {
@@ -1495,6 +1598,7 @@ system.debug(' *%*%* c.Subject = ' + c.Subject);
                 String ccBody = '';
                 
                 if (cs.INTGR_Assigned_Recovery_Plan__c.contains('Functional'))
+<<<<<<< HEAD
                 {
                     ccBody = Label.SEVERITY_FUNCTIONAL;
                     cc.CommentBody = ccBody;
@@ -1603,6 +1707,116 @@ system.debug(' *%*%* c.Subject = ' + c.Subject);
             // TO PUT A CHECK ON Integration_Sync_Status__c FOR OUTBOUND CALLS
             if (caseObj.Update_External_System__c != null && caseObj.Update_External_System__c == true)
             {
+=======
+                {
+                    ccBody = Label.SEVERITY_FUNCTIONAL;
+                    cc.CommentBody = ccBody;
+                }
+                
+                if (cs.INTGR_Assigned_Recovery_Plan__c.contains('Technical'))
+                {
+                    ccBody = Label.SEVERITY_TECHNICAL;
+                    cc.CommentBody = ccBody;
+                }
+                
+                lstCaseCommentInserts.add(cc);
+            }
+        }
+        
+        system.debug('*^* winSettings = ' + winSettings);
+        system.debug('*^* lstCaseRecordTypes.size() = ' + lstCaseRecordTypes.size());
+        
+        if (winSettings != null)
+        {
+            if (winSettings.Integration_Username__c != null &&
+                winSettings.Integration_Username__c != UserInfo.getUserName() &&
+                lstCaseRecordTypes.size() > 0)
+            {
+                system.debug('*^* Calling External Win@proach web service ');
+                NI_WinaproachService niWin = new NI_WinaproachService('Create', lstCaseRecordTypes);
+            }
+            
+            if (winSettings.Integration_Username__c != null &&
+                winSettings.Integration_Username__c != UserInfo.getUserName() &&
+                lstCaseIds.size() > 0 &&
+                (!NI_WinaproachService.crsCaseIncidentFlag))
+            {
+                system.debug('*^* Call Win@proach Update Request using future callout and also benefit of higher limit instead of trigger context ');
+                // Call Win@proach Update Request using future callout and also benefit of higher limit instead of trigger context
+                // NI_WinaproachService.sendUpdateRequestToWinaproach(lstCaseIds, 'Case');
+                NI_WinaproachService.crsCaseIncidentFlag = true;
+                NI_WinaproachService.createActionLogOrAttachment(lstCaseIds, setUpdatedFields);
+            }
+        }
+        
+        system.debug('*^* lstServiceNowCaseInserts = ' + lstServiceNowCaseInserts);
+        
+        if (!lstServiceNowCaseInserts.isEmpty())
+        {
+            NI_ServicenowIntegration.updateIncidents(lstServiceNowCaseInserts, setUpdatedFields);
+        }
+        
+        if (!snCaseIdSet.isEmpty())
+        {
+            Id jobId = System.enqueueJob(new AH_QueuableServiceNowClass(snCaseIdSet));
+        }
+        
+        if (!lstServiceNowCaseIds.isEmpty())
+        {
+            // Call to Servicenow Integration function
+            NI_ServicenowIntegration.updateIncidents(lstServiceNowCaseIds, setUpdatedFields);
+        }
+        
+        system.debug(' **** NI_WinaproachService.caseCommentFlag = ' + NI_WinaproachService.caseCommentFlag);
+        system.debug(' **** NI_WinaproachService.caseFieldsForComments = ' + NI_WinaproachService.caseFieldsForComments);
+        system.debug(' **** INTGR_IntegrationHelper.isCCFromSC = ' + INTGR_IntegrationHelper.isCCFromSC);
+        
+        if (!NI_WinaproachService.caseCommentFlag)
+        {
+            if (lstCaseComments.size() > 0)
+            {
+                NI_WinaproachService.caseCommentFlag = true;
+                NI_WinaproachService.caseFieldsForComments = new List<String>(setUpdatedFields);
+                // TO BYPASS INBOUND CALLS FROM INTEGRATION CASE COMMENTS
+                //if (INTGR_IntegrationHelper.uProfileName.containsIgnoreCase(INTGR_IntegrationHelper.INT_PROFILENAME))
+                if (isUser_CUSTOMER)
+                {
+                    INTGR_IntegrationHelper.isCCFromSC = true;
+                }
+                insert lstCaseComments;
+            }
+        }
+        
+        if (!lstCaseCommentInserts.isEmpty())
+        {
+            // TO BYPASS INBOUND CALLS FROM INTEGRATION CASE COMMENTS
+            //if (INTGR_IntegrationHelper.uProfileName.containsIgnoreCase(INTGR_IntegrationHelper.INT_PROFILENAME))
+            if (isUser_CUSTOMER)
+            {
+                INTGR_IntegrationHelper.isCCFromSC = true;
+            }
+            insert lstCaseCommentInserts;
+        }
+        
+        system.debug(' *** EXITING INTGR_WinSN_Case_Handler.processAfterUpdate() - QUERIES ISSUED = ' + Limits.getQueries());
+    }
+    
+    private void processICAfterSCUpdate(List<Case> newTrigger, Map<Id, Case> oldMapTrigger)
+    {
+        // NICC-030216 NEXT PROJECT PROCESS INTEGRATION CASE AFTER STANDARD CASE UPDATE
+        
+        system.debug(' *** ENTERING INTGR_WinSN_Case_Handler.processICAfterSCUpdate() - QUERIES ISSUED = ' + Limits.getQueries());
+        
+        // changes for SF to SN Integration
+        Map<Id, Case> caseObListTobeProcessedMap = new Map<Id, Case>();
+        //    Set<String> fieldsChangedSet = new set<String>();
+        
+        for (Case caseObj : newTrigger)
+        {
+            // TO PUT A CHECK ON Integration_Sync_Status__c FOR OUTBOUND CALLS
+            if (caseObj.Update_External_System__c != null && caseObj.Update_External_System__c == true)
+            {
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
                 // TO CHECK IF NONE OF SC FIELDS ARE CHANGED THEN NO NEED TO TRIGGER UPDATE
                 caseObListTobeProcessedMap.put(caseObj.Id, caseObj);
             }
