@@ -1,4 +1,0 @@
-<apex:page standardController="SCMC__Purchase_Order__c" renderAs="PDF">
-	<apex:stylesheet value="{!$Resource.SCMC__LandscapePageStyle}"/>
-    <c:NI_PurchaseOrder purchaseOrderId="{!SCMC__Purchase_Order__c.id}" extPOId="{!SCMC__Purchase_Order__c.id}" />
-</apex:page>

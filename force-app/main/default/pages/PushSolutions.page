@@ -1,5 +1,0 @@
-<apex:page standardController="Case" recordSetVar="cases" tabStyle="Case" extensions="PushSolutions" action="{!load}">
-    <apex:repeat var="cas" value="{!selected}">
-        <apex:outputField value="{!cas.parentId}" rendered="false" />
-    </apex:repeat>
-</apex:page>
