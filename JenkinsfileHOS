@@ -176,10 +176,18 @@ node {
                 // Deploy the package previously validated on stage "Run Test (RunLocalTests, jest)"
                 // ----------------------------------------------------------------------------------
                 stage('Promote to QA (deploy package + validation)') {
-					rc = commandStatus "sfdx force:source:deploy -u ${SF_TARGET_ENV} -w 10 -q ${JOBIDDEPLOY}"
+                if (RunTesttype == "NoTestRun"){
+					rc = commandStatus "sfdx force:source:deploy -u ${SF_TARGET_ENV} -w 10 -x manifest/${SDWORK_ID}/package.xml"
 					if (rc != 0) {
                         error 'Salesforce deployment failed.'
                     }
+                    }
+                  else{
+                  rc = commandStatus "sfdx force:source:deploy -u ${SF_TARGET_ENV} -w 10 -q ${JOBIDDEPLOY}"
+					if (rc != 0) {
+                        error 'Salesforce deployment failed.'
+                    }
+                  }
 				}
 				// ----------------------------------------------------------------------------------
                 // Merging Source branch into the Target branch
