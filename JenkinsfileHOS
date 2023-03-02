@@ -152,7 +152,7 @@ node {
                      echo "Specified test classes are : ${SpecifiedTestClass}"
                     }
 					if(SpecifiedTestClass == null){
-                    RunTesttype = "RunLocalTests"
+                    RunTesttype = "NoTestRun"
                     }
                     else{
                     RunTesttype = "RunSpecifiedTests -r ${SpecifiedTestClass}"
@@ -203,8 +203,9 @@ node {
 			}
 			
 		}
-        
+        currentBuild.result='SUCCESS'
 	} catch (e) {
+    currentBuild.result='FAILURE'
         throw e
     } finally {
         // Send email. Uses the configs from Manage Jenkins > Configure System > Extended E-mail Notification
@@ -213,7 +214,8 @@ node {
         //emailext recipientProviders: [developers()], subject: "Job '${JOB_NAME}' (${BUILD_NUMBER}) finished with result: ${currentBuild.currentResult}" , to:'manish.kumar7@amadeus.com,geetha.amalraj@amadeus.com,sean.harris@amadeus.com',body: "The build #${BUILD_NUMBER} finished with status ${currentBuild.currentResult} and contains the logs attached.", attachLog: true
         //emailext recipientProviders: [developers()], subject: "Job '${JOB_NAME}' (${BUILD_NUMBER}) finished with result: ${BUILD_NUMBER.result}" , body: "The build #${BUILD_NUMBER} finished with status ${currentBuild.currentResult} and contains the logs attached.", attachLog: true
         //emailext recipientProviders: [developers()], subject: "Job '${JOB_NAME}' (${BUILD_NUMBER}) finished with result:  ${env.BUILD_NUMBER.result}" , to:'manish.kumar7@amadeus.com',body: "The build #${BUILD_NUMBER} finished with status ${env.BUILD_NUMBER.result} and contains the logs attached.", attachLog: true
-        emailext recipientProviders: [developers()], subject: "Job '${JOB_NAME}' (${BUILD_NUMBER}) finished with result: ${currentBuild.currentResult}" , to:'manish.kumar7@amadeus.com,geetha.amalraj@amadeus.com,sean.harris@amadeus.com',body: "The build #${BUILD_NUMBER} finished with status ${currentBuild.currentResult} and contains the logs attached.", attachLog: true
+        //emailext recipientProviders: [developers()], subject: "Job '${JOB_NAME}' (${BUILD_NUMBER}) finished with result: ${currentBuild.currentResult}" , to:'manish.kumar7@amadeus.com,geetha.amalraj@amadeus.com,sean.harris@amadeus.com',body: "The build #${BUILD_NUMBER} finished with status ${currentBuild.currentResult} and contains the logs attached.", attachLog: true
+          emailext recipientProviders: [developers()], subject: "Job '${JOB_NAME}' (${BUILD_NUMBER}) finished with result: ${currentBuild.result}" , to:'manish.kumar7@amadeus.com',body: "The build #${BUILD_NUMBER} finished with status ${currentBuild.result} and contains the logs attached.", attachLog: true
         // TODO MS Teams
         //office365ConnectorSend message: "<Your message>", status:"${RESULT}", webhookUrl:'<The connector webhook url>'
         // Clean workspace (remove files used for this build)
