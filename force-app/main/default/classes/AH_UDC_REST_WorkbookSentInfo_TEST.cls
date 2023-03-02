@@ -9,6 +9,11 @@
 @isTest
 private class AH_UDC_REST_WorkbookSentInfo_TEST {
    private static AH_UDC_Workbook__c wb = null;
+<<<<<<< HEAD
+=======
+   private static AH_UDC_Workbook__c originalWB = null;
+   private static AH_UDC_Workbook__c parentWBSent = null;
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
    private static AH_UDC_WorkbookStep__c wbs = null;
    private static AH_UDC_WorkbookStep__c wbswithNoResponse = null;
    private static AH_UDC_WorkbookStep__c wbswithAF = null;
@@ -52,15 +57,40 @@ private class AH_UDC_REST_WorkbookSentInfo_TEST {
       AH_UDC_PropertyAccount__c oPropertyAccount = AH_UDC_TestData.GetPropertyObject('WBSITest1', 'Portsmouth', 'US', '03801', 'NH', '75 New Hampshire Ave', '3410 Via Mercato, St 105');
       insert oPropertyAccount;
 
+<<<<<<< HEAD
       // Create NI Doc record
       NI_Documentation__c oNiDoc = AH_UDC_TestData.GetNIDocObject('WBSITest1', Date.newInstance(2021, 3, 31));
       oNiDoc.AH_UDC_PropertyAccount__c = oPropertyAccount.Id;
+=======
+      pse__Region__c objRegion = new pse__Region__c(
+         Name = 'Amadeus Hospitality'
+      );
+      insert objRegion;
+
+      Id recordTypeStandardProject = Schema.SObjectType.pse__Proj__c.getRecordTypeInfosByDeveloperName().get(AH_UDC_Constants.RECORD_TYPE_PROJECT_STANDARD_PROJECT).getRecordTypeId();
+      System.assert(String.isNotBlank(recordTypeStandardProject), 'RecordType Id ' + AH_UDC_Constants.RECORD_TYPE_PROJECT_STANDARD_PROJECT + ' not found');
+
+      pse__Proj__c objProject = new pse__Proj__c(
+                                    RecordTypeId = recordTypeStandardProject,
+                                    Name = 'Test Project',
+                                    pse__Region__c = objRegion.Id,
+                                    pse__Account__c = oAccount.Id,
+                                    Customer_Project_Contact__c = oContact.Id
+                                 );
+      insert objProject;
+
+      // Create NI Doc record
+      NI_Documentation__c oNiDoc = AH_UDC_TestData.GetNIDocObject('WBSITest1', Date.newInstance(2021, 3, 31));
+      oNiDoc.AH_UDC_PropertyAccount__c = oPropertyAccount.Id;
+      oNiDoc.Project__c = objProject.Id;
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
       insert oNiDoc;
 
       // Create Contact NI Doc mapping record
       AH_UDC_Contact__c oUdcContact = AH_UDC_TestData.GetUDCContactObject(oNiDoc.Id, oContact.Id, UserInfo.getDefaultCurrency());
       insert oUdcContact;
 
+<<<<<<< HEAD
       //Insert Workbook Sent
       Id wbRTId = Schema.SObjectType.AH_UDC_Workbook__c.getRecordTypeInfosByDeveloperName().get(AH_UDC_Constants.RECORD_TYPE_WORKBOOK_SENT).getRecordTypeId();
 
@@ -68,6 +98,20 @@ private class AH_UDC_REST_WorkbookSentInfo_TEST {
       wb = AH_UDC_TestData.GetWorkbookObject(oNiDoc.Id, 'WBSITest1', 'Test Workbook 1 Description', product);
       wb.RecordTypeId = wbRTId;
       wb.RelatedTo__c = oNiDoc.Id;
+=======
+      String product = AH_UDC_TestData.GetProductPicklist() [0].getLabel();
+      //Create original workbook record
+      originalWB = AH_UDC_TestData.GetWorkbookObjectWithoutDocId('WBTest1', 'Test Workbook 1 Description', product);
+      insert originalWB;
+
+      //Create parent workbook sent record
+      parentWBSent = AH_UDC_TestData.GetWorkbookObject(oNiDoc.Id, 'WBSITest1', 'Test Workbook Sent 1 Description', product);
+      insert parentWBSent;
+
+      wb = AH_UDC_TestData.GetWorkbookObject(oNiDoc.Id, 'WBSITest1', 'Test Workbook Sent 1 Description', product);
+      wb.OriginalWorkbook__c = originalWB.Id;
+      wb.ParentWorkbookSent__c = parentWBSent.Id;
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
       insert wb;
 
       if (withSteps)
@@ -129,7 +173,17 @@ private class AH_UDC_REST_WorkbookSentInfo_TEST {
          Test.stopTest();
 
          System.assertEquals('200', resp.statusCode, 'Expected 200 Response');
+<<<<<<< HEAD
          System.assertEquals(1, resp.WorkbookSteps.size(), 'Workbook Step count different than expected');
+=======
+         System.assertEquals(wb.Id, resp.workbookSentId, 'Workbook sent record Id is different than expected');
+         System.assertEquals(wb.RelatedTo__c, resp.niDocumentation.Id, 'NI Documentation value is different than expected');
+         System.assertEquals(wb.OriginalWorkbook__c, resp.originalWorkbook.Id, 'Original workbook value is different than expected');
+         System.assertEquals(wb.ParentWorkbookSent__c, resp.parentWorkbook.Id, 'Parent workbook sent value is different than expected');
+         System.assertEquals(1, resp.WorkbookSteps.size(), 'Workbook Step count different than expected');
+         System.assertEquals(wbs.Id, resp.WorkbookSteps[0].Id, 'Workbook step sent record Id is different than expected');
+         System.assertEquals(wbs.Name, resp.WorkbookSteps[0].Name, 'Workbook step sent name is different than expected');
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
          
          //There will be 1 log message from initializing the Config Settings
          List<AH_UDC_Log__c> logMessages = [select id, Message__c, LogText__c from AH_UDC_Log__c];
@@ -161,7 +215,11 @@ private class AH_UDC_REST_WorkbookSentInfo_TEST {
 
          Test.stopTest();
 
+<<<<<<< HEAD
          System.assertEquals('500', resp.statusCode, 'Expected 200 Response');
+=======
+         System.assertEquals('500', resp.statusCode, 'Expected 500 Response');
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
       }
    }
 
@@ -188,7 +246,11 @@ private class AH_UDC_REST_WorkbookSentInfo_TEST {
 
          Test.stopTest();
 
+<<<<<<< HEAD
          System.assertEquals('400', resp.statusCode, 'Expected 200 Response');
+=======
+         System.assertEquals('400', resp.statusCode, 'Expected 400 Response');
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
       }
    }
 
@@ -203,7 +265,11 @@ private class AH_UDC_REST_WorkbookSentInfo_TEST {
          RestRequest reqG = new RestRequest();
          RestResponse resG = new RestResponse();
          reqG.requestURI = '/services/apexrest/AH_UDC_WorkbookSentInfo'; //Request URL
+<<<<<<< HEAD
          reqG.params.put('workbookSentId',  wb.Id);
+=======
+         reqG.params.put('workbookSentId',  'InValidId');
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
          reqG.httpMethod = 'GET'; //HTTP Request Type
          RestContext.request = reqG;
          RestContext.response = resG;
@@ -212,10 +278,21 @@ private class AH_UDC_REST_WorkbookSentInfo_TEST {
 
          AH_UDC_REST_WorkbookSentInfo.WorkbookSentInfoResponse resp = null;
          resp = (AH_UDC_REST_WorkbookSentInfo.WorkbookSentInfoResponse) JSON.deserialize(RestContext.response.responseBody.toString(), AH_UDC_REST_WorkbookSentInfo.WorkbookSentInfoResponse.class);
+<<<<<<< HEAD
 
          Test.stopTest();
 
          System.assertEquals('404', resp.statusCode, 'Expected 200 Response');
+=======
+         System.assertEquals('404', resp.statusCode, 'Expected 404 Response');
+
+         //Test with the workbook without having original workbook
+         reqG.params.put('workbookSentId',  parentWBSent.Id);
+         AH_UDC_REST_WorkbookSentInfo.get();
+         System.assertEquals('404', resp.statusCode, 'Expected 404 Response');
+         
+         Test.stopTest();
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
       }
    }
 }

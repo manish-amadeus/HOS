@@ -25,6 +25,13 @@
                 <behavior>Edit</behavior>
                 <field>StepsinOrder__c</field>
             </layoutItems>
+<<<<<<< HEAD
+=======
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>EmailTemplate__c</field>
+            </layoutItems>
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
         </layoutColumns>
         <layoutColumns>
             <layoutItems>
@@ -35,6 +42,72 @@
                 <behavior>Required</behavior>
                 <field>Product__c</field>
             </layoutItems>
+<<<<<<< HEAD
+=======
+            <layoutItems>
+                <behavior>Readonly</behavior>
+                <field>LaunchWorkbookUrl__c</field>
+            </layoutItems>
+        </layoutColumns>
+        <style>TwoColumnsTopToBottom</style>
+    </layoutSections>
+    <layoutSections>
+        <customLabel>true</customLabel>
+        <detailHeading>true</detailHeading>
+        <editHeading>true</editHeading>
+        <label>Reminders</label>
+        <layoutColumns>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Reminder1Enabled__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Reminder1Days__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Reminder1EmailTemplate__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Reminder2Enabled__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Reminder2Days__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Reminder2EmailTemplate__c</field>
+            </layoutItems>
+        </layoutColumns>
+        <layoutColumns>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Reminder3Enabled__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Reminder3Days__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Reminder3EmailTemplate__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Reminder4Enabled__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Reminder4Days__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Reminder4EmailTemplate__c</field>
+            </layoutItems>
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
         </layoutColumns>
         <style>TwoColumnsTopToBottom</style>
     </layoutSections>
@@ -117,6 +190,14 @@
             <actionType>CustomButton</actionType>
             <sortOrder>7</sortOrder>
         </platformActionListItems>
+<<<<<<< HEAD
+=======
+        <platformActionListItems>
+            <actionName>SendEmail</actionName>
+            <actionType>QuickAction</actionType>
+            <sortOrder>8</sortOrder>
+        </platformActionListItems>
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
     </platformActionList>
     <relatedLists>
         <fields>NAME</fields>

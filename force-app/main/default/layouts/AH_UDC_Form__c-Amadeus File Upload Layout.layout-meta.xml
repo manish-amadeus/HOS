@@ -16,6 +16,13 @@
                 <behavior>Required</behavior>
                 <field>Name</field>
             </layoutItems>
+<<<<<<< HEAD
+=======
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Description__c</field>
+            </layoutItems>
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
         </layoutColumns>
         <layoutColumns>
             <layoutItems>
@@ -30,6 +37,48 @@
         <style>TwoColumnsTopToBottom</style>
     </layoutSections>
     <layoutSections>
+<<<<<<< HEAD
+=======
+        <customLabel>true</customLabel>
+        <detailHeading>true</detailHeading>
+        <editHeading>true</editHeading>
+        <label>Upload Limits</label>
+        <layoutColumns>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>NumberOfFiles__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>MaxIndividualFileSizeMB__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>AllowedExtensions__c</field>
+            </layoutItems>
+        </layoutColumns>
+        <layoutColumns>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>HeightMinimumPixels__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>HeightMaximumPixels__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>WidthMinimumPixels__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>WidthMaximumPixels__c</field>
+            </layoutItems>
+        </layoutColumns>
+        <style>TwoColumnsLeftToRight</style>
+    </layoutSections>
+    <layoutSections>
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
         <customLabel>false</customLabel>
         <detailHeading>true</detailHeading>
         <editHeading>true</editHeading>
@@ -65,11 +114,14 @@
     <platformActionList>
         <actionListContext>Record</actionListContext>
         <platformActionListItems>
+<<<<<<< HEAD
             <actionName>Share</actionName>
             <actionType>StandardButton</actionType>
             <sortOrder>9</sortOrder>
         </platformActionListItems>
         <platformActionListItems>
+=======
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
             <actionName>ChangeOwnerOne</actionName>
             <actionType>StandardButton</actionType>
             <sortOrder>10</sortOrder>
@@ -119,6 +171,14 @@
             <actionType>StandardButton</actionType>
             <sortOrder>8</sortOrder>
         </platformActionListItems>
+<<<<<<< HEAD
+=======
+        <platformActionListItems>
+            <actionName>Share</actionName>
+            <actionType>StandardButton</actionType>
+            <sortOrder>9</sortOrder>
+        </platformActionListItems>
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
     </platformActionList>
     <relatedLists>
         <fields>NAME</fields>

@@ -30,7 +30,11 @@
         <inputParameters>
             <name>submitterId</name>
             <value>
+<<<<<<< HEAD
                 <elementReference>$User.Id</elementReference>
+=======
+                <elementReference>$Record.Owner:User.Id</elementReference>
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
             </value>
         </inputParameters>
         <storeOutputAutomatically>true</storeOutputAutomatically>
@@ -57,8 +61,13 @@
         <description>Decides if the Case should be submitted for Approval or not</description>
         <name>SubmitForApprovalDecision</name>
         <label>SubmitForApprovalDecision</label>
+<<<<<<< HEAD
         <locationX>610</locationX>
         <locationY>233</locationY>
+=======
+        <locationX>616</locationX>
+        <locationY>230</locationY>
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
             <name>Submit</name>

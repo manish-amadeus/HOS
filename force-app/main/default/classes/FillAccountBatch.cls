@@ -97,16 +97,18 @@ global class FillAccountBatch implements Database.Batchable<NI_Org_Details__c>, 
     }
 
     // TEST METHOD FOR CLASS ===================================================    
-    global static testmethod void testFake() 
-    {
-        FillAccountBatch fab = new FillAccountBatch(new String[0]);
-        NI_Org_Details__c[] accounts = new NI_Org_Details__c[1]; 
+
+    // moved to test class - FillAccountBatch_Test - 05/23/22
+    // global static testmethod void testFake() 
+    // {
+        // FillAccountBatch fab = new FillAccountBatch(new String[0]);
+        // NI_Org_Details__c[] accounts = new NI_Org_Details__c[1]; 
         
-        fab.isTest = true;
-        accounts[0] = new NI_Org_Details__c();
-        fab.start(null);
-        fab.execute(null, accounts);
-        fab.finish(null);
-    }
+        // fab.isTest = true;
+        // accounts[0] = new NI_Org_Details__c();
+        // fab.start(null);
+        // fab.execute(null, accounts);
+        // fab.finish(null);
+    // }
     
 }

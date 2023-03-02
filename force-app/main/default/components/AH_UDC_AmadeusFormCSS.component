@@ -49,6 +49,16 @@
          text-decoration: underline;
       }
 
+<<<<<<< HEAD
+=======
+      .form-container p {
+         white-space: break-spaces;
+         margin: 0px;
+         margin-bottom: 10px;
+         clear: both;
+      }
+
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
       .btn-save-form {
          float:right;
       }
@@ -76,6 +86,13 @@
       .field-wrapper {
          margin-bottom: 5px;
       }
+<<<<<<< HEAD
+=======
+         .field-wrapper > label {
+            margin-top: 0px !important;
+            font-weight: normal !important;
+         }
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
 
       fieldset:first-child {
          margin-top: 0;
@@ -102,10 +119,17 @@
          width: auto;
          margin: 0;
          padding: 0 8px;
+<<<<<<< HEAD
          font-size: 15px;
          font-weight: 700;
          border: none;
          color: #515e59;
+=======
+         font-size: 16px;
+         font-weight: normal;
+         border: none;
+         color: #1a1a1a;
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
       }
 
       div.inline {
@@ -118,11 +142,19 @@
          margin-top: 5px;
       }
 
+<<<<<<< HEAD
       .inline label, .inline input[type=text], .inline select {
          display: inline-block;
       }
 
       .form-container input[type=text] {
+=======
+      .inline label, .inline input[type=text], .inline input[type=date], .inline select {
+         display: inline-block;
+      }
+
+      .form-container input[type=text], .form-container input[type=date] {
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
          border: 1px solid;
          border-radius: 2px;
          line-height: 0;
@@ -131,6 +163,14 @@
          height: 1.2em;
       }
 
+<<<<<<< HEAD
+=======
+      .form-container input[type=date] {
+         line-height: unset !important;
+         width: 81% !important;
+      }
+      
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
       .form-container select {
          border: 1px solid;
          border-radius: 2px;
@@ -159,6 +199,10 @@
          clear: none;
          display: block;
          margin-left: 5px;
+<<<<<<< HEAD
+=======
+         font-weight: normal;
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
       }
 
       .radio-group label { margin-right: 10px}
@@ -205,12 +249,20 @@
       }
 
       .jexcel > thead > tr:first-child > td {
+<<<<<<< HEAD
          font-weight: 700;
+=======
+         font-weight: normal;
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
          padding: 4px;
       }
 
       .jexcel tr td {
+<<<<<<< HEAD
          font-size: 14px;
+=======
+         font-size: 16px;
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
       }
 
       .jexcel td[data-longtext="true"] {
@@ -262,6 +314,7 @@
 
       .form-container label {
          display: inline-block;
+<<<<<<< HEAD
          font-size: 14px;
          max-width: 100%;
          margin-bottom: 5px;
@@ -271,6 +324,17 @@
 
       .tippy-content {
          font-size: 14px;
+=======
+         font-size: 16px;
+         max-width: 100%;
+         margin-bottom: 5px;
+         margin-top: 0px;
+         font-weight: normal;
+      }
+
+      .tippy-content {
+         font-size: 16px;
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
          padding: 5px;      
       }
 
@@ -308,7 +372,11 @@
 
       .modal .close {
          float: right;
+<<<<<<< HEAD
          font-size: 17px;
+=======
+         font-size: 16px;
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
          font-weight: 700;
          line-height: 1;
          color: #000;
@@ -355,7 +423,11 @@
          overflow: hidden;
          -webkit-overflow-scrolling: touch;
          outline: 0;
+<<<<<<< HEAD
          font-size: 15px;
+=======
+         font-size: 16px;
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
       }
 
       .modal.fade .modal-dialog {
@@ -519,7 +591,11 @@
       
       .modal .modal-title; {
          font-weight: 700;
+<<<<<<< HEAD
          font-size: 14px;
+=======
+         font-size: 16px;
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
       }
 
       .modal .modal-title, .modal .close {
@@ -537,9 +613,15 @@
          height: auto;
          padding: 6px 12px;
          font-family: 'Source Sans Pro';
+<<<<<<< HEAD
          font-size: 14px;
          line-height: 1.42857143;
          color: #555;
+=======
+         font-size: 16px;
+         line-height: 1.42857143;
+         color: #1a1a1a;
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
          background-color: #fff;
          background-image: none;
          border: 1px solid #ccc;
@@ -593,7 +675,11 @@
       .save_message {
          color: rgba(0,0,0,0.8);
          font-family: 'Source Sans Pro', sans-serif;
+<<<<<<< HEAD
          font-size: 1em;
+=======
+         font-size: 16px;
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
       }
 
       .save_mark_complete {

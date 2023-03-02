@@ -20,7 +20,11 @@
         <inputParameters>
             <name>emailAddresses</name>
             <value>
+<<<<<<< HEAD
                 <stringValue>melissa.guerrero@amadeus.com</stringValue>
+=======
+                <stringValue>kimberly.contreraz@amadeus.com</stringValue>
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
             </value>
         </inputParameters>
         <inputParameters>
@@ -313,7 +317,11 @@
             <label>SendEmail</label>
         </rules>
     </decisions>
+<<<<<<< HEAD
     <description>NICC-057703; updated via NICC-062907; Screen flow for the Global Creative team to create new Request records</description>
+=======
+    <description>NICC-057703; Screen flow for the Global Creative team to create new Request records</description>
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
     <dynamicChoiceSets>
         <description>Populated from the field called “Video Banner Add-Ons” on the custom object called “Request”</description>
         <name>BannerAddOnsPicklistChoiceSet</name>
@@ -419,7 +427,11 @@
         <name>formulaComments</name>
         <dataType>String</dataType>
         <expression>IF(
+<<<<<<< HEAD
 {!ProductInput} = &quot;Digital&quot;, {!CommentsMediaScreenInput},
+=======
+{!ProductInput} = &quot;Media&quot;, {!CommentsMediaScreenInput},
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
 IF(
  OR({!GMSRequestTypeInput} = &quot;Troubleshooting&quot;,{!GMSRequestTypeInput} = &quot;Other&quot;) , 
    {!GMSDescriptionInput} , 
@@ -612,6 +624,7 @@ NOT( ISBLANK({!WebsiteURLWebScreenInput}) ),
             </value>
         </inputAssignments>
         <inputAssignments>
+<<<<<<< HEAD
             <field>Property_Type__c</field>
             <value>
                 <elementReference>PropertyTypeScreenInput</elementReference>
@@ -621,6 +634,17 @@ NOT( ISBLANK({!WebsiteURLWebScreenInput}) ),
             <field>Property_or_Chain_ID__c</field>
             <value>
                 <elementReference>PropertyChainIdScreenInput</elementReference>
+=======
+            <field>Property_Or_Chain_ID__c</field>
+            <value>
+                <elementReference>PropertyChainIdScreenInput</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Property_Type__c</field>
+            <value>
+                <elementReference>PropertyTypeScreenInput</elementReference>
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
             </value>
         </inputAssignments>
         <inputAssignments>
@@ -1377,7 +1401,11 @@ NOT( ISBLANK({!WebsiteURLWebScreenInput}) ),
                 </fields>
                 <fields>
                     <name>TemplateURLDisplayText</name>
+<<<<<<< HEAD
                     <fieldText>&lt;p&gt;&lt;a href=&quot;https://origin.amadeus.com/assets-service/distributions/media_creative/Websites/creative_display_offering/#/&quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot;&gt;&lt;u&gt;Americas Templates&lt;/u&gt;&lt;/a&gt;&amp;nbsp;&lt;/p&gt;&lt;p&gt;&lt;a href=&quot;https://origin.amadeus.com/assets-service/distributions/media_creative/Websites/creative_display_offering_EMEA-APAC/index.html&quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot;&gt;&lt;u&gt;International Templates&lt;/u&gt;&lt;/a&gt;&lt;/p&gt;</fieldText>
+=======
+                    <fieldText>&lt;p&gt;&lt;a href=&quot;https://origin.amadeus.com/assets-service/distributions/media_creative/Websites/creative_display_offering/#/ &quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot;&gt;&lt;u&gt;Americas Templates&lt;/u&gt;&lt;/a&gt;&amp;nbsp;&lt;/p&gt;&lt;p&gt;&lt;a href=&quot;https://origin.amadeus.com/assets-service/distributions/media_creative/Websites/creative_display_offering_EMEA-APAC/index.html &quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot;&gt;&lt;u&gt;International Templates&lt;/u&gt;&lt;/a&gt;&lt;/p&gt;</fieldText>
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
                     <fieldType>DisplayText</fieldType>
                     <visibilityRule>
                         <conditionLogic>and</conditionLogic>
@@ -1574,7 +1602,11 @@ NOT( ISBLANK({!WebsiteURLWebScreenInput}) ),
         <name>RES_iH_InputScreen</name>
         <label>RES/iHInputScreen</label>
         <locationX>431</locationX>
+<<<<<<< HEAD
         <locationY>533</locationY>
+=======
+        <locationY>534</locationY>
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>true</allowPause>
@@ -1608,7 +1640,11 @@ NOT( ISBLANK({!WebsiteURLWebScreenInput}) ),
                     <choiceReferences>choiceNew</choiceReferences>
                     <choiceReferences>choiceUpdate</choiceReferences>
                     <dataType>String</dataType>
+<<<<<<< HEAD
                     <fieldText>Request Type</fieldText>
+=======
+                    <fieldText>New or Update?</fieldText>
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
                     <fieldType>RadioButtons</fieldType>
                     <isRequired>true</isRequired>
                 </fields>
@@ -1661,7 +1697,11 @@ NOT( ISBLANK({!WebsiteURLWebScreenInput}) ),
                         </conditions>
                         <conditions>
                             <leftValueReference>RESiHRequestSubTypeScreenInput</leftValueReference>
+<<<<<<< HEAD
                             <operator>EqualTo</operator>
+=======
+                            <operator>Contains</operator>
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
                             <rightValue>
                                 <stringValue>Basic Email Wrapper</stringValue>
                             </rightValue>
@@ -1749,6 +1789,59 @@ NOT( ISBLANK({!WebsiteURLWebScreenInput}) ),
                     <isRequired>true</isRequired>
                 </fields>
                 <fields>
+<<<<<<< HEAD
+=======
+                    <name>CaseScreenInputDNU</name>
+                    <extensionName>flowruntime:lookup</extensionName>
+                    <fieldType>ComponentInstance</fieldType>
+                    <inputParameters>
+                        <name>fieldApiName</name>
+                        <value>
+                            <stringValue>Case__c</stringValue>
+                        </value>
+                    </inputParameters>
+                    <inputParameters>
+                        <name>label</name>
+                        <value>
+                            <stringValue>Case</stringValue>
+                        </value>
+                    </inputParameters>
+                    <inputParameters>
+                        <name>objectApiName</name>
+                        <value>
+                            <stringValue>Request__c</stringValue>
+                        </value>
+                    </inputParameters>
+                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
+                    <isRequired>true</isRequired>
+                    <storeOutputAutomatically>true</storeOutputAutomatically>
+                    <visibilityRule>
+                        <conditionLogic>or</conditionLogic>
+                        <conditions>
+                            <leftValueReference>WebRequestTypeScreenInput</leftValueReference>
+                            <operator>EqualTo</operator>
+                            <rightValue>
+                                <stringValue>Quote</stringValue>
+                            </rightValue>
+                        </conditions>
+                        <conditions>
+                            <leftValueReference>WebRequestTypeScreenInput</leftValueReference>
+                            <operator>EqualTo</operator>
+                            <rightValue>
+                                <stringValue>Work to be done</stringValue>
+                            </rightValue>
+                        </conditions>
+                        <conditions>
+                            <leftValueReference>WebRequestTypeScreenInput</leftValueReference>
+                            <operator>EqualTo</operator>
+                            <rightValue>
+                                <stringValue>Other</stringValue>
+                            </rightValue>
+                        </conditions>
+                    </visibilityRule>
+                </fields>
+                <fields>
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
                     <name>WebsiteURLWebScreenInput</name>
                     <dataType>String</dataType>
                     <fieldText>Website URL</fieldText>

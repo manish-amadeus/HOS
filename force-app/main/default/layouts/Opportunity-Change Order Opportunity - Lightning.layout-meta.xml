@@ -94,6 +94,13 @@
                 <behavior>Readonly</behavior>
                 <field>Has_PMS_Product__c</field>
             </layoutItems>
+<<<<<<< HEAD
+=======
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Submitter_Email__c</field>
+            </layoutItems>
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
         </layoutColumns>
         <layoutColumns>
             <layoutItems>
@@ -659,6 +666,7 @@
     <platformActionList>
         <actionListContext>Record</actionListContext>
         <platformActionListItems>
+<<<<<<< HEAD
             <actionName>Print_Oppty_Products_Det_Button</actionName>
             <actionType>CustomButton</actionType>
             <sortOrder>17</sortOrder>
@@ -712,6 +720,11 @@
             <actionName>CreatePSEscalationsCase</actionName>
             <actionType>CustomButton</actionType>
             <sortOrder>27</sortOrder>
+=======
+            <actionName>FeedItem.PollPost</actionName>
+            <actionType>QuickAction</actionType>
+            <sortOrder>3</sortOrder>
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
         </platformActionListItems>
         <platformActionListItems>
             <actionName>FeedItem.TextPost</actionName>
@@ -729,11 +742,14 @@
             <sortOrder>2</sortOrder>
         </platformActionListItems>
         <platformActionListItems>
+<<<<<<< HEAD
             <actionName>FeedItem.PollPost</actionName>
             <actionType>QuickAction</actionType>
             <sortOrder>3</sortOrder>
         </platformActionListItems>
         <platformActionListItems>
+=======
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
             <actionName>FeedItem.QuestionPost</actionName>
             <actionType>QuickAction</actionType>
             <sortOrder>4</sortOrder>
@@ -798,6 +814,64 @@
             <actionType>StandardButton</actionType>
             <sortOrder>16</sortOrder>
         </platformActionListItems>
+<<<<<<< HEAD
+=======
+        <platformActionListItems>
+            <actionName>SertifiPay_Authorizations</actionName>
+            <actionType>CustomButton</actionType>
+            <sortOrder>20</sortOrder>
+        </platformActionListItems>
+        <platformActionListItems>
+            <actionName>Print_Oppty_Products_Det_Button</actionName>
+            <actionType>CustomButton</actionType>
+            <sortOrder>17</sortOrder>
+        </platformActionListItems>
+        <platformActionListItems>
+            <actionName>Import_DIs</actionName>
+            <actionType>CustomButton</actionType>
+            <sortOrder>18</sortOrder>
+        </platformActionListItems>
+        <platformActionListItems>
+            <actionName>Sertifi2_0__Send_EContract</actionName>
+            <actionType>CustomButton</actionType>
+            <sortOrder>19</sortOrder>
+        </platformActionListItems>
+        <platformActionListItems>
+            <actionName>SertifiPay_Payments</actionName>
+            <actionType>CustomButton</actionType>
+            <sortOrder>21</sortOrder>
+        </platformActionListItems>
+        <platformActionListItems>
+            <actionName>Create_Professional_Services_Request</actionName>
+            <actionType>CustomButton</actionType>
+            <sortOrder>22</sortOrder>
+        </platformActionListItems>
+        <platformActionListItems>
+            <actionName>Link_Account_with_Product</actionName>
+            <actionType>CustomButton</actionType>
+            <sortOrder>23</sortOrder>
+        </platformActionListItems>
+        <platformActionListItems>
+            <actionName>Create_CEM_Request</actionName>
+            <actionType>CustomButton</actionType>
+            <sortOrder>24</sortOrder>
+        </platformActionListItems>
+        <platformActionListItems>
+            <actionName>ContractAdminRequestButton</actionName>
+            <actionType>CustomButton</actionType>
+            <sortOrder>25</sortOrder>
+        </platformActionListItems>
+        <platformActionListItems>
+            <actionName>SubmitForValidationButton</actionName>
+            <actionType>CustomButton</actionType>
+            <sortOrder>26</sortOrder>
+        </platformActionListItems>
+        <platformActionListItems>
+            <actionName>CreatePSEscalationsCase</actionName>
+            <actionType>CustomButton</actionType>
+            <sortOrder>27</sortOrder>
+        </platformActionListItems>
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
     </platformActionList>
     <quickActionList>
         <quickActionListItems>

@@ -19,7 +19,12 @@ global with sharing class AH_UDC_REST_LogMessage {
       try {
          if (req != null && req.requestBody != null) { requestBody = req.requestBody.toString(); }
          LogMessage LogMessage = (LogMessage) JSON.deserialize(requestBody, LogMessage.class);
+<<<<<<< HEAD
          AH_UDC_REST_LogMessageException exc = new AH_UDC_REST_LogMessageException(LogMessage.e);
+=======
+         AH_UDC_REST_LogMessageException exc = null;
+         if (String.isNotBlank(LogMessage.e)) exc = new AH_UDC_REST_LogMessageException(LogMessage.e);
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
          AH_UDC_log__c log = AH_UDC_LogHelper.Log(LogMessage.logLevel, LogMessage.functionalArea, LogMessage.sourceMethod, LogMessage.details, exc, LogMessage.relatedRecordId, LogMessage.relatedRecordType);
          resp.statusCode = '200';
          RestContext.response.responseBody = Blob.valueOf(resp.compileResponse());

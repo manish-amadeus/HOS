@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
-    <fullName>Forecast_Date_Change_After_Commit</fullName>
-    <active>true</active>
-    <description>Besides the Project Office, no changes can be made to the Forecast Date once the Commit? flag has been selected.</description>
-    <errorConditionFormula>AND(ISCHANGED(Forecast_Date__c ),  Commit__c  = true, AND($Profile.Name != &quot;NI PSA Administrator&quot;,$Profile.Name != &quot;System Administrator&quot;))</errorConditionFormula>
-    <errorMessage>No changes to the forecast end date are if the Commit field has previously been selected and saved.  If this record is no longer valid, select the Override Commit checkbox to remove record from the forecast.</errorMessage>
-</ValidationRule>

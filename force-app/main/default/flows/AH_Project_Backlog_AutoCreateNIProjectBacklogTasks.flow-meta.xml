@@ -4,8 +4,13 @@
         <description>Sends an email to the Project Owner letting them know the Tasks have been created.</description>
         <name>TaskCreationEmailNotification</name>
         <label>TaskCreationEmailNotification</label>
+<<<<<<< HEAD
         <locationX>1136</locationX>
         <locationY>187</locationY>
+=======
+        <locationX>1157</locationX>
+        <locationY>107</locationY>
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
         <actionName>emailSimple</actionName>
         <actionType>emailSimple</actionType>
         <flowTransactionModel>CurrentTransaction</flowTransactionModel>
@@ -36,11 +41,35 @@
     </actionCalls>
     <apiVersion>55.0</apiVersion>
     <assignments>
+<<<<<<< HEAD
         <description>Creates NI Project Backlog Task #1</description>
         <name>AssignNITask1</name>
         <label>AssignNITask1</label>
         <locationX>300</locationX>
         <locationY>380</locationY>
+=======
+        <name>AddTask4ToCollection</name>
+        <label>AddTask4ToCollection</label>
+        <locationX>708</locationX>
+        <locationY>320</locationY>
+        <assignmentItems>
+            <assignToReference>varNewNIProjectBacklogTaskCollection</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>varNewNITaskRecord4</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>CountRecordsToCreate</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <description>Creates NI Project Backlog Task #1</description>
+        <name>AssignNITask1</name>
+        <label>AssignNITask1</label>
+        <locationX>307</locationX>
+        <locationY>400</locationY>
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
         <assignmentItems>
             <assignToReference>varNewNITaskRecord1.NI_Project_Backlog_Item__c</assignToReference>
             <operator>Assign</operator>
@@ -98,8 +127,13 @@
         <description>Creates NI Project Backlog Task #2</description>
         <name>AssignNITask2</name>
         <label>AssignNITask2</label>
+<<<<<<< HEAD
         <locationX>445</locationX>
         <locationY>368</locationY>
+=======
+        <locationX>442</locationX>
+        <locationY>384</locationY>
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
         <assignmentItems>
             <assignToReference>varNewNITaskRecord2.NI_Project_Backlog_Item__c</assignToReference>
             <operator>Assign</operator>
@@ -157,8 +191,13 @@
         <description>Creates NI Project Backlog Task #3</description>
         <name>AssignNITask3</name>
         <label>AssignNITask3</label>
+<<<<<<< HEAD
         <locationX>560</locationX>
         <locationY>369</locationY>
+=======
+        <locationX>581</locationX>
+        <locationY>360</locationY>
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
         <assignmentItems>
             <assignToReference>varNewNITaskRecord3.NI_Project_Backlog_Item__c</assignToReference>
             <operator>Assign</operator>
@@ -209,6 +248,7 @@
             </value>
         </assignmentItems>
         <connector>
+<<<<<<< HEAD
             <targetReference>AssignNITask4</targetReference>
         </connector>
     </assignments>
@@ -269,14 +309,22 @@
         </assignmentItems>
         <connector>
             <targetReference>CountRecordsToCreate</targetReference>
+=======
+            <targetReference>AddTask4ToCollection</targetReference>
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
         </connector>
     </assignments>
     <assignments>
         <description>Counts the number of records in the collection to be created</description>
         <name>CountRecordsToCreate</name>
         <label>CountRecordsToCreate</label>
+<<<<<<< HEAD
         <locationX>854</locationX>
         <locationY>320</locationY>
+=======
+        <locationX>869</locationX>
+        <locationY>176</locationY>
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
         <assignmentItems>
             <assignToReference>varCountOfRecordsToCreate</assignToReference>
             <operator>AssignCount</operator>
@@ -288,7 +336,11 @@
             <targetReference>CreateTaskRecords</targetReference>
         </connector>
     </assignments>
+<<<<<<< HEAD
     <description>NICC-058179; Auto-creates 4 NI Project Backlog Task records for Internal Projects to remind users to add Realized Benefits to the Project</description>
+=======
+    <description>NICC-058179; NICC-061428; Auto-creates 4 NI Project Backlog Task records for Internal Projects to remind users to add Realized Benefits to the Project</description>
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
     <environments>Default</environments>
     <formulas>
         <description>Creates a Subject Line for the email notification</description>
@@ -350,8 +402,13 @@
         <description>Creates the NI Project Backlog Task records in the record collection</description>
         <name>CreateTaskRecords</name>
         <label>CreateTaskRecords</label>
+<<<<<<< HEAD
         <locationX>991</locationX>
         <locationY>261</locationY>
+=======
+        <locationX>1035</locationX>
+        <locationY>190</locationY>
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
         <connector>
             <targetReference>TaskCreationEmailNotification</targetReference>
         </connector>
@@ -409,7 +466,12 @@
         </connector>
         <filterFormula>{!$Record.RecordType.DeveloperName} = &quot;Commercial_Operation_Projects&quot; &amp;&amp;
 ISCHANGED({!$Record.Request_Status__c}) &amp;&amp;
+<<<<<<< HEAD
 ISPICKVAL({!$Record.Request_Status__c}, &quot;Completed&quot;)</filterFormula>
+=======
+ISPICKVAL({!$Record.Request_Status__c}, &quot;Completed&quot;) &amp;&amp;
+NOT(INCLUDES({!$Record.Systems__c}, &quot;RPA&quot;))</filterFormula>
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
         <object>NI_Project_Backlog__c</object>
         <recordTriggerType>Update</recordTriggerType>
         <triggerType>RecordAfterSave</triggerType>

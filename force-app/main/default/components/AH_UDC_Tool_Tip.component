@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <apex:component >         
    <style type="text/css">      
       .tippy-box[data-theme~=custom] {
@@ -131,4 +132,139 @@
          }
       }
    </script>
+=======
+<apex:component >         
+   <style type="text/css">      
+      .tippy-box[data-theme~=custom] {
+         background-color: white;
+         color: black;
+         font-family: 'Source Sans Pro';
+         font-size: 18px;
+         border: solid 2px gray;
+         border-radius: 10px;
+         font-size: 0.8125rem;
+         white-space: -moz-pre-wrap !important;
+         white-space: -webkit-pre-wrap;
+         white-space: -pre-wrap;
+         white-space: -o-pre-wrap;
+         white-space: pre-wrap;         
+         white-space: normal;
+      }
+
+      .tippy-box[data-theme~=custom][data-placement^=top] > .tippy-arrow:before {
+         border-top-color: white;
+         border-width: 10px 10px 0;
+         bottom: -9px;
+         left: 0;
+      }
+
+      .tippy-box[data-theme~=custom][data-placement^=bottom] > .tippy-arrow:before {
+         border-bottom-color: white;
+         border-width: 0 10px 10px;
+         top: -9px;
+         left: 0;
+      }
+
+      .tippy-box[data-theme~=custom][data-placement^=left] > .tippy-arrow:before {
+         border-left-color: white;
+         border-width: 10px 0 10px 10px;
+         right: -9px;
+         top: 0;
+      }
+
+      .tippy-box[data-theme~=custom][data-placement^=right] > .tippy-arrow:before {
+         border-width: 10px 10px 10px 0;
+         left: -9px;
+         top: 0;
+         border-right-color: white;
+      }
+
+      .tippy-box[data-theme~=custom][data-placement^=top] > .tippy-arrow:after {
+         border-top-color: inherit;
+         border-width: 10px 10px 0;
+         bottom: -11px;
+         left: 0;
+      }
+
+      .tippy-box[data-theme~=custom][data-placement^=bottom] > .tippy-arrow:after {
+         border-bottom-color: inherit;
+         border-width: 0 10px 10px;
+         top: -11px;
+         left: 0;
+      }
+
+      .tippy-box[data-theme~=custom][data-placement^=left] > .tippy-arrow:after {
+         border-left-color: inherit;
+         border-width: 10px 0 10px 10px;
+         right: -11px;
+         top: 0;
+      }
+
+      .tippy-box[data-theme~=custom][data-placement^=right] > .tippy-arrow:after {
+         border-width: 10px 10px 10px 0;
+         left: -11px;
+         top: 0;
+         border-right-color: inherit;
+      }
+
+      .tippy-arrow {
+         border-color: inherit;
+      }
+
+      .tippy-arrow:after {
+         content: "";
+         z-index: -1;
+         position: absolute;
+         border-color: transparent;
+         border-style: solid;
+      }
+      .character-wrap {
+         word-wrap: break-word !important;
+         word-break: break-all !important;
+      }
+   </style>
+   <apex:includeScript value="{!URLFOR($Resource.AH_UDC_Proper_JS)}"/>
+   <apex:includeScript value="{!URLFOR($Resource.AH_UDC_Tippy_JS)}"/>
+    
+   <script type="text/javascript">
+      function bindToolTip(element, tootipText, placement, maxWidth, className) {
+         var objTippyInstance = element._tippy;
+         if(typeof(objTippyInstance) != 'undefined' && objTippyInstance != null) {
+            objTippyInstance.setContent(tootipText);
+            return;
+         }
+
+         if(typeof(placement) == 'undefined' || placement == null) {
+            placement = 'bottom';
+         }
+
+         var TooptipContent = '<div style="text-align: center;" class="tippy-content">' + tootipText + '</div>';
+         var options = {
+            content: TooptipContent,
+            allowHTML: true,
+            theme : 'custom',
+            placement: placement
+         }
+
+         if(typeof(maxWidth) != 'undefined' && maxWidth != null) {
+            options.maxWidth = maxWidth;
+         }
+
+         if(typeof(className) != 'undefined' && $.trim(className) != '') {
+            options.onShow = function() { $('body').addClass(className); }
+            options.onHidden = function() { $('body').removeClass(className); }
+         }
+
+         //Bind tippy JS tooltip
+         new tippy(element, options);
+      }
+
+      function unBindToolTip(element) {
+         var objTippyInstance = element._tippy;
+         if(typeof(objTippyInstance) != 'undefined' && objTippyInstance != null) {
+            objTippyInstance.destroy();
+         }
+      }
+   </script>
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
 </apex:component>

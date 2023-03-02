@@ -52,16 +52,26 @@
                 <field>AH_Flag_BH__c</field>
             </layoutItems>
             <layoutItems>
+<<<<<<< HEAD
+=======
+                <behavior>Edit</behavior>
+                <field>L3_Team__c</field>
+            </layoutItems>
+            <layoutItems>
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
                 <height>15</height>
                 <page>csmrgp__CsMrgDupeDetector</page>
                 <showLabel>true</showLabel>
                 <showScrollbars>false</showScrollbars>
                 <width>100%</width>
             </layoutItems>
+<<<<<<< HEAD
             <layoutItems>
                 <behavior>Edit</behavior>
                 <field>L3_Team__c</field>
             </layoutItems>
+=======
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
         </layoutColumns>
         <layoutColumns>
             <layoutItems>
@@ -789,6 +799,29 @@
     <platformActionList>
         <actionListContext>Record</actionListContext>
         <platformActionListItems>
+<<<<<<< HEAD
+=======
+            <actionName>FeedItem.TextPost</actionName>
+            <actionType>QuickAction</actionType>
+            <sortOrder>0</sortOrder>
+        </platformActionListItems>
+        <platformActionListItems>
+            <actionName>FeedItem.ContentPost</actionName>
+            <actionType>QuickAction</actionType>
+            <sortOrder>1</sortOrder>
+        </platformActionListItems>
+        <platformActionListItems>
+            <actionName>FeedItem.LinkPost</actionName>
+            <actionType>QuickAction</actionType>
+            <sortOrder>2</sortOrder>
+        </platformActionListItems>
+        <platformActionListItems>
+            <actionName>Case.Send_Email_Action</actionName>
+            <actionType>QuickAction</actionType>
+            <sortOrder>3</sortOrder>
+        </platformActionListItems>
+        <platformActionListItems>
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
             <actionName>Case.New_Email</actionName>
             <actionType>QuickAction</actionType>
             <sortOrder>4</sortOrder>
@@ -844,6 +877,7 @@
             <sortOrder>14</sortOrder>
         </platformActionListItems>
         <platformActionListItems>
+<<<<<<< HEAD
             <actionName>CR_Search</actionName>
             <actionType>CustomButton</actionType>
             <sortOrder>20</sortOrder>
@@ -864,6 +898,8 @@
             <sortOrder>23</sortOrder>
         </platformActionListItems>
         <platformActionListItems>
+=======
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
             <actionName>Case.Convert_to_Rally</actionName>
             <actionType>QuickAction</actionType>
             <sortOrder>15</sortOrder>
@@ -889,6 +925,7 @@
             <sortOrder>19</sortOrder>
         </platformActionListItems>
         <platformActionListItems>
+<<<<<<< HEAD
             <actionName>FeedItem.TextPost</actionName>
             <actionType>QuickAction</actionType>
             <sortOrder>0</sortOrder>
@@ -907,6 +944,21 @@
             <actionName>Case.Send_Email_Action</actionName>
             <actionType>QuickAction</actionType>
             <sortOrder>3</sortOrder>
+=======
+            <actionName>CR_Search</actionName>
+            <actionType>CustomButton</actionType>
+            <sortOrder>20</sortOrder>
+        </platformActionListItems>
+        <platformActionListItems>
+            <actionName>csmrgp__CsMrgFindDupes_Lightning</actionName>
+            <actionType>CustomButton</actionType>
+            <sortOrder>21</sortOrder>
+        </platformActionListItems>
+        <platformActionListItems>
+            <actionName>FeedItem.PollPost</actionName>
+            <actionType>QuickAction</actionType>
+            <sortOrder>22</sortOrder>
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
         </platformActionListItems>
     </platformActionList>
     <relatedContent>
@@ -942,6 +994,7 @@
         <relatedList>RelatedEmailMessageList</relatedList>
     </relatedLists>
     <relatedLists>
+<<<<<<< HEAD
         <customButtons>Add_Escalation</customButtons>
         <excludeButtons>MassChangeOwner</excludeButtons>
         <excludeButtons>New</excludeButtons>
@@ -952,6 +1005,13 @@
         <fields>Escalation_QA_Checklists__c.Date_Received__c</fields>
         <fields>Escalation_QA_Checklists__c.Method__c</fields>
         <relatedList>Escalations_2_Cases__c.Case__c</relatedList>
+=======
+        <fields>NAME</fields>
+        <fields>RECORDTYPE</fields>
+        <fields>Date_Received__c</fields>
+        <fields>Method__c</fields>
+        <relatedList>Escalation_QA_Checklists__c.Related_Case__c</relatedList>
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
     </relatedLists>
     <relatedLists>
         <customButtons>Push_Solutions</customButtons>
@@ -1025,6 +1085,16 @@
         <relatedList>RelatedArticleList</relatedList>
     </relatedLists>
     <relatedLists>
+<<<<<<< HEAD
+=======
+        <fields>SOLUTION.ISSUE</fields>
+        <fields>SOLUTION.SOLUTION_NUMBER</fields>
+        <fields>SOLUTION.STATUS</fields>
+        <fields>CORE.USERS.ALIAS</fields>
+        <relatedList>RelatedSolutionList</relatedList>
+    </relatedLists>
+    <relatedLists>
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
         <excludeButtons>MassChangeOwner</excludeButtons>
         <excludeButtons>New</excludeButtons>
         <fields>NAME</fields>

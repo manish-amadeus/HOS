@@ -161,6 +161,13 @@
                 <behavior>Readonly</behavior>
                 <field>Has_PMS_Product__c</field>
             </layoutItems>
+<<<<<<< HEAD
+=======
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Submitter_Email__c</field>
+            </layoutItems>
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
         </layoutColumns>
         <layoutColumns>
             <layoutItems>
@@ -731,6 +738,14 @@
     <platformActionList>
         <actionListContext>Record</actionListContext>
         <platformActionListItems>
+<<<<<<< HEAD
+=======
+            <actionName>FeedItem.QuestionPost</actionName>
+            <actionType>QuickAction</actionType>
+            <sortOrder>3</sortOrder>
+        </platformActionListItems>
+        <platformActionListItems>
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
             <actionName>FeedItem.TextPost</actionName>
             <actionType>QuickAction</actionType>
             <sortOrder>0</sortOrder>
@@ -746,11 +761,14 @@
             <sortOrder>2</sortOrder>
         </platformActionListItems>
         <platformActionListItems>
+<<<<<<< HEAD
             <actionName>FeedItem.QuestionPost</actionName>
             <actionType>QuickAction</actionType>
             <sortOrder>3</sortOrder>
         </platformActionListItems>
         <platformActionListItems>
+=======
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
             <actionName>New_Standard_Task</actionName>
             <actionType>QuickAction</actionType>
             <sortOrder>4</sortOrder>
@@ -766,9 +784,15 @@
             <sortOrder>6</sortOrder>
         </platformActionListItems>
         <platformActionListItems>
+<<<<<<< HEAD
             <actionName>RecordShareHierarchy</actionName>
             <actionType>StandardButton</actionType>
             <sortOrder>8</sortOrder>
+=======
+            <actionName>Edit</actionName>
+            <actionType>StandardButton</actionType>
+            <sortOrder>10</sortOrder>
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
         </platformActionListItems>
         <platformActionListItems>
             <actionName>ChangeOwnerOne</actionName>
@@ -776,6 +800,7 @@
             <sortOrder>7</sortOrder>
         </platformActionListItems>
         <platformActionListItems>
+<<<<<<< HEAD
             <actionName>Submit</actionName>
             <actionType>StandardButton</actionType>
             <sortOrder>9</sortOrder>
@@ -784,6 +809,16 @@
             <actionName>Edit</actionName>
             <actionType>StandardButton</actionType>
             <sortOrder>10</sortOrder>
+=======
+            <actionName>RecordShareHierarchy</actionName>
+            <actionType>StandardButton</actionType>
+            <sortOrder>8</sortOrder>
+        </platformActionListItems>
+        <platformActionListItems>
+            <actionName>Submit</actionName>
+            <actionType>StandardButton</actionType>
+            <sortOrder>9</sortOrder>
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
         </platformActionListItems>
         <platformActionListItems>
             <actionName>ChangeRecordType</actionName>
@@ -954,6 +989,10 @@
         <fields>TotalPrice</fields>
         <fields>Description</fields>
         <fields>Order_of_Delivery__c</fields>
+<<<<<<< HEAD
+=======
+        <fields>Synched__c</fields>
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
         <relatedList>RelatedLineItemList</relatedList>
     </relatedLists>
     <relatedLists>

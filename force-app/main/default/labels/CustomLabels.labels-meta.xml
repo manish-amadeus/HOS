@@ -577,6 +577,14 @@ If this is not your organization or property, or the information is not correct,
         <value>Edit</value>
     </labels>
     <labels>
+        <fullName>AH_UDC_EmailTagNoneValue</fullName>
+        <categories>AH_UDC</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>AH UDC EmailTagNoneValue</shortDescription>
+        <value>None</value>
+    </labels>
+    <labels>
         <fullName>AH_UDC_Email_Template</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -653,7 +661,19 @@ If this is not your organization or property, or the information is not correct,
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>AH UDC FileUploadNotes</shortDescription>
+<<<<<<< HEAD
         <value>&lt;b&gt;File Upload Requirements - &lt;/b&gt; You may only upload {0} files at a time. Files can not be larger than {1} MB in size and are limited to the following file types: {2} &lt;br/&gt;</value>
+=======
+        <value>&lt;b&gt;File Upload Requirements - &lt;/b&gt; You may only upload {NumberOfFilesAtOnce} files at a time. Files cannot be larger than {MaxIndividualFileSizeMB} MB in size and are limited to the following file types: {AllowedExtensions} &lt;br/&gt;</value>
+    </labels>
+    <labels>
+        <fullName>AH_UDC_FileUploadPixelRequirements</fullName>
+        <categories>AH_UDC</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>File Upload Pixel Requirements</shortDescription>
+        <value>- Does not meet pixel requirements (Height: {HEIGHT}, Width: {WIDTH})</value>
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
     </labels>
     <labels>
         <fullName>AH_UDC_FileUploadStatusFailedtoUpload</fullName>
@@ -720,6 +740,57 @@ If this is not your organization or property, or the information is not correct,
         <value>FormAssemblyId must be a unique value and can not be null for Form Assembly type forms.</value>
     </labels>
     <labels>
+<<<<<<< HEAD
+=======
+        <fullName>AH_UDC_FormExtensionNotAllowed</fullName>
+        <categories>AH_UDC</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Form Upload Extension Not Allowed Error</shortDescription>
+        <value>The extension &apos;{EXT}&apos; is not allowed; allowed extensions are {ALLOWED}</value>
+    </labels>
+    <labels>
+        <fullName>AH_UDC_FormHeightMaximumError</fullName>
+        <categories>AH_UDC</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Form Height Maximum Error</shortDescription>
+        <value>The form&apos;s &quot;Height Maximum Pixels&quot; must be empty or greater than 0.  It must also be greater than &quot;Height Minimum Pixels&quot;.</value>
+    </labels>
+    <labels>
+        <fullName>AH_UDC_FormHeightMinimumError</fullName>
+        <categories>AH_UDC</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Form Height Minimum Error</shortDescription>
+        <value>The form&apos;s &quot;Height Minimum Pixels&quot; must be empty or greater than 0.</value>
+    </labels>
+    <labels>
+        <fullName>AH_UDC_FormMaxFileSizeError</fullName>
+        <categories>AH_UDC</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Form Max file size error</shortDescription>
+        <value>Max Individual File Size MB must be less than or equal to {MAX}</value>
+    </labels>
+    <labels>
+        <fullName>AH_UDC_FormMaxFileSizeLessThanOneError</fullName>
+        <categories>AH_UDC</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Form Max File Size Less Than One Error</shortDescription>
+        <value>&quot;Maximum Individual File Size in MB&quot; must be empty or greater than 0.</value>
+    </labels>
+    <labels>
+        <fullName>AH_UDC_FormNumberOfFilesLessThanOneError</fullName>
+        <categories>AH_UDC</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Form Number Of Files Less Than One Error</shortDescription>
+        <value>&quot;Number of Files&quot; must be empty or greater than 0.</value>
+    </labels>
+    <labels>
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
         <fullName>AH_UDC_FormTriggerDelete_Error</fullName>
         <categories>Form Trigger</categories>
         <language>en_US</language>
@@ -736,6 +807,25 @@ If this is not your organization or property, or the information is not correct,
         <value>An error is generated for Form operation. Please contact the UDC System Administrator.</value>
     </labels>
     <labels>
+<<<<<<< HEAD
+=======
+        <fullName>AH_UDC_FormWidthMaximumError</fullName>
+        <categories>AH_UDC</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Form Width Maximum Error</shortDescription>
+        <value>The form&apos;s &quot;Width Maximum Pixels&quot; must be empty or greater than 0.  It must also be greater than &quot;Width Minimum Pixels&quot;.</value>
+    </labels>
+    <labels>
+        <fullName>AH_UDC_FormWidthMinimumError</fullName>
+        <categories>AH_UDC</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Form Width Minimum Error</shortDescription>
+        <value>The form&apos;s &quot;Width Minimum Pixels&quot; must be empty or greater than 0.</value>
+    </labels>
+    <labels>
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
         <fullName>AH_UDC_Go_Button_Text</fullName>
         <categories>Button Text</categories>
         <language>en_US</language>
@@ -752,6 +842,17 @@ If this is not your organization or property, or the information is not correct,
         <value>Insufficient level of access necessary to perform the requested action. Please contact the UDC System Administrator if access is necessary</value>
     </labels>
     <labels>
+<<<<<<< HEAD
+=======
+        <fullName>AH_UDC_InvalidEmailTemplateError</fullName>
+        <categories>Workbook Trigger</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>AH UDC Invalid Email Template Error</shortDescription>
+        <value>One or more of the specified email templates is not valid.</value>
+    </labels>
+    <labels>
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
         <fullName>AH_UDC_Invalid_Due_Date_Error_Message</fullName>
         <categories>AH_UDC</categories>
         <language>en_US</language>
@@ -813,14 +914,6 @@ If this is not your organization or property, or the information is not correct,
         <protected>false</protected>
         <shortDescription>Error message to display in the case when user don&apos;t have rights of delete</shortDescription>
         <value>You do not have access to delete this record</value>
-    </labels>
-    <labels>
-        <fullName>AH_UDC_NoCreateAccessMessage</fullName>
-        <categories>Error Message</categories>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Display when user don&apos;t have rights to create workbook</shortDescription>
-        <value>You must be a workbook administrator to create a UDC workbook.  If you feel you should have this access, please contact the UDC System Administrator.</value>
     </labels>
     <labels>
         <fullName>AH_UDC_NoRightsMessage</fullName>
@@ -1059,6 +1152,30 @@ If this is not your organization or property, or the information is not correct,
         <value>You have successfully confirmed your Property Information.</value>
     </labels>
     <labels>
+        <fullName>AH_UDC_ReleaseWorkbook_AlreadyReleasedMessage</fullName>
+        <categories>AH_UDC_ReleaseWorkbook</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Workbook Already Released</shortDescription>
+        <value>This workbook is already released to the customer.</value>
+    </labels>
+    <labels>
+        <fullName>AH_UDC_ReleaseWorkbook_ConfirmationMessage</fullName>
+        <categories>AH_UDC_ReleaseWorkbook</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Release Workbook Confirmation Message</shortDescription>
+        <value>You are about to Release this Workbook. This will create Community Users for the contacts and will send welcome emails.</value>
+    </labels>
+    <labels>
+        <fullName>AH_UDC_ReleaseWorkbook_UserNotAllowedMessage</fullName>
+        <categories>AH_UDC_ReleaseWorkbook</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>User Doesn&apos;t have permission to Release Workbook</shortDescription>
+        <value>You do not have access to release the workbook. If you need access, please contact the UDC System Administrator.</value>
+    </labels>
+    <labels>
         <fullName>AH_UDC_RemovePrerequisiteButtonText</fullName>
         <categories>Button Text</categories>
         <language>en_US</language>
@@ -1079,7 +1196,11 @@ If this is not your organization or property, or the information is not correct,
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>AH UDC Return To Welcome Page</shortDescription>
+<<<<<<< HEAD
         <value>Welcome Page</value>
+=======
+        <value>Close</value>
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
     </labels>
     <labels>
         <fullName>AH_UDC_SelectedFileMessage</fullName>
@@ -1090,6 +1211,17 @@ If this is not your organization or property, or the information is not correct,
         <value>&lt;b&gt; Selected Files&lt;/b&gt; :</value>
     </labels>
     <labels>
+<<<<<<< HEAD
+=======
+        <fullName>AH_UDC_SendWorkbookProjectWithInActiveContactErrorMessage</fullName>
+        <categories>Send Workbook</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Send Workbook Project With InActive Contact Error Message</shortDescription>
+        <value>The contact on the selected Project is inactive. Workbooks can only be sent to an active contact.</value>
+    </labels>
+    <labels>
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
         <fullName>AH_UDC_SendWorkbookProjectWithoutContactErrorMessage</fullName>
         <categories>Send Workbook</categories>
         <language>en_US</language>
@@ -1104,6 +1236,17 @@ If this is not your organization or property, or the information is not correct,
         <protected>false</protected>
         <shortDescription>Project label in the send workbook page</shortDescription>
         <value>Project</value>
+<<<<<<< HEAD
+=======
+    </labels>
+    <labels>
+        <fullName>AH_UDC_SendWorkbook_ReleaseCheckboxLabel</fullName>
+        <categories>AH_UDC_SendWorkbook</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Send Workbook Release Checkbox Label</shortDescription>
+        <value>Release</value>
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
     </labels>
     <labels>
         <fullName>AH_UDC_Send_Email_Error_Message</fullName>
@@ -1347,6 +1490,7 @@ If this is not your organization or property, or the information is not correct,
     </labels>
     <labels>
         <fullName>AH_UDC_Send_Workbook_Workbook_lbl</fullName>
+<<<<<<< HEAD
         <categories>Send Workbook</categories>
         <language>en_US</language>
         <protected>false</protected>
@@ -1355,11 +1499,13 @@ If this is not your organization or property, or the information is not correct,
     </labels>
     <labels>
         <fullName>AH_UDC_Send_Workbook_Workbooks_lbl</fullName>
+=======
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
         <categories>Send Workbook</categories>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>AH UDC Send Workbook Workbooks lbl</shortDescription>
-        <value>Workbooks</value>
+        <value>Workbook</value>
     </labels>
     <labels>
         <fullName>AH_UDC_Send_Workbook_to_New_Contact</fullName>
@@ -1413,7 +1559,11 @@ If this is not your organization or property, or the information is not correct,
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>AH UDC Start Message</shortDescription>
+<<<<<<< HEAD
         <value>&lt;p&gt;Using the menu on the left, click on a step and follow the instructions on the screen or enter the information requested. When you are finished entering the information click &lt;b&gt;Save&lt;/b&gt; at the bottom of the page.&lt;/p&gt;&lt;p&gt;Once you have saved the information for a step, that step will automatically be marked as In Progress. At this point, you may either:&lt;ul&gt;&lt;li&gt;Click &lt;b&gt;Mark Step Complete&lt;/b&gt; and move on to the next step.&lt;/li&gt;&lt;li&gt;Click the step again to continue entering information.&lt;/li&gt;&lt;li&gt;Click another step in the menu.&lt;/li&gt;&lt;/ul&gt;After you have marked all steps complete, click &lt;b&gt;Submit&lt;/b&gt; on the Complete step and your Amadeus representative will be notified and reach out to you.&lt;/p&gt;&lt;p&gt;Should you have a question, click the Chat icon &lt;a class=&quot;sampleChat&quot;&gt;&lt;i class=&quot;fas fa-comment-dots&quot;&gt;&lt;/i&gt;&lt;/a&gt; to post a question to the Amadeus team. The chat icon will change color when you have unread messages so you will know when your question is answered.&lt;/p&gt;</value>
+=======
+        <value>&lt;p&gt;Using the menu on the left, click on a step and follow the instructions on the screen or enter the information requested. When you are finished entering the information click &lt;b&gt;Save&lt;/b&gt; at the top of the page.&lt;/p&gt;&lt;p&gt;Once you have saved the information for a step, that step will automatically be marked as In Progress. At this point, you may either:&lt;ul&gt;&lt;li&gt;Click &lt;b&gt;Mark Step Complete&lt;/b&gt; and move on to the next step.&lt;/li&gt;&lt;li&gt;Click the step again to continue entering information.&lt;/li&gt;&lt;li&gt;Click another step in the menu.&lt;/li&gt;&lt;/ul&gt;After you have marked all steps complete, click &lt;b&gt;Submit&lt;/b&gt; on the Complete step and your Amadeus representative will be notified and reach out to you.&lt;/p&gt;&lt;p&gt;Should you have a question, click the Chat icon &lt;a class=&quot;sampleChat&quot;&gt;&lt;i class=&quot;fas fa-comment-dots&quot;&gt;&lt;/i&gt;&lt;/a&gt; to post a question to the Amadeus team. The chat icon will change color when you have unread messages so you will know when your question is answered.&lt;/p&gt;</value>
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
     </labels>
     <labels>
         <fullName>AH_UDC_Start_Message2</fullName>
@@ -1781,7 +1931,7 @@ In &quot;My Settings&quot; under Location you can change your Locale which contr
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>AH UDC ViewWorkbook VerifyFormSave</shortDescription>
-        <value>Please confirm the form is saved before navigating.  Would you like to:</value>
+        <value>To save your changes, click &lt;b&gt;Cancel&lt;/b&gt;, and then click &lt;b&gt;Save&lt;/b&gt;.&lt;br/&gt;Otherwise, click &lt;b&gt;Continue&lt;/b&gt;.</value>
     </labels>
     <labels>
         <fullName>AH_UDC_Welcome_Due_Date_Column_Text</fullName>
@@ -1890,6 +2040,7 @@ In &quot;My Settings&quot; under Location you can change your Locale which contr
     <labels>
         <fullName>AH_UDC_WorkbookStepLockTitleText</fullName>
         <categories>Workbook Step Lock</categories>
+<<<<<<< HEAD
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Title text for workbook step lock page</shortDescription>
@@ -1900,6 +2051,18 @@ In &quot;My Settings&quot; under Location you can change your Locale which contr
         <categories>AH UDC Workbook Step Trigger Validation Message</categories>
         <language>en_US</language>
         <protected>false</protected>
+=======
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Title text for workbook step lock page</shortDescription>
+        <value>Lock/Unlock Workbook Step</value>
+    </labels>
+    <labels>
+        <fullName>AH_UDC_WorkbookStepTriggerExceptionMessage</fullName>
+        <categories>AH UDC Workbook Step Trigger Validation Message</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
         <shortDescription>AH UDC Workbook Step Trigger Exception Message</shortDescription>
         <value>An exception occurred during Workbook Step trigger execution.</value>
     </labels>
@@ -2191,6 +2354,55 @@ In &quot;My Settings&quot; under Location you can change your Locale which contr
         <value>You are not authorized to perform this action.</value>
     </labels>
     <labels>
+        <fullName>DAE_BadQuery</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>DAE_BadQuery</shortDescription>
+        <value>Bad query</value>
+    </labels>
+    <labels>
+        <fullName>DAE_BadRelationshipName</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>DAE_BadRelationshipName</shortDescription>
+        <value>Bad relationship name: {0}</value>
+    </labels>
+    <labels>
+        <fullName>DAE_DuplicateRecordForUpsert</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>DAE_DuplicateRecordForUpsert</shortDescription>
+        <value>Duplicate value for upsert: {0}</value>
+    </labels>
+    <labels>
+        <fullName>DAE_FieldDoesNotExist</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>DAE_FieldDoesNotExist</shortDescription>
+        <value>Field does not exist: {0} ({1})</value>
+    </labels>
+    <labels>
+        <fullName>DAE_FieldNotAccessible</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>DAE_FieldNotAccessible</shortDescription>
+        <value>Field not accessible ({0}): {1} ({2})</value>
+    </labels>
+    <labels>
+        <fullName>DAE_InvalidExternalId</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>DAE_InvalidExternalId</shortDescription>
+        <value>Invalid external ID: {0} ({1})</value>
+    </labels>
+    <labels>
+        <fullName>DAE_ObjectNotAccessible</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>DAE_ObjectNotAccessible</shortDescription>
+        <value>Object not accessible ({0}): {1}</value>
+    </labels>
+    <labels>
         <fullName>Default_Cancellation_Case_Queue</fullName>
         <categories>Cancellation Case Rules</categories>
         <language>en_US</language>
@@ -2278,7 +2490,11 @@ In &quot;My Settings&quot; under Location you can change your Locale which contr
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>MB_Form_Action_URL</shortDescription>
+<<<<<<< HEAD
         <value>https://amadeus-hospitality.my.salesforce.com/servlet/servlet.WebToLead?encoding=UTF-8</value>
+=======
+        <value>https://amadeus-hospitality--sbfull.sandbox.my.salesforce.com/servlet/servlet.WebToLead?encoding=UTF-8</value>
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
     </labels>
     <labels>
         <fullName>MB_Hilton_Campaign_ID</fullName>

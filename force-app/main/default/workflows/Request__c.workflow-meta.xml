@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<<<<<<< HEAD
 <Workflow xmlns="http://soap.sforce.com/2006/04/metadata">
+=======
+<Workflow xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
     <alerts>
         <fullName>Global_Ops_Queue_Email_Alert</fullName>
         <description>Global Ops Queue Email Alert</description>
@@ -9,7 +13,11 @@
             <type>group</type>
         </recipients>
         <senderType>CurrentUser</senderType>
+<<<<<<< HEAD
         <template>Shared_Services_Templates/Global_Ops_Queue_Email_Template_1634127672868</template>
+=======
+        <template xsi:nil="true"/>
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
     </alerts>
     <alerts>
         <fullName>Order_Management_New_Request_Record</fullName>
@@ -35,7 +43,11 @@
             <type>group</type>
         </recipients>
         <senderType>CurrentUser</senderType>
+<<<<<<< HEAD
         <template>Shared_Services_Templates/Request_SharedServicesGlobalOpsPasswordReset_1634229161168</template>
+=======
+        <template xsi:nil="true"/>
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
     </alerts>
     <alerts>
         <fullName>Shared_Services_Queue_Email_Alert</fullName>
@@ -47,7 +59,11 @@
             <type>group</type>
         </recipients>
         <senderType>CurrentUser</senderType>
+<<<<<<< HEAD
         <template>Shared_Services_Templates/Shared_Services_Queue_Email_Template_1634127476757</template>
+=======
+        <template xsi:nil="true"/>
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
     </alerts>
     <alerts>
         <fullName>Shared_Servies_Global_Ops_Request</fullName>
@@ -57,6 +73,10 @@
             <type>creator</type>
         </recipients>
         <senderType>CurrentUser</senderType>
+<<<<<<< HEAD
         <template>Shared_Services_Templates/Shared_Services_Global_Ops_Request_1633712826138</template>
+=======
+        <template xsi:nil="true"/>
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
     </alerts>
 </Workflow>

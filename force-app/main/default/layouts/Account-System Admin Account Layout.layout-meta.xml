@@ -1,6 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Layout xmlns="http://soap.sforce.com/2006/04/metadata">
     <customButtons>DI_Manager</customButtons>
+<<<<<<< HEAD
+=======
+    <customButtons>SertifiPay_Authorizations</customButtons>
+    <customButtons>SertifiPay_Payments</customButtons>
+    <excludeButtons>DataDotComAccountInsights</excludeButtons>
+    <excludeButtons>DataDotComClean</excludeButtons>
+    <excludeButtons>DataDotComCompanyHierarchy</excludeButtons>
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
     <excludeButtons>Submit</excludeButtons>
     <headers>PersonalTagging</headers>
     <layoutSections>
@@ -745,11 +753,14 @@
     <platformActionList>
         <actionListContext>Record</actionListContext>
         <platformActionListItems>
+<<<<<<< HEAD
             <actionName>Account.Create_Finance_Case</actionName>
             <actionType>QuickAction</actionType>
             <sortOrder>5</sortOrder>
         </platformActionListItems>
         <platformActionListItems>
+=======
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
             <actionName>FeedItem.TextPost</actionName>
             <actionType>QuickAction</actionType>
             <sortOrder>0</sortOrder>
@@ -775,6 +786,14 @@
             <sortOrder>4</sortOrder>
         </platformActionListItems>
         <platformActionListItems>
+<<<<<<< HEAD
+=======
+            <actionName>Account.Create_Finance_Case</actionName>
+            <actionType>QuickAction</actionType>
+            <sortOrder>5</sortOrder>
+        </platformActionListItems>
+        <platformActionListItems>
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
             <actionName>Account.New_Refund_Request</actionName>
             <actionType>QuickAction</actionType>
             <sortOrder>6</sortOrder>
@@ -899,6 +918,19 @@
             <actionType>QuickAction</actionType>
             <sortOrder>30</sortOrder>
         </platformActionListItems>
+<<<<<<< HEAD
+=======
+        <platformActionListItems>
+            <actionName>SertifiPay_Authorizations</actionName>
+            <actionType>CustomButton</actionType>
+            <sortOrder>31</sortOrder>
+        </platformActionListItems>
+        <platformActionListItems>
+            <actionName>SertifiPay_Payments</actionName>
+            <actionType>CustomButton</actionType>
+            <sortOrder>32</sortOrder>
+        </platformActionListItems>
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
     </platformActionList>
     <quickActionList>
         <quickActionListItems>
@@ -973,6 +1005,10 @@
         <fields>PRODUCT2.CUSTOMER_PRODUCT_ID</fields>
         <fields>Quantity_Billed__c</fields>
         <fields>DI_Index_Name__c</fields>
+<<<<<<< HEAD
+=======
+        <fields>PRODUCT2.NAME</fields>
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
         <relatedList>RelatedAssetList</relatedList>
         <sortField>DI_Index_Name__c</sortField>
         <sortOrder>Asc</sortOrder>

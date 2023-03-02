@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <FlowDefinition xmlns="http://soap.sforce.com/2006/04/metadata">
+<<<<<<< HEAD
     <activeVersionNumber>2</activeVersionNumber>
     <description>NICC-063040: Sends an email to the Project Manager of a Project where the related Opportunity has had the Target HRM Org field updated.</description>
+=======
+    <activeVersionNumber>5</activeVersionNumber>
+    <description>NICC-063040 - When the Target HRM Org field is updated on an Opp, an email alert will trigger to send an email to the Project Manager on any related Projects.</description>
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
     <masterLabel>Notify PM that Target HRM Org field updated on Opp</masterLabel>
 </FlowDefinition>

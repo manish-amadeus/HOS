@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
-    <fullName>Cannot_Close_If_Owner_Is_Blank</fullName>
-    <active>true</active>
-    <description>Cannot change the status of a requirement to &quot;not needed&quot; or &quot;completed&quot; if the owner field is blank</description>
-    <errorConditionFormula>AND(OR(ISPICKVAL(Status__c, &quot;Not Needed&quot;), ISPICKVAL(Status__c, &quot;Complete&quot;)), ISBLANK( Owner__c))</errorConditionFormula>
-    <errorMessage>A requirement cannot be closed out if the owner field is blank</errorMessage>
-</ValidationRule>

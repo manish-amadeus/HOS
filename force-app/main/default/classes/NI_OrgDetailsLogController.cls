@@ -77,15 +77,15 @@ public class NI_OrgDetailsLogController
         {
             if(bRecordTypeFound(strRecordTypeName) == true)
             {
-                setRecordTypeIds.add(NI_TestClassData.getRecordTypeId('NI_Org_Details__c', strRecordTypeName));
+                setRecordTypeIds.add(getRecordTypeId('NI_Org_Details__c', strRecordTypeName));
             }    
         } 
         System.debug('NUMBER OF RECORD TYPE IDs: ' + setRecordTypeIds.size());
         
         // INITIALIZE ACCESS VARIABLES ====================================================
-        displayButton = NI_FUNCTIONS.hasAccessByPublicGroup(UserInfo.getUserId(), 'Org Details - Login Button');
-        displayPasswordReader = NI_FUNCTIONS.hasAccessByPublicGroup(UserInfo.getUserId(), 'Org Details - Password Read');
-        displayPasswordAdmin = NI_FUNCTIONS.hasAccessByPublicGroup(UserInfo.getUserId(), 'Org Details - Password Read Write');
+        displayButton = hasAccessByPublicGroup(UserInfo.getUserId(), 'Org Details - Login Button');
+        displayPasswordReader = hasAccessByPublicGroup(UserInfo.getUserId(), 'Org Details - Password Read');
+        displayPasswordAdmin = hasAccessByPublicGroup(UserInfo.getUserId(), 'Org Details - Password Read Write');
         
         if (displayPasswordAdmin == true)
         {
@@ -113,6 +113,130 @@ public class NI_OrgDetailsLogController
     }
     
     public boolean displayPopup {get; set;}
+
+    public static Id getRecordTypeId(String sObjTypeName, String RecordTypeName)
+    {
+        RecordType rt = [SELECT Name, Id FROM RecordType WHERE sObjectType =: sObjTypeName AND Name =: RecordTypeName AND isActive = true];
+        return rt.Id;
+    }
+
+     // FUNCTION THAT EXCEPTS (USER ID, PUBLIC GROUP NAME STRING) AND RETURNS TRUE OR FALSE IF IT FINDS A RELATION MATCH
+     public static boolean hasAccessByPublicGroup(Id usersId, String publicGroupName)
+     {
+         
+         // LIST TO HOLD PUBLIC GROUP TO BE EVALUATED (USED LIST TO UTILIZE SIZE() FUNCTION)
+         List<Group> lstPublicGroup = new List<Group>([SELECT Id FROM Group WHERE Name =: publicGroupName LIMIT 1]);
+         
+         // IF NO GROUP FOUND RETURN FALSE
+         if (lstPublicGroup.Size() < 1)
+         {
+             System.debug('!!! =========== NI_FUNCTIONS.hasAccessByPublicGroup : CANNOT FIND PUBLIC GROUP NAMED ' + publicGroupName + ' =========== !!!');
+             return false;
+         }
+         
+         // SET TO HOLD IDS OF PUBLIC GROUPS & USER ROLE USER BELONGS TO 
+         Set<Id> setMemberOf = new Set<Id>();
+         
+         // GET USER RECORD WITH USER ROLE ID
+         User u = [SELECT Id, UserRoleId FROM User WHERE Id = : usersId LIMIT 1];
+         // ADD USER ROLE ID TO "MEMBER OF" SET
+         setMemberOf.Add(u.UserRoleId);
+         
+         // FILL SET WILL ALL GROUP IDs THAT THE USER BELONGS TO 
+         for (GroupMember m : [SELECT Id, GroupId, UserOrGroupId 
+                               FROM GroupMember 
+                               WHERE Group.Type = 'Regular' 
+                               AND UserOrGroupId = : usersId]) 
+         {
+             setMemberOf.Add(m.GroupId); 
+         }
+         
+         // LOOP THROUGH "MEMBER OF" LIST TO SEE IF VISITOR BELONGS TO THE GROUP PASSED IN DIRECTLY
+         for (Id i : setMemberOf)
+         {
+             if (lstPublicGroup[0].Id == i)
+             {
+                 // MATCH FOUND RETURN TRUE
+                 return true;
+             }
+         }
+         
+         // SETS TO HOLD ALL PUBLIC GROUP AND ROLE IDS FOUND IN RECURSION
+         Set<Id> setSubGroupsAndRoles = new Set<Id>();
+         Set<Id> setSubGroupsAndRolesTEMP = new Set<Id>();
+         
+         // USED TO LIMIT THE RECURSION ITERATIONS
+         integer iLevelsDeep = 5;
+         
+         // START PROCESS BY FINDING ANY PUBLIC GROUPS OF ROLES ON THE GROUP PASSED IN
+         findSubGroupsAndRoles(lstPublicGroup[0].Id, setSubGroupsAndRolesTEMP); 
+         
+         // LOOP THOUGH NESTED GROUPS
+         for (integer j = 0; (j < iLevelsDeep); j++)
+         {
+             // TEMP WORKING SET FOR EACH LOOP ITERATION
+             Set<Id> setTmp = new Set<Id>();
+             
+             // TRANSFER ALL IDS IN REUSABLE TEMP SET TO RUNNING SET
+             for (Id tmp1 : setSubGroupsAndRolesTEMP)
+             {
+                 setSubGroupsAndRoles.Add(tmp1);
+                 findSubGroupsAndRoles(tmp1, setTmp); 
+             } 
+             // THEN CLEAR TEMP SET FOR NEXT RUN
+             setSubGroupsAndRolesTEMP.Clear();
+             
+             // IF SIZE IS ZERO IT IS THE END OF NEST, EXIT LOOP
+             if (setTmp.Size() == 0)
+             {
+                 break;
+             }
+             
+             // REFILL TEMP SET FOR NEXT LOOP ITERATION
+             for (Id tmp2 : setTmp)
+             {
+                 setSubGroupsAndRolesTEMP.Add(tmp2);
+             }         
+             
+         }
+         
+         // LOOP THROUGH "MEMBER OF" AND RUNNING SET TO FIND ANY MATCHES
+         for (Id i2 : setMemberOf)
+         {
+             for (Id i3 : setSubGroupsAndRoles)
+             {        
+                 if (i2 == i3)
+                 {
+                     // MATCH FOUND RETURN TRUE
+                     return true;
+                 }
+             }
+         }
+         
+         // RETURN DEFAULT FALSE IF NOTHIN ABOVE RETURNED TRUE
+         return false;
+         
+     }
+     
+     // FINDS GROUPS AND ROLES BELONGING TO A PUBLIC GROUP AND ADDS THE IDS OF THEM TO A PASSED IN SET
+     public static void findSubGroupsAndRoles(Id grpId, Set<Id> setGroupId)
+     {   
+         for (Group grp : [SELECT g.Id, g.DeveloperName, g.RelatedId, g.Type
+                           FROM Group g
+                           WHERE g.Id IN (SELECT UserOrGroupId FROM GroupMember WHERE GroupId = : grpId)])    
+         {     
+             if (grp.Type == 'Regular')
+             {
+                 // PUBLIC GROUP FOUND
+                 setGroupId.Add(grp.Id);
+             }
+             else
+             {
+                 // ROLE OR ROLE & SUBORDINATES
+                 setGroupId.Add(grp.RelatedId);   
+             }      
+         }    
+     } 
     
     public pagereference verifyCred()
     {

@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
-    <fullName>IMT_IHGComplexityValue</fullName>
-    <active>true</active>
-    <errorConditionFormula>AND( RecordType.Name = &quot;InterContinental Hotels Group&quot;,  IMT_Complexity_Value__c  &gt; 20)</errorConditionFormula>
-    <errorMessage>Complexity value cannot be greater than 20</errorMessage>
-</ValidationRule>

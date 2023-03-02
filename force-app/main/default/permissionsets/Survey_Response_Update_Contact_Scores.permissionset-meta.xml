@@ -1,9 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <PermissionSet xmlns="http://soap.sforce.com/2006/04/metadata">
+<<<<<<< HEAD
     <classAccesses>
         <apexClass>AH_UpdateContactScoreController</apexClass>
         <enabled>true</enabled>
     </classAccesses>
+=======
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
     <customPermissions>
         <enabled>true</enabled>
         <name>Survey_Response_Update_Contact_Scores</name>
@@ -150,10 +153,13 @@
         <object>Confirmit_Survey_Response_Data__c</object>
         <viewAllRecords>true</viewAllRecords>
     </objectPermissions>
+<<<<<<< HEAD
     <pageAccesses>
         <apexPage>AH_UpdateContactScore</apexPage>
         <enabled>true</enabled>
     </pageAccesses>
+=======
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
     <tabSettings>
         <tab>AH_Batch_Apex_Result__c</tab>
         <visibility>Visible</visibility>

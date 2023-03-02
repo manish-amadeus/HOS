@@ -1,12 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Layout xmlns="http://soap.sforce.com/2006/04/metadata">
+<<<<<<< HEAD
+=======
+    <customButtons>SertifiPay_Authorizations</customButtons>
+    <customButtons>SertifiPay_Payments</customButtons>
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
     <excludeButtons>AccountHierarchy</excludeButtons>
     <excludeButtons>ChangeOwnerOne</excludeButtons>
     <excludeButtons>ChangeRecordType</excludeButtons>
     <excludeButtons>CreateSurveyInvitation</excludeButtons>
+<<<<<<< HEAD
     <excludeButtons>DataDotComAccountInsights</excludeButtons>
     <excludeButtons>DataDotComClean</excludeButtons>
     <excludeButtons>DataDotComCompanyHierarchy</excludeButtons>
+=======
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
     <excludeButtons>Delete</excludeButtons>
     <excludeButtons>DisableCustomerPortalAccount</excludeButtons>
     <excludeButtons>DisablePartnerPortalAccount</excludeButtons>
@@ -559,6 +567,19 @@
             <actionType>ProductivityAction</actionType>
             <sortOrder>10</sortOrder>
         </platformActionListItems>
+<<<<<<< HEAD
+=======
+        <platformActionListItems>
+            <actionName>SertifiPay_Authorizations</actionName>
+            <actionType>CustomButton</actionType>
+            <sortOrder>11</sortOrder>
+        </platformActionListItems>
+        <platformActionListItems>
+            <actionName>SertifiPay_Payments</actionName>
+            <actionType>CustomButton</actionType>
+            <sortOrder>12</sortOrder>
+        </platformActionListItems>
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
     </platformActionList>
     <quickActionList>
         <quickActionListItems>

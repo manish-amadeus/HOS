@@ -2,15 +2,31 @@
 <Layout xmlns="http://soap.sforce.com/2006/04/metadata">
     <layoutSections>
         <customLabel>true</customLabel>
+<<<<<<< HEAD
         <detailHeading>false</detailHeading>
         <editHeading>false</editHeading>
         <label>Fields</label>
+=======
+        <detailHeading>true</detailHeading>
+        <editHeading>false</editHeading>
+        <label>Custom Links</label>
+        <layoutColumns/>
+        <layoutColumns/>
+        <layoutColumns/>
+        <style>CustomLinks</style>
+    </layoutSections>
+    <layoutSections>
+        <customLabel>false</customLabel>
+        <detailHeading>false</detailHeading>
+        <editHeading>false</editHeading>
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
         <layoutColumns>
             <layoutItems>
                 <behavior>Required</behavior>
                 <field>Title</field>
             </layoutItems>
             <layoutItems>
+<<<<<<< HEAD
                 <behavior>Edit</behavior>
                 <field>Body</field>
             </layoutItems>
@@ -57,6 +73,19 @@
         <layoutColumns/>
         <style>CustomLinks</style>
     </layoutSections>
+=======
+                <behavior>Required</behavior>
+                <field>CommunityId</field>
+            </layoutItems>
+        </layoutColumns>
+        <layoutColumns/>
+        <style>TwoColumnsLeftToRight</style>
+    </layoutSections>
+    <miniLayout>
+        <fields>Title</fields>
+        <fields>CommunityId</fields>
+    </miniLayout>
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
     <showEmailCheckbox>false</showEmailCheckbox>
     <showRunAssignmentRulesCheckbox>false</showRunAssignmentRulesCheckbox>
     <showSubmitAndAttachButton>false</showSubmitAndAttachButton>

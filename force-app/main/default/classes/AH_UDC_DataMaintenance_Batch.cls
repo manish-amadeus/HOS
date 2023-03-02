@@ -21,7 +21,11 @@ global class AH_UDC_DataMaintenance_Batch implements Database.Batchable<SObject>
     * @returns the record set as a QueryLocator object that will be batched for execution
     */
    global Database.QueryLocator start(Database.BatchableContext context) {
+<<<<<<< HEAD
       AH_UDC_LogHelper.Log(AH_UDC_LogHelper.LogLevel_MESSAGE, 'AH_UDC_DataMaintenance_Batch', 'start', 'DataMaintenance Job started', null, null, null);
+=======
+      AH_UDC_LogHelper.Log(AH_UDC_LogHelper.LogLevel_MESSAGE, 'AH_UDC_DataMaintenance_Batch', 'start', 'Data Maintenance Job: Started', null, null, null);
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
       return Database.getQueryLocator('SELECT Id, Name, Response__c, IsMostRecentResponse__c, WorkbookStep__c, WorkbookStep__r.Workbook__r.Id, WorkbookStep__r.Workbook__r.SentStatus__c, WorkbookStep__r.Workbook__r.CompletedDate__c, WorkbookStep__r.StepCompleted__c ' +
                                       'FROM AH_UDC_WorkbookStepResponse__c ' +
                                       'WHERE  IsMostRecentResponse__c = false ' + // AND WorkbookStep__r.Workbook__r.Id IN :workbookIds ' + //
@@ -104,7 +108,11 @@ global class AH_UDC_DataMaintenance_Batch implements Database.Batchable<SObject>
          {
             Delete lstDeleteWorkbookStepResponses;
             DataBase.emptyRecycleBin(lstDeleteWorkbookStepResponses);
+<<<<<<< HEAD
             String strDelete = 'Data Maintenance : Total deleted workbook step responses ' + lstDeleteWorkbookStepResponses.size();
+=======
+            String strDelete = 'Data Maintenance Job: Total deleted workbook step responses ' + lstDeleteWorkbookStepResponses.size();
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
             AH_UDC_LogHelper.Log(AH_UDC_LogHelper.LogLevel_TRACE,
                                  'AH_UDC_DataMaintenance_Batch', 'execute', strDelete, null, null, null);
 
@@ -126,7 +134,11 @@ global class AH_UDC_DataMaintenance_Batch implements Database.Batchable<SObject>
       AsyncApexJob a = [SELECT Id, Status, NumberOfErrors, JobItemsProcessed, TotalJobItems, CreatedBy.Email
                         FROM AsyncApexJob
                         WHERE Id = :context.getJobId()];
+<<<<<<< HEAD
       String strStatusMessage = 'Data Maintenance Status : ' + a.Status + '. The batch Apex job processed ' + a.TotalJobItems + ' batches with ' + a.NumberOfErrors + ' failures.';
+=======
+      String strStatusMessage = 'Data Maintenance Job Status: ' + a.Status + '. The batch Apex job processed ' + a.TotalJobItems + ' batches with ' + a.NumberOfErrors + ' failures.';
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
       AH_UDC_LogHelper.Log(AH_UDC_LogHelper.LogLevel_MESSAGE, 'AH_UDC_DataMaintenance_Batch', 'finish', strStatusMessage, null, null, null);
       if (!Test.isRunningTest())
       {

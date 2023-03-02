@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
-    <fullName>Expense_Report_Status_Check</fullName>
-    <active>true</active>
-    <description>Salesforce.com NICC -022676</description>
-    <errorConditionFormula>ISPICKVAL(Expense_Report__r.Status__c, &quot;To Finance&quot;)</errorConditionFormula>
-    <errorMessage>No items can be added, or updated, when expense report status is set &quot;To Finance&quot;.</errorMessage>
-</ValidationRule>

@@ -491,6 +491,10 @@
     </alerts>
     <alerts>
         <fullName>Opportunity_Discount_Approval_Status</fullName>
+<<<<<<< HEAD
+=======
+        <ccEmails>kimberly.contreraz@amadeus.com</ccEmails>
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
         <description>Opportunity Discount Approval - Status</description>
         <protected>false</protected>
         <recipients>
@@ -505,6 +509,10 @@
     </alerts>
     <alerts>
         <fullName>Opportunity_Discount_Approval_Status_Initial</fullName>
+<<<<<<< HEAD
+=======
+        <ccEmails>kimberly.contreraz@amadeus.com</ccEmails>
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
         <description>Opportunity Discount Approval - Status Initial</description>
         <protected>false</protected>
         <recipients>
@@ -762,8 +770,12 @@ It sets the Oder Status field to &quot;Complete&quot; based on the Partner Live 
         <reevaluateOnChange>true</reevaluateOnChange>
     </fieldUpdates>
     <fieldUpdates>
+<<<<<<< HEAD
         <fullName>Submitter_s_Email</fullName>
         <description>NICC-062731; Holds the email address of the user who submitted this Opportunity for approval</description>
+=======
+        <fullName>Submitter_Email</fullName>
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
         <field>Submitter_Email__c</field>
         <formula>$User.Email</formula>
         <name>Submitter&apos;s Email</name>

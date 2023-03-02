@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <SecuritySettings xmlns="http://soap.sforce.com/2006/04/metadata">
     <canUsersGrantLoginAccess>true</canUsersGrantLoginAccess>
+<<<<<<< HEAD
+=======
+    <enableAdminLoginAsAnyUser>false</enableAdminLoginAsAnyUser>
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
     <enableAuditFieldsInactiveOwner>true</enableAuditFieldsInactiveOwner>
     <enableAuraSecureEvalPref>true</enableAuraSecureEvalPref>
     <enableCoepHeader>false</enableCoepHeader>
@@ -745,6 +749,10 @@ Amadeus Network_Portsmouth</description>
     <redirectBlockModeEnabled>false</redirectBlockModeEnabled>
     <sessionSettings>
         <allowUserAuthenticationByCertificate>false</allowUserAuthenticationByCertificate>
+<<<<<<< HEAD
+=======
+        <allowUserCertBasedAuthenticationWithOcspValidation>false</allowUserCertBasedAuthenticationWithOcspValidation>
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
         <canConfirmEmailChangeInLightningCommunities>true</canConfirmEmailChangeInLightningCommunities>
         <canConfirmIdentityBySmsOnly>true</canConfirmIdentityBySmsOnly>
         <disableTimeoutWarning>false</disableTimeoutWarning>
@@ -758,7 +766,11 @@ Amadeus Network_Portsmouth</description>
         <enableClickjackNonsetupUserHeaderless>true</enableClickjackNonsetupUserHeaderless>
         <enableClickjackSetup>true</enableClickjackSetup>
         <enableCoepHeader>false</enableCoepHeader>
+<<<<<<< HEAD
         <enableContentSniffingProtection>false</enableContentSniffingProtection>
+=======
+        <enableContentSniffingProtection>true</enableContentSniffingProtection>
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
         <enableCoopHeader>false</enableCoopHeader>
         <enableLightningLogin>true</enableLightningLogin>
         <enableLightningLoginOnlyWithUserPerm>true</enableLightningLoginOnlyWithUserPerm>
@@ -774,7 +786,11 @@ Amadeus Network_Portsmouth</description>
         <forceRelogin>false</forceRelogin>
         <hasRetainedLoginHints>false</hasRetainedLoginHints>
         <hasUserSwitching>true</hasUserSwitching>
+<<<<<<< HEAD
         <identityConfirmationOnEmailChange>true</identityConfirmationOnEmailChange>
+=======
+        <identityConfirmationOnEmailChange>false</identityConfirmationOnEmailChange>
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
         <identityConfirmationOnTwoFactorRegistrationEnabled>true</identityConfirmationOnTwoFactorRegistrationEnabled>
         <lockSessionsToDomain>false</lockSessionsToDomain>
         <lockSessionsToIp>false</lockSessionsToIp>
@@ -785,7 +801,11 @@ Amadeus Network_Portsmouth</description>
         <redirectionWarning>false</redirectionWarning>
         <referrerPolicy>true</referrerPolicy>
         <requireHttpOnly>false</requireHttpOnly>
+<<<<<<< HEAD
         <sessionTimeout>FifteenMinutes</sessionTimeout>
+=======
+        <sessionTimeout>TwelveHours</sessionTimeout>
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
         <sidToken3rdPartyAuraApp>false</sidToken3rdPartyAuraApp>
         <useLocalStorageForLogoutUrl>false</useLocalStorageForLogoutUrl>
     </sessionSettings>

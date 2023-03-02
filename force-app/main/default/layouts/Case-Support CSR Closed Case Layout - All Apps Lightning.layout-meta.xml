@@ -767,6 +767,7 @@
         <relatedList>RelatedEmailMessageList</relatedList>
     </relatedLists>
     <relatedLists>
+<<<<<<< HEAD
         <customButtons>Add_Escalation</customButtons>
         <excludeButtons>MassChangeOwner</excludeButtons>
         <excludeButtons>New</excludeButtons>
@@ -777,6 +778,13 @@
         <fields>Escalation_QA_Checklists__c.Date_Received__c</fields>
         <fields>Escalation_QA_Checklists__c.Method__c</fields>
         <relatedList>Escalations_2_Cases__c.Case__c</relatedList>
+=======
+        <fields>NAME</fields>
+        <fields>RECORDTYPE</fields>
+        <fields>Date_Received__c</fields>
+        <fields>Method__c</fields>
+        <relatedList>Escalation_QA_Checklists__c.Related_Case__c</relatedList>
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
     </relatedLists>
     <relatedLists>
         <customButtons>Push_Solutions</customButtons>

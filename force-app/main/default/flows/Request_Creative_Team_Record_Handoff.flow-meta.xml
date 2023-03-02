@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Flow xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <apiVersion>54.0</apiVersion>
+<<<<<<< HEAD
     <description>NICC-057703; updated via NICC-062907; Screen flow to enable Creative Team members to enter time spent on a Creative Request</description>
+=======
+    <description>NICC-057703; Screen flow to enable Creative Team members to enter time and change Request Status from a single screen.</description>
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
     <dynamicChoiceSets>
         <name>StatusForDesignTime</name>
         <dataType>Picklist</dataType>
@@ -38,6 +42,12 @@
         <label>CreateStatusTrackingRecord</label>
         <locationX>478</locationX>
         <locationY>219</locationY>
+<<<<<<< HEAD
+=======
+        <faultConnector>
+            <targetReference>RecordUpdateErrorScreen</targetReference>
+        </faultConnector>
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
         <inputAssignments>
             <field>Design_Time_Spent__c</field>
             <value>
@@ -88,6 +98,25 @@
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordLookups>
     <screens>
+<<<<<<< HEAD
+=======
+        <name>RecordUpdateErrorScreen</name>
+        <label>RecordUpdateErrorScreen</label>
+        <locationX>660</locationX>
+        <locationY>132</locationY>
+        <allowBack>true</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>true</allowPause>
+        <fields>
+            <name>RecordUpdateErrorScreenDisplayText</name>
+            <fieldText>&lt;p&gt;We are unable to complete the update at this time. Please address the issue listed below then try your change again.&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;color: rgb(244, 8, 8);&quot;&gt;{!$Flow.FaultMessage}&lt;/span&gt;&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+        </fields>
+        <showFooter>true</showFooter>
+        <showHeader>false</showHeader>
+    </screens>
+    <screens>
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
         <name>TimeEntryRequestRecordUpdateScreen</name>
         <label>Time Entry and Request Record Update</label>
         <locationX>333</locationX>

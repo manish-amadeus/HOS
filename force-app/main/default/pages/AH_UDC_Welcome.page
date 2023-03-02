@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <!---
 DESCRIPTION: Community User Welcome Page
 Created By: Umang Ankleshwaria
@@ -296,4 +297,246 @@ Change History  :
          </script>
       </div>
    </body>
+=======
+<!---
+DESCRIPTION: Community User Welcome Page
+Created By: Umang Ankleshwaria
+Created On: 15/12/2020
+Last Mod Date   : 4-Feb-2021
+Last Mod By     : Sanjay Parmar
+User Story ID   : 572107,572108,580135
+Change History  :
+  1. 590045 - Refactoring Code - Changed by Sanjay Parmar on 4-Feb-2021
+  2. 702801 - Refactoring Code - Changed by Vaishali Patel on 24-Mar-2022
+-->
+<apex:page controller="AH_UDC_Welcome" showheader="false" applybodytag="true" applyhtmltag="false" doctype="html-5.0">
+   <head>
+      <title>Welcome Page</title>
+      <apex:slds />
+      <!--Include for Common CSS-->
+      <c:AH_UDC_CommonCSS />
+      <style type="text/css">
+         .message { /*Make proper alignment of error message div*/
+            margin: 0px;
+            margin-bottom: 10px;
+         }
+
+         .infoM3 td:first-child { /*Make proper alignment between icon and message for informational messages*/
+            width: 26px;
+         }
+         
+         .header-color {
+            background-color: #4472C4 !important;
+            color: white !important;
+         }
+
+         table.dataTable thead .sorting_asc {
+         }
+
+         table.dataTable thead .sorting_desc {
+         }
+
+         .slds-truncate {
+            display: inline-block;
+         }
+
+         .sort-img {
+            display: none;
+            float: right;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px !important;
+         }
+
+         .sorting_asc .sort-img-asc {
+            display: inline-block;
+         }
+
+         .sorting_desc .sort-img-desc {
+            display: inline-block;
+         }
+          
+         .slds-scope .slds-table .slds-cell-wrap {
+            white-space: initial !important;
+         }
+      </style>
+      <apex:stylesheet value="{!URLFOR($Resource.AH_UDC_Jquery_DataTables_CSS)}" /> <!--JQuery Datatable CSS-->
+      <apex:includescript value="{!URLFOR($Resource.AH_UDC_Jquery)}" /> <!--JQuery Library-->
+      <c:AH_UDC_Jquery_DataTables_Min_1_10_13 /> <!--JQuery Datatable Library-->
+   </head>
+   <body>
+      <div class="slds-wrap" style="overflow-x: hidden; overflow-y: hidden;">
+         <apex:form id="frmWelcome">
+            <!--This action function is used to log entries that occurred on loading of the page-->
+            <apex:actionfunction name="actionfunction_LogMessages" action="{!serverLogMessages}" rerender="serverside" />
+            <!-- Spinner-->
+            <div id="spinner">
+               <div class="slds-spinner_container">
+                  <div role="status" class="slds-spinner slds-spinner_medium slds-spinner_brand">
+                     <span class="slds-assistive-text">Loading</span>
+                     <div class="slds-spinner__dot-a"></div>
+                     <div class="slds-spinner__dot-b"></div>
+                  </div>
+               </div>
+            </div>
+            <!-- Welcome Screen-->
+            <div class="main-section" id="divUDCWelcome" style="position: relative; {!IF(IsErrorOccurred || IsCommunityEnabled == false, 'padding-top: 10px;', '') }">
+               <!--This action function is used for Terms And Condition Next Button-->
+               <apex:actionfunction name="serverTermsAndConditionNext" oncomplete="javascript:actionCompleted();" action="{!TermsAndConditionNext}" rerender="pageMessage, content, scriptPanel">
+                  <apex:param id="Opt_Into_Social_Media_Feature" name="Opt_Into_Social_Media_Feature" assignto="{!Opt_Into_Social_Media_Feature}" value="" />
+               </apex:actionfunction>
+               <!--Display error message to user-->
+               <apex:pagemessages id="pageMessage" />
+               <apex:outputpanel id="content" rendered="{!IsCommunityEnabled}">
+                  <!--Terms and Conditions-->
+                  <apex:outputpanel id="TermsAndCondition" rendered="{!IsTermsandConditionAccepted==false}">
+                     <div class="section-d" id="divUDCTermsandConditions">
+                        <c:AH_UDC_Terms />
+                     </div>
+                  </apex:outputpanel>
+                  <!--Workbook Grid-->
+                  <apex:outputpanel id="workbooklist" rendered="{!IsTermsandConditionAccepted==true}">
+                     <!--Display User Name-->
+                     <div class="slds-form-element__static slds-text-align_left" style="padding-top: 10px; padding-bottom: 10px;">
+                        <apex:outputtext escape="false" styleclass="welcome-username-style" value="{!$Label.AH_UDC_Welcome_User_Name}">
+                           <apex:param value="{!UserDisplayName}" />
+                        </apex:outputtext>
+                     </div>
+                     <div class="slds-form-element__static slds-text-align_left">
+                        <p style="font-size:16px">
+                           <apex:outputtext escape="false" value="{!$Label.AH_UDC_Welcome_Message}" />
+                        </p>
+                     </div>
+                     <div style="padding-top:10px;">
+                        <table id="tblWorkbook" class="slds-table slds-wrap  slds-table_cell-buffer slds-table_bordered slds-table_col-bordered ">
+                           <thead>
+                              <tr class="slds-line-height_reset">
+                                 <th class="header-color" scope="col" id="thWorkbookName">
+                                    <div class="slds-truncate slds-cell-wrap">{!$label.AH_UDC_Welcome_Workbook_Name_Column_Text}</div>
+                                    <img src="{!URLFOR($Resource.AH_UDC_Sort_Asc_Image)}" class="sort-img sort-img-asc" />
+                                    <img src="{!URLFOR($Resource.AH_UDC_Sort_Desc_Image)}" class="sort-img sort-img-desc" />
+                                 </th>
+                                 <th class="header-color" scope="col" id="thDuedate">
+                                    <div class="slds-truncate slds-cell-wrap">{!$label.AH_UDC_Welcome_Due_Date_Column_Text}</div>
+                                    <img src="{!URLFOR($Resource.AH_UDC_Sort_Asc_Image)}" class="sort-img sort-img-asc" />
+                                    <img src="{!URLFOR($Resource.AH_UDC_Sort_Desc_Image)}" class="sort-img sort-img-desc" />
+                                 </th>
+                                 <th class="header-color sorting_asc" id="thStatus" scope="col">
+                                    <div class="slds-truncate">{!$label.AH_UDC_Welcome_Status_Column_Text}</div>
+                                    <img src="{!URLFOR($Resource.AH_UDC_Sort_Asc_Image)}" class="sort-img sort-img-asc" />
+                                    <img src="{!URLFOR($Resource.AH_UDC_Sort_Desc_Image)}" class="sort-img sort-img-desc" />
+                                 </th>
+                                 <th class="header-color" scope="col">
+                                    <div class="slds-truncate">{!$label.AH_UDC_Welcome_Product_Column_Text}</div>
+                                    <img src="{!URLFOR($Resource.AH_UDC_Sort_Asc_Image)}" class="sort-img sort-img-asc" />
+                                    <img src="{!URLFOR($Resource.AH_UDC_Sort_Desc_Image)}" class="sort-img sort-img-desc" />
+                                 </th>
+                                 <th class="header-color" scope="col">
+                                    <div class="slds-truncate">{!$label.AH_UDC_Welcome_Property_Column_Text}</div>
+                                    <img src="{!URLFOR($Resource.AH_UDC_Sort_Asc_Image)}" class="sort-img sort-img-asc" />
+                                    <img src="{!URLFOR($Resource.AH_UDC_Sort_Desc_Image)}" class="sort-img sort-img-desc" />
+                                 </th>
+                                 <th id="thStatusNumber" style="display:none">
+                                    <div>Status Number</div>
+                                 </th>
+                              </tr>
+                           </thead>
+                           <tbody>
+                              <apex:repeat value="{!WorkbookList}" var="workbook">                                
+                                 <tr class="slds-hint-parent">
+                                    <td role="gridcell">
+                                       <div class="slds-truncate slds-cell-wrap wrapword">
+                                          <apex:outputpanel rendered="{!workbook.Status!='Completed/Locked'}">
+                                             <a class="workbook-name" onclick="javascript: removeCommunityImageAndSearchBar(); " href="/customers/AH_UDC_ViewWorkbook?id={!workbook.Id}" target="_top" tabindex="-1">{!workbook.DocumentName}</a>
+                                          </apex:outputpanel>
+                                          <apex:outputpanel rendered="{!workbook.Status=='Completed/Locked'}">
+                                             <span class="workbook-name" title="This workbook is complete" tabindex="-1" style="cursor:pointer;">{!workbook.DocumentName}</span>
+                                          </apex:outputpanel>
+                                       </div>
+                                    </td>
+                                    <td role="gridcell">
+                                       <apex:outputtext styleclass="slds-truncate slds-cell-wrap" value="{0,date,YYYY-MMM-dd}">
+                                          <apex:param value="{!workbook.dueDate}" />
+                                       </apex:outputtext>
+                                    </td>
+                                    <td role="gridcell">                                  
+                                       <div class="slds-truncate slds-cell-wrap">{!workbook.Status}</div>
+                                    </td>
+                                    <td role="gridcell">
+                                       <div class="slds-truncate slds-cell-wrap">{!workbook.Product}</div>
+                                    </td>
+                                    <td role="gridcell">
+                                       <div class="slds-truncate slds-cell-wrap">{!workbook.PropertyName}</div>
+                                    </td>
+                                    <td style="display:none" role="gridcell">
+                                       <div class="slds-truncate slds-cell-wrap">{!workbook.StatusNumber}</div>
+                                    </td>
+                                 </tr>
+                              </apex:repeat>
+                           </tbody>
+                        </table>
+                     </div>
+                  </apex:outputpanel>
+               </apex:outputpanel>
+            </div>
+         </apex:form>
+         <apex:outputpanel id="scriptPanel">
+            <script type="text/javascript">
+               var logMessages = '{!HasPageLoadLogMessages}';
+               //Log Any Messages
+               if (logMessages=='true')
+               {
+                  setTimeout(actionfunction_LogMessages, 500);
+               }
+               function actionCompleted() {
+                  if('{!IsErrorOccurred}'.toLowerCase() == 'true') {
+                     //Hide all controls if error occurred
+                     $('.welcome-username-style').hide();
+                     $('[id$="content"]').hide();
+                  }
+
+                  //Initialize the datatable
+                  initializeDataTable();
+                  window.parent.scrollTo(0, 0); //Scroll to top and display error message
+                  $('#spinner').hide();
+               }             
+               
+            </script>
+         </apex:outputpanel>
+         <script type="text/javascript">
+            function OnTermsAndConditionClickNext(cbOptIntoChatter) {
+               serverTermsAndConditionNext(cbOptIntoChatter);
+            }
+
+            //Initialize the datatable
+            function initializeDataTable() {
+               var tblWorkbook = $('#tblWorkbook').DataTable({ //Bind jquery datatable for sorting and pagination
+                  "lengthMenu": [[10, 25, 50, 100], [10, 25, 50, 100]],
+                  "order": [[ 2, "asc" ],[ 1, "asc" ],[ 0, "asc" ]],
+                  "columnDefs": [{ "orderData": [ 5 ], "targets": 2 }]
+               });
+               $('select[name="tblWorkbook_length"]').on('change', function () { setCommunityPageHeight(); });
+               $('input[type="search"]').on('input', function () { setCommunityPageHeight(); });
+               $("#thWorkbookName").removeClass("sorting_asc");
+               $("#thWorkbookName").addClass("sorting");
+               $("#thDuedate").removeClass("sorting_asc");
+               $("#thDuedate").addClass("sorting");
+               $('#tblWorkbook').css('width', '100%'); //After applying datatable it changes width of table so changing back to 100%
+            }
+
+            $(document).ready(function () {
+               if('{!IsTermsandConditionAccepted}'.toLowerCase() == 'true') {
+                  //Initialize the datatable
+                  initializeDataTable();
+               }
+               
+                $('#spinner').hide();
+            });
+
+
+            
+         </script>
+      </div>
+   </body>
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
 </apex:page>

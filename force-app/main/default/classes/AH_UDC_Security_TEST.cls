@@ -29,7 +29,11 @@ public class AH_UDC_Security_TEST {
 
    @isTest
    static void isTest_Security() {
+<<<<<<< HEAD
 
+=======
+      Test.startTest();
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
       List<User> lstUser = [Select Id From User Where Email like '%SecurityUDCSysAdmin%'];
       System.assert(lstUser.size() > 0, 'UDC System Admin user was not created');
 
@@ -147,13 +151,21 @@ public class AH_UDC_Security_TEST {
          retValue = AH_UDC_Security.getIsStrictSecurityCheck();
          System.assertEquals(retValue, false, 'getIsStrictSecurityCheck() did not return the expected value');
       }
+<<<<<<< HEAD
+=======
+      Test.stopTest();
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
    }
 
    @isTest
    static void isTest_SecurityException() {
       String objectTypeName = 'Rfp__c';
       String fieldName = 'Status__c';
+<<<<<<< HEAD
 
+=======
+      Test.startTest();
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
       try {
          AH_UDC_Security.throwInsufficientPrivileges(objectTypeName, fieldName);
          System.assert(false, 'While trying to test an Insufficient Privileges Exception, an exception was not thrown');
@@ -165,5 +177,9 @@ public class AH_UDC_Security_TEST {
       catch(Exception exc) {
          System.assert(false, 'An unexpected exception type occurred while trying to test an Insufficient Privileges Exception');
       }
+<<<<<<< HEAD
+=======
+      Test.stopTest();
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
    }
 }

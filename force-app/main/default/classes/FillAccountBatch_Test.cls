@@ -1,13 +1,9 @@
-@isTest
-public class FillAccountBatch_Test 
-{
- 
-    public static testmethod void testFake() 
-    {
-        String [] ids = new String [1];
-		ids[0] = 'a4O32000000CjaD';
-        
-        FillAccountBatch fab = new FillAccountBatch(ids);
+@IsTest
+public class FillAccountBatch_Test {
+
+    @IsTest
+    public static void testFake() {
+        FillAccountBatch fab = new FillAccountBatch(new String[0]);
         NI_Org_Details__c[] accounts = new NI_Org_Details__c[1]; 
         
         fab.isTest = true;
@@ -16,5 +12,4 @@ public class FillAccountBatch_Test
         fab.execute(null, accounts);
         fab.finish(null);
     }
-    
 }

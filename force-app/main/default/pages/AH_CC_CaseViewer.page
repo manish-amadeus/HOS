@@ -56,7 +56,7 @@
                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;                        
                         <apex:inputText id="txtSearchText" value="{!searchText}" label="lblSearchText" onkeypress="return noenter(event);" styleClass="slds-input" style="width:400px;!important;"/>&nbsp;&nbsp;
                         &nbsp;&nbsp;&nbsp;&nbsp; 
-                        <apex:commandButton id="btnSearch" value="Search" action="{!doSearch}" rerender="opSearchResults,lblStartDate,lblEndDate" status="asStatus" styleClass="slds-button slds-button_outline-brand" />
+                        <apex:commandButton id="btnSearch" value="Search" action="{!doSearch}" rerender="opDates,opSearchResults,lblStartDate,lblEndDate" status="asStatus" styleClass="slds-button slds-button_outline-brand" />
                         &nbsp;&nbsp;&nbsp;&nbsp; 
                         <apex:commandLink id="cmdExportCSV" action="{!exportResults}" rendered="{!bChatterEnabled}" rerender="opSearchResults" status="asStatus" target="_blank" style="text-decoration:none;important;">
                             <span class="slds-icon_container slds-icon-utility-download" title="Export results to CSV format">
@@ -75,11 +75,12 @@
                                 <div class="slds-select_container">
                                     <apex:selectList id="ddlFields" label="lblSpecificFields" value="{!selField}" styleClass="slds-select" style="width:215px;" size="1" multiselect="false"> 
                                         <apex:selectOptions value="{!lstSearchFields}" /> 
-                                        <apex:actionSupport event="onchange" reRender="opSearchResults,lblStartDate,lblEndDate" action="{!doSearch}" status="asStatus" />
+                                        <apex:actionSupport event="onchange" reRender="opDates,opSearchResults,lblStartDate,lblEndDate" action="{!forceDates}" status="asStatus" />
                                     </apex:selectList> 
                                 </div>
                             </div>
                         </div>   
+                        
                         <table style="width:900px;">
                             <tr>
                                 <td>
@@ -95,17 +96,19 @@
                             </tr>
                         </table> 
                         
-                        <div class="container">
-                            <div class="column1">
-                                <apex:outputLabel id="lblStartDate" value="{!strStartDateLabel}" />&nbsp;&nbsp;
-                                <c:AH_DatePicker defaultValue="{!dtStartDate}" defaultStyle="background-color:#fff;border:1px solid #dddbda;border-radius:.25rem;width:120px;transition:border .1s linear,background-color .1s linear;padding:0 1rem 0 .75rem;line-height:1.875rem;" />        
-                            </div>
-                            <div class="column2">
-                                <apex:outputLabel id="lblEndDate" value="{!strEndDateLabel}" />&nbsp;&nbsp;
-                                <c:AH_DatePicker defaultValue="{!dtEndDate}" defaultStyle="background-color:#fff;border:1px solid #dddbda;border-radius:.25rem;width:120px;transition:border .1s linear,background-color .1s linear;padding:0 1rem 0 .75rem;line-height:1.875rem;" />        
-                            </div>
-                        </div>                        
-                        
+                        <apex:outputpanel id="opDates">
+                            <apex:outputLabel id="lblDateMsg" value="{!strDateMsg}" rendered="{!IF(strDateMsg == '', false, true)}" style="color:red;!important;" />
+                            <div class="container">
+                                <div class="column1">
+                                    <apex:outputLabel id="lblStartDate" value="{!strStartDateLabel}" />&nbsp;&nbsp;
+                                    <c:AH_DatePicker id="txtStartDate" defaultValue="{!dtStartDate}" defaultStyle="background-color:#fff;border:1px solid #dddbda;border-radius:.25rem;width:120px;transition:border .1s linear,background-color .1s linear;padding:0 1rem 0 .75rem;line-height:1.875rem;" />        
+                                </div>
+                                <div class="column2">
+                                    <apex:outputLabel id="lblEndDate" value="{!strEndDateLabel}" />&nbsp;&nbsp;
+                                    <c:AH_DatePicker id="txtEndDate" defaultValue="{!dtEndDate}" defaultStyle="background-color:#fff;border:1px solid #dddbda;border-radius:.25rem;width:120px;transition:border .1s linear,background-color .1s linear;padding:0 1rem 0 .75rem;line-height:1.875rem;" />        
+                                </div>
+                            </div>                        
+                        </apex:outputpanel>
                         
                         <br/>                                                    
                     </apex:outputpanel>
@@ -284,7 +287,7 @@
                         
                         <br/> 
                         
-<apex:outputLabel id="lblSOQL" value="{!strSOQL}" rendered="false" />
+<apex:outputLabel id="lblSOQL" value="{!strSOQL}" rendered="true" />
                         
                     </apex:outputpanel>
 
@@ -396,6 +399,7 @@
                 opacity: 1;
                 transition: opacity .2s ease,visibility 0s;
                 transition-delay: 0s,.3s;
+            overflow-y:hidden;
             } 
             .column1 
             {

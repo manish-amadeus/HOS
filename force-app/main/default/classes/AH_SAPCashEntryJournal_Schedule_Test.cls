@@ -9,7 +9,10 @@ Description     : Test class for AH_SAPCashEntryJournal_Schedule class
 				: 
 				:
 **************************************************************************************/
+<<<<<<< HEAD
 
+=======
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
 @isTest
 public class AH_SAPCashEntryJournal_Schedule_Test 
 {

@@ -7,13 +7,14 @@ Last Mod By     : Sean Harris
 NICC Reference  : NICC-023217
 Description     : Controller for AH_EmailDocs VF Page
 				: 
-				: 
+				: UPDATED THIS CLASS WITH ARBITRARY ADDITIONS FOR DEVOPS PROD DEPLOY TESTING
 ******************************************************************************************/
 public class AH_EmailDocs_Ext 
 {
 
     private NI_Documentation__c nDoc;
-
+	public string strDummyVar = 'DEVOPS TESTING';
+    
     // WRAPPER CLASS LISTS
 //    public List<attachmentWrapper> lstAttachments {get; set;}
     public List<contactWrapper> lstContacts {get; set;}

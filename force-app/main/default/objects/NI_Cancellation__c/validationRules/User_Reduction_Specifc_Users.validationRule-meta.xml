@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
-    <fullName>User_Reduction_Specifc_Users</fullName>
-    <active>false</active>
-    <description>The Specific Users Reduced field must be populated for User Reductions</description>
-    <errorConditionFormula>AND(ISPICKVAL(General_Reason__c, &apos;User Reduction&apos;), ISBLANK( Specific_User_Names__c))</errorConditionFormula>
-    <errorMessage>You must update the &quot;Specific User Names&quot; field for User Reduction Cancellations</errorMessage>
-</ValidationRule>

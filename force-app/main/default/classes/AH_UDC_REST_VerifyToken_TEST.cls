@@ -18,7 +18,11 @@ private class AH_UDC_REST_VerifyToken_TEST {
 
    @TestSetup
    private static void setup() {
+<<<<<<< HEAD
       AH_UDC_InitializationHelper.Initialize('All');
+=======
+      AH_UDC_InitializationHelper.Initialize('All'); 
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
 
       String uniqueId = AH_UDC_Shared.generateGUID();
       Account newAccount = AH_UDC_TestData.GetAccountObject(uniqueId);
@@ -50,6 +54,7 @@ private class AH_UDC_REST_VerifyToken_TEST {
 
    }
 
+<<<<<<< HEAD
    private static string GetToken(string SecurityCode, string UserId, string FormId)
    {
       //Generate Token
@@ -66,6 +71,8 @@ private class AH_UDC_REST_VerifyToken_TEST {
       return token;
    }
 
+=======
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
    private static void testData1()
    {
       try {         
@@ -111,6 +118,7 @@ private class AH_UDC_REST_VerifyToken_TEST {
       }
    }
 
+<<<<<<< HEAD
    @isTest
    private static void TestGet() {
       testData1();
@@ -144,6 +152,41 @@ private class AH_UDC_REST_VerifyToken_TEST {
          System.assertEquals(0, logMessages.size(), 'Log Messages found and not expected: ' + logMessages);
       }
    }
+=======
+   //@isTest
+   //private static void TestGet() {
+      //testData1();
+      //string token = AH_UDC_Shared.CreateStepToken(m_oWB1.SecurityCode__c, m_oForm.id, m_oWBS1.id);
+      //AH_UDC_TestData.ClearLogs();
+      //User UDCServiceUser1 = [SELECT Id FROM user WHERE Username = :('TestVT_ServiceUser1@amadeus.com') ];
+      //System.runAs(UDCServiceUser1)
+      //{
+         //Test.startTest();
+
+         //RestRequest reqG = new RestRequest();
+         //RestResponse resG = new RestResponse();
+         //reqG.requestURI = '/services/apexrest/AH_UDC_VerifyToken'; //Request URL
+         //reqG.params.put('token', token);
+         //reqG.httpMethod = 'GET'; //HTTP Request Type
+         //RestContext.request = reqG;
+         //RestContext.response = resG;
+
+         //AH_UDC_REST_VerifyToken.get();
+
+         //AH_UDC_REST_VerifyToken.VerifyTokenGetResponse resp =
+         //(AH_UDC_REST_VerifyToken.VerifyTokenGetResponse)
+         //JSON.deserialize(RestContext.response.responseBody.toString(), AH_UDC_REST_VerifyToken.VerifyTokenGetResponse.class);
+
+         //Test.stopTest();
+
+         //System.assertEquals('200', resp.statusCode, 'Expected 200 Response');
+         //System.assertEquals(AH_UDC_ConfigHelper.GetString('AH_UDC_FileUploadAllowedExtensions',''), resp.allowedFileUploadExtensions, 'Allowed File Extensions should Match');
+         //System.assertEquals(AH_UDC_ConfigHelper.GetString('AH_UDC_FileUploadMaximumSizeInMB',AH_UDC_Constants.FILE_UPLOAD_MAXIMUM_SIZE_IN_MB_DEFAULT), resp.maximumFileUploadSizeInMB, 'Maximum File Upload Size should Match');
+         //List<AH_UDC_Log__c> logMessages = [SELECT Id, FunctionalArea__c, LogText__c FROM AH_UDC_Log__c];        
+         //System.assertEquals(0, logMessages.size(), 'Log Messages found and not expected: ' + logMessages);
+      //}
+   //}
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
    @isTest
    private static void TestGetException() {
       string token = AH_UDC_Constants.FORM_TOKEN_PREFIX + 'TestException';
@@ -245,7 +288,11 @@ private class AH_UDC_REST_VerifyToken_TEST {
    private static void TestGetBadToken() {
       testData1();
       string unknownSecurityCode = AH_UDC_Shared.GetSecurityCode();
+<<<<<<< HEAD
       string token = GetToken(unknownSecurityCode, m_oUser.id, m_oForm.id);
+=======
+      string token = AH_UDC_Shared.CreateStepToken(unknownSecurityCode, m_oForm.id, m_oWBS1.id);
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
 
       AH_UDC_TestData.ClearLogs();
       User UDCServiceUser1 = [SELECT Id FROM user WHERE Username = :('TestVT_ServiceUser1@amadeus.com') ];
@@ -279,7 +326,11 @@ private class AH_UDC_REST_VerifyToken_TEST {
    @isTest
    private static void TestGetBadTokenWithoutSecurityCode() {
       testData1();
+<<<<<<< HEAD
       string token = GetToken('', m_oUser.id, m_oForm.id);
+=======
+      string token = AH_UDC_Shared.CreateStepToken('', m_oForm.id, m_oWBS1.id);
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
 
       AH_UDC_TestData.ClearLogs();
       User UDCServiceUser1 = [SELECT Id FROM user WHERE Username = :('TestVT_ServiceUser1@amadeus.com') ];

@@ -1,33 +1,62 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+<<<<<<< HEAD
     <apiVersion>55.0</apiVersion>
+=======
+    <apiVersion>56.0</apiVersion>
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
     <assignments>
         <description>Assigns the Column and Color to the Work records for DTS team</description>
         <name>AssignColumnColorDTSTeam</name>
         <label>AssignColumnColorDTSTeam</label>
+<<<<<<< HEAD
         <locationX>763</locationX>
         <locationY>31</locationY>
         <assignmentItems>
             <assignToReference>varTempWorkRecordUpdateColumn.agf__Color__c</assignToReference>
+=======
+        <locationX>645</locationX>
+        <locationY>96</locationY>
+        <assignmentItems>
+            <assignToReference>varTempRecordUpdateColumn.agf__Color__c</assignToReference>
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
             <operator>Assign</operator>
             <value>
                 <elementReference>LoopColumns.Color__c</elementReference>
             </value>
         </assignmentItems>
         <assignmentItems>
+<<<<<<< HEAD
             <assignToReference>varTempWorkRecordUpdateColumn.agf__Column__c</assignToReference>
+=======
+            <assignToReference>varTempRecordUpdateColumn.agf__Column__c</assignToReference>
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
             <operator>Assign</operator>
             <value>
                 <elementReference>LoopColumns.Id</elementReference>
             </value>
         </assignmentItems>
         <assignmentItems>
+<<<<<<< HEAD
             <assignToReference>varTempWorkRecordUpdateColumn.Id</assignToReference>
+=======
+            <assignToReference>varTempRecordUpdateColumn.Id</assignToReference>
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
             <operator>Assign</operator>
             <value>
                 <elementReference>$Record.Id</elementReference>
             </value>
         </assignmentItems>
+<<<<<<< HEAD
+=======
+        <assignmentItems>
+            <assignToReference>varColumnColorUpdateCollection</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>varTempRecordUpdateColumn</elementReference>
+            </value>
+        </assignmentItems>
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
         <connector>
             <targetReference>LoopColumns</targetReference>
         </connector>
@@ -36,16 +65,24 @@
         <description>Assigns the Column that matches the Status of the Work record (not including Triaged)</description>
         <name>AssignEdDevColumn</name>
         <label>AssignEdDevColumn</label>
+<<<<<<< HEAD
         <locationX>808</locationX>
         <locationY>436</locationY>
         <assignmentItems>
             <assignToReference>varTempWorkRecordUpdateColumn.Id</assignToReference>
+=======
+        <locationX>927</locationX>
+        <locationY>83</locationY>
+        <assignmentItems>
+            <assignToReference>varTempRecordUpdateColumn.Id</assignToReference>
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
             <operator>Assign</operator>
             <value>
                 <elementReference>$Record.Id</elementReference>
             </value>
         </assignmentItems>
         <assignmentItems>
+<<<<<<< HEAD
             <assignToReference>varTempWorkRecordUpdateColumn.agf__Column__c</assignToReference>
             <operator>Assign</operator>
             <value>
@@ -280,12 +317,106 @@
         <label>ColumnDecision</label>
         <locationX>655</locationX>
         <locationY>168</locationY>
+=======
+            <assignToReference>varTempRecordUpdateColumn.agf__Column__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>LoopColumns.Id</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>varColumnColorUpdateCollection</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>varTempRecordUpdateColumn</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>LoopColumns</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <description>If the Team is Educational Development and Status of the Work record changes to &quot;Triaged&quot; the column &quot;X - Sprint - 1&quot; should be assigned to the record</description>
+        <name>AssignEdDevTriagedColumn</name>
+        <label>AssignEdDevTriagedColumn</label>
+        <locationX>1058</locationX>
+        <locationY>232</locationY>
+        <assignmentItems>
+            <assignToReference>varTempRecordUpdateColumn.agf__Column__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <stringValue>aIA1F0000004DHOWA2</stringValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>varTempRecordUpdateColumn.Id</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>$Record.Id</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>varColumnColorUpdateCollection</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>varTempRecordUpdateColumn</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>LoopColumns</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <description>Counts the number of Columns found in the GetColumns node</description>
+        <name>CountOfColumns</name>
+        <label>CountOfColumns</label>
+        <locationX>371</locationX>
+        <locationY>490</locationY>
+        <assignmentItems>
+            <assignToReference>varCountOfColumns</assignToReference>
+            <operator>AssignCount</operator>
+            <value>
+                <elementReference>varAllColumnsCollection</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>LoopColumns</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <description>Counts the number of records to be updated in the final record collection</description>
+        <name>CountOfUpdatedRecords</name>
+        <label>CountOfUpdatedRecords</label>
+        <locationX>644</locationX>
+        <locationY>515</locationY>
+        <assignmentItems>
+            <assignToReference>varCountOfUpdatedRecords</assignToReference>
+            <operator>AssignCount</operator>
+            <value>
+                <elementReference>varColumnColorUpdateCollection</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>UpdateColumnColor</targetReference>
+        </connector>
+    </assignments>
+    <decisions>
+        <description>Decides which Team/Column combination the record matches</description>
+        <name>ColumnDecision</name>
+        <label>ColumnDecision</label>
+        <locationX>813</locationX>
+        <locationY>366</locationY>
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
         <defaultConnector>
             <targetReference>LoopColumns</targetReference>
         </defaultConnector>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
+<<<<<<< HEAD
             <name>UseColor</name>
+=======
+            <name>DTSPhase</name>
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
             <conditionLogic>and</conditionLogic>
             <conditions>
                 <leftValueReference>LoopColumns.Name</leftValueReference>
@@ -294,6 +425,7 @@
                     <elementReference>$Record.agf__Product_Area__c</elementReference>
                 </rightValue>
             </conditions>
+<<<<<<< HEAD
             <connector>
                 <targetReference>AssignColumnColorDTSTeam</targetReference>
             </connector>
@@ -360,11 +492,60 @@
             <conditionLogic>and</conditionLogic>
             <conditions>
                 <leftValueReference>varWorkRecord.agf__Scrum_Team__r.Name</leftValueReference>
+=======
+            <conditions>
+                <leftValueReference>LoopColumns.agf__Team__r.Name</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>DTS Team</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>AssignColumnColorDTSTeam</targetReference>
+            </connector>
+            <label>DTSPhase</label>
+        </rules>
+        <rules>
+            <name>EdDevTriaged</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>LoopColumns.agf__Team__r.Name</leftValueReference>
                 <operator>EqualTo</operator>
                 <rightValue>
                     <stringValue>Educational Development</stringValue>
                 </rightValue>
             </conditions>
+            <conditions>
+                <leftValueReference>$Record.agf__Status__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Triaged</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>LoopColumns.Name</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>X - Sprint - 1</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>AssignEdDevTriagedColumn</targetReference>
+            </connector>
+            <label>EdDevTriaged</label>
+        </rules>
+        <rules>
+            <name>EdDevStatus</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>LoopColumns.agf__Team__r.Name</leftValueReference>
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Educational Development</stringValue>
+                </rightValue>
+            </conditions>
+<<<<<<< HEAD
             <connector>
                 <targetReference>TriagedOrFindColumnDecision</targetReference>
             </connector>
@@ -387,31 +568,59 @@
             <conditions>
                 <leftValueReference>$Record.agf__Status__c</leftValueReference>
                 <operator>EqualTo</operator>
+=======
+            <conditions>
+                <leftValueReference>LoopColumns.Name</leftValueReference>
+                <operator>Contains</operator>
+                <rightValue>
+                    <elementReference>$Record.agf__Status__c</elementReference>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.agf__Status__c</leftValueReference>
+                <operator>NotEqualTo</operator>
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
                 <rightValue>
                     <stringValue>Triaged</stringValue>
                 </rightValue>
             </conditions>
             <connector>
+<<<<<<< HEAD
                 <targetReference>AssignTriagedColumn</targetReference>
             </connector>
             <label>Triaged Status</label>
         </rules>
     </decisions>
     <description>NICC-054649; updated via NICC-059687; updated via NICC-060078; updated via NICC-060132; Updates the Column &amp; Color fields on Work records for DTS Team and SLTC teams; updates the Column for the Educational Team</description>
+=======
+                <targetReference>AssignEdDevColumn</targetReference>
+            </connector>
+            <label>EdDevStatus</label>
+        </rules>
+    </decisions>
+    <description>NICC-054649; updated via NICC-######; Updates the Column &amp; Color fields on Work records for DTS Team and SLTC teams; updates the Column for the Educational Team</description>
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
     <environments>Default</environments>
     <interviewLabel>Work - Update Column &amp; Color {!$Flow.CurrentDateTime}</interviewLabel>
     <label>Work - Update Column &amp; Color</label>
     <loops>
         <name>LoopColumns</name>
         <label>LoopColumns</label>
+<<<<<<< HEAD
         <locationX>517</locationX>
         <locationY>56</locationY>
         <collectionReference>varColumnCollection</collectionReference>
+=======
+        <locationX>471</locationX>
+        <locationY>307</locationY>
+        <collectionReference>varAllColumnsCollection</collectionReference>
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
         <iterationOrder>Asc</iterationOrder>
         <nextValueConnector>
             <targetReference>ColumnDecision</targetReference>
         </nextValueConnector>
         <noMoreValuesConnector>
+<<<<<<< HEAD
             <targetReference>UpdateColumn_Color</targetReference>
         </noMoreValuesConnector>
     </loops>
@@ -428,6 +637,9 @@
         </nextValueConnector>
         <noMoreValuesConnector>
             <targetReference>UpdateColumn_Color</targetReference>
+=======
+            <targetReference>CountOfUpdatedRecords</targetReference>
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
         </noMoreValuesConnector>
     </loops>
     <processMetadataValues>
@@ -449,6 +661,7 @@
         </value>
     </processMetadataValues>
     <processType>AutoLaunchedFlow</processType>
+<<<<<<< HEAD
     <recordCreates>
         <description>Logs an error message into the AH Error Log object if the Flow fails to run</description>
         <name>ErrorLogging</name>
@@ -457,12 +670,19 @@
         <locationY>649</locationY>
         <inputReference>varErrorLogRecord</inputReference>
     </recordCreates>
+=======
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
     <recordLookups>
         <description>Gets a list of Columns for the Kanban board associated to the Team</description>
         <name>GetColumns</name>
         <label>GetColumns</label>
+<<<<<<< HEAD
         <locationX>176</locationX>
         <locationY>382</locationY>
+=======
+        <locationX>102</locationX>
+        <locationY>486</locationY>
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>CountOfColumns</targetReference>
@@ -472,7 +692,11 @@
             <field>agf__Team__c</field>
             <operator>EqualTo</operator>
             <value>
+<<<<<<< HEAD
                 <elementReference>varWorkRecord.agf__Scrum_Team__r.Id</elementReference>
+=======
+                <elementReference>$Record.agf__Scrum_Team__r.Id</elementReference>
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
             </value>
         </filters>
         <filters>
@@ -483,6 +707,7 @@
             </value>
         </filters>
         <object>agf__ADM_Column__c</object>
+<<<<<<< HEAD
         <outputReference>varColumnCollection</outputReference>
         <queriedFields>Id</queriedFields>
         <queriedFields>Name</queriedFields>
@@ -565,14 +790,43 @@
                 <booleanValue>true</booleanValue>
             </value>
         </filters>
+=======
+        <outputReference>varAllColumnsCollection</outputReference>
+        <queriedFields>Id</queriedFields>
+        <queriedFields>Name</queriedFields>
+        <queriedFields>Color__c</queriedFields>
+        <queriedFields>agf__Team__c</queriedFields>
+    </recordLookups>
+    <recordUpdates>
+        <description>Updates the Column for Educational Development Team and Column/Color for DTS and SLTC Hos Transportation teams</description>
+        <name>UpdateColumnColor</name>
+        <label>UpdateColumn&amp;Color</label>
+        <locationX>970</locationX>
+        <locationY>506</locationY>
+        <inputReference>varColumnColorUpdateCollection</inputReference>
+    </recordUpdates>
+    <start>
+        <locationX>54</locationX>
+        <locationY>94</locationY>
+        <connector>
+            <targetReference>GetColumns</targetReference>
+        </connector>
+        <filterFormula>AND(OR({!$Record.agf__Scrum_Team__r.Name} = &quot;DTS Team&quot;,{!$Record.agf__Scrum_Team__r.Name} = &quot;SLTC Hospitality Transformation&quot;),ISCHANGED({!$Record.agf__Product_Area__c})) ||
+AND({!$Record.agf__Scrum_Team__r.Name} = &quot;Educational Development&quot;,ISCHANGED({!$Record.agf__Status__c}))</filterFormula>
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
         <object>agf__ADM_Work__c</object>
         <recordTriggerType>Update</recordTriggerType>
         <triggerType>RecordAfterSave</triggerType>
     </start>
     <status>Active</status>
     <variables>
+<<<<<<< HEAD
         <description>Stores a list of Columns associated with the Team</description>
         <name>varColumnCollection</name>
+=======
+        <description>Stores a list of all active Columns associated with the Team on the triggering record</description>
+        <name>varAllColumnsCollection</name>
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
         <dataType>SObject</dataType>
         <isCollection>true</isCollection>
         <isInput>true</isInput>
@@ -580,6 +834,18 @@
         <objectType>agf__ADM_Column__c</objectType>
     </variables>
     <variables>
+<<<<<<< HEAD
+=======
+        <description>Collection of records to update Column and/or Color</description>
+        <name>varColumnColorUpdateCollection</name>
+        <dataType>SObject</dataType>
+        <isCollection>true</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <objectType>agf__ADM_Work__c</objectType>
+    </variables>
+    <variables>
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
         <description>Counts the number of Columns found in the GetColumns node</description>
         <name>varCountOfColumns</name>
         <dataType>Number</dataType>
@@ -592,6 +858,7 @@
         </value>
     </variables>
     <variables>
+<<<<<<< HEAD
         <description>Record used to record an error log if an element of the Flow fails</description>
         <name>varErrorLogRecord</name>
         <dataType>SObject</dataType>
@@ -621,6 +888,18 @@
     <variables>
         <description>Stores details about the Work record</description>
         <name>varWorkRecord</name>
+=======
+        <name>varCountOfUpdatedRecords</name>
+        <dataType>Number</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <scale>0</scale>
+    </variables>
+    <variables>
+        <description>Temporary record variable that holds the Column that will be assigned to the Work record.</description>
+        <name>varTempRecordUpdateColumn</name>
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
         <dataType>SObject</dataType>
         <isCollection>false</isCollection>
         <isInput>true</isInput>

@@ -514,6 +514,7 @@
     <platformActionList>
         <actionListContext>Record</actionListContext>
         <platformActionListItems>
+<<<<<<< HEAD
             <actionName>FeedItem.TextPost</actionName>
             <actionType>QuickAction</actionType>
             <sortOrder>0</sortOrder>
@@ -522,6 +523,16 @@
             <actionName>FeedItem.ContentPost</actionName>
             <actionType>QuickAction</actionType>
             <sortOrder>1</sortOrder>
+=======
+            <actionName>FeedItem.ContentPost</actionName>
+            <actionType>QuickAction</actionType>
+            <sortOrder>1</sortOrder>
+        </platformActionListItems>
+        <platformActionListItems>
+            <actionName>FeedItem.TextPost</actionName>
+            <actionType>QuickAction</actionType>
+            <sortOrder>0</sortOrder>
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
         </platformActionListItems>
         <platformActionListItems>
             <actionName>FeedItem.LinkPost</actionName>
@@ -574,6 +585,14 @@
             <sortOrder>11</sortOrder>
         </platformActionListItems>
         <platformActionListItems>
+<<<<<<< HEAD
+=======
+            <actionName>AH_Clear_Flag</actionName>
+            <actionType>CustomButton</actionType>
+            <sortOrder>15</sortOrder>
+        </platformActionListItems>
+        <platformActionListItems>
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
             <actionName>Create_Opportunity</actionName>
             <actionType>CustomButton</actionType>
             <sortOrder>12</sortOrder>
@@ -589,11 +608,14 @@
             <sortOrder>14</sortOrder>
         </platformActionListItems>
         <platformActionListItems>
+<<<<<<< HEAD
             <actionName>AH_Clear_Flag</actionName>
             <actionType>CustomButton</actionType>
             <sortOrder>15</sortOrder>
         </platformActionListItems>
         <platformActionListItems>
+=======
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
             <actionName>MergeCase</actionName>
             <actionType>StandardButton</actionType>
             <sortOrder>16</sortOrder>
@@ -740,6 +762,16 @@
         <relatedList>RelatedArticleList</relatedList>
     </relatedLists>
     <relatedLists>
+<<<<<<< HEAD
+=======
+        <fields>SOLUTION.ISSUE</fields>
+        <fields>SOLUTION.SOLUTION_NUMBER</fields>
+        <fields>SOLUTION.STATUS</fields>
+        <fields>CORE.USERS.ALIAS</fields>
+        <relatedList>RelatedSolutionList</relatedList>
+    </relatedLists>
+    <relatedLists>
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
         <excludeButtons>MassChangeOwner</excludeButtons>
         <excludeButtons>New</excludeButtons>
         <fields>NAME</fields>
@@ -776,6 +808,7 @@
         <sortField>Log_DateTime__c</sortField>
         <sortOrder>Asc</sortOrder>
     </relatedLists>
+<<<<<<< HEAD
     <relatedLists>
         <fields>NAME</fields>
         <fields>medallia_xm__Record_Creation_date__c</fields>
@@ -783,6 +816,8 @@
         <fields>medallia_xm__Response_Main_score__c</fields>
         <relatedList>medallia_xm__Medallia_Feedback__c.CaseId__c</relatedList>
     </relatedLists>
+=======
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
     <relatedObjects>ContactId</relatedObjects>
     <relatedObjects>AccountId</relatedObjects>
     <runAssignmentRulesDefault>false</runAssignmentRulesDefault>

@@ -6,13 +6,13 @@ Last Mod Date   : 04/13/2018
 Last Mod By     : Sean Harris
 NICC Reference  : NICC-023514
 Description     : Test Class for the AH_PartnerOrderDetailController Class      
-                : 
-                : 
+: 
+: 
 ******************************************************************************************/
 @isTest  
 public class AH_PartnerOrderDetailController_Test 
 {
-
+    
     // ======================================================================================================================================= //
     // = TEST METHOD 1: CREATE TEST DATA
     // ======================================================================================================================================= 
@@ -28,13 +28,13 @@ public class AH_PartnerOrderDetailController_Test
         Account a = NI_TestClassData.createTestAccount(1);
         a.Name = 'AH_PartnerOrderDetailController_Test Account';
         insert a;
-
-		Contact cntct = NI_TestClassData.createTestContact(1, a.Id);
+        
+        Contact cntct = NI_TestClassData.createTestContact(1, a.Id);
         cntct.FirstName = 'Herb';
         cntct.LastName = 'Smith';
         cntct.Email = 'hsmith@somedomain.com';
         insert cntct;        
-
+        
         // CREATE TEST PARTNER USER 
         Profile pro = [SELECT Id, UserType FROM Profile WHERE Name = 'AH PartnerCentral User'];        
         system.assertEquals('PowerPartner', pro.UserType);
@@ -45,9 +45,9 @@ public class AH_PartnerOrderDetailController_Test
         pu.Partner_Terms_Accepted__c = 'True';
         insert pu;
         
-//        User pu2 = [SELECT Id, UserRoleId FROM User WHERE Id =: pu.Id];
-//        UserRole ur = [SELECT Id, Name FROM UserRole WHERE Id =: pu2.UserRoleId];
-//system.debug(' **** UserRole = ' + ur.Name);
+        //        User pu2 = [SELECT Id, UserRoleId FROM User WHERE Id =: pu.Id];
+        //        UserRole ur = [SELECT Id, Name FROM UserRole WHERE Id =: pu2.UserRoleId];
+        //system.debug(' **** UserRole = ' + ur.Name);
         
         // ASSERT THAT THE ACCOUNT GETS CHANGED TO A PARTNER AFTER CONTACT IS ENABLED AS A PARTNER USER
         Account accAssert = [SELECT Id, IsPartner FROM Account WHERE Id =: a.Id];
@@ -56,13 +56,13 @@ public class AH_PartnerOrderDetailController_Test
         Opportunity opp = NI_TestClassData.createTestOpportunity(1, a.Id); 
         opp.Name = 'AH_PartnerOrderDetailController_Test Opportunity';
         insert opp;
-
-// THIS IS NOT PREFERED BUT NEEDED FOR THE TEST CLASS TO NOT ERROR ON AH_PartnerOrderDetailController.setOpp()   
-// WITH System.QueryException: List has no rows for assignment to SObject     
+        
+        // THIS IS NOT PREFERED BUT NEEDED FOR THE TEST CLASS TO NOT ERROR ON AH_PartnerOrderDetailController.setOpp()   
+        // WITH System.QueryException: List has no rows for assignment to SObject     
         // SHARE RECORD TO PARTNER USER
         OpportunityShare osh = new OpportunityShare(OpportunityAccessLevel = 'Read', OpportunityId = opp.Id, RowCause = 'Manual', UserOrGroupId = pu.Id);
         insert osh;
-
+        
         // ASSERT THAT THE PARTNER HAS ACCESS TO NEW OPPTY
         List<OpportunityShare> oppShareAssert = new List<OpportunityShare>
             ([SELECT OpportunityAccessLevel 
@@ -70,7 +70,7 @@ public class AH_PartnerOrderDetailController_Test
               WHERE UserOrGroupId =: pu.Id
               AND OpportunityId =: opp.Id]);
         system.assertEquals(false, oppShareAssert.isEmpty());
-
+        
         
         
         opp.Order_Status__c = 'Integrated';
@@ -120,8 +120,8 @@ public class AH_PartnerOrderDetailController_Test
         
         PricebookEntry pbe2 = NI_TestClassData.createTestPricebookEntry(currentUSDPricebook.Id, p2.Id, 1000);        
         insert pbe2;
-
-test.StartTest();   
+        
+        test.StartTest();   
         
         List<OpportunityLineItem> lstOpportunityLineItemInserts = new List<OpportunityLineItem>();
         for (integer j = 1; j < 3; j++)
@@ -130,12 +130,12 @@ test.StartTest();
             oli = NI_TestClassData.createTestOpportunityLineItem(j, opp.Id, pbe.Id, 10);         
             lstOpportunityLineItemInserts.add(oli);
         }
-
+        
         database.insert(lstOpportunityLineItemInserts); 
-
+        
         List<OpportunityLineItem> lstOpptyLineItemCheck = new List<OpportunityLineItem>([SELECT Id FROM OpportunityLineItem]);         
         system.assertEquals(2, lstOpptyLineItemCheck.size()); 
-
+        
         OpportunityContactRole contactRole = NI_TestClassData.createTestOpportunityContactRole(opp.Id, cntct.Id, 'Ship To');    
         insert contactRole; 
         
@@ -151,10 +151,10 @@ test.StartTest();
         pse__Proj__c testProject = NI_TestClassData.createTestProject(1, 'Test Project', testRegion, testPractice, 'Draft at Risk', opp);        
         insert testProject; 
         
-test.StopTest();   
-
+        test.StopTest();   
+        
     }
- 
+    
     // ======================================================================================================================================= //
     // = TEST METHOD 1: 
     // ======================================================================================================================================= //    
@@ -162,33 +162,33 @@ test.StopTest();
     {
         
         Account a = [SELECT Id FROM Account WHERE Name = 'AH_PartnerOrderDetailController_Test Account'];
-		Contact cnt = [SELECT Id FROM Contact WHERE Email = 'hsmith@somedomain.com'];         
+        Contact cnt = [SELECT Id FROM Contact WHERE Email = 'hsmith@somedomain.com'];         
         User pu = [SELECT Id, Partner_Terms_Accepted__c FROM User WHERE ContactId =: cnt.Id AND AccountId =: a.Id];
         Opportunity opp = [SELECT Id FROM Opportunity WHERE Name = 'AH_PartnerOrderDetailController_Test Opportunity'];
-
+        
         system.runAs(pu) 
         {
             // SET THE CURRENT VF PAGE
-//            PageReference pr;
-//            AH_PartnerOrderDetailController ctrl;
+            //            PageReference pr;
+            //            AH_PartnerOrderDetailController ctrl;
             
-//            Note n = NI_TestClassData.createNote(1, opp.Id);
-//            insert n;
+            //            Note n = NI_TestClassData.createNote(1, opp.Id);
+            //            insert n;
             
             PageReference pr = Page.AH_PartnerOrderDetail;
             Test.setCurrentPage(pr);
             ApexPages.currentPage().getParameters().put('OppId', opp.Id); 
             AH_PartnerOrderDetailController ctrl = new AH_PartnerOrderDetailController(); 
-			
+            
             // ASSERTIONS
             system.assertEquals(opp.Id, ctrl.opp.Id); 
             system.assertEquals(1, ctrl.lstOppDetails.size()); 
             system.assertEquals(2, ctrl.lstOppLineItemDetails.size()); 
             system.assertEquals(pu.Id, ctrl.partnerUser.Id); 
-        	system.assertEquals('U17 - AH USD Standard', ctrl.currentUSDPriceBookName); 
+            system.assertEquals('U17 - AH USD Standard', ctrl.currentUSDPriceBookName); 
             
         }
-		
+        
     }    
-            
+    
 }

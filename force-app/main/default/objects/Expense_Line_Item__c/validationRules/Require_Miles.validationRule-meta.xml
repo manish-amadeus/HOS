@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
-    <fullName>Require_Miles</fullName>
-    <active>true</active>
-    <errorConditionFormula>and(ISPICKVAL( Sub_Category__c , &quot;Mileage&quot;), isnull(Miles__c))</errorConditionFormula>
-    <errorDisplayField>Miles__c</errorDisplayField>
-    <errorMessage>Please add the number of miles to your expense report</errorMessage>
-</ValidationRule>

@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <apex:page lightningstylesheets="true" showheader="false" applybodytag="true" applyhtmltag="false" doctype="html-5.0" id="SendWorkbookPage" 
            standardcontroller="AH_UDC_Workbook__c" extensions="AH_UDC_WorkbookResponsesExt">
 
@@ -94,4 +95,102 @@
          }
       }
    </script>
+=======
+<apex:page lightningstylesheets="true" showheader="false" applybodytag="true" applyhtmltag="false" doctype="html-5.0" id="SendWorkbookPage" 
+           standardcontroller="AH_UDC_Workbook__c" extensions="AH_UDC_WorkbookResponsesExt">
+
+   <style type="text/css">
+      
+   </style>
+   <apex:form >
+      <apex:pageblock title="Unified Data Collection View/Export Responses">
+         <apex:pagemessages />
+         <center style="{!IF(IsErrorOccurred, '', 'display:none;')}">
+            <button class="slds-button slds-button_brand" onclick="backToWorkbook(); return false;" id="btnOK">{!$Label.AH_UDC_OK}</button>
+         </center>
+
+         <!--This action function is used to log entries that occurred on loading of the page-->
+         <apex:actionfunction name="actionfunction_LogMessages" action="{!ServerLogMessages}" oncomplete="return false;" />
+
+         <apex:pageblocksection columns="1" showheader="false" rendered="{!IsErrorOccurred != true}">
+            <apex:pageblocksection columns="1" showheader="true" title="Export All Steps:" rendered="{!displayWorkbook.WorkbookHasResponses==true}">
+               <apex:panelgroup >
+                  <apex:outputlink value="{!displayWorkbook.ExportCsvUrl}">Click to Export as CSV</apex:outputlink>
+               </apex:panelgroup>
+               <apex:panelgroup >
+                  <apex:outputlink value="{!displayWorkbook.ExportJsonUrl}">Click to Export as JSON</apex:outputlink>
+               </apex:panelgroup>
+            </apex:pageblocksection>
+            <apex:panelgroup rendered="{!displayWorkbook.WorkbookHasResponses==false}">
+               <b>Export All Steps:</b>&nbsp;&nbsp;&nbsp;
+               There are currently no responses for any steps.
+            </apex:panelgroup>
+            <apex:pageblocksection columns="1" showheader="true" title="Workbook Details">
+               <apex:panelgroup >
+                  <b>Document:</b>&nbsp;&nbsp;<apex:outputfield value="{!displayWorkbook.Record.RelatedToDocName__c}"></apex:outputfield>
+               </apex:panelgroup>
+               <apex:panelgroup >
+                  <b>Document Id:</b>&nbsp;&nbsp;<apex:outputfield value="{!displayWorkbook.Record.RelatedTo__r.name}"></apex:outputfield>
+               </apex:panelgroup>
+               <apex:panelgroup >
+                  <b>Workbook:</b>&nbsp;&nbsp;<apex:outputfield value="{!displayWorkbook.Record.Name}"></apex:outputfield>
+               </apex:panelgroup>
+               <apex:panelgroup >
+                  <b>Sent Date:</b>&nbsp;&nbsp;<apex:outputfield value="{!displayWorkbook.Record.SentDate__c}"></apex:outputfield>
+               </apex:panelgroup>
+               <apex:panelgroup rendered="{!displayWorkbook.Record.SentStatus__c != 'Completed'}">
+                  <b>Status:</b>&nbsp;&nbsp;{!displayWorkbook.Record.SentStatus__c}
+               </apex:panelgroup>
+               <apex:panelgroup rendered="{!displayWorkbook.Record.SentStatus__c == 'Completed'}">
+                  <b>Status:</b>&nbsp;&nbsp;{!displayWorkbook.Record.SentStatus__c}&nbsp;&nbsp;<apex:outputfield value="{!displayWorkbook.Record.CompletedDate__c}"></apex:outputfield>
+               </apex:panelgroup>
+            
+               <apex:repeat value="{!displayWorkbook.WorkbookSteps}" var="WorkbookStep" id="repeatWorkbookSteps">
+                  <apex:pageblocksection columns="1" showheader="true" title="{!WorkbookStep.Record.Name}">
+                     <apex:panelgroup rendered="{!WorkbookStep.Record.StepStatus__c != 'Completed'}">
+                        <b>Step Status:</b>&nbsp;&nbsp;{!WorkbookStep.Record.StepStatus__c}
+                        <apex:outputPanel rendered="{!WorkbookStep.IsFileUploadStep == false && WorkbookStep.IsUrl == false}">
+                           <br />
+                           <b>Most Recent Response:</b>&nbsp;&nbsp;<apex:outputfield value="{!WorkbookStep.ResponseRecord.Response__r.CreatedDate}"></apex:outputfield>
+                        </apex:outputPanel>
+                     </apex:panelgroup>
+                     <apex:panelgroup rendered="{!WorkbookStep.Record.StepStatus__c == 'Completed'}">
+                        <b>Step Status:</b>&nbsp;&nbsp;{!WorkbookStep.Record.StepStatus__c}&nbsp;&nbsp;<apex:outputfield value="{!WorkbookStep.Record.StepCompleted__c}"></apex:outputfield>
+                        <apex:outputPanel rendered="{!WorkbookStep.IsFileUploadStep == false && WorkbookStep.IsUrl == false}">
+                           <br />
+                           <b>Most Recent Response:</b>&nbsp;&nbsp;<apex:outputfield value="{!WorkbookStep.ResponseRecord.Response__r.CreatedDate}"></apex:outputfield>
+                        </apex:outputPanel>
+                     </apex:panelgroup>
+                     <apex:panelgroup rendered="{!WorkbookStep.IsFileUploadStep == false && WorkbookStep.IsUrl == false && WorkbookStep.ResponseRecord!=null}">
+                        <b>Export Step:</b>&nbsp;&nbsp;&nbsp;
+                        <apex:outputlink value="{!WorkbookStep.ExportCsvUrl}">Click to Export as CSV</apex:outputlink>&nbsp;&nbsp;&nbsp;
+                        <apex:outputlink value="{!WorkbookStep.ExportJsonUrl}">Click to Export as JSON</apex:outputlink>
+                     </apex:panelgroup>
+                     <apex:panelgroup rendered="{!WorkbookStep.IsFileUploadStep == false && WorkbookStep.IsUrl == false && WorkbookStep.ResponseRecord==null}">
+                        <b>Export Step:</b>&nbsp;&nbsp;&nbsp;
+                        There are currently no responses for this step.
+                     </apex:panelgroup>
+                  </apex:pageblocksection>
+               </apex:repeat>
+            </apex:pageblocksection>
+         </apex:pageblocksection>
+      </apex:pageblock>
+   </apex:form>
+   <script type="text/javascript">
+      //Log Any Messages
+      if ('{!HasPageLoadLogMessages}'.toLowerCase() == 'true') {
+         setTimeout(actionfunction_LogMessages, 500);
+      }
+
+      //Redirect back to workbook record on click of OK button
+      function backToWorkbook() {
+         var id = '{!JSENCODE($CurrentPage.parameters.wbid)}';
+         if((typeof sforce != 'undefined') && sforce && (!!sforce.one)) {
+            sforce.one.navigateToSObject(id);
+         } else {
+            window.top.close();
+         }
+      }
+   </script>
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
 </apex:page>

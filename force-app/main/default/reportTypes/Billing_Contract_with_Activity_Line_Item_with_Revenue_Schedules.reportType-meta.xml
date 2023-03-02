@@ -933,6 +933,24 @@
             <field>Activation_Hold_Reason__c</field>
             <table>Billing_Contract__c.Rev_Rec_BC_Line_Item__r</table>
         </columns>
+<<<<<<< HEAD
+=======
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>Exclude_from_Billing_Migration__c</field>
+            <table>Billing_Contract__c.Rev_Rec_BC_Line_Item__r</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>Include_in_Revenue_Migration__c</field>
+            <table>Billing_Contract__c.Rev_Rec_BC_Line_Item__r</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>Include_in_Suspended_Line_Migration__c</field>
+            <table>Billing_Contract__c.Rev_Rec_BC_Line_Item__r</table>
+        </columns>
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
         <masterLabel>Activity Line Item</masterLabel>
     </sections>
 </ReportType>

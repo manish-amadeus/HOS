@@ -27,7 +27,11 @@ public with sharing class AH_UDC_Archive  {
          AH_UDC_LogHelper.QueueLogs = true;
 
          //Unit Test Force Exception
+<<<<<<< HEAD
          if (AH_UDC_ConfigHelper.GetBoolean('AH_UDC_UnitTestForceArchivePageLoadError', FALSE))
+=======
+         if (AH_UDC_ConfigHelper.GetBoolean('AH_UDC_UnitTestForceArchivePageLoadError', FALSE, true))
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
          {
             throw(new AH_UDC_Shared.UDCException(AH_UDC_Constants.UNIT_TEST_EXCEPTION_PREFIX + 'Workbook Archive Page Load'));
          }
@@ -99,7 +103,11 @@ public with sharing class AH_UDC_Archive  {
          if(Test.isRunningTest() && LogFunctionalArea == 'TestException') throw(new AH_UDC_Shared.UDCException('Exception for test class execution'));
 
          //Unit Test Force Exception
+<<<<<<< HEAD
          if (AH_UDC_ConfigHelper.GetBoolean('AH_UDC_UnitTestForceArchiveError', FALSE))
+=======
+         if (AH_UDC_ConfigHelper.GetBoolean('AH_UDC_UnitTestForceArchiveError', FALSE, true))
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
          {
             throw(new AH_UDC_Shared.UDCException(AH_UDC_Constants.UNIT_TEST_EXCEPTION_PREFIX + 'Workbook Archive'));
          }

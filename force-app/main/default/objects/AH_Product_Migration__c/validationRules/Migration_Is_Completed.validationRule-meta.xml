@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
-    <fullName>Migration_Is_Completed</fullName>
-    <active>true</active>
-    <description>Blocks updates to product migration records that Migration_Complete__c is checked</description>
-    <errorConditionFormula>Migration_Complete__c</errorConditionFormula>
-    <errorMessage>You cannot alter a completed product migration record.</errorMessage>
-</ValidationRule>

@@ -6,11 +6,11 @@ Last Mod Date   : 04/13/2018
 Last Mod By     : Sean Harris
 NICC Reference  : NICC-023514
 Description     : Controller for the AH_PartnerOrderDetail Visualforce page.
-                : 
+: 
 ******************************************************************************************/
-public class AH_PartnerOrderDetailController 
+public without sharing class AH_PartnerOrderDetailController 
 {
-
+    
     public Opportunity opp {get; set;}
     public List<oppDetails> lstOppDetails {get; set;} 
     public List<oppLineItemDetails> lstOppLineItemDetails {get; set;}  
@@ -28,7 +28,7 @@ public class AH_PartnerOrderDetailController
     // CONSTRUCTOR
     public AH_PartnerOrderDetailController() 
     {
-
+        
         currentUSDPriceBookName = null;  
         isNotParterUser = false;
         
@@ -54,7 +54,7 @@ public class AH_PartnerOrderDetailController
             OppId = ApexPages.currentPage().getParameters().get('OppId'); 
             setOpp(); 
         }
-
+        
         // INIT CUSTOM SETTINGS LIST
         lstCSPartnerChannel = NI_Partner_Channel_Order__c.getAll().values();
         
@@ -65,14 +65,14 @@ public class AH_PartnerOrderDetailController
                 currentUSDPriceBookName = cs.CurrentUSDPriceBook__c;
             }
         }
-
+        
         
     }
-
+    
     private void setOpp()
     {
-system.debug(' **** ENTERING setOpp()');  
-system.debug(' **** partnerUser.Id = ' + partnerUser.Id + ', partnerUser.AccountId = ' + partnerUser.AccountId + ', OppId = ' + OppId);        
+        system.debug(' **** ENTERING setOpp()');  
+        system.debug(' **** partnerUser.Id = ' + partnerUser.Id + ', partnerUser.AccountId = ' + partnerUser.AccountId + ', OppId = ' + OppId);        
         opp = [SELECT                
                Opportunity.Name,
                Opportunity.Id,
@@ -103,11 +103,11 @@ system.debug(' **** partnerUser.Id = ' + partnerUser.Id + ', partnerUser.Account
                FROM Opportunity 
                WHERE Id =: OppId];
         
-system.debug(' **** setOpp(): 1st Query returned a record.');          
+        system.debug(' **** setOpp(): 1st Query returned a record.');          
         setOppLineItems();      
         setContactRoles();
         setOrderDate();
-
+        
         if (opp != null)
         {
             
@@ -169,9 +169,9 @@ system.debug(' **** setOpp(): 1st Query returned a record.');
             );
             lstOppDetails.Add(o);
         }
-
+        
     }
-
+    
     private void setOppLineItems()
     {
         if (Opp != null)
@@ -180,20 +180,20 @@ system.debug(' **** setOpp(): 1st Query returned a record.');
             for (OpportunityLineItem ol : oppLineItems)
             {                
                 //get the name of this pricebook and see if it is different                
-system.debug('pb name ' + ol.PricebookEntry.PriceBook2.Name );
+                system.debug('pb name ' + ol.PricebookEntry.PriceBook2.Name );
                 if (ol.PricebookEntry.PriceBook2.Name != currentUSDPriceBookName)
                 {
                     //Check for discount
                     decimal discountValue = ol.PriceBookEntry.UNitPrice - ol.UnitPrice ;
-
+                    
                     PriceBookEntry usdpb = null;
                     
-system.debug( 'ol product code ' + ol.PricebookEntry.ProductCode );
+                    system.debug( 'ol product code ' + ol.PricebookEntry.ProductCode );
                     usdpb = getPricebookEntry(ol.PricebookEntry.ProductCode);
                     
                     if (usdpb != null)
                     {
-system.debug('usdpb price ' + usdpb.UnitPrice );
+                        system.debug('usdpb price ' + usdpb.UnitPrice );
                         
                         ol.UnitPrice = usdpb.UnitPrice;
                         Decimal totalPriceUsd = usdpb.UnitPrice * ol.Quantity;
@@ -209,7 +209,7 @@ system.debug('usdpb price ' + usdpb.UnitPrice );
                 }
             }
         }
-
+        
         if (oppLineItems.size() > 0)
         {
             lstOppLineItemDetails = new List<oppLineItemDetails>();
@@ -225,7 +225,7 @@ system.debug('usdpb price ' + usdpb.UnitPrice );
             }
         }
     }
-
+    
     private void setContactRoles()
     {
         for (OpportunityContactRole ocr : Opp.OpportunityContactRoles)
@@ -234,12 +234,12 @@ system.debug('usdpb price ' + usdpb.UnitPrice );
             {
                 ShipTo = ocr;
             }
-
+            
             if (ocr.Role == 'Customer Project Contact')
             {
                 ProjectContact = ocr;
             }
-                
+            
         }
     }    
     
@@ -268,7 +268,7 @@ system.debug('usdpb price ' + usdpb.UnitPrice );
         {
             projectOwnerName = projects[0].Owner.Name;
         }
-
+        
         return projectOwnerName;
         
     }    
@@ -321,7 +321,7 @@ system.debug('usdpb price ' + usdpb.UnitPrice );
         public String ClientServicesTitle {get; set;}	// ProjectContact.Contact.Title
         public String ClientServicesEmail {get; set;}	// ProjectContact.Contact.Email
         public String ClientServicesPhone {get; set;}	// ProjectContact.Contact.Phone
-
+        
         public oppDetails (
             String OpportunityId, 
             String OpportunityNumber, 
@@ -384,7 +384,7 @@ system.debug('usdpb price ' + usdpb.UnitPrice );
         }
         
     }  
-
+    
     public class oppLineItemDetails
     {    
         
@@ -410,5 +410,5 @@ system.debug('usdpb price ' + usdpb.UnitPrice );
         }
         
     }   
-   
+    
 }

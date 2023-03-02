@@ -13,7 +13,11 @@ global class AH_UDC_DataMaintenanceResponse_Batch implements Database.Batchable<
 
    }
    global database.querylocator start(database.BatchableContext bc) {
+<<<<<<< HEAD
       AH_UDC_LogHelper.Log(AH_UDC_LogHelper.LogLevel_MESSAGE, 'AH_UDC_DataMaintenanceResponse_Batch', 'start', 'DataMaintenance response deletion Job started', null, null, null);
+=======
+      AH_UDC_LogHelper.Log(AH_UDC_LogHelper.LogLevel_MESSAGE, 'AH_UDC_DataMaintenanceResponse_Batch', 'start', 'Data Maintenance Response Job: Started', null, null, null);
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
       return database.getQueryLocator('SELECT Id FROM AH_UDC_Response__c');      
    }
    global void execute(database.BatchableContext bc, list<AH_UDC_Response__c> lstResponses) {
@@ -42,7 +46,11 @@ global class AH_UDC_DataMaintenanceResponse_Batch implements Database.Batchable<
          {
             delete lstResponsesToDelete;
             database.emptyRecycleBin(lstResponsesToDelete);
+<<<<<<< HEAD
             String strDelete = 'Data Maintenance Responses : Total deleted responses ' + lstResponsesToDelete.size();
+=======
+            String strDelete = 'Data Maintenance Response Job: Total deleted responses ' + lstResponsesToDelete.size();
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
             AH_UDC_LogHelper.Log(AH_UDC_LogHelper.LogLevel_TRACE, 'AH_UDC_DataMaintenanceResponse_Batch', 'execute', strDelete, null, null, null);
          }
       }
@@ -58,7 +66,11 @@ global class AH_UDC_DataMaintenanceResponse_Batch implements Database.Batchable<
       AsyncApexJob a = [SELECT Id, Status, NumberOfErrors, JobItemsProcessed, TotalJobItems, CreatedBy.Email
                         FROM AsyncApexJob
                         WHERE Id = :bc.getJobId()];
+<<<<<<< HEAD
       String strStatusMessage = 'Data Maintenance Response Batch Status : ' + a.Status + '. The batch Apex job processed ' + a.TotalJobItems + ' batches with ' + a.NumberOfErrors + ' failures.';
+=======
+      String strStatusMessage = 'Data Maintenance Response Job Status: ' + a.Status + '. The batch Apex job processed ' + a.TotalJobItems + ' batches with ' + a.NumberOfErrors + ' failures.';
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
       AH_UDC_LogHelper.Log(AH_UDC_LogHelper.LogLevel_MESSAGE, 'AH_UDC_DataMaintenanceResponse_Batch', 'finish', strStatusMessage, null, null, null);
    }   
 }

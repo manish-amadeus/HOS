@@ -119,11 +119,11 @@ public with sharing class FillAccount
     private void login() 
     {   
         // ADDED 7/16/2013 ====================================================================================
-        string sEndPoint = 'https://login.salesforce.com/services/Soap/u/26.0'; 
+        string sEndPoint = 'https://login.salesforce.com/services/Soap/u/54.0'; 
         
         if (account.Org_Type__c.Contains('Salesforce Sandbox'))
         {   
-            sEndPoint = 'https://test.salesforce.com/services/Soap/u/26.0'; 
+            sEndPoint = 'https://test.salesforce.com/services/Soap/u/54.0'; 
         }
 
         PartnerRemote.Soap soap = new PartnerRemote.Soap();

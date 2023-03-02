@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <apex:component >
    <apex:attribute name="workbook" description="Current Workbook" type="AH_UDC_CommunityWorkbook" required="true" />
    <style type="text/css">
@@ -85,4 +86,93 @@
          <apex:outputtext value="{!Workbook.StartVideo}" escape="false" />
       </p>
    </apex:outputpanel>
+=======
+<apex:component >
+   <apex:attribute name="workbook" description="Current Workbook" type="AH_UDC_CommunityWorkbook" required="true" />
+   <style type="text/css">
+      .slds-truncate {
+         white-space: initial !important;
+      }
+
+      .slds-input {
+         margin-top: -4px !important;
+      }
+
+      .lbl-input {
+         display: inline-block;
+         margin-top: 5px;
+      }
+
+      .startMessage {
+      }
+
+      .startVideo {
+         width: 640px !important;
+         height: 360px !important;
+         border: 0;
+      }
+
+      .sampleChat {
+         background-color: var(--primary-color);
+         border-radius: .175rem;
+         color: white;
+         margin: .50em;
+         padding: .5em;
+         font-size: .6em;
+         position: relative;
+         top: -5px;
+      }
+
+      .tdSpacer {
+         width: 3px;
+      }
+
+      .tdLabel {
+         width: 150px;
+      }
+   </style>
+   <apex:outputpanel rendered="{!workbook.ProjectName!=''}">
+      <table>
+         <tr>
+            <td class="tdLabel"><label><b>{!$Label.AH_UDC_ViewWorkbook_Start_Project_Name}</b></label></td>
+            <td class="tdSpacer"></td>
+            <td>
+               <label>
+                  <apex:outputtext value="{!workbook.ProjectName}" />
+               </label>
+            </td>
+         </tr>
+         <tr style="display:{!IF(workbook.ProjectContact!='','','none')}">
+            <td class="tdLabel"><label><b>{!$Label.AH_UDC_ViewWorkbook_Start_Project_Manager_Name}</b></label></td>
+            <td class="tdSpacer"></td>
+            <td>
+               <label>
+                  <apex:outputtext value="{!workbook.ProjectContact}" />
+               </label>
+            </td>
+         </tr>
+      </table>
+   </apex:outputpanel>
+   <apex:outputpanel rendered="{!workbook.dueDate!=null}">
+      <table>
+         <tr>
+            <td class="tdLabel"><label for="Workbook-Due-Date-input"><b>{!$Label.AH_UDC_Start_Label_Due_Date}</b></label></td>
+            <td class="tdSpacer"></td>
+            <td>
+               <label id="Workbook-Due-Date-input">
+                  <apex:outputtext value="{0,date,YYYY-MMM-dd}">
+                     <apex:param value="{!workbook.dueDate}" />
+                  </apex:outputtext>
+               </label>
+            </td>
+         </tr>
+      </table>
+   </apex:outputpanel>
+   <apex:outputpanel id="startPagePanel">
+      <p class="startMessage"><apex:outputtext value="{!$Label.AH_UDC_Start_Message}" escape="false" /></p>
+      <p>
+         <apex:outputtext value="{!Workbook.StartVideo}" escape="false" />
+      </p>
+   </apex:outputpanel>
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
 </apex:component>

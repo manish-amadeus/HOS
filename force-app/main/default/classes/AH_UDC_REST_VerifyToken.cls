@@ -33,6 +33,7 @@ global with sharing class AH_UDC_REST_VerifyToken {
             return;
          }
          //Decrypt token
+<<<<<<< HEAD
          string sEncryptionKey = AH_UDC_ConfigHelper.GetString('AH_UDC_ViewWorkbookTokenEncryptionKey', '');
          if (!String.isEmpty(sEncryptionKey) && AH_UDC_ConfigHelper.GetBoolean('AH_UDC_ViewWorkbookTokenEncryption', true)) {
             Blob key = EncodingUtil.base64Decode(sEncryptionKey);
@@ -53,6 +54,17 @@ global with sharing class AH_UDC_REST_VerifyToken {
          string SecurityCode = (tokenParts[0].toUpperCase() == 'NULL'?null:tokenParts[0]);
          String FormId = (tokenParts[2].toUpperCase() == 'NULL'?null:tokenParts[2]);
          
+=======
+         AH_UDC_Shared.Token decryptedToken = AH_UDC_Shared.DecryptToken(token);
+  
+         if (!decryptedToken.IsValid) {
+            resp.statusCode = '400';
+            resp.statusMessage = 'Token Not Valid';
+            RestContext.response.responseBody = Blob.valueOf(resp.compileResponse());
+            return;
+         }
+
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
          //Check that SecurityCode And FormId are for a valid step
          List<AH_UDC_WorkbookStep__c> stepsSent = [select Id, Name,
                                                    Workbook__c, 
@@ -62,17 +74,28 @@ global with sharing class AH_UDC_REST_VerifyToken {
                                                    Workbook__r.RelatedTo__r.AH_UDC_PropertyAccount__c,
                                                    Form__c, Form__r.RecordType.DeveloperName 
                                                    from AH_UDC_WorkbookStep__c
+<<<<<<< HEAD
                                                    where Workbook__r.SecurityCode__c = :SecurityCode
                                                    and Enabled__c = true
                                                    order by SortOrder__c];
          boolean FoundTokenForm = FormId == null || String.isEmpty(FormId);
+=======
+                                                   where Workbook__r.SecurityCode__c = :decryptedToken.SecurityCode
+                                                   and Enabled__c = true
+                                                   order by SortOrder__c];
+         boolean FoundTokenForm = decryptedToken.FormId == null || String.isEmpty(decryptedToken.FormId);
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
          //Add step ids to response
          for(AH_UDC_WorkbookStep__c step : stepsSent)
          {
             Step addStep = new Step(step.id, step.name, null);
             if (step.Form__c != null) addStep.FormType = step.Form__r.RecordType.DeveloperName;
             resp.steps.add(addStep);
+<<<<<<< HEAD
             if (String.isNotEmpty(FormId) && step.Form__c!=null && step.Form__c == FormId) FoundTokenForm = true;
+=======
+            if (String.isNotEmpty(decryptedToken.FormId) && step.Form__c!=null && step.Form__c == decryptedToken.FormId) FoundTokenForm = true;
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
          }
          
          if (stepsSent == null || stepsSent.size() == 0 || !FoundTokenForm) {
@@ -84,7 +107,11 @@ global with sharing class AH_UDC_REST_VerifyToken {
          
          //Get configuration settings for File Upload
          resp.allowedFileUploadExtensions = AH_UDC_ConfigHelper.GetString('AH_UDC_FileUploadAllowedExtensions','');
+<<<<<<< HEAD
          resp.maximumFileUploadSizeInMB = AH_UDC_ConfigHelper.GetInteger('AH_UDC_FileUploadMaximumSizeInMB',35);
+=======
+         resp.maximumFileUploadSizeInMB = AH_UDC_ConfigHelper.GetString('AH_UDC_FileUploadMaximumSizeInMB',AH_UDC_Constants.FILE_UPLOAD_MAXIMUM_SIZE_IN_MB_DEFAULT);
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
 
          resp.statusCode = '200';
          resp.statusMessage = 'Ok';
@@ -93,6 +120,10 @@ global with sharing class AH_UDC_REST_VerifyToken {
          resp.workbookStatus = stepsSent[0].Workbook__r.SentStatus__c;
          resp.DocumentId = stepsSent[0].Workbook__r.RelatedTo__r.Id;
          resp.documentName = stepsSent[0].Workbook__r.RelatedTo__r.Document_Name__c;
+<<<<<<< HEAD
+=======
+         resp.StepId = decryptedToken.StepId;
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
          resp.PropertyAccountId = stepsSent[0].Workbook__r.RelatedTo__r.AH_UDC_PropertyAccount__c;
 
          RestContext.response.responseBody = Blob.valueOf(resp.compileResponse());
@@ -127,12 +158,20 @@ global with sharing class AH_UDC_REST_VerifyToken {
       public String statusMessage;
       public String workbookId;
       public String documentId;
+<<<<<<< HEAD
+=======
+      public String stepId;
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
       public String documentName;
       public String workbookStatus;
       public String propertyAccountId;
 
       public String allowedFileUploadExtensions;
+<<<<<<< HEAD
       public Integer maximumFileUploadSizeInMB;
+=======
+      public String maximumFileUploadSizeInMB;
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
 
       public List<Step> steps;
 

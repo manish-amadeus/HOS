@@ -8,6 +8,7 @@
                     <name>actionNames</name>
                     <valueList>
                         <valueListItems>
+<<<<<<< HEAD
                             <value>agf__ADM_Work__c.EditWorkCBS</value>
                             <visibilityRule>
                                 <booleanFilter>4 and 2 and (1 or 3 or 5)</booleanFilter>
@@ -130,6 +131,15 @@
                                     <rightValue>SLTC Hospitality Transformation</rightValue>
                                 </criteria>
                             </visibilityRule>
+=======
+                            <value>Edit</value>
+                        </valueListItems>
+                        <valueListItems>
+                            <value>Delete</value>
+                        </valueListItems>
+                        <valueListItems>
+                            <value>ChangeRecordType</value>
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
                         </valueListItems>
                         <valueListItems>
                             <value>Clone</value>
@@ -138,6 +148,7 @@
                             <value>ChangeOwnerOne</value>
                         </valueListItems>
                         <valueListItems>
+<<<<<<< HEAD
                             <value>ChangeRecordType</value>
                         </valueListItems>
                         <valueListItems>
@@ -145,6 +156,12 @@
                         </valueListItems>
                         <valueListItems>
                             <value>CustomButton.agf__ADM_Work__c.agf__Deep_Clone</value>
+=======
+                            <value>CustomButton.agf__ADM_Work__c.agf__Deep_Clone</value>
+                        </valueListItems>
+                        <valueListItems>
+                            <value>Submit</value>
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
                         </valueListItems>
                     </valueList>
                 </componentInstanceProperties>
@@ -166,7 +183,11 @@
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>numVisibleActions</name>
+<<<<<<< HEAD
                     <value>5</value>
+=======
+                    <value>10</value>
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
                 </componentInstanceProperties>
                 <componentName>force:highlightsPanel</componentName>
                 <identifier>force_highlightsPanel</identifier>
@@ -194,6 +215,16 @@
                 </fieldInstanceProperties>
                 <fieldItem>Record.agf__Details__c</fieldItem>
                 <identifier>Recordagf_Details_cField1</identifier>
+<<<<<<< HEAD
+=======
+                <visibilityRule>
+                    <criteria>
+                        <leftValue>{!Record.RecordType.DeveloperName}</leftValue>
+                        <operator>EQUAL</operator>
+                        <rightValue>User_Story</rightValue>
+                    </criteria>
+                </visibilityRule>
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
             </fieldInstance>
         </itemInstances>
         <itemInstances>
@@ -245,30 +276,51 @@
             <fieldInstance>
                 <fieldInstanceProperties>
                     <name>uiBehavior</name>
+<<<<<<< HEAD
                     <value>none</value>
                 </fieldInstanceProperties>
                 <fieldItem>Record.agf__Product_Tag__c</fieldItem>
                 <identifier>Recordagf_Product_Tag_cField1</identifier>
+=======
+                    <value>required</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.AH_Team__c</fieldItem>
+                <identifier>RecordAH_Team_cField</identifier>
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
             </fieldInstance>
         </itemInstances>
         <itemInstances>
             <fieldInstance>
                 <fieldInstanceProperties>
                     <name>uiBehavior</name>
+<<<<<<< HEAD
                     <value>none</value>
                 </fieldInstanceProperties>
                 <fieldItem>Record.agf__Scrum_Team__c</fieldItem>
                 <identifier>Recordagf_Scrum_Team_cField1</identifier>
+=======
+                    <value>required</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.agf__Status__c</fieldItem>
+                <identifier>Recordagf_Status_cField1</identifier>
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
             </fieldInstance>
         </itemInstances>
         <itemInstances>
             <fieldInstance>
                 <fieldInstanceProperties>
                     <name>uiBehavior</name>
+<<<<<<< HEAD
                     <value>none</value>
                 </fieldInstanceProperties>
                 <fieldItem>Record.agf__Status__c</fieldItem>
                 <identifier>Recordagf_Status_cField1</identifier>
+=======
+                    <value>required</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.agf__Product_Tag__c</fieldItem>
+                <identifier>Recordagf_Product_Tag_cField1</identifier>
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
             </fieldInstance>
         </itemInstances>
         <itemInstances>
@@ -380,6 +432,7 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
+<<<<<<< HEAD
                 <fieldItem>Record.agf__Frequency__c</fieldItem>
                 <identifier>Recordagf_Frequency_cField1</identifier>
                 <visibilityRule>
@@ -389,6 +442,10 @@
                         <rightValue>SLTC Hospitality Transformation</rightValue>
                     </criteria>
                 </visibilityRule>
+=======
+                <fieldItem>Record.agf__Priority__c</fieldItem>
+                <identifier>Recordagf_Priority_cField2</identifier>
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
             </fieldInstance>
         </itemInstances>
         <itemInstances>
@@ -397,12 +454,21 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
+<<<<<<< HEAD
                 <fieldItem>Record.agf__Impact__c</fieldItem>
                 <identifier>Recordagf_Impact_cField1</identifier>
                 <visibilityRule>
                     <criteria>
                         <leftValue>{!Record.agf__Scrum_Team__r.Name}</leftValue>
                         <operator>NE</operator>
+=======
+                <fieldItem>Record.AH_Category__c</fieldItem>
+                <identifier>RecordAH_Category_cField</identifier>
+                <visibilityRule>
+                    <criteria>
+                        <leftValue>{!Record.agf__Scrum_Team__r.Name}</leftValue>
+                        <operator>EQUAL</operator>
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
                         <rightValue>SLTC Hospitality Transformation</rightValue>
                     </criteria>
                 </visibilityRule>
@@ -418,8 +484,20 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
+<<<<<<< HEAD
                 <fieldItem>Record.agf__Priority__c</fieldItem>
                 <identifier>Recordagf_Priority_cField2</identifier>
+=======
+                <fieldItem>Record.agf__Frequency__c</fieldItem>
+                <identifier>Recordagf_Frequency_cField1</identifier>
+                <visibilityRule>
+                    <criteria>
+                        <leftValue>{!Record.agf__Scrum_Team__r.Name}</leftValue>
+                        <operator>NE</operator>
+                        <rightValue>SLTC Hospitality Transformation</rightValue>
+                    </criteria>
+                </visibilityRule>
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
             </fieldInstance>
         </itemInstances>
         <itemInstances>
@@ -428,12 +506,21 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
+<<<<<<< HEAD
                 <fieldItem>Record.AH_Category__c</fieldItem>
                 <identifier>RecordAH_Category_cField</identifier>
                 <visibilityRule>
                     <criteria>
                         <leftValue>{!Record.agf__Scrum_Team__r.Name}</leftValue>
                         <operator>EQUAL</operator>
+=======
+                <fieldItem>Record.agf__Impact__c</fieldItem>
+                <identifier>Recordagf_Impact_cField1</identifier>
+                <visibilityRule>
+                    <criteria>
+                        <leftValue>{!Record.agf__Scrum_Team__r.Name}</leftValue>
+                        <operator>NE</operator>
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
                         <rightValue>SLTC Hospitality Transformation</rightValue>
                     </criteria>
                 </visibilityRule>
@@ -658,6 +745,29 @@
         <type>Facet</type>
     </flexiPageRegions>
     <flexiPageRegions>
+<<<<<<< HEAD
+=======
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.AH_Theme_One__c</fieldItem>
+                <identifier>RecordAH_Theme_One_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.AH_Theme_Two__c</fieldItem>
+                <identifier>RecordAH_Theme_Two_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
         <name>Facet-1b170c0f-32b4-4d27-9be9-d55d0f947122</name>
         <type>Facet</type>
     </flexiPageRegions>
@@ -814,6 +924,19 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
+<<<<<<< HEAD
+=======
+                <fieldItem>Record.agf__Scrum_Team__c</fieldItem>
+                <identifier>Recordagf_Scrum_Team_cField1</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
                 <fieldItem>Record.agf__Closed_On__c</fieldItem>
                 <identifier>Recordagf_Closed_On_cField</identifier>
                 <visibilityRule>
@@ -966,6 +1089,7 @@
                 </componentInstanceProperties>
                 <componentName>flexipage:fieldSection</componentName>
                 <identifier>flexipage_fieldSection6</identifier>
+<<<<<<< HEAD
                 <visibilityRule>
                     <booleanFilter>1 OR 2 OR 3</booleanFilter>
                     <criteria>
@@ -984,6 +1108,8 @@
                         <rightValue>Technical</rightValue>
                     </criteria>
                 </visibilityRule>
+=======
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
             </componentInstance>
         </itemInstances>
         <itemInstances>
@@ -1076,6 +1202,13 @@
     <flexiPageRegions>
         <itemInstances>
             <componentInstance>
+<<<<<<< HEAD
+=======
+                <componentInstanceProperties>
+                    <name>showLegacyActivityComposer</name>
+                    <value>false</value>
+                </componentInstanceProperties>
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
                 <componentName>runtime_sales_activities:activityPanel</componentName>
                 <identifier>runtime_sales_activities_activityPanel1</identifier>
             </componentInstance>
@@ -1629,7 +1762,11 @@
         <name>main</name>
         <type>Region</type>
     </flexiPageRegions>
+<<<<<<< HEAD
     <masterLabel>CBS Work Record Page</masterLabel>
+=======
+    <masterLabel>DTS Work Record Page</masterLabel>
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
     <sobjectType>agf__ADM_Work__c</sobjectType>
     <template>
         <name>flexipage:recordHomeSingleColTemplateDesktop</name>

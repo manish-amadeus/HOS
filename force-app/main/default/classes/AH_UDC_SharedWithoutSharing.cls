@@ -11,6 +11,10 @@ public without sharing class AH_UDC_SharedWithoutSharing {
    //This message attaches chatter to the NI_Documentation__c object with a @ Mention to the owner of the record
    public enum CreateChatterMessageType { WorkbookAccessed, WorkbookComplete, WorkbookStepComplete }
 
+<<<<<<< HEAD
+=======
+   //This method is called by a CommunityUser to create chatter on the NI Documenation object
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
    public static Boolean CreateChatter(String NIDocumentationId, ID WorkbookStepSentId, CreateChatterMessageType messageType) {
       try {
          //AH_UDC_LogHelper.Debug('CreateChatter');
@@ -76,11 +80,36 @@ public without sharing class AH_UDC_SharedWithoutSharing {
          AH_UDC_LogHelper.Debug('Chatter: Post Request');
          httpResp = h1.send(req1);
          Integer httpStatus = httpResp.getStatusCode();
+<<<<<<< HEAD
          AH_UDC_LogHelper.Log(AH_UDC_LogHelper.LogLevel_TRACE,'AH_UDC_SharedWithoutSharing','CreateChatter','Trace Response: ' + httpResp.getbody(),null,null,null);
          string sResp = httpResp.getbody().replace('\\','');
          if(sResp.left(1)=='"') sResp = sResp.substring(1,sResp.length()-1);
          resp = (AH_UDC_REST_Chatter.ChatterResponse) JSON.deserialize(sResp, AH_UDC_REST_Chatter.ChatterResponse.class);
          
+=======
+         AH_UDC_LogHelper.Log(AH_UDC_LogHelper.LogLevel_TRACE, 'AH_UDC_SharedWithoutSharing', 'CreateChatter', 'Trace Response: ' + httpResp.getbody(), null, null, null);
+
+         string sResp = httpResp.getbody();
+         if (sResp.left(1) == '"') sResp = sResp.substring(1, sResp.length() - 1);
+         if (sResp.startsWith('{\\"')) sResp = sResp.replace('\\"', '"');
+         AH_UDC_LogHelper.Debug('AH_UDC_SharedWithoutSharing.CreateChatter: Deserializing ChatterResponse: ' + sResp);
+         try {
+            if (sResp.left(1) == '"') sResp = sResp.substring(1, sResp.length() - 1);
+            resp = (AH_UDC_REST_Chatter.ChatterResponse) JSON.deserialize(sResp, AH_UDC_REST_Chatter.ChatterResponse.class);
+         }
+         catch(exception exc) {
+            AH_UDC_LogHelper.Debug('AH_UDC_SharedWithoutSharing.CreateChatter: Exception: ' + exc);
+            AH_UDC_LogHelper.Log(AH_UDC_LogHelper.LogLevel_EXC,
+                                 'AH_UDC_SharedWithoutSharing', 'CreateChatter',
+                                 'ChatterResponse Exception: ' + exc.getMessage() + ' at line number ' + exc.getLineNumber(),
+                                 exc, NIDocumentationId, 'NI_Documentation__c');
+            AH_UDC_LogHelper.Log(AH_UDC_LogHelper.LogLevel_AUDIT,
+                                 'AH_UDC_SharedWithoutSharing', 'CreateChatter',
+                                 'Invalid ChatterResponse: ' + sResp,
+                                 exc, NIDocumentationId, 'NI_Documentation__c');
+            return false;
+         }
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
          if (httpStatus == 200) {
             String msg = + resp.Message + ' Code: ' + resp.StatusCode;
             AH_UDC_LogHelper.Debug('Chatter: ' + msg);
@@ -89,7 +118,11 @@ public without sharing class AH_UDC_SharedWithoutSharing {
                return false;
             }
          } else {
+<<<<<<< HEAD
             AH_UDC_LogHelper.Log(AH_UDC_LogHelper.LogLevel_ERROR, 'AH_UDC_SharedWithoutSharing', 'CreateChatter', 'Unknown HTTP Status when calling endpoint: ' + String.valueOf(resp.StatusCode),null, UserInfo.getUserId(), 'User');
+=======
+            AH_UDC_LogHelper.Log(AH_UDC_LogHelper.LogLevel_ERROR, 'AH_UDC_SharedWithoutSharing', 'CreateChatter', 'Unknown HTTP Status when calling endpoint: ' + String.valueOf(resp.StatusCode), null, UserInfo.getUserId(), 'User');
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
             return false;
          }
 
@@ -100,7 +133,11 @@ public without sharing class AH_UDC_SharedWithoutSharing {
          AH_UDC_LogHelper.Debug('CreateChatter: Exception: ' + exc);
          AH_UDC_LogHelper.Log(AH_UDC_LogHelper.LogLevel_EXC,
                               'AH_UDC_SharedWithoutSharing', 'CreateChatter',
+<<<<<<< HEAD
                               'Unhandled Exception: ' + exc.getMessage(),
+=======
+                              'Unhandled Exception: ' + exc.getMessage() + ' at line number ' + exc.getLineNumber(),
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
                               exc, NIDocumentationId, 'NI_Documentation__c');
          return false;
       }
@@ -185,16 +222,7 @@ public without sharing class AH_UDC_SharedWithoutSharing {
             //This is not an error if the field is not found
 
             //Generate Token
-            string token = wbStep.getSobject('Workbook__r').get('SecurityCode__c') + '_' + UserInfo.getUserId() + '_' + wbStep.getSobject('Form__r').get('Id');
-            //Encrypt token
-            string sEncryptionKey = AH_UDC_ConfigHelper.GetString('AH_UDC_ViewWorkbookTokenEncryptionKey', '');
-            if (!String.isEmpty(sEncryptionKey) && AH_UDC_ConfigHelper.GetBoolean('AH_UDC_ViewWorkbookTokenEncryption', true)) {
-               Blob key = EncodingUtil.base64Decode(sEncryptionKey);
-               Blob data = Blob.valueOf(token);
-               Blob encryptedData = Crypto.encryptWithManagedIV('AES256', key, data);
-               token = EncodingUtil.base64Encode(encryptedData).replace('/', '_2f_').replace('+', '_2b_'); //Base64 has 2 special characters / + that are not compatible with a URL ID
-            }
-            token = AH_UDC_Constants.FORM_TOKEN_PREFIX + token;
+            string token = AH_UDC_Shared.CreateStepToken(wbStep.Workbook__r.SecurityCode__c, wbStep.Form__c, wbStep.Id);
 
             //Build Base URL with required attributes
             workbookStepSentUrl = wbStep.Form__r.URL__c;
@@ -213,7 +241,11 @@ public without sharing class AH_UDC_SharedWithoutSharing {
             }
 
             //Find the most recent response
+<<<<<<< HEAD
             Id propertyAccount = (Id) wbStep.getSobject('Workbook__r').getSobject('RelatedTo__r').get('AH_UDC_PropertyAccount__c');
+=======
+            //TODO: ROBDEV : Id propertyAccount = (Id) wbStep.getSobject('Workbook__r').getSobject('RelatedTo__r').get('AH_UDC_PropertyAccount__c');
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
             List<AH_UDC_WorkbookStepResponse__c> wbsResponses = [SELECT Response__c
                                                                  FROM AH_UDC_WorkbookStepResponse__c
                                                                  WHERE IsMostRecentResponse__c = true
@@ -308,7 +340,11 @@ public without sharing class AH_UDC_SharedWithoutSharing {
          AH_UDC_LogHelper.Debug('AH_UDC_SharedWithoutSharing.GetWorkbookStepSentUrls: Exception: ' + exc.getMessage() + ' at line number ' + exc.getLineNumber());
          AH_UDC_LogHelper.Log(AH_UDC_LogHelper.LogLevel_EXC,
                               'AH_UDC_SharedWithoutSharing', 'GetWorkbookStepSentUrls',
+<<<<<<< HEAD
                               'Unhandled Exception: ' + exc.getMessage(),
+=======
+                              'Unhandled Exception: ' + exc.getMessage() + ' at line number ' + exc.getLineNumber(),
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
                               exc, null, null);
          return null;
       }
@@ -318,11 +354,19 @@ public without sharing class AH_UDC_SharedWithoutSharing {
       try {
          AH_UDC_LogHelper.Debug('SetupCommunityAccess : AH_UDC_CreateCommunityUserEnabled : ' + AH_UDC_ConfigHelper.GetBoolean('AH_UDC_CreateCommunityUserEnabled', true));
          if (!AH_UDC_ConfigHelper.GetBoolean('AH_UDC_CreateCommunityUserEnabled', true)) { return true; } //If it's creating community users is not enabled return true;
+<<<<<<< HEAD
 
          if (Test.isRunningTest() && ContactId == 'TestException') { Integer i = 1 / 0; }
 
          //Unit Test Force Exception
          if (AH_UDC_ConfigHelper.GetBoolean('AH_UDC_ChangeCommunityUserProfile',FALSE)) { throw(new AH_UDC_Shared.UDCException(AH_UDC_Constants.UNIT_TEST_EXCEPTION_PREFIX + 'SetupCommunityAccess')); }
+=======
+
+         if (Test.isRunningTest() && ContactId == 'TestException') { Integer i = 1 / 0; }
+
+         //Unit Test Force Exception
+         if (AH_UDC_ConfigHelper.GetBoolean('AH_UDC_UnitTestChangeCommunityUserProfile', FALSE, true)) { throw(new AH_UDC_Shared.UDCException(AH_UDC_Constants.UNIT_TEST_EXCEPTION_PREFIX + 'SetupCommunityAccess')); }
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
 
          //This is the Community User Post Fix that all users of the community get in their username
          string CommunityUserNamePostFix = AH_UDC_ConfigHelper.GetString('AH_UDC_CommunityUserNamePostFix',
@@ -334,13 +378,24 @@ public without sharing class AH_UDC_SharedWithoutSharing {
          AH_UDC_LogHelper.Debug('SetupCommunityAccess : oProfile : ' + oProfile);
          if (oProfile == null) {
             AH_UDC_LogHelper.Debug('SetupCommunityAccess : Community Profile didn\'t exist');
+<<<<<<< HEAD
             AH_UDC_LogHelper.Log(AH_UDC_LogHelper.LogLevel_ERROR,'AH_UDC_SharedWithoutSharing', 'SetupCommunityAccess','Profile not found: ' + AH_UDC_Constants.PROFILE_DEFAULT_NAME_COMMUNITY_PLUS_LOGIN_WITHOUT_CHATTER, null, null, null);
+=======
+            AH_UDC_LogHelper.Log(AH_UDC_LogHelper.LogLevel_ERROR, 'AH_UDC_SharedWithoutSharing', 'SetupCommunityAccess', 'Profile not found: ' + AH_UDC_Constants.PROFILE_DEFAULT_NAME_COMMUNITY_PLUS_LOGIN_WITHOUT_CHATTER, null, null, null);
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
             return false;
          }
 
          //Verify Contact is Valid
          List<Contact> contacts = [SELECT Id, Account.Owner.UserRoleid, LastName, FirstName, email FROM contact WHERE Id = :ContactId];
+<<<<<<< HEAD
          if (contacts.size() != 1) { return false; } //Contact not found
+=======
+         if (contacts.size() != 1) {
+            AH_UDC_LogHelper.Debug('Contact ID Not Found: ' + ContactId);
+            return false;
+         } //Contact not found
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
 
          AH_UDC_LogHelper.Debug('SetupCommunityAccess : contacts[0].getSObject(\'Account\') :' + contacts[0].getSObject('Account'));
          AH_UDC_LogHelper.Debug('SetupCommunityAccess : contacts[0].getSObject(\'Account\').getSObject(\'Owner\') :' + contacts[0].getSObject('Account').getSObject('Owner'));
@@ -348,8 +403,13 @@ public without sharing class AH_UDC_SharedWithoutSharing {
          //Verify Contact has role
          if (contacts[0].getSObject('Account') == null ||
              contacts[0].getSObject('Account').getSObject('Owner') == null ||
+<<<<<<< HEAD
              contacts[0].getSObject('Account').getSObject('Owner').get('UserRoleid') == null) 
              return false; //Contact does not have role cannot add user
+=======
+             contacts[0].getSObject('Account').getSObject('Owner').get('UserRoleid') == null)
+         return false; //Contact does not have role cannot add user
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
 
          AH_UDC_LogHelper.Debug('SetupCommunityAccess : contacts[0].Email :' + contacts[0].Email);
          //Verify Contact has email
@@ -360,6 +420,11 @@ public without sharing class AH_UDC_SharedWithoutSharing {
          AH_UDC_LogHelper.Debug('SetupCommunityAccess : users.size() :' + users.size());
          //If Contact Doesn't have user create one
          Id targetUserId = null;
+<<<<<<< HEAD
+=======
+         AH_UDC_REST_CreateCommunityUser.CreateCommunityUserRequest ccuRequest = new AH_UDC_REST_CreateCommunityUser.CreateCommunityUserRequest();
+         Boolean hasCommunityUserPermissionSet = false;
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
          if (users.size() == 0) {
             //Determine User Id
             string random = '';
@@ -395,7 +460,11 @@ public without sharing class AH_UDC_SharedWithoutSharing {
             AH_UDC_LogHelper.Debug('SetupCommunityAccess : ValidUserName :' + validUserName);
             if (!validUserName) { return false; } //Could not find a valid user name
 
+<<<<<<< HEAD
             AH_UDC_REST_CreateCommunityUser.CreateCommunityUserRequest ccuRequest = new AH_UDC_REST_CreateCommunityUser.CreateCommunityUserRequest();
+=======
+            ccuRequest = new AH_UDC_REST_CreateCommunityUser.CreateCommunityUserRequest();
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
             ccuRequest.FirstName = contacts[0].FirstName;
             ccuRequest.lastName = contacts[0].LastName;
             ccuRequest.ContactId = contacts[0].Id;
@@ -408,7 +477,20 @@ public without sharing class AH_UDC_SharedWithoutSharing {
             ccuRequest.EmailEncodingKey = 'ISO-8859-1';
             ccuRequest.LanguageLocaleKey = 'en_US';
             ccuRequest.ProfileId = oProfile.Id;
+<<<<<<< HEAD
 
+=======
+         }
+         else {
+            ccuRequest.ExistingUserId = users[0].Id;
+            List<PermissionSet> cuPermissionSets = [SELECT Id FROM PermissionSet Where Name = :AH_UDC_ConfigHelper.GetString('AH_UDC_PermissionSetCommunityUser', AH_UDC_Constants.PERMISSIONSET_DEFAULT_NAME_UDC_COMMUNITY_USER)];
+            if (cuPermissionSets.size() != 0) {
+               List<PermissionSetAssignment> psAssignments = [SELECT Id FROM PermissionSetAssignment WHERE AssigneeId = :users[0].Id and PermissionSetId = :cuPermissionSets[0].id];
+               if (psAssignments.size() >  0) hasCommunityUserPermissionSet = true;
+            }
+         }
+         if(!hasCommunityUserPermissionSet){
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
             //This code performs a callout to a C# API to create the community user
             Http httpCCU = new Http();
             HttpRequest wrCCU = new HttpRequest();
@@ -423,6 +505,7 @@ public without sharing class AH_UDC_SharedWithoutSharing {
             Integer httpStatus = httpRespCCU.getStatusCode();
 
             if (httpStatus == 200) {
+<<<<<<< HEAD
                AH_UDC_LogHelper.Log(AH_UDC_LogHelper.LogLevel_TRACE,'AH_UDC_SharedWithoutSharing','SetupCommunityAccess','Trace Response: ' + httpRespCCU.getbody(),null,null,null);
                string sResp = httpRespCCU.getbody().replace('\\','');
                if(sResp.left(1)=='"') sResp = sResp.substring(1,sResp.length()-1);
@@ -450,13 +533,52 @@ public without sharing class AH_UDC_SharedWithoutSharing {
             AH_UDC_LogHelper.Debug('SetupCommunityAccess : gupsResult :' + gupsResult);
             if (!gupsResult) { return false; } //Adding permisions set failed - do not rollback user if one was created
          }
+=======
+               AH_UDC_LogHelper.Log(AH_UDC_LogHelper.LogLevel_TRACE, 'AH_UDC_SharedWithoutSharing', 'SetupCommunityAccess', 'Trace Response: ' + httpRespCCU.getbody(), null, null, null);
+               string sResp = httpRespCCU.getbody();
+               AH_UDC_LogHelper.Debug('AH_UDC_SharedWithoutSharing.SetupCommunityAccess: Deserializing CreateCommunityUserResponse: ' + sResp);
+               if (sResp.left(1) == '"') sResp = sResp.substring(1, sResp.length() - 1);
+               if (sResp.startsWith('{\\"')) sResp = sResp.replace('\\"', '"');
+               AH_UDC_REST_CreateCommunityUser.CreateCommunityUserResponse respCCU;
+               try {
+                  respCCU = (AH_UDC_REST_CreateCommunityUser.CreateCommunityUserResponse) JSON.deserialize(sResp, AH_UDC_REST_CreateCommunityUser.CreateCommunityUserResponse.class);
+               }
+               catch(Exception exc) {
+                  AH_UDC_LogHelper.Debug('AH_UDC_SharedWithoutSharing.SetupCommunityAccess: Exception: ' + exc);
+                  AH_UDC_LogHelper.Log(AH_UDC_LogHelper.LogLevel_EXC,
+                                       'AH_UDC_SharedWithoutSharing', 'SetupCommunityAccess',
+                                       'Unhandled Exception: ' + exc.getMessage() + ' at line number ' + exc.getLineNumber(),
+                                       exc, ContactId, 'Contact');
+                  AH_UDC_LogHelper.Log(AH_UDC_LogHelper.LogLevel_AUDIT,
+                                       'AH_UDC_SharedWithoutSharing', 'SetupCommunityAccess',
+                                       'Invalid CreateCommunityUserResponse: ' + sResp,
+                                       exc, ContactId, 'Contact');
+                  return false;
+               }
+               String msg = + respCCU.Message + ' Code: ' + respCCU.StatusCode;
+               AH_UDC_LogHelper.Debug('CreateCommunityUser: ' + msg);
+               if (respCCU.StatusCode != '200') {
+                  AH_UDC_LogHelper.Log(AH_UDC_LogHelper.LogLevel_ERROR, 'AH_UDC_SharedWithoutSharing', 'SetupCommunityAccess', 'An error creating Community User:' + msg, null, ccuRequest.ContactId, 'ContactId');
+                  return false;
+               }
+               targetUserId = respCCU.userId;
+            } else {
+               AH_UDC_LogHelper.Log(AH_UDC_LogHelper.LogLevel_ERROR, 'AH_UDC_SharedWithoutSharing', 'SetupCommunityAccess', 'Unknown HTTP Status when calling endpoint: ' + String.valueOf(httpStatus), null, UserInfo.getUserId(), 'User');
+               return false;
+            }
+         }
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
          return true;
       }
       catch(Exception exc) {
          AH_UDC_LogHelper.Debug('AH_UDC_SharedWithoutSharing.SetupCommunityAccess: Exception: ' + exc);
          AH_UDC_LogHelper.Log(AH_UDC_LogHelper.LogLevel_EXC,
                               'AH_UDC_SharedWithoutSharing', 'SetupCommunityAccess',
+<<<<<<< HEAD
                               'Unhandled Exception: ' + exc.getMessage(),
+=======
+                              'Unhandled Exception: ' + exc.getMessage() + ' at line number ' + exc.getLineNumber(),
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
                               exc, ContactId, 'Contact');
          return false;
       }
@@ -469,7 +591,11 @@ public without sharing class AH_UDC_SharedWithoutSharing {
          List<PermissionSet> permissionSets = [SELECT Id FROM PermissionSet Where Name = :PermissionSetName];
          if (permissionSets.size() == 0) {
             AH_UDC_LogHelper.Debug('AH_UDC_SharedWithoutSharing.GrantUserPermissionSet - ' + 'PermissionSet not found: ' + PermissionSetName);
+<<<<<<< HEAD
             AH_UDC_LogHelper.Log(AH_UDC_LogHelper.LogLevel_ERROR,'AH_UDC_SharedWithoutSharing', 'GrantUserPermissionSet','PermissionSet not found: ' + PermissionSetName,null, null, null);
+=======
+            AH_UDC_LogHelper.Log(AH_UDC_LogHelper.LogLevel_ERROR, 'AH_UDC_SharedWithoutSharing', 'GrantUserPermissionSet', 'PermissionSet not found: ' + PermissionSetName, null, null, null);
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
             return false;
          }
 
@@ -487,7 +613,11 @@ public without sharing class AH_UDC_SharedWithoutSharing {
       }
       catch(exception exc) {
          AH_UDC_LogHelper.Debug('AH_UDC_SharedWithoutSharing.GrantUserPermissionSet: Exception: ' + exc);
+<<<<<<< HEAD
          AH_UDC_LogHelper.Log(AH_UDC_LogHelper.LogLevel_EXC,'AH_UDC_SharedWithoutSharing', 'GrantUserPermissionSet','Unhandled Exception: ' + exc.getMessage(),exc, UserId, 'UserId');
+=======
+         AH_UDC_LogHelper.Log(AH_UDC_LogHelper.LogLevel_EXC, 'AH_UDC_SharedWithoutSharing', 'GrantUserPermissionSet', 'Unhandled Exception: ' + exc.getMessage() + ' at line number ' + exc.getLineNumber(), exc, UserId, 'UserId');
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
          return false; //Return false since the permission set was not applied
       }
    }
@@ -504,11 +634,20 @@ public without sharing class AH_UDC_SharedWithoutSharing {
          if (objUsers.size() == 0) { return false; }
 
          //Determine if workbook id is valid
+<<<<<<< HEAD
          listWorkbook = [SELECT Id, RelatedTo__c, Withdrawn__c, SentStatus__c
                          FROM AH_UDC_Workbook__c
                          WHERE Enabled__c = true
                          AND Id = :WorkbookId];
          if (listWorkbook.size() == 0) { return false; }
+=======
+         listWorkbook = [SELECT Id, RelatedTo__c, Withdrawn__c, SentStatus__c, Enabled__c, RecordType.DeveloperName
+                         FROM AH_UDC_Workbook__c
+                         WHERE Id = :WorkbookId];
+         if (listWorkbook.size() == 0) { return false; }
+
+         if (listWorkbook[0].RecordType.DeveloperName == AH_UDC_Constants.RECORD_TYPE_WORKBOOK_SENT && listWorkbook[0].Enabled__c == false) return false;
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
 
          //Determine if user has Read Access to the record
          List<UserRecordAccess> lstUserRecordAccess = null;
@@ -524,11 +663,19 @@ public without sharing class AH_UDC_SharedWithoutSharing {
                            FROM AH_UDC_Contact__c
                            WHERE Contact__c = :objUsers[0].ContactId
                            AND Document__c = :listWorkbook[0].RelatedTo__c];
+<<<<<<< HEAD
          if (listUDCContact.size()> 0) { 
             AH_UDC_LogHelper.Debug('AH_UDC_SharedWithoutSharing.CheckViewWorkbookUserAccess - listWorkbook[0].Withdrawn__c: ' + listWorkbook[0].Withdrawn__c);
             AH_UDC_LogHelper.Debug('AH_UDC_SharedWithoutSharing.CheckViewWorkbookUserAccess - listWorkbook[0].SentStatus__c: ' + listWorkbook[0].SentStatus__c);
             return true; //Community User has access
          } 
+=======
+         if (listUDCContact.size()> 0) {
+            AH_UDC_LogHelper.Debug('AH_UDC_SharedWithoutSharing.CheckViewWorkbookUserAccess - listWorkbook[0].Withdrawn__c: ' + listWorkbook[0].Withdrawn__c);
+            AH_UDC_LogHelper.Debug('AH_UDC_SharedWithoutSharing.CheckViewWorkbookUserAccess - listWorkbook[0].SentStatus__c: ' + listWorkbook[0].SentStatus__c);
+            return true; //Community User has access
+         }
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
 
          //Default access is false
          return false;
@@ -537,7 +684,11 @@ public without sharing class AH_UDC_SharedWithoutSharing {
          AH_UDC_LogHelper.Debug('AH_UDC_SharedWithoutSharing.CheckViewWorkbookUserAccess - Exception: ' + exc);
          AH_UDC_LogHelper.Log(AH_UDC_LogHelper.LogLevel_EXC,
                               'AH_UDC_SharedWithoutSharing', 'CheckViewWorkbookUserAccess',
+<<<<<<< HEAD
                               'Unhandled Exception: ' + exc.getMessage(),
+=======
+                              'Unhandled Exception: ' + exc.getMessage() + ' at line number ' + exc.getLineNumber(),
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
                               exc, WorkbookId, 'AH_UDC_Workbook__c');
          return false;
       }
@@ -575,7 +726,11 @@ public without sharing class AH_UDC_SharedWithoutSharing {
          return lstUDCContacts != null && lstUDCContacts.size() > 0;
       }
       catch(Exception ex) {
+<<<<<<< HEAD
          LogException(LogFunctionalArea, 'UserHasAccessToNIDoc', 'Error occurred in UserHasAccessToNIDoc() => ' + ex.getMessage() + ' at Line Number ' + ex.getLineNumber(), System.Label.AH_UDC_Common_Error_Message, ex);
+=======
+         LogException(LogFunctionalArea, 'UserHasAccessToNIDoc', 'Error occurred in UserHasAccessToNIDoc() => ' + ex.getMessage() + ' at Line Number ' + ex.getLineNumber() + ' at line number ' + ex.getLineNumber(), System.Label.AH_UDC_Common_Error_Message, ex);
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
          throw ex;
       }
    }
@@ -592,7 +747,11 @@ public without sharing class AH_UDC_SharedWithoutSharing {
       }
       catch(Exception exc) {
          AH_UDC_LogHelper.Debug('AH_UDC_SharedWithoutSharing.CheckRecordEditAccessForUser: Exception: ' + exc);
+<<<<<<< HEAD
          AH_UDC_LogHelper.Log(AH_UDC_LogHelper.LogLevel_EXC,'AH_UDC_SharedWithoutSharing', 'CheckRecordEditAccessForUser','Exception: ' + exc.getMessage(),exc, UserInfo.getUserId(), 'User');
+=======
+         AH_UDC_LogHelper.Log(AH_UDC_LogHelper.LogLevel_EXC, 'AH_UDC_SharedWithoutSharing', 'CheckRecordEditAccessForUser', 'Exception: ' + exc.getMessage() + ' at line number ' + exc.getLineNumber(), exc, UserInfo.getUserId(), 'User');
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
          return false;
       }
    }
@@ -609,7 +768,11 @@ public without sharing class AH_UDC_SharedWithoutSharing {
       }
       catch(Exception exc) {
          AH_UDC_LogHelper.Debug('AH_UDC_SharedWithoutSharing.CheckWorkbookReadUserAccess: Exception: ' + exc);
+<<<<<<< HEAD
          AH_UDC_LogHelper.Log(AH_UDC_LogHelper.LogLevel_EXC,'AH_UDC_SharedWithoutSharing', 'CheckWorkbookReadUserAccess','Exception: ' + exc.getMessage(),exc, UserInfo.getUserId(), 'User');
+=======
+         AH_UDC_LogHelper.Log(AH_UDC_LogHelper.LogLevel_EXC, 'AH_UDC_SharedWithoutSharing', 'CheckWorkbookReadUserAccess', 'Exception: ' + exc.getMessage() + ' at line number ' + exc.getLineNumber(), exc, UserInfo.getUserId(), 'User');
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
          return false;
       }
    }
@@ -618,6 +781,7 @@ public without sharing class AH_UDC_SharedWithoutSharing {
       AH_UDC_LogHelper.Debug('ChangeUserProfileToChatter');
       Boolean profileChanged = false;
       Boolean isQueueLogEnabled = true;
+<<<<<<< HEAD
       try {      
          if (AH_UDC_LogHelper.QueueLogs == false){
             AH_UDC_LogHelper.QueueLogs = true;
@@ -625,6 +789,15 @@ public without sharing class AH_UDC_SharedWithoutSharing {
          }
          AH_UDC_LogHelper.Log(AH_UDC_LogHelper.LogLevel_TRACE,'SharedWithoutSharing','ChangeUserProfileToChatter','Request for User',null,userId,'UserID');
          if (AH_UDC_ConfigHelper.GetBoolean('AH_UDC_ChangeCommunityUserProfile', false)) throw(new AH_UDC_Shared.UDCException(AH_UDC_Constants.UNIT_TEST_EXCEPTION_PREFIX + 'Change Community User Profile'));
+=======
+      try {
+         if (AH_UDC_LogHelper.QueueLogs == false) {
+            AH_UDC_LogHelper.QueueLogs = true;
+            isQueueLogEnabled = false;
+         }
+         AH_UDC_LogHelper.Log(AH_UDC_LogHelper.LogLevel_TRACE, 'SharedWithoutSharing', 'ChangeUserProfileToChatter', 'Request for User', null, userId, 'UserID');
+         if (AH_UDC_ConfigHelper.GetBoolean('AH_UDC_UnitTestChangeCommunityUserProfile', false, true)) throw(new AH_UDC_Shared.UDCException(AH_UDC_Constants.UNIT_TEST_EXCEPTION_PREFIX + 'Change Community User Profile'));
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
 
          //This code performs a callout to a C# API to set the user's profile
          Http h1 = new Http();
@@ -638,6 +811,7 @@ public without sharing class AH_UDC_SharedWithoutSharing {
 
          AH_UDC_LogHelper.Debug('ChangeUserProfileToChatter: endpointURL: ' + endpointURL);
          req1.setEndpoint(endpointURL);
+<<<<<<< HEAD
 
          HttpResponse res1 = null;
          AH_UDC_REST_SetCommunityUserProfile.SetCommunityUserProfileResponse resp;
@@ -660,6 +834,30 @@ public without sharing class AH_UDC_SharedWithoutSharing {
                resp.StatusCode = '501';
             }
 
+=======
+
+         HttpResponse res1 = null;
+         AH_UDC_REST_SetCommunityUserProfile.SetCommunityUserProfileResponse resp;
+
+         AH_UDC_LogHelper.Debug('ChangeUserProfileToChatter: Send Request');
+         res1 = h1.send(req1);
+         Integer httpStatus = res1.getStatusCode();
+         AH_UDC_LogHelper.Log(AH_UDC_LogHelper.LogLevel_TRACE, 'SharedWithoutSharing', 'ChangeUserProfileToChatter', 'Trace Response: ' + res1.getbody(), null, userId, 'UserID');
+         string sResp = res1.getbody(); //TODO: ROBDEV .replace('\\','
+         if (sResp.left(1) == '"') sResp = sResp.substring(1, sResp.length() - 1);
+         resp = (AH_UDC_REST_SetCommunityUserProfile.SetCommunityUserProfileResponse) JSON.deserialize(sResp, AH_UDC_REST_SetCommunityUserProfile.SetCommunityUserProfileResponse.class);
+
+         //Unit Test Force Exception
+         if (AH_UDC_ConfigHelper.GetBoolean('AH_UDC_UnitTestSetCommunityUserProfileHttpNon200Error', FALSE, true)) { httpStatus = 500; }
+
+         if (httpStatus == 200) {
+            //Unit Test Force Exception
+            if (AH_UDC_ConfigHelper.GetBoolean('AH_UDC_UnitTestSetCommunityUserProfileRespNon200Error', FALSE, true)) {
+               resp.Message = 'Unit Test Forced Error';
+               resp.StatusCode = '501';
+            }
+
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
             String msg = + resp.Message + ' Code: ' + resp.StatusCode;
             AH_UDC_LogHelper.Debug('ChangeUserProfileToChatter: ' + msg);
             if (resp.StatusCode == '200') {
@@ -673,17 +871,30 @@ public without sharing class AH_UDC_SharedWithoutSharing {
             }
          } else {
             AH_UDC_LogHelper.Log(AH_UDC_LogHelper.LogLevel_ERROR,
+<<<<<<< HEAD
                                     'AH_UDC_SharedWithoutSharing', 'ChangeUserProfileToChatter',
                                     'Unknown HTTP Status when calling endpoint: ' + String.valueOf(resp.StatusCode)
                                     , null, UserInfo.getUserId(), 'User');
+=======
+                                 'AH_UDC_SharedWithoutSharing', 'ChangeUserProfileToChatter',
+                                 'Unknown HTTP Status when calling endpoint: ' + String.valueOf(resp.StatusCode)
+                                 , null, UserInfo.getUserId(), 'User');
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
          }
       }
       catch(Exception exc) {
          AH_UDC_LogHelper.Debug('AH_UDC_SharedWithoutSharing.ChangeUserProfileToChatter: Exception: ' + exc);
+<<<<<<< HEAD
          AH_UDC_LogHelper.Log(AH_UDC_LogHelper.LogLevel_EXC,'AH_UDC_SharedWithoutSharing', 'ChangeUserProfileToChatter','Exception: ' + exc.getMessage(),exc, UserInfo.getUserId(), 'User');
       }
       finally{
          if(isQueueLogEnabled == false)
+=======
+         AH_UDC_LogHelper.Log(AH_UDC_LogHelper.LogLevel_EXC, 'AH_UDC_SharedWithoutSharing', 'ChangeUserProfileToChatter', 'Exception: ' + exc.getMessage() + ' at line number ' + exc.getLineNumber(), exc, UserInfo.getUserId(), 'User');
+      }
+      finally {
+         if (isQueueLogEnabled == false)
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
          {
             //Write any Queued Log Messages
             AH_UDC_LogHelper.GetQueuedLogs();
@@ -712,11 +923,11 @@ public without sharing class AH_UDC_SharedWithoutSharing {
          if (Test.isRunningTest() && strLogFunctionalArea == 'TestException') { Integer a = 1 / 0; }
       }
       catch(Exception ex) {
-         AH_UDC_LogHelper.Debug(strLogFunctionalArea + '.LogException - Exception: ' + ex);
+         AH_UDC_LogHelper.Debug(strLogFunctionalArea + '.LogException - Exception: ' + exc.getMessage() + ' at line number ' + exc.getLineNumber());
          AH_UDC_LogHelper.Log(AH_UDC_LogHelper.LogLevel_EXC,
                               strLogFunctionalArea,
                               'LogException',
-                              'An exception occurred in LogException method',
+                              'Unhandled Exception: ' + ex.getMessage() + ' at line number ' + ex.getLineNumber(),
                               ex, null, null);
       }
    }
@@ -748,12 +959,13 @@ public without sharing class AH_UDC_SharedWithoutSharing {
          AH_UDC_LogHelper.Log(AH_UDC_LogHelper.LogLevel_EXC,
                               strLogFunctionalArea,
                               'LogException',
-                              'An exception occurred in LogException method',
+                              'Unhandled Exception: ' + ex.getMessage() + ' at line number ' + ex.getLineNumber(),
                               ex, null, null);
       }
    }
 
    //Send email to contact after sending workbook
+<<<<<<< HEAD
    public static Boolean SendEmailToContacts(String LogFunctionalArea, List<string> lstToAddresses, Id EmailTemplateId, Id ContactId, Id NIDocId) {
       try {
          if (lstToAddresses != null && lstToAddresses.size() > 0 && String.isNotBlank(String.valueOf(EmailTemplateId))
@@ -769,6 +981,92 @@ public without sharing class AH_UDC_SharedWithoutSharing {
             List<Messaging.SingleEmailMessage> lstEmails = new List<Messaging.SingleEmailMessage> ();
             lstEmails.add(objEmail);
 
+=======
+   public static Boolean SendEmailToContacts(String LogFunctionalArea, List<Contact> sendContacts, Id EmailTemplateId, Id NIDocId, ID OrgWideEmail) {
+      try {
+         if (Test.isRunningTest()) return true;
+         AH_UDC_LogHelper.Debug('SendEmailToContacts - Start:');
+         AH_UDC_LogHelper.Debug('sendContacts:' + sendContacts);
+         AH_UDC_LogHelper.Debug('EmailTemplateId:' + EmailTemplateId);
+         AH_UDC_LogHelper.Debug('NIDocId:' + NIDocId);
+
+         if (sendContacts != null && sendContacts.size() > 0 && EmailTemplateId != null && NIDocId != null)
+         {
+            AH_UDC_LogHelper.Debug('SendEmailToContacts - L1');
+            List<Messaging.SingleEmailMessage> lstEmails = new List<Messaging.SingleEmailMessage> ();
+            // Email Template tag replacement
+            List<NI_Documentation__c> lstNIDoc = [SELECT AH_UDC_WorkbookDueDate__c FROM NI_Documentation__c WHERE Id = :NIDocId];
+            string dueDate = '';
+            Set<Id> setContactIds = new Set<Id> ();
+            Map<Id, User> userMap = new Map<Id, User> ();
+            Set<string> setName = new Set<String> ();
+            string allUserName;
+
+            if (lstNIDoc.size() > 0)
+            {
+               Date tempDate = lstNIDoc[0].AH_UDC_WorkbookDueDate__c;
+               if (tempDate != null)
+               {
+                  DateTime dt = DateTime.newInstance(tempDate.year(), tempDate.month(), tempDate.day(), 11, 59, 59); // keep the 11:59:59 for the local time zone
+                  dueDate = dt.format('MMMM') + ' ' + tempDate.day();
+               }
+               else {
+                  dueDate = Label.AH_UDC_EmailTagNoneValue;
+               }
+            }
+
+            //get contactId for find the user info
+            for (Contact sendContact : sendContacts)
+            {
+               setContactIds.add(sendContact.Id);
+            }
+
+            List<User> lstUser = [SELECT id, firstname, lastname, email, username, ContactId, Name FROM user WHERE IsActive = true and ContactId In :setContactIds];
+            if (lstUser.size() > 0)
+            {
+               for (User oUser : lstUser)
+               {
+                  userMap.put(oUser.ContactId, oUser);
+                  setName.add(oUser.Name);
+               }
+            }
+
+            for (Contact sendContact : sendContacts)
+            {
+               AH_UDC_LogHelper.Debug('SendEmailToContacts - L2 : ' + sendContact);
+               if (sendContact.id != null && String.isNotEmpty(sendContact.email))
+               {
+                  //Prerender email so that we can do replacement of URL
+                  Messaging.SingleEmailMessage objEmail = Messaging.renderStoredEmailTemplate(EmailTemplateId, sendContact.id, NIDocId);
+                  Set<String> cloneName = setName.clone();
+                  cloneName.remove(userMap.get(sendContact.Id).Name); //remove self name from the list of users tag while sending email                                  
+                  allUserName = String.join((Iterable<String>) cloneName, ', ');
+                  if (String.isBlank(allUserName))
+                  allUserName = Label.AH_UDC_EmailTagNoneValue;
+                  //Replace Community Portal URL
+                  string HtmlBody = objEmail.getHtmlBody()
+                  .replace(AH_UDC_ConfigHelper.GetString('AH_UDC_EmailTemplatePortalUrlPlaceholder', ''), AH_UDC_ConfigHelper.GetString('AH_UDC_CommunityPortalUrl', ''))
+                  .replaceAll('(?i)\\{UDCPortalURL\\}', AH_UDC_ConfigHelper.GetString('AH_UDC_CommunityPortalUrl', ''))
+                  .replaceAll('(?i)\\{UDCduedate\\}', dueDate)
+                  .replaceAll('(?i)\\{CUser.FirstName\\}', userMap.get(sendContact.Id).FirstName.trim())
+                  .replaceAll('(?i)\\{CUser.LastName\\}', userMap.get(sendContact.Id).LastName.trim())
+                  .replaceAll('(?i)\\{CUser.Email\\}', userMap.get(sendContact.Id).Email.trim())
+                  .replaceAll('(?i)\\{CUser.UserName\\}', userMap.get(sendContact.Id).Username.trim())
+                  .replaceAll('(?i)\\{UDCListCUsers\\}', allUserName);
+
+                  HtmlBody = ReplaceStartEndTag(HtmlBody, '{UDCDueDate-START}', '{UDCDueDate-END}', lstNIDoc[0].AH_UDC_WorkbookDueDate__c == null);
+                  HtmlBody = ReplaceStartEndTag(HtmlBody, '{UDCListCUsers-START}', '{UDCListCUsers-END}', allUserName.equalsIgnoreCase(Label.AH_UDC_EmailTagNoneValue));
+
+                  objEmail.setHtmlBody(HtmlBody);
+                  //Set to whom the email will be sent
+                  List<String> addresses = new List<String> ();
+                  addresses.add(sendContact.Email);
+                  objEmail.setToAddresses(addresses);
+                  if (OrgWideEmail != null) objEmail.setOrgWideEmailAddressId(OrgWideEmail);
+                  lstEmails.add(objEmail);
+               }
+            }
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
             Messaging.SendEmailResult[] results = Messaging.sendEmail(lstEmails, false);
             if (results != null && results.size() > 0 && results[0].success) {
                return true;
@@ -783,4 +1081,31 @@ public without sharing class AH_UDC_SharedWithoutSharing {
          return false;
       }
    }
+<<<<<<< HEAD
+=======
+
+   public static string ReplaceStartEndTag(string toSearch, string startTag, string endTag, boolean removeBetween) {
+      string toSearchReturn = toSearch;
+      string toSearchUpper = toSearch.toUpperCase();
+      string startTagUpper = startTag.toUpperCase();
+      string endTagUpper = endTag.toUpperCase();
+      integer startTagIndex = toSearchUpper.indexOf(startTagUpper);
+      integer endTagIndex = toSearchUpper.indexOf(endTagUpper);
+      if (removeBetween)
+      {
+         if (startTagIndex > - 1) {
+            toSearchReturn = toSearchReturn.substring(0, startTagIndex) + (endTagIndex == - 1 ? '' : toSearchReturn.substring(endTagIndex + endTag.length()));
+         }
+         else {
+            if (endTagIndex > - 1) toSearchReturn = toSearchReturn.substring(0, endTagIndex) + toSearchReturn.substring(endTagIndex + endTag.length());
+         }
+      }
+      else
+      {
+         if (endTagIndex > - 1 && endTagIndex > startTagIndex) toSearchReturn = toSearchReturn.substring(0, endTagIndex) + toSearchReturn.substring(endTagIndex + endTag.length());
+         if (startTagIndex > - 1) toSearchReturn = toSearchReturn.substring(0, startTagIndex) + toSearchReturn.substring(startTagIndex + startTag.length());
+      }
+      return toSearchReturn;
+   }
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
 }

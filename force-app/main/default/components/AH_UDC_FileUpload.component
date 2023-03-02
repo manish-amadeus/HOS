@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <apex:component >
    <apex:attribute name="Token" description="Security Token" type="String" />
    <apex:attribute name="FileUploadUrl" description="File Upload Url" type="String" />
@@ -10,6 +11,21 @@
       var apiUrl = "{!FileUploadUrl}";
    </script>
    <c:AH_UDC_FileUploadJS />
+=======
+<apex:component >   
+   <apex:attribute name="attributeWorkbook" description="Current Workbook" type="AH_UDC_CommunityWorkbook" required="true" />
+   <apex:attribute name="attributeDisplayConsoleLogMessages" description="Display Console Log Messages" type="Boolean" required="true" />
+   <c:AH_UDC_FileUploadCSS />
+
+   <script type="text/javascript">
+      var securityToken = "{!attributeWorkbook.currentStep.token}";
+      var apiUrl = "{!attributeWorkbook.currentStep.fileUploadInfo.fileUploadUrl}";
+      var DisplayConsoleLogMessages = {!attributeDisplayConsoleLogMessages};
+      var isSent = '{!attributeWorkbook.isSent}';
+   </script>
+   
+   <c:AH_UDC_FileUploadJS attributeWorkbook="{!attributeWorkbook}"/>
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
 
    <div id="divFileUploadError" style="display: none;" class="messageText">
       <span style="color: #cc0000;">
@@ -20,7 +36,13 @@
 
    <div class="form-container-file-Upload">
       <div id="divMain">
+<<<<<<< HEAD
          <p><apex:outputText escape="false" value="{!UploadFilesHeader}" /></p>
+=======
+         <p></p>
+         <div class="remove-p-space"><apex:outputText escape="false"  style="padding: 0; margin: 0;" value="{!attributeWorkbook.currentStep.fileUploadInfo.fileUploadDescription}" /></div>
+         <p></p>
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
          <fieldset class="fieldsetStyle">
             <legend style="padding-left: 5px; padding-right: 5px;">{!$Label.AH_UDC_UploadFiles}</legend>
             <button id="addFiles" style="width: 100px;" class="buttonStyle">{!$Label.AH_UDC_AddFilesButton}</button>
@@ -52,7 +74,11 @@
                         </tr>
                      </thead>
                      <tbody>
+<<<<<<< HEAD
                         <apex:repeat value="{!UploadedFileList}" var="UploadedFile">
+=======
+                        <apex:repeat value="{!attributeWorkbook.currentStep.fileUploadInfo.uploadedFileList}" var="UploadedFile">
+>>>>>>> be8f81a97d079e6e4c45f805d88969f9bcae9d8a
                            <tr class="slds-hint-parent">
                               <td data-label="{!$Label.AH_UDC_FileName}">                                
                                  <div class="slds-truncate slds-cell-wrap">{!UploadedFile.ContentDocument.title}</div>
