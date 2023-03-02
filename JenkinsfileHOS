@@ -12,6 +12,7 @@ node {
     def SF_INSTANCE_URL
     def SF_CONSUMER_KEY
     def SF_CONSUMER_SERVER_KEY
+    def RUNTYPETEST
     def START_TIME = new Date().format("yyyy-MM-dd'T'HH:mm:ss.SSSZ")
     def INSTANCEURL = "https://test.salesforce.com"
     env.LANG    = "en_US.UTF-8"
@@ -149,10 +150,12 @@ node {
                      SpecifiedTestClass= SpecifiedTestClass+","+ExtractedVal
                       }
                      }
-                     echo "Specified test classes are : ${SpecifiedTestClass}"
+                     
                     }
+                    echo "Specified test classes are : ${SpecifiedTestClass}"
 					if(SpecifiedTestClass == null){
                     RunTesttype = "NoTestRun"
+                    RUNTYPETEST = RunTesttype
                     }
                     else{
                     RunTesttype = "RunSpecifiedTests -r ${SpecifiedTestClass}"
@@ -176,7 +179,7 @@ node {
                 // Deploy the package previously validated on stage "Run Test (RunLocalTests, jest)"
                 // ----------------------------------------------------------------------------------
                 stage('Promote to QA (deploy package + validation)') {
-                if (RunTesttype == "NoTestRun"){
+                if (RUNTYPETEST == "NoTestRun"){
 					rc = commandStatus "sfdx force:source:deploy -u ${SF_TARGET_ENV} -w 10 -x manifest/${SDWORK_ID}/package.xml"
 					if (rc != 0) {
                         error 'Salesforce deployment failed.'
