@@ -1,0 +1,277 @@
+<apex:page controller="AH_UDC_extConfigurationSettings" title="UDC Configuration Settings" setup="true">
+   <apex:slds />
+   <apex:pagemessages />
+   <style>
+      .CSTitle {
+         padding-top: 0.4em;
+      }
+
+      .frm {
+         margin-left: 1rem;
+         margin-right: 1rem;
+      }
+      .pbHeader {
+         font-weight: 700 !important;
+      }
+      .bPageTitle {
+         padding-top: 0px !important;
+         margin-bottom: 0px !important;
+      }
+      .pageDescription {
+         line-height: 1.2em !important;
+      }
+
+      .slds-page-header__title {
+         font-size: 2em;
+         display: inline !important;
+      }
+
+      .slds-page-header__name-meta {
+         font-size: 1.2em !important;
+         font-weight: 700;
+      }
+
+      .dataCell {
+         padding-left: 3px !important;
+         padding-right: 3px !important;
+      }
+
+   </style>
+   <apex:form id="mainform" styleClass="frm">
+      <script>
+         function setSelectedIndex(objSelect, setValue, objMSG) {
+            var optionFound = false;
+            for (i=0; i<objSelect.options.length;i++) {
+                  if (setValue == objSelect.options[i].value) {
+                     objSelect.options[i].selected = true;
+                     optionFound = true;
+                     break;
+                  }
+            }
+            if (!optionFound) {
+               objMSG.innerHTML = 'The current value is not a valid option: <br>' + setValue;
+            }
+         }
+      </script>
+      <apex:outputpanel id="resultPanel">
+         <script>
+            if ('{!updateSettingName}' != '') {
+               {!updateSettingName}MSG.innerHTML = '{!updateSettingStatus}';
+            }
+         </script>
+      </apex:outputpanel>
+
+      <!--Change Setting-->
+      <apex:actionfunction name="afUpdateSetting" action="{!updateSetting}" rerender="resultPanel">
+         <apex:param id="pUpdateSettingName" name="pUpdateSettingName" assignto="{!updateSettingName}" value="" />
+         <apex:param id="pUpdateSettingValue" name="pUpdateSettingValue" assignto="{!updateSettingValue}" value="" />
+         <apex:param id="pUpdateSettingIsMethod" name="pUpdateSettingIsMethod" assignto="{!updateSettingIsMethod}" value="" />
+      </apex:actionfunction>
+      <!-- Page Headers -->
+
+      <div class="slds-page-header" style="margin-top: 0.4rem; margin-bottom: 0.4rem">
+        <div class="slds-page-header__row">
+          <div class="slds-page-header__col-title">
+            <h1>
+               <span class="slds-page-header__title slds-truncate" title="UDC Settings">
+                  <apex:commandlink value="UDC Configuration Settings" action="{!showSettingPage}" rerender="pageRefresh" styleClass="slds-page- slds-page-header__title CSTitle">
+                     <apex:param name="actionParameter1" value="" assignto="{!actionParameter1}" />
+                  </apex:commandlink>&nbsp;&nbsp;&nbsp;
+                  <apex:commandlink value="" action="{!refreshPage}" type="image/png" style="text-decoration:none;">
+                     <img src="/img/rypple/24-feedback.png" alt="Refresh Settings" class="" title="Refresh Settings"/>
+                  </apex:commandlink><br />
+               </span>
+            </h1>
+          </div>
+        </div>
+      </div>
+
+      <apex:pageblock title="Initialize Settings" mode="" rendered="{!SettingsExist==false}">
+            <apex:pageblocksection columns="1" showheader="false">
+               There currently are no settings that match this org name/id.  This could be because the settings were removed or that this org is a new sandbox or dev org.
+               <apex:panelgroup >
+                  &#8226;&nbsp;<apex:commandlink value="Click to initialize settings" action="{!initSettings}"/>
+               </apex:panelgroup>
+            </apex:pageblocksection>
+         </apex:pageblock>
+
+      <apex:outputpanel id="pageRefresh">
+         <apex:sectionheader subtitle="{!pageGroupName} : {!pageName}" rendered="{!pageName!='' && pageName!='History'}"/>
+
+         <apex:repeat value="{!settingGroups}" var="settingGroup" rendered="{!pageName==null}">
+            <apex:pageblock title="{!settingGroups[settingGroup].groupName}" mode="edit">
+               <apex:pageblocksection columns="1" showheader="false">
+                  <apex:repeat value="{!settingGroups[settingGroup].settings}" var="setting" id="repeatGroupNames">
+                     <apex:panelgroup rendered="{!setting.PageName==null && setting.SettingType=='Page'}">
+                        &#8226;&nbsp;<apex:outputlink value="{!setting.settingvalue}">{!setting.SettingDisplayName}</apex:outputlink>
+                        <img src="/s.gif" alt="Help" class="helpIcon" title="{!setting.SettingHelpText}" />
+                     </apex:panelgroup>
+                     <apex:panelgroup rendered="{!setting.PageName==null && setting.SettingType=='Object'}">
+                        &#8226;&nbsp;<apex:outputlink value="{!setting.settingvalue}">{!setting.SettingDisplayName}</apex:outputlink>
+                        <img src="/s.gif" alt="Help" class="helpIcon" title="{!setting.SettingHelpText}" />
+                     </apex:panelgroup>
+                     <apex:panelgroup rendered="{!setting.SettingType=='GroupPage'}">
+                        &#8226;&nbsp;<apex:commandlink value="{!setting.SettingDisplayName}" action="{!showSettingPage}">
+                           <apex:param name="actionParameter1" value="{!setting.SettingDisplayName}" assignto="{!actionParameter1}" />
+                        </apex:commandlink>
+                        <img src="/s.gif" alt="Help" class="helpIcon" title="{!setting.SettingHelpText}" />
+                     </apex:panelgroup>
+                  </apex:repeat>
+               </apex:pageblocksection>
+            </apex:pageblock>
+         </apex:repeat>
+
+         <apex:pageblock title="History" mode="edit" rendered="{!pageName==null}">
+            <apex:pageblocksection columns="1" showheader="false">
+               <apex:panelgroup >
+                  &#8226;&nbsp;<apex:commandlink value="View History of Configuration Setting Changes" action="{!showSettingPage}">
+                     <apex:param name="actionParameter1" value="History" assignto="{!actionParameter1}" />
+                  </apex:commandlink>
+               </apex:panelgroup>
+            </apex:pageblocksection>
+         </apex:pageblock>
+
+         <apex:repeat value="{!settingGroups}" var="settingGroup" rendered="{!pageName!='' && pageName!='History'}">
+            <apex:pageblock title="{!settingGroups[settingGroup].groupName}" mode="edit">
+               <apex:pageblocktable columns="2" value="{!settingGroups[settingGroup].settings}" var="setting" headerclass="hidden">
+                  <!--Label-->
+                  <apex:column style="white-space:nowrap;width:10%;" rendered="{!setting.SettingType!='Page' && setting.SettingType!='HorizontalRule'&& setting.SettingType!='Break'}">
+                     {!setting.SettingDisplayName}:
+                     <img src="/s.gif" alt="Help" class="helpIcon" title="{!setting.SettingHelpText}"/>
+                     <apex:commandlink value="" action="{!showSettingHistory}" type="image/png" style="text-decoration:none;">
+                        <img src="/img/icon/documents24.png" alt="View History" class="" title="View Setting History"/>
+                        <apex:param name="csHistoryParentId" value="{!setting.id}" assignto="{!csHistoryParentId}" />
+                     </apex:commandlink>&nbsp;
+
+                  </apex:column>
+                  <!--Horizontal Rule-->
+                  <apex:column style="white-space:nowrap;width:10%;" rendered="{!setting.SettingType=='HorizontalRule'}">
+                  </apex:column>
+                  <apex:column style="width:10%;" rendered="{!setting.SettingType=='HorizontalRule'}">
+                     <hr style="margin: .5rem 0 !important" />
+                  </apex:column>
+                  <!--Break-->
+                  <apex:column rendered="{!setting.SettingType=='Break'}">
+                     <br />
+                  </apex:column>
+                  <!--Page Link-->
+                  <apex:column style="width:90%;" rendered="{!setting.SettingType=='Page'}" colspan="2">
+                     &#8226;&nbsp;<apex:outputlink value="{!setting.settingvalue}">{!setting.SettingDisplayName}</apex:outputlink>
+                     <img src="/s.gif" alt="Help" class="helpIcon" title="{!setting.SettingHelpText}" />
+                  </apex:column>
+                  <apex:column style="width:90%;" rendered="{!setting.SettingType=='String'}">
+                     <input html-data-settingname="{!setting.Name}" value="{!setting.SettingValue}" onchange="jsUpdateSetting(this);" style="margin-left: 35px; width:95%;" />
+                     <br /><label id="{!setting.Name}MSG" name="{!setting.Name}MSG"></label>
+                  </apex:column>
+                  <apex:column style="width:90%;" rendered="{!setting.SettingType=='ProtectedString'}">
+                     <input html-data-settingname="{!setting.Name}" placeholder="**********" onchange="jsUpdateSetting(this);" style="margin-left: 35px; width: 95%;" />
+                     <br /><label id="{!setting.Name}MSG" name="{!setting.Name}MSG"></label>
+                  </apex:column>
+                  <apex:column style="width:90%;" rendered="{!setting.SettingType=='Time_24h'}">
+                     <input html-data-settingname="{!setting.Name}" value="{!setting.SettingValue}" onchange="jsUpdateSetting(this);" style="margin-left: 35px; width: 100px; text-align: right;" />
+                     <br /><label id="{!setting.Name}MSG" name="{!setting.Name}MSG"></label>
+                  </apex:column>
+                  <apex:column style="width:90%;" rendered="{!setting.SettingType=='TextArea'}">
+                     <apex:inputtextarea style="margin-left: 35px; width: 95%; font-family: Courier" rendered="{!setting.SettingType=='TextArea'}" html-data-settingname="{!setting.Name}"
+                                         value="{!setting.SettingValue}" rows="6" cols="100" onchange="jsUpdateSetting(this);">
+                     </apex:inputtextarea>
+                     <br /><label id="{!setting.Name}MSG" name="{!setting.Name}MSG"></label>
+                  </apex:column>
+                  <apex:column style="width:90%;" rendered="{!setting.SettingType=='Picklist'}">
+                     <select html-data-settingname="{!setting.Name}" name="{!setting.Name}" value="{!setting.SettingValue}" onchange="jsUpdateSetting(this);" style="margin-left: 35px;">
+                        <apex:repeat value="{!setting.picklistValues}" var="picklistValue">
+                           <option value="{!picklistValue}">{!picklistValue}</option>
+                        </apex:repeat>
+                     </select>
+                     <br /><label id="{!setting.Name}MSG" name="{!setting.Name}MSG"></label>
+                     <script>
+                        setSelectedIndex(document.getElementsByName('{!JSENCODE(HTMLENCODE(setting.Name))}')[0],
+                                         '{!JSENCODE(HTMLENCODE(setting.SettingValue))}', {!JSENCODE(HTMLENCODE(setting.Name))}MSG);
+                     </script>
+                  </apex:column>
+                  <apex:column style="width:90%;" rendered="{!setting.SettingType=='URL'}">
+                     <input html-data-settingname="{!setting.Name}" value="{!setting.SettingValue}" onchange="jsUpdateSetting(this);" style="margin-left: 35px; width: 95%;" />
+                     <br /><label id="{!setting.Name}MSG" name="{!setting.Name}MSG"></label>
+                  </apex:column>
+                  <apex:column style="width:90%;" rendered="{!setting.SettingType=='Method'}">
+                     <input id="{!setting.Name}_B" name="{!setting.Name}_B" type="button" value="Click to Request" onclick="jsMethod(this);" style="margin-left: 35px; " />
+                     <input id="{!setting.Name}" name="{!setting.Name}" value="{!setting.SettingValue}" style="display:none" />
+                     <label id="{!setting.Name}MSG" name="{!setting.Name}MSG"></label>
+                  </apex:column>
+                  <apex:column style="width:90%;" rendered="{!setting.SettingType=='Integer'}">
+                     <input html-data-settingname="{!setting.Name}" value="{!setting.SettingValue}" onchange="jsUpdateSetting(this);" style="margin-left: 35px; width: 100px; text-align: right;" min="{!setting.minValue}" max="{!setting.maxValue}" />
+                     <label id="{!setting.Name}MSG" name="{!setting.Name}MSG"></label>
+                  </apex:column>
+                  <apex:column rendered="{!setting.SettingType=='Checkbox' && setting.isChecked==true}">
+                     <input html-data-settingname="{!setting.Name}" type="Checkbox" checked="checked" onchange="jsUpdateSetting(this);"  style="margin-left: 35px; "/>
+                     <label id="{!setting.Name}MSG" name="{!setting.Name}MSG"></label>
+                  </apex:column>
+                  <apex:column rendered="{!setting.SettingType=='Checkbox' && setting.isChecked==false}">
+                     <input html-data-settingname="{!setting.Name}" type="Checkbox" onchange="jsUpdateSetting(this);"  style="margin-left: 35px; "/>
+                     <label id="{!setting.Name}MSG" name="{!setting.Name}MSG"></label>
+                  </apex:column>
+               </apex:pageblocktable>
+            </apex:pageblock>
+         </apex:repeat>
+
+         <apex:pageblock title="History" mode="edit" rendered="{!pageName=='History'}">
+            <apex:pageBlockTable value="{!configurationSettingsHistory}" var="csHistory">
+               <apex:column value="{!csHistory.CreatedDate}" title="{!csHistory.id}" style="white-space:nowrap;" headerValue="Change Date"/>
+               <apex:column value="{!csHistory.CreatedBy.name}" style="white-space:nowrap;" headerValue="Changed By"/>
+               <apex:column value="{!csHistory.parent.PageGroupName__c}" style="white-space:nowrap;" headerValue="Config Setting Page Group"/>
+               <apex:column value="{!csHistory.parent.PageName__c}" style="white-space:nowrap;" headerValue="Config Setting Page"/>
+               <apex:column value="{!csHistory.parent.name}" title="{!csHistory.parent.id}" style="white-space:nowrap;" headerValue="Config Setting Name"/>
+               <apex:column value="{!csHistory.Field}" style="white-space:nowrap;" headerValue="Field Changed"/>
+               <apex:column value="{!csHistory.OldValue}" style="white-space:nowrap;" width="50px" headerValue="Prior Value"/>
+               <apex:column value="{!csHistory.NewValue}" style="white-space:nowrap;" width="50px" headerValue="New Value"/>
+            </apex:pageBlockTable>
+            <br /><br />
+            <apex:commandlink value="Next 1000 History Records" action="{!showNextHistoryPage}" rendered="{!csHistoryIDNext!=null}">
+               <apex:param name="actionParameter1" value="{!csHistoryIDNext}" assignto="{!actionParameter1}" />
+            </apex:commandlink>
+         </apex:pageblock>
+      </apex:outputpanel>
+
+   </apex:form>
+   <script>
+      function jsMethod(obj) {
+         var r = confirm("Are you sure?");
+         if (r == true) {
+            var settingValue = '';
+            var settingName = obj.name.substring(0,obj.name.length-2);
+            settingValue = document.getElementById(settingName).value;
+            document.getElementById(settingName + 'MSG').innerHTML = 'Requesting...';
+            afUpdateSetting(settingName, settingValue, true);
+         }
+      }
+
+      function jsUpdateSetting(obj) {
+         var settingValue = '';
+         var settingName = obj.getAttribute("data-settingname");
+         if (settingName == null) {
+            settingName = obj.getAttribute("html-data-settingname");
+         }
+
+         if (obj.type == 'checkbox') {
+            settingValue = obj.checked;
+         } else {
+            settingValue = obj.value;
+         }
+         document.getElementById(settingName + 'MSG').innerHTML = 'Updating...';
+         afUpdateSetting(settingName, settingValue, false);
+      }
+
+      function highlightChange(obj) {
+         if (obj.alt != obj.value) {
+            obj.style.backgroundColor = 'yellow';
+         } else{
+            obj.style.backgroundColor = 'white';
+         }
+      }
+   </script>
+   <style type="text/css">
+      .hidden {
+         display: none;
+      }
+   </style>
+</apex:page>

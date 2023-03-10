@@ -1,0 +1,60 @@
+<apex:page sidebar="false" standardController="NI_Cancellation__c" Extensions="NI_CancellationAllAccountDIsController" Showheader="false" tabStyle="NI_Cancellation__c">
+  <apex:sectionHeader title="All Deployment Instances for" subtitle="{!NI_Cancellation__c.Account__r.Name}"/>
+  <div style="text-align:center">
+      <h5> Select the Deployment Instances that you want to create NI Cancellation records for</h5>
+  </div> 
+  <apex:pageMessages />
+   <script type="text/javascript">
+        function selectAllCheckboxes(obj,receivedInputID){
+            var inputCheckBox = document.getElementsByTagName("input");
+            for(var i=0; i<inputCheckBox.length; i++){
+                if(inputCheckBox[i].id.indexOf(receivedInputID)!=-1){
+                    inputCheckBox[i].checked = obj.checked;
+                }
+            }
+        }
+    </script> 
+       <apex:form >
+           <apex:pageBlock >      
+               <apex:pageBlockButtons location="Top">
+                   <apex:commandButton value="Create Cancellation Records " rendered="{!bShowCreate}" action="{!saveSelected}"/>
+                   <apex:commandButton value="Cancel" rendered="{!bShowCancel}" onclick="window.close()"/>
+                   <apex:commandButton value="Close" rendered="{!bShowClose}" onclick="window.close()"/>               
+               </apex:pageBlockButtons>                              
+               <apex:pageBlockTable value="{!lstAllDIs}" var="a" rendered="{!NOT(ISNULL(lstAllDIs))}">
+                   <apex:column >
+                       <apex:facet name="header">
+                           <apex:outputText value="Select"/> 
+                       </apex:facet>
+                       <apex:facet name="header">
+                            <apex:inputCheckbox onclick="selectAllCheckboxes(this,'inputId')" rendered="{!bShowCreate}"/>
+                        </apex:facet>
+                       <apex:inputCheckbox value="{!a.isSelected}" id="inputId"/>
+                   </apex:column>
+                   <apex:column >
+                       <apex:facet name="header">Deployment Instance</apex:facet>
+                           <apex:outputText value="{!a.di.Name}"/>
+                   </apex:column>
+                    <apex:column >
+                       <apex:facet name="header">Product Code</apex:facet>
+                           <apex:outputText value="{!a.di.Product2.ProductCode}"/>
+                   </apex:column>
+                    <apex:column >
+                       <apex:facet name="header">Product Family</apex:facet>
+                           <apex:outputText value="{!a.di.Product2.Family}"/>
+                   </apex:column>
+                   <apex:column >
+                       <apex:facet name="header">Quantity</apex:facet>
+                           <apex:outputText value="{!a.di.Quantity}"/>
+                   </apex:column>
+                   <apex:column >
+                     <apex:facet name="header">DI Status</apex:facet>
+                         <apex:outputText value="{!a.di.Status}"/>
+                   </apex:column>
+                                  
+          </apex:pageblockTable>
+           <!--</apex:pageBlockSection> -->
+        </apex:pageblock>  
+      </apex:form>        
+          
+</apex:page>

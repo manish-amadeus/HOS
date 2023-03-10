@@ -1,0 +1,11 @@
+<apex:page standardController="Subscription_Activation__c">
+    
+    <flow:interview name="SubscriptionTotalRecalc" finishLocation="/{!Subscription_Activation__c.Project__c}">
+        
+        <apex:param name="varProjectId" value="{!Subscription_Activation__c.Project__c}"/>
+        
+        <apex:param name="varSubscriptionActivationId" value="{!Subscription_Activation__c.Id}"/>
+        
+    </flow:interview>
+    
+</apex:page>

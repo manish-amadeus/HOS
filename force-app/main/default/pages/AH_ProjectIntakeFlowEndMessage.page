@@ -1,0 +1,185 @@
+<apex:page standardController="NI_Project_Backlog__c" showheader="false" lightningStylesheets="true">
+    
+    <apex:slds rendered="true"/>
+    
+    <div class="slds-scope">
+        
+        <div style="width:800px; height:600px; position:absolute; top:0; bottom:0; left:0; right:0; margin:auto;">
+            <!-- 
+            <apex:image url="{!$Resource.AmadeusMBFormLogo}" width="260px" />
+            <br/>
+            <br/>
+            -->
+            <center>
+                <apex:outputLabel value="Amadeus Hospitality Internal Project Request Created" style="font-family:AmadeusRegular; font-size:20pt; color:#005eb8;" />
+                <br/>
+                <br/>
+                <apex:outputText style="font-style:normal;font-size:110%;" value="Thank you for submitting your project request." />  
+                <br/>
+                <br/>
+                <apex:outputText style="font-style:normal;font-size:110%;" value="The Estimated Total Net Project Value (NPV) is a calculation derived from the benefits you supplied and is used to drive the numeric priority your project receives. 
+                                                                                  Click the View Request button below to open your request record; 
+                                                                                  here you can attach files to your project, post comments in Chatter and add additional information to the project." /> 
+                <br/>
+                <br/>
+                <apex:outputLabel style="font-style:normal;font-size:110%;" for="link" value="Click this link to see the prioritized projects list view.  Once your project has been approved it will receive a priority." />
+                <apex:outputLink id="link" value="/lightning/o/NI_Project_Backlog__c/list?filterName=00B3g000001EgU7EAK">Project Priority View</apex:outputLink>
+                <br/>
+                <br/>
+                <br/>
+                <p><b>Project Title</b>: {!NI_Project_Backlog__c.name}</p>
+                <p><b>Project ID</b>: {!NI_Project_Backlog__c.Project_Backlog_ID__c}</p>
+                <p><b>Organizational Impact</b>: {!NI_Project_Backlog__c.Organizational_Impact__c}</p>
+                <p><b>Estimated Total Net Project Value</b>:
+                <apex:outputText value=" USD{0, number, 000,000.00}">
+                <apex:param value="{!NI_Project_Backlog__c.Estimated_Total_Net_Project_Value__c}" />
+                </apex:outputText></p>
+                <br/>
+                <br/>
+                <br/> 
+                <br/>
+                <br/>
+                <br/>
+              
+                <apex:outputLink value="/home/home.jsp" styleClass="slds-m-top_xx-small slds-button slds-button_neutral btnSubmit" style="margin:0 auto;">Close</apex:outputLink>&nbsp;&nbsp;
+                <apex:outputLink value="/{!NI_Project_Backlog__c.id}" styleClass="slds-m-top_xx-small slds-button slds-button_neutral btnSubmit" style="margin:0 auto;">View Request</apex:outputLink>
+                <!-- <apex:commandLink value="" styleClass="btn" style="text-decoration:none;/>" -->
+                
+            </center>
+            <br/>
+        </div>
+        
+    </div>
+    
+    <style type="text/css"> 
+        #cust_hyp:link {
+        !important;
+        background-color: #FFFFFF;
+        color: #005eb8;
+        padding: 6px 14px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        border: 1px solid #C0C0C0;
+        border-radius: 4px;
+        }
+        #cust_hyp:visited {
+        !important;
+        background-color: #FFFFFF;
+        color: #005eb8;
+        padding: 6px 14px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        border: 1px solid #D9D9D9;
+        border-radius: 4px;
+        }        
+        #cust_hyp:hover {
+        !important;
+        background-color: #F8F9F9;
+        }
+        #cust_hyp:active {
+        !important;
+        background-color: #F8F9F9;
+        }
+        #cust_btn {
+        !important;
+        background: #FFFFFF; 
+        color: #005eb8;
+        border: 1px solid #D9D9D9;
+        border-radius: 4px;
+        padding: 6px 14px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        margin: 4px 2px;
+        cursor: pointer;
+        }
+        #cust_btn:hover {
+        !important;
+        background: #F8F9F9;
+        color: #005eb8;
+        }        
+        @font-face {
+        font-family: 'AmadeusBold';
+        src: url('{!URLFOR($Resource.AmadeusBoldFont, 'amadeus-bold-web.eot')}');
+        src: url('{!URLFOR($Resource.AmadeusBoldFont, 'amadeus-bold-web.eot')}?#iefix') format('embedded-opentype'),
+        url('{!URLFOR($Resource.AmadeusBoldFont, 'amadeus-bold-web.woff')}') format('woff'), 
+        url('{!URLFOR($Resource.AmadeusBoldFont, 'amadeus-bold-web.ttf')}') format('truetype'), 
+        url('{!URLFOR($Resource.AmadeusBoldFont, 'amadeus-bold-web.svg.woff')}#AmadeusBold') format('svg'); 
+        font-weight: normal;
+        font-style: normal;
+        }
+        
+        @font-face {
+        font-family: 'AmadeusBoldItalic';
+        src: url('{!URLFOR($Resource.AmadeusBoldItalicFont, 'amadeus-bolditalic-web.eot')}');
+        src: url('{!URLFOR($Resource.AmadeusBoldItalicFont, 'amadeus-bolditalic-web.eot')}?#iefix') format('embedded-opentype'),
+        url('{!URLFOR($Resource.AmadeusBoldItalicFont, 'amadeus-bolditalic-web.woff')}') format('woff'), 
+        url('{!URLFOR($Resource.AmadeusBoldItalicFont, 'amadeus-bolditalic-web.ttf')}') format('truetype'), 
+        url('{!URLFOR($Resource.AmadeusBoldItalicFont, 'amadeus-bolditalic-web.svg.woff')}#AmadeusBoldItalic') format('svg'); 
+        font-weight: normal;
+        font-style: normal;
+        }
+        @font-face {
+        font-family: 'AmadeusItalic';
+        src: url('{!URLFOR($Resource.AmadeusItalicFont, 'amadeus-italic-web.eot')}');
+        src: url('{!URLFOR($Resource.AmadeusItalicFont, 'amadeus-italic-web.eot')}?#iefix') format('embedded-opentype'),
+        url('{!URLFOR($Resource.AmadeusItalicFont, 'amadeus-italic-web.woff')}') format('woff'), 
+        url('{!URLFOR($Resource.AmadeusItalicFont, 'amadeus-italic-web.ttf')}') format('truetype'), 
+        url('{!URLFOR($Resource.AmadeusItalicFont, 'amadeus-italic-web.svg.woff')}#AmadeusItalic') format('svg'); 
+        font-weight: normal;
+        font-style: normal;
+        }                
+        @font-face {
+        font-family: 'AmadeusLight';
+        src: url('{!URLFOR($Resource.AmadeusLightFont, 'amadeus-light.eot')}');
+        src: url('{!URLFOR($Resource.AmadeusLightFont, 'amadeus-light.eot')}?#iefix') format('embedded-opentype'),
+        url('{!URLFOR($Resource.AmadeusLightFont, 'amadeus-light.woff')}') format('woff'), 
+        url('{!URLFOR($Resource.AmadeusLightFont, 'amadeus-light.ttf')}') format('truetype'), 
+        url('{!URLFOR($Resource.AmadeusLightFont, 'amadeus-light.svg.woff')}#AmadeusLight') format('svg'); 
+        font-weight: normal;
+        font-style: normal;
+        }
+        @font-face {
+        font-family: 'AmadeusLightItalic';
+        src: url('{!URLFOR($Resource.AmadeusLightItalicFont, 'amadeus-lightitalic.eot')}');
+        src: url('{!URLFOR($Resource.AmadeusLightItalicFont, 'amadeus-lightitalic.eot')}?#iefix') format('embedded-opentype'),
+        url('{!URLFOR($Resource.AmadeusLightItalicFont, 'amadeus-lightitalic.woff')}') format('woff'), 
+        url('{!URLFOR($Resource.AmadeusLightItalicFont, 'amadeus-lightitalic.ttf')}') format('truetype'), 
+        url('{!URLFOR($Resource.AmadeusLightItalicFont, 'amadeus-lightitalic.svg.woff')}#AmadeusLightItalic') format('svg'); 
+        font-weight: normal;
+        font-style: normal;
+        }
+        @font-face {
+        font-family: 'AmadeusRegular';
+        src: url('{!URLFOR($Resource.AmadeusRegularFont, 'amadeus-regular-web.eot')}');
+        src: url('{!URLFOR($Resource.AmadeusRegularFont, 'amadeus-regular-web.eot')}?#iefix') format('embedded-opentype'),
+        url('{!URLFOR($Resource.AmadeusRegularFont, 'amadeus-regular-web.woff')}') format('woff'), 
+        url('{!URLFOR($Resource.AmadeusRegularFont, 'amadeus-regular-web.ttf')}') format('truetype'), 
+        url('{!URLFOR($Resource.AmadeusRegularFont, 'amadeus-regular-web.svg.woff')}#AmadeusRegular') format('svg'); 
+        font-weight: normal;
+        font-style: normal;
+        } 
+        @font-face {
+        font-family: 'AmadeusThin';
+        src: url('{!URLFOR($Resource.AmadeusThinFont, 'amadeus-thin-web.eot')}');
+        src: url('{!URLFOR($Resource.AmadeusThinFont, 'amadeus-thin-web.eot')}?#iefix') format('embedded-opentype'),
+        url('{!URLFOR($Resource.AmadeusThinFont, 'amadeus-thin-web.woff')}') format('woff'), 
+        url('{!URLFOR($Resource.AmadeusThinFont, 'amadeus-thin-web.ttf')}') format('truetype'), 
+        url('{!URLFOR($Resource.AmadeusThinFont, 'amadeus-thin-web.svg.woff')}#AmadeusThin') format('svg'); 
+        font-weight: normal;
+        font-style: normal;
+        }
+        @font-face {
+        font-family: 'AmadeusThinItalic';
+        src: url('{!URLFOR($Resource.AmadeusThinItalicFont, 'amadeus-thinitalic-web.eot')}');
+        src: url('{!URLFOR($Resource.AmadeusThinItalicFont, 'amadeus-thinitalic-web.eot')}?#iefix') format('embedded-opentype'),
+        url('{!URLFOR($Resource.AmadeusThinItalicFont, 'amadeus-thinitalic-web.woff')}') format('woff'), 
+        url('{!URLFOR($Resource.AmadeusThinItalicFont, 'amadeus-thinitalic-web.ttf')}') format('truetype'), 
+        url('{!URLFOR($Resource.AmadeusThinItalicFont, 'amadeus-thinitalic-web.svg.woff')}#AmadeusThinItalic') format('svg'); 
+        font-weight: normal;
+        font-style: normal;
+        }    
+    </style>
+</apex:page>

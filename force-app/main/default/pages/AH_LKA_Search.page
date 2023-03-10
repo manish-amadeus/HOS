@@ -1,0 +1,358 @@
+<apex:page Controller="AH_LKA_Search_Ctlr" showHeader="true" sidebar="true" lightningStylesheets="true" docType="html-5.0">
+
+    <html xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" lang="en">
+        <head>
+            <meta charset="utf-8" />
+            <meta http-equiv="x-ua-compatible" content="ie=edge" />
+            <title>Knowledge Article Search</title>
+            <meta name="viewport" content="width=device-width, initial-scale=1" />
+            <apex:stylesheet value="/apexpages/slds/latest/assets/styles/salesforce-lightning-design-system-vf.css" />
+            <apex:stylesheet value="{!URLFOR($Resource.AmadeusHospitalityStyles)}" />  
+            <apex:slds />
+            
+            <script language="JavaScript" type="text/javascript">
+            
+                window.addEventListener('load', focusSearchText);
+            
+                function noenter(ev)  
+                {
+                    if (window.event && window.event.keyCode == 13 || ev.which == 13) 
+                    {
+                        afDoSearch();
+                        
+                        return true;
+                    } 
+                    else 
+                    {
+                        return true;
+                    }
+                } 
+            
+                function focusSearchText()
+                {
+                    document.getElementById('{!$Component.frmMain.txtSearchText}').focus();
+                }
+            
+            </script>               
+            
+        </head>
+
+        <div class="slds-scope" style="margin: 10px 10px 10px 10px; !important;">
+            
+            <apex:form id="frmMain">
+
+                <apex:actionFunction id="afDoSearch" name="afDoSearch" action="{!doSearch}" oncomplete="focusSearchText();" rerender="opSearchResults,opSearchOptions,txtSearchText,lblSearchResultMsg" />            
+                
+                <div id="divSearch" class="roundedContainer">
+                    
+                    <apex:outputpanel id="opSearch">          
+                                        
+                        <span class="slds-icon_container slds-icon-standard-search"> 
+                            <svg aria-hidden="false" class="slds-icon">    
+                                <use xlink:href="/apexpages/slds/latest/assets/icons/utility-sprite/svg/symbols.svg#search"></use>
+                            </svg> 
+                            <span class="slds-assistive-text">Search</span> 
+                        </span> 
+                        &nbsp;&nbsp; 
+                        <apex:outputLabel id="lblSearchTitle" value="Drill-Down Lightning Knowledge Article Search" styleClass="slds-text-heading_medium slds-text-title_bold" />
+                        <br/>
+                        <br/>
+                        <apex:outputLabel id="lblSearchText" value="Search Text: " />
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+                        <apex:inputText id="txtSearchText" value="{!searchText}" onkeypress="return noenter(event);" label="lblSearchText" size="50" rendered="true" tabindex="1" styleClass="slds-input" style="width:400px;!important;"/>&nbsp;&nbsp;
+                        &nbsp;&nbsp;&nbsp;&nbsp; 
+                        <apex:commandButton id="btnSearch" value="Search" action="{!doSearch}" oncomplete="focusSearchText();" reRender="opSearchResults,ddlArticleStatus,ddlValidationStatus,ddlDomain,txtSearchText,lblSearchResultMsg" status="asStatus" styleClass="slds-button slds-button_brand" />
+                        &nbsp;&nbsp;
+                        <apex:commandButton id="btnPrevious" value="Previous" action="{!goBack}" oncomplete="focusSearchText();" reRender="opSearchResults,ddlArticleStatus,ddlValidationStatus,ddlDomain" status="asStatus" styleClass="slds-button slds-button_outline-brand" />     
+                        &nbsp;&nbsp;
+                        <apex:commandButton id="btnNewSearch" value="New Search" action="{!newSearch}" oncomplete="focusSearchText();" reRender="opSearchResults,ddlArticleStatus,ddlValidationStatus,ddlDomain" status="asStatus" styleClass="slds-button slds-button_outline-brand" />    
+                        <br/>
+                    </apex:outputpanel>
+
+                    <apex:outputpanel id="opSearchOptions">
+                        <table style="width:1300px;">
+                            <tr>
+                                <td style="vertical-align:middle;!important;">
+                                    <div class="slds-form-element slds-form-element_horizontal" style="padding-top:15px;padding-left:75px;width:400px;">
+                                        <label class="slds-form-element__label" for="ddlArticleStatus">Article Status:</label>
+                                        <div class="slds-form-element__control">
+                                            <div class="slds-select_container">
+                                                <apex:selectList id="ddlArticleStatus" value="{!selArticleStatus}" styleClass="slds-select" size="1" multiselect="false" disabled="{!disableOptions}"> 
+                                                    <apex:selectOptions value="{!lstArticleStatuses}" /> 
+                                                </apex:selectList> 
+                                            </div>
+                                        </div>
+                                    </div>                                    
+                                </td>
+                                <td style="vertical-align:middle;!important;">
+                                    <div class="slds-form-element slds-form-element_horizontal" style="padding-top:15px;padding-left:75px;width:410px;">
+                                        <label class="slds-form-element__label" for="ddlValidationStatus">Validation Status:</label>
+                                        <div class="slds-form-element__control">
+                                            <div class="slds-select_container">
+                                                <apex:selectList id="ddlValidationStatus" value="{!selValidationStatus}" styleClass="slds-select" size="1" multiselect="false" disabled="{!disableOptions}"> 
+                                                    <apex:selectOptions value="{!lstValidationStatuses}" /> 
+                                                </apex:selectList> 
+                                            </div>
+                                        </div>
+                                    </div>             
+                                </td>
+                                <td style="vertical-align:middle;!important;">
+                                    <div class="slds-form-element slds-form-element_horizontal" style="padding-top:10px;padding-left:0px;width:410px;">
+                                        <label class="slds-form-element__label" for="ddlDomain">Solution Domain:</label>
+                                        <div class="slds-form-element__control">
+                                            <div class="slds-select_container">
+                                                <apex:selectList id="ddlDomain" value="{!selSolutionDomain}" styleClass="slds-select" size="1" multiselect="false" disabled="{!disableOptions}"> 
+                                                    <apex:selectOptions value="{!lstSolutionDomains}" /> 
+                                                </apex:selectList> 
+                                            </div>
+                                        </div>
+                                    </div> 
+                                </td>
+                            </tr>
+                        </table>
+                        <br/>
+
+                    </apex:outputpanel>
+                </div>   
+                
+                <br/>
+                <apex:pageMessages />
+                
+                <div id="divResults" class="roundedContainer">
+                    
+                    <apex:outputpanel id="opSearchResults">
+                        
+                        <!-- SPINNER -->  
+                        <apex:actionstatus id="asStatus">
+                            <apex:facet name="start">
+                                <div class="slds-spinner_container">
+                                    <div role="status" class="slds-spinner slds-spinner_medium slds-spinner_brand">
+                                        <span class="slds-assistive-text">Loading</span>
+                                        <div class="slds-spinner__dot-a"></div>
+                                        <div class="slds-spinner__dot-b"></div>
+                                    </div>
+                                </div>
+                            </apex:facet>
+                        </apex:actionstatus>                         
+                        
+                        <apex:outputLabel id="lblSearchResults" value="Search Results:" styleClass="slds-text-heading_medium slds-text-title_bold" />
+                        &nbsp;&nbsp; 
+                        <apex:outputLabel id="lblHistoryDisplay" value="{!queryBuilderWHERE}" style="color:#0060bc;font-style: italic;" />
+                        <br/>
+                        &nbsp;&nbsp;
+                        <apex:outputLabel id="lblSearchResultMsg" value="{!searchResultMsg}" />
+                        <br/>
+                        <br/>
+                        <apex:dataTable value="{!lstSearchResults}" var="dt" styleClass="slds-table slds-table_bordered slds-table_striped">
+
+                            <apex:column headerValue="Action" rendered="{! NOT(strCaseId=='')}" style="text-align:center;">
+                                <apex:commandLink action="{!showVerify}" value="" target="_self" title="Attach this article to Case {!strCaseNumber}" rerender="opSearchResults,opConfirm">
+                                    <apex:image id="imgPC" value="{!$Resource.PaperClip}" width="16" height="16" alt="Attach to Case"/>
+                                    <apex:param name="a" assignTo="{!iRow}" value="{!dt.iRowIndex}"/>
+                                </apex:commandLink>
+                            </apex:column>
+
+                            <apex:column >
+                                <apex:facet name="header"> 
+                                    <apex:commandLink id="cmdSortCol1" 
+                                                      value="Article # {!IF(sortByField=='ArticleNumber', IF(sortByDirection='ASC','▲','▼'), '')}" 
+                                                      action="{!doSort}" 
+                                                      status="asStatus"                                                           
+                                                      reRender="opSearchResults">
+                                        <apex:param value="ArticleNumber" name="prm1" assignTo="{!sortByField}" />
+                                    </apex:commandLink>
+                                </apex:facet>                                
+                                <apex:outputLink value="/lightning/r/Lightning_Knowledge__kav/{!dt.ArticleId}/view" target="_blank">
+                                    {!dt.ArticleNumber} 
+                                </apex:outputLink>     
+                            </apex:column> 
+                            
+                            <apex:column styleClass="slds-cell-wrap">
+                                <apex:facet name="header"> 
+                                    <apex:commandLink id="cmdSortCol2" 
+                                                      value="Article Name {!IF(sortByField=='Title', IF(sortByDirection='ASC','▲','▼'), '')}" 
+                                                      action="{!doSort}" 
+                                                      status="asStatus"                                                           
+                                                      reRender="opSearchResults">
+                                        <apex:param value="Title" name="prm2" assignTo="{!sortByField}" />
+                                    </apex:commandLink>
+                                </apex:facet>                                   
+                                <apex:outputText value="{!dt.ArticleName}" />                           
+                            </apex:column> 
+                            
+                            <apex:column >
+                                <apex:facet name="header"> 
+                                    <apex:outputText value="Version Number" />    
+                                </apex:facet>                                  
+                                <apex:outputText value="{!dt.VersionNumber}" />                           
+                            </apex:column>                             
+                            
+                            <apex:column >
+                                <apex:facet name="header"> 
+                                    <apex:outputText value="Publish Status" />    
+                                </apex:facet>                                  
+                                <apex:outputText value="{!dt.PublishStatus}" />                           
+                            </apex:column>   
+
+                            <apex:column >
+                                <apex:facet name="header"> 
+                                    <apex:outputText value="Validation Status" />    
+                                </apex:facet>                                  
+                                <apex:outputText value="{!dt.ArticleStatus}" />                           
+                            </apex:column>   
+
+                            <apex:column >
+                                <apex:facet name="header"> 
+                                    <apex:commandLink id="cmdSortCol4" 
+                                                      value="Business Domain {!IF(sortByField=='Solution_Domain__c', IF(sortByDirection='ASC','▲','▼'), '')}" 
+                                                      action="{!doSort}" 
+                                                      status="asStatus"                                                           
+                                                      reRender="opSearchResults">
+                                        <apex:param value="Solution_Domain__c" name="prm4" assignTo="{!sortByField}" />
+                                    </apex:commandLink>
+                                </apex:facet>                                  
+                                <apex:outputText value="{!dt.BusinessDomain}" /> 
+                            </apex:column> 
+                            
+                            <apex:column >
+                                <apex:facet name="header"> 
+                                    <apex:commandLink id="cmdSortCol5" 
+                                                      value="Cases Linked {!IF(sortByField=='ArticleCaseAttachCount', IF(sortByDirection='ASC','▲','▼'), '')}" 
+                                                      action="{!doSort}" 
+                                                      status="asStatus"                                                           
+                                                      reRender="opSearchResults">
+                                        <apex:param value="ArticleCaseAttachCount" name="prm5" assignTo="{!sortByField}" />
+                                    </apex:commandLink>
+                                </apex:facet>                                  
+                                <apex:outputText value="{!dt.CasesLinked}" />                           
+                            </apex:column> 
+                            
+                        </apex:dataTable>
+                        
+                        <apex:outputLabel value="{!queryBuilderFINAL}" style="color: white;" />  
+                        
+                        <br/>
+                        
+                    </apex:outputpanel>
+                    
+                </div>   
+                
+
+                 <!-- CONFIRMATION DIALOG -->                
+                <apex:outputPanel id="opConfirm">
+                    <apex:outputPanel styleClass="popupBackground" layout="block" rendered="{!bShowConfirmAttach}" />
+                    <apex:outputPanel styleClass="popupConfirmationBox" layout="block" rendered="{!bShowConfirmAttach}">
+                        
+                        <!-- (DIALOG CLOSE) --> 
+                        <apex:commandButton id="cmdViewCxlXBtn" value="X" action="{!hideVerify}" status="asAttachSave" 
+                                            rerender="opSearchResults,opConfirm" 
+                                            style="position:absolute;left:800px;top:-40px;font-size:24px;border:3px solid white;border-radius: 5px;box-shadow: 5px 5px 5px #888888;!important;" 
+                                            styleClass="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" />
+
+                        <!-- (SPINNER) -->  
+                        <apex:actionstatus id="asAttachSave">
+                            <apex:facet name="start">
+                                <div class="slds-spinner_container">
+                                    <div role="status" class="slds-spinner slds-spinner_medium slds-spinner_brand">
+                                        <span class="slds-assistive-text">Saving</span>
+                                        <div class="slds-spinner__dot-a"></div>
+                                        <div class="slds-spinner__dot-b"></div>
+                                    </div>
+                                </div>
+                            </apex:facet>
+                        </apex:actionstatus>  
+                        
+                        <!-- (DIALOG HEADER) --> 
+                        <header class="slds-modal__header">
+                            <h2 class="slds-text-heading_medium slds-hyphenate" id="modal-heading-01">
+                                <apex:outputText value="CONFIRMATION" rendered="{!bShowConfirmAttach}" />                        
+                            </h2>
+                        </header>                         
+                        
+                        <div style="text-align: center;">
+                            <br />
+                            <apex:outputText value="{!strConfirmAttachMsg}" escape="false" />
+                            <br />
+                            <br />
+                            <apex:commandButton id="cmdNo" value="No" action="{!hideVerify}" rerender="opSearchResults,opConfirm" styleClass="slds-button slds-button_outline-brand" status="asAttachSave" />&nbsp;
+                            <apex:commandButton id="cmdYes" value="Yes" action="{!doAttach}" rerender="opSearchResults,opConfirm" styleClass="slds-button slds-button_brand" status="asAttachSave" />
+                            <br />
+                            <br />
+                        </div>
+                    </apex:outputPanel>
+                </apex:outputPanel>                 
+                
+                
+                <script language="JavaScript" type="text/javascript">
+                function sFocus()
+                {
+                    var x = document.getElementById("{!$Component.txtSearchText}");
+                    x.focus();
+                }
+                </script>   
+                
+            </apex:form>          
+            
+        </div>
+
+        <style type="text/css"> 
+            .popupDialogBox 
+            {      
+                position: absolute;
+                background-color: white;
+                border-width: 2px;
+                border-style: solid;
+                border-color: gray;
+                border-radius: 5px;
+                top: 60px;
+                left: 50%;
+                width: 1000px;
+                margin-left: -500px;
+                z-index: 9999;
+                padding: 10px; 
+            }                
+            .popupBackground 
+            {          
+                position: fixed;
+                width: 100%;
+                height: 500%;
+                top: 0;
+                right: 0;
+                bottom: 0;
+                left: 0;
+                z-index: calc(9000 + 2);
+                background-color: rgba(0,0,0,.1);
+                visibility: visible;
+                opacity: 1;
+                transition: opacity .2s ease,visibility 0s;
+                transition-delay: 0s,.3s; 
+            }
+            .roundedContainer
+            {
+                width: 100%;
+                border: 2px solid lightgrey;
+                padding: 10px;
+                border-radius: 5px;
+                !important;
+            }
+            .slds-spinner_container {
+                position: relative;
+                width: 100%;
+                height: 100%;
+                top: 0;
+                right: 0;
+                bottom: 0;
+                left: 0;
+                z-index: calc(9000 + 2);
+                background-color: rgba(255,255,255,.75);
+                visibility: visible;
+                opacity: 1;
+                transition: opacity .2s ease,visibility 0s;
+                transition-delay: 0s,.3s;
+                !important;
+            } 
+        </style>
+        
+    </html>
+  
+</apex:page>

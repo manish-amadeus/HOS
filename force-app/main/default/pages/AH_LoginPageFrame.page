@@ -1,0 +1,68 @@
+<apex:page showHeader="false" sidebar="false">
+    
+    <html>
+        <head>
+            <style>
+                body {
+                    height: 100vh;
+                    background-image: url('https://amadeus-hospitality.secure.force.com/Forms/resource/1581002560000/LoginPageFrameImage?');
+                    background-repeat: no-repeat;
+                    background-color: #FFFFFF;
+                    background-size: cover;
+                }                
+                @font-face {
+                    font-family: 'AmadeusThin';
+                    src: url('https://amadeus-hospitality.secure.force.com/Forms/resource/1517586134000/AmadeusThinFont/amadeus-thin-web.woff?orgId=00D300000006Ctn') format('woff');
+                    font-weight: normal;
+                    font-style: normal;                
+                } 
+                .hero-overlay
+                {
+                    background:url('https://amadeus-hospitality.secure.force.com/Forms/resource/1581002656000/ahcc_shape5?') no-repeat;
+                    opacity: 0.6;
+                    background-size:contain;
+                    width:620px;
+                    height:400px;
+                    text-align:left;
+                    display:-ms-flexbox;
+                    display:flex;
+                    -ms-flex-direction:column;
+                    flex-direction:column;
+                    -ms-flex-pack:center;
+                    justify-content:center
+                }
+                .hero-text {
+                    font-family: AmadeusThin !important;
+                    text-align: center;
+                    position: absolute;
+                    top: 180px;
+                    left: 220px;
+                    transform: translate(-50%, -50%);
+                    color: white;
+                }
+                .container
+                {
+                    max-width:100px;
+                    padding: 20px 20px;
+                    margin: 0 0px
+                } 
+            </style>
+        </head>
+        <body>
+            <apex:form >    
+                <div class="container"> 
+                    <div class="hero-overlay">
+                        <div class="hero-text">
+                            <apex:outputText id="lblTitle" style="font-size:30px;color:#FFFFFF;" value="Amadeus Hospitality" />
+                            <br/>
+                            <br/>
+                            <apex:outputText id="lblDesc" style="font-size:24px;color:#FFFFFF;" value="Salesforce Login" />
+                            <br/>
+                        </div>
+                    </div>
+                </div>
+            </apex:form> 
+        </body>
+    </html>    
+    
+</apex:page>

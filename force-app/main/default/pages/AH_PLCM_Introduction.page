@@ -1,0 +1,310 @@
+<apex:page controller="AH_PLCM_Introduction" action="{!CheckTermsAndConditionStatus}" showHeader="false" sidebar="false" lightningStylesheets="true" applyHtmlTag="false" applyBodyTag="false" docType="html-5.0">
+    <head>
+        <apex:stylesheet value="{!$Resource.AH_PLCM_Style}"/>
+    </head>
+    <div class="loader">
+        <div class="spinner"></div>
+    </div>
+    <apex:form id="frmMain">        
+        <div style="font-size:34px; font-weight:bold; text-align:center;{!IF(ddlProjects.size <= 1, 'display:none', '')} ">Welcome {!UserName}</div>
+        <div class="introductionContent" style="{!IF(ddlProjects.size <= 1, 'display:none', '')}">
+            By completing this migration tool, you will begin the process of transferring from Hotel SalesPro to the Amadeus Sales &amp; Event Management – Standard or Essentials product. This tool will allow you to provide required property information, select users to create and determine how you want your hotel&#39;s account traces (activities) to be transferred in the migration to the new application.
+        </div>
+        <table cellspacing="10" style="text-align:left;font-family: Arial,Helvetica,sans-serif;{!IF(ddlProjects.size <= 1, '', 'display:none')}">
+            <tbody>
+                <tr>
+                    <td><span style="font-weight: bold; font-size: 12pt;">Insufficient Permissions</span></td>
+                </tr>
+                <tr>
+                    <td>
+                        You do not have the level of access necessary to complete this action. You do not have an active migration project at this time.
+                        <br/><br/>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <div style="text-align:center; padding-top:40px;">
+            <div style="font-size:20px; margin-bottom:10px;{!IF(ddlProjects.size <= 2, 'display:none', '')}">
+                <strong>Migration Project: </strong>
+                <apex:selectList id="ddlProjects" onchange="javascript:projectSelected(this);" value="{!ProjectId}" size="1" style="padding:8px">
+                    <apex:selectOptions value="{!ddlProjects}"></apex:selectOptions>
+                </apex:selectList>
+                <div class="errorMsg" style="display:none;">Please select migration project.</div>
+            </div>
+        </div>
+        <div id="divProjectDetails" style="font-size:18px;{!IF(ddlProjects.size == 2, '', 'display:none')}">
+            <table border="0" style=" width:100%;">
+                    <tbody>
+                    <tr>
+                        <td class="date-lbl">
+                            Portal Completion Due Date:
+                        </td>
+                        <td class="txt-left">
+                            <apex:outputText id="txtPortalDueDate" value="{0, date, M/dd/yyyy}">
+                                <apex:param value="{!objProject.AH_PLCM_Portal_Completion_Due_Date__c}" /> 
+                            </apex:outputText>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="date-lbl">
+                            Scheduled Migration Date:
+                        </td>
+                        <td class="txt-left disabled-wrapper">
+                            <apex:inputField id="txtMigrationDate" value="{!objProject.AH_PLCM_Migration_Date__c}" styleClass="disabled-control" style="padding:8px" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="date-lbl">
+                            Request Alternate Migration Date?
+                        </td>
+                        <td class="txt-left">
+                            <input type="checkbox" id="chkNotConvinient" class="chk-large" />
+                        </td>
+                    </tr>
+                    <tr id="trProposedDate" style="display:none;">
+                        <td class="date-lbl">
+                            Requested Migration Date:
+                        </td>
+                        <td class="txt-left">
+                            <apex:inputField id="txtProposedMigrationDate" value="{!objProject.AH_PLCM_Proposed_Migration_Date__c}" style="padding:8px" />
+                            <div class="errorMsg" id="errorMsgPMD" style="display:none;">Please select requested migration date.</div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div style="text-align:center; padding-top:20px;">
+            <apex:commandButton value="Next" onclick="javascript:return validate();" action="{!RedirectToPropertyPage}" style="{!IF(ddlProjects.size > 1, '', 'display:none;')}" />
+        </div>
+    </apex:form>
+    <apex:includeScript value="{!$Resource.AH_PLCM_JQuery_341}"/>
+    <script type="text/javascript">
+        var __sfdcSessionId = '{!GETSESSIONID()}'; //Use to execute SOQL query
+    </script>
+    <script src="{!BaseUrl}/soap/ajax/55.0/connection.js" type="text/javascript"></script>
+    <script type="text/javascript">
+        var ddlProjects = $(document.getElementById('{!$Component.frmMain.ddlProjects}'));
+        var txtPortalDueDate = $(document.getElementById('{!$Component.frmMain.txtPortalDueDate}'));
+        var txtMigrationDate = $(document.getElementById('{!$Component.frmMain.txtMigrationDate}'));
+        var txtProposedMigrationDate = $(document.getElementById('{!$Component.frmMain.txtProposedMigrationDate}'));
+        var chkNotConvinient = $('#chkNotConvinient');
+        document.addEventListener("DOMContentLoaded", function(event) {
+            //Change Page Title
+            window.parent.document.title = "Home";
+            
+            if(parseInt('{!ddlProjects.size}') == 2) {
+                if('{!objProject.AH_PLCM_Portal_Progress__c}' == 'Cross-Reference Complete' || '{!objProject.AH_PLCM_Portal_Progress__c}' == 'Customer Inputs Complete') {
+                    //If all steps completed then do not allow to change requested migration date
+                    disableControl(chkNotConvinient, true);
+                }
+
+                if(txtMigrationDate.val() == '' && txtPortalDueDate.text() != '') {
+                    var portalDueDate = new Date(txtPortalDueDate.text());
+
+                    if(portalDueDate != null && portalDueDate.getDate() > 0) {
+                        //Set migration date based on portal due date
+                        setMigrationDate(portalDueDate);
+                    }
+                }
+                else if(txtProposedMigrationDate.val() != '') {
+                    chkNotConvinient.prop("checked", true);
+                    disableControl(chkNotConvinient, true); //Make checkbox disabled
+                    disableControl(txtProposedMigrationDate, true); //Make textbox disabled
+                    $("#trProposedDate").show();
+                }
+            }
+
+            chkNotConvinient.on("change", function() {
+                txtProposedMigrationDate.val('');
+                $("#errorMsgPMD").hide(); //Hide error message
+                if($(this).is(":checked")) {
+                    $("#trProposedDate").show(isIEBrowser() ? '' : 'slow');
+                }
+                else {
+                    $("#trProposedDate").hide(isIEBrowser() ? '' : 'slow');
+                }
+            });
+
+            txtProposedMigrationDate.prop('readonly', true);
+            txtProposedMigrationDate.on("change", function () {
+                if($(this).val() != '') {
+                    $("#errorMsgPMD").hide(); //Hide error message
+
+                    var migrationDate = stringToDate(txtMigrationDate.val());
+                    var proposedMigrationDate = stringToDate($(this).val());
+                    if(proposedMigrationDate < migrationDate && migrationDate.getDate() > 0) {
+                        $(this).val('');
+                        alert('Requested Migration Date should not be earlier than Scheduled Migration Date.');
+                    }
+                    else if(proposedMigrationDate.getDay() == 6 || proposedMigrationDate.getDay() == 0) { //Saturday or Sunday
+                        $(this).val('');
+                        alert('Requested Migration Date should not be weekend.');
+                    }
+                }
+            });
+        });
+
+        //Being used to make control disabled using css
+        function disableControl(elem, flagDisable) {
+            if(flagDisable) {
+                $(elem).addClass('disabled-control');
+                $(elem).parent().addClass('disabled-wrapper'); //For IE 11.0 and lower version browsers
+            }
+            else {
+                $(elem).removeClass('disabled-control');
+                $(elem).parent().removeClass('disabled-wrapper');
+            }
+        }
+
+        //Check if portal is opened with IE browser
+        function isIEBrowser() {
+            var userAgent = window.navigator.userAgent;
+            return userAgent.indexOf("MSIE ") > 0 || !!navigator.userAgent.match(/Trident.*rv\:11\./);
+        }
+
+        function setFocusOnLoad() {} //Prevent date picker showing default on load
+
+        function projectSelected(elem) {
+            var ProjectId = $(elem).val();
+            txtPortalDueDate.text('');
+            txtMigrationDate.val('');
+            txtProposedMigrationDate.val('');
+            chkNotConvinient.prop("checked", false);
+            $("#trProposedDate").hide();
+            $(".errorMsg").hide(); //Hide all error messages
+
+            if(ProjectId == '') {
+                //If project not selected then hide project details and return
+                $("#divProjectDetails").slideUp(500);
+                $(elem).siblings(".errorMsg").show(); //Display error message
+                return;
+            }
+            else {
+                //Display project information
+                $("#divProjectDetails").slideDown(500);
+                
+                //Get project information and display dates
+                getProjectInfo(ProjectId);
+            }            
+        }
+        //get project information by project id
+        function getProjectInfo(ProjectId) {
+            $(".loader").show(); //Display loader
+
+            var state = {
+                //state that you need when the callback is called
+                startTime : new Date().getTime()
+            };
+            var callback = {
+                onSuccess: function(data) {
+                    $(".loader").hide(); //Hide loader
+                    chkNotConvinient.prop('checked', false);
+                    disableControl(txtProposedMigrationDate, false); //Make checkbox enabled
+                    disableControl(chkNotConvinient, false); //Make checkbox enabled
+                    $("#trProposedDate").hide();
+                    
+                    if(data != null && typeof(data.records) != "undefined" && data.records != null) {
+                        var portalDueDate = stringToDate(data.records.AH_PLCM_Portal_Completion_Due_Date__c != null ? data.records.AH_PLCM_Portal_Completion_Due_Date__c : '', '-');
+                        var migrationDate = stringToDate(data.records.AH_PLCM_Migration_Date__c != null ? data.records.AH_PLCM_Migration_Date__c : '', '-');
+                        var suggesteMigrationDate = stringToDate(data.records.AH_PLCM_Proposed_Migration_Date__c != null ? data.records.AH_PLCM_Proposed_Migration_Date__c : '', '-');
+                        var portalProgressStatus = data.records.AH_PLCM_Portal_Progress__c;
+
+                        if(portalDueDate.getDate() > 0) { //Portal due date is not blank
+                            //Display portal due date in format
+                            txtPortalDueDate.text(formatDate(portalDueDate));
+
+                            if(migrationDate != null && migrationDate.getDate() > 0) {
+                                //Set migration date format
+                                txtMigrationDate.val(formatDate(migrationDate));
+                            }
+                            else if(portalDueDate.getDate() > 0) {
+                                //Set migration date based on portal due date
+                                setMigrationDate(portalDueDate);
+                            }
+                        }
+                        
+                        if(suggesteMigrationDate != null && suggesteMigrationDate.getDate() > 0) { //Suggested migration date is not blank
+                            $(txtProposedMigrationDate).val(formatDate(suggesteMigrationDate));
+                            chkNotConvinient.prop('checked', true);
+                            disableControl(txtProposedMigrationDate, true); //Make text disabled
+                            disableControl(chkNotConvinient, true); //Make checkbox disabled
+                            $("#trProposedDate").show();
+                        }
+                        else if(portalProgressStatus == 'Cross-Reference Complete' || portalProgressStatus == 'Customer Inputs Complete') { //when project migartion is completed then disable the checkbox of 'Requested Alternate migartion date'
+                            //If all steps completed then do not allow to change requested migration date
+                            disableControl(chkNotConvinient, true);
+                        }
+                    }
+                },
+                onFailure: function(error) {
+                    $(".loader").hide(); //Hide loader
+                },
+                source: state
+            };
+
+            //SOQL query to get project information
+            sforce.connection.query("SELECT Id, Name, AH_PLCM_Portal_Completion_Due_Date__c, AH_PLCM_Migration_Date__c, AH_PLCM_Proposed_Migration_Date__c, AH_PLCM_Portal_Progress__c FROM NI_Documentation__c WHERE Id = '" + ProjectId + "'", callback);
+        }
+
+        //Set migration date based on portal due date 
+        function setMigrationDate(portalDueDate) {
+            var migrationDate = new Date(portalDueDate);
+            migrationDate.setDate(portalDueDate.getDate() + 7);
+            if(migrationDate.getDay() == 6 || migrationDate.getDay() == 0) { //Saturday or Sunday
+                var newDay = migrationDate.getDay() == 0 ? 1 : 2; //Move to monday
+                migrationDate.setDate(migrationDate.getDate() + newDay);
+            }
+            txtMigrationDate.val(formatDate(migrationDate));
+        }
+
+        //Set date format from database date
+        function stringToDate(strDate) {
+            if(typeof(strDate) == "undefined" || strDate == null || strDate == '') {
+                return null;
+            }
+
+            if(strDate.indexOf('/') != -1) {
+                var arr = strDate.split('/');
+                return new Date(parseInt(arr[2]), parseInt(arr[0]) - 1, parseInt(arr[1]));
+            }
+            else {
+                var arr = strDate.split('-');
+                return new Date(parseInt(arr[0]), parseInt(arr[1]) - 1, parseInt(arr[2]));
+            }
+        } 
+             
+        //Set date format
+        function formatDate(date) {
+            var strDate = '';
+            if(typeof(date) != "undefined" && date != null && new Date(date).getDate() > 0) {
+                var day = date.getDate();
+                var month = date.getMonth();
+                var year = date.getFullYear();
+                
+                strDate = (month + 1) + '/' + day + '/' + year;
+            }
+            return strDate;
+        }
+        
+        //Validate data for further use
+        function validate() {
+            if(parseInt("{!ddlProjects.size}") > 2 && ddlProjects.val() == '') { //Project not selected
+                ddlProjects.siblings(".errorMsg").show();
+                return false;
+            }
+            else {
+                ddlProjects.siblings(".errorMsg").hide();
+
+                var flagError = false;
+                if(chkNotConvinient.is(":checked") && txtProposedMigrationDate.val() == '') { //Proposed migration date not selected
+                    flagError = true;
+                    $("#errorMsgPMD").show();
+                }
+                else {
+                    $("#errorMsgPMD").hide();
+                }
+                return !flagError;
+            }
+        }
+    </script>
+</apex:page>

@@ -1,0 +1,169 @@
+<apex:page controller="AH_CBS_LicenseReq_ctrl" showHeader="false" sidebar="false" lightningStylesheets="true" applyHtmlTag="false" applyBodyTag="false" docType="html-5.0">
+    
+    <html xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" lang="en">
+        <head>
+            <meta charset="utf-8" />
+            <meta http-equiv="x-ua-compatible" content="ie=edge" />
+            <title>CBS License Request Selection</title>
+            <meta name="viewport" content="width=device-width, initial-scale=1" />
+            <apex:stylesheet value="/apexpages/slds/latest/assets/styles/salesforce-lightning-design-system-vf.css" />
+            <apex:stylesheet value="{!URLFOR($Resource.AmadeusHospitalityStyles)}" />  
+            <apex:includeScript value="{!$Resource.Toast}"/>
+            <apex:slds />
+        </head>
+        
+        <script language="JavaScript" type="text/javascript">
+        function doToggle() 
+        {
+            editLine();  
+        }              
+        
+        </script>
+        
+        <div id="divMain" class="slds-scope" style="padding:10px 10px 10px 10px;"> 
+
+            <apex:form >
+
+                <apex:actionFunction action="{!doLineEdit}" name="editLine" reRender="opDetails" /> 
+                
+                <!-- SPINNER -->  
+                <apex:actionstatus id="asStatus">
+                    <apex:facet name="start">
+                        <div class="slds-spinner_container">
+                            <div role="status" class="slds-spinner slds-spinner_medium slds-spinner_brand" style="top:300px;!important;">
+                                <span class="slds-assistive-text">Saving</span>
+                                <div class="slds-spinner__dot-a"></div>
+                                <div class="slds-spinner__dot-b"></div>
+                            </div>
+                        </div>
+                    </apex:facet>
+                </apex:actionstatus> 
+                
+                
+                <!-- HEADER SECTION -->
+                <apex:outputPanel id="opHeader">                
+                    <div id="divHeader" class="roundedContainer">
+                        <table style="font-size:16px;">        
+                            <tr>
+                                <td colspan="4" style="text-align:center !important;">
+                                    <apex:outputText value="Amadeus License Request Line Item Selection" style="font-size:20px;!important;" /> 
+                                </td>
+                            </tr> 
+                            <tr>
+                                <td colspan="2" style="text-align:left;padding:15px;">
+
+                                </td>
+                                <td colspan="2" style="text-align:right;padding:15px;">
+
+                                </td>
+                            </tr>                      
+                        </table> 
+                        
+                        <apex:pageMessages id="txtMsgs" />
+                        <apex:outputPanel id="opButtons" rendered="{!bShowLicenses}">  
+                            <apex:commandButton id="btnCancel" value="Cancel" action="{!doCancel}" />
+                            &nbsp;&nbsp;
+                            <apex:commandButton id="btnSubmit" value="Submit" action="{!doSubmit}" status="asStatus" reRender="opHeader,opDetails" />                          
+                        </apex:outputPanel>
+                        <apex:commandButton id="btnOK" value="Close" action="{!doCancel}" status="asStatus" rendered="{!bShowLicenses==false}" />  
+                    </div>
+                    <br />
+                </apex:outputPanel>
+                
+                <apex:outputPanel id="opDetails" rendered="{!bShowLicenses}">
+                    
+                    <div id="divDetails" class="roundedContainer">
+                        
+                        <apex:dataTable id="dtLLIs" value="{!lstLicenseLineItems}" var="dt" styleClass="slds-table slds-table_striped" rendered="true">
+
+                            <apex:column styleClass="slds-cell-wrap">
+                                <apex:facet name="header">   
+                                    <apex:outputText value="Select" />
+                                </apex:facet>
+                                <apex:inputCheckbox id="chk1" value="{!dt.isSelected}" onchange="doToggle();" />
+                            </apex:column>
+                            
+                            <apex:column styleClass="slds-cell-wrap">
+                                <apex:facet name="header">   
+                                    <apex:outputText value="Amadeus License Type" />
+                                </apex:facet>
+                                <apex:selectList id="ddlLicenseTypeNames" value="{!dt.strLicenseTypeName}" style="width: 340px;" size="1" multiselect="false" rendered="{!dt.inEditMode}"> 
+                                    <apex:selectOptions value="{!lstLicenseTypes}" />
+                                </apex:selectList>                                
+                                <apex:outputText id="txtLicTypeView" value="{!dt.strLicenseTypeName}" style="text-align:left;" rendered="{! NOT(dt.inEditMode)}" />   
+                                <apex:inputHidden value="{!dt.CBSLicenseTypeId}" />
+                            </apex:column>
+
+                            <apex:column styleClass="slds-cell-wrap">
+                                <apex:facet name="header">   
+                                    <apex:outputText value="Total Licenses" />
+                                </apex:facet>
+                                <apex:outputText value="{!dt.Total_Licenses}" style="text-align:left;" />    
+                            </apex:column>
+                            
+                            <apex:column styleClass="slds-cell-wrap">
+                                <apex:facet name="header">   
+                                    <apex:outputText value="Used Licenses" />
+                                </apex:facet>
+                                <apex:outputText value="{!dt.Used_Licenses}" style="text-align:left;" />    
+                            </apex:column>
+                            <apex:column styleClass="slds-cell-wrap">
+                                <apex:facet name="header">   
+                                    <apex:outputText value="Reserved Licenses" />
+                                </apex:facet>
+                                <apex:outputText value="{!dt.Reserved_Licenses}" style="text-align:left;" />    
+                            </apex:column>
+                            <apex:column styleClass="slds-cell-wrap">
+                                <apex:facet name="header">   
+                                    <apex:outputText value="Available Licenses" />
+                                </apex:facet>
+                                <apex:outputText value="{!dt.Available_Licenses}" style="text-align:left;" />    
+                            </apex:column>
+                            
+                            <!--
+                            <apex:column styleClass="slds-cell-wrap">
+                                <apex:facet name="header">   
+                                    <apex:outputText value="License Type Description" />
+                                </apex:facet>
+                                <apex:outputText value="{!dt.strLicenseTypeDesc}" style="text-align:left;" />    
+                            </apex:column>
+                            
+                            <apex:column >
+                                <apex:facet name="header">   
+                                    <apex:outputText value="Cost" />
+                                </apex:facet>
+                                <apex:outputText value="{!dt.dCost}" style="text-align:right;" />    
+                            </apex:column>
+                            -->
+                            <apex:column >
+                                <apex:facet name="header">   
+                                    <apex:outputText value="Quantity" />
+                                </apex:facet>
+                                <apex:inputText id="txtQtyE" value="{!dt.dQuantity}" style="text-align:right;width:80px;" rendered="{!dt.inEditMode}" /> 
+                                <apex:outputText id="txtQty" value="{!dt.dQuantity}" style="text-align:right;" rendered="{! NOT(dt.inEditMode)}" /> 
+                            </apex:column>
+                            
+                            <apex:column styleClass="slds-cell-wrap">
+                                <apex:facet name="header">   
+                                    <apex:outputText value="Note to Admin" />
+                                </apex:facet>
+                                <apex:inputText id="txtNoteE" value="{!dt.strNote}" style="text-align:left;width:800px;" rendered="{!dt.inEditMode}" /> 
+                                <apex:outputText id="txtNote" value="{!dt.strNote}" style="text-align:left;" rendered="{! NOT(dt.inEditMode)}" /> 
+                            </apex:column>
+                            
+                        </apex:dataTable>
+                        
+                    </div>
+                </apex:outputPanel>
+                
+            </apex:form>
+            
+        </div>
+        
+        <style type="text/css">               
+
+        </style>
+        
+    </html>
+    
+</apex:page>

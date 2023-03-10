@@ -1,0 +1,221 @@
+<apex:page controller="AH_Rally_ProductMapping_Ctlr" lightningStylesheets="true">
+    
+    <html xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" lang="en">
+        <head>
+            <meta charset="utf-8" />
+            <meta http-equiv="x-ua-compatible" content="ie=edge" />
+            <title>Rally - Product to Project Mapping</title>
+            <meta name="viewport" content="width=device-width, initial-scale=1" />
+            <apex:stylesheet value="/apexpages/slds/latest/assets/styles/salesforce-lightning-design-system-vf.css" />
+            <apex:stylesheet value="{!URLFOR($Resource.AmadeusHospitalityStyles)}" />  
+            <apex:slds />
+        </head>
+        
+        <div id="divMain" class="slds-scope" style="padding-top:10px;">   
+            
+            <apex:form >
+                
+                <!-- SPINNER -->  
+                <apex:actionstatus id="asStatus">
+                    <apex:facet name="start">
+                        <div class="slds-spinner_container" style="position:fixed;!important;">
+                            <div role="status" class="slds-spinner slds-spinner_medium slds-spinner_brand" style="top:300px;position:fixed;!important;">
+                                <span class="slds-assistive-text">Saving</span>
+                                <div class="slds-spinner__dot-a"></div>
+                                <div class="slds-spinner__dot-b"></div>
+                            </div>
+                        </div>
+                    </apex:facet>
+                </apex:actionstatus>    
+                
+                <apex:sectionHeader title="Mapping Product With Project" />
+                <!-- subtitle="You can map product family and product with project, different combination of product famliy and product cannot have same project"-->
+                
+                <apex:pageMessage summary="You can map product family and product with project" severity="info" strength="1" />
+
+                <apex:pageBlock id="pbMain">                    
+                    
+                    <div id="divNewMapping" class="roundedContainer">
+                        
+                        <apex:outputLabel id="lblNewMapping" value="Add new mapping records here..." />
+                        
+                        <apex:dataTable id="tblNew" value="{!lstNewMapping}" var="nm" styleClass="list"> 
+                            
+                            <apex:column id="colNewDomain" headerValue="Rally Solution Domain">
+                                <apex:inputField value="{!nm.myCase.Product_Family__c}" label="Product Family" />
+                            </apex:column>
+                            
+                            <apex:column id="colNewProduct" headerValue="Case Product Line">
+                                <apex:inputField value="{!nm.myCase.Case_Product_Line__c}" />
+                            </apex:column>
+                            
+                            <apex:column id="colNewModule" headerValue="Module">
+                                <apex:inputField value="{!nm.myCase.Module__c}" />
+                            </apex:column>
+                            
+                            <apex:column id="colNewComponent" headerValue="Component">
+                                <apex:inputField value="{!nm.myCase.Component__c}" />
+                            </apex:column>
+                            
+                            <apex:column id="colNewProject" headerValue="Project">
+                                <apex:selectList id="slNewProject" value="{!nm.project}" size="1">
+                                    <apex:selectOptions value="{!soProjects}"/>
+                                </apex:selectList>
+                            </apex:column>
+                            
+                            <apex:column id="colNewAction" headerValue="">
+                                <apex:commandButton action="{!doAddRow}" value="Add Mapping" rendered="true" reRender="opAddMsg,pbMain" status="asStatus" />  
+                            </apex:column>   
+                            
+                        </apex:dataTable>  
+                        
+                        <apex:outputPanel id="opAddMsg" style="margin:100px;left:35%;position:relative;!important;">
+                            <apex:outputLabel id="lblAddMsg" value="{!strAddMsg}" style="{!strAddMsgStyle}" />
+                        </apex:outputPanel>
+                        
+                    </div>
+                    
+                    <br/>
+                    
+                    <apex:outputLabel id="lblMappingCount" value="{!strMappingCount}" />
+                    
+                    <apex:dataTable id="tblMain" value="{!lstMappings}" var="c" styleClass="slds-table slds-table_striped">
+                        
+                        <apex:column id="colActions" headerValue="Action">
+                            <!-- VIEW MODE -->
+                            <apex:commandLink action="{!doEdit}" value="Edit" rendered="{! !c.inEditMode}" reRender="pbMain" status="asStatus">
+                                <apex:param name="editRowSwitch" assignTo="{!iSelectedRow}" value="{!c.iIndex}" />
+                            </apex:commandLink>
+                            <apex:outputText value="&nbsp;|&nbsp;" escape="false" rendered="{! !c.inEditMode}" />  
+                            <apex:commandLink action="{!deleteConfirm}" value="Delete" rendered="{! !c.inEditMode}" reRender="pbMain,opDeleteConfirm" status="asStatus">
+                                <apex:param name="deleteRowSwitch" assignTo="{!iSelectedRow}" value="{!c.iIndex}" />
+                            </apex:commandLink>
+                        </apex:column> 
+                        
+                        <apex:column id="colDomain" headerValue="Rally Solution Domain">
+                            <!-- VIEW MODE -->
+                            <apex:outputField value="{!c.myCase.Product_Family__c}" label="Product Family" rendered="{! !c.inEditMode}" />                            
+                            <!-- EDIT MODE -->
+                            <apex:inputField value="{!c.myCase.Product_Family__c}" label="Product Family" rendered="{!c.inEditMode}" />
+                        </apex:column>
+                        
+                        <apex:column id="colProduct" headerValue="Case Product Line">
+                            <!-- VIEW MODE -->
+                            <apex:outputField value="{!c.myCase.Case_Product_Line__c}" rendered="{! !c.inEditMode}" />                            
+                            <!-- EDIT MODE -->
+                            <apex:inputField value="{!c.myCase.Case_Product_Line__c}" rendered="{!c.inEditMode}" />
+
+                        </apex:column>
+                        
+                        <apex:column id="colModule" headerValue="Module">
+                            <!-- VIEW MODE -->
+                            <apex:outputField value="{!c.myCase.Module__c}" rendered="{! !c.inEditMode}" />
+                            <!-- EDIT MODE -->
+                            <apex:inputField value="{!c.myCase.Module__c}" rendered="{!c.inEditMode}" />
+                        </apex:column>
+                        
+                        <apex:column id="colComponent" headerValue="Component">
+                            <!-- VIEW MODE -->
+                            <apex:outputField value="{!c.myCase.Component__c}" rendered="{! !c.inEditMode}" />
+                            <!-- EDIT MODE -->
+                            <apex:inputField value="{!c.myCase.Component__c}" rendered="{!c.inEditMode}" />
+                        </apex:column>
+                        
+                        <apex:column id="colProject" headerValue="Project">
+                            <!-- VIEW MODE -->
+                            <apex:outputText value="{!c.project}" rendered="{! !c.inEditMode}" />
+                            <!-- EDIT MODE -->
+                            <apex:selectList id="slProjects" value="{!c.project}" size="1" rendered="{!c.inEditMode}">
+                                <apex:selectOptions value="{!soProjects}"/>
+                            </apex:selectList>
+                            &nbsp;&nbsp;
+                            <apex:commandButton action="{!doSaveEdit}" value="Save" rendered="{!c.inEditMode}" reRender="pbMain" status="asStatus" styleClass="slds-button slds-button_outline-brand">
+                                <apex:param name="saveEditSwitch" assignTo="{!iSelectedRow}" value="{!c.iIndex}" />
+                            </apex:commandButton>
+                            &nbsp;
+                            <apex:commandButton action="{!doCancelEdit}" value="Done" rendered="{!c.inEditMode}" reRender="pbMain" status="asStatus" styleClass="slds-button slds-button_brand">
+                                <apex:param name="saveEditCancelSwitch" assignTo="{!iSelectedRow}" value="{!c.iIndex}" />
+                            </apex:commandButton>
+                        </apex:column>
+                        
+                    </apex:dataTable>
+                    
+                    <apex:pageBlockButtons >
+                        <!-- <apex:commandButton value="Save Mapping" action="{!saveMapping}"/> -->
+                        <apex:commandButton value="Cancel" action="{!cancelMapping}"/>
+                    </apex:pageBlockButtons>
+                    
+                    <!-- EDIT CONFIRMATION --> 
+                    <apex:outputPanel id="opEditConfirm" rendered="{!bShowEditConfirmDialog}">
+                        <apex:outputPanel styleClass="popupBackground" layout="block" rendered="{!bShowEditConfirmDialog}" />
+                        <apex:outputPanel styleClass="popupDialogBox" layout="block" rendered="{!bShowEditConfirmDialog}" style="position:fixed;!important;">
+                            <!-- (SPINNER) -->  
+                            <apex:actionstatus id="asEditStatus">
+                                <apex:facet name="start">
+                                    <div class="slds-spinner_container">
+                                        <div role="status" class="slds-spinner slds-spinner_medium slds-spinner_brand">
+                                            <span class="slds-assistive-text">Edit Confirmation</span>
+                                            <div class="slds-spinner__dot-a"></div>
+                                            <div class="slds-spinner__dot-b"></div>
+                                        </div>
+                                    </div>
+                                </apex:facet>
+                            </apex:actionstatus>                     
+                            <br />
+                            <div style="text-align: center;">
+                                <br />
+                                &nbsp;
+                            	<apex:outputLabel id="lblEditMsg" value="{!strEditMsg}" style="{!strEditMsgStyle}" />
+                                <br />
+                                <br />
+                                <apex:commandButton id="cmdOKEdit" value="OK" action="{!editDialogClose}" status="asEditStatus" reRender="opEditConfirm,pbMain" styleClass="slds-button slds-button_outline-brand" />                                
+                                <br />
+                            </div> 
+                            <br />
+                        </apex:outputPanel>   
+                    </apex:outputPanel>
+                    
+                    <!-- DELETE CONFIRMATION --> 
+                    <apex:outputPanel id="opDeleteConfirm" rendered="{!bShowDeleteConfirmDialog}">
+                        <apex:outputPanel styleClass="popupBackground" layout="block" rendered="{!bShowDeleteConfirmDialog}" />
+                        <apex:outputPanel styleClass="popupDialogBox" layout="block" rendered="{!bShowDeleteConfirmDialog}" style="position:fixed;!important;">
+                            <!-- (SPINNER) -->  
+                            <apex:actionstatus id="asDeleteStatus">
+                                <apex:facet name="start">
+                                    <div class="slds-spinner_container">
+                                        <div role="status" class="slds-spinner slds-spinner_medium slds-spinner_brand">
+                                            <span class="slds-assistive-text">Confirm deletion</span>
+                                            <div class="slds-spinner__dot-a"></div>
+                                            <div class="slds-spinner__dot-b"></div>
+                                        </div>
+                                    </div>
+                                </apex:facet>
+                            </apex:actionstatus>                     
+                            <br />
+                            <div style="text-align: center;">
+                                <br />
+                                <apex:outputLabel id="lblDeletePrompt" value="Are you sure you want to delete the selected mapping?" />
+                                <br />
+                                <br />
+                                <div class="roundedContainer" style="margin: auto;width: 600px;text-align: left !important;">
+                                    <apex:outputLabel id="lblDeleteDetails" value="{!strDeletionDetails}" escape="false" />
+                                </div>
+                                <br/>
+                                <apex:commandButton id="cmdNoDelete" value="No" action="{!deleteCancel}" status="asDeleteStatus" reRender="opDeleteConfirm,pbMain" styleClass="slds-button slds-button_outline-brand" />
+                                &nbsp; 
+                                <apex:commandButton id="cmdYesDelete" value="Yes" action="{!doDelete}" status="asDeleteStatus" reRender="opDeleteConfirm,pbMain" styleClass="slds-button slds-button_brand" />
+                                <br/>
+                            </div> 
+                            <br />
+                        </apex:outputPanel>   
+                    </apex:outputPanel>
+                    
+                </apex:pageBlock>    
+
+            </apex:form>
+            
+        </div>
+        
+    </html>
+    
+</apex:page>

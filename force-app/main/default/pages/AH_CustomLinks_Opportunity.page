@@ -1,0 +1,38 @@
+<apex:page standardController="Opportunity" showHeader="false" sidebar="false" lightningStylesheets="true" applyHtmlTag="false" applyBodyTag="false" docType="html-5.0">
+    
+    <style>
+        body
+        {
+            font-size: 12px !important;
+        }
+		#image 
+        {
+            height: 300px; 
+            width: 560px; 
+            background-image: url({!URLFOR($Resource.Astro)});
+            background-position: 50px -80px;
+            background-repeat: no-repeat;
+            position: relative;
+        	opacity: 0.7; 
+            filter:alpha(opacity=50); 
+        }
+    </style>
+    
+    <div id="image">    
+        <a href="http://vas64/Salesforce/CsrDir.asp?uid={!$User.Username}&ep={!$User.Phone}&fn={!$User.FirstName}&ln={!$User.LastName}&on={!Opportunity.Opportunity_Number__c}&onam={!Opportunity.Name}&oid={!Opportunity.Id}&aid={!Opportunity.Account.Id}&an={!Opportunity.Account.Name}&pn={!Opportunity.Account.Parent}&anum={!Opportunity.Account.AccountNumber}" target="_blank">New Custom Service Request</a>
+        <br/>
+        <a href="https://www.dreamfactory.com/orgview/orgview.html?sessionid={!GETSESSIONID()}&serverurl={!LEFT($CurrentPage.URL,FIND('/',$CurrentPage.URL,9))}&username={!$User.Username}&fullname={!$User.FirstName} {!$User.LastName}&linkid={!Opportunity.AccountId}&userid={!$User.Id}" target="_blank">View/Edit Org Chart</a>
+        <br/>
+        <a href="/00O30000000yhlp?fv0={!Opportunity.Project_Name__c}" target="_blank">Related Opportunities</a>
+        <br/>
+        <a href="/00O60000000z3IT?fv0={!Opportunity.Id}" target="_blank">Opportunity Product Report</a>
+        <br/>
+        <a href="/00O60000003pv5Z?fv0={!Opportunity.Id}" target="_blank">Contact Roles</a>
+        <br/>
+        <a href="/apex/AH_CreateServiceOrder?OppId={!Opportunity.Id}" target="_blank">Create Service Order</a>
+        <br/>
+        <a href="/apex/NI_Create_HRM_Org?OppId={!Opportunity.Id}" target="_blank">Create HRM Org</a>
+        <br/>     
+    </div> 
+          
+</apex:page>

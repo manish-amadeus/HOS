@@ -1,0 +1,26 @@
+<apex:page >
+..
+    <h1>Welcome to Newmarket International's Live Agent</h1>
+
+<body>    
+    <script type='text/javascript' src='https://c.la2w1.salesforceliveagent.com/content/g/deployment.js'></script>
+    <script type='text/javascript'>
+        liveagent.init('https://d.la2w1.salesforceliveagent.com/chat', '57260000000PAsD', '00D300000006Ctn');
+    </script>
+    
+    <a id="liveagent_button_online_57360000000PAsD" href="javascript://Chat" style="display: none;" onclick="liveagent.startChat('57360000000PAsD')">
+    <!-- Online Chat Content --></a>
+    <div id="liveagent_button_offline_57360000000PAsD" style="display: none;">
+    <!-- Offline Chat Content -->
+    </div>
+    
+    <script type="text/javascript">
+    if (!window._laq) { window._laq = []; }
+    window._laq.push(function(){liveagent.showWhenOnline('57360000000PAsD', document.getElementById('liveagent_button_online_57360000000PAsD'));
+    liveagent.showWhenOffline('57360000000PAsD', document.getElementById('liveagent_button_offline_57360000000PAsD'));
+    });
+    </script>
+</body>
+
+  
+</apex:page>

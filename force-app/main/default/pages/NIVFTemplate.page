@@ -1,0 +1,191 @@
+<apex:page showHeader="false" id="ICETemplate" standardStylesheets="false">
+    <html>
+    <head>
+        <title>Newmarket International Inc. - Delphi.Net To Delphi.fdc Upgrade Portal</title> 
+
+        <style type="text/css">
+        
+            body
+            {
+                font-family: 'Trebuchet MS', Helvetica, sans-serif !important;
+                margin:0;
+                font-size:1em;
+                background-image:url({!$Resource.ColorBar});
+                background-repeat:no-repeat;
+                background-position:center top;
+                background-color:#DDDDDD;
+            }   
+            .headerclass
+            {
+                text-align: center;
+                background-color:#DDDDDD;
+            }
+            .footer
+            {
+                font-family: 'Trebuchet MS', Helvetica, sans-serif !important;
+                color:#484848;
+                border-top-width:1px;
+                border-top-style:solid;
+                border-top-color:#484848;
+                background-image:url({!$Resource.FooterBar});
+                background-repeat:repeat-x;
+                height:114px;
+                font-size:11px;
+            }
+            #Foot_Container
+            {
+                width:970px;
+                margin-top:0px;
+                margin-right:auto;
+                margin-bottom:0px;
+                margin-left:auto;
+                padding-top:22px;
+            }
+            #FooterLinks
+            {
+                font-size:12px;
+                float:left;
+                padding-top:38px;
+            }        
+            #Container
+            {
+                width:970px;
+                margin-top:0px;
+                margin-right:auto;
+                margin-bottom:0px;
+                margin-left:0px;
+            }
+            #Header
+            {
+                height:63px;
+                margin-top:17px;
+            }        
+            #MainNav
+            {
+                float:left;
+            }
+            #Logo
+            {
+                float:left;
+                width:300px;
+            }        
+            #Foot_Logo
+            {
+                float:left;
+            }    
+            .taskcompleted 
+            {
+                height: 23px;
+                padding: 4px 0px 4px 30px;
+                margin: 3px 0px;
+                background:url({!$Resource.ICE_TaskCompleted}) left top no-repeat;
+            }
+            .tasknotcompleted 
+            {
+                height: 23px;
+                padding: 4px 0px 4px 30px;
+                margin: 3px 0px;
+                background:url({!$Resource.ICE_TaskNotCompleted}) left top no-repeat;
+            }        
+            input, textarea, select, span 
+            {
+                font-family: 'Trebuchet MS', Helvetica, sans-serif !important;
+                font-size:14px !important;
+                color: #696969 !important;
+            }
+            .tr, td
+            {
+                font-family: 'Trebuchet MS', Helvetica, sans-serif !important;
+                font-size:14px !important;
+                color: #696969 !important;
+            }            
+            a, a:link, a:visited, a:active, a:hover 
+            {
+                color: #f4911e;
+                border: none;
+                outline: none;
+                text-decoration: none;
+                font-family: 'Trebuchet MS', Helvetica, sans-serif !important;
+            }        
+            h1 
+            {
+                margin: 20px 0 !important;
+                font-size:18px;
+                display:block;
+                font-family: 'Trebuchet MS', Helvetica, sans-serif !important;
+            }
+            h2 
+            {
+                text-transform: uppercase;
+                font-size:15px;
+                line-height: 32px;
+                border-bottom: dotted 1px #b6b6b6;
+                color: #006892;
+                display:block;
+                font-family: 'Trebuchet MS', Helvetica, sans-serif !important;
+            }
+            h3 
+            {
+                color: #fff;
+                padding: 0 0 0 0;
+                margin: 0 0 0 0;
+                font-size: 16px;
+                font-family: 'Trebuchet MS', Helvetica, sans-serif !important;
+                display:block;
+            }
+            .formsubmit 
+            {
+                background: #f3901d !important;
+                font-size: 14px !important;
+                font-weight: bold;
+                margin: 2px 0px;
+                border: 0 !important;
+                color: #fff !important;
+                padding: 5px 10px !important;
+            }
+            .formsubmitdisabled 
+            {
+                background: #fff !important;
+                font-size: 14px !important;
+                font-weight: bold;
+                margin: 2px 0px;
+                border: #bbb 2px solid !important;
+                color: #bbb !important;
+                padding: 3px 8px !important;
+            }            
+            .headerRow .headerStyle
+            {
+                text-align: center;
+                font-family: 'Trebuchet MS', Helvetica, sans-serif !important;
+            }           
+                   
+        </style>
+        
+        
+    </head> 
+    <body>
+        <div align="center">
+            <header>
+                <div id="Container">
+                    <div id="Header">
+                        <a href="http://new.newmarketinc.com/"><apex:image url="{!$Resource.NILogo2013}" alt="Newmarket" title="Go to newmarketinc.com"/></a>
+                    </div>
+                </div>
+            </header>  
+            <table>
+                <tr>
+                    <td>
+                        <apex:insert name="body"/>
+                    </td>
+                </tr>
+            </table>
+
+            <div class="footer">
+                <br/>
+                © 2014 Newmarket International. All Rights Reserved.
+            </div>
+        </div>
+    </body>
+    </html>
+
+</apex:page>

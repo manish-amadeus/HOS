@@ -1,0 +1,274 @@
+<!---
+DESCRIPTION     : Step Order Page
+Created By      : Ravi Shah
+Created On      : 15-Dec-2020
+Last Mod Date   : 8-Feb-2021
+Last Mod By     : Sanjay Parmar
+Change History  :
+                  1. 590045 - Refactoring Code - Changed by Sanjay Parmar on 8-Feb-2021
+-->
+
+<apex:page cache="false" standardcontroller="AH_UDC_Workbook__c" extensions="AH_UDC_StepOrder" showheader="false" sidebar="false">
+   <head>
+      <apex:slds />
+      <title>Step Order</title>
+      <style type="text/css">         
+         .pbBottomButtons .pbTitle { /*Hide extra td of PageBlockBUttons to make buttons center aligned*/
+            display: none;
+         }
+
+         #ddlStepList {
+            min-width: 100px;
+         }
+         /*In case of no steps exist display drop down with proper design*/
+
+         .step-order-arrow-up, .step-order-arrow-down {
+            display: block;
+         }
+
+         .step-order-arrow-up {
+            margin-bottom: 5px;
+         }
+
+         .step-order-arrow-down {
+            margin-top: 5px;
+         }
+
+         .step-order-arrow-up:hover, .step-order-arrow-down:hover {
+            text-decoration: underline;
+            color: #015ba7;
+         }
+
+         .arrow-image {
+            background: transparent url({!URLFOR($Resource.AH_UDC_UpDown_Arrows)}) no-repeat; 
+            width: 24px; 
+            height: 20px;
+         }
+
+         .double-arrow-up {
+            background-position: left -240px;
+         }
+
+         a:hover .double-arrow-up {
+            background-position: left -260px;
+         }
+
+         .double-arrow-down {
+            background-position: left -300px;
+         }
+
+         a:hover .double-arrow-down {
+            background-position: left -320px;
+         }
+
+         .arrow-up {
+            background-position: left -120px;
+         }
+
+         a:hover .arrow-up {
+            background-position: left -140px;
+         }
+
+         .arrow-down {
+            background-position: left -180px;
+         }
+
+         a:hover .arrow-down {
+            background-position: left -200px;
+         }
+      </style>
+   </head>
+   <body>
+      <apex:form id="frmStepOrder">
+         <apex:pageblock id="pbStepOrder" title="{!$Label.AH_UDC_StepOrder_PageHeader_Text}">
+            <!-- Display error message and OK button in case of exception-->
+            <apex:outputPanel id="opErrorMessage">
+               <apex:pagemessages id="pageMessage" />
+               <center style="{!IF(IsErrorOccurred , '', 'display:none;')}">
+                  <button class="slds-button slds-button_brand" onclick="closeAndRefresh(false); return false;" id="btnOK">{!$Label.AH_UDC_OK}</button>
+               </center>
+            </apex:outputPanel>
+            <!--This action function is used to log entries that occurred on loading of the page-->
+            <apex:actionfunction name="actionfunction_LogMessages" action="{!ServerLogMessages}" oncomplete="return false;" />
+            <center style="position: relative; {!IF(IsErrorOccurred , 'display:none;', '')}">
+               <!-- Spinner-->
+               <div id="spinner" class="slds-spinner_container" style="display: none;">
+                  <div role="status" class="slds-spinner slds-spinner_medium slds-spinner_brand">
+                     <span class="slds-assistive-text">Loading</span>
+                     <div class="slds-spinner__dot-a"></div>
+                     <div class="slds-spinner__dot-b"></div>
+                  </div>
+               </div>
+
+               <table id="tblStepOrder" cellspacing="0" cellpadding="0" border="0" style="width: auto;">
+                  <tbody>
+                     <tr>
+                        <td>
+                           <div style="text-align:center;">
+                              <label class="slds-form-element__label" for="ddlStepList"><b>{!$Label.AH_UDC_StepOrder_ListHeader_Text}</b></label>
+                              <div class="slds-form-element__control">
+                                 <select id="ddlStepList" class="slds-float_right" size="15">
+                                    <apex:repeat value="{!StepList}" var="step">
+                                       <option value="{!step.Id}">{!step.Name}</option>
+                                    </apex:repeat>
+                                 </select>
+                              </div>
+                           </div>
+                           <!--Hidden field to save comma spearated step ids in specified order-->
+                           <apex:inputhidden id="hdnStepIds" value="{!StepIds}" />
+                        </td>
+                        <td style="padding-left: 15px; padding-top: 70px; text-align: center;" class="slds-float_left">
+                           <label>{!$Label.AH_UDC_StepOrder_TopButton_Text}</label>
+                           <a class="step-order-arrow-up" href="javascript:void(0);" onclick="javascript:changeStepOrder('top');">
+                              <img src="{!URLFOR($Resource.AH_UDC_Empty_Image)}" class="arrow-image double-arrow-up" style="height: 20px;" alt="{!$Label.AH_UDC_StepOrder_TopButton_Text}" title="{!$Label.AH_UDC_StepOrder_TopButton_Text}" />
+                           </a>
+                           <label>{!$Label.AH_UDC_StepOrder_UpButton_Text}</label>
+                           <a class="step-order-arrow-up" href="javascript:void(0);" onclick="javascript:changeStepOrder('up');">
+                              <img src="{!URLFOR($Resource.AH_UDC_Empty_Image)}" class="arrow-image arrow-up" style="height: 20px;" alt="{!$Label.AH_UDC_StepOrder_UpButton_Text}" title="{!$Label.AH_UDC_StepOrder_UpButton_Text}" />
+                           </a>
+                           <a class="step-order-arrow-down" href="javascript:void(0);" onclick="javascript:changeStepOrder('down');">
+                              <img src="{!URLFOR($Resource.AH_UDC_Empty_Image)}" class="arrow-image arrow-down" style="height: 20px;" alt="{!$Label.AH_UDC_StepOrder_DownButton_Text}" title="{!$Label.AH_UDC_StepOrder_DownButton_Text}" />
+                           </a>
+                           <label>{!$Label.AH_UDC_StepOrder_DownButton_Text}</label>
+                           <a class="step-order-arrow-down" href="javascript:void(0);" onclick="javascript:changeStepOrder('bottom');">
+                              <img src="{!URLFOR($Resource.AH_UDC_Empty_Image)}" class="arrow-image double-arrow-down" style="height: 20px;" alt="{!$Label.AH_UDC_StepOrder_BottomButton_Text}" title="{!$Label.AH_UDC_StepOrder_BottomButton_Text}" />
+                           </a>
+                           <label>{!$Label.AH_UDC_StepOrder_BottomButton_Text}</label>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </center>
+            <apex:pageblockbuttons id="pbButtons" rendered="{!IsErrorOccurred != true}" location="bottom" style="{!IF(IsErrorOccurred, 'display:none;', '')}text-align:center;">
+               <apex:commandbutton disabled="{!IF(HasWorkbookStep == true, 'false', 'true')}" styleclass="slds-button slds-button_brand" id="btnConfirm" value="{!$Label.AH_UDC_Confirm}" onclick="javascript:onClickConfirmButton(); return false;" />
+               <apex:commandbutton styleclass="slds-button slds-button_brand" id="btnCancel" value="{!$Label.AH_UDC_Cancel}" onclick="javascript:closeAndRefresh(false);" />
+            </apex:pageblockbuttons>
+            <apex:actionfunction name="saveStepOrders" action="{!SaveStepOrders}" oncomplete="javascript:closeAndRefresh(true);" rerender="opErrorMessage,scriptPanel" />
+            <apex:outputpanel id="scriptPanel">
+               <!--Need to rerender this script in case of error so added here-->
+               <script type="text/javascript">
+                  //Redirect specific NI-doc when click on cancel and confirm button
+                  function closeAndRefresh(flagRefresh) {
+                     if('{!IsErrorOccurred}' == 'true' && flagRefresh) {
+                        //If error occurred then hide spinner
+                        document.getElementById('spinner').style.display = 'none';
+
+                        var tblStepOrder = document.getElementById('tblStepOrder');
+                        var divButtons = document.getElementsByClassName('pbBottomButtons');
+                        tblStepOrder.style.display = 'none'; //Hide step picklist in case of error
+                        divButtons[0].style.display = 'none'; //Hide button section in case of error
+                        //If error occurred then do not close window on click of confirm button
+                        return;
+                     }
+
+                     var id = "{!$CurrentPage.parameters.id}";
+                     if((typeof sforce != 'undefined') && sforce && (!!sforce.one)) { //Lightning View
+                        if(flagRefresh) {
+                           //Refresh workbook record on click of Confirm button
+                           window.parent.location.href = "/" + id;
+                        }
+                        else {
+                           //Do not refresh if cancel button clicked
+                           sforce.one.navigateToSObject(id);
+                        }
+                     }
+                     else { //Classic View
+                        if(flagRefresh) {
+                           //Refresh workbook record on click of Confirm button
+                           window.opener.location.href = "/" + id;
+                        }
+                        window.top.close();
+                     }
+                  }
+               </script>
+            </apex:outputpanel>
+         </apex:pageblock>
+      </apex:form>
+      <script type="text/javascript">
+         window.onload = function() {
+            //Log Any Messages
+            if ('{!HasPageLoadLogMessages}'.toLowerCase() == 'true') {
+               setTimeout(actionfunction_LogMessages, 500);
+            }
+
+            if('{!IsErrorOccurred}' == 'true') {
+               var divButtons = document.getElementsByClassName('pbBottomButtons');
+               divButtons[0].style.display = 'none'; //Hide button section in case of error
+            }
+
+            var ddlStepList = document.getElementById('ddlStepList');
+            var intWidth = ddlStepList.offsetWidth + 110;
+            var intHeight = ddlStepList.offsetHeight + 200;
+            //Set widnow size based on page content width and height
+            window.resizeTo(intWidth > 400 ? intWidth : 400, intHeight > 400 ? intHeight : 400);
+
+            //Fill comma separated step ids in hidden field
+            prepareStepIdsString();
+         }
+
+         //Change setp order based on action value (Top, Up, Down, Bottom) provided
+         function changeStepOrder(strAction) {
+            var ddlStepList = document.getElementById('ddlStepList');
+            var selectedIndex = ddlStepList.selectedIndex;
+            var targetIndex = -1;
+            var lastIndex = ddlStepList.options.length - 1;
+            if(selectedIndex < 0 || typeof(strAction) == 'undefined' || strAction == null) {
+               //If no option selected or action value is not provided then do not proceed further
+               return;
+            }
+            else  {
+               switch(strAction.toLowerCase()) {
+                  case 'top':
+                        targetIndex = 0;
+                        break;
+                  case 'up':
+                        targetIndex = selectedIndex > 0 ? selectedIndex - 1 : 0;
+                        break;
+                  case 'down':
+                        targetIndex = selectedIndex >= lastIndex ? lastIndex : selectedIndex + 1;
+                        break;
+                  case 'bottom':
+                        targetIndex = lastIndex;
+                        break;
+               }
+
+               if(targetIndex > -1) { //If valid action value provided then process further
+                  if(strAction.toLowerCase() == 'top' || strAction.toLowerCase() == 'up') {
+                        //If top or Up button clicked then perform insert before otherwise perform insert after
+                        ddlStepList.insertBefore(ddlStepList.options[selectedIndex], ddlStepList.options[targetIndex]);
+                  }
+                  else {
+                        ddlStepList.insertBefore(ddlStepList.options[selectedIndex], ddlStepList.options[targetIndex].nextSibling);
+                  }
+               }
+
+               //Fill comma separated step ids in hidden field
+               prepareStepIdsString();
+            }
+         }
+
+         //Fill comma separated step ids in hidden field
+         function prepareStepIdsString() {
+            var hdnStepIds = document.getElementById('{!$Component.frmStepOrder.pbStepOrder.hdnStepIds}');
+            var ddlStepList = document.getElementById('ddlStepList');
+            var strStepIds = '';
+            for(index = 0; index < ddlStepList.options.length; index++) {
+               if(strStepIds == '') {
+                  strStepIds = ddlStepList.options[index].value;
+               }
+               else {
+                  strStepIds += "," + ddlStepList.options[index].value;
+               }
+            }
+            hdnStepIds.value = strStepIds;
+         }
+
+         function onClickConfirmButton() {
+            document.getElementById('spinner').style.display = ''; //Display spinner
+            document.getElementById('{!$Component.frmStepOrder.pbStepOrder.pbButtons.btnConfirm}').disabled = true; // Disable Confirm button
+            document.getElementById('{!$Component.frmStepOrder.pbStepOrder.pbButtons.btnCancel}').disabled = true; // Disable Cancel button
+            saveStepOrders();
+         }
+      </script>
+   </body>
+</apex:page>

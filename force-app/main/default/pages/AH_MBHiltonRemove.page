@@ -1,0 +1,288 @@
+<apex:page title="Hilton MeetingBroker Update Form" sidebar="false" showHeader="false" >    
+    
+    <script language="JavaScript" type="text/javascript">
+
+        function Validate(theForm) 
+        {
+
+            // PROPERTY CHANGE IN MB VALIDATION
+            var myPicklistElement = document.getElementById('00N60000001Zzxl');
+            var myPicklistValue = myPicklistElement.options[myPicklistElement.selectedIndex].value;
+            
+            if (myPicklistValue == "--None--") {
+                alert("Please choose a value for the \"Property Change in Meetingbroker\" field.");
+                myPicklistElement.focus();
+                return (false);
+            }
+
+            // FIRST NAME VALIDATION 
+            if (theForm.first_name.value == "") {
+                alert("Please enter a value for the \"First Name\" field.");
+                theForm.first_name.focus();
+                return (false);
+            }
+            if (theForm.first_name.value.length < 1) {
+                alert("Please enter at least 1 characters in the \"First Name\" field.");
+                theForm.first_name.focus();
+                return (false);
+            }
+
+            // LAST NAME VALIDATION 
+            if (theForm.last_name.value == "") {
+                alert("Please enter a value for the \"Last Name\" field.");
+                theForm.last_name.focus();
+                return (false);
+            }
+            if (theForm.last_name.value.length < 1) {
+                alert("Please enter at least 1 characters in the \"Last Name\" field.");
+                theForm.last_name.focus();
+                return (false);
+            }
+
+            // REQUESTER EMAIL VALIDATION 
+            if (theForm.email.value == "") {
+                alert("Please enter a value for the \"Email\" field.");
+                theForm.email.focus();
+                return (false);
+            }
+            if (theForm.email.value.length < 1) {
+                alert("Please enter a value for the \"Email\" field.");
+                theForm.email.focus();
+                return (false);
+            }
+
+            // REQUESTER PHONE VALIDATION 
+            if ((theForm.phone.value == "") || (theForm.phone.value.length < 1)) 
+            {
+                alert("Please enter a value for the \"Requester Phone\" field.");
+                theForm.phone.focus();
+                return (false);
+            }
+
+            // HIDB PROPERTY LEGAL NAME VALIDATION 
+            if (theForm.company.value == "") {
+                alert("Please enter a value for the \"HIDB Property Legal Name\" field.");
+                theForm.company.focus();
+                return (false);
+            }
+
+            
+            // PROPERTY HOLIDEX CODE VALIDATION
+            if (theForm.Prop_Holidex_Code__c.value == "") {
+                alert("Please enter a value for the \"Inn Code\" field.");
+                theForm.Prop_Holidex_Code__c.focus();
+                return (false);
+            }
+            
+            theForm.description.value = "";            
+            theForm.description.value = theForm.description.value + "Requestor First Name = " + theForm.first_name.value + "\n";
+            theForm.description.value = theForm.description.value + "Requestor Last Name = " + theForm.last_name.value + "\n";
+            theForm.description.value = theForm.description.value + "Requestor Email = " + theForm.email.value + "\n";
+            theForm.description.value = theForm.description.value + "Requestor Phone = " + theForm.phone.value + "\n";
+            theForm.description.value = theForm.description.value + "HIDB Property Legal Name = " + theForm.company.value + "\n";
+            theForm.description.value = theForm.description.value + "Inn Code = " + theForm.Prop_Holidex_Code__c.value;   
+
+            return (true);
+        }
+
+    </script>
+
+    <center>
+        <br />
+        <br />
+        <apex:image url="{!$Resource.AmadeusMBFormLogo}" alt="Amadeus Hospitality" />
+        <br />
+        <br />
+        <br />
+        <font style="font-weight: bold; font-size: 1.875em;">
+            Hilton MeetingBroker Update Form - Remove Property
+        </font>
+        <br />
+        <br />
+        <font size="2">Please fill out and submit this form and an Amadeus Hospitality representative will contact you.
+            <br />
+            <br />
+            <i>Required fields are marked with an asterisk.</i>
+        </font>
+        <br />
+        <br />
+    </center>
+    
+    
+    <center>
+
+        <form action="{!$Label.MB_Form_Action_URL}" method="post" name="ContactForm">
+
+        <table width="100%" align="center" border="0">
+              <tr>
+                <td width="20%">
+                </td>
+                <td width="60%" valign="top" align="center">
+                    <font size="2">
+                        <table border="0" cellpadding="5">
+                            <tr>
+                                <td align="right">
+                                    <b>Property Change in MB * :</b>
+                                </td>
+                                <td align="left">
+                                    <select id="00N60000001Zzxl" name="00N60000001Zzxl" title="Property Change in MB">
+                                        <option value="Remove">Remove</option>
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td align="right">
+                                    <b>Requestor First Name * :</b>
+                                </td>
+                                <td align="left">
+                                    <input name='first_name' value='' size='50' />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td align="right">
+                                    <b>Requestor Last Name * :</b>
+                                </td>
+                                <td align="left">
+                                    <input name='last_name' value='' size='50' />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td align="right">
+                                    <b>Requestor Email * :</b>
+                                </td>
+                                <td align="left">
+                                    <input name='email' value='' size='50' />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td align="right">
+                                    <b>Requestor Phone * :</b>
+                                </td>
+                                <td align="left">
+                                    <input name='phone' value='' size='50' />
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td align="right">
+                                    <b>HIDB Property Legal Name * :</b>
+                                </td>
+                                <td align="left">
+                                    <input name='company' value='' size='50' />
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td align="right">
+                                    &nbsp;
+                                </td>
+                                <td align="left">
+                                    &nbsp;
+                                </td>
+                            </tr>
+  
+                            <tr>
+                                <td align="right">
+                                    <b>Inn Code * :</b>
+                                </td>
+                                <td align="left">
+                                    <input name="Prop_Holidex_Code__c" size="50"/>
+                                </td>
+                            </tr>
+
+                            <tr>
+
+                            </tr>
+
+                          <tr>
+
+                                <td align="left">
+                                    <table>
+                                        <tr>
+                                            <td>
+                                                &nbsp;
+                                            </td>
+                                         </tr>
+                                        <tr>
+                                            
+                                        </tr>
+                                        <tr>
+                                            
+                                       </tr>
+                                        <tr>
+                                            
+                                        </tr>
+                                        <tr>
+                                           
+                                        </tr>
+                                        <tr>
+                                            
+                                        </tr>
+                                        <tr>
+                                            
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                
+                                            </td>
+                                            <td>
+                                               
+                                            </td>
+                                            <td>
+                                                
+                                            </td>
+
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td align="right">
+                                    &nbsp;
+                                </td>
+                                <td align="left">
+                                    &nbsp;
+                                </td>
+                            </tr>
+                            <tr>
+                                <td align="right">
+                                    &nbsp;
+                                </td>
+                                <td align="left">
+                                    <input type="Submit" value="Submit" onclick="return Validate(this.form)"/>&nbsp;&nbsp;
+                                    <input type="Reset" value="Clear"/>
+                                </td>
+                            </tr>
+                        </table>
+                    </font>
+                </td>
+                <td width="20%">
+                </td>
+            </tr>
+            <tr>
+                <td width="20%">
+                    &nbsp;
+                </td>
+                <td width="60%">
+                    <font size="1">
+                        
+                    </font>
+                </td>
+                <td width="20%">
+                    &nbsp;
+                </td>
+            </tr>
+        </table>
+        
+        <input type="hidden" name="lead_source" value="Web Site" />
+        <input type="hidden" name="description" value="" />
+        <input type="hidden" name='Campaign_ID' value="{!$Label.MB_Hilton_Campaign_ID}" />
+        <input name="oid" type="hidden" value="{!$Organization.Id}" />
+        <input type="hidden" name="retURL" value="{!$Site.CurrentSiteUrl}AH_FormsMsg?retURL=%2F{!$Site.Name}%2F{!$CurrentPage.Name}" />
+        <input type="hidden" name="industry" value="Hotels & Lodging" />
+        
+        </form>
+
+    </center>
+
+</apex:page>

@@ -1,0 +1,268 @@
+<!-----------------------------------------------------------------------------------------------------------------------
+Name            : NeighborhoodCaseCustomListView Visualforce Page
+Author          : Stuart Emery
+Created Date    : 3/28/2014
+Last Mod Date   : 3/28/2014
+Last Mod By     : Stuart Emery
+NICC Reference  : NICC-009802
+Description     : The NeighborhoodCaseCustomListView Visualforce page is used in the "Neighborhood Community as 
+                : the home page for the Cases Tab 
+
+------------------------------------------------------------------------------------------------------------------------->
+<apex:page title="Neighborhood Cases" controller="NeighborhoodCaseCustomListView" showHeader="true" sidebar="true" readOnly="true" cache="false">
+    <!-- SCRIPT USED TO SET THE FOCUS ON THE LIST VIEW SO THE START DATE CALENDAR POP-UP WINDOW DOESN'T SHOW -->  
+    <script type="text/javascript">
+    window.onload = setFocus
+    function setFocus() 
+    {
+        document.getElementById("idView").focus();
+    }
+
+    function noenter(ev)  
+    {
+        if (window.event && window.event.keyCode == 13 || ev.which == 13) 
+        {
+            doSearchAF();
+            return false;
+        } 
+        else 
+        {
+            return true;
+        }
+    }
+    </script>
+     
+    <apex:form >
+        
+        <apex:actionFunction name="doSearchAF" action="{!initCaseSearch}" />
+        
+        <apex:pageBlock >
+            <apex:panelGrid columns="3">
+                <apex:outputLabel value="View: " style="font-weight:600"/>
+                <apex:selectList value="{!selectedValue}" size="1" multiselect="false" id="idView">
+                    <apex:selectOptions value="{!Views}" />
+                    <apex:actionSupport event="onchange" status="status" action="{!initCaseSearch}" rerender="myPanel,myButtons,initialButtons" />
+                </apex:selectList>
+            </apex:panelGrid>      
+            <apex:pageBlockSection title="Case Search Options" collapsible="false">
+                <apex:outputPanel id="searchPanelContainer">
+                    <table>
+                        <tr>
+                            <td style="text-align: right; width: 100px; font-weight: bold;">
+                                <apex:outputText value="Search By:" />&nbsp;
+                            </td>
+                            <td style="text-align: top-align;">
+                                <apex:selectRadio value="{!searchByMode}">
+                                    <apex:selectOptions value="{!searchModes}" />
+                                    <apex:actionSupport event="onchange" reRender="searchPanelContainer" action="{!changeMode}" />
+                                </apex:selectRadio>
+                            </td>
+                        </tr>
+                    </table> 
+                    <apex:outputPanel id="divSearchByDate" rendered="{! !showSearchByNumber}">
+                        <div>
+                            <table>   
+                                <tr>
+                                    <td style="text-align: right; width: 100px; font-size:11px; font-weight: bold;">
+                                        <apex:outputText value="Start Date:" />&nbsp;
+                                    </td>
+                                    <td style="font-size:11px;">
+                                        <apex:inputText value="{!displayStartDate}" id="sDate" onfocus="DatePicker.pickDate(false, this, false);" size="9" />
+                                    </td>
+                                    <td style="text-align: right; width: 100px; font-size:11px; font-weight: bold;">
+                                        <apex:outputText value="End Date:" />&nbsp;
+                                    </td>
+                                    <td style="font-size:11px;">
+                                        <apex:inputText value="{!displayEndDate}" id="eDate" onfocus="DatePicker.pickDate(false, this, false);" size="9" onkeypress="return noenter(event);" /> 
+                                    </td>
+                                </tr>
+                            </table>  
+                        </div>
+                    </apex:outputPanel>
+                    <apex:outputPanel id="divSearchByNumber" rendered="{!showSearchByNumber}">
+                        <table>
+                            <tr>
+                                <td style="text-align: right; width: 100px; font-size:11px; font-weight: bold;">
+                                    <apex:outputText value="Case Number:" />&nbsp;
+                                </td>
+                                <td style="font-size:11px;">
+                                    <apex:inputText value="{!caseNumber}" id="caseNum" size="9" title="The Start Date and End Date values are ignored when searching by Case Number" onkeypress="return noenter(event);" />
+                                </td>
+                            </tr>
+                        </table>  
+                    </apex:outputPanel>
+                    <br />
+                    <table>
+                        <tr>
+                            <td style="text-align: right; width: 100px; font-size:11px; font-weight: bold;">
+                                
+                            </td>
+                            <td style="font-size:14px;">
+                                <apex:commandButton value=" Search " status="status" action="{!initCaseSearch}" rerender="myPanel,myButtons,initialButtons" />
+                            </td>
+                        </tr>
+                    </table>                     
+                </apex:outputPanel>
+            </apex:pageBlockSection>
+        </apex:pageBlock>
+        <br/>    
+        
+        <apex:pageBlock >
+            <div style="text-align:center;">
+                <apex:outputPanel id="initialButtons">  
+                    <apex:commandButton action="{!NewCase}" title="case" value="New Case"/>
+                    <apex:commandButton action="{!export}" title="export" value="Export to Excel" disabled="{!DisableExport}"/>
+                </apex:outputPanel>                 
+            </div>         
+        </apex:pageBlock> 
+        
+        <apex:pageBlock >
+            <div style="text-align:center;">   
+                <apex:pageBlockButtons location="bottom" >                     
+                    <apex:outputPanel id="myButtons">                        
+                        <apex:commandButton action="{!Beginning}" status="status" title="Beginning" value="<< First Page" disabled="{!disablePrevious}" reRender="myPanel,myButtons"/>
+                        <apex:commandButton action="{!Previous}" status="status" title="Previous" value="< Previous Page" disabled="{!disablePrevious}" reRender="myPanel,myButtons"/>        
+                        <apex:commandButton action="{!Next}" status="status" title="Next" value="Next Page >" disabled="{!disableNext}" reRender="myPanel,myButtons"/>
+                        <apex:commandButton action="{!End}" status="status" title="End" value="Last Page >>" disabled="{!disableNext}" reRender="myPanel,myButtons"/>        
+                    </apex:outputPanel>   
+                </apex:pageBlockButtons>
+            </div>            
+            <br/>
+            
+            <div style="text-align: right;">   
+                <apex:outputLabel value="Records Per Page: " />
+                <apex:selectList value="{!selectedRecVal}" size="1" multiselect="false" id="idVals">
+                    <apex:selectOptions value="{!RecVals}" />
+                    <apex:actionSupport event="onchange" status="status" action="{!initCaseSearch}" rerender="myPanel,myButtons,initialButtons" />
+                </apex:selectList>
+            </div>
+            
+            <div style="position: relative;">
+                
+                <apex:outputpanel >
+                    <apex:actionstatus id="status">
+                        <apex:facet name="start">
+                            <div class="waitingSearchDiv" id="el_loading" style="background-color: #fbfbfb; height: 100%; opacity:0.65; width:100%;"> 
+                                <div class="waitingHolder" style="top: 74.2px; width: 91px;">
+                                    <img class="waitingImage" src="/img/loading.gif" title="Please Wait..." />
+                                    <span class="waitingDescription"></span>
+                                </div>
+                            </div>
+                        </apex:facet>
+                    </apex:actionstatus>
+                </apex:outputpanel>
+                
+                <apex:outputPanel id="myPanel">
+                    
+                    <apex:outputText id="lblErrorMsg" style="color: #FF0000;" value="{!txtErrorMsg}" /> 
+                    
+                    <apex:pageBlockSection title="Total Cases: {!total_size}" collapsible="false" columns="1">
+                        <apex:pageBlockTable value="{!cases}" var="c" align="center">
+                            
+                            <apex:column width="50">
+                                <apex:facet name="header">   
+                                    <apex:commandLink action="{!sortData}" status="status" value="Case Number{!IF(sortExpression=='CaseNumber',IF(sortDirection='ASC','▼','▲'),'')}" id="cmdSortCaseNumber" rerender="myPanel,myButtons,initialButtons">
+                                        <apex:param value="CaseNumber" name="column" assignTo="{!sortExpression}"></apex:param>
+                                    </apex:commandLink>
+                                </apex:facet>
+                                <apex:outputLink value="/{!c['Id']}">{!c.CaseNumber}</apex:outputLink>     
+                            </apex:column>      
+                            
+                            <apex:column width="50">
+                                <apex:facet name="header">   
+                                    <apex:commandLink action="{!sortData}" status="status" value="Alternate Case Number{!IF(sortExpression=='Previous_CaseNumber__c',IF(sortDirection='ASC','▼','▲'),'')}" id="cmdSortAlternateCaseNumber" rerender="myPanel,myButtons,initialButtons">
+                                        <apex:param value="Previous_CaseNumber__c" name="column" assignTo="{!sortExpression}"></apex:param>
+                                    </apex:commandLink>
+                                </apex:facet>
+                                <apex:OutputText value="{!c.Previous_CaseNumber__c}"/>
+                            </apex:column> 
+                            
+                            <apex:column width="150">
+                                <apex:facet name="header">   
+                                    <apex:commandLink action="{!sortData}" status="status" value="Account Name{!IF(sortExpression=='Account.Name',IF(sortDirection='ASC','▼','▲'),'')}" id="cmdSortAccount" rerender="myPanel,myButtons,initialButtons">
+                                        <apex:param value="Account.Name" name="column" assignTo="{!sortExpression}"></apex:param>
+                                    </apex:commandLink>
+                                </apex:facet>
+                                <apex:OutputText value="{!c.Account.Name}"/>
+                            </apex:column>
+                            
+                            <apex:column width="100">
+                                <apex:facet name="header">   
+                                    <apex:commandLink action="{!sortData}" status="status" value="Contact Name{!IF(sortExpression=='Contact.Name',IF(sortDirection='ASC','▼','▲'),'')}" id="cmdSortContact" rerender="myPanel,myButtons,initialButtons">
+                                        <apex:param value="Contact.Name" name="column" assignTo="{!sortExpression}"></apex:param>
+                                    </apex:commandLink>
+                                </apex:facet>
+                                <apex:OutputText value="{!c.Contact.Name}"/>
+                            </apex:column>
+                            
+                            <apex:column width="150">
+                                <apex:facet name="header">   
+                                    <apex:commandLink action="{!sortData}" status="status" value="Subject{!IF(sortExpression=='Subject',IF(sortDirection='ASC','▼','▲'),'')}" id="cmdSortSubject" rerender="myPanel,myButtons,initialButtons">
+                                        <apex:param value="Subject" name="column" assignTo="{!sortExpression}"></apex:param>
+                                    </apex:commandLink>
+                                </apex:facet>
+                                <apex:OutputText value="{!c.Subject}"/>
+                            </apex:column>
+                            
+                            <apex:column width="50">
+                                <apex:facet name="header">   
+                                    <apex:commandLink action="{!sortData}" status="status" value="Date Opened{!IF(sortExpression=='CreatedDate',IF(sortDirection='ASC','▼','▲'),'')}" id="cmdSortCreatedDate" rerender="myPanel,myButtons,initialButtons">
+                                        <apex:param value="CreatedDate" name="column" assignTo="{!sortExpression}"></apex:param>
+                                    </apex:commandLink>
+                                </apex:facet>                                         
+                                <apex:outputText value="{0,date,MM'/'dd'/'yyyy}">
+                                    <apex:param value="{!c.CreatedDate}"/>
+                                </apex:outputText> 
+                            </apex:column>
+                            
+                            <apex:column width="50" rendered="{!bClosedCase}">
+                                <apex:facet name="header">   
+                                    <apex:commandLink action="{!sortData}" status="status" value="Date Closed{!IF(sortExpression=='ClosedDate',IF(sortDirection='ASC','▼','▲'),'')}" id="cmdSortClosedDate" rerender="myPanel,myButtons,initialButtons">
+                                        <apex:param value="ClosedDate" name="column" assignTo="{!sortExpression}"></apex:param>
+                                    </apex:commandLink>
+                                </apex:facet>                                         
+                                <apex:outputText value="{0,date,MM'/'dd'/'yyyy}">
+                                    <apex:param value="{!c.ClosedDate}"/>
+                                </apex:outputText> 
+                            </apex:column> 
+                            
+                            <apex:column width="50">
+                                <apex:facet name="header">   
+                                    <apex:commandLink action="{!sortData}" status="status" value="Status{!IF(sortExpression=='Status',IF(sortDirection='ASC','▼','▲'),'')}" id="cmdSortStatus" rerender="myPanel,myButtons,initialButtons">
+                                        <apex:param value="Status" name="column" assignTo="{!sortExpression}"></apex:param>
+                                    </apex:commandLink>
+                                </apex:facet> 
+                                <apex:OutputText value="{!c.Status}"/>
+                            </apex:column>
+                            
+                            <apex:column width="50">
+                                <apex:facet name="header">   
+                                    <apex:commandLink action="{!sortData}" status="status" value="Priority{!IF(sortExpression=='Priority',IF(sortDirection='ASC','▼','▲'),'')}" id="cmdSortPriority" rerender="myPanel,myButtons,initialButtons">
+                                        <apex:param value="Priority" name="column" assignTo="{!sortExpression}"></apex:param>
+                                    </apex:commandLink>
+                                </apex:facet> 
+                                <apex:OutputText value="{!c.Priority}"/>
+                            </apex:column>  
+                            
+                            <apex:column width="50">
+                                <apex:facet name="header">   
+                                    <apex:commandLink action="{!sortData}" status="status" value="Product{!IF(sortExpression=='DI_Product_Group__c',IF(sortDirection='ASC','▼','▲'),'')}" id="cmdSortProduct" rerender="myPanel,myButtons,initialButtons">
+                                        <apex:param value="DI_Product_Group__c" name="column" assignTo="{!sortExpression}"></apex:param>
+                                    </apex:commandLink>
+                                </apex:facet> 
+                                <apex:OutputText value="{!c.DI_Product_Group__c}"/>
+                            </apex:column>  
+                            
+                            <apex:facet name="footer">
+                                <apex:outputText style="color: #FF00FF;" value="{!PageOfPages}" />
+                            </apex:facet>
+                            
+                        </apex:pageBlockTable>
+                        
+                    </apex:pageBlockSection>    
+                    
+                </apex:outputPanel>
+            </div>
+        </apex:pageBlock>
+    </apex:form>
+</apex:page>

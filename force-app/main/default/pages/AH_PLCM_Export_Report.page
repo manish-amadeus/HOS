@@ -1,0 +1,77 @@
+<apex:page controller="AH_PLCM_Export_Report" renderAs="{!RenderAs}" contentType="{!ContentType}" showHeader="false" sidebar="false" standardStylesheets="false" lightningStylesheets="true" applyBodyTag="false" applyHtmlTag="false" docType="html-5.0">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
+        <style>
+            @page {
+                size: 41.0cm 49.7cm;
+                margin:5mm;
+                page-break-after:always;
+            }
+            .page-break {
+                display:block;
+                page-break-after:always;
+            }
+            table tr th{
+                text-align:left;
+            }        
+        </style>
+    </head>
+    <apex:pageBlock rendered="{!RecordType == 'properties'}">
+        <table border="1" cellpadding="0" cellspacing="0">
+            <thead>
+                <tr>
+                    <th>Property Name</th>
+                    <th>Site Name</th>
+                    <th>City</th>
+                    <th>State</th>
+                    <th>Time Zone</th>
+                    <th>Currency</th>
+                </tr>
+            </thead>
+            <tbody>
+                <apex:repeat value="{!lstExportProperties}" var="property">
+                    <tr>
+                        <td>{!property.Name}</td>
+                        <td>{!property.Site_Name__c}</td>
+                        <td>{!property.Property_City__c}</td>
+                        <td>{!property.Property_State__c}</td>
+                        <td>{!property.Property_Time_Zone__c}</td>
+                        <td>{!property.Property_Currency__c}</td>
+                    </tr>
+                </apex:repeat>
+            </tbody>
+        </table>
+    </apex:pageBlock>
+    <apex:pageBlock rendered="{!RecordType == 'users'}">
+        <table border="1" cellpadding="0" cellspacing="0">
+            <thead>
+                <tr>
+                    <th>Full Name</th>
+                    <th>Email</th>
+                    <th>Create User</th>
+                    <th>User Default Property</th>
+                </tr>
+            </thead>
+            <tbody>
+                <apex:repeat value="{!lstExportUsers}" var="user"> 
+                    <tr>
+                        <td>{!user.Name}</td>
+                        <td>{!user.User_Email_Address__c}</td>
+                        <td>{!IF(user.New_User__c, 'Yes', 'No')}</td>
+                        <td>{!user.PLCM_Migration_Property_Assignment__r.Name}</td>
+                    </tr>
+                </apex:repeat>
+            </tbody>
+        </table>
+    </apex:pageBlock>
+    <apex:pageBlock rendered="{!RecordType == 'xref'}">
+        <apex:pageBlockTable styleClass="page-break" value="{!lstExportUsers}" var="user" border="1" cellspacing="0" cellpadding="0">
+            <apex:column style="width:10%;" headerValue="Full Name" value="{!user.Name}" />
+            <apex:column style="width:25%;" headerValue="Email" value="{!user.User_Email_Address__c}" />
+            <apex:column style="width:10%;" headerValue="Transfer Activities to (New User)" value="{!user.MappedTo_User_Name__c}" />
+            <apex:column style="width:20%;" headerValue="New User's Property" value="{!user.MappedTo_User_Property__c}" />
+            <apex:column style="width:10%;" rendered="{!IsTargetUserExist}" headerValue="Transfer Activities to (Existing User)" value="{!user.MappedTo_PLCM_TargetOrg_User__r.Name}" />
+            <apex:column style="width:25%;" rendered="{!IsTargetUserExist}" headerValue="Existing User's Email" value="{!user.MappedTo_PLCM_TargetOrg_User__r.User_Email_Address__c}" />
+        </apex:pageBlockTable>
+    </apex:pageBlock>
+</apex:page>

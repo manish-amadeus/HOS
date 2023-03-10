@@ -1,0 +1,35 @@
+<!--/****************************************************************************************
+Name            : AH_CaseToOpportunity
+Author          : Archita Shrotriya
+Created Date    : 21/09/2017
+Last Mod Date   : 21/09/2017
+Last Mod By     : 
+NICC Reference  : 
+Description     :  VF page to create Opportunity when sales case is raised
+
+******************************************************************************************/!-->
+<apex:page standardController="Case" extensions="AH_CaseToOpportunityExt" sidebar="false" tabStyle="Opportunity">
+    <apex:pageMessages escape="false" /> 
+    <apex:form >
+        <apex:pageBlock title="Opportunity Details "  >
+            <apex:pageBlockSection columns="2" title="New Opportunity Details" rendered="{!opportunity.id==NULL && caseDetail.ContactId != NULL}" >                
+                <apex:outputField value="{!opportunity.Name}"/>
+                <apex:outputField value="{!opportunity.RecordTypeId}"/>
+                <apex:inputField value="{!opportunity.AccountId}"/>
+                <apex:outputField value="{!opportunity.StageName}"/>
+                <apex:inputField value="{!opportunity.Notes_to_Sales__c}"/>
+                <apex:outputField value="{!opportunity.Opportunity_Source__c}"/>
+                <apex:outputField value="{!opportunity.CloseDate}"/>
+                <apex:outputField value="{!opportunity.OwnerId}"/>
+                <apex:inputCheckbox value="{!opportunity.isDelphiBEOCheckTaxChange__c}"/>
+                <apex:inputField value="{!nt.body}" rendered="if({!nt.body}!=NULL)"/>   
+            </apex:pageBlockSection>                    
+            <div align="center" draggable="false" >
+                <apex:commandButton value=" Save " action="{!save}" rendered="{!opportunity.id==NULL && caseDetail.ContactId != NULL}"/>  
+                <apex:commandButton value=" View Opportunity" action="{!viewOpportunity}" rendered="{!opportunity.id!=NULL}"/>  
+                <!--apex:commandButton onClick="window.top.close();" value="Close" /!-->
+                <apex:commandButton value=" Close " action="{!closeAndReturn}" />
+            </div>            
+        </apex:pageBlock>
+    </apex:form>
+</apex:page>

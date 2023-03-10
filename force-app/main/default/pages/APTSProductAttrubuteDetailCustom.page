@@ -1,0 +1,1720 @@
+<!-- 
+    Apttus Config & Pricing
+    ProductAttributeDetail
+     
+    @2010-2013 Apttus Inc. All rights reserved. 
+
+-->
+<apex:page standardController="Apttus_Config2__LineItem__c" 
+           extensions="Apttus_Config2.ProductAttributeDetailController2"  
+           showHeader="{!ShowHeader}"  
+           sidebar="true" 
+           standardStylesheets="true"  
+           tabStyle="Product2">   
+     
+    <apex:stylesheet value="{!$Resource.Apttus_Config2__ConfigStyles}" />
+    <apex:stylesheet value="{!URLFOR($Resource.Apttus_Config2__YUILibrary, '/yui/build/assets/skins/sam/skin.css')}" />
+    
+    <apex:includescript value="{!URLFOR($Resource.Apttus_Config2__YUILibrary, '/yui/build/yahoo-dom-event/yahoo-dom-event.js')}" />
+    <apex:includescript value="{!URLFOR($Resource.Apttus_Config2__YUILibrary, '/yui/build/dragdrop/dragdrop-min.js')}" />
+    <apex:includescript value="{!URLFOR($Resource.Apttus_Config2__YUILibrary, '/yui/build/container/container-min.js')}" />
+    <apex:includescript value="{!URLFOR($Resource.Apttus_Config2__YUILibrary, '/yui/build/animation/animation-min.js')}" />
+    <apex:includeScript value="{!URLFOR($Resource.Apttus_Config2__JQueryUILibrary19, 'js/jquery-1.8.3.min.js')}"/>
+    <apex:includeScript value="{!URLFOR($Resource.Apttus_Config2__JQueryUILibrary19, 'js/jquery-ui-1.9.2.custom.min.js')}"/>
+    <apex:includeScript value="{!$Resource.Apttus_Config2__CPQJSLibrary}"/>
+    
+    <style>
+        textarea {
+            width: 40%;
+        }
+        
+    </style>
+    
+    <script type="text/javascript" src="/soap/ajax/55.0/connection.js"></script>
+    <script type="text/javascript" src="/soap/ajax/55.0/apex.js"></script>
+    <apex:include pageName="Apttus_Config2__ConfigJSLibInclude" />
+    
+    <!-- 
+    <apex:includeScript value="{!$Resource.ConfigPromptJSLib}"/>
+    <apex:includeScript value="{!$Resource.ConfigSelectJSLib}"/>
+     -->
+    <script type="text/javascript">
+        //set the title and progress bar icon
+        var aptLoadingPageHeader = "{!$Label.Apttus_Config2__LoadingPage}";
+        var aptRuleAlertHeader = "{!$Label.Apttus_Config2__ConstraintRuleAlert}";
+        var aptDialogBody = '<center><img src="{!URLFOR($Resource.Apttus_Config2__Image_LoadingPage)}" /></center>';
+        
+        YAHOO.namespace("force.com");
+        // detail panel
+        YAHOO.force.com.globalCtx = new Object();
+        YAHOO.force.com.clsNodes = new Array();
+        YAHOO.force.com.selectedNode = new Object();
+        
+        document.onkeydown = aptIgnoreEnterKey;  
+        function keydown(event) {
+            var keyCode; 
+            if (event && event.which) { 
+                // Use for Firefox and Chrome 
+                keyCode = event.which; 
+
+            } else { 
+                // Use for IE 
+                keyCode = event.keyCode;
+
+            }
+            if (keyCode == 13) {
+                return false;
+            }
+            return true;
+        }       
+        //for IE load the script into DOM
+        function loadJSFile(filename){
+            var fileref = document.createElement('script');
+            if (typeof fileref != "undefined"){
+                fileref.setAttribute("type","text/javascript");
+                fileref.setAttribute("src", filename);
+                document.getElementsByTagName("head")[0].appendChild(fileref);
+            }
+        }
+        //load the JavaScript file. This is necessary for IE
+        loadJSFile("{!$Resource.Apttus_Config2__ConfigPromptJSLib}");
+        //loadJSFile("{!$Resource.Apttus_Config2__ConfigSelectJSLib}");
+        
+    </script>
+    
+    <script type="text/javascript">
+        /**
+         * Initializes the call to webservices api
+         */
+        function initCall() {
+            try {
+                sforce.connection.sessionId = "{!$Api.Session_ID}"; //to avoid session timeout
+                        
+            } catch(ex) {
+                cp_erroralert(cp_cERROR_UNKNOWN,ex);
+                        
+            }
+        }
+                        
+    </script>
+    
+    <apex:form id="idLineItemSO" >
+        
+        <!--  required fields -->
+        <apex:outputText value="{!Apttus_Config2__LineItem__c.Apttus_Config2__ProductId__c}" rendered="false" />
+        <apex:outputText value="{!Apttus_Config2__LineItem__c.Apttus_Config2__ProductId__r.Name}" rendered="false" />
+        <apex:outputText value="{!Apttus_Config2__LineItem__c.Apttus_Config2__ConfigurationId__c}" rendered="false" />
+        <apex:outputText value="{!Apttus_Config2__LineItem__c.Apttus_Config2__LineNumber__c}" rendered="false" />
+        <apex:outputText value="{!Apttus_Config2__LineItem__c.Apttus_Config2__LineType__c}" rendered="false" />
+        <apex:outputText value="{!Apttus_Config2__LineItem__c.Apttus_Config2__LineStatus__c}" rendered="false" />
+        <apex:outputText value="{!Apttus_Config2__LineItem__c.Apttus_Config2__AttributeValueId__c}" rendered="false" />
+        <apex:outputText value="{!Apttus_Config2__LineItem__c.Apttus_Config2__BaseProductId__c}" rendered="false" />
+        <apex:outputText value="{!Apttus_Config2__LineItem__c.Apttus_Config2__HasOptions__c}" rendered="false" />
+        <apex:outputText value="{!Apttus_Config2__LineItem__c.Apttus_Config2__Customizable__c}" rendered="false" />
+        <apex:outputText value="{!Apttus_Config2__LineItem__c.Apttus_Config2__PriceType__c}" rendered="false" />
+        
+        <table style="width: 100%; background-color: #F7F7F7;" width="100%">
+            <tr>
+                <td>
+                <table width="100%">
+                    <tr style="background-color: #FFFFFF;">
+                        <td><apex:outputPanel style="text-align: left;" layout="block">
+                            <apex:panelGrid columns="1">
+                                <apex:panelGroup >
+                                    <apex:outputText escape="false" 
+                                                     value="&nbsp;{!fromBizType}:"
+                                                     style="text-transform:uppercase;font-weight:bold;color:#5487B9" />
+                                    &nbsp;
+                                    <apex:outputField value="{!ConfigSO[BOLookupFieldName]}" 
+                                                      rendered="{!ShowBOLookupField}" />
+                                                      
+                                    <apex:outputText escape="false"
+                                                     value="&nbsp;{!fromBizTitle}&nbsp;&nbsp;"
+                                                     style="font-weight:bold;color:#5487B9;" 
+                                                     rendered="{!ShowBOTitle}" />
+                                    
+                                </apex:panelGroup>
+                            </apex:panelGrid>
+                        </apex:outputPanel></td>
+                        <td> 
+                        <apex:outputPanel style="text-align: right;" layout="block">
+                            <apex:image url="{!$Resource.Apttus_Config2__Apttus_Logo}" title="" alt="" />
+                        </apex:outputPanel></td>
+                    </tr>
+                </table>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                <table width="100%">
+                    <tr>
+                        <td>
+                            <apex:outputPanel id="idTopNavStage"
+                                              style="text-align: left;" 
+                                              layout="block">
+
+                                <apex:panelGrid columns="1" style="line-height:80%">
+
+                                    <apex:panelGroup >
+
+                                        <apex:outputText escape="false" 
+                                                         value="{!$Label.Apttus_Config2__STEP}"
+                                                         style="font-weight:bold;font-size:90%" />
+
+                                        &nbsp;&nbsp;
+                                        <apex:outputText escape="false"
+                                                         value="&nbsp;&nbsp;{!$Label.Apttus_Config2__StageSelect}&nbsp;&nbsp;"
+                                                         styleClass="aptsConfigStage" />
+            
+                                        &nbsp;&nbsp;
+                                        <apex:image url="{!$Resource.Apttus_Config2__Chevron}" title="" alt="" />
+                                        &nbsp;&nbsp;
+                        
+
+                                        <apex:outputText escape="false"
+                                                         value="&nbsp;&nbsp;{!$Label.Apttus_Config2__StageConfigure}&nbsp;&nbsp;"
+                                                         styleClass="aptsCurrentConfigStage" />
+            
+                                        &nbsp;&nbsp;
+                                        <apex:image url="{!$Resource.Apttus_Config2__Chevron}" title="" alt="" />
+                                        &nbsp;&nbsp;
+            
+                                        <apex:outputText escape="false"
+                                                         value="&nbsp;&nbsp;{!$Label.Apttus_Config2__StagePrice}&nbsp;&nbsp;"
+                                                         styleClass="aptsConfigStage" />
+ 
+
+                                        &nbsp;&nbsp;
+                                        <apex:image url="{!$Resource.Apttus_Config2__Chevron}" title="" alt="" />
+                                        &nbsp;&nbsp;
+
+                                        <apex:outputText escape="false"
+                                                         value="&nbsp;&nbsp;{!$Label.Apttus_Config2__StageFinalize}&nbsp;&nbsp;"
+                                                         styleClass="aptsConfigStage"  />
+            
+                                        <b><apex:actionStatus id="idStatusSelect" 
+                                                              startText="{!$Label.Apttus_Config2__StatusMessageUpdatingPage}..." /></b>
+                                                              
+                                    </apex:panelGroup>
+
+                                </apex:panelGrid>
+
+                            </apex:outputPanel>
+                        </td>
+                        
+                        <td>
+                            <apex:outputPanel id="idTopNavActions" 
+                                              style="text-align: right;"
+                                              layout="block" >
+                                <apex:commandButton value="{!$Label.Apttus_Config2__Abandon}"
+                                                    action="{!doAbandon}" 
+                                                    immediate="true"
+                                                    style="background-color:#657383;background-image:none;color:white;"/>
+                                &nbsp;
+                                &nbsp;
+                                <apex:image url="{!$Resource.Apttus_Config2__Cart}" 
+                                            title="{!$Label.Apttus_Config2__Cart}"
+                                            alt="{!$Label.Apttus_Config2__Cart}" />
+                                <apex:commandLink value="{!$Label.Apttus_Config2__MySelections}"
+                                                  action="{!doViewCart}" 
+                                                  style="color:blue;font-weight:bold" 
+                                                  reRender="idErrorMsg, idRulesBlock"
+                                                  />
+                                &nbsp;
+                                <apex:outputText value="({!cartSummaryInfo})" />
+                                &nbsp;
+                            </apex:outputPanel>
+        
+                        </td>
+                    </tr>
+                </table>
+                </td>
+            </tr>
+        </table>
+        <table width="100%"><tr>
+        <td width="80%" valign="top">
+<!-- Start Product Attribute Detail -->     
+        <apex:pageBlock id="idProductAttributeDetailBlock"  >
+            <apex:outputPanel id="idErrorMsg">
+                <apex:pageMessages />
+                <Apttus_Config2:RuleMessageDisplay id="idRuleMessageComponent" configId="{!ConfigurationId}" ContextLineNumber="{!ContextLineNumber}" hasChoice="{!RuleResult.isEmpty == false}"/>   
+            </apex:outputPanel>
+            
+            <apex:pageBlockButtons location="top">
+                <apex:commandButton value="{!$Label.Apttus_Config2__RemoveItem}" 
+                                    onclick="YAHOO.force.com.showRemoveConfirmation('{!LineItemSO.Apttus_Config2__LineNumber__c}');return false;"/>
+                <apex:commandButton value="{!$Label.Apttus_Config2__AddMoreProducts}" 
+                                    action="{!doProductSelection}" 
+                                    rendered="true" />
+                                    <!-- rendered="{!isCallerSelectionPage}" /> -->
+                <apex:commandButton value="{!$Label.Apttus_Config2__BackToPricing}" 
+                                    action="{!doViewCart}"
+                                    onclick="onActionClick();" 
+                                    oncomplete="onActionComplete();"
+                                    reRender="idErrorMsg, idRulesBlock, idSelectedProductsBlock" 
+                                    rendered="{!isCallerViewCartPage && hasOptionGroups}" />
+                <apex:commandButton value="{!$Label.Apttus_Config2__Next}" 
+                                    action="{!doConfigureOptions}" 
+                                    onclick="onActionClick();" 
+                                    oncomplete="onActionComplete();"
+                                    reRender="idErrorMsg, idRulesBlock, idSelectedProductsBlock" 
+                                    rendered="{!hasOptionGroups}" />
+                <apex:commandButton value="{!$Label.Apttus_Config2__GoToPricing}" 
+                                    action="{!doUpdateCart}" 
+                                    onclick="onActionClick();" 
+                                    oncomplete="onActionComplete();"
+                                    reRender="idErrorMsg, idRulesBlock, idSelectedProductsBlock" 
+                                    rendered="{!NOT(hasOptionGroups)}" />
+            </apex:pageBlockButtons>
+                
+            <apex:outputPanel >
+                <apex:panelGrid columns="3">    
+                    <apex:outputText style="font-weight:bold;color:#5487B9;text-transform:uppercase"
+                                     value="{!$Label.Apttus_Config2__SpecifyDetailsFor}" />
+                    &nbsp;               
+                    <apex:outputText style="font-weight:bold;color:#5487B9;" 
+                                     value="{!Apttus_Config2__LineItem__c.Apttus_Config2__ProductId__r.Name}" />
+                </apex:panelGrid>       
+            </apex:outputPanel>    
+            <apex:outputPanel >
+                <apex:pageBlockSection id="idProductAttributeDetailSection" 
+                                       title="{!$Label.Apttus_Config2__Detail}"  
+                                       columns="1" 
+                                       collapsible="false" >
+                    
+                  <!--  Begin Line Item Detail  -->
+                    <apex:outputField value="{!Apttus_Config2__LineItem__c.Apttus_Config2__ProductId__c}" />
+                   <!--   <apex:inputField styleClass="aptQuantity" value="{!Apttus_Config2__LineItem__c.Apttus_Config2__Quantity__c}" /> -->
+                    
+                    <!-- <apex:inputField value="{!Apttus_Config2__LineItem__c.Apttus_Config2__StartDate__c}"
+                                     rendered="{!(LineItem__c.PriceType__c == PriceTypeRecurring) ||
+                                                 (LineItem__c.PriceType__c == PriceTypeUsage)}" /> -->
+                    
+                    <apex:pageBlockSectionItem >
+                        <apex:outputLabel value="{!$Label.Apttus_Config2__Term}" 
+                                          for="idSellingTerm" />
+                        <apex:inputField styleClass="aptQuantity" id="idSellingTerm" value="{!Apttus_Config2__LineItem__c.Apttus_Config2__SellingTerm__c}" />
+                    </apex:pageBlockSectionItem>
+                    
+                 <!--    <apex:inputField value="{!Apttus_Config2__LineItem__c.Apttus_Config2__EndDate__c}"
+                                     rendered="{!(LineItem__c.PriceType__c == PriceTypeRecurring) ||
+                                                 (LineItem__c.PriceType__c == PriceTypeUsage)}" /> -->
+                    
+                  <!--   <apex:pageBlockSectionItem rendered="{!(LineItem__c.PriceType__c == PriceTypeRecurring) ||
+                                                           (LineItem__c.PriceType__c == PriceTypeUsage)}" >
+                        <apex:outputLabel value="{!$Label.Apttus_Config2__Frequency}" 
+                                          for="idSellingFrequency" />
+                        <apex:inputField id="idSellingFrequency" value="{!Apttus_Config2__LineItem__c.Apttus_Config2__SellingFrequency__c}" />
+                    </apex:pageBlockSectionItem>
+                    
+                    <apex:pageBlockSectionItem rendered="{!(LineItem__c.PriceType__c != PriceTypeRecurring) &&
+                                                           (LineItem__c.PriceType__c != PriceTypeUsage)}" >
+                        <apex:outputLabel value="{!$Label.Apttus_Config2__Frequency}" 
+                                          for="idSellingFrequency2" />
+                        <apex:outputField id="idSellingFrequency2" value="{!Apttus_Config2__LineItem__c.Apttus_Config2__SellingFrequency__c}" />
+                    </apex:pageBlockSectionItem>  -->
+
+                  <!--  End Line Item Detail  -->
+                    
+                </apex:pageBlockSection>
+                <script>
+                    j$.APTTUS.formatFields(2, 2, 0);
+                </script>
+            </apex:outputPanel> 
+            
+            <!--  Attribute Groups MAX 5  -->
+            
+            <!--  Attribute Group 1 -->
+            <apex:outputPanel rendered="{!isAttributeGroup1Enabled}">
+                <apex:pageBlockSection title="{!attributeGroup1Name}" 
+                                       columns="1" 
+                                       collapsible="true" >
+                
+                    <!-- attribute value fields -->
+                    <apex:inputField value="{!attributeValueSO.Apttus_Config2__Color__c}" 
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup1, ':Apttus_Config2__Color__c')}" />
+                    <apex:inputField value="{!attributeValueSO.Apttus_Config2__Vendor__c}" 
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup1, ':Apttus_Config2__Vendor__c')}" />
+                    
+                    <!-- Add custom fields here -->
+                                 <apex:inputField value="{!attributeValueSO.Number_of_Users__c}" 
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup1, 'Number_of_Users__c')}" />
+                                 <apex:inputField value="{!attributeValueSO.Property_Count__c}" 
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup1, 'Property_Count__c')}" />  
+                                 <apex:inputField value="{!attributeValueSO.Implementation_Type__c}" 
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup1, 'Implementation_Type__c')}" />  
+                                 <apex:inputField value="{!attributeValueSO.Source_Environment__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup1, 'Source_Environment__c')}" /> 
+                                <apex:inputField value="{!attributeValueSO.Target_Environment__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup1, 'Target_Environment__c')}" /> 
+                                 <apex:inputField value="{!attributeValueSO.Services_Model__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup1, 'Services_Model__c')}" />    
+                                 <apex:inputField value="{!attributeValueSO.Number_of_Properties__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup1, 'Number_of_Properties__c')}" />      
+                                 <apex:inputField value="{!attributeValueSO.Number_of_Connurent_Users__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup1, 'Number_of_Connurent_Users__c')}" />    
+                                 <apex:inputField value="{!attributeValueSO.Named_license__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup1, 'Named_license__c')}" /> 
+                                 <apex:inputField value="{!attributeValueSO.Source_Product__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup1, 'Source_Product__c')}" />  
+                                 <apex:inputField value="{!attributeValueSO.Target_Product__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup1, 'Target_Product__c')}" />
+                                 <apex:inputField value="{!attributeValueSO.Source_Version__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup1, 'Source_Version__c')}" />          
+                                 <apex:inputField value="{!attributeValueSO.Target_Version__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup1, 'Target_Version__c')}" />      
+                                 <apex:inputField value="{!attributeValueSO.SQL_License_Type__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup1, 'SQL_License_Type__c')}" />  
+                                <!--  <apex:inputField value="{!attributeValueSO.License_Type__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup1, 'License_Type__c')}" /> --> 
+                                 <apex:inputField value="{!attributeValueSO.SQL_Edition__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup1, 'SQL_Edition__c')}" />    
+                                 <apex:inputField value="{!attributeValueSO.Multi_Language_Multi_Currency__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup1, 'Multi_Language_Multi_Currency__c')}" />       
+                                 <apex:inputField value="{!attributeValueSO.Training_Model__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup1, 'Training_Model__c')}" /> 
+                                 <apex:inputField value="{!attributeValueSO.Support_Type__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup1, 'Support_Type__c')}" /> 
+                                 <apex:inputField value="{!attributeValueSO.Delphi_Product_Type__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup1, 'Delphi_Product_Type__c')}" />     
+                                 <apex:inputField value="{!attributeValueSO.Number_of_Named_Users__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup1, 'Number_of_Named_Users__c')}" />   
+                                 <apex:inputField value="{!attributeValueSO.Number_of_Emails__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup1, 'Number_of_Emails__c')}" />                             
+                                 <apex:inputField value="{!attributeValueSO.Web_Forms__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup1, 'Web_Forms__c')}" /> 
+                                <apex:inputField value="{!attributeValueSO.Service_Agreements__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup1, 'Service_Agreements__c')}" />    
+                                <apex:inputField value="{!attributeValueSO.Pre_and_Post__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup1, 'Pre_and_Post__c')}" /> 
+                                <apex:inputField value="{!attributeValueSO.Booking_Abandonment__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup1, 'Booking_Abandonment__c')}" />  
+                                <apex:inputField value="{!attributeValueSO.Modal_Marketing__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup1, 'Modal_Marketing__c')}" />       
+                                <apex:inputField value="{!attributeValueSO.New_Media_Professional_Services__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup1, 'New_Media_Professional_Services__c')}" /> 
+                                <apex:inputField value="{!attributeValueSO.of_Properties_in_Comp_Set__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup1, 'of_Properties_in_Comp_Set__c')}" />  
+                                <apex:inputField value="{!attributeValueSO.CC_Safeguard_Implementation__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup1, 'CC_Safeguard_Implementation__c')}" />  
+                                <apex:inputField value="{!attributeValueSO.Delphi_Edition__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup1, 'Delphi_Edition__c')}" /> 
+                                <apex:inputField value="{!attributeValueSO.SSRS_Implementation__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup1, 'SSRS_Implementation__c')}" />  
+                                <apex:inputField value="{!attributeValueSO.SSRS_Training_Instance__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup1, 'SSRS_Training_Instance__c')}" />  
+                                <apex:inputField value="{!attributeValueSO.Crystal_Implementation__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup1, 'Crystal_Implementation__c')}" />  
+                                <apex:inputField value="{!attributeValueSO.Room_Count__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup1, 'Room_Count__c')}" />   
+                                <apex:inputField value="{!attributeValueSO.Room_Count_Connex__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup1, 'Room_Count_Connex__c')}" />  
+                                <apex:inputField value="{!attributeValueSO.Market_Vision_Implementation__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup1, 'Market_Vision_Implementation__c')}" />   
+                                <apex:inputField value="{!attributeValueSO.Hilton_OnQ__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup1, 'Hilton_OnQ__c')}" />  
+                                <apex:inputField value="{!attributeValueSO.Passkey_HotelDirect__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup1, 'Passkey_HotelDirect__c')}" />  
+                                <apex:inputField value="{!attributeValueSO.Hilton_eEvents__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup1, 'Hilton_eEvents__c')}" /> 
+                                <apex:inputField value="{!attributeValueSO.Marriott_OneSource__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup1, 'Marriott_OneSource__c')}" />  
+                                <apex:inputField value="{!attributeValueSO.IDeaS__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup1, 'IDeaS__c')}" /> 
+                                <apex:inputField value="{!attributeValueSO.EzRMS__c}"     
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup1, 'EzRMS__c')}" />      
+                                <apex:inputField value="{!attributeValueSO.Delphi_Diagrams_Implementation__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup1, 'Delphi_Diagrams_Implementation__c')}" />    
+                                <apex:inputField value="{!attributeValueSO.Implementation_Model__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup1, 'Implementation_Model__c')}" />  
+                               <apex:inputField value="{!attributeValueSO.Number_of_CAD_Diagrams__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup1, 'Number_of_CAD_Diagrams__c')}" />
+                                <apex:inputField value="{!attributeValueSO.CAD_Type__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup1, 'CAD_Type__c')}" />
+                                <apex:inputField value="{!attributeValueSO.HotSOS_Implementation__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup1, 'HotSOS_Implementation__c')}" />
+                                <apex:inputField value="{!attributeValueSO.SOSuite_type__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup1, 'SOSuite_type__c')}" />
+                                <apex:inputField value="{!attributeValueSO.PMS_Interfaces_I_Server_Connector_Imple__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup1, 'PMS_Interfaces_I_Server_Connector_Imple__c')}" />
+                                <apex:inputField value="{!attributeValueSO.System_Name__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup1, 'System_Name__c')}" />
+                                <apex:inputField value="{!attributeValueSO.Target_Group__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup1, 'Target_Group__c')}" /> 
+                                <apex:inputField value="{!attributeValueSO.Deployment_Type__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup1, 'Deployment_Type__c')}" />   
+                                <apex:inputField value="{!attributeValueSO.User_Count__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup1, 'User_Count__c')}" /> 
+                                <apex:inputField value="{!attributeValueSO.Upgrade__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup1, 'Upgrade__c')}" />   
+                                <apex:inputField value="{!attributeValueSO.Upgrade_Type__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup1, 'Upgrade_Type__c')}" />  
+                                <apex:inputField value="{!attributeValueSO.Training__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup1, 'Training__c')}" />   
+                                <apex:inputField value="{!attributeValueSO.Number_of_Users_Trained__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup1, 'Number_of_Users_Trained__c')}" />  
+                                <apex:inputField value="{!attributeValueSO.Project_Management__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup1, 'Project_Management__c')}" />
+                                <apex:inputField value="{!attributeValueSO.Number_of_Days_Total_Station__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup1, 'Number_of_Days_Total_Station__c')}" /> 
+                                <apex:inputField value="{!attributeValueSO.Number_of_Entr_e_Users__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup1, 'Number_of_Entr_e_Users__c')}" />  
+                                <apex:inputField value="{!attributeValueSO.Number_of_Enhanced_Room_Diagrams__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup1, 'Number_of_Enhanced_Room_Diagrams__c')}" />   
+                                <apex:inputField value="{!attributeValueSO.HRM_Qty__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup1, 'HRM_Qty__c')}" />      
+                                <apex:inputField value="{!attributeValueSO.EMS_Implementation__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup1, 'EMS_Implementation__c')}" />  
+                                <apex:inputField value="{!attributeValueSO.License_Type_Delphi_EMS_Interfaces_I_S__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup1, 'License_Type_Delphi_EMS_Interfaces_I_S__c')}" />  
+                                <apex:inputField value="{!attributeValueSO.Delphi_Version_Delphi_EMS_Interfaces_I__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup1, 'Delphi_Version_Delphi_EMS_Interfaces_I__c')}" />
+                                <apex:inputField value="{!attributeValueSO.System_Name_Delphi_EMS_Interfaces_I_Se__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup1, 'System_Name_Delphi_EMS_Interfaces_I_Se__c')}" /> 
+                                <apex:inputField value="{!attributeValueSO.Type_iPlan__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup1, 'Type_iPlan__c')}" />     
+                                <apex:inputField value="{!attributeValueSO.Number_of_Square_Footage__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup1, 'Number_of_Square_Footage__c')}" />  
+                                <apex:inputField value="{!attributeValueSO.Number_of_Floors__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup1, 'Number_of_Floors__c')}" />        
+                                <apex:inputField value="{!attributeValueSO.iPlan_Theme__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup1, 'iPlan_Theme__c')}" />  
+                                <apex:inputField value="{!attributeValueSO.Number_of_Meeting_Rooms__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup1, 'Number_of_Meeting_Rooms__c')}" />  
+                                <apex:inputField value="{!attributeValueSO.Number_of_Buildings_Stacked_Floor_Plans__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup1, 'Number_of_Buildings_Stacked_Floor_Plans__c')}" />  
+                                <apex:inputField value="{!attributeValueSO.Campus_Maps__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup1, 'Campus_Maps__c')}" />  
+                                <apex:inputField value="{!attributeValueSO.Campus_Map_Highlight__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup1, 'Campus_Map_Highlight__c')}" />     
+                                <apex:inputField value="{!attributeValueSO.Implementation_Type_MeetingBroker__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup1, 'Implementation_Type_MeetingBroker__c')}" />    
+                                <apex:inputField value="{!attributeValueSO.Room_Count_MeetingBroker__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup1, 'Room_Count_MeetingBroker__c')}" />   
+                                <apex:inputField value="{!attributeValueSO.Integration_Type_MeetingBroker__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup1, 'Integration_Type_MeetingBroker__c')}" />    
+                                <apex:inputField value="{!attributeValueSO.Web_and_Social_Media_Toolkit__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup1, 'Web_and_Social_Media_Toolkit__c')}" />
+                                <apex:inputField value="{!attributeValueSO.Cross_Subscription_Integration__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup1, 'Cross_Subscription_Integration__c')}" />  
+                                <apex:inputField value="{!attributeValueSO.OnDemend_Technical_Services__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup1, 'OnDemend_Technical_Services__c')}" />   
+                                <apex:inputField value="{!attributeValueSO.HIS_In_Box_Enablement__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup1, 'HIS_In_Box_Enablement__c')}" />  
+                                <apex:inputField value="{!attributeValueSO.Target_Environment_CC_Safeguard__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup1, 'Target_Environment_CC_Safeguard__c')}" />  
+                                <apex:inputField value="{!attributeValueSO.Support_Crystal_Replacement__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup1, 'Support_Crystal_Replacement__c')}" />   
+                                <apex:inputField value="{!attributeValueSO.Activation_Only__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup1, 'Activation_Only__c')}" />    
+                                <apex:inputField value="{!attributeValueSO.Target_Version_Market_Vision_Delphi_Re__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup1, 'Target_Version_Market_Vision_Delphi_Re__c')}" />   
+                                <apex:inputField value="{!attributeValueSO.Target_Environment_Market_Vision_Delph__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup1, 'Target_Environment_Market_Vision_Delph__c')}" />    
+                                <apex:inputField value="{!attributeValueSO.License_Type_MeetingMatrix__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup1, 'License_Type_MeetingMatrix__c')}" /> 
+                                <apex:inputField value="{!attributeValueSO.Target_Version_Delphi_PMS_Interfaces_I__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup1, 'Target_Version_Delphi_PMS_Interfaces_I__c')}" />    
+                                <apex:inputField value="{!attributeValueSO.License_Type_Delphi_PMS_Interfaces_I_S__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup1, 'License_Type_Delphi_PMS_Interfaces_I_S__c')}" />   
+                                <apex:inputField value="{!attributeValueSO.Cendyn_Products__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup1, 'Cendyn_Products__c')}" />  
+                                <apex:inputField value="{!attributeValueSO.HIS_Region__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup1, 'HIS_Region__c')}" />   
+                                <apex:inputField value="{!attributeValueSO.Number_of_Devices__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup1, 'Number_of_Devices__c')}" />   
+                                <apex:inputField value="{!attributeValueSO.Additional_Channels__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup1, 'Additional_Channels__c')}" />         
+                                <apex:inputField value="{!attributeValueSO.Number_of_Certified_Rooms__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup1, 'Number_of_Certified_Rooms__c')}" />   
+                                <apex:inputField value="{!attributeValueSO.Type_of_Floor_Plan__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup1, 'Type_of_Floor_Plan__c')}" />      
+                                <apex:inputField value="{!attributeValueSO.Implementation_Type_MeetingMatrix__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup1, 'Implementation_Type_MeetingMatrix__c')}" /> 
+                                <apex:inputField value="{!attributeValueSO.eProposal_Additional_Language_Module__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup1, 'eProposal_Additional_Language_Module__c')}" /> 
+                                <apex:inputField value="{!attributeValueSO.Implementation_Delphi_PMS_Interfaces_C__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup1, 'Implementation_Delphi_PMS_Interfaces_C__c')}" /> 
+                                <apex:inputField value="{!attributeValueSO.Source_Delphi_Version__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup1, 'Source_Delphi_Version__c')}" /> 
+                                <apex:inputField value="{!attributeValueSO.Database_Location__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup1, 'Database_Location__c')}" /> 
+                                <apex:inputField value="{!attributeValueSO.Delphi_Diagrams_License_Type__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup1, 'Delphi_Diagrams_License_Type__c')}" />         
+                                <apex:outputText value="{!attributeValueSO.Quantity_1_for_HRM_DFDC_01__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup1, 'Quantity_1_for_HRM_DFDC_01__c')}" /> 
+                                <apex:inputField value="{!attributeValueSO.HIS_Power_Search_Global_Regional_Access__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup1, 'HIS_Power_Search_Global_Regional_Access__c')}" />            
+                      </apex:pageBlockSection>
+            </apex:outputPanel>
+            
+            <!--  Attribute Group 2 -->
+            <apex:outputPanel rendered="{!isAttributeGroup2Enabled}">
+                <apex:pageBlockSection title="{!attributeGroup2Name}" 
+                                       columns="1" 
+                                       collapsible="true" >
+                
+                    <!-- attribute value fields -->
+                    <apex:inputField value="{!attributeValueSO.Apttus_Config2__Color__c}" 
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup2, ':Apttus_Config2__Color__c')}" />
+                    <apex:inputField value="{!attributeValueSO.Apttus_Config2__Vendor__c}" 
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup2, ':Apttus_Config2__Vendor__c')}" />
+                            
+                    <!-- Add custom fields here -->
+                                <apex:inputField value="{!attributeValueSO.Number_of_Users__c}" 
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup2, 'Number_of_Users__c')}" />
+                                 <apex:inputField value="{!attributeValueSO.Property_Count__c}" 
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup2, 'Property_Count__c')}" />  
+                                 <apex:inputField value="{!attributeValueSO.Implementation_Type__c}" 
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup2, 'Implementation_Type__c')}" />  
+                                 <apex:inputField value="{!attributeValueSO.Source_Environment__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup2, 'Source_Environment__c')}" /> 
+                                <apex:inputField value="{!attributeValueSO.Target_Environment__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup2, 'Target_Environment__c')}" /> 
+                                 <apex:inputField value="{!attributeValueSO.Services_Model__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup2, 'Services_Model__c')}" />    
+                                 <apex:inputField value="{!attributeValueSO.Number_of_Properties__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup2, 'Number_of_Properties__c')}" />      
+                                 <apex:inputField value="{!attributeValueSO.Number_of_Connurent_Users__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup2, 'Number_of_Connurent_Users__c')}" />    
+                                 <apex:inputField value="{!attributeValueSO.Named_license__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup2, 'Named_license__c')}" /> 
+                                 <apex:inputField value="{!attributeValueSO.Source_Product__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup2, 'Source_Product__c')}" />  
+                                 <apex:inputField value="{!attributeValueSO.Target_Product__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup2, 'Target_Product__c')}" />
+                                 <apex:inputField value="{!attributeValueSO.Source_Version__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup2, 'Source_Version__c')}" />          
+                                 <apex:inputField value="{!attributeValueSO.Target_Version__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup2, 'Target_Version__c')}" />      
+                                 <apex:inputField value="{!attributeValueSO.SQL_License_Type__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup2, 'SQL_License_Type__c')}" />  
+                               <!--   <apex:inputField value="{!attributeValueSO.License_Type__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup2, 'License_Type__c')}" /> -->     
+                                 <apex:inputField value="{!attributeValueSO.SQL_Edition__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup2, 'SQL_Edition__c')}" />    
+                                 <apex:inputField value="{!attributeValueSO.Multi_Language_Multi_Currency__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup2, 'Multi_Language_Multi_Currency__c')}" />       
+                                 <apex:inputField value="{!attributeValueSO.Training_Model__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup2, 'Training_Model__c')}" /> 
+                                 <apex:inputField value="{!attributeValueSO.Support_Type__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup2, 'Support_Type__c')}" /> 
+                                 <apex:inputField value="{!attributeValueSO.Delphi_Product_Type__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup2, 'Delphi_Product_Type__c')}" />     
+                                 <apex:inputField value="{!attributeValueSO.Number_of_Named_Users__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup2, 'Number_of_Named_Users__c')}" />   
+                                 <apex:inputField value="{!attributeValueSO.Number_of_Emails__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup2, 'Number_of_Emails__c')}" />                             
+                                 <apex:inputField value="{!attributeValueSO.Web_Forms__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup2, 'Web_Forms__c')}" /> 
+                                <apex:inputField value="{!attributeValueSO.Service_Agreements__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup2, 'Service_Agreements__c')}" />    
+                                <apex:inputField value="{!attributeValueSO.Pre_and_Post__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup2, 'Pre_and_Post__c')}" /> 
+                                <apex:inputField value="{!attributeValueSO.Booking_Abandonment__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup2, 'Booking_Abandonment__c')}" />  
+                                <apex:inputField value="{!attributeValueSO.Modal_Marketing__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup2, 'Modal_Marketing__c')}" />       
+                                <apex:inputField value="{!attributeValueSO.New_Media_Professional_Services__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup2, 'New_Media_Professional_Services__c')}" /> 
+                                <apex:inputField value="{!attributeValueSO.of_Properties_in_Comp_Set__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup2, 'of_Properties_in_Comp_Set__c')}" />  
+                                <apex:inputField value="{!attributeValueSO.CC_Safeguard_Implementation__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup2, 'CC_Safeguard_Implementation__c')}" />  
+                                <apex:inputField value="{!attributeValueSO.Delphi_Edition__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup2, 'Delphi_Edition__c')}" /> 
+                                <apex:inputField value="{!attributeValueSO.SSRS_Implementation__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup2, 'SSRS_Implementation__c')}" />  
+                                <apex:inputField value="{!attributeValueSO.SSRS_Training_Instance__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup2, 'SSRS_Training_Instance__c')}" />  
+                                <apex:inputField value="{!attributeValueSO.Crystal_Implementation__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup2, 'Crystal_Implementation__c')}" />  
+                                <apex:inputField value="{!attributeValueSO.Room_Count__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup2, 'Room_Count__c')}" />   
+                                <apex:inputField value="{!attributeValueSO.Room_Count_Connex__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup2, 'Room_Count_Connex__c')}" />  
+                                <apex:inputField value="{!attributeValueSO.Market_Vision_Implementation__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup2, 'Market_Vision_Implementation__c')}" />   
+                                <apex:inputField value="{!attributeValueSO.Hilton_OnQ__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup2, 'Hilton_OnQ__c')}" />  
+                                <apex:inputField value="{!attributeValueSO.Passkey_HotelDirect__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup2, 'Passkey_HotelDirect__c')}" />  
+                                <apex:inputField value="{!attributeValueSO.Hilton_eEvents__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup2, 'Hilton_eEvents__c')}" /> 
+                                <apex:inputField value="{!attributeValueSO.Marriott_OneSource__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup2, 'Marriott_OneSource__c')}" />  
+                                <apex:inputField value="{!attributeValueSO.IDeaS__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup2, 'IDeaS__c')}" /> 
+                                <apex:inputField value="{!attributeValueSO.EzRMS__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup2, 'EzRMS__c')}" />  
+                                <apex:inputField value="{!attributeValueSO.Delphi_Diagrams_Implementation__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup2, 'Delphi_Diagrams_Implementation__c')}" />    
+                                <apex:inputField value="{!attributeValueSO.Implementation_Model__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup2, 'Implementation_Model__c')}" />  
+                               <apex:inputField value="{!attributeValueSO.Number_of_CAD_Diagrams__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup2, 'Number_of_CAD_Diagrams__c')}" />
+                                <apex:inputField value="{!attributeValueSO.CAD_Type__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup2, 'CAD_Type__c')}" />
+                                <apex:inputField value="{!attributeValueSO.HotSOS_Implementation__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup2, 'HotSOS_Implementation__c')}" />
+                                <apex:inputField value="{!attributeValueSO.SOSuite_type__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup2, 'SOSuite_type__c')}" />
+                                <apex:inputField value="{!attributeValueSO.PMS_Interfaces_I_Server_Connector_Imple__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup2, 'PMS_Interfaces_I_Server_Connector_Imple__c')}" />
+                                <apex:inputField value="{!attributeValueSO.System_Name__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup2, 'System_Name__c')}" />
+                                <apex:inputField value="{!attributeValueSO.Target_Group__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup2, 'Target_Group__c')}" /> 
+                                <apex:inputField value="{!attributeValueSO.Deployment_Type__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup2, 'Deployment_Type__c')}" />   
+                                <apex:inputField value="{!attributeValueSO.User_Count__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup2, 'User_Count__c')}" /> 
+                                <apex:inputField value="{!attributeValueSO.Upgrade__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup2, 'Upgrade__c')}" />   
+                                <apex:inputField value="{!attributeValueSO.Upgrade_Type__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup2, 'Upgrade_Type__c')}" />  
+                                <apex:inputField value="{!attributeValueSO.Training__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup2, 'Training__c')}" />   
+                                <apex:inputField value="{!attributeValueSO.Number_of_Users_Trained__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup2, 'Number_of_Users_Trained__c')}" />  
+                                <apex:inputField value="{!attributeValueSO.Project_Management__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup2, 'Project_Management__c')}" />
+                                <apex:inputField value="{!attributeValueSO.Number_of_Days_Total_Station__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup2, 'Number_of_Days_Total_Station__c')}" /> 
+                                <apex:inputField value="{!attributeValueSO.Number_of_Entr_e_Users__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup2, 'Number_of_Entr_e_Users__c')}" />  
+                                <apex:inputField value="{!attributeValueSO.Number_of_Enhanced_Room_Diagrams__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup2, 'Number_of_Enhanced_Room_Diagrams__c')}" />   
+                                <apex:inputField value="{!attributeValueSO.HRM_Qty__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup2, 'HRM_Qty__c')}" />      
+                                <apex:inputField value="{!attributeValueSO.EMS_Implementation__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup2, 'EMS_Implementation__c')}" />  
+                                <apex:inputField value="{!attributeValueSO.License_Type_Delphi_EMS_Interfaces_I_S__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup2, 'License_Type_Delphi_EMS_Interfaces_I_S__c')}" />  
+                                <apex:inputField value="{!attributeValueSO.Delphi_Version_Delphi_EMS_Interfaces_I__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup2, 'Delphi_Version_Delphi_EMS_Interfaces_I__c')}" />
+                                <apex:inputField value="{!attributeValueSO.System_Name_Delphi_EMS_Interfaces_I_Se__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup2, 'System_Name_Delphi_EMS_Interfaces_I_Se__c')}" /> 
+                                <apex:inputField value="{!attributeValueSO.Type_iPlan__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup2, 'Type_iPlan__c')}" />     
+                                <apex:inputField value="{!attributeValueSO.Number_of_Square_Footage__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup2, 'Number_of_Square_Footage__c')}" />  
+                                <apex:inputField value="{!attributeValueSO.Number_of_Floors__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup2, 'Number_of_Floors__c')}" />        
+                                <apex:inputField value="{!attributeValueSO.iPlan_Theme__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup2, 'iPlan_Theme__c')}" />  
+                                <apex:inputField value="{!attributeValueSO.Number_of_Meeting_Rooms__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup2, 'Number_of_Meeting_Rooms__c')}" />  
+                                <apex:inputField value="{!attributeValueSO.Number_of_Buildings_Stacked_Floor_Plans__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup2, 'Number_of_Buildings_Stacked_Floor_Plans__c')}" />  
+                                <apex:inputField value="{!attributeValueSO.Campus_Maps__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup2, 'Campus_Maps__c')}" />  
+                                <apex:inputField value="{!attributeValueSO.Campus_Map_Highlight__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup2, 'Campus_Map_Highlight__c')}" />     
+                                <apex:inputField value="{!attributeValueSO.Implementation_Type_MeetingBroker__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup2, 'Implementation_Type_MeetingBroker__c')}" />    
+                                <apex:inputField value="{!attributeValueSO.Room_Count_MeetingBroker__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup2, 'Room_Count_MeetingBroker__c')}" />   
+                                <apex:inputField value="{!attributeValueSO.Integration_Type_MeetingBroker__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup2, 'Integration_Type_MeetingBroker__c')}" />    
+                                <apex:inputField value="{!attributeValueSO.Web_and_Social_Media_Toolkit__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup2, 'Web_and_Social_Media_Toolkit__c')}" />
+                                <apex:inputField value="{!attributeValueSO.Cross_Subscription_Integration__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup2, 'Cross_Subscription_Integration__c')}" />  
+                                <apex:inputField value="{!attributeValueSO.OnDemend_Technical_Services__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup2, 'OnDemend_Technical_Services__c')}" />   
+                                <apex:inputField value="{!attributeValueSO.HIS_In_Box_Enablement__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup2, 'HIS_In_Box_Enablement__c')}" />  
+                                <apex:inputField value="{!attributeValueSO.Target_Environment_CC_Safeguard__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup2, 'Target_Environment_CC_Safeguard__c')}" />  
+                                <apex:inputField value="{!attributeValueSO.Support_Crystal_Replacement__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup2, 'Support_Crystal_Replacement__c')}" />   
+                                <apex:inputField value="{!attributeValueSO.Activation_Only__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup2, 'Activation_Only__c')}" />    
+                                <apex:inputField value="{!attributeValueSO.Target_Version_Market_Vision_Delphi_Re__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup2, 'Target_Version_Market_Vision_Delphi_Re__c')}" />   
+                                <apex:inputField value="{!attributeValueSO.Target_Environment_Market_Vision_Delph__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup2, 'Target_Environment_Market_Vision_Delph__c')}" />    
+                                <apex:inputField value="{!attributeValueSO.License_Type_MeetingMatrix__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup2, 'License_Type_MeetingMatrix__c')}" /> 
+                                <apex:inputField value="{!attributeValueSO.Target_Version_Delphi_PMS_Interfaces_I__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup2, 'Target_Version_Delphi_PMS_Interfaces_I__c')}" />    
+                                <apex:inputField value="{!attributeValueSO.License_Type_Delphi_PMS_Interfaces_I_S__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup2, 'License_Type_Delphi_PMS_Interfaces_I_S__c')}" />  
+                                <apex:inputField value="{!attributeValueSO.Cendyn_Products__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup2, 'Cendyn_Products__c')}" />  
+                                <apex:inputField value="{!attributeValueSO.HIS_Region__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup2, 'HIS_Region__c')}" />   
+                                <apex:inputField value="{!attributeValueSO.Number_of_Devices__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup2, 'Number_of_Devices__c')}" />   
+                                <apex:inputField value="{!attributeValueSO.Additional_Channels__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup2, 'Additional_Channels__c')}" />     
+                                <apex:inputField value="{!attributeValueSO.Number_of_Certified_Rooms__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup2, 'Number_of_Certified_Rooms__c')}" />   
+                                <apex:inputField value="{!attributeValueSO.Type_of_Floor_Plan__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup2, 'Type_of_Floor_Plan__c')}" /> 
+                                <apex:inputField value="{!attributeValueSO.Implementation_Type_MeetingMatrix__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup2, 'Implementation_Type_MeetingMatrix__c')}" />       
+                                <apex:inputField value="{!attributeValueSO.eProposal_Additional_Language_Module__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup2, 'eProposal_Additional_Language_Module__c')}" /> 
+                                <apex:inputField value="{!attributeValueSO.Implementation_Delphi_PMS_Interfaces_C__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup2, 'Implementation_Delphi_PMS_Interfaces_C__c')}" /> 
+                                <apex:inputField value="{!attributeValueSO.Source_Delphi_Version__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup2, 'Source_Delphi_Version__c')}" /> 
+                                <apex:inputField value="{!attributeValueSO.Database_Location__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup2, 'Database_Location__c')}" /> 
+                                <apex:inputField value="{!attributeValueSO.Delphi_Diagrams_License_Type__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup2, 'Delphi_Diagrams_License_Type__c')}" /> 
+                                <apex:outputText value="{!attributeValueSO.Quantity_1_for_HRM_DFDC_01__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup2, 'Quantity_1_for_HRM_DFDC_01__c')}" /> 
+                                <apex:inputField value="{!attributeValueSO.HIS_Power_Search_Global_Regional_Access__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup2, 'HIS_Power_Search_Global_Regional_Access__c')}" />      
+                </apex:pageBlockSection>
+            </apex:outputPanel>
+            
+            <!--  Attribute Group 3 -->
+            <apex:outputPanel rendered="{!isAttributeGroup3Enabled}">
+                <apex:pageBlockSection title="{!attributeGroup3Name}" 
+                                       columns="1" 
+                                       collapsible="true" >
+                
+                    <!-- attribute value fields -->
+                    <apex:inputField value="{!attributeValueSO.Apttus_Config2__Color__c}" 
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup3, ':Apttus_Config2__Color__c')}" />
+                    <apex:inputField value="{!attributeValueSO.Apttus_Config2__Vendor__c}" 
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup3, ':Apttus_Config2__Vendor__c')}" />
+                    
+                    <!-- Add custom fields here -->
+                                 <apex:inputField value="{!attributeValueSO.Number_of_Users__c}" 
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup3, 'Number_of_Users__c')}" />
+                                 <apex:inputField value="{!attributeValueSO.Property_Count__c}" 
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup3, 'Property_Count__c')}" />  
+                                 <apex:inputField value="{!attributeValueSO.Implementation_Type__c}" 
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup3, 'Implementation_Type__c')}" />  
+                                 <apex:inputField value="{!attributeValueSO.Source_Environment__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup3, 'Source_Environment__c')}" /> 
+                                <apex:inputField value="{!attributeValueSO.Target_Environment__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup3, 'Target_Environment__c')}" /> 
+                                 <apex:inputField value="{!attributeValueSO.Services_Model__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup3, 'Services_Model__c')}" />    
+                                 <apex:inputField value="{!attributeValueSO.Number_of_Properties__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup3, 'Number_of_Properties__c')}" />      
+                                 <apex:inputField value="{!attributeValueSO.Number_of_Connurent_Users__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup3, 'Number_of_Connurent_Users__c')}" />    
+                                 <apex:inputField value="{!attributeValueSO.Named_license__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup3, 'Named_license__c')}" /> 
+                                 <apex:inputField value="{!attributeValueSO.Source_Product__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup3, 'Source_Product__c')}" />  
+                                 <apex:inputField value="{!attributeValueSO.Target_Product__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup3, 'Target_Product__c')}" />
+                                 <apex:inputField value="{!attributeValueSO.Source_Version__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup3, 'Source_Version__c')}" />          
+                                 <apex:inputField value="{!attributeValueSO.Target_Version__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup3, 'Target_Version__c')}" />      
+                                 <apex:inputField value="{!attributeValueSO.SQL_License_Type__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup3, 'SQL_License_Type__c')}" />  
+                             <!--      <apex:inputField value="{!attributeValueSO.License_Type__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup3, 'License_Type__c')}" />  -->    
+                                 <apex:inputField value="{!attributeValueSO.SQL_Edition__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup3, 'SQL_Edition__c')}" />    
+                                 <apex:inputField value="{!attributeValueSO.Multi_Language_Multi_Currency__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup3, 'Multi_Language_Multi_Currency__c')}" />       
+                                 <apex:inputField value="{!attributeValueSO.Training_Model__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup3, 'Training_Model__c')}" /> 
+                                 <apex:inputField value="{!attributeValueSO.Support_Type__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup3, 'Support_Type__c')}" /> 
+                                 <apex:inputField value="{!attributeValueSO.Delphi_Product_Type__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup3, 'Delphi_Product_Type__c')}" />     
+                                 <apex:inputField value="{!attributeValueSO.Number_of_Named_Users__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup3, 'Number_of_Named_Users__c')}" />   
+                                 <apex:inputField value="{!attributeValueSO.Number_of_Emails__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup3, 'Number_of_Emails__c')}" />                             
+                                 <apex:inputField value="{!attributeValueSO.Web_Forms__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup3, 'Web_Forms__c')}" /> 
+                                <apex:inputField value="{!attributeValueSO.Service_Agreements__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup3, 'Service_Agreements__c')}" />    
+                                <apex:inputField value="{!attributeValueSO.Pre_and_Post__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup3, 'Pre_and_Post__c')}" /> 
+                                <apex:inputField value="{!attributeValueSO.Booking_Abandonment__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup3, 'Booking_Abandonment__c')}" />  
+                                <apex:inputField value="{!attributeValueSO.Modal_Marketing__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup3, 'Modal_Marketing__c')}" />       
+                                <apex:inputField value="{!attributeValueSO.New_Media_Professional_Services__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup3, 'New_Media_Professional_Services__c')}" /> 
+                                <apex:inputField value="{!attributeValueSO.of_Properties_in_Comp_Set__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup3, 'of_Properties_in_Comp_Set__c')}" />  
+                                <apex:inputField value="{!attributeValueSO.CC_Safeguard_Implementation__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup3, 'CC_Safeguard_Implementation__c')}" />  
+                                <apex:inputField value="{!attributeValueSO.Delphi_Edition__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup3, 'Delphi_Edition__c')}" /> 
+                                <apex:inputField value="{!attributeValueSO.SSRS_Implementation__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup3, 'SSRS_Implementation__c')}" />  
+                                <apex:inputField value="{!attributeValueSO.SSRS_Training_Instance__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup3, 'SSRS_Training_Instance__c')}" />  
+                                <apex:inputField value="{!attributeValueSO.Crystal_Implementation__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup3, 'Crystal_Implementation__c')}" />  
+                                <apex:inputField value="{!attributeValueSO.Room_Count__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup3, 'Room_Count__c')}" />   
+                                <apex:inputField value="{!attributeValueSO.Room_Count_Connex__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup3, 'Room_Count_Connex__c')}" />  
+                                <apex:inputField value="{!attributeValueSO.Market_Vision_Implementation__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup3, 'Market_Vision_Implementation__c')}" />   
+                                <apex:inputField value="{!attributeValueSO.Hilton_OnQ__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup3, 'Hilton_OnQ__c')}" />  
+                                <apex:inputField value="{!attributeValueSO.Passkey_HotelDirect__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup3, 'Passkey_HotelDirect__c')}" />  
+                                <apex:inputField value="{!attributeValueSO.Hilton_eEvents__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup3, 'Hilton_eEvents__c')}" /> 
+                                <apex:inputField value="{!attributeValueSO.Marriott_OneSource__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup3, 'Marriott_OneSource__c')}" />  
+                                <apex:inputField value="{!attributeValueSO.IDeaS__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup3, 'IDeaS__c')}" /> 
+                                <apex:inputField value="{!attributeValueSO.EzRMS__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup3, 'EzRMS__c')}" />  
+                                <apex:inputField value="{!attributeValueSO.Delphi_Diagrams_Implementation__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup3, 'Delphi_Diagrams_Implementation__c')}" />    
+                                <apex:inputField value="{!attributeValueSO.Implementation_Model__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup3, 'Implementation_Model__c')}" />  
+                               <apex:inputField value="{!attributeValueSO.Number_of_CAD_Diagrams__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup3, 'Number_of_CAD_Diagrams__c')}" />
+                                <apex:inputField value="{!attributeValueSO.CAD_Type__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup3, 'CAD_Type__c')}" />
+                                <apex:inputField value="{!attributeValueSO.HotSOS_Implementation__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup3, 'HotSOS_Implementation__c')}" />
+                                <apex:inputField value="{!attributeValueSO.SOSuite_type__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup3, 'SOSuite_type__c')}" />
+                                <apex:inputField value="{!attributeValueSO.PMS_Interfaces_I_Server_Connector_Imple__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup3, 'PMS_Interfaces_I_Server_Connector_Imple__c')}" />
+                                <apex:inputField value="{!attributeValueSO.System_Name__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup3, 'System_Name__c')}" />
+                                <apex:inputField value="{!attributeValueSO.Target_Group__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup3, 'Target_Group__c')}" /> 
+                                <apex:inputField value="{!attributeValueSO.Deployment_Type__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup3, 'Deployment_Type__c')}" />   
+                                <apex:inputField value="{!attributeValueSO.User_Count__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup3, 'User_Count__c')}" /> 
+                                <apex:inputField value="{!attributeValueSO.Upgrade__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup3, 'Upgrade__c')}" />   
+                                <apex:inputField value="{!attributeValueSO.Upgrade_Type__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup3, 'Upgrade_Type__c')}" />  
+                                <apex:inputField value="{!attributeValueSO.Training__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup3, 'Training__c')}" />   
+                                <apex:inputField value="{!attributeValueSO.Number_of_Users_Trained__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup3, 'Number_of_Users_Trained__c')}" />  
+                                <apex:inputField value="{!attributeValueSO.Project_Management__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup3, 'Project_Management__c')}" />
+                                <apex:inputField value="{!attributeValueSO.Number_of_Days_Total_Station__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup3, 'Number_of_Days_Total_Station__c')}" /> 
+                                <apex:inputField value="{!attributeValueSO.Number_of_Entr_e_Users__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup3, 'Number_of_Entr_e_Users__c')}" />  
+                                <apex:inputField value="{!attributeValueSO.Number_of_Enhanced_Room_Diagrams__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup3, 'Number_of_Enhanced_Room_Diagrams__c')}" />   
+                                <apex:inputField value="{!attributeValueSO.HRM_Qty__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup3, 'HRM_Qty__c')}" />      
+                                <apex:inputField value="{!attributeValueSO.EMS_Implementation__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup3, 'EMS_Implementation__c')}" />  
+                                <apex:inputField value="{!attributeValueSO.License_Type_Delphi_EMS_Interfaces_I_S__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup3, 'License_Type_Delphi_EMS_Interfaces_I_S__c')}" />  
+                                <apex:inputField value="{!attributeValueSO.Delphi_Version_Delphi_EMS_Interfaces_I__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup3, 'Delphi_Version_Delphi_EMS_Interfaces_I__c')}" />
+                                <apex:inputField value="{!attributeValueSO.System_Name_Delphi_EMS_Interfaces_I_Se__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup3, 'System_Name_Delphi_EMS_Interfaces_I_Se__c')}" /> 
+                                <apex:inputField value="{!attributeValueSO.Type_iPlan__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup3, 'Type_iPlan__c')}" />     
+                                <apex:inputField value="{!attributeValueSO.Number_of_Square_Footage__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup3, 'Number_of_Square_Footage__c')}" />  
+                                <apex:inputField value="{!attributeValueSO.Number_of_Floors__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup3, 'Number_of_Floors__c')}" />        
+                                <apex:inputField value="{!attributeValueSO.iPlan_Theme__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup3, 'iPlan_Theme__c')}" />  
+                                <apex:inputField value="{!attributeValueSO.Number_of_Meeting_Rooms__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup3, 'Number_of_Meeting_Rooms__c')}" />  
+                                <apex:inputField value="{!attributeValueSO.Number_of_Buildings_Stacked_Floor_Plans__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup3, 'Number_of_Buildings_Stacked_Floor_Plans__c')}" />  
+                                <apex:inputField value="{!attributeValueSO.Campus_Maps__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup3, 'Campus_Maps__c')}" />  
+                                <apex:inputField value="{!attributeValueSO.Campus_Map_Highlight__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup3, 'Campus_Map_Highlight__c')}" />     
+                                <apex:inputField value="{!attributeValueSO.Implementation_Type_MeetingBroker__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup3, 'Implementation_Type_MeetingBroker__c')}" />    
+                                <apex:inputField value="{!attributeValueSO.Room_Count_MeetingBroker__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup3, 'Room_Count_MeetingBroker__c')}" />   
+                                <apex:inputField value="{!attributeValueSO.Integration_Type_MeetingBroker__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup3, 'Integration_Type_MeetingBroker__c')}" />    
+                                <apex:inputField value="{!attributeValueSO.Web_and_Social_Media_Toolkit__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup3, 'Web_and_Social_Media_Toolkit__c')}" />
+                                <apex:inputField value="{!attributeValueSO.Cross_Subscription_Integration__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup3, 'Cross_Subscription_Integration__c')}" />  
+                                <apex:inputField value="{!attributeValueSO.OnDemend_Technical_Services__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup3, 'OnDemend_Technical_Services__c')}" />   
+                                <apex:inputField value="{!attributeValueSO.HIS_In_Box_Enablement__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup3, 'HIS_In_Box_Enablement__c')}" />  
+                                <apex:inputField value="{!attributeValueSO.Target_Environment_CC_Safeguard__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup3, 'Target_Environment_CC_Safeguard__c')}" />  
+                                <apex:inputField value="{!attributeValueSO.Support_Crystal_Replacement__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup3, 'Support_Crystal_Replacement__c')}" />   
+                                <apex:inputField value="{!attributeValueSO.Activation_Only__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup3, 'Activation_Only__c')}" />    
+                                <apex:inputField value="{!attributeValueSO.Target_Version_Market_Vision_Delphi_Re__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup3, 'Target_Version_Market_Vision_Delphi_Re__c')}" />   
+                                <apex:inputField value="{!attributeValueSO.Target_Environment_Market_Vision_Delph__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup3, 'Target_Environment_Market_Vision_Delph__c')}" />    
+                                <apex:inputField value="{!attributeValueSO.License_Type_MeetingMatrix__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup3, 'License_Type_MeetingMatrix__c')}" /> 
+                                <apex:inputField value="{!attributeValueSO.Target_Version_Delphi_PMS_Interfaces_I__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup3, 'Target_Version_Delphi_PMS_Interfaces_I__c')}" />    
+                                <apex:inputField value="{!attributeValueSO.License_Type_Delphi_PMS_Interfaces_I_S__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup3, 'License_Type_Delphi_PMS_Interfaces_I_S__c')}" />   
+                                <apex:inputField value="{!attributeValueSO.Cendyn_Products__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup3, 'Cendyn_Products__c')}" /> 
+                                <apex:inputField value="{!attributeValueSO.HIS_Region__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup3, 'HIS_Region__c')}" /> 
+                                <apex:inputField value="{!attributeValueSO.Number_of_Devices__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup3, 'Number_of_Devices__c')}" />   
+                                <apex:inputField value="{!attributeValueSO.Additional_Channels__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup3, 'Additional_Channels__c')}" /> 
+                                <apex:inputField value="{!attributeValueSO.Number_of_Certified_Rooms__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup3, 'Number_of_Certified_Rooms__c')}" />   
+                                <apex:inputField value="{!attributeValueSO.Type_of_Floor_Plan__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup3, 'Type_of_Floor_Plan__c')}" />  
+                                <apex:inputField value="{!attributeValueSO.Implementation_Type_MeetingMatrix__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup3, 'Implementation_Type_MeetingMatrix__c')}" />    
+                                <apex:inputField value="{!attributeValueSO.eProposal_Additional_Language_Module__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup3, 'eProposal_Additional_Language_Module__c')}" /> 
+                                <apex:inputField value="{!attributeValueSO.Implementation_Delphi_PMS_Interfaces_C__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup3, 'Implementation_Delphi_PMS_Interfaces_C__c')}" /> 
+                                <apex:inputField value="{!attributeValueSO.Source_Delphi_Version__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup3, 'Source_Delphi_Version__c')}" /> 
+                                <apex:inputField value="{!attributeValueSO.Database_Location__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup3, 'Database_Location__c')}" /> 
+                                <apex:inputField value="{!attributeValueSO.Delphi_Diagrams_License_Type__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup3, 'Delphi_Diagrams_License_Type__c')}" /> 
+                                <apex:outputText value="{!attributeValueSO.Quantity_1_for_HRM_DFDC_01__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup3, 'Quantity_1_for_HRM_DFDC_01__c')}" /> 
+                </apex:pageBlockSection>
+            </apex:outputPanel>
+            
+            <!--  Attribute Group 4 -->
+            <apex:outputPanel rendered="{!isAttributeGroup4Enabled}">
+                <apex:pageBlockSection title="{!attributeGroup4Name}" 
+                                       columns="1" 
+                                       collapsible="true"  >
+                
+                    <!-- attribute value fields -->
+                    <apex:inputField value="{!attributeValueSO.Apttus_Config2__Color__c}" 
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup4, ':Apttus_Config2__Color__c')}" />
+                    <apex:inputField value="{!attributeValueSO.Apttus_Config2__Vendor__c}" 
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup4, ':Apttus_Config2__Vendor__c')}" />
+                    
+                         <!-- Add custom fields here -->
+                         <apex:inputField value="{!attributeValueSO.Number_of_Users__c}" 
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup4, 'Number_of_Users__c')}" />
+                                 <apex:inputField value="{!attributeValueSO.Property_Count__c}" 
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup4, 'Property_Count__c')}" />  
+                                 <apex:inputField value="{!attributeValueSO.Implementation_Type__c}" 
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup4, 'Implementation_Type__c')}" />  
+                                 <apex:inputField value="{!attributeValueSO.Source_Environment__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup4, 'Source_Environment__c')}" /> 
+                                <apex:inputField value="{!attributeValueSO.Target_Environment__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup4, 'Target_Environment__c')}" /> 
+                                 <apex:inputField value="{!attributeValueSO.Services_Model__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup4, 'Services_Model__c')}" />    
+                                 <apex:inputField value="{!attributeValueSO.Number_of_Properties__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup4, 'Number_of_Properties__c')}" />      
+                                 <apex:inputField value="{!attributeValueSO.Number_of_Connurent_Users__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup4, 'Number_of_Connurent_Users__c')}" />    
+                                 <apex:inputField value="{!attributeValueSO.Named_license__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup4, 'Named_license__c')}" /> 
+                                 <apex:inputField value="{!attributeValueSO.Source_Product__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup4, 'Source_Product__c')}" />  
+                                 <apex:inputField value="{!attributeValueSO.Target_Product__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup4, 'Target_Product__c')}" />
+                                 <apex:inputField value="{!attributeValueSO.Source_Version__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup4, 'Source_Version__c')}" />          
+                                 <apex:inputField value="{!attributeValueSO.Target_Version__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup4, 'Target_Version__c')}" />      
+                                 <apex:inputField value="{!attributeValueSO.SQL_License_Type__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup4, 'SQL_License_Type__c')}" />  
+                                <!--  <apex:inputField value="{!attributeValueSO.License_Type__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup4, 'License_Type__c')}" /> -->       
+                                 <apex:inputField value="{!attributeValueSO.SQL_Edition__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup4, 'SQL_Edition__c')}" />    
+                                 <apex:inputField value="{!attributeValueSO.Multi_Language_Multi_Currency__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup4, 'Multi_Language_Multi_Currency__c')}" />       
+                                 <apex:inputField value="{!attributeValueSO.Training_Model__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup4, 'Training_Model__c')}" /> 
+                                 <apex:inputField value="{!attributeValueSO.Support_Type__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup4, 'Support_Type__c')}" /> 
+                                 <apex:inputField value="{!attributeValueSO.Delphi_Product_Type__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup4, 'Delphi_Product_Type__c')}" />     
+                                 <apex:inputField value="{!attributeValueSO.Number_of_Named_Users__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup4, 'Number_of_Named_Users__c')}" />   
+                                 <apex:inputField value="{!attributeValueSO.Number_of_Emails__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup4, 'Number_of_Emails__c')}" />                             
+                                 <apex:inputField value="{!attributeValueSO.Web_Forms__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup4, 'Web_Forms__c')}" /> 
+                                <apex:inputField value="{!attributeValueSO.Service_Agreements__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup4, 'Service_Agreements__c')}" />    
+                                <apex:inputField value="{!attributeValueSO.Pre_and_Post__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup4, 'Pre_and_Post__c')}" /> 
+                                <apex:inputField value="{!attributeValueSO.Booking_Abandonment__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup4, 'Booking_Abandonment__c')}" />  
+                                <apex:inputField value="{!attributeValueSO.Modal_Marketing__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup4, 'Modal_Marketing__c')}" />       
+                                <apex:inputField value="{!attributeValueSO.New_Media_Professional_Services__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup4, 'New_Media_Professional_Services__c')}" /> 
+                                <apex:inputField value="{!attributeValueSO.of_Properties_in_Comp_Set__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup4, 'of_Properties_in_Comp_Set__c')}" />  
+                                <apex:inputField value="{!attributeValueSO.CC_Safeguard_Implementation__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup4, 'CC_Safeguard_Implementation__c')}" />  
+                                <apex:inputField value="{!attributeValueSO.Delphi_Edition__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup4, 'Delphi_Edition__c')}" /> 
+                                <apex:inputField value="{!attributeValueSO.SSRS_Implementation__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup4, 'SSRS_Implementation__c')}" />  
+                                <apex:inputField value="{!attributeValueSO.SSRS_Training_Instance__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup4, 'SSRS_Training_Instance__c')}" />  
+                                <apex:inputField value="{!attributeValueSO.Crystal_Implementation__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup4, 'Crystal_Implementation__c')}" />  
+                                <apex:inputField value="{!attributeValueSO.Room_Count__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup4, 'Room_Count__c')}" />   
+                                <apex:inputField value="{!attributeValueSO.Room_Count_Connex__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup4, 'Room_Count_Connex__c')}" />  
+                                <apex:inputField value="{!attributeValueSO.Market_Vision_Implementation__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup4, 'Market_Vision_Implementation__c')}" />   
+                                <apex:inputField value="{!attributeValueSO.Hilton_OnQ__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup4, 'Hilton_OnQ__c')}" />  
+                                <apex:inputField value="{!attributeValueSO.Passkey_HotelDirect__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup4, 'Passkey_HotelDirect__c')}" />  
+                                <apex:inputField value="{!attributeValueSO.Hilton_eEvents__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup4, 'Hilton_eEvents__c')}" /> 
+                                <apex:inputField value="{!attributeValueSO.Marriott_OneSource__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup4, 'Marriott_OneSource__c')}" />  
+                                <apex:inputField value="{!attributeValueSO.IDeaS__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup4, 'IDeaS__c')}" /> 
+                                <apex:inputField value="{!attributeValueSO.EzRMS__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup4, 'EzRMS__c')}" />  
+                                <apex:inputField value="{!attributeValueSO.Delphi_Diagrams_Implementation__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup4, 'Delphi_Diagrams_Implementation__c')}" />    
+                                <apex:inputField value="{!attributeValueSO.Implementation_Model__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup4, 'Implementation_Model__c')}" />  
+                               <apex:inputField value="{!attributeValueSO.Number_of_CAD_Diagrams__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup4, 'Number_of_CAD_Diagrams__c')}" />
+                                <apex:inputField value="{!attributeValueSO.CAD_Type__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup4, 'CAD_Type__c')}" />
+                                <apex:inputField value="{!attributeValueSO.HotSOS_Implementation__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup4, 'HotSOS_Implementation__c')}" />
+                                <apex:inputField value="{!attributeValueSO.SOSuite_type__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup4, 'SOSuite_type__c')}" />
+                                <apex:inputField value="{!attributeValueSO.PMS_Interfaces_I_Server_Connector_Imple__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup4, 'PMS_Interfaces_I_Server_Connector_Imple__c')}" />
+                                <apex:inputField value="{!attributeValueSO.System_Name__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup4, 'System_Name__c')}" />
+                                <apex:inputField value="{!attributeValueSO.Target_Group__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup4, 'Target_Group__c')}" /> 
+                                <apex:inputField value="{!attributeValueSO.Deployment_Type__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup4, 'Deployment_Type__c')}" />   
+                                <apex:inputField value="{!attributeValueSO.User_Count__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup4, 'User_Count__c')}" /> 
+                                <apex:inputField value="{!attributeValueSO.Upgrade__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup4, 'Upgrade__c')}" />   
+                                <apex:inputField value="{!attributeValueSO.Upgrade_Type__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup4, 'Upgrade_Type__c')}" />  
+                                <apex:inputField value="{!attributeValueSO.Training__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup4, 'Training__c')}" />   
+                                <apex:inputField value="{!attributeValueSO.Number_of_Users_Trained__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup4, 'Number_of_Users_Trained__c')}" />  
+                                <apex:inputField value="{!attributeValueSO.Project_Management__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup4, 'Project_Management__c')}" />
+                                <apex:inputField value="{!attributeValueSO.Number_of_Days_Total_Station__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup4, 'Number_of_Days_Total_Station__c')}" /> 
+                                <apex:inputField value="{!attributeValueSO.Number_of_Entr_e_Users__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup4, 'Number_of_Entr_e_Users__c')}" />  
+                                <apex:inputField value="{!attributeValueSO.Number_of_Enhanced_Room_Diagrams__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup4, 'Number_of_Enhanced_Room_Diagrams__c')}" />   
+                                <apex:inputField value="{!attributeValueSO.HRM_Qty__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup4, 'HRM_Qty__c')}" />      
+                                <apex:inputField value="{!attributeValueSO.EMS_Implementation__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup4, 'EMS_Implementation__c')}" />  
+                                <apex:inputField value="{!attributeValueSO.License_Type_Delphi_EMS_Interfaces_I_S__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup4, 'License_Type_Delphi_EMS_Interfaces_I_S__c')}" />  
+                                <apex:inputField value="{!attributeValueSO.Delphi_Version_Delphi_EMS_Interfaces_I__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup4, 'Delphi_Version_Delphi_EMS_Interfaces_I__c')}" />
+                                <apex:inputField value="{!attributeValueSO.System_Name_Delphi_EMS_Interfaces_I_Se__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup4, 'System_Name_Delphi_EMS_Interfaces_I_Se__c')}" /> 
+                                <apex:inputField value="{!attributeValueSO.Type_iPlan__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup4, 'Type_iPlan__c')}" />     
+                                <apex:inputField value="{!attributeValueSO.Number_of_Square_Footage__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup4, 'Number_of_Square_Footage__c')}" />  
+                                <apex:inputField value="{!attributeValueSO.Number_of_Floors__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup4, 'Number_of_Floors__c')}" />        
+                                <apex:inputField value="{!attributeValueSO.iPlan_Theme__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup4, 'iPlan_Theme__c')}" />  
+                                <apex:inputField value="{!attributeValueSO.Number_of_Meeting_Rooms__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup4, 'Number_of_Meeting_Rooms__c')}" />  
+                                <apex:inputField value="{!attributeValueSO.Number_of_Buildings_Stacked_Floor_Plans__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup4, 'Number_of_Buildings_Stacked_Floor_Plans__c')}" />  
+                                <apex:inputField value="{!attributeValueSO.Campus_Maps__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup4, 'Campus_Maps__c')}" />  
+                                <apex:inputField value="{!attributeValueSO.Campus_Map_Highlight__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup4, 'Campus_Map_Highlight__c')}" />     
+                                <apex:inputField value="{!attributeValueSO.Implementation_Type_MeetingBroker__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup4, 'Implementation_Type_MeetingBroker__c')}" />    
+                                <apex:inputField value="{!attributeValueSO.Room_Count_MeetingBroker__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup4, 'Room_Count_MeetingBroker__c')}" />   
+                                <apex:inputField value="{!attributeValueSO.Integration_Type_MeetingBroker__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup4, 'Integration_Type_MeetingBroker__c')}" />    
+                                <apex:inputField value="{!attributeValueSO.Web_and_Social_Media_Toolkit__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup4, 'Web_and_Social_Media_Toolkit__c')}" />
+                                <apex:inputField value="{!attributeValueSO.Cross_Subscription_Integration__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup4, 'Cross_Subscription_Integration__c')}" />  
+                                <apex:inputField value="{!attributeValueSO.OnDemend_Technical_Services__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup4, 'OnDemend_Technical_Services__c')}" />   
+                                <apex:inputField value="{!attributeValueSO.HIS_In_Box_Enablement__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup4, 'HIS_In_Box_Enablement__c')}" />  
+                                <apex:inputField value="{!attributeValueSO.Target_Environment_CC_Safeguard__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup4, 'Target_Environment_CC_Safeguard__c')}" />  
+                                <apex:inputField value="{!attributeValueSO.Support_Crystal_Replacement__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup4, 'Support_Crystal_Replacement__c')}" />   
+                                <apex:inputField value="{!attributeValueSO.Activation_Only__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup4, 'Activation_Only__c')}" />    
+                                <apex:inputField value="{!attributeValueSO.Target_Version_Market_Vision_Delphi_Re__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup4, 'Target_Version_Market_Vision_Delphi_Re__c')}" />   
+                                <apex:inputField value="{!attributeValueSO.Target_Environment_Market_Vision_Delph__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup4, 'Target_Environment_Market_Vision_Delph__c')}" />    
+                                <apex:inputField value="{!attributeValueSO.License_Type_MeetingMatrix__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup4, 'License_Type_MeetingMatrix__c')}" /> 
+                                <apex:inputField value="{!attributeValueSO.Target_Version_Delphi_PMS_Interfaces_I__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup4, 'Target_Version_Delphi_PMS_Interfaces_I__c')}" />    
+                                <apex:inputField value="{!attributeValueSO.License_Type_Delphi_PMS_Interfaces_I_S__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup4, 'License_Type_Delphi_PMS_Interfaces_I_S__c')}" /> 
+                                     <apex:inputField value="{!attributeValueSO.Cendyn_Products__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup4, 'Cendyn_Products__c')}" /> 
+                                <apex:inputField value="{!attributeValueSO.HIS_Region__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup4, 'HIS_Region__c')}" /> 
+                                <apex:inputField value="{!attributeValueSO.Number_of_Devices__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup4, 'Number_of_Devices__c')}" />   
+                                <apex:inputField value="{!attributeValueSO.Additional_Channels__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup4, 'Additional_Channels__c')}" />     
+                                <apex:inputField value="{!attributeValueSO.Number_of_Certified_Rooms__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup4, 'Number_of_Certified_Rooms__c')}" />   
+                                <apex:inputField value="{!attributeValueSO.Type_of_Floor_Plan__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup4, 'Type_of_Floor_Plan__c')}" />    
+                                <apex:inputField value="{!attributeValueSO.Implementation_Type_MeetingMatrix__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup4, 'Implementation_Type_MeetingMatrix__c')}" />    
+                                <apex:inputField value="{!attributeValueSO.eProposal_Additional_Language_Module__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup4, 'eProposal_Additional_Language_Module__c')}" /> 
+                                <apex:inputField value="{!attributeValueSO.Implementation_Delphi_PMS_Interfaces_C__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup4, 'Implementation_Delphi_PMS_Interfaces_C__c')}" /> 
+                                <apex:inputField value="{!attributeValueSO.Source_Delphi_Version__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup4, 'Source_Delphi_Version__c')}" /> 
+                                <apex:inputField value="{!attributeValueSO.Database_Location__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup4, 'Database_Location__c')}" /> 
+                                <apex:inputField value="{!attributeValueSO.Delphi_Diagrams_License_Type__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup4, 'Delphi_Diagrams_License_Type__c')}" /> 
+                                <apex:outputText value="{!attributeValueSO.Quantity_1_for_HRM_DFDC_01__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup4, 'Quantity_1_for_HRM_DFDC_01__c')}" /> 
+                </apex:pageBlockSection>
+            </apex:outputPanel>   <!-- Add custom fields here -->
+            
+            <!--  Attribute Group 5 -->
+            <apex:outputPanel rendered="{!isAttributeGroup5Enabled}" >
+                <apex:pageBlockSection title="{!attributeGroup5Name}" 
+                                       columns="1" 
+                                       collapsible="true" >
+                    <!-- attribute value fields -->
+                    <apex:inputField value="{!attributeValueSO.Apttus_Config2__Color__c}" 
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup5, ':Apttus_Config2__Color__c')}" />
+                                     
+                    <apex:inputField value="{!attributeValueSO.Apttus_Config2__Vendor__c}" 
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup5, ':Apttus_Config2__Vendor__c')}" />
+                
+                                <apex:inputField value="{!attributeValueSO.Number_of_Users__c}" 
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup5, 'Number_of_Users__c')}" />
+                                 <apex:inputField value="{!attributeValueSO.Property_Count__c}" 
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup5, 'Property_Count__c')}" />  
+                                 <apex:inputField value="{!attributeValueSO.Implementation_Type__c}" 
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup5, 'Implementation_Type__c')}" />  
+                                 <apex:inputField value="{!attributeValueSO.Source_Environment__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup5, 'Source_Environment__c')}" /> 
+                                <apex:inputField value="{!attributeValueSO.Target_Environment__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup5, 'Target_Environment__c')}" /> 
+                                 <apex:inputField value="{!attributeValueSO.Services_Model__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup5, 'Services_Model__c')}" />    
+                                 <apex:inputField value="{!attributeValueSO.Number_of_Properties__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup5, 'Number_of_Properties__c')}" />      
+                                 <apex:inputField value="{!attributeValueSO.Number_of_Connurent_Users__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup5, 'Number_of_Connurent_Users__c')}" />    
+                                 <apex:inputField value="{!attributeValueSO.Named_license__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup5, 'Named_license__c')}" /> 
+                                 <apex:inputField value="{!attributeValueSO.Source_Product__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup5, 'Source_Product__c')}" />  
+                                 <apex:inputField value="{!attributeValueSO.Target_Product__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup5, 'Target_Product__c')}" />
+                                 <apex:inputField value="{!attributeValueSO.Source_Version__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup5, 'Source_Version__c')}" />          
+                                 <apex:inputField value="{!attributeValueSO.Target_Version__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup5, 'Target_Version__c')}" />      
+                                 <apex:inputField value="{!attributeValueSO.SQL_License_Type__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup5, 'SQL_License_Type__c')}" />  
+                               <!--   <apex:inputField value="{!attributeValueSO.License_Type__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup5, 'License_Type__c')}" />   -->       
+                                 <apex:inputField value="{!attributeValueSO.SQL_Edition__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup5, 'SQL_Edition__c')}" />    
+                                 <apex:inputField value="{!attributeValueSO.Multi_Language_Multi_Currency__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup5, 'Multi_Language_Multi_Currency__c')}" />       
+                                 <apex:inputField value="{!attributeValueSO.Training_Model__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup5, 'Training_Model__c')}" /> 
+                                 <apex:inputField value="{!attributeValueSO.Support_Type__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup5, 'Support_Type__c')}" /> 
+                                 <apex:inputField value="{!attributeValueSO.Delphi_Product_Type__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup5, 'Delphi_Product_Type__c')}" />     
+                                 <apex:inputField value="{!attributeValueSO.Number_of_Named_Users__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup5, 'Number_of_Named_Users__c')}" />   
+                                 <apex:inputField value="{!attributeValueSO.Number_of_Emails__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup5, 'Number_of_Emails__c')}" />                             
+                                 <apex:inputField value="{!attributeValueSO.Web_Forms__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup5, 'Web_Forms__c')}" /> 
+                                <apex:inputField value="{!attributeValueSO.Service_Agreements__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup5, 'Service_Agreements__c')}" />    
+                                <apex:inputField value="{!attributeValueSO.Pre_and_Post__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup5, 'Pre_and_Post__c')}" /> 
+                                <apex:inputField value="{!attributeValueSO.Booking_Abandonment__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup5, 'Booking_Abandonment__c')}" />  
+                                <apex:inputField value="{!attributeValueSO.Modal_Marketing__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup5, 'Modal_Marketing__c')}" />       
+                                <apex:inputField value="{!attributeValueSO.New_Media_Professional_Services__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup5, 'New_Media_Professional_Services__c')}" /> 
+                                <apex:inputField value="{!attributeValueSO.of_Properties_in_Comp_Set__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup5, 'of_Properties_in_Comp_Set__c')}" />  
+                                <apex:inputField value="{!attributeValueSO.CC_Safeguard_Implementation__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup5, 'CC_Safeguard_Implementation__c')}" />  
+                                <apex:inputField value="{!attributeValueSO.Delphi_Edition__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup5, 'Delphi_Edition__c')}" /> 
+                                <apex:inputField value="{!attributeValueSO.SSRS_Implementation__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup5, 'SSRS_Implementation__c')}" />  
+                                <apex:inputField value="{!attributeValueSO.SSRS_Training_Instance__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup5, 'SSRS_Training_Instance__c')}" />  
+                                <apex:inputField value="{!attributeValueSO.Crystal_Implementation__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup5, 'Crystal_Implementation__c')}" />  
+                                <apex:inputField value="{!attributeValueSO.Room_Count__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup5, 'Room_Count__c')}" />   
+                                <apex:inputField value="{!attributeValueSO.Room_Count_Connex__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup5, 'Room_Count_Connex__c')}" />  
+                                <apex:inputField value="{!attributeValueSO.Market_Vision_Implementation__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup5, 'Market_Vision_Implementation__c')}" />   
+                                <apex:inputField value="{!attributeValueSO.Hilton_OnQ__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup5, 'Hilton_OnQ__c')}" />  
+                                <apex:inputField value="{!attributeValueSO.Passkey_HotelDirect__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup5, 'Passkey_HotelDirect__c')}" />  
+                                <apex:inputField value="{!attributeValueSO.Hilton_eEvents__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup5, 'Hilton_eEvents__c')}" /> 
+                                <apex:inputField value="{!attributeValueSO.Marriott_OneSource__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup5, 'Marriott_OneSource__c')}" />  
+                                <apex:inputField value="{!attributeValueSO.IDeaS__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup5, 'IDeaS__c')}" /> 
+                                <apex:inputField value="{!attributeValueSO.EzRMS__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup5, 'EzRMS__c')}" />  
+                                <apex:inputField value="{!attributeValueSO.Delphi_Diagrams_Implementation__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup5, 'Delphi_Diagrams_Implementation__c')}" />    
+                                <apex:inputField value="{!attributeValueSO.Implementation_Model__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup5, 'Implementation_Model__c')}" />  
+                               <apex:inputField value="{!attributeValueSO.Number_of_CAD_Diagrams__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup5, 'Number_of_CAD_Diagrams__c')}" />
+                                <apex:inputField value="{!attributeValueSO.CAD_Type__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup5, 'CAD_Type__c')}" />
+                                <apex:inputField value="{!attributeValueSO.HotSOS_Implementation__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup5, 'HotSOS_Implementation__c')}" />
+                                <apex:inputField value="{!attributeValueSO.SOSuite_type__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup5, 'SOSuite_type__c')}" />
+                                <apex:inputField value="{!attributeValueSO.PMS_Interfaces_I_Server_Connector_Imple__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup5, 'PMS_Interfaces_I_Server_Connector_Imple__c')}" />
+                                <apex:inputField value="{!attributeValueSO.System_Name__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup5, 'System_Name__c')}" />
+                                <apex:inputField value="{!attributeValueSO.Target_Group__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup5, 'Target_Group__c')}" /> 
+                                <apex:inputField value="{!attributeValueSO.Deployment_Type__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup5, 'Deployment_Type__c')}" />   
+                                <apex:inputField value="{!attributeValueSO.User_Count__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup5, 'User_Count__c')}" /> 
+                                <apex:inputField value="{!attributeValueSO.Upgrade__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup5, 'Upgrade__c')}" />   
+                                <apex:inputField value="{!attributeValueSO.Upgrade_Type__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup5, 'Upgrade_Type__c')}" />  
+                                <apex:inputField value="{!attributeValueSO.Training__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup5, 'Training__c')}" />   
+                                <apex:inputField value="{!attributeValueSO.Number_of_Users_Trained__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup5, 'Number_of_Users_Trained__c')}" />  
+                                <apex:inputField value="{!attributeValueSO.Project_Management__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup5, 'Project_Management__c')}" />
+                                <apex:inputField value="{!attributeValueSO.Number_of_Days_Total_Station__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup5, 'Number_of_Days_Total_Station__c')}" /> 
+                                <apex:inputField value="{!attributeValueSO.Number_of_Entr_e_Users__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup5, 'Number_of_Entr_e_Users__c')}" />  
+                                <apex:inputField value="{!attributeValueSO.Number_of_Enhanced_Room_Diagrams__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup5, 'Number_of_Enhanced_Room_Diagrams__c')}" />   
+                                <apex:inputField value="{!attributeValueSO.HRM_Qty__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup5, 'HRM_Qty__c')}" />      
+                                <apex:inputField value="{!attributeValueSO.EMS_Implementation__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup5, 'EMS_Implementation__c')}" />  
+                                <apex:inputField value="{!attributeValueSO.License_Type_Delphi_EMS_Interfaces_I_S__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup5, 'License_Type_Delphi_EMS_Interfaces_I_S__c')}" />  
+                                <apex:inputField value="{!attributeValueSO.Delphi_Version_Delphi_EMS_Interfaces_I__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup5, 'Delphi_Version_Delphi_EMS_Interfaces_I__c')}" />
+                                <apex:inputField value="{!attributeValueSO.System_Name_Delphi_EMS_Interfaces_I_Se__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup5, 'System_Name_Delphi_EMS_Interfaces_I_Se__c')}" /> 
+                                <apex:inputField value="{!attributeValueSO.Type_iPlan__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup5, 'Type_iPlan__c')}" />     
+                                <apex:inputField value="{!attributeValueSO.Number_of_Square_Footage__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup5, 'Number_of_Square_Footage__c')}" />  
+                                <apex:inputField value="{!attributeValueSO.Number_of_Floors__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup5, 'Number_of_Floors__c')}" />        
+                                <apex:inputField value="{!attributeValueSO.iPlan_Theme__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup5, 'iPlan_Theme__c')}" />  
+                                <apex:inputField value="{!attributeValueSO.Number_of_Meeting_Rooms__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup5, 'Number_of_Meeting_Rooms__c')}" />  
+                                <apex:inputField value="{!attributeValueSO.Number_of_Buildings_Stacked_Floor_Plans__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup5, 'Number_of_Buildings_Stacked_Floor_Plans__c')}" />  
+                                <apex:inputField value="{!attributeValueSO.Campus_Maps__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup5, 'Campus_Maps__c')}" />  
+                                <apex:inputField value="{!attributeValueSO.Campus_Map_Highlight__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup5, 'Campus_Map_Highlight__c')}" />     
+                                <apex:inputField value="{!attributeValueSO.Implementation_Type_MeetingBroker__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup5, 'Implementation_Type_MeetingBroker__c')}" />    
+                                <apex:inputField value="{!attributeValueSO.Room_Count_MeetingBroker__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup5, 'Room_Count_MeetingBroker__c')}" />   
+                                <apex:inputField value="{!attributeValueSO.Integration_Type_MeetingBroker__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup5, 'Integration_Type_MeetingBroker__c')}" />    
+                                <apex:inputField value="{!attributeValueSO.Web_and_Social_Media_Toolkit__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup5, 'Web_and_Social_Media_Toolkit__c')}" />
+                                <apex:inputField value="{!attributeValueSO.Cross_Subscription_Integration__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup5, 'Cross_Subscription_Integration__c')}" />  
+                                <apex:inputField value="{!attributeValueSO.OnDemend_Technical_Services__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup5, 'OnDemend_Technical_Services__c')}" />   
+                                <apex:inputField value="{!attributeValueSO.HIS_In_Box_Enablement__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup5, 'HIS_In_Box_Enablement__c')}" />  
+                                <apex:inputField value="{!attributeValueSO.Target_Environment_CC_Safeguard__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup5, 'Target_Environment_CC_Safeguard__c')}" />  
+                                <apex:inputField value="{!attributeValueSO.Support_Crystal_Replacement__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup5, 'Support_Crystal_Replacement__c')}" />   
+                                <apex:inputField value="{!attributeValueSO.Activation_Only__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup5, 'Activation_Only__c')}" />    
+                                <apex:inputField value="{!attributeValueSO.Target_Version_Market_Vision_Delphi_Re__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup5, 'Target_Version_Market_Vision_Delphi_Re__c')}" />   
+                                <apex:inputField value="{!attributeValueSO.Target_Environment_Market_Vision_Delph__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup5, 'Target_Environment_Market_Vision_Delph__c')}" />    
+                                <apex:inputField value="{!attributeValueSO.License_Type_MeetingMatrix__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup5, 'License_Type_MeetingMatrix__c')}" /> 
+                                <apex:inputField value="{!attributeValueSO.Target_Version_Delphi_PMS_Interfaces_I__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup5, 'Target_Version_Delphi_PMS_Interfaces_I__c')}" />    
+                                <apex:inputField value="{!attributeValueSO.License_Type_Delphi_PMS_Interfaces_I_S__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup5, 'License_Type_Delphi_PMS_Interfaces_I_S__c')}" />  
+                                     <apex:inputField value="{!attributeValueSO.Cendyn_Products__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup5, 'Cendyn_Products__c')}" /> 
+                                <apex:inputField value="{!attributeValueSO.HIS_Region__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup5, 'HIS_Region__c')}" /> 
+                                 <apex:inputField value="{!attributeValueSO.Number_of_Devices__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup5, 'Number_of_Devices__c')}" />   
+                                <apex:inputField value="{!attributeValueSO.Additional_Channels__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup5, 'Additional_Channels__c')}" />     
+                                <apex:inputField value="{!attributeValueSO.Number_of_Certified_Rooms__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup5, 'Number_of_Certified_Rooms__c')}" />   
+                                <apex:inputField value="{!attributeValueSO.Type_of_Floor_Plan__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup5, 'Type_of_Floor_Plan__c')}" />  
+                                <apex:inputField value="{!attributeValueSO.Implementation_Type_MeetingMatrix__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup5, 'Implementation_Type_MeetingMatrix__c')}" />    
+                                <apex:inputField value="{!attributeValueSO.eProposal_Additional_Language_Module__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup5, 'eProposal_Additional_Language_Module__c')}" /> 
+                                <apex:inputField value="{!attributeValueSO.Implementation_Delphi_PMS_Interfaces_C__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup5, 'Implementation_Delphi_PMS_Interfaces_C__c')}" /> 
+                                <apex:inputField value="{!attributeValueSO.Source_Delphi_Version__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup5, 'Source_Delphi_Version__c')}" /> 
+                                <apex:inputField value="{!attributeValueSO.Database_Location__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup5, 'Database_Location__c')}" />     
+                                <apex:inputField value="{!attributeValueSO.Delphi_Diagrams_License_Type__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup5, 'Delphi_Diagrams_License_Type__c')}" /> 
+                                <apex:outputText value="{!attributeValueSO.Quantity_1_for_HRM_DFDC_01__c}"    
+                                     rendered="{!CONTAINS(attributeNamesStringForGroup5, 'Quantity_1_for_HRM_DFDC_01__c')}" /> 
+
+                </apex:pageBlockSection>    
+            </apex:outputPanel> 
+            <!-- Remove this comment line -->
+        <!--  End Attribute Groups  -->
+            
+        </apex:pageBlock>
+<!-- End Product Attribute Detail -->       
+        </td>
+        <td width="20%" valign="top">
+<!-- Start Shopping Cart -->
+        <apex:pageBlock id="idSelectedProductsBlock">
+<!-- Start Shopping Cart -->
+                            <apex:pageBlockSection id="idSelectedProductsBlock"
+                                                    columns="1" 
+                                                    collapsible="false"
+                                                    title="{!$Label.Apttus_Config2__SelectedProducts}">
+                                                   
+                                <apex:outputPanel id="idPaginationPanel" 
+                                                  styleClass="bNext"
+                                                  layout="block" 
+                                                  style="text-align: right;"
+                                                  rendered="{!lineItemPaging.hasDisplayLines}">
+                                    <font size="1px"> 
+                                        <apex:outputPanel id="idNavSelectedPanel" 
+                                                          styleClass="next"
+                                                          layout="block" 
+                                                          rendered="{!OR(lineItemPaging.hasNextPage,lineItemPaging.hasPreviousPage)}">
+                                            <apex:outputPanel rendered="{!NOT(lineItemPaging.hasPreviousPage)}"
+                                                              styleClass="greyedLink">&lt;{!$Label.Apttus_Config2__IteratorPrevious}</apex:outputPanel>
+                                            <apex:commandLink action="{!previousLineItemPage}" 
+                                                              rendered="{!lineItemPaging.hasPreviousPage}" 
+                                                              reRender="idSelectedProductsBlock">&lt;{!$Label.Apttus_Config2__IteratorPrevious}</apex:commandLink>
+                                            <span> | </span>
+                                            <apex:outputText value="{!$Label.Apttus_Config2__Page}: {!lineItemPaging.currentPageNumber} {!$Label.Apttus_Config2__OutOf} {!lineItemPaging.totalPages}" />
+                                            <span> | </span>
+                                            <apex:outputPanel rendered="{!NOT(lineItemPaging.hasNextPage)}"
+                                                              styleClass="greyedLink">{!$Label.Apttus_Config2__IteratorNext}&gt;</apex:outputPanel>
+                                            <apex:commandLink action="{!nextLineItemPage}" 
+                                                              rendered="{!lineItemPaging.hasNextPage}"
+                                                              reRender="idSelectedProductsBlock">{!$Label.Apttus_Config2__IteratorNext}&gt;</apex:commandLink>
+                                        </apex:outputPanel>   
+                                    </font>
+                                </apex:outputPanel>                                                
+                                <!-- Shopping Cart ProductInfo -->  
+                                <apex:pageBlockTable value="{!lineItemPaging.displayLines}" 
+                                                     var="lineItem"
+                                                     width="100%" 
+                                                     rules="rows" 
+                                                     rowClasses="oddRow, evenRow"
+                                                     rendered="{!lineItemPaging.hasDisplayLines}">
+                                    <!-- Start Group By Search Attribute Value -->               
+                                    <apex:column style="width: 50px; max-width: 100px; white-space: nowrap;" rendered="{!lineItem.isSearchItem}">
+                                        <apex:outputPanel rendered="{!(lineItem.searchAttrSO.Apttus_Config2__ValueType__c == ValueTypeDefault)}"> 
+                                            <apex:commandLink value="{!$Label.Apttus_Config2__GuideMe}"
+                                                              action="{!gotoSearchDefault}"
+                                                              onclick="onActionClick();" 
+                                                              oncomplete="onActionComplete();"
+                                                              style="color: blue; white-space: nowrap;"
+                                                              reRender="idTopNavActions, idSelectedProductsBlock, idRulesBlock" >
+                                            </apex:commandLink>
+                                        </apex:outputPanel>
+                                        <apex:outputPanel rendered="{!(lineItem.searchAttrSO.Apttus_Config2__ValueType__c == ValueTypeProduct)}"> 
+                                            <apex:commandLink value="{!$Label.Apttus_Config2__GuideMe}"
+                                                                action="{!gotoSearchProduct}"
+                                                                onclick="onActionClick();" 
+                                                                oncomplete="onActionComplete();"
+                                                                style="color:blue;"
+                                                                reRender="idTopNavActions, idSelectedProductsBlock, idRulesBlock" >
+                                                    <apex:param name="param1" 
+                                                            assignTo="{!selectProductId}"
+                                                            value="{!lineItem.searchAttrSO.Apttus_Config2__BaseProductId__c}" />
+                                            </apex:commandLink>
+                                        </apex:outputPanel>
+                                    </apex:column>               
+                                    <apex:column rendered="{!lineItem.isSearchItem}"> 
+                                        <apex:outputPanel rendered="{!(lineItem.searchAttrSO.Apttus_Config2__ValueType__c == ValueTypeDefault)}"> 
+                                            <apex:outputText value="{!$Label.Apttus_Config2__SearchDefault}"/>
+                                        </apex:outputPanel>
+                                        <apex:outputPanel rendered="{!(lineItem.searchAttrSO.Apttus_Config2__ValueType__c == ValueTypeProduct)}">
+                                            <apex:outputField value="{!lineItem.searchAttrSO.Apttus_Config2__BaseProductId__c}"></apex:outputField> 
+                                        </apex:outputPanel>             
+                                    </apex:column>                                                   
+                                    <!-- End of Group By Search Attribute Value --> 
+                                    <!-- Start Selected Line Item -->                
+                                    <apex:column style="width: 28px; max-width: 36px; text-align: center;" rendered="{!lineItem.isLineItem}">
+                                        <apex:commandLink rerender="dummy">
+                                            <apex:image url="{!$Resource.Apttus_Config2__Image_Remove}" 
+                                                        alt="{!$Label.Apttus_Config2__Remove}"
+                                                        title="{!$Label.Apttus_Config2__Remove}"
+                                                        onclick="YAHOO.force.com.showRemoveConfirmation('{!lineItem.lineItemSO.Apttus_Config2__LineNumber__c}');return false;"/>
+                                        </apex:commandLink> 
+                                    </apex:column>
+                                    <apex:column rendered="{!lineItem.isLineItem}">
+                                        <apex:outputField value="{!lineItem.lineItemSO.Apttus_Config2__ProductId__c}"  
+                                                         style="font-size: 10px; font-weight: bold;" />
+                                    </apex:column>
+                                    <!--                                
+                                    <apex:column style="text-align: right"  rendered="{!lineItem.isLineItem}">
+                                        <apex:outputField value="{!lineItem.lineItemSO.AdjustedPrice__c}" />
+                                    </apex:column>
+                                    -->
+                                    <!-- End Selected Line Item -->
+                                </apex:pageBlockTable>
+                            </apex:pageBlockSection>
+
+                        </apex:pageBlock>       
+<!-- End Shopping Cart -->                  
+        </td>
+        </tr></table>
+        
+<!--  Javascript functions -->
+        <apex:actionFunction name="invokeDoDeleteLineItem" 
+                             action="{!doDeleteLineItem}"
+                             rerender="idSelectedProductsBlock, idErrorMsg, idRulesBlock"
+                             oncomplete="onActionComplete();">
+            <apex:param name="firstParam" assignTo="{!lineItemLineNbr}" value="" />
+        </apex:actionFunction>
+        <apex:actionFunction name="invokeDoRemoveProduct" 
+                             action="{!doRemoveItem}"
+                             reRender="idErrorMsg, idRulesBlock, idSelectedProductsBlock" 
+                             oncomplete="YAHOO.force.com.waitPanel.hide();">
+        </apex:actionFunction>
+        
+        <apex:actionFunction name="invokeDoHideMessage"
+                             action="{!doHideMessage}"
+                             reRender="idErrorMsg"
+                             oncomplete="YAHOO.force.com.waitPanel.hide();" >
+            <apex:param name="param" assignTo="{!appliedActionInfoId}" value="" />
+        </apex:actionFunction>
+        
+        <apex:actionFunction name="invokeDoProcessMoreRules" 
+                             action="{!doProcessMoreRules2}" 
+                             rerender="idSelectedProductsBlock, idErrorMsg, idRulesBlock"
+                             oncomplete="onActionComplete();" />
+         
+        <!-- This is the content of the confirmation dialog -->
+        <apex:outputPanel >
+            <div id="confirmationPanel" style="display: none">
+                <div class="hd">
+                    <apex:outputText value="{!$Label.Apttus_Config2__RemoveConfirmation}" />
+                </div> 
+                <div class="bd">
+                    <apex:outputText value="{!$Label.Apttus_Config2__RemoveProductMessage}" />
+                </div>
+                <div class="bd">
+                    <apex:actionRegion >
+                        <div style="text-align: center; padding-left: 4px;" >
+                            <apex:commandButton value="{!$Label.Apttus_Config2__Yes}"
+                                                onclick="YAHOO.force.com.remove();"
+                                                style="width: 50px;"   
+                                                immediate="true" 
+                                                oncomplete="YAHOO.force.com.confirmationPanel.hide();" />
+                            <apex:commandButton value="{!$Label.Apttus_Config2__No}" 
+                                                style="width: 50px;"   
+                                                onclick="YAHOO.force.com.confirmationPanel.hide();return false;" />
+                        </div>
+                    </apex:actionRegion>
+                </div>
+            </div>
+        </apex:outputPanel>
+
+<!-- Begin Constraint Rule Alert -->        
+<!-- This is the select choice dialog -->
+        <apex:outputPanel >
+            <div id="choicePanel" style="display: block">
+                <apex:outputPanel id="idChoicePanel">
+<!-- Start Choice Body -->
+
+<!-- Start Rule Result -->      
+<div id="aptRuleResult" style="{border: 2px solid gray; width: 100%;}">
+                        <apex:pageBlock id="idRulesBlock">
+                                    <apex:outputPanel rendered="{!NOT(ruleResult.isEmpty)}">
+                                        <div style="width: 98%; padding-left: 10px; padding-left: 10px;">   
+                                            <div style="width: 98%; height: 40px; color: black; border: 1px solid #990000; padding-left: 5px; font-weight: bold; overflow: auto;">
+                                                <apex:outputText value="{!ruleResult.Message}"/>
+                                            </div>  
+                                        </div>
+                                    </apex:outputPanel> 
+                                    <div style="{!ruleResult.tableStyle}">
+                                    <apex:pageBlockSection columns="1" 
+                                                   collapsible="false"
+                                                   showHeader="{!ruleResult.isShowMessage}"
+                                                   rendered="{!NOT(ruleResult.isEmpty)}"
+                                                   >
+                                        <!-- Begin List of Products -->
+                                                <apex:pageBlockTable value="{!ruleResult.products}"
+                                                                     var="productSO"
+                                                                     rules="rows" 
+                                                                     rowClasses="oddRow, evenRow" 
+                                                                     width="100%"
+                                                                     columns="3"> 
+                                                                     
+                                                    <apex:column width="20%" >
+                                                        <apex:commandButton value="{!$Label.Apttus_Config2__Select}"
+                                                                        action="{!doSelectProduct}" 
+                                                                        onclick="onActionClick();" 
+                                                                        oncomplete="onActionComplete();"
+                                                                        rendered="{!ruleResult.isSelect}"
+                                                                        reRender="idTopNavActions, idErrorMsg, idRulesBlock, idSelectedProductsBlock" >
+                                                                <apex:param name="param1" 
+                                                                            assignTo="{!selectedProductId}"
+                                                                            value="{!productSO.Id}" />
+                                                                <apex:param name="param2" 
+                                                                            assignTo="{!ruleActionId}"
+                                                                            value="{!ruleResult.ruleActionId}" />
+                                                        </apex:commandButton>
+                                                        <apex:commandButton value="{!$Label.Apttus_Config2__Remove}" 
+                                                                        action="{!doRemoveProduct}" 
+                                                                        onclick="onActionClick();" 
+                                                                        oncomplete="onActionComplete();"
+                                                                        rendered="{!ruleResult.isRemove}"
+                                                                        reRender="idTopNavActions, idErrorMsg, idRulesBlock, idSelectedProductsBlock" >
+                                                                <apex:param name="param1" 
+                                                                            assignTo="{!selectedProductId}" 
+                                                                            value="{!productSO.Id}" />
+                                                                <apex:param name="param2" 
+                                                                            assignTo="{!ruleActionId}"
+                                                                            value="{!ruleResult.ruleActionId}" />
+                                                        </apex:commandButton>
+                                                    </apex:column>
+                                                 
+                                                    <apex:column >
+                                                        <apex:outputText value="{!productSO.Name}"
+                                                                         style="font-weight:bold;" />
+                                                    </apex:column>
+                                                
+                                                </apex:pageBlockTable>
+                                        <!-- End List of Products -->
+                                        
+                                    </apex:pageBlockSection>
+                                    </div>
+<!-- End Rule Result -->                                
+                            
+<!-- End Choice Body --> 
+                    <div>
+                        <div style="text-align: center;" >
+                        <apex:outputPanel >
+                            <!-- 
+                            <input type="button" value="{!$Label.Apttus_Config2__Cancel}" style="width: 60px;" onclick="YAHOO.force.com.choicePanel.hide();"/>
+                            -->     
+                            <apex:commandButton value="{!$Label.Apttus_Config2__Cancel}"
+                                                action="{!doIgnoreAction}" 
+                                                onclick="onActionClick();" 
+                                                oncomplete="onActionComplete();"
+                                                reRender="idTopNavActions, idSelectedProductsBlock, idErrorMsg, idRulesBlock" >
+                                                    <apex:param name="param1" 
+                                                                assignTo="{!ignoreActionId}"
+                                                                value="{!ruleResult.ruleActionId}" />
+                            </apex:commandButton>       
+                        </apex:outputPanel>
+                                
+                        </div>
+                    </div> 
+                              
+                    </apex:pageBlock>
+                    </div> 
+                </apex:outputPanel>  
+            </div>
+        </apex:outputPanel> 
+        
+<!-- End of Constraint Rule Alert -->       
+
+    </apex:form>
+    
+    <script type="text/javascript">
+        //when the page is loaded with pending processing of rules
+        var aptsOnload = function() {
+            YAHOO.util.Event.onDOMReady(YAHOO.force.com.onDOMReady);
+            if(needMoreProcessing){
+                YAHOO.force.com.waitPanel.show();
+                invokeDoProcessMoreRules();
+            }else if(showChoicePanel){
+                YAHOO.force.com.waitPanel.hide();
+                YAHOO.force.com.choicePanel.show();
+            }
+        }
+        
+        //we have dependent pick list bug when window.onload is overridden
+        window.onload = combineFunction(window.onload, aptsOnload);
+        
+    </script>
+    
+</apex:page>

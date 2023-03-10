@@ -1,0 +1,78 @@
+<apex:component >   
+   <apex:attribute name="attributeWorkbook" description="Current Workbook" type="AH_UDC_CommunityWorkbook" required="true" />
+   <apex:attribute name="attributeDisplayConsoleLogMessages" description="Display Console Log Messages" type="Boolean" required="true" />
+   <c:AH_UDC_FileUploadCSS />
+
+   <script type="text/javascript">
+      var securityToken = "{!attributeWorkbook.currentStep.token}";
+      var apiUrl = "{!attributeWorkbook.currentStep.fileUploadInfo.fileUploadUrl}";
+      var DisplayConsoleLogMessages = {!attributeDisplayConsoleLogMessages};
+      var isSent = '{!attributeWorkbook.isSent}';
+   </script>
+   
+   <c:AH_UDC_FileUploadJS attributeWorkbook="{!attributeWorkbook}"/>
+
+   <div id="divFileUploadError" style="display: none;" class="messageText">
+      <span style="color: #cc0000;">
+         <h4 style="margin-top: 2px; margin-bottom: 5px;">Error:</h4>
+      </span>
+      <span id="spnFileUploadErrorMsg"></span>
+   </div>
+
+   <div class="form-container-file-Upload">
+      <div id="divMain">
+         <p></p>
+         <div class="remove-p-space"><apex:outputText escape="false"  style="padding: 0; margin: 0;" value="{!attributeWorkbook.currentStep.fileUploadInfo.fileUploadDescription}" /></div>
+         <p></p>
+         <fieldset class="fieldsetStyle">
+            <legend style="padding-left: 5px; padding-right: 5px;">{!$Label.AH_UDC_UploadFiles}</legend>
+            <button id="addFiles" style="width: 100px;" class="buttonStyle">{!$Label.AH_UDC_AddFilesButton}</button>
+            <input type="file" id="FileUploadList" name="postedFile" multiple="multiple" style="border: 1px solid #87cefa; border-radius: 3px; padding: 4px; display: none;" />
+            <apex:commandbutton rerender="pbFiles" id="btnFileUpload" value="{!$Label.AH_UDC_FileUploadButton}" onclick="uploadFiles(); return false;" style="width: 70px; margin-left: 7px;" styleclass="buttonStyle"></apex:commandbutton>
+            <div id="file-upload-header" style="margin-top: 5px;"></div>
+            <div id="file-upload-filename" style="margin-top: -10px;"></div>
+            <div id="file-upload-extensionheader" style="margin-top: 5px;"></div>
+            <div id="file-upload-notsupportedfilename" style="margin-top: -10px;"></div>
+            <div id="file-upload-sizeheader" style="margin-top: 5px;"></div>
+            <div id="file-upload-maxfilesizefilename" style="margin-top: -10px;"></div>
+         </fieldset>
+         <fieldset class="fieldsetStyle" style="margin-top: 10px;" id="pbFiles">
+            <legend style="padding-left: 5px; padding-right: 5px;">{!$Label.AH_UDC_UploadedFilelist}</legend>
+            <div>
+               <apex:outputpanel id="FileListArea">
+                  <table class="slds-table slds-wrap slds-table_cell-buffer slds-table_bordered slds-table_striped slds-table_col-bordered" style="width: 100%;">
+                     <thead>
+                        <tr class="slds-line-height_reset">
+                           <th class="header-color" scope="col">
+                              <div class="slds-truncate">{!$Label.AH_UDC_FileName}</div>
+                           </th>
+                           <th class="header-color" scope="col">
+                              <div class="slds-truncate">{!$Label.AH_UDC_FileUploadDate}</div>
+                           </th>
+                           <th class="header-color" scope="col">
+                              <div class="slds-truncate">Action</div>
+                           </th>
+                        </tr>
+                     </thead>
+                     <tbody>
+                        <apex:repeat value="{!attributeWorkbook.currentStep.fileUploadInfo.uploadedFileList}" var="UploadedFile">
+                           <tr class="slds-hint-parent">
+                              <td data-label="{!$Label.AH_UDC_FileName}">                                
+                                 <div class="slds-truncate slds-cell-wrap">{!UploadedFile.ContentDocument.title}</div>
+                              </td>
+                              <td data-label="{!$Label.AH_UDC_FileUploadDate}" style="text-align: center;">
+                                 <apex:outputtext value="{!UploadedFile.ContentDocument.CreatedDate}"> </apex:outputtext>
+                              </td>
+                              <td data-label="{!$Label.AH_UDC_Delete}" style="text-align: center;">
+                                 <apex:commandlink styleclass="deleteLink" value="{!$Label.AH_UDC_Delete}" onclick="showDeleteFileConfirmation('{!UploadedFile.ContentDocumentId }');" rerender="none" style="color: blue;"> </apex:commandlink>
+                              </td>
+                           </tr>
+                        </apex:repeat>
+                     </tbody>
+                  </table>
+               </apex:outputpanel>
+            </div>
+         </fieldset>
+      </div>
+   </div>
+</apex:component>

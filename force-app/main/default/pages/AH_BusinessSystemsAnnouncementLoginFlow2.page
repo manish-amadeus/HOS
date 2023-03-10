@@ -1,0 +1,197 @@
+<apex:page showheader="false" lightningStylesheets="true" controller="AH_BusinessSystemsLoginFlowHandler">
+    
+    <apex:slds rendered="true"/>
+    
+    <div class="slds-scope">
+        
+        <div style="width:800px; height:600px; position:absolute; top:0; bottom:0; left:0; right:0; margin:auto;">
+            <apex:image url="{!$Resource.AmadeusMBFormLogo}" width="260px" />
+            <br/>
+            <br/>
+            <Center>
+                <apex:outputLabel value="Business Systems Announcement" style="font-family:AmadeusRegular; font-size:20pt; color:#005eb8;"  />
+                <br/>
+                <br/>
+                <!-- <apex:outputText style="font-style:normal;font-size:110%;" value="{!$Label.AH_Business_Systems_Login_Flow_Message}" /> -->  
+                <apex:outputText escape="false" style="font-style:normal;font-size:120%;"
+                                 value="The Business Systems Team will be deploying <b> My Domain </b> in the Hospitality Salesforce Org on February 1, 2020. My Domain will improve security and allow Hospitality to leverage additional functionality related to Lightning and other areas of the Salesforce Platform."/>
+            </Center>      
+            <br/>
+            <br/>
+            
+            <Left>
+                
+                <apex:outputText escape="false" style="font-style:bold;font-size:110%;text-align: justify;" value="<b>How will this impact me?</b>" />
+                <br/>   
+                <ul style="margin-left: 30px; list-style-type: disc; !important;">
+                    <li>
+                        <apex:outputText style="font-style:normal;font-size:110%;" value="Instead of navigating to https://login.salesforce.com to log into the Hospitality Salesforce Org, you will navigate to " />
+                        <apex:outputLink value="https://amadeus-hospitality.my.salesforce.com" id="theLink2">https://amadeus-hospitality.my.salesforce.com</apex:outputLink> 
+                    </li>
+                    <li>
+                        <apex:outputText escape="false" style="font-style:normal;font-size:110%;" 
+                                         value="Once you have logged into Salesforce the URL will reflect <b>amadeus-hospitality</b> instead of <b>na110</b> as the instance name. 
+                                                We recommend that you bookmark https://amadeus-hospitality.my.salesforce.com."/>
+                    </li>
+                </ul>
+                <br/>
+                
+                <apex:outputText escape="false" style="font-style:bold;font-size:110%;text-align: justify;" value="<b>When is this happening?</b>" />
+                <br/>
+                <ul style="margin-left: 30px; list-style-type: disc; !important;">
+                    <li>
+                        <apex:outputText style="font-style:normal;font-size:110%;" value="My Domain will be deployed on February 1, 2020" />
+                    </li>    
+                </ul>
+                <br/>
+                
+                
+                <apex:outputText escape="false" style="font-style:bold;font-size:110%;text-align: justify;" value="<b>Can I use My Domain now?</b>" />
+                <br/> 
+                <ul style="margin-left: 30px; list-style-type: disc; !important;">
+                    <li>
+                        <apex:outputText style="font-style:normal;font-size:110%;" value="Yes,  "/>
+                        
+                        <apex:outputText style="font-style:normal;font-size:110%;" value=" My Domain URL is available now.  Pilot users have been logging in with this URL for several months.  
+                                                                                          We encourage you to start using it today.  Click " />
+                        <apex:outputLink value="https://amadeus-hospitality.my.salesforce.com" id="theLink3">https://amadeus-hospitality.my.salesforce.com</apex:outputLink>
+                        <apex:outputText style="font-style:normal;font-size:110%;" value=" and log in." />    
+                    </li>   
+                </ul>
+                <br/>
+                
+                
+                <apex:outputText escape="false" style="font-style:bold;font-size:110%;text-align: justify;" value="<b>Will I still be able to use 'login.salesforce.com'?</b>" />
+                <br/>   
+                <ul style="margin-left: 30px; list-style-type: disc; !important;">
+                    <li>
+                        <apex:outputText style="font-style:normal;font-size:110%;" value="Yes, you will still be able to use login.salesforce.com after the February 1 deployment for a certain period of time. However, 
+                                                                                          we encourage you to use the My Domain URL as soon as possible to minimize any impact to your day to day use of Salesforce post deployment." />
+                    </li>  
+                </ul>
+                <br/>
+                
+                
+                <apex:outputText escape="false" style="font-style:bold;font-size:110%;text-align: justify;" value="<b>How will this impact integrations to Salesforce?</b>" />
+                <br/>   
+                <ul style="margin-left: 30px; list-style-type: disc; !important;">
+                    <li>
+                        <apex:outputText style="font-style:normal;font-size:110%;"
+                                         value="The Business Systems Team is working with the stakeholders for our various integrations to transition to the My Domain URL. Login.salesforce.com will continue to work during the transition period." />
+                    </li>
+                </ul>
+                <br/>
+                
+                
+                <apex:outputText escape="false" style="font-style:bold;font-size:110%;text-align: justify;" value="<b>What if I have questions or run into issues?</b>" />
+                <br/>
+                <ul style="margin-left: 30px; list-style-type: disc; !important;">
+                    <li>
+                        <apex:outputText style="font-style:normal;font-size:110%;" value="Post any questions or issues that you experience with My Domain in the " />
+                        <apex:outputLink value="https://amadeus-hospitality.my.salesforce.com/_ui/core/chatter/groups/GroupProfilePage?g=0F93g000000TN2w" id="theLink4">My Domain</apex:outputLink>
+                        <apex:outputText style="font-style:normal;font-size:110%;" value=" Chatter Group. " />
+                    </li>  
+                </ul>
+                <br/>
+                <br/>
+                
+                <center>
+                    <apex:form >
+                        <apex:commandButton action="{!FinishLoginFlowHome}" value="Continue"/>
+                    </apex:form>
+                </center>    
+                <!--               
+                    <button id="cust_btn" onclick="self.close()">Continue</button>&nbsp; 
+                -->
+            </Left>
+            <br/>
+        </div>
+        
+    </div>
+    
+    <style type="text/css"> 
+
+        @font-face {
+        font-family: 'AmadeusBold';
+        src: url('{!URLFOR($Resource.AmadeusBoldFont, 'amadeus-bold-web.eot')}');
+        src: url('{!URLFOR($Resource.AmadeusBoldFont, 'amadeus-bold-web.eot')}?#iefix') format('embedded-opentype'),
+        url('{!URLFOR($Resource.AmadeusBoldFont, 'amadeus-bold-web.woff')}') format('woff'), 
+        url('{!URLFOR($Resource.AmadeusBoldFont, 'amadeus-bold-web.ttf')}') format('truetype'), 
+        url('{!URLFOR($Resource.AmadeusBoldFont, 'amadeus-bold-web.svg.woff')}#AmadeusBold') format('svg'); 
+        font-weight: normal;
+        font-style: normal;
+        }
+        
+        @font-face {
+        font-family: 'AmadeusBoldItalic';
+        src: url('{!URLFOR($Resource.AmadeusBoldItalicFont, 'amadeus-bolditalic-web.eot')}');
+        src: url('{!URLFOR($Resource.AmadeusBoldItalicFont, 'amadeus-bolditalic-web.eot')}?#iefix') format('embedded-opentype'),
+        url('{!URLFOR($Resource.AmadeusBoldItalicFont, 'amadeus-bolditalic-web.woff')}') format('woff'), 
+        url('{!URLFOR($Resource.AmadeusBoldItalicFont, 'amadeus-bolditalic-web.ttf')}') format('truetype'), 
+        url('{!URLFOR($Resource.AmadeusBoldItalicFont, 'amadeus-bolditalic-web.svg.woff')}#AmadeusBoldItalic') format('svg'); 
+        font-weight: normal;
+        font-style: normal;
+        }
+        @font-face {
+        font-family: 'AmadeusItalic';
+        src: url('{!URLFOR($Resource.AmadeusItalicFont, 'amadeus-italic-web.eot')}');
+        src: url('{!URLFOR($Resource.AmadeusItalicFont, 'amadeus-italic-web.eot')}?#iefix') format('embedded-opentype'),
+        url('{!URLFOR($Resource.AmadeusItalicFont, 'amadeus-italic-web.woff')}') format('woff'), 
+        url('{!URLFOR($Resource.AmadeusItalicFont, 'amadeus-italic-web.ttf')}') format('truetype'), 
+        url('{!URLFOR($Resource.AmadeusItalicFont, 'amadeus-italic-web.svg.woff')}#AmadeusItalic') format('svg'); 
+        font-weight: normal;
+        font-style: normal;
+        }                
+        @font-face {
+        font-family: 'AmadeusLight';
+        src: url('{!URLFOR($Resource.AmadeusLightFont, 'amadeus-light.eot')}');
+        src: url('{!URLFOR($Resource.AmadeusLightFont, 'amadeus-light.eot')}?#iefix') format('embedded-opentype'),
+        url('{!URLFOR($Resource.AmadeusLightFont, 'amadeus-light.woff')}') format('woff'), 
+        url('{!URLFOR($Resource.AmadeusLightFont, 'amadeus-light.ttf')}') format('truetype'), 
+        url('{!URLFOR($Resource.AmadeusLightFont, 'amadeus-light.svg.woff')}#AmadeusLight') format('svg'); 
+        font-weight: normal;
+        font-style: normal;
+        }
+        @font-face {
+        font-family: 'AmadeusLightItalic';
+        src: url('{!URLFOR($Resource.AmadeusLightItalicFont, 'amadeus-lightitalic.eot')}');
+        src: url('{!URLFOR($Resource.AmadeusLightItalicFont, 'amadeus-lightitalic.eot')}?#iefix') format('embedded-opentype'),
+        url('{!URLFOR($Resource.AmadeusLightItalicFont, 'amadeus-lightitalic.woff')}') format('woff'), 
+        url('{!URLFOR($Resource.AmadeusLightItalicFont, 'amadeus-lightitalic.ttf')}') format('truetype'), 
+        url('{!URLFOR($Resource.AmadeusLightItalicFont, 'amadeus-lightitalic.svg.woff')}#AmadeusLightItalic') format('svg'); 
+        font-weight: normal;
+        font-style: normal;
+        }
+        @font-face {
+        font-family: 'AmadeusRegular';
+        src: url('{!URLFOR($Resource.AmadeusRegularFont, 'amadeus-regular-web.eot')}');
+        src: url('{!URLFOR($Resource.AmadeusRegularFont, 'amadeus-regular-web.eot')}?#iefix') format('embedded-opentype'),
+        url('{!URLFOR($Resource.AmadeusRegularFont, 'amadeus-regular-web.woff')}') format('woff'), 
+        url('{!URLFOR($Resource.AmadeusRegularFont, 'amadeus-regular-web.ttf')}') format('truetype'), 
+        url('{!URLFOR($Resource.AmadeusRegularFont, 'amadeus-regular-web.svg.woff')}#AmadeusRegular') format('svg'); 
+        font-weight: normal;
+        font-style: normal;
+        } 
+        @font-face {
+        font-family: 'AmadeusThin';
+        src: url('{!URLFOR($Resource.AmadeusThinFont, 'amadeus-thin-web.eot')}');
+        src: url('{!URLFOR($Resource.AmadeusThinFont, 'amadeus-thin-web.eot')}?#iefix') format('embedded-opentype'),
+        url('{!URLFOR($Resource.AmadeusThinFont, 'amadeus-thin-web.woff')}') format('woff'), 
+        url('{!URLFOR($Resource.AmadeusThinFont, 'amadeus-thin-web.ttf')}') format('truetype'), 
+        url('{!URLFOR($Resource.AmadeusThinFont, 'amadeus-thin-web.svg.woff')}#AmadeusThin') format('svg'); 
+        font-weight: normal;
+        font-style: normal;
+        }
+        @font-face {
+        font-family: 'AmadeusThinItalic';
+        src: url('{!URLFOR($Resource.AmadeusThinItalicFont, 'amadeus-thinitalic-web.eot')}');
+        src: url('{!URLFOR($Resource.AmadeusThinItalicFont, 'amadeus-thinitalic-web.eot')}?#iefix') format('embedded-opentype'),
+        url('{!URLFOR($Resource.AmadeusThinItalicFont, 'amadeus-thinitalic-web.woff')}') format('woff'), 
+        url('{!URLFOR($Resource.AmadeusThinItalicFont, 'amadeus-thinitalic-web.ttf')}') format('truetype'), 
+        url('{!URLFOR($Resource.AmadeusThinItalicFont, 'amadeus-thinitalic-web.svg.woff')}#AmadeusThinItalic') format('svg'); 
+        font-weight: normal;
+        font-style: normal;
+        }    
+    </style>
+    
+</apex:page>

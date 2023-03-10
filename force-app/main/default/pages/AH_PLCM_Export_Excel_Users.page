@@ -1,0 +1,37 @@
+<apex:page controller="AH_PLCM_Export_Report" standardstylesheets="false" contentType="{!ContentType}">
+    <apex:outputText value="{!xlsHeader}" />
+    <Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet" xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet" xmlns:html="http://www.w3.org/TR/REC-html40">
+        <Styles>
+            <Style ss:ID="Headers">
+                <Alignment/>
+                <Borders/>
+                <Font ss:Bold="1"/>
+                <Interior/>
+                <NumberFormat/>
+                <Protection/>
+            </Style>
+        </Styles>
+        <Worksheet ss:Name="Create Users">
+            <Table x:FullColumns="1" x:FullRows="1">
+                <Column ss:Width="130"/>
+                <Column ss:Width="180"/>
+                <Column ss:Width="70"/>
+                <Column ss:Width="170"/>
+                <Row>
+                    <Cell ss:StyleID="Headers"><Data ss:Type="String">Full Name</Data></Cell>
+                    <Cell ss:StyleID="Headers"><Data ss:Type="String">Email</Data></Cell>
+                    <Cell ss:StyleID="Headers"><Data ss:Type="String">Create User</Data></Cell>
+                    <!--<Cell ss:StyleID="Headers"><Data ss:Type="String">User Default Property</Data></Cell>--> <!-- Date: 06/18/20-->
+                </Row>
+                <apex:repeat value="{!lstExportCreateUsers}" var="user"> 
+                    <Row>
+                        <Cell><Data ss:Type="String">{!user.Name}</Data></Cell>
+                        <Cell><Data ss:Type="String">{!user.User_Email_Address__c}</Data></Cell>
+                        <Cell><Data ss:Type="String">{!IF(user.New_User__c, 'Yes', 'No')}</Data></Cell>
+                        <!--<Cell><Data ss:Type="String">{!user.PLCM_Migration_Property_Assignment__r.Name}</Data></Cell>--><!-- Date: 06/18/20-->
+                    </Row>
+                </apex:repeat>
+            </Table>
+        </Worksheet>
+    </Workbook>
+</apex:page>

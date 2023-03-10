@@ -1,0 +1,144 @@
+<!-----------------------------------------------------------------------------------------------------------------------
+Name            : NI_Psa_RegionForecastUpdate Visualforce Page
+Author          : Stuart Emery
+Created Date    : 1/10/2014
+Last Mod Date   : 1/28/2014
+Last Mod By     : Stuart Emery
+NICC Reference  : NICC-009265
+Description     : The NI_Psa_RegionForecastUpdate Visualforce page is used by the 
+                : the Project Office to mass update Financialforce - PSA Forecasts
+                : by Region              
+------------------------------------------------------------------------------------------------------------------------->
+<apex:page standardController="pse__Region__c" extensions="NI_Psa_RegForecastUpdateCtlr" Showheader="false" tabStyle="pse__Region__c">
+ 
+ <div class="header">
+             <br></br>
+            <apex:image url="{!$Resource.AmadeusLogo}" width="200px" />
+    </div>
+    <div align="center">        
+            <h1 style="font-size:18px; font-weight:bold; color:#000000;" >Mass Update Financialforce - PSA Forecasts</h1>
+            <br></br>
+            <h1 style="font-size:16px; font-weight:bold; color:#000000;" >Region Name: {!pse__Region__c.Name}</h1>                              
+     </div>
+     <br></br>
+     <br></br>
+  <apex:pageMessages id="idMessages" ></apex:pageMessages>
+    <apex:form >
+    <apex:outputpanel id="searchPanelContainer">
+        <apex:outputpanel id="idSearch" rendered="{!showSearch}">  
+            
+            
+            <div>
+                <table width="600">   
+                    <tr>
+                        <td style="text-align: right; width: 133px; font-size:11px;font-weight:bold;">
+                            <apex:outputText value="Forecast Start Date:" />
+                        </td>
+                        <td style="font-size:11px;">
+                            <apex:inputText value="{!startDate}" size="10" id="sDate" onfocus="DatePicker.pickDate(false, this , false);" />
+                        </td>
+                        <td style="text-align: right; width: 133px;font-size:11px;font-weight:bold;">
+                            <apex:outputText value="Forecast End Date:" styleClass="labelText"/>
+                        </td>
+                        <td style="font-size:11px;">
+                            <apex:inputText value="{!endDate}" size="10" id="eDate" onfocus="DatePicker.pickDate(false, this , false);"/>
+                        </td>
+                        
+                        <!--  ADDED BY BHULESHWAR ON 09/18/2018 -->
+                        <td style="text-align: right; width: 133px;font-size:11px;font-weight:bold;">
+                            <apex:outputText value="Region"  styleClass="labelText"/>
+                        </td>
+                        <td style="font-size:11px;">
+                            <apex:inputfield value="{!forecast.pse__Region__c}" required="false" />
+                        </td>
+                        <td style="text-align: right; width: 133px;font-size:11px;font-weight:bold;">
+                            <apex:outputText value="Practice" styleClass="labelText"/>
+                        </td>
+                        <td style="font-size:11px;">
+                            <apex:inputfield value="{!forecast.pse__Practice__c}"  required="false" />
+                        </td>
+                        <td style="text-align: right; width: 133px;font-size:11px;font-weight:bold;">
+                            <apex:outputText value="Group" styleClass="labelText"/>
+                        </td>
+                        <td style="font-size:11px;">
+                            <apex:inputfield value="{!forecast.pse__Group__c}" required="false" />
+                        </td>
+                        <!--------->
+                        
+                        <td style="align=right; width: 100px;">
+                            <apex:commandButton value="Search" status="status" action="{!search}" reRender="idFcast" />
+                        </td>
+                    </tr>
+                </table>  
+            </div>
+        </apex:outputPanel>
+        </apex:outputPanel>    
+        <apex:pageBlock >
+            <apex:pageBlockSection columns="1">
+            </apex:pageBlockSection>
+            <apex:pageBlockButtons >
+             <apex:outputPanel id="idButtons">
+                   <apex:commandButton value=" Edit " status="status" rendered="{!bDisabled }" action="{!enableListEdit}" reRender="idFcast,idButtons,searchPanelContainer"/>
+                   <apex:commandButton value=" Save " status="status"  rendered="{!NOT(bDisabled)}" action="{!save}" reRender="idFcast,idButtons,searchPanelContainer,idMessages"/>
+                   <apex:commandButton value=" Cancel " status="status" rendered="{!NOT(bDisabled)}" action="{!disableListEdit}" reRender="idFcast,idButtons,searchPanelContainer,idMessages"/>
+                   <apex:commandButton value="Close" rendered="{!bShowClose}" onclick="window.close()"/>
+               </apex:outputPanel>               
+            </apex:pageBlockButtons>
+            
+            <div style="position: relative;">
+    <apex:outputpanel >
+        <apex:actionstatus id="status">
+            <apex:facet name="start">
+                <div class="waitingSearchDiv" id="el_loading" style="background-color: #fbfbfb;
+                       height: 100%;opacity:0.65;width:100%;"> 
+                    <div class="waitingHolder" style="top: 74.2px; width: 91px;">
+                        <img class="waitingImage" src="/img/loading.gif" title="Please Wait..." />
+                        <span class="waitingDescription"></span>
+                    </div>
+                </div>
+            </apex:facet>
+        </apex:actionstatus>
+    </apex:outputpanel>
+            <apex:outputPanel id="idFcast">
+            <apex:pageBlockTable value="{!lstFcast}" var="fcast">
+                <apex:column value="{!fcast.pse__Region__r.name}"/>
+                <apex:column value="{!fcast.pse__Practice__r.name}"/>
+                <apex:column value="{!fcast.name}"/>
+                
+                <apex:column headerValue="Time Period">
+                    <apex:outputField value="{!fcast.pse__Time_Period__r.Name}"/>
+                </apex:column>
+                <apex:column headerValue="Plan">
+                    <apex:inputField value="{!fcast.pse__Plan__c}" rendered="{!NOT(bDisabled)}" />
+                    <apex:outputField value="{!fcast.pse__Plan__c}" rendered="{!bDisabled}" />
+                </apex:column>
+                <apex:column headerValue="Entered Forecast">
+                    <apex:inputField value="{!fcast.pse__Entered_Forecast__c}" rendered="{!NOT(bDisabled)}"/>
+                    <apex:outputField value="{!fcast.pse__Entered_Forecast__c}" rendered="{!bDisabled}" />
+                </apex:column>
+                <apex:column headerValue="Previous Period Forecast">
+                    <apex:inputField value="{!fcast.pse__Previous_Period_Forecast__c}" rendered="{!NOT(bDisabled)}"/>
+                    <apex:outputField value="{!fcast.pse__Previous_Period_Forecast__c}" rendered="{!bDisabled}"/>
+                </apex:column>
+                <apex:column headerValue="Override Upside">
+                    <apex:inputField value="{!fcast.pse__Override_Upside__c}" rendered="{!NOT(bDisabled)}"/>
+                    <apex:outputField value="{!fcast.pse__Override_Upside__c}" rendered="{!bDisabled}"/>
+                </apex:column>
+                <apex:column headerValue="Override Downside">
+                    <apex:inputField value="{!fcast.pse__Override_Downside__c}" rendered="{!NOT(bDisabled)}"/>
+                    <apex:outputField value="{!fcast.pse__Override_Downside__c}" rendered="{!bDisabled}"/>
+                </apex:column>
+                <apex:column headerValue="Override Commit">
+                    <apex:inputField value="{!fcast.pse__Override_Commit__c}" rendered="{!NOT(bDisabled)}"/>
+                    <apex:outputField value="{!fcast.pse__Override_Commit__c}" rendered="{!bDisabled}"/>
+                </apex:column>
+                <apex:column headerValue="Group">
+                    <apex:inputField value="{!fcast.pse__Group__c}" rendered="{!NOT(bDisabled)}" />
+                    <apex:outputField value="{!fcast.pse__Group__c}" rendered="{!bDisabled}" />
+                </apex:column>
+            </apex:pageBlockTable>
+            </apex:outputPanel>
+            </div>      
+        </apex:pageBlock>
+    </apex:form>
+</apex:page>

@@ -1,0 +1,3 @@
+<apex:page showHeader="false" sidebar="false" applyHtmlTag="false" standardController="c2g__codaInvoice__c" standardStylesheets="false" renderas="pdf" applyBodyTag="false">
+    <c:ffaInvoice invoiceID="{!c2g__codaInvoice__c.id}"/>
+</apex:page>

@@ -1,0 +1,177 @@
+<!---
+    DESCRIPTION     : View help text
+    Created By      : Tushar Gupta
+    Created On      : 09-Apr-2021
+    User Story ID   : 599601
+    Last Mod Date   : 09-Apr-2021
+    Last Mod By     : Tushar Gupta
+    User Story ID   :
+    Change History  : 1234
+-->
+<apex:page controller="AH_UDC_ViewHelp" sidebar="false" showheader="false" applybodytag="false" applyhtmltag="false" doctype="html-5.0">
+   
+<!--<apex:slds />-->
+
+   <html>
+      <head>
+         <title>{!$Label.AH_UDC_CompanyName} - {!$Label.AH_UDC_ProductName} - {!$Label.AH_UDC_ViewHelp_Title}</title>
+         
+         <style>
+            /* ****************************************
+            CSS Variables
+            ****************************************  */
+            body {
+               font-family: 'Source Sans Pro';
+            }
+            :root {
+               --text-color: #515e59;
+               --primary-color: #005eb8;
+            }
+
+            .logo {
+               background-color: var(--primary-color);
+               box-shadow: 0px 2px 4px rgba(0,0,0,.2);
+               align-items: center;
+               display: flex;
+               height: 60px;
+               width: 100%;
+            }
+
+            .logo img {
+               height: 25px;
+               padding-left: 2em;
+            }
+
+            .helpContent{
+               padding-left: 2em;
+            }
+
+            .helpTitle {
+               font-size: 1.5em;
+               padding-top: .5em;
+               padding-left: 1em;
+               padding-bottom: .5em;
+            }
+
+            .helpTitleStepName {
+               font-weight: bold;
+               padding-left: .5em;
+               color: var(--primary-color);
+            }
+            .helpcontentcard {
+               padding-left: 1.5em;
+               padding-right: 1.5em;
+            }
+            .slds-card {
+               position: relative;
+               padding-top: 0;
+               padding-right: 0;
+               padding-bottom: 0;
+               padding-left: 0;
+               background: rgb(255, 255, 255);
+               border-width: 1px;
+               border-style: solid;
+               border-color: rgb(221, 219, 218);
+               border-radius: .25rem;
+               background-clip: padding-box;
+               box-shadow: none;
+               color: var(--sds-c-card-text-color);
+            }
+
+            .slds-card__body {
+               margin-top: .75rem;
+               margin-bottom: .75rem;
+               padding-right: inline;
+               padding-left: inline;
+               line-height: 1.5;
+               color: rgb(3, 45, 96);
+               -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+            }
+
+            .slds-card__body p {
+               margin: 0;
+            }
+            .slds-card__body_inner, .slds-card__body--inner {
+               padding: 0;
+               padding-right: 1rem;
+               padding-left: 1rem;
+            }
+         </style>
+      </head>
+      <body>
+         <apex:form >
+            <!--This action function is used to log entries that occurred on loading of the page-->
+            <apex:actionfunction name="actionfunction_LogMessages" action="{!ServerLogMessages}" oncomplete="return false;" />
+
+            <!--Shown when in a dedicated window-->
+            <apex:outputPanel rendered="{!PopOut}">
+               <div class="logo">
+                  <img src="{!URLFOR($Resource.AH_UDC_AmadeusWhiteLogo)}" alt="Amadeus Logo" />
+               </div>
+         
+               <!--Section for showing errors-->
+               <apex:pagemessages />
+
+               <!--Only show Step Name if there are no errors-->
+               <apex:outputPanel rendered="{!IsErrorOccurred==false}">
+                  <div class="helpTitle">
+                     <span >{!$Label.AH_UDC_ViewHelp_HelpFor}<span class="helpTitleStepName">{!StepName}</span></span> 
+                  </div>
+               </apex:outputPanel>
+            
+               <!--Only show Step Help if there are no errors-->
+               <apex:outputpanel rendered="{!IsErrorOccurred=false}"> 
+                  <div class="helpcontentcard">
+                     <article class="slds-card">
+                        <div class="slds-card__body slds-card__body_inner"><apex:outputtext value="{!HelpText}" escape="false" style="margin-left: 13px; display: block;" /></div>
+                     </article>
+                  </div>
+               </apex:outputpanel>
+            </apex:outputPanel>
+
+            <!--Show when in the ViewWorkbook layout-->
+            <apex:outputPanel rendered="{!PopOut==false}">
+               <!--Section for showing errors-->
+               <apex:pagemessages />
+
+               <!--Only show Step Help if there are no errors-->
+               <apex:outputpanel rendered="{!IsErrorOccurred=false}"> 
+                  <div style="text-align:right;padding-top:10px;" >
+                     <img src="{!URLFOR($Resource.AH_UDC_Popout_help)}" id="imgPopout" alt="{!$Label.AH_UDC_Pop_out_help}" onclick="onClickPopOut();" style="width: 24px; cursor: pointer;" />
+                     
+                  </div>
+                  <apex:outputtext value="{!HelpText}" escape="false" style="display: block;padding-top:10px;" />
+               </apex:outputpanel>
+            </apex:outputPanel>
+            
+         </apex:form>
+
+         <script>
+            //Log Any Messages
+            if ('{!HasPageLoadLogMessages}'.toLowerCase() == 'true') {
+               setTimeout(actionfunction_LogMessages, 500);
+            }
+
+            //Open Help in Seaprate Window on click of popout button
+            function onClickPopOut() {
+               //Tell the parent to close the help sidebar
+               var host = window.location.protocol + "//" + window.location.host;
+               parent.postMessage('CloseHelpSidebar',host);
+
+               var helpHeight = window.screen.height - 300;
+               var helpWidth = window.screen.width - 300;
+               var helpTop = 200;
+               var helpLeft = 150;
+               if ({!IsCommunityView}==true)
+               {
+                  window.open(host + '/customers/AH_UDC_ViewHelp?id={!HTMLENCODE(WorkbookStepId)}', 'AH_UDC_Help', 'location=no, width=' + helpWidth + ', height=' + helpHeight + ', top=' + helpTop + ', left=' + helpLeft);
+               }
+               else
+               {
+                  window.open(host + '/apex/AH_UDC_ViewHelp?id={!JSINHTMLENCODE(WorkbookStepId)}', 'AH_UDC_Help', 'location=no, width=' + helpWidth + ', height=' + helpHeight + ', top=' + helpTop + ', left=' + helpLeft);
+               }
+            }
+         </script>
+      </body>
+   </html>
+</apex:page>

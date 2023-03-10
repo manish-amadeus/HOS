@@ -1,0 +1,49 @@
+<apex:page Controller="NI_PartnerMarketingController" showHeader="true"  sidebar="false" standardStylesheets="false">
+  
+<apex:PageBlock >
+<apex:stylesheet value="{!$Resource.PartnerCSS}" />
+<table width="100%">
+
+
+ <tr >
+ <td colspan="2"><apex:sectionHeader title="Upload Marketing Collateral:" />
+ </td>
+
+ </tr>
+ </table>
+
+ 
+ <table>
+    
+     <tr>
+     <td>
+    <apex:form enctype="multipart/form-data">
+        <table>
+       
+        <tr><td>Company Name:</td><td><apex:inputText required="true" label="Company Name" value="{!CompanyName}" id="CompanyName"/></td></tr>
+        <tr><td style="vertical-align:top;">Company Description:</td><td> <apex:inputTextarea style="text-align: left; width: 600px; Height:200px;" label="Company Name" value="{!CompanyDescription}" id="CompanyDescription"/></td></tr>
+         <tr><td>Company Logo:</td><td><apex:inputfile contentType="{!LogocontentType}" value="{!companyLogo.body}" filename="{!companyLogo.Name}" /></td></tr>
+        <tr><td>Press Release:</td><td><apex:inputfile contentType="{!PressReleasecontentType}" value="{!companyPressRelease.body}" filename="{!companyPressRelease.Name}" /></td></tr>
+     
+        <tr><td><apex:commandButton value="Save"  action="{!upLoad}"/></td><td></td></tr>
+        
+        </table>
+        
+        
+        
+    </apex:form>
+    </td>
+    </tr>
+    
+    <tr>
+    <td>
+     <p><apex:pageMessages /></p>
+    </td>
+    </tr>
+     
+    
+      
+ </table>
+
+</apex:PageBlock> 
+</apex:page>

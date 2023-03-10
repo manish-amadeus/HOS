@@ -1,0 +1,327 @@
+<apex:page controller="AH_CopyUserAttributesController" id="Page" sidebar="False" showHeader="true" standardStylesheets="false" lightningStylesheets="true">
+    
+    <apex:includeScript value="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js" />
+    
+    <apex:pageMessages id="msgs" /> 
+    
+    <style type="text/css">
+        .rowWithBorder {
+        	<!-- border-bottom: 1pt solid black; -->
+        }
+        
+        .rowWithBorder tr:hover {
+				background-color: hsla(89, 43%, 51%, 0.3);;
+        		font-size:13px;
+		} 
+        
+        /* Modal elements are used for indicating the form is saving when page is executed in the Service Console.
+        Sets the background to 80% white to 'grey' out input form */
+        .modal {
+            display:    none;
+            position:   fixed;
+            z-index:    1000;
+            top:        0;
+            left:       0;
+            height:     100%;
+            width:      100%;
+            background: rgba( 255, 255, 255, .8 )
+            50% 50%
+            no-repeat;
+        }
+        /* Box elements are used for indicating the form is saving when page is executed in the Service Console.
+        Box elements appear in the center of the page. */
+        .box {
+            background-color:      white;
+            border-radius:         10px;
+            -webkit-border-radius: 10px;
+            -moz-border-radius:    10px;
+            box-shadow:            0 0 20px 0 #222;
+            -webkit-box-shadow:    0 0 20px 0 #222;
+            -moz-box-shadow:       0 0 20px 0 #222;
+            position:              fixed;
+            top:                   50%;
+            left:                  50%;
+            margin-top:            -50px;
+            margin-left:           -100px;
+            height:                80px;
+            width:                 240px;
+            padding-top:           35px;
+            text-align:            center;
+        }
+        
+        
+    </style>
+    
+    <script> 
+
+    	//var pageBlock = document.getElementById("{!$Component.PBSectId}";
+		//pageBlock.firstChild.style.cssText = "background-color: red";
+                            
+        $(document).ready(function()
+        {           
+            checkAllFunction();
+            checkAllGrpsFunction();
+            checkAllPermsFunction();
+            checkAllQueuesFunction();
+        });
+        
+        function checkAllFunction(){
+            $(".checkAllAttribs").on("click", function(e){
+                var isChecked = $(this).is(':checked');
+                $(".checkbox").prop('checked', isChecked);
+            });
+            
+            $(".checkbox").on("click", function(e){
+                var isChecked = $(this).is(':checked');
+                $(".checkAllAttribs").prop('checked', isChecked);
+            });
+        }
+            
+        function checkAllGrpsFunction () 
+        {
+            $(".checkAllGroups").on("click", function(e){
+                var isChecked = $(this).is(':checked');
+                $(".grpCheckbox").prop('checked', isChecked);
+            });
+            
+            $(".grpCheckbox").on("click", function(e){
+                var isChecked = $(this).is(':checked');
+                $(".checkAllGroups").prop('checked', isChecked);
+            });
+        }
+        
+        function checkAllPermsFunction () 
+        {
+            $(".checkAllpermSets").on("click", function(e){
+                var isChecked = $(this).is(':checked');
+                $(".permCheckbox").prop('checked', isChecked);
+            });
+            $(".permCheckbox").on("click", function(e){
+                var isChecked = $(this).is(':checked');
+                $(".checkAllpermSets").prop('checked', isChecked);
+            });
+        }
+    
+        function checkAllQueuesFunction () 
+        {
+            $(".checkAllqueues").on("click", function(e){
+                var isChecked = $(this).is(':checked');
+                $(".queueCheckbox").prop('checked', isChecked);
+            });
+            $(".queueCheckbox").on("click", function(e){
+                var isChecked = $(this).is(':checked');
+                $(".checkAllqueues").prop('checked', isChecked);
+            });
+        }
+    
+        function openLookup(baseURL, width, modified, searchParam)
+        {
+            var originalbaseURL = baseURL;
+            var originalwidth = width;
+            var originalmodified = modified;
+            var originalsearchParam = searchParam;
+            
+            console.log('originalsearchParam : '+originalsearchParam);
+            var srchArr = originalsearchParam.split('=');
+            var searchString = '';
+            if (srchArr.length > 0){
+                searchString = srchArr[1];
+            }
+            
+            var user1 = '';
+            var user2 = '';
+            
+            if (searchString == '')
+            {
+                console.log('searchString : '+searchString);
+                user1 = document.getElementById('Page:myForm:PageBlock:PBSectId:uId1').value;
+                user2 = document.getElementById('Page:myForm:PageBlock:PBSectId:uId2').value;
+            }
+            
+            var lookupType = baseURL.substr(baseURL.indexOf('lktp')+5, 18);
+            if (modified == '1') baseURL = baseURL + searchParam;
+            
+            var isCustomLookup = false;
+            
+            // Following "StandardUserLookup" is the lookup type for User object
+            if(lookupType == "StandardUserLookup")
+            {
+                var urlArr = baseURL.split("&");
+                var txtId = '';
+                if(urlArr.length > 2) {
+                    console.log('in if..baseURL : ' +urlArr[1]);
+                    urlArr = urlArr[1].split('=');
+                    txtId = urlArr[1];
+                }
+                
+                // FOLLOWING IS THE URL OF CUSTOM LOOKUP PAGE 
+                baseURL = "/apex/AH_CustomUserLookup?txt=" + txtId + "&user1="+user1+"&user2="+user2;
+                
+                // Following is the id of apex:form control "myForm".
+                baseURL = baseURL + "&frm=" + escapeUTF("{!$Component.myForm}");
+                if (modified == '1') {
+                    baseURL = baseURL + "&lksearch=" + searchParam;
+                }
+                
+                // Following is the ID of inputField that is the lookup to be customized as custom lookup
+                if(txtId.indexOf('uId1') > -1 ){
+                    isCustomLookup = true;
+                }
+                if(txtId.indexOf('uId2') > -1 ){
+                    isCustomLookup = true;
+                }
+            }
+            
+            console.log('baseURL : ' +baseURL);
+            
+            if(isCustomLookup == true){
+                
+                openPopup(baseURL, "lookup", 350, 480, "width="+width+",height=480,toolbar=no,status=no,directories=no,menubar=no,resizable=yes,scrollable=no", false);
+            }
+            else {
+                if (modified == '1') originalbaseURL = originalbaseURL + originalsearchParam;
+                openPopup(originalbaseURL, "lookup", 350, 480, "width="+originalwidth+",height=480,toolbar=no,status=no,directories=no,menubar=no,resizable=yes,scrollable=no", false);
+            } 
+        }
+        
+        //Loading modal functions
+        function showLoadingModal(){
+            $("#spinner").css({"display":"inline"});
+        }
+        
+        function hideLoadingModal(){
+            $("#spinner").css({"display":"none"});
+        }
+    
+        
+        function colorPageBlock(pageblock, color) {
+            if (pageblock != null) 
+			{
+                pageblock.firstChild.style.cssText = "background-color: lightblue; font-size:13px; ";
+                //color:#FFFFF0;
+			}
+        }
+    
+    </script>
+    
+    <div style="text-align:left;background:linear-gradient(90deg,#00ace3,#0060bc);border:none;color:#FFFFFF;padding-top:10px;padding-right:10px;padding-bottom:10px;padding-left:100px;">
+                <table width="100%">  
+                    <tr>
+                        <td>
+                            <apex:image alt="Amadeus Hospitality" value="{!$Resource.AmadeusHospitalityWhiteLogo}" style="height:20px !important;" />
+                        </td>
+                    </tr>
+                </table>            
+            </div>
+
+    
+    <div class="modal" id="spinner">
+        <div class="box">
+            <img src="/img/loading.gif" alt="Saving"/><i id="spinner-label" style="padding-left:5px">Loading...</i>
+        </div>
+    </div>
+    
+    <apex:sectionHeader title="Business Systems" subtitle="Copy User Attributes Utility" />
+    <apex:form id="myForm" >
+        
+        <apex:outputPanel id="divMessages" style="text-align: center; color: #000000;"> 
+                <center>
+                    <apex:outputText value="This utility is used by Salesforce System Adminitrators to copy user attributes from one user to another."/>&nbsp;&nbsp;&nbsp;
+                    <br/>
+                    <apex:outputText value="Choose the Source and Destination Users and then click the Verify & Populate Source User button."/>&nbsp;&nbsp;&nbsp;
+                    <br/>
+                    <apex:outputText value="Select the attributes that should be copied from the Source User to the Destination User and click the Update User button."/>&nbsp;&nbsp;&nbsp;
+                    <br/>
+                    <br/>
+                </center>
+            </apex:outputPanel>
+
+        <apex:PageBlock id="PageBlock" >     
+            <apex:PageBlockButtons >
+                <apex:commandButton action="{!verifyUsers}" value="Verify & Populate Source User"/> 
+                <apex:commandButton action="{!updateUser}" reRender="msgs,permSetTable,groupTable" value="Update User" onclick="showLoadingModal();" oncomplete="hideLoadingModal();"/>
+            </apex:PageBlockButtons>
+            
+            <!-- LOOKUP FIELDS -->
+            <apex:pageBlockSection title="User Lookup" id="PBSectId" >
+               <apex:pageBlockSectionItem helpText="Choose the user who has the attributes you want to copy. The Source User and Destination User must have the same license type"> 
+                Source User <apex:inputField id="uId1" value="{!contact1.OwnerId}" label="Source User"  html-autocomplete="off" />
+                </apex:pageBlockSectionItem>  
+               
+                <apex:pageBlockSectionItem helpText="Choose the user who should have the same attributes as the Source User. The Source User and Destination User must have the same license type"> 
+                Destination User <apex:inputField id="uId2" value="{!contact2.OwnerId}" label="Destination User" html-autocomplete="off" />
+                </apex:pageBlockSectionItem>
+                
+                <script>colorPageBlock(document.getElementById("{!$Component.PBSectId}"), "red");</script>
+                   
+            </apex:pageBlockSection>
+            
+            <!-- CORE ATTRIBUTES PAGE BLOCK SECTION -->
+            <apex:pageBlockSection columns="1" title="Core Attributes" id="Selected_PBS">
+                <apex:dataTable value="{!attrList}" var="attrib" cellpadding="1" border="0" styleClass="rowWithBorder" id="attribTable" width="50%">
+                    <apex:column styleClass="inBorder" style="width:50px;" >
+                        <apex:facet name="header" > 
+                            <apex:inputCheckbox value="{!attrCheckAll}" styleClass="checkAllAttribs"/>
+                        </apex:facet>
+                        <apex:inputCheckbox value="{!attrib.isSelected}" styleClass="checkbox"/>
+                    </apex:column> 
+                    <!-- style="{!if(attrib.isSelected <> false,'color:red;font-weight: bold', 'color:black')}" -->
+                    <apex:column headerValue="Attribute Name" id="AAA">
+                        <apex:outputText value="{!attrib.attribName}"  />
+                    </apex:column>
+                </apex:dataTable>
+				<script>colorPageBlock(document.getElementById("{!$Component.Selected_PBS}"), "red");</script>
+            </apex:pageBlockSection>
+            
+            <!-- PUBLIC GROUP PAGE BLOCK SECTION -->
+            <apex:pageBlockSection columns="1" title="Source User Public Groups" id="grpSect"> <!-- rendered="{!grpList.size > 0}"> -->
+                <apex:dataTable value="{!grpList}" var="group" cellpadding="1" border="0" styleClass="rowWithBorder" id="groupTable" width="50%"> 
+                    <apex:column styleClass="inBorder" width="50px">
+                        <apex:facet name="header"> 
+                            <apex:inputCheckbox value="{!grpCheckAll}" styleClass="checkAllGroups"/>
+                        </apex:facet>
+                        <apex:inputCheckbox value="{!group.isSelected}" styleClass="grpCheckbox"/>
+                    </apex:column> 
+                    <apex:column headerValue="Group Name" styleClass="AAA">
+                        <apex:outputText value="{!group.groupName}" />
+                    </apex:column>
+                </apex:dataTable>
+                <script>colorPageBlock(document.getElementById("{!$Component.grpSect}"), "red");</script>
+            </apex:pageBlockSection>
+           
+            <!-- PERMISSION SET PAGE BLOCK SECTION -->
+            <apex:pageBlockSection columns="1" title="Source User Permission Sets" id="permSect"> 
+                <apex:dataTable value="{!permSetList}" var="perm" cellpadding="3" border="0" styleClass="rowWithBorder" id="permSetTable" width="50%"> 
+                    <apex:column styleClass="inBorder" width="50px">
+                        <apex:facet name="header"> 
+                            <apex:inputCheckbox value="{!permCheckAll}" styleClass="checkAllpermSets"/>
+                        </apex:facet>
+                        <apex:inputCheckbox value="{!perm.isSelected}" styleClass="permCheckbox"/>
+                    </apex:column> 
+                    <apex:column headerValue="Permission Set Name">
+                        <apex:outputText value="{!perm.permSetName}" />
+                    </apex:column>
+                </apex:dataTable>
+				<script>colorPageBlock(document.getElementById("{!$Component.permSect}"), "red");</script>
+            </apex:pageBlockSection>
+            
+            <!-- QUEUE PAGE BLOCK SECTION -->
+            <apex:pageBlockSection columns="1" title="Source User Queues" id="queueSect"> 
+                <apex:dataTable value="{!queueList}" var="queue" cellpadding="3" border="0" styleClass="rowWithBorder" id="queuesTable" width="50%"> 
+                    <apex:column styleClass="inBorder" width="50px">
+                        <apex:facet name="header"> 
+                            <apex:inputCheckbox value="{!queueCheckAll}" styleClass="checkAllqueues" />
+                        </apex:facet>
+                        <apex:inputCheckbox value="{!queue.isSelected}" styleClass="queueCheckbox"/>
+                    </apex:column> 
+                    <apex:column headerValue="Queue Name">
+                        <apex:outputText value="{!queue.queueName}" />
+                    </apex:column>
+                </apex:dataTable>
+                <script>colorPageBlock(document.getElementById("{!$Component.queueSect}"), "red");</script>
+            </apex:pageBlockSection>
+            
+        </apex:PageBlock>
+    </apex:form>
+    
+</apex:page>

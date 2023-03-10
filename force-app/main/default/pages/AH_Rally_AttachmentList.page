@@ -1,0 +1,250 @@
+<apex:page standardController="Case" extensions="AH_Rally_AttachmentList_Ctlr" tabStyle="Case" showHeader="false" sidebar="false" id="pid" lightningStylesheets="true">
+    
+    <apex:form id="fid">
+        
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.0/jquery.min.js"></script>
+        <!-- set session -->
+            <script type="text/javascript"> var  __sfdcSessionId = '{!GETSESSIONID()}'; </script> 
+        <!-- include ajax tool kit required js files -->
+        <script type="text/javascript" src="https://ap1.salesforce.com/soap/ajax/55.0/connection.js"></script>
+        <script type="text/javascript" src="https://ap1.salesforce.com/soap/ajax/55.0/apex.js"></script>
+        
+        <script type="text/javascript">
+        
+        window.onload = function()
+        {
+            sforce.connection.sessionId = __sfdcSessionId;
+            var caseRecord = sforce.connection.query("SELECT Id, RecordType.Name, L3_Ticket_Summary__c, L3_Steps_To_Reproduce__c FROM Case WHERE id = '"+'{!Case.Id}'+"'");
+            var myCase = caseRecord.getArray("records");
+            var isLightning = false;
+            if ((typeof sforce != 'undefined') && sforce && (!!sforce.one)) {
+                isLightning = true;
+            } 
+            
+            if((myCase[0].L3_Ticket_Summary__c == null || myCase[0].L3_Steps_To_Reproduce__c ==null) && myCase[0].RecordType.Name == 'Rally Case' && !isLightning){
+                var x = confirm("Mandatory fields for Rally record type are not filled. Please hit OK to redirect you to Edit page.");
+                if(x){
+                    top.location.href = '/'+'{!Case.Id}'+'/e?retURL=%2F'+'{!Case.Id}';
+                }             
+            }
+            
+            var attachmentsToBeChecked = sforce.connection.query("select id, Sf_Attachment_Id__c, To_be_Send__c from Case_Attachment_Relation__c where To_be_Send__c = true AND Case_Id__c ='"+'{!Case.Id}'+"'"); 
+            var attTodisabled = attachmentsToBeChecked.getArray("records");
+            if(attTodisabled != null){
+                for(var i=0; i<attTodisabled.length;i++){
+                    document.getElementById(attTodisabled[i].Sf_Attachment_Id__c).checked=attTodisabled[i].To_be_Send__c;
+                }
+            } 
+        };
+        
+        var result;
+        var  car;
+        var myCaseId = '{!Case.Id}';  
+        
+        function checkAndInsert(attachmentId)
+        {
+            
+            var operation =$('#'+attachmentId).is(':checked');
+            //var operation =$('[id$=sectionItem]').is(':checked');
+            
+            if(operation){
+                car = new sforce.SObject("Case_Attachment_Relation__c");
+                car.Sf_Attachment_Id__c = attachmentId;
+                var s=myCaseId.toString().substring(0,15);
+                //car.Case_Id__c =myCaseId.toString().substring(0,15);
+                car.Case_Id__c =s;
+                car.To_be_Send__c = true;
+                result = sforce.connection.create([car]);
+                if (result[0].getBoolean("success")) {
+                    //alert("new car created with id " + result[0].id);
+                } 
+                else {
+                    // alert("failed to create car " + result[0]);
+                }
+            }  
+            else{       
+                var cartoBeDeleted = sforce.connection.query("select id from Case_Attachment_Relation__c where Sf_Attachment_Id__c='"+attachmentId+"'");              
+                var carIdtobedel = cartoBeDeleted.getArray("records");
+                var delResult = sforce.connection.deleteIds([carIdtobedel[0].Id]); 
+                if (delResult[0].getBoolean("success")) {
+                    //alert("car with id " + delResult[0].id + " deleted");
+                } 
+                else {
+                    // alert("failed to delete car " + delResult[0]);
+                } 
+                
+                
+            }
+            
+        }
+        //function which will do callout
+        function Callout(methodtype,endpoint,body,username,password)
+        {
+            
+            var res;
+            var json = JSON.stringify(eval("(" + body+ ")"));
+            var b64Str = new sforce.Base64Binary(username + ':' + password);
+            var authStr = "Basic " + b64Str.toString();
+            var rallyHeader =
+                {
+                    "Authorization": authStr,
+                    "Content-Type": "text/javascript",
+                    "Content-Encoding":"gzip",
+                };
+            var result = sforce.connection.remoteFunction( {
+                url:endpoint,
+                mimeType:"text/plain",
+                method:methodtype,
+                requestHeaders:rallyHeader,
+                requestData:json,
+                async:false,
+                onSuccess:function(response){res=response;},
+                onFailure:function(error) { alert(error);},timeout:3000
+            });
+            return res;
+        }
+        
+        function sendAttachment(attachId)
+        {
+            
+            try
+            {
+                
+                var res;
+                var body="";
+                var def_id;
+                var username;
+                var password;
+                var workspacename;
+                var API_Version;
+                var Rallyurl;
+                var workspaceUrl = sforce.apex.execute("AH_Rally_Library", "workspaceUrl", {});
+                //API_Version__c
+                var rallyInfo = sforce.connection.query("SELECT Username__c, Password__c, RallyURL__c, workspace__c FROM AH_Rally_Setup__c ORDER BY Name ASC");
+                var rallyRecords = rallyInfo.getArray("records");
+                
+                if (rallyRecords.length > 0)
+                {
+                    username = rallyRecords[0].Username__c;
+                    password = rallyRecords[0].Password__c;
+                    workspacename=rallyRecords[0].workspace__c;
+                    API_Version = 'v2.0';//rallyRecords[0].API_Version__c;
+                    Rallyurl = rallyRecords[0].RallyURL__c; 
+                }
+                
+                var jsonval = {attachedid:attachId};
+                var sfAttachment = sforce.apex.execute("AH_Rally_SendAttachment", "valuesofAttachment", jsonval);
+                var list = JSON.parse(sfAttachment);         
+                var attachmentContent = list.Body;              
+                if (list.BodyLength < 2411724)
+                {
+                    var jsonval={attid:attachId,caseId:"{!Case.id}"};
+                    var sfAttachment = sforce.apex.execute("AH_Rally_SendAttachment", "sendAttachment", jsonval);               
+                    if(sfAttachment == "object not found")
+                    {
+                        throw new Error("User Story is Deleted in Rally");
+                    }
+                }
+                else
+                {
+                    alert("Attachment size is large, Kindly be Patience");
+                    body = '{"AttachmentContent": {"_rallyAPIMajor": "1", "_rallyAPIMinor": "43", "Workspace": {"_rallyAPIMajor": "1", "_rallyAPIMinor": "43", "_ref": "'+workspaceUrl+'" , "_refObjectName":  "'+workspacename+'" , "_type": "Workspace"}, "Content": "'+attachmentContent+'", "_type": "AttachmentContent"}}';
+                    
+                    //endpoint = 'https://rally1.rallydev.com/slm/webservice/1.43/attachmentcontent/create.js';
+                    
+                    endpoint=Rallyurl+"/slm/webservice/"+API_Version+"/attachmentcontent/create.js";
+                    
+                    res=Callout('POST',endpoint,body,username,password);
+                    var n=res.indexOf("_ref");
+                    var attachContentRef=res.substring(n+8,n+88);
+                    var string_def;
+                    var type;                
+                    string_def="{!Case.Rally_Artifact_Ref__c}";
+                    type="HierarchicalRequirement";
+                    
+                    
+                    var rally_attachmentId=attachContentRef.substring(66,77);
+                    body = '{"Attachment": {"_rallyAPIMajor": "1", "_rallyAPIMinor": "43", "Workspace": {"_rallyAPIMajor": "1", "_rallyAPIMinor": "43", "_ref": "'+workspaceUrl+'", "_refObjectName": "'+workspacename+'", "_type": "Workspace"}, "Artifact": {"_rallyAPIMajor": "1", "_rallyAPIMinor": "43", "_ref": "'+string_def+'", "_type": "'+type+'"}, "Content": "'+attachContentRef+'", "ContentType": "'+list.ContentType+'", Size: "'+list.BodyLength+'", "Name": "'+list.Name+'" }}';
+                    //endpoint = 'https://rally1.rallydev.com/slm/webservice/1.43/attachment/create.js';
+                    endpoint = Rallyurl + "/slm/webservice/"+API_Version+"/attachment/create.js"; 
+                    
+                    res = Callout('POST', endpoint, body, username, password);
+                    var List = jQuery.parseJSON(res);           
+                    if (res.indexOf("Cannot find object to read") != -1)
+                    {
+                        throw new Error("User Story is deleted in rally");
+                    }            
+                    
+                    
+                    var jsonval={defectId:string_def,cID:"{!Case.id}",RallyattachemntId:rally_attachmentId,Salesforceattid:attachId};
+                    var check=sforce.apex.execute("InsertIntoDatabase","insertIntoCAR",jsonval);              
+                }
+                
+            }
+            catch(e){
+                if(e.message == 'Failure')
+                    alert('Your net speed is slow Please try after some time');
+                else{
+                    alert(e);
+                }
+            }
+            
+        }
+        
+        function refreshFunction()
+        {
+            var currentURL = '{!urlInstance}'+'/'+'{!Case.Id}'; 
+            top.location.href = currentURL;     
+        }  
+        
+        </script>
+        
+        <apex:pageBlock >
+            
+            <apex:pageBlockButtons location="top">
+                <apex:commandLink value="Attach File"  style="text-decoration: none;" styleClass="btn" target="_parent" action="{!createNewAttachment}"/>
+                <apex:commandLink value="View All" style="text-decoration: none;" styleClass="btn" target="_parent" action="{!viewAllAttachments}" rendered="{!myAttList.size <> 0}" />
+            </apex:pageBlockButtons>
+            <apex:outputText rendered="{!myAttList.size==0}">No records to display</apex:outputText>
+            
+            <apex:pageBlockSection id="ref" columns="1" rendered="{!myAttList.size>0}" >
+                <apex:pageMessage summary="You can select the attachments which needs to be sent to rally and click on Create User Story button, attachments will be created along with User Story in rally" severity="info" strength="1" id="pm1" rendered="{!IF(myAttList.size>0 && Case.Rally_Artifact_Ref__c == null, true, false)}">
+                </apex:pageMessage>
+                <apex:pageMessage summary="Please click on send link in order to send attachment to associated User Story" severity="info" strength="1" id="pm2" rendered="{!IF(myAttList.size>0 && Case.Rally_Artifact_Ref__c != null, true, false)}">
+                </apex:pageMessage>
+                <apex:pageBlockTable value="{!myAttList}" var="myAttach" title="Attachments" id="pbTable">
+                    <apex:column headerValue="Action" >
+                        <apex:outputPanel rendered="{!Case.Rally_Artifact_Ref__c == null}">
+                            <input type="checkbox" id = "{!myAttach.att.Id}"  onclick = "checkAndInsert('{!myAttach.att.Id}');" />
+                        </apex:outputPanel>
+                        <apex:commandLink value="Edit" style="text-decoration: none;" target="_parent"  action="{!editAttachment}"  id="viewLink"  rendered="{!IF(myAttach.car.Status__c == 'Sent' || myAttach.car.Status__c == 'Received',false,true)}" >
+                            <apex:param value="{!myAttach.att.Id}" name="editAttachId"/>
+                        </apex:commandLink>
+                        <apex:commandLink value="Edit" style="text-decoration: none; color: grey; pointer-events: none;" id="viewLink1" rendered="{!IF((myAttach.car.Status__c == 'Sent' || myAttach.car.Status__c == 'Received'),true,false)}">
+                        </apex:commandLink>
+                        <apex:outputText >&nbsp;|&nbsp;</apex:outputText>
+                        <a href="/servlet/servlet.FileDownload?file={!myAttach.att.Id}" target="_blank" style="text-decoration: none; " >View</a>&nbsp;|&nbsp;
+                        <apex:commandLink value="Del" action="{!deleteAttachment}" oncomplete="refreshFunction();" style="text-decoration: none; ">                            
+                            <apex:param value="{!myAttach.att.Id}" name="delAttachId" />
+                        </apex:commandLink>
+                        <apex:outputText rendered="{!IF(Case.Rally_Artifact_Ref__c != '',true,false)}">&nbsp;|&nbsp;</apex:outputText>
+                        <apex:commandLink value="Send" style="text-decoration: none;" title="Send to Rally" id="sendLink" action="{!init1}" rendered="{!IF(myAttach.car.Status__c == 'Sent' || myAttach.car.Status__c == 'Received' || Case.Rally_Artifact_Ref__c == '' ,false,true)}" reRender="ref"  onclick="var r=confirm('Do you want to send selected attachments to Rally?'); var rallyDefectArtifact = '{!Case.Rally_Artifact_Ref__c}'; if(r==true){ if(rallyDefectArtifact != ''){ $(this).css('text-decoration','none'); $(this).css('color','grey'); $(this).css('pointer-events','none');  sendAttachment('{!myAttach.att.Id}');} else{alert('Please Create User Story ');} }else{$(this).css('text-decoration','none');}">                          
+                            <apex:param value="{!myAttach.att.Id}" name="sendAttachId" />
+                        </apex:commandLink>
+                        <apex:commandLink value="Send"  style="text-decoration: none; color: grey; pointer-events: none;" title="Send to Rally" id="sendLink1" rendered="{!IF((myAttach.car.Status__c == 'Sent' || myAttach.car.Status__c == 'Received'),true,false)}">
+                        </apex:commandLink>
+                    </apex:column>
+                    <apex:column headerValue="File Name">
+                        <apex:commandLink value="{!IF(LEN(myAttach.att.Name)>30, LEFT(myAttach.att.Name,20)&'...',myAttach.att.Name)}" action="{!viewAttachment}" target="_parent">
+                            <apex:param value="{!myAttach.att.Id}" name="attachId" />
+                        </apex:commandLink>              
+                    </apex:column>
+                    <apex:column value=" {!IF(myAttach.att.BodyLength < 1048575,TEXT(ROUND((myAttach.att.BodyLength)/(1024),0))&'KB',TEXT(ROUND((myAttach.att.BodyLength)/(1024*1024),2))&'MB')}" headerValue="Size"/>
+                    <apex:column value="{!myAttach.att.LastModifiedDate}" headerValue="Last Modified"/>
+                    <apex:column value=" {!myAttach.car.Status__c}" headerValue="Status" style="{!IF(myAttach.car.Status__c=="Sent","color:green;","color:red;")}"/>
+                </apex:pageBlockTable>
+            </apex:pageBlockSection>
+        </apex:pageBlock>
+        
+    </apex:form>
+</apex:page>

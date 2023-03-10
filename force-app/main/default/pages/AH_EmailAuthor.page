@@ -1,0 +1,212 @@
+<apex:page controller="AH_EmailAuthor" showHeader="{!showHeaderBar}" sidebar="{!showSideBar}" tabStyle="Send_Email__tab">
+
+    <script type="text/javascript">
+    
+        var delim = ";";
+        var dummyVar = 'hello world!';
+    
+        function lookupPick2(editPage, p2_lkid, p2, contactId, contactName, cas4, accountName, cas4_lkid, accountId, h)
+        {
+            document.getElementsByClassName('p2')[0].value = contactName;
+            document.getElementById('p2_lkid').value = contactId;
+            closePopup();
+        }
+        
+        function pickupValue(additionalToValue, ccValue, bccValue) 
+        {
+            //var editPage = document.getElementsByClassName('editPage')[0];
+            var p24 = document.getElementsByClassName('p24')[0];
+            var p4 = document.getElementsByClassName('p4')[0];
+            var p5 = document.getElementsByClassName('p5')[0];
+            if(additionalToValue != '') 
+            {
+                if (p24.value != '') 
+                {
+                    p24.value += delim;
+                }
+                p24.value += additionalToValue;
+            }
+            if (ccValue != '') 
+            {
+                if (p4.value != '') 
+                {
+                    p4.value += delim;
+                }
+                p4.value += ccValue;
+            }
+            if (bccValue != '') 
+            {
+                if (p5.value != '') 
+                {
+                    p5.value += delim;
+                }
+                p5.value += bccValue;
+            }
+            closePopup();
+        }
+        
+        function openDocumentUpload(e) 
+        {
+            setLastMousePosition(e);
+            openPopup('/widg/filepicker_fs.jsp?lktp=015&mode=1&eid=00Yg0000000aN7g&utype=00P&omode=1&otype=2', 'doc', 450, 450, 'width=450,height=450,scrollbars=yes,toolbar=no,status=no,directories=no,menubar=no,resizable=1', true);
+        }
+    
+    </script>    
+<!--    
+    <apex:sectionHeader title="Email Message" subtitle="Send an Email" />
+-->
+    <div class="bPageTitle">
+        <div class="ptBody">
+            <div class="content">
+                <img src="/img/icon/mail32.png" alt="Email Message" width="32" height="32" class="pageTitleIcon" title="Email Message" />
+                <h1 class="pageType">Email Message<span class="titleSeparatingColon">:</span></h1>
+                <h2 class="pageDescription">Send an Email</h2>
+                <div class="blank">
+                    &nbsp;
+                </div>
+            </div>
+            <div class="links">
+                <a href="javascript:openPopupFocusEscapePounds('https://help.salesforce.com/apex/htdoor?loc=help&amp;target=email_send.htm&amp;section=Email&amp;language=en_US&amp;release=208.10.1&amp;instance=CS65&amp;showSplash=true', 'Help', 1024, 768, 'width=1024,height=768,resizable=yes,toolbar=yes,status=yes,scrollbars=yes,menubar=yes,directories=no,location=yes,dependant=no', false, false);"
+                   title="Help for this Page (New Window)"><span class="helpLink">Help for this Page</span>
+                    <img src="/img/s.gif" alt="" class="helpIcon" />
+                </a>
+            </div>
+        </div>
+        <div class="ptBreadcrumb">
+        </div>
+    </div>    
+    
+    <apex:pageMessages />
+    <apex:form >
+
+        <script type="text/javascript">
+            function doSend()
+            {                                     
+                var s1 = document.getElementById("j_id0:j_id28:j_id31:j_id34:txtFrom");
+                var s2 = document.getElementById("{!$Component.hdn_selIndex}");
+                s2.value = s1.selectedIndex;
+                var v1 = document.getElementById("p2_lkid");
+                var v2 = document.getElementById("{!$Component.hdn_p2_lkid}");
+                v2.value = v1.value;          
+                callSendEmail();
+            }
+            function doCancel()
+            { 
+        		window.location = document.getElementById("cancelURL").value;
+            }
+        
+        </script>  
+        
+        <input type="hidden" name="cancelURL" id="cancelURL" value="/{!RecordId}" />
+        <input type="hidden" name="id" id="id" value="00Yg0000000aN7g" />
+        <input type="hidden" name="docancel" id="docancel" value="0" />
+        <input type="hidden" name="new_template" id="new_template" value="0" />
+        <input type="hidden" name="nosave" id="nosave" value="0" />
+        <input type="hidden" name="save" id="save" value="0" />
+        <input type="hidden" name="retURL" id="retURL" value="/{!RecordId}" />
+        <input type="hidden" name="rtype" id="rtype" value="003" />
+        <input type="hidden" name="p2_lktp" id="p2_lktp" value="003" />
+        <input type="hidden" name="p2_lkold" id="p2_lkold" value="" />
+        <input type="hidden" name="p2_lkid" id="p2_lkid" value="{!toId}" />
+        <input type="hidden" name="p2_lspf" id="p2_lspf" value="0" />
+        <input type="hidden" name="p2_lspfsub" id="p2_lspfsub" value="0" />
+        <input type="hidden" name="p2_mod" id="p2_mod" value="0" />
+        <input type="hidden" name="template_id" id="template_id" value="000000000000000" /> 
+
+        <apex:inputHidden id="hdn_p2_lkid" value="{!toId}" />
+        <apex:inputHidden id="hdn_selIndex" value="{!fromAddressSelectedIndex}" />
+        
+        <apex:actionFunction action="{!sendEmail}" name="callSendEmail" />  
+
+        
+		<apex:pageBlock >
+
+            <apex:pageBlockButtons location="bottom">     
+                <input type="button" id="cmdSendEmail" name="cmdSendEmail" value=" Send Email " onClick="doSend();" />
+                &nbsp;&nbsp;
+				<input type="button" id="cmdCancelEmail" name="cmdCancelEmail" value=" Cancel " onClick="doCancel();" />
+            </apex:pageBlockButtons>
+            
+            <apex:pageBlockSection showHeader="true" collapsible="false" title="Edit Email" columns="1">
+                
+            	<apex:outputText label="Related To:" id="txtRelatedTo" value="{!recordName}" />
+
+                <apex:inputCheckbox label="Create Task" id="chkCreateTask" value="{!createTask}" />
+                
+                <apex:selectList label="From:" id="txtFrom" value="{!fromAddressSelected}" size="1" multiselect="false">
+                    <apex:selectOptions value="{!orgWideEmailOptions}" /> 
+                </apex:selectList>
+                
+                <apex:pageBlockSectionItem >
+                    <apex:outputLabel value="To:" styleClass="bld"/>
+                    <apex:pageBlockSectionItem >
+                        <apex:inputText value="{!to}" maxlength="255" onchange="getElementByIdCS('p2_lkid').value='';getElementByIdCS('p2_mod').value='1';" size="20" styleClass="p2" />
+                        <a href="javascript: openLookup('/_ui/common/data/LookupPage?lkfm=editPage&lknm=p2&lktp=' + getElementByIdCS('p2_lktp').value,670,'1','&lksrch=' + escapeUTF(getElementsByClassName('p2')[0].value.substring(0, 80)))" id="p2_lkwgt" onclick="setLastMousePosition(event)" title="To Lookup (New Window)">
+                            <img src="/s.gif" alt="To Lookup (New Window)" class="lookupIconOn" onblur="this.className = 'lookupIcon';" onfocus="this.className = 'lookupIconOn';" onmouseout="this.className = 'lookupIcon';this.className = 'lookupIcon';" onmouseover="this.className = 'lookupIconOn';this.className = 'lookupIconOn';" title="To Lookup (New Window)" /></a>
+                    </apex:pageBlockSectionItem>
+                </apex:pageBlockSectionItem>                
+                
+                <apex:pageblockSectionItem >
+                    <apex:outputlink value="javascript: openPopup('/_ui/core/email/author/EmailCCBccLookup?id={!RecordID}', 'CCBCCLookup', 420, 490, 'width=420,height=490,toolbar=no,status=no,directories=no,menubar=no,resizable=yes,scrollable=no', true);" id="p24_lkwgt" onclick="setLastMousePosition(event)" title="Additional To Lookup (New Window)">Additional To:</apex:outputlink>
+                    <apex:pageBlockSectionItem >
+                        <apex:inputTextArea value="{!additionalTo}" cols="62" rows="2" styleClass="p24" />
+                        <apex:outputlink value="javascript: openPopup('/_ui/core/email/author/EmailCCBccLookup?id={!RecordID}', 'CCBCCLookup', 420, 490, 'width=420,height=490,toolbar=no,status=no,directories=no,menubar=no,resizable=yes,scrollable=no', true);" id="p24_lkwgt" onclick="setLastMousePosition(event)" title="Additional To Lookup (New Window)">
+                             <img src="/s.gif" alt="Additional To Lookup (New Window)" class="lookupIcon" onblur="this.className = 'lookupIcon';" onfocus="this.className = 'lookupIconOn';" onmouseout="this.className = 'lookupIcon';this.className = 'lookupIcon';" onmouseover="this.className = 'lookupIconOn';this.className = 'lookupIconOn';" title="Additional To Lookup (New Window)" />
+                        </apex:outputlink>
+                    </apex:pageBlockSectionItem>
+                </apex:pageblockSectionItem>            
+
+                <apex:pageblockSectionItem >
+                    <apex:outputlink value="#" target="_blank">CC:</apex:outputlink>
+                    <apex:pageBlockSectionItem >  
+                        <apex:inputTextArea value="{!cc}" cols="62" id="p4" rows="2" title="CC" styleClass="p4" />              
+                        <apex:outputlink value="javascript: openPopup('/_ui/core/email/author/EmailCCBccLookup?id={!RecordID}', 'CCBCCLookup', 420, 490, 'width=420,height=490,toolbar=no,status=no,directories=no,menubar=no,resizable=yes,scrollable=no', true);" id="p4_lkwgt" onclick="setLastMousePosition(event)" title="CC Lookup (New Window)">
+                            <img src="/s.gif" alt="CC Lookup (New Window)" class="lookupIcon" onblur="this.className = 'lookupIcon';" onfocus="this.className = 'lookupIconOn';" onmouseout="this.className = 'lookupIcon';this.className = 'lookupIcon';" onmouseover="this.className = 'lookupIconOn';this.className = 'lookupIconOn';" title="CC Lookup (New Window)" />
+                        </apex:outputlink>
+                    </apex:pageBlockSectionItem>
+                </apex:pageblockSectionItem>
+
+                <apex:pageBlockSectionItem >
+                    <apex:outputlink value="#" target="_blank">BCC:</apex:outputlink>
+                    <apex:pageBlockSectionItem >
+                        <apex:inputTextArea value="{!bcc}" cols="62" id="p5" rows="2" title="BCC" styleClass="p5" />                
+                        <apex:outputlink value="javascript: openPopup('/_ui/core/email/author/EmailCCBccLookup?id={!RecordID}', 'CCBCCLookup', 420, 490, 'width=420,height=490,toolbar=no,status=no,directories=no,menubar=no,resizable=yes,scrollable=no', true);" id="p5_lkwgt" onclick="setLastMousePosition(event)" title="BCC Lookup (New Window)">
+                            <img src="/s.gif" alt="BCC Lookup (New Window)" class="lookupIcon" onblur="this.className = 'lookupIcon';" onfocus="this.className = 'lookupIconOn';" onmouseout="this.className = 'lookupIcon';this.className = 'lookupIcon';" onmouseover="this.className = 'lookupIconOn';this.className = 'lookupIconOn';" title="BCC Lookup (New Window)" />
+                        </apex:outputlink>
+                    </apex:pageBlockSectionItem>
+                </apex:pageBlockSectionItem>
+
+                <apex:inputText label="Subject:" id="txtSubject" value="{!subjectText}" style="width: 90%;" />
+
+                <apex:inputTextarea label="Body:" richText="true" value="{!bodyText}" style="width: 90%;" rows="50" />
+
+<!--
+                <apex:outputText value="{!bodyText}" escape="true" />
+-->
+                
+           </apex:pageBlockSection>
+
+            <apex:pageBlockSection showHeader="true" collapsible="false" title="Choose Attachments">
+                <apex:pageBlockTable value="{!lstAttachments}" var="a">
+                    <apex:column style="text-align: center; width: 80px;">
+                        <apex:facet name="header">
+                            <apex:outputText value="Send"/> 
+                        </apex:facet>
+                        <apex:inputCheckbox value="{!a.isSelected}" id="checkedAttachment" />
+                    </apex:column>  
+                    <apex:column >
+                        <apex:facet name="header">Name</apex:facet>
+                        <apex:outputText value="{!a.att.Name}"/>
+                    </apex:column>                
+                </apex:pageBlockTable>
+            </apex:pageBlockSection>                
+                                   
+        </apex:pageBlock>
+
+
+	</apex:form>  
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+</apex:page>

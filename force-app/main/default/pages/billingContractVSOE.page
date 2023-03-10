@@ -1,0 +1,497 @@
+<apex:page standardController="Billing_Contract__c" extensions="billingContractVSOEController" showHeader="true" sidebar="false">
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+	<script src="//cdn.datatables.net/1.10.4/js/jquery.dataTables.min.js"></script>
+	<apex:stylesheet value="//cdn.datatables.net/1.10.4/css/jquery.dataTables.css" />
+	<script type="text/javascript">
+	    j$ = jQuery.noConflict();
+	    j$(document).ready( function () {
+
+	        j$('#select_all').on('click',function(){
+	        if(this.checked){
+	            j$('.checkbox').each(function(){
+	                this.checked = true;
+	            });
+	        }else{
+	             j$('.checkbox').each(function(){
+	                this.checked = false;
+	            });
+	            }
+	        });
+	        
+	        j$('.checkbox').on('click',function(){
+	            if(j$('.checkbox:checked').length == j$('.checkbox').length){
+	                j$('#select_all').prop('checked',true);
+	            }else{
+	                j$('#select_all').prop('checked',false);
+	            }
+	            });
+	        });
+
+	    function checkLine(obj){
+	        j$('#'+obj+' input').prop('checked',true);
+	    }
+	    //Modal
+         j$(document).ready(function(){
+             hideLoadingModal(); 
+         });
+         function showLoadingModal(){
+             j$("#spinner").css({"display":"inline"}); 
+         }
+         function hideLoadingModal(){
+            j$("#spinner").css({"display":"none"}); 
+         }
+         twistSection(document.getElementById('{!$Component.theForm.block1.section1}').getElementsByTagName('img')[0]) 
+	</script>
+	<style>
+         .modal {
+                display:    none;
+                position:   fixed;
+                z-index:    1000;
+                top:        0;
+                left:       0;
+                height:     100%;
+                width:      100%;
+                background: rgba( 255, 255, 255, .8 )
+                            50% 50%
+                            no-repeat;
+            }
+            
+            .box {
+                background-color:      white;
+                border-radius:         10px;
+                -webkit-border-radius: 10px;
+                -moz-border-radius:    10px;
+                box-shadow:            0 0 20px 0 #222;
+                -webkit-box-shadow:    0 0 20px 0 #222;
+                -moz-box-shadow:       0 0 20px 0 #222;
+                position:              fixed;
+                top:                   50%;
+                left:                  50%;
+                margin-top:            -50px;
+                margin-left:           -100px;
+                height:                80px;
+                width:                 240px;
+                padding-top:           35px;
+                text-align:            center;
+            }
+            .alert-box {
+            color:#555;
+            border-radius:10px;
+            font-family:Tahoma,Geneva,Arial,sans-serif;font-size:11px;
+            padding:10px 10px 10px 36px;
+            margin:10px;
+            }
+            .alert-box span {
+                font-weight:bold;
+                text-transform:uppercase;
+            }
+            .error {
+                background:#ffecec url('images/error.png') no-repeat 10px 50%;
+                border:1px solid #f5aca6;
+            }
+            .success {
+                background:#e9ffd9 url('images/success.png') no-repeat 10px 50%;
+                border:1px solid #a6ca8a;
+            }
+            .warning {
+                background:#fff8c4 url('images/warning.png') no-repeat 10px 50%;
+                border:1px solid #f2c779;
+            }
+            .notice {
+                background:#e3f7fc url('images/notice.png') no-repeat 10px 50%;
+                border:1px solid #8ed9f6;
+            }
+    </style>
+    
+    <!-- HTML Loading Div -->
+    <div class="modal" id="spinner">
+        <div class="box">
+           <img src="/img/loading.gif" alt="Loading"/><i id="spinner-label" style="padding-left:5px">Processing...</i>
+        </div>
+    </div>
+
+	<apex:form id="theForm">
+		<apex:pageBlock id="block1" title="Summary and Subtotals">
+	    	<apex:pageMessages />
+		    <apex:pageBlockButtons >
+		        <apex:commandButton value="Save" action="{!saveLines}" reRender="theForm" disabled="{!disablePage}" onclick="showLoadingModal();" immediate="false" onComplete="hideLoadingModal();"/>
+		        <apex:commandButton value="Refresh" action="{!refresh}" reRender="theForm" disabled="{!disablePage}" onclick="showLoadingModal();" immediate="false" onComplete="hideLoadingModal();"/>
+		        <!-- <apex:commandButton value="Calculate Adjustment" reRender="theForm"/> -->
+		        <apex:commandButton value="Add PCS Line" action="{!createPCSLine}" reRender="theForm" disabled="{!disablePage || disablePCS}" onclick="showLoadingModal();" immediate="false" onComplete="hideLoadingModal();"/>
+		        <!-- <apex:commandButton value="Refresh PCS Impact" action="{!saveWithPCSchanges}" reRender="theForm" disabled="{!disablePage || !disablePCS}" onclick="showLoadingModal();" immediate="false" onComplete="hideLoadingModal();"/> -->
+		        <apex:commandButton value="Finalize" action="{!finalizeVSOE}" reRender="theForm" disabled="{!disablePage || disableFinalize}" onclick="showLoadingModal();" immediate="false" onComplete="hideLoadingModal();"/>
+		        <apex:commandButton value="Back" action="{!backToBC}" />
+		        
+		    </apex:pageBlockButtons>
+
+		    <!-- ========== SUMMARY TOTALS SECTION ================ -->
+		    <apex:pageBlockSection columns="2" title="Summary Totals">
+		    	<apex:pageBlockSectionItem >
+		    		Total Software Group Allocation
+		        	<apex:outputText value="{0, number, ###,##0.00}">
+                        <apex:param value="{!softwareElementTotal}" />
+                    </apex:outputText>
+		        </apex:pageBlockSectionItem>
+		        <apex:pageBlockSectionItem >
+		        	Total Non-Software Group Allocation
+		        	<apex:outputText value="{0, number, ###,##0.00}">
+                        <apex:param value="{!nonsoftwareElementTotal}" />
+                    </apex:outputText>
+		        </apex:pageBlockSectionItem>
+		        <apex:pageBlockSectionItem >
+		        	Total FV Software Category:
+		        	<apex:outputText value="{0, number, ###,##0.00}">
+                        <apex:param value="{!totalFV_Software}" />
+                    </apex:outputText>
+		        </apex:pageBlockSectionItem>
+		        
+		        <apex:pageBlockSectionItem >
+		        	Total FV Non Software Category:
+		        	<apex:outputText value="{0, number, ###,##0.00}">
+                        <apex:param value="{!totalFV_nonSoftwareCategory}" />
+                    </apex:outputText>
+		        </apex:pageBlockSectionItem>
+		        <apex:pageBlockSectionItem >
+		        	Total FV Support Category:
+		        	<apex:outputText value="{0, number, ###,##0.00}">
+                        <apex:param value="{!totalFV_Support}" />
+                    </apex:outputText>
+		        </apex:pageBlockSectionItem>
+		        <apex:pageBlockSectionItem >
+		        	Residual Amount
+		        	<apex:outputText value="{0, number, ###,##0.00}">
+                        <apex:param value="{!residualAmount}" />
+                    </apex:outputText>
+		        </apex:pageBlockSectionItem>
+		        <apex:pageBlockSectionItem >
+		        	Total Fair Value (PCS Included):
+		        	<apex:outputText value="{0, number, ###,##0.00}">
+                        <apex:param value="{!totalFV}" />
+                    </apex:outputText>
+		        </apex:pageBlockSectionItem>
+		        <apex:pageBlockSectionItem >
+		        	Total Adjusted Revenue Amount:
+		        	<apex:outputText value="{0, number, ###,##0.00}">
+                        <apex:param value="{!totalAdjustedRev}" />
+                    </apex:outputText>
+		        </apex:pageBlockSectionItem>
+		    </apex:pageBlockSection>
+
+		    <!-- ========== REVENUE SUBTOTALS SECTION ================ -->
+		    <apex:pageBlockSection id="section1" columns="1" title="Adjusted Revenue Subtotals by Category" >
+		    	<apex:pageBlockSectionItem >
+		    		Total Adj Revenue - Hosting and Support
+		        	<apex:outputText value="{0, number, ###,##0.00}">
+                        <apex:param value="{!totalAdjustedRev_HostingSupport}" />
+                    </apex:outputText>
+		        </apex:pageBlockSectionItem>
+		        <apex:pageBlockSectionItem >
+		        	Total Adj Revenue - Services
+		        	<apex:outputText value="{0, number, ###,##0.00}">
+                        <apex:param value="{!totalAdjustedRev_Services}" />
+                    </apex:outputText>
+		        </apex:pageBlockSectionItem>
+		        <apex:pageBlockSectionItem >
+		        	Total Adj Revenue - Subscription
+		        	<apex:outputText value="{0, number, ###,##0.00}">
+                        <apex:param value="{!totalAdjustedRev_Subscription}" />
+                    </apex:outputText>
+		        </apex:pageBlockSectionItem>
+		        <apex:pageBlockSectionItem >
+		        	Total Adj Revenue - Software
+		        	<apex:outputText value="{0, number, ###,##0.00}">
+                        <apex:param value="{!totalAdjustedRev_Software}" />
+                    </apex:outputText>
+		        </apex:pageBlockSectionItem>
+		        <apex:pageBlockSectionItem >
+		        	Total Adj Revenue - Support
+		        	<apex:outputText value="{0, number, ###,##0.00}">
+                        <apex:param value="{!totalAdjustedRev_Support}" />
+                    </apex:outputText>
+		        </apex:pageBlockSectionItem>
+		    </apex:pageBlockSection>
+		</apex:pageBlock>
+
+		<apex:pageBlock id="block2" title="Calculation Details">
+		    <!-- ========== UNDEFINED ELEMENTS SECTION ================ -->
+		    <apex:pageBlockSection columns="1" title="Undefined Elements" rendered="{!renderUndefined}">
+		        <apex:pageBlockTable var="ali" value="{!undefinedLines}">
+		        	<!-- Select All Checkbox -->
+		            <apex:column >
+		            	<apex:facet name="header">
+	                    	<input type="checkbox" id="select_all" title="select all" checked="true"/>
+	                	</apex:facet>
+		                <span id='{!ali.ali_object.id}'><apex:inputCheckbox styleClass="checkbox" value="{!ali.check}"/></span>
+		            </apex:column>
+		            <!-- Revenue Cat -->
+		            <apex:column headerValue="Revenue Category">
+		            	<apex:outputField value="{!ali.ali_object.Revenue_Category__c}"/>		
+		            </apex:column>
+		            <!-- SKU -->
+		            <apex:column headerValue="SKU">
+		            	<apex:outputField value="{!ali.ali_object.SKU__c}"/>		
+		            </apex:column>
+		            <!-- Product -->
+		            <apex:column headerValue="Product">
+		            	<apex:outputField value="{!ali.ali_object.Product__c}"/>		
+		            </apex:column>
+		            <!-- Contract Amount Unit Price -->
+		            <apex:column headerValue="Contract Amt (Unit Price)">
+		            	<apex:outputField value="{!ali.ali_object.Contract_Amount__c}"/>		
+		            </apex:column>
+		            <!-- Units-->
+		            <apex:column headerValue="Units">
+		            	<apex:outputField value="{!ali.ali_object.Units__c}"/>		
+		            </apex:column> 
+		            <!-- Contract Amount -->
+		            <apex:column headerValue="Contract Amt">
+		            	<apex:outputField value="{!ali.ali_object.Contract_Total_Amount__c}"/>		
+		            </apex:column>
+		            <!-- List Price-->
+		            <apex:column headerValue="List Price">
+		            	<apex:inputField value="{!ali.ali_object.List_Price__c}"/>		
+		            </apex:column>
+		            <!-- Discount -->
+		            <apex:column headerValue="Discount">
+		            	<apex:inputField value="{!ali.ali_object.VSOE_Discount__c}" onchange="checkLine('{!ali.ali_object.id}');"/>		
+		            </apex:column>
+		            <!-- Fair Value-->
+		            <apex:column headerValue="FV">
+		            	<apex:outputField value="{!ali.ali_object.Fair_Value__c}"/>		
+		            </apex:column>
+		            <!-- Percent of Total-->
+		            <apex:column headerValue="% of Total">
+		            	<apex:outputField value="{!ali.ali_object.Percent_of_Total__c}"/>		
+		            </apex:column>
+		            <!-- Relative Selling Price Allocation-->
+		            <apex:column headerValue="Step 1: Relative SP Allocation">
+		            	<apex:outputField value="{!ali.ali_object.Relative_Selling_Price_Allocation__c}"/>		
+		            </apex:column>
+		            <!-- Element Group -->
+		            <apex:column headerValue="Step 2: Element Type Definition">
+		            	<apex:inputField value="{!ali.ali_object.VSOE_Element_Type__c}" onchange="checkLine('{!ali.ali_object.id}');"/>		
+		            </apex:column>
+		            <!-- Final SW Group Allocation -->
+		            <!-- <apex:column headerValue="Step 3: Final SW Group Allocation">
+		            	<apex:inputField value="{!ali.ali_object.Final_SW_Group_Allocation__c}" onchange="checkLine('{!ali.ali_object.id}');"/>	
+		            </apex:column> -->
+		            <!-- Adjusted Revenue Amount -->
+		            <apex:column headerValue="Adjusted Revenue Amount">
+		            	<apex:outputField value="{!ali.ali_object.Relative_Selling_Price_Allocation__c}"/>		
+		            </apex:column>
+		        </apex:pageBlockTable>
+		    </apex:pageBlockSection> <!-- END UNDEFINED ELEMENTS -->
+
+		    <!-- ========== SOFTWARE ELEMENTS SECTION ================ -->
+		    <apex:pageBlockSection columns="1" title="Software Elements" rendered="{!renderSoftware}">
+		        <apex:pageBlockTable var="ali" value="{!softwareLines}">
+		        	<!-- Select All Checkbox -->
+		            <apex:column >
+		            	<apex:facet name="header">
+	                    	<input type="checkbox" id="select_all" title="select all" checked="true" />
+	                	</apex:facet>
+		                <span id='{!ali.ali_object.id}'><apex:inputCheckbox styleClass="checkbox" value="{!ali.check}"/></span>
+		            </apex:column>
+		            <!-- Revenue Cat -->
+		            <apex:column headerValue="Revenue Category">
+		            	<apex:outputField value="{!ali.ali_object.Revenue_Category__c}"/>		
+		            </apex:column>
+		            <!-- SKU -->
+		            <apex:column headerValue="SKU">
+		            	<apex:outputField value="{!ali.ali_object.SKU__c}"/>		
+		            </apex:column>
+		            <!-- Product -->
+		            <apex:column headerValue="Product">
+		            	<apex:outputField value="{!ali.ali_object.Product__c}"/>		
+		            </apex:column>
+		            <!-- Contract Amount -->
+		            <apex:column headerValue="Contract Amt (Unit Price)">
+		            	<apex:outputField value="{!ali.ali_object.Contract_Amount__c}"/>		
+		            </apex:column>
+		            <!-- Units-->
+		            <apex:column headerValue="Units">
+		            	<apex:outputField value="{!ali.ali_object.Units__c}"/>		
+		            </apex:column>
+		            <!-- Contract Amount -->
+		            <apex:column headerValue="Contract Amt">
+		            	<apex:outputField value="{!ali.ali_object.Contract_Total_Amount__c}"/>		
+		            </apex:column>
+		            <!-- List Price-->
+		            <apex:column headerValue="List Price">
+		            	<apex:inputField value="{!ali.ali_object.List_Price__c}"/>		
+		            </apex:column>
+		            <!-- Discount-->
+		            <apex:column headerValue="Discount">
+		            	<apex:inputField value="{!ali.ali_object.VSOE_Discount__c}" onchange="checkLine('{!ali.ali_object.id}');"/>		
+		            </apex:column>
+		            <!-- Fair Value-->
+		            <apex:column headerValue="FV">
+		            	<apex:outputField value="{!ali.ali_object.Fair_Value__c}"/>		
+		            </apex:column>
+		            <!-- Percent of Total-->
+		            <apex:column headerValue="% of Total">
+		            	<apex:outputField value="{!ali.ali_object.Percent_of_Total__c}"/>		
+		            </apex:column>
+		            <!-- Relative Selling Price Allocation-->
+		            <apex:column headerValue="Step 1: Relative SP Allocation">
+		            	<apex:outputField value="{!ali.ali_object.Relative_Selling_Price_Allocation__c}"/>		
+		            </apex:column>
+		            <!-- Element Group -->
+		            <apex:column headerValue="Step 2: Element Type Definition">
+		            	<apex:inputField value="{!ali.ali_object.VSOE_Element_Type__c}" onchange="checkLine('{!ali.ali_object.id}');"/>		
+		            </apex:column>
+		            <!-- Final SW Group Allocation -->
+		            <!-- <apex:column headerValue="Step 3: Final SW Group Allocation">
+		            	<apex:inputField value="{!ali.ali_object.Final_SW_Group_Allocation__c}" onchange="checkLine('{!ali.ali_object.id}');"/>		
+		            </apex:column> -->
+		            <!-- Adjusted Revenue Amount -->
+		            <apex:column headerValue="Adjusted Revenue Amount">
+		            	<apex:outputField value="{!ali.ali_object.Relative_Selling_Price_Allocation__c}"/>		
+		            </apex:column>
+		        </apex:pageBlockTable>
+
+
+
+		        <!-- ===== PCS Section ==== -->
+		        <apex:outputText rendered="{!disablePCS}">
+                	<div class="alert-box notice"><span><b>Post Contract Support (PCS) Line</b></span></div>
+            	</apex:outputText>
+		        <apex:pageBlockTable var="ali" value="{!pcsLines}" rendered="{!disablePCS}">
+		        	<!-- Select All Checkbox -->
+		            <apex:column >
+		            	<apex:facet name="header">
+	                    	<input type="checkbox" id="select_all" title="select all" checked="true" />
+	                	</apex:facet>
+		                <span id='{!ali.ali_object.id}'><apex:inputCheckbox styleClass="checkbox" value="{!ali.check}"/></span>
+		            </apex:column>
+		            <!-- Revenue Cat -->
+		            <apex:column headerValue="Revenue Category">
+		            	<apex:outputField value="{!ali.ali_object.Revenue_Category__c}"/>		
+		            </apex:column>
+		            <!-- SKU -->
+		            <apex:column headerValue="SKU" width="150px">
+		            	<apex:outputField value="{!ali.ali_object.SKU__c}"/>		
+		            </apex:column>
+		            <!-- Product -->
+		            <apex:column headerValue="Product" width="300px">
+		            	<apex:outputField value="{!ali.ali_object.Product__c}"/>		
+		            </apex:column>
+		            <!-- Units-->
+		            <!-- <apex:column headerValue="Number of PCS days">
+		            	<apex:inputText value="{!ali.ali_object.PCS_Days__c}"/>		
+		            </apex:column> -->
+		            <!-- Contract Amount -->
+		            <!-- <apex:column headerValue="Contract Amt (Unit Price)">
+		            	<apex:outputField value="{!ali.ali_object.Contract_Amount__c}"/>		
+		            </apex:column> -->
+		            <!-- List Price-->
+		            <apex:column headerValue="Amount">
+		            	<apex:inputField value="{!ali.ali_object.List_Price__c}"/>		
+		            </apex:column>
+		            <!-- Notes-->
+		            <apex:column headerValue="PCS Notes">
+		            	<apex:inputField value="{!ali.ali_object.PCS_Notes__c}"/>		
+		            </apex:column>
+		            <!-- Fair Value-->
+		            <apex:column headerValue="FV">
+		            	<apex:outputField value="{!ali.ali_object.Fair_Value__c}"/>	
+		            </apex:column>
+		            <!-- Percent of Total-->
+		            <apex:column headerValue="% of Total">
+		            	<apex:outputField value="{!ali.ali_object.Percent_of_Total__c}"/>		
+		            </apex:column>
+		            <!-- Relative Selling Price Allocation-->
+		            <apex:column headerValue="Step 1: Relative SP Allocation">
+		            	<apex:outputField value="{!ali.ali_object.Relative_Selling_Price_Allocation__c}"/>		
+		            </apex:column>
+		            <!-- Element Group -->
+		            <apex:column headerValue="Step 2: Element Type Definition">
+		            	<apex:outputField value="{!ali.ali_object.VSOE_Element_Type__c}"/>		
+		            </apex:column>
+		            <!-- Adjusted Revenue Amount -->
+		            <apex:column headerValue="Adjusted Revenue Amount">
+		            	<apex:outputField value="{!ali.ali_object.Relative_Selling_Price_Allocation__c}"/>		
+		            </apex:column>
+		        </apex:pageBlockTable><!-- ===== END PCS Section ==== -->
+
+		    </apex:pageBlockSection> <!-- END SOFTWARE ELEMENTS -->
+
+
+		    <!-- ================ NON-SOFTWARE ELEMENTS SECTION  ======================== -->
+		    <apex:pageBlockSection columns="1" title="Non-Software Elements" rendered="{!renderNonSoftware}">
+		        <apex:pageBlockTable var="ali" value="{!nonsoftwareLines}">
+		        	<!-- Select All Checkbox -->
+		            <apex:column >
+		            	<apex:facet name="header">
+	                    	<input type="checkbox" id="select_all" title="select all" checked="true"/>
+	                	</apex:facet>
+		                <span id='{!ali.ali_object.id}'><apex:inputCheckbox styleClass="checkbox" value="{!ali.check}"/></span>
+		            </apex:column>
+		            <!-- Revenue Cat -->
+		            <apex:column headerValue="Revenue Category">
+		            	<apex:outputField value="{!ali.ali_object.Revenue_Category__c}"/>		
+		            </apex:column>
+		            <!-- SKU -->
+		            <apex:column headerValue="SKU">
+		            	<apex:outputField value="{!ali.ali_object.SKU__c}"/>		
+		            </apex:column>
+		            <!-- Product -->
+		            <apex:column headerValue="Product">
+		            	<apex:outputField value="{!ali.ali_object.Product__c}"/>		
+		            </apex:column>
+		            <!-- Contract Amount -->
+		            <apex:column headerValue="Contract Amt (Unit Price)">
+		            	<apex:outputField value="{!ali.ali_object.Contract_Amount__c}"/>		
+		            </apex:column>
+		            <!-- Units-->
+		            <apex:column headerValue="Units">
+		            	<apex:outputField value="{!ali.ali_object.Units__c}"/>		
+		            </apex:column>
+		            <!-- Contract Amount -->
+		            <apex:column headerValue="Contract Amt">
+		            	<apex:outputField value="{!ali.ali_object.Contract_Total_Amount__c}"/>		
+		            </apex:column>
+		            <!-- List Price-->
+		            <apex:column headerValue="List Price">
+		            	<apex:inputField value="{!ali.ali_object.List_Price__c}"/>		
+		            </apex:column>
+		            <!-- Discount-->
+		            <apex:column headerValue="Discount">
+		            	<apex:inputField value="{!ali.ali_object.VSOE_Discount__c}" onchange="checkLine('{!ali.ali_object.id}');"/>		
+		            </apex:column>
+		            <!-- Fair Value-->
+		            <apex:column headerValue="FV">
+		            	<apex:outputField value="{!ali.ali_object.Fair_Value__c}"/>		
+		            </apex:column>
+		            <!-- Percent of Total-->
+		            <apex:column headerValue="% of Total">
+		            	<apex:outputField value="{!ali.ali_object.Percent_of_Total__c}"/>		
+		            </apex:column>
+		            <!-- Relative Selling Price Allocation-->
+		            <apex:column headerValue="Step 1: Relative SP Allocation">
+		            	<apex:outputField value="{!ali.ali_object.Relative_Selling_Price_Allocation__c}"/>		
+		            </apex:column>
+		            <!-- Element Group -->
+		            <apex:column headerValue="Step 2: Element Type Definition">
+		            	<apex:inputField value="{!ali.ali_object.VSOE_Element_Type__c}" onchange="checkLine('{!ali.ali_object.id}');"/>		
+		            </apex:column>
+		            <!-- Final SW Group Allocation -->
+		            <!-- <apex:column headerValue="Step 3: Final SW Group Allocation">
+		            	<apex:inputField value="{!ali.ali_object.Final_SW_Group_Allocation__c}" onchange="checkLine('{!ali.ali_object.id}');"/>		
+		            </apex:column> -->
+		            <!-- Adjusted Revenue Amount -->
+		            <apex:column headerValue="Adjusted Revenue Amount">
+		            	<apex:outputField value="{!ali.ali_object.Relative_Selling_Price_Allocation__c}"/>		
+		            </apex:column>
+		        </apex:pageBlockTable>
+		    </apex:pageBlockSection> <!-- END NON-SOFTWARE ELEMENTS -->
+
+		    <!-- ================ NOTES SECTION  ======================== -->
+		    <apex:pageBlockSection columns="1" title="Notes" >
+		        <apex:outputField value="{!billingContract.VSOE_Calculation_Notes__c}" rendered="{!disablePage}"/>
+		        <apex:inputField value="{!billingContract.VSOE_Calculation_Notes__c}" style="width: 600px;" rendered="{!!disablePage}"/>
+		    </apex:pageBlockSection> <!-- END NOTES SECTION -->
+
+	    </apex:pageBlock>
+	</apex:form>
+</apex:page>
