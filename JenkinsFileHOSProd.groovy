@@ -23,12 +23,12 @@ node {
         // ----------------------------------------------------------------------------------
         withEnv(["HOME=${env.WORKSPACE}"]) {
 			// Based on the source and target branches, set SF_* variables for authentication withing sfdx
-            if ( ("${env.BITBUCKET_SOURCE_BRANCH}".contains("develop/") || "${env.BITBUCKET_SOURCE_BRANCH}".contains("bugfix/") ) && ("${env.BITBUCKET_TARGET_BRANCH}".contains("master"))) {
+            if ( ("${env.BITBUCKET_SOURCE_BRANCH}".contains("release/") || "${env.BITBUCKET_SOURCE_BRANCH}".contains("bugfix/") ) && ("${env.BITBUCKET_TARGET_BRANCH}".contains("master"))) {
                 SF_USERNAME = "ENV_HOS_SF_PROD_USERNAME"
                 SF_CONSUMER_KEY = "ENV_HOS_SF_PROD_CONSUMERKEY"
                 SF_CONSUMER_SERVER_KEY = "ENV_HOS_SF_SECRETKEY"
             } else {
-              error 'Please check the branches on your PR. (source branch should be: develop/*or bugfix/*) (target branch should be: master)'
+              error 'Please check the branches on your PR. (source branch should be: release/*or bugfix/*) (target branch should be: master)'
             }
 			String CURRENT_BRANCH   = "${env.BITBUCKET_SOURCE_BRANCH}"
             SDWORK_ID = CURRENT_BRANCH.substring(CURRENT_BRANCH.indexOf('/') + 1, CURRENT_BRANCH.length())
