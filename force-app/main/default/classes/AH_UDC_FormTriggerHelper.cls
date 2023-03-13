@@ -49,6 +49,55 @@ public with sharing class AH_UDC_FormTriggerHelper {
             }
          }
 
+         else if (Trigger.isBefore && (Trigger.isInsert || Trigger.isUpdate || Trigger.isUndelete))
+         {
+            //Build dictionary of allowed extensions
+            Set<String> udcAllowedExtensions = new Set<String>();
+            for(string ext : AH_UDC_ConfigHelper.GetString('AH_UDC_FileUploadAllowedExtensions', '').split(',')){
+               udcAllowedExtensions.add(ext.trim());
+            }
+            //Get max allowed file size
+            Decimal udcFileUploadMaximumSizeInMB = Decimal.valueOf(AH_UDC_ConfigHelper.GetString('AH_UDC_FileUploadMaximumSizeInMB',AH_UDC_Constants.FILE_UPLOAD_MAXIMUM_SIZE_IN_MB_DEFAULT));
+            for (SObject sObj : Trigger.new){
+               AH_UDC_Form__c formNew = (AH_UDC_Form__c)sObj;
+               //Check Number of Files
+               if(formNew.NumberOfFiles__c != null){
+                  formNew.NumberOfFiles__c = formNew.NumberOfFiles__c.round(System.RoundingMode.HALF_UP);
+                  if(formNew.NumberOfFiles__c < 1) sObj.addError(System.Label.AH_UDC_FormNumberOfFilesLessThanOneError);
+               }
+               //Check Max File Size
+               if(formNew.MaxIndividualFileSizeMB__c != null){
+                  formNew.MaxIndividualFileSizeMB__c = formNew.MaxIndividualFileSizeMB__c.round(System.RoundingMode.HALF_UP);
+                  if(formNew.MaxIndividualFileSizeMB__c > udcFileUploadMaximumSizeInMB) sObj.addError(System.Label.AH_UDC_FormMaxFileSizeError.replace('{MAX}',String.valueOf(udcFileUploadMaximumSizeInMB)));
+                  if(formNew.MaxIndividualFileSizeMB__c < 1) sObj.addError(System.Label.AH_UDC_FormMaxFileSizeLessThanOneError);
+               }
+               //Check Pixels for negative values
+               if(formNew.HeightMinimumPixels__c != null) formNew.HeightMinimumPixels__c=formNew.HeightMinimumPixels__c.round(System.RoundingMode.HALF_UP);
+               if(formNew.HeightMaximumPixels__c != null) formNew.HeightMaximumPixels__c=formNew.HeightMaximumPixels__c.round(System.RoundingMode.HALF_UP);
+               if(formNew.WidthMinimumPixels__c != null) formNew.WidthMinimumPixels__c=formNew.WidthMinimumPixels__c.round(System.RoundingMode.HALF_UP);
+               if(formNew.WidthMaximumPixels__c != null) formNew.WidthMaximumPixels__c=formNew.WidthMaximumPixels__c.round(System.RoundingMode.HALF_UP);
+               if(formNew.HeightMinimumPixels__c != null && formNew.HeightMinimumPixels__c < 1) sObj.addError(System.Label.AH_UDC_FormHeightMinimumError);
+               if(formNew.HeightMaximumPixels__c != null && formNew.HeightMaximumPixels__c < 1) sObj.addError(System.Label.AH_UDC_FormHeightMaximumError);
+               if(formNew.WidthMinimumPixels__c != null && formNew.WidthMinimumPixels__c < 1) sObj.addError(System.Label.AH_UDC_FormWidthMinimumError);
+               if(formNew.WidthMaximumPixels__c != null && formNew.WidthMaximumPixels__c < 1) sObj.addError(System.Label.AH_UDC_FormWidthMaximumError);
+               //Verify max's are > mins
+               if(formNew.HeightMinimumPixels__c != null && formNew.HeightMaximumPixels__c != null && formNew.HeightMaximumPixels__c <= formNew.HeightMinimumPixels__c) sObj.addError(System.Label.AH_UDC_FormHeightMaximumError);
+               if(formNew.WidthMinimumPixels__c != null && formNew.WidthMaximumPixels__c != null && formNew.WidthMaximumPixels__c <= formNew.WidthMinimumPixels__c) sObj.addError(System.Label.AH_UDC_FormWidthMaximumError);
+               //Check Extensions
+               if (String.isNotEmpty(formNew.AllowedExtensions__c))
+               {
+                  Set<String> stepAllowedExtensions = new Set<String>();
+                  for(string ext : formNew.AllowedExtensions__c.split(',',-1)){
+                     string extTrim = ext.trim();
+                     if (String.isEmpty(extTrim) || !udcAllowedExtensions.contains(extTrim))
+                     {
+                        sObj.addError(System.Label.AH_UDC_FormExtensionNotAllowed.replace('{EXT}',extTrim).replace('{ALLOWED}',AH_UDC_ConfigHelper.GetString('AH_UDC_FileUploadAllowedExtensions', '')));
+                     }
+                  }
+               }
+            }
+         }
+
          else if (Trigger.isAfter && (Trigger.isInsert || Trigger.isUpdate || Trigger.isUndelete))
          {
             //Get existing forms

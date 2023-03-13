@@ -21,13 +21,11 @@ public with sharing class AH_UDC_WorkbookStepTriggerHelper {
 
          if (Trigger.isBefore && (Trigger.isInsert)) {
             onBeforeInsertStep();
-            fileUploadStepValidation();
             return;
          }
 
          if (Trigger.isBefore && (Trigger.isUpdate)) {
             onBeforeUpdateStep();
-            fileUploadStepValidation();
             return;
          }
 
@@ -40,7 +38,6 @@ public with sharing class AH_UDC_WorkbookStepTriggerHelper {
          if (Trigger.isAfter && (Trigger.isUndelete))
          {
             onUndeleteStep();
-            fileUploadStepValidation();
             return;
          }
       }
@@ -51,136 +48,6 @@ public with sharing class AH_UDC_WorkbookStepTriggerHelper {
                               'onTrigger', 'An exception occurred during workbook step trigger execution for the user (' + System.UserInfo.getUserId() + ' : ' + System.UserInfo.getUserName() + ') and Workbook List : ' + Trigger.new,
                               exc, null, null);
 
-         // Mark all records as failed due to the unexpected exception that occurred
-         for (SObject sObj : (Trigger.new != null ? Trigger.new : Trigger.old))
-         {
-            sObj.addError(Label.AH_UDC_WorkbookStepTriggerExceptionMessage); // prevent upsert
-         }
-      }
-   }
-
-   private static void fileUploadStepValidation() {
-      try {
-         AH_UDC_LogHelper.Debug('Inside fileUploadStepValidation');
-         Id workbookStepRecordTypeId = Schema.SObjectType.AH_UDC_WorkbookStep__c.getRecordTypeInfosByDeveloperName().get(AH_UDC_Constants.RECORD_TYPE_WORKBOOK_STEP).getRecordTypeId();
-         AH_UDC_LogHelper.Debug('fileUploadStepValidation() => workbookStepRecordTypeId: ' + workbookStepRecordTypeId);
-
-         //Generate exception for test class execution
-         if (Test.isRunningTest() && IsWorkbookRecordTypeException == true) workbookStepRecordTypeId = null;
-
-         if (String.isBlank(String.valueOf(workbookStepRecordTypeId))) {
-            for (SObject obj : (Trigger.new != null ? Trigger.new : Trigger.old)) {
-               obj.addError(Label.AH_UDC_WorkbookStepTriggerExceptionMessage);
-            }
-            AH_UDC_LogHelper.Debug('An error occurred in Workbook Step trigger execution: Workbook Step Record Type Id not found');
-            AH_UDC_LogHelper.Log(AH_UDC_LogHelper.LogLevel_EXC,
-                                 'AH_UDC_WorkbookStepTriggerHelper',
-                                 'fileUploadStepValidation', 'An exception occurred during Workbook Step trigger execution for the user (' + System.UserInfo.getUserId() + ' : ' + System.UserInfo.getUserName() + ') and Workbook List : ' + (Trigger.new != null ? Trigger.new : Trigger.old),
-                                 null, null, null);
-            return;
-         }
-
-         Id fileUploadFormRecordTypeId = Schema.SObjectType.AH_UDC_Form__c.getRecordTypeInfosByDeveloperName().get(AH_UDC_Constants.RECORD_TYPE_FORM_AMADEUS_FILE_UPLOAD).getRecordTypeId();
-         AH_UDC_LogHelper.Debug('fileUploadStepValidation() => fileUploadFormRecordTypeId: ' + fileUploadFormRecordTypeId);
-
-         //Generate exception for test class execution
-         if (Test.isRunningTest() && IsFormRecordTypeException == true) fileUploadFormRecordTypeId = null;
-
-         if (String.isBlank(String.valueOf(fileUploadFormRecordTypeId))) {
-            for (SObject obj : (Trigger.new != null ? Trigger.new : Trigger.old)) {
-               obj.addError(Label.AH_UDC_WorkbookStepTriggerExceptionMessage);
-            }
-            AH_UDC_LogHelper.Debug('An error occurred in Workbook Step trigger execution: File Upload Form Record Type Id not found');
-            AH_UDC_LogHelper.Log(AH_UDC_LogHelper.LogLevel_EXC,
-                                 'AH_UDC_WorkbookStepTriggerHelper',
-                                 'fileUploadStepValidation', 'An exception occurred during Workbook Step trigger execution for the user (' + System.UserInfo.getUserId() + ' : ' + System.UserInfo.getUserName() + ') and Workbook List : ' + (Trigger.new != null ? Trigger.new : Trigger.old),
-                                 null, null, null);
-            return;
-         }
-
-         //Generate exception for test class execution to cover catch block
-         if (Test.isRunningTest() && IsExceptionToCoverCatchBlock == true) Integer a = 1 / 0;
-         AH_UDC_LogHelper.Debug('fileUploadStepValidation() => Trigger.isUpdate: ' + Trigger.isUpdate);
-
-         Set<Id> formIds = new Set<Id> ();
-         for (SObject obj : (Trigger.new != null ? Trigger.new : Trigger.old)) {
-            AH_UDC_WorkbookStep__c wbs = (AH_UDC_WorkbookStep__c) obj;
-            if (wbs.RecordTypeId == workbookStepRecordTypeId //Only check workbook step records
-                && String.isNotBlank(String.valueOf(wbs.Form__c))) { //Only check those steps which are associated with for forms
-               if (Trigger.isUpdate) {
-                  AH_UDC_WorkbookStep__c objOldStep = (AH_UDC_WorkbookStep__c) Trigger.oldMap.get(wbs.Id);
-                  //Evaluate only those those steps for which form field updated
-                  if (wbs.Form__c != objOldStep.Form__c) formIds.add(wbs.Form__c);
-               }
-               else {
-                  formIds.add(wbs.Form__c);
-               }
-            }
-         }
-
-         AH_UDC_LogHelper.Debug('fileUploadStepValidation() => formIds: ' + formIds);
-         //If there are no workbook step records associated with forms then no need to proceed further
-         if (formIds.size() == 0) return;
-
-         //Fetch only file upload forms from the records which are being inserted/updated/undeleted
-         List<AH_UDC_Form__c> lstFileUploadForms = [SELECT Id
-                                                    FROM AH_UDC_Form__c
-                                                    WHERE Id IN :formIds
-                                                    AND RecordTypeId = :fileUploadFormRecordTypeId];
-
-         AH_UDC_LogHelper.Debug('fileUploadStepValidation() => lstFileUploadForms: ' + lstFileUploadForms);
-         //If there are no file upload steps then no need to proceed further
-         if (lstFileUploadForms.size() == 0) return;
-
-         Set<Id> workbookIds = new Set<Id> (); //Set of workbook ids which has steps with file upload forms
-         Set<Id> workbookStepIds = new Set<Id> (); //Set of workbook step ids which are associated with file upload forms
-         for (AH_UDC_Form__c objForm : lstFileUploadForms) {
-            for (SObject obj : (Trigger.new != null ? Trigger.new : Trigger.old)) {
-               AH_UDC_WorkbookStep__c wbs = (AH_UDC_WorkbookStep__c) obj;
-               if (wbs.Form__c == objForm.Id) { //Pick only file upload form steps
-                  workbookStepIds.add(wbs.Id);
-                  if (workbookIds.contains(wbs.Workbook__c)) {
-                     //In case of bulk insert/update/undelete it has more than one file upload steps within a workbook
-                     obj.addError(Label.AH_UDC_FileUploadTriggerError);
-                  }
-                  else {
-                     workbookIds.add(wbs.Workbook__c);
-                  }
-                  break;
-               }
-            }
-         }
-         AH_UDC_LogHelper.Debug('fileUploadStepValidation() => workbookStepIds: ' + workbookStepIds);
-         AH_UDC_LogHelper.Debug('fileUploadStepValidation() => workbookIds: ' + workbookIds);
-
-         //Fetch file upload steps other than the steps which are being inserted/updated/undeleted
-         List<AH_UDC_WorkbookStep__c> lstWorkbookSteps = [SELECT Workbook__c
-                                                          FROM AH_UDC_WorkbookStep__c
-                                                          WHERE Workbook__c IN :workbookIds
-                                                          AND Id NOT IN :workbookStepIds
-                                                          AND Form__r.RecordTypeId = :fileUploadFormRecordTypeId];
-
-         AH_UDC_LogHelper.Debug('fileUploadStepValidation() => lstWorkbookSteps: ' + lstWorkbookSteps);
-         //If there are no file upload steps other than the steps which are being inserted/updated/undeleted then no need to proceed further
-         if (lstWorkbookSteps.size() == 0) return;
-
-         for (AH_UDC_WorkbookStep__c objStep : lstWorkbookSteps) {
-            for (SObject obj : (Trigger.new != null ? Trigger.new : Trigger.old)) {
-               AH_UDC_WorkbookStep__c wbs = (AH_UDC_WorkbookStep__c) obj;
-               if (wbs.Workbook__c == objStep.Workbook__c && String.isNotBlank(String.valueOf(wbs.Form__c))
-                   && lstFileUploadForms.contains(new AH_UDC_Form__c(Id = wbs.Form__c))) {
-                  //Prevent insert/update/undelete of another file upload steps
-                  obj.addError(Label.AH_UDC_FileUploadTriggerError);
-                  break;
-               }
-            }
-         }
-      }
-      catch(Exception exc) {
-         AH_UDC_LogHelper.Log(AH_UDC_LogHelper.LogLevel_EXC,
-                              'AH_UDC_WorkbookStepTriggerHelper',
-                              'fileUploadStepValidation', 'An exception occurred during workbook step trigger execution for the user (' + System.UserInfo.getUserId() + ' : ' + System.UserInfo.getUserName() + ') and Workbook Step List : ' + (Trigger.new != null ? Trigger.new : Trigger.old),
-                              exc, null, null);
          // Mark all records as failed due to the unexpected exception that occurred
          for (SObject sObj : (Trigger.new != null ? Trigger.new : Trigger.old))
          {

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Srinivasa_s_NICC</fullName>
+    <columns>NAME</columns>
+    <columns>Request_Summary__c</columns>
+    <columns>OWNER.FIRST_NAME</columns>
+    <columns>NI_Change_Owner__c</columns>
+    <columns>Approval_Status__c</columns>
+    <columns>LAST_UPDATE</columns>
+    <columns>Platform__c</columns>
+    <columns>Change_Status__c</columns>
+    <columns>Functional_Area__c</columns>
+    <columns>Change_Type__c</columns>
+    <columns>MSD_Ticket__c</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>NI_Change_Owner__c</field>
+        <operation>contains</operation>
+        <value>Srinivasa</value>
+    </filters>
+    <label>Srinivasa&apos;s NICC</label>
+</ListView>

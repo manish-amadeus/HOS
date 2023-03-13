@@ -105,7 +105,7 @@ public with sharing class AH_UDC_WorkbookResponsesExt {
          }
 
          displayWorkbook.WorkbookSteps = new List<WorkbookStep> ();
-         string StepToken = AH_UDC_Shared.CreateStepToken(stepRecords[0].Workbook__r.SecurityCode__c, stepRecords[0].Form__r.id);
+         string StepToken = AH_UDC_Shared.CreateStepToken(stepRecords[0].Workbook__r.SecurityCode__c, stepRecords[0].Form__r.id, stepRecords[0].id );
          string ExportUrl = AH_UDC_ConfigHelper.GetString('AH_UDC_ExportUrl', '');
          displayWorkbook.ExportCsvUrl = ExportUrl.replace('{TOKEN}', StepToken).replace('{MODE}', 'CSV').replace('{STEP}', '*');
          displayWorkbook.ExportJsonUrl = ExportUrl.replace('{TOKEN}', StepToken).replace('{MODE}', 'JSON').replace('{STEP}', '*');

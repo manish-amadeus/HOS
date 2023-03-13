@@ -3,16 +3,16 @@
     <fullName>TotalTime24HrRollup__c</fullName>
     <businessOwnerUser>adavid.robinson@amadeus.com</businessOwnerUser>
     <businessStatus>Active</businessStatus>
-    <description>NICC-051009</description>
+    <description>NICC-051009; updated via NICC-057681</description>
     <externalId>false</externalId>
-    <inlineHelpText>This field shows the total Time elapsed for all Status tracking records attached, based on a 24 hour business day, unless the Status = Awaiting Information or Pending QA or any Closed status</inlineHelpText>
+    <inlineHelpText>This field shows the total Time elapsed for all Status tracking records attached, based on a 24 hour business day, unless the Status = Awaiting Information or any Closed status</inlineHelpText>
     <label>Total Time (24 hr, rollup summary)</label>
     <securityClassification>Internal</securityClassification>
     <summarizedField>Status_Tracking__c.Time_Elapsed_Hours_24hr_day__c</summarizedField>
     <summaryFilterItems>
         <field>Status_Tracking__c.Status_Name__c</field>
         <operation>notEqual</operation>
-        <value>Awaiting Information,Pending QA</value>
+        <value>Awaiting Information</value>
     </summaryFilterItems>
     <summaryFilterItems>
         <field>Status_Tracking__c.Status_Name__c</field>

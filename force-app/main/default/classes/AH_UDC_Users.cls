@@ -26,7 +26,7 @@ public without sharing class AH_UDC_Users {
       try
       {
          //Unit Test Force Exception
-         if (AH_UDC_ConfigHelper.GetBoolean('AH_UDC_UnitTestUDCUsersLoadingError', FALSE)) throw(new AH_UDC_Shared.UDCException(AH_UDC_Constants.UNIT_TEST_EXCEPTION_PREFIX + 'UDC Users Load'));
+         if (AH_UDC_ConfigHelper.GetBoolean('AH_UDC_UnitTestUDCUsersLoadingError', FALSE, true)) throw(new AH_UDC_Shared.UDCException(AH_UDC_Constants.UNIT_TEST_EXCEPTION_PREFIX + 'UDC Users Load'));
 
          GetPermissionSetAssignments();
       }
@@ -91,7 +91,7 @@ public without sharing class AH_UDC_Users {
          if (Test.isRunningTest() && isException == true) Integer i = 1 / 0;
 
          //Unit Test Force Exception
-         if (AH_UDC_ConfigHelper.GetBoolean('AH_UDC_UnitTestUDCUsersRevokeError', FALSE)) throw(new AH_UDC_Shared.UDCException(AH_UDC_Constants.UNIT_TEST_EXCEPTION_PREFIX + 'UDC Users Revoke'));
+         if (AH_UDC_ConfigHelper.GetBoolean('AH_UDC_UnitTestUDCUsersRevokeError', FALSE, true)) throw(new AH_UDC_Shared.UDCException(AH_UDC_Constants.UNIT_TEST_EXCEPTION_PREFIX + 'UDC Users Revoke'));
 
          //Check if User has the permission that will be revoked
          List<PermissionSetAssignment> existingForUser = [SELECT id
@@ -142,7 +142,7 @@ public without sharing class AH_UDC_Users {
          if (Test.isRunningTest() && isException == true) Integer i = 1 / 0;
 
          //Unit Test Force Exception
-         if (AH_UDC_ConfigHelper.GetBoolean('AH_UDC_UnitTestUDCUsersGrantError', FALSE)) throw(new AH_UDC_Shared.UDCException(AH_UDC_Constants.UNIT_TEST_EXCEPTION_PREFIX + 'UDC Users Grant'));
+         if (AH_UDC_ConfigHelper.GetBoolean('AH_UDC_UnitTestUDCUsersGrantError', FALSE, true)) throw(new AH_UDC_Shared.UDCException(AH_UDC_Constants.UNIT_TEST_EXCEPTION_PREFIX + 'UDC Users Grant'));
 
          //Check if User is already assigned to any UDC Permission Set; if so show a message that they must be removed first
          List<PermissionSetAssignment> existingForUser = [SELECT Assignee.id

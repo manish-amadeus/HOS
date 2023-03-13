@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Q_Creative_Request</fullName>
+    <columns>NAME</columns>
+    <columns>CREATED_DATE</columns>
+    <columns>Region_picklist__c</columns>
+    <columns>Account__c</columns>
+    <columns>Product__c</columns>
+    <columns>Request_Status__c</columns>
+    <columns>Designer__c</columns>
+    <filterScope>Queue</filterScope>
+    <filters>
+        <field>RECORDTYPE</field>
+        <operation>equals</operation>
+        <value>Request__c.Creative_Request</value>
+    </filters>
+    <label>Q-Creative</label>
+    <queue>Q_Creative</queue>
+    <sharedTo>
+        <allInternalUsers></allInternalUsers>
+    </sharedTo>
+</ListView>

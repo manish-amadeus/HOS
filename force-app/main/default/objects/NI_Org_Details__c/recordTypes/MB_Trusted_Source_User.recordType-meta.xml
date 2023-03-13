@@ -5,6 +5,36 @@
     <description>Used for MB S&amp;C Integration User records</description>
     <label>MB S&amp;C Integration User</label>
     <picklistValues>
+        <picklist>Digital_Marketing_Status__c</picklist>
+        <values>
+            <fullName>Active</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Inactive</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Digital_Marketing_Team__c</picklist>
+        <values>
+            <fullName>ASPAC</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Americas</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>EMEA</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>International</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
         <picklist>License_Type__c</picklist>
         <values>
             <fullName>Embedded</fullName>
@@ -20,6 +50,33 @@
         </values>
         <values>
             <fullName>Sales Cloud</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Optimization_Schedule__c</picklist>
+        <values>
+            <fullName>Annual</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Bi Annual</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Initial</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Monthly</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Quarterly</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>WPP</fullName>
             <default>false</default>
         </values>
     </picklistValues>
@@ -89,6 +146,124 @@
         </values>
         <values>
             <fullName>Libra</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Products__c</picklist>
+        <values>
+            <fullName>Annual SEO</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Blog</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Campaign Manager</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Content Boost</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Content Premium</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Content Pro</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Copywriting</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Facebook Booking Mask</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Facebook Contest</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Initial SEO</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Local Connect</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Local Premium</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Local Pro</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Multilingual SEO</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Quarterly SEO</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>SEO Essentials</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>SMO Premium</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>SMO Pro</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>SMO Pro%2B</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>SMO Toolbar</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Social Hub</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>WPP</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Web Analytics 360</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Web_Platform_Name__c</picklist>
+        <values>
+            <fullName>Galaxy - Custom</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Galaxy - Essential</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>HTB</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Standalone DM %28no website%29</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Weebly</fullName>
             <default>false</default>
         </values>
     </picklistValues>

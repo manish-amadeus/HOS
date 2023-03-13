@@ -43,6 +43,21 @@ public class AH_UDC_ConfigHelper_TEST
       AH_UDC_InitializationHelper.Initialize('TestClass');
       AH_UDC_InitializationHelper.Initialize('ConfigurationSettings');
 
+      List<User> listUsers = new List<User> ();
+
+      listUsers.add(AH_UDC_TestData.BuildUser(AH_UDC_Constants.PROFILE_DEFAULT_NAME_PSA_SF_LIGHTNING,
+                                              AH_UDC_Constants.PERMISSIONSET_DEFAULT_NAME_UDC_SYSTEM_ADMIN,
+                                              'ConfigHelperUDCSysAdmin', null, false));
+
+      User oCurrentUser = [SELECT Id FROM User WHERE Id = :UserInfo.getUserId()];
+      oCurrentUser.ContactId = null;
+
+      System.runAs(oCurrentUser) {
+         //AH_UDC_TestData.InsertWithRetries(listUsers);
+         insert listUsers;
+         AH_UDC_TestData.AddPermissionSetToUser(AH_UDC_Constants.PERMISSIONSET_DEFAULT_NAME_UDC_SYSTEM_ADMIN, listUsers[0].Id);
+      }
+
       //Add a setting
       AH_UDC_ConfigurationSetting__c cs1 = new AH_UDC_ConfigurationSetting__c(
                                                                               DisplayOrder__c = 1,
@@ -217,79 +232,111 @@ public class AH_UDC_ConfigHelper_TEST
 
    @isTest private static void TestPrefetchValues() {
       Test.startTest();
-      List<String> keys = new List<String> { TEST_CONFIG_KEY_1, TEST_CONFIG_KEY_2 };
-      Integer prefetched = AH_UDC_ConfigHelper.PrefetchValues(keys);
-      System.assertEquals(2, prefetched, 'Did not prefetch the expected number of values');
+      List<User> lstUser = [Select Id From User Where Email like '%ConfigHelperUDCSysAdmin%'];
+      System.assert(lstUser.size() > 0, 'UDC System Admin user was not created');
 
-      keys.add('Does not exist');
-      prefetched = AH_UDC_ConfigHelper.PrefetchValues(keys);
-      System.assertEquals(2, prefetched, 'Should still have only found two of the keys');
+      System.runAs(lstUser[0]) {
+         List<String> keys = new List<String> { TEST_CONFIG_KEY_1, TEST_CONFIG_KEY_2 };
+         Integer prefetched = AH_UDC_ConfigHelper.PrefetchValues(keys);
+         System.assertEquals(2, prefetched, 'Did not prefetch the expected number of values');
+
+         keys.add('Does not exist');
+         prefetched = AH_UDC_ConfigHelper.PrefetchValues(keys);
+         System.assertEquals(2, prefetched, 'Should still have only found two of the keys');
+      }
       Test.stopTest();
    }
 
    @isTest private static void TestPrefetchValuesWithSettingTypeTextArea() {
       Test.startTest();
-      List<String> keys = new List<String> { TEST_CONFIG_KEY_1_1, TEST_CONFIG_KEY_2_1 };
-      Integer prefetched = AH_UDC_ConfigHelper.PrefetchValues(keys);
-      System.assertEquals(2, prefetched, 'Did not prefetch the expected number of values');
+      List<User> lstUser = [Select Id From User Where Email like '%ConfigHelperUDCSysAdmin%'];
+      System.assert(lstUser.size() > 0, 'UDC System Admin user was not created');
 
-      keys.add('Does not exist');
-      prefetched = AH_UDC_ConfigHelper.PrefetchValues(keys);
-      System.assertEquals(2, prefetched, 'Should still have only found two of the keys');
+      System.runAs(lstUser[0]) {
+         List<String> keys = new List<String> { TEST_CONFIG_KEY_1_1, TEST_CONFIG_KEY_2_1 };
+         Integer prefetched = AH_UDC_ConfigHelper.PrefetchValues(keys);
+         System.assertEquals(2, prefetched, 'Did not prefetch the expected number of values');
+
+         keys.add('Does not exist');
+         prefetched = AH_UDC_ConfigHelper.PrefetchValues(keys);
+         System.assertEquals(2, prefetched, 'Should still have only found two of the keys');
+      }
       Test.stopTest();
    }
 
    @isTest private static void TestGetInteger() {
       Test.startTest();
-      Integer val = AH_UDC_ConfigHelper.GetInteger(TEST_CONFIG_KEY_3, - 1);
-      System.assertEquals(100, val, 'Did not get the expected value back from GetInteger()');
+      List<User> lstUser = [Select Id From User Where Email like '%ConfigHelperUDCSysAdmin%'];
+      System.assert(lstUser.size() > 0, 'UDC System Admin user was not created');
+
+      System.runAs(lstUser[0]) {
+         Integer val = AH_UDC_ConfigHelper.GetInteger(TEST_CONFIG_KEY_3, - 1);
+         System.assertEquals(100, val, 'Did not get the expected value back from GetInteger()');
+      }
       Test.stopTest();
    }
 
    @isTest private static void TestGetBoolean() {
       Test.startTest();
-      Boolean val = AH_UDC_ConfigHelper.GetBoolean(TEST_CONFIG_KEY_4, false);
-      System.assertEquals(true, val, 'Did not get the expected value back from GetBoolean()');
+      List<User> lstUser = [Select Id From User Where Email like '%ConfigHelperUDCSysAdmin%'];
+      System.assert(lstUser.size() > 0, 'UDC System Admin user was not created');
+
+      System.runAs(lstUser[0]) {
+         Boolean val = AH_UDC_ConfigHelper.GetBoolean(TEST_CONFIG_KEY_4, false);
+         System.assertEquals(true, val, 'Did not get the expected value back from GetBoolean()');
+      }
       Test.stopTest();
    }
 
    @isTest private static void TestUpdateValue() {
       Test.startTest();
-      AH_UDC_ConfigHelper.UpdateValue(TEST_CONFIG_KEY_3, '150');
-      System.assertEquals('150',(String) AH_UDC_ConfigHelper.GetValue(TEST_CONFIG_KEY_3), 'Get the expected updated value back from UpdateValue()');
+      List<User> lstUser = [Select Id From User Where Email like '%ConfigHelperUDCSysAdmin%'];
+      System.assert(lstUser.size() > 0, 'UDC System Admin user was not created');
+
+      System.runAs(lstUser[0]) {
+         AH_UDC_ConfigHelper.UpdateValue(TEST_CONFIG_KEY_3, '150');
+         System.assertEquals('150', (String) AH_UDC_ConfigHelper.GetValue(TEST_CONFIG_KEY_3), 'Get the expected updated value back from UpdateValue()');
+      }
       Test.stopTest();
    }
 
    @isTest private static void TestCache() {
       Test.startTest();
+      List<User> lstUser = [Select Id From User Where Email like '%ConfigHelperUDCSysAdmin%'];
+      System.assert(lstUser.size() > 0, 'UDC System Admin user was not created');
 
-      //Add a value and verify it can be retrieved
-      AH_UDC_ConfigHelper.SetValue(TEST_KEY, (Object) TEST_CONFIG_VALUE_A);
-      System.assertEquals(true, AH_UDC_ConfigHelper.ContainsKey(TEST_KEY), 'Expected the cache to have a value for "' + TEST_KEY + '"');
-      string sGetValue = (string) AH_UDC_ConfigHelper.GetValue(TEST_KEY);
-      System.assertEquals(TEST_CONFIG_VALUE_A, (string) AH_UDC_ConfigHelper.GetValue(TEST_KEY), 'Retrieval of Value for "' + TEST_KEY + '" failed.');
+      System.runAs(lstUser[0]) {
+         //Add a value and verify it can be retrieved
+         AH_UDC_ConfigHelper.SetValue(TEST_KEY, (Object) TEST_CONFIG_VALUE_A);
+         System.assertEquals(true, AH_UDC_ConfigHelper.ContainsKey(TEST_KEY), 'Expected the cache to have a value for "' + TEST_KEY + '"');
+         string sGetValue = (string) AH_UDC_ConfigHelper.GetValue(TEST_KEY);
+         System.assertEquals(TEST_CONFIG_VALUE_A, (string) AH_UDC_ConfigHelper.GetValue(TEST_KEY), 'Retrieval of Value for "' + TEST_KEY + '" failed.');
 
-      // Change the value assigned to the key and verify
-      AH_UDC_ConfigHelper.SetValue(TEST_KEY, (Object) TEST_CONFIG_VALUE_B);
-      System.assertEquals(TEST_CONFIG_VALUE_B, (string) AH_UDC_ConfigHelper.GetValue(TEST_KEY), 'Retrieval of Value_2 for "' + TEST_KEY + '" failed.');
+         // Change the value assigned to the key and verify
+         AH_UDC_ConfigHelper.SetValue(TEST_KEY, (Object) TEST_CONFIG_VALUE_B);
+         System.assertEquals(TEST_CONFIG_VALUE_B, (string) AH_UDC_ConfigHelper.GetValue(TEST_KEY), 'Retrieval of Value_2 for "' + TEST_KEY + '" failed.');
 
-      // Remove the value if it was previously cached, and verify
-      AH_UDC_ConfigHelper.RemoveKey(TEST_KEY);
-      System.assertEquals(null, (Boolean) AH_UDC_ConfigHelper.GetValue(TEST_KEY), 'Expected the cache to not have a value for "' + TEST_KEY + '"');
+         // Remove the value if it was previously cached, and verify
+         AH_UDC_ConfigHelper.RemoveKey(TEST_KEY);
+         System.assertEquals(null, (Boolean) AH_UDC_ConfigHelper.GetValue(TEST_KEY), 'Expected the cache to not have a value for "' + TEST_KEY + '"');
 
-      System.assertEquals('DefVal', (string) AH_UDC_ConfigHelper.GetValue('NoSuchKey', 'DefVal'), 'Retrieval of default value when key was not found, failed.');
+         System.assertEquals('DefVal', (string) AH_UDC_ConfigHelper.GetValue('NoSuchKey', 'DefVal'), 'Retrieval of default value when key was not found, failed.');
 
-      AH_UDC_ConfigHelper.FlushCache();
+         AH_UDC_ConfigHelper.FlushCache();
+      }
 
       Test.stopTest();
    }
 
    @isTest private static void TestReplaceParametersInValue() {
       Test.startTest();
+      List<User> lstUser = [Select Id From User Where Email like '%ConfigHelperUDCSysAdmin%'];
+      System.assert(lstUser.size() > 0, 'UDC System Admin user was not created');
 
-      string url = AH_UDC_ConfigHelper.GetString('PoweredBy', 'MissingParameter');
-      System.assertEquals('Powered by: https://www.amadeus-hospitality.com/', url, 'Value that was returned did not contain the merged data');
-
+      System.runAs(lstUser[0]) {
+         string url = AH_UDC_ConfigHelper.GetString('PoweredBy', 'MissingParameter');
+         System.assertEquals('Powered by: https://www.amadeus-hospitality.com/', url, 'Value that was returned did not contain the merged data');
+      }
       Test.stopTest();
    }
 }

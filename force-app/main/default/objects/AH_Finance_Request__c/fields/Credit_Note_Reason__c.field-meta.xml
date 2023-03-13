@@ -4,7 +4,8 @@
     <businessOwnerGroup>DEPT_Finance</businessOwnerGroup>
     <businessStatus>Active</businessStatus>
     <description>Updated per NICC-037379.  Field Label changed from &quot;Credit Note Reason&quot; to &quot;Reason&quot;
-Updates to values, NICC-042151.</description>
+Updates to values, NICC-042151.
+NICC-058517</description>
     <externalId>false</externalId>
     <inlineHelpText>The business reason for the Finance Request</inlineHelpText>
     <label>Reason</label>
@@ -104,6 +105,16 @@ Updates to values, NICC-042151.</description>
                 <fullName>Overpayment</fullName>
                 <default>false</default>
                 <label>Overpayment</label>
+            </value>
+            <value>
+                <fullName>RVP Discretionary Credit</fullName>
+                <default>false</default>
+                <label>RVP Discretionary Credit</label>
+            </value>
+            <value>
+                <fullName>SLTC Cleanup</fullName>
+                <default>false</default>
+                <label>SLTC Cleanup</label>
             </value>
             <value>
                 <fullName>User Reduction</fullName>

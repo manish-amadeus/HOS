@@ -16,6 +16,21 @@
         <includeRecordsOwnedByAll>false</includeRecordsOwnedByAll>
     </sharingCriteriaRules>
     <sharingCriteriaRules>
+        <fullName>AH_PSEscalationsCases</fullName>
+        <accessLevel>Edit</accessLevel>
+        <description>NICC-064612; Shares cases with a record type of PS Escalations Cases</description>
+        <label>PS Escalations Cases</label>
+        <sharedTo>
+            <roleAndSubordinatesInternal>ClientServices</roleAndSubordinatesInternal>
+        </sharedTo>
+        <criteriaItems>
+            <field>RecordTypeId</field>
+            <operation>equals</operation>
+            <value>PS Escalations Case</value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>false</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
+    <sharingCriteriaRules>
         <fullName>CRS_Incident_Non_AH_Employees</fullName>
         <accessLevel>Read</accessLevel>
         <description>This sharing rule shares Cases that have the CRS Incident record type with the &quot;CRS Cases: Amadeus Non-AH Employee&quot; public group.</description>

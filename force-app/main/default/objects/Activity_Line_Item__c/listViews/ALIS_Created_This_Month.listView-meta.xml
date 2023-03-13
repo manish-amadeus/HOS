@@ -3,6 +3,9 @@
     <fullName>ALIS_Created_This_Month</fullName>
     <columns>NAME</columns>
     <columns>Billing_Contract__c</columns>
+    <columns>CREATEDBY_USER</columns>
+    <columns>Payment_Terms__c</columns>
+    <columns>CREATED_DATE</columns>
     <columns>Account_Name__c</columns>
     <columns>Contract_Start_Date__c</columns>
     <columns>Contract_End_Date__c</columns>
@@ -10,7 +13,6 @@
     <columns>Total_Invoiced_to_Date__c</columns>
     <columns>Total_Credited_to_Date__c</columns>
     <columns>Renewal_Processed__c</columns>
-    <columns>CREATED_DATE</columns>
     <columns>Product__c</columns>
     <filterScope>Everything</filterScope>
     <filters>
@@ -19,13 +21,14 @@
         <value>THIS_MONTH</value>
     </filters>
     <filters>
-        <field>Contract_Start_Date__c</field>
-        <operation>notEqual</operation>
+        <field>Origin__c</field>
+        <operation>equals</operation>
+        <value>New Order</value>
     </filters>
     <filters>
-        <field>Contract_Start_Date__c</field>
-        <operation>lessThan</operation>
-        <value>5/20/2020</value>
+        <field>Revenue_Category__c</field>
+        <operation>equals</operation>
+        <value>Subscription</value>
     </filters>
     <label>ALIS Created This Month</label>
     <language>en_US</language>

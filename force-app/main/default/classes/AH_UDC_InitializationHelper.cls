@@ -35,6 +35,9 @@ public with sharing class AH_UDC_InitializationHelper implements Callable {
          when 'SchedulePurgeJob' {
             return SchedulePurgeJob((String) args.get('mode'));
          }
+         when 'ScheduleWorkbookSentEmailJob' {
+            return ScheduleWorkbookSentEmailJob((String) args.get('mode'));
+         }
          when else {
             throw new ExtensionMalformedCallException('Method not implemented');
          }
@@ -75,7 +78,9 @@ public with sharing class AH_UDC_InitializationHelper implements Callable {
          string PageName = 'Amadeus Technical Support Settings';
 
          string PageSectionName = 'Troubleshooting';
-         insert new AH_UDC_ConfigurationSetting__c(Name = AH_UDC_LogHelper.CONFIG_KEY_LOG_DEBUG_MESSAGES, SettingType__c = 'Checkbox', AH_UDC__c = true, PageGroupName__c = PageGroupName, PageName__c = PageName, PageSectionName__c = PageSectionName, DisplayOrder__c = 1, SettingDisplayName__c = 'Enable System.Debug logging', SettingHelpText__c = 'Turns on advanced troubleshooting logging, when DEBUG LOGGING in Salesforce is enabled for one or more users. This will generate large log files and should be used sparingly', SettingValue__c = '', SettingValueDefault__c = 'FALSE', SettingValueDomain__c = '', UsedBy__c = '', OrgName__c = orgName);
+         List<AH_UDC_ConfigurationSetting__c> csSettings = [select id from AH_UDC_ConfigurationSetting__c where Name = :AH_UDC_LogHelper.CONFIG_KEY_LOG_DEBUG_MESSAGES];
+         if (csSettings.size() ==0) insert new AH_UDC_ConfigurationSetting__c(Name = AH_UDC_LogHelper.CONFIG_KEY_LOG_DEBUG_MESSAGES, SettingType__c = 'Checkbox', AH_UDC__c = true, PageGroupName__c = PageGroupName, PageName__c = PageName, PageSectionName__c = PageSectionName, DisplayOrder__c = 1, SettingDisplayName__c = 'Enable System.Debug logging', SettingHelpText__c = 'Turns on advanced troubleshooting logging, when DEBUG LOGGING in Salesforce is enabled for one or more users. This will generate large log files and should be used sparingly', SettingValue__c = '', SettingValueDefault__c = 'FALSE', SettingValueDomain__c = '', UsedBy__c = '', OrgName__c = orgName);
+         AH_UDC_ConfigHelper.SetValue(AH_UDC_LogHelper.CONFIG_KEY_LOG_DEBUG_MESSAGES,FALSE);
       }
 
       if (mode == 'TestClass') {
@@ -104,15 +109,6 @@ public with sharing class AH_UDC_InitializationHelper implements Callable {
       if (String.isEmpty(mode) || mode == 'All' || mode == 'InitFormTokenCert') {
          modeFound = true;
          if (!AH_UDC_Shared.InitializeFormTokenEncryptionKey()) rStatus = false;
-      }
-
-      //This will schedule the job if it's not already scheduled
-      if (!Test.isRunningTest())
-      {
-         if (String.isEmpty(mode) || mode == 'All' || mode == 'SchedulePurgeJob') {
-            modeFound = true;
-            SchedulePurgeJob('add');
-         }
       }
 
       if (!modeFound) return false;
@@ -215,7 +211,7 @@ public with sharing class AH_UDC_InitializationHelper implements Callable {
          PageSectionName = 'CreateCommunityUser';
          defaultSettings.add(newCS('AH_UDC_CreateCommunityUserUrl', 'String', PageGroupName, PageName, PageSectionName, 2, 'Chatter Url', 'This is the URL of the .net Core API for Community User Controller', '', 'https://staging-mbrfp.meetingbroker.com/AmadeusHospitality/UnifiedDataCollection/FormToSalesforceUDCSB/CommunityUser', '', '', orgName));
          defaultSettings.add(newCS('AH_UDC_CreateCommunityUserTimeout', 'Integer', PageGroupName, PageName, PageSectionName, 3, 'Timeout for the Community User URL in Seconds', 'This determines how long the call to the API will wait.', '', '120', '1\r\n120', '', orgName));
-         
+
          PageSectionName = 'Send Workbook - Chatter Notification Settings';
          defaultSettings.add(newCS('AH_UDC_WorkbookAccessedDefaultValue', 'Checkbox', PageGroupName, PageName, PageSectionName, 1, 'When Workbook Accessed', 'This will determine if chatter notification need to be send when workbook is accessed by the user on community portal.', '', 'true', '', '', orgName));
          defaultSettings.add(newCS('AH_UDC_WorkbookCompletedDefaultValue', 'Checkbox', PageGroupName, PageName, PageSectionName, 2, 'When Workbook Completed', 'This will determine if chatter notification need to be send when workbook is completed by the user on community portal.', '', 'true', '', '', orgName));
@@ -237,7 +233,7 @@ public with sharing class AH_UDC_InitializationHelper implements Callable {
          defaultSettings.add(newCS('AH_UDC_ViewWorkbookTokenEncryption', 'Checkbox', PageGroupName, PageName, PageSectionName, 6, 'Encrypt Token', 'When checked the Token sent to the Form will be encrypted', '', 'true', '', '', orgName));
          defaultSettings.add(newCS('AH_UDC_ViewWorkbookDisplayConsoleLogMessages', 'Checkbox', PageGroupName, PageName, PageSectionName, 7, 'Display Console Log Messages', 'When checked console.log messages will be written to the browser', '', 'false', '', '', orgName));
          defaultSettings.add(newCS('AH_UDC_ViewWorkbookStartVideo', 'String', PageGroupName, PageName, PageSectionName, 8, 'Start Page Video', 'This is the HTML to the video that is shown on the View Workbook Start page.', '', '&nbsp;', '', '', orgName));
-         
+
          PageSectionName = 'File Upload Settings';
          defaultSettings.add(newCS('AH_UDC_FileUploadMaximumFileCount', 'Integer', PageGroupName, PageName, PageSectionName, 1, 'Maximum number of files allowed for upload at one time', 'This determines how many files a user is allowed to select for upload.', '', '5', '1\r\n24', '', orgName));
          defaultSettings.add(newCS('AH_UDC_FileUploadAllowedExtensions', 'String', PageGroupName, PageName, PageSectionName, 2, 'Allowed extensions for file upload', 'This is a comma separatead list of the allowed file extensions.', '', 'TXT, BMP, JPEG, PNG,PDF, XLS, DOC, DOCX, XLSX, JPG, MSG, PPT, PPTX, GIF, SVG, EPS, CDR, ZIP', '', '', orgName));
@@ -249,11 +245,21 @@ public with sharing class AH_UDC_InitializationHelper implements Callable {
          defaultSettings.add(newCS('AH_UDC_PurgeAllExceptMostRecentResponseForCompletedWorkbooks', 'Checkbox', PageGroupName, PageName, PageSectionName, 2, 'Purge all except most recent response for Completed/Locked Workbooks', 'When checked, purge all except most recent response for Completed/Locked workbooks. Setting will be used in scheduler job.', '', 'true', '', '', orgName));
          defaultSettings.add(newCS('AH_UDC_PurgeResponseAfterNumberOfDaysForCompletedLockedWorkbooks', 'Integer', PageGroupName, PageName, PageSectionName, 3, 'Number of days after Workbook is locked until purged', 'This determines number of days after Workbook is locked until purged. Setting will be used in scheduler job.', '', '3', '1\r\n100', '', orgName)); //max 100 days
          defaultSettings.add(newCS('AH_UDC_NumberOfPriorWorkbookStepSentResponsesToKeep', 'Integer', PageGroupName, PageName, PageSectionName, 4, 'Number of prior Workbook Step Sent Responses to keep', 'This determines number of Prior Workbook Step Sent Responses to keep. Setting will be used in scheduler job.', '', '3', '2\r\n10', '', orgName)); //default value = 3, max 10 
-         defaultSettings.add(newCS('AH_UDC_PurgeBatchSize', 'Integer', PageGroupName, PageName, PageSectionName, 5, 'Number Records in each Purge Batch', 'This determines number of decords that will be sent to each Batch execution; this needs to be set appropriately to avoid governor issues.', '', '10', '1\r\n200', '', orgName));
-         defaultSettings.add(newCS('AH_UDC_PurgeResponseBatchSize', 'Integer', PageGroupName, PageName, PageSectionName, 6, 'Number Records in each Purge Response Batch', 'This determines number of decords that will be sent to each Batch execution; this needs to be set appropriately to avoid governor issues.', '', '10', '1\r\n200', '', orgName));
+         defaultSettings.add(newCS('AH_UDC_PurgeBatchSize', 'Integer', PageGroupName, PageName, PageSectionName, 5, 'Number Records in each Purge Batch', 'This determines number of records that will be sent to each Batch execution; this needs to be set appropriately to avoid governor issues.', '', '10', '1\r\n200', '', orgName));
+         defaultSettings.add(newCS('AH_UDC_PurgeResponseBatchSize', 'Integer', PageGroupName, PageName, PageSectionName, 6, 'Number Records in each Purge Response Batch', 'This determines number of records that will be sent to each Batch execution; this needs to be set appropriately to avoid governor issues.', '', '10', '1\r\n200', '', orgName));
          defaultSettings.add(newCS('AH_UDC_PurgeRemoveScheduledJob', 'Method', PageGroupName, PageName, PageSectionName, 7, 'Remove Scheduled Job', 'This will remove the scheduled data maintenance job.', 'AH_UDC_InitializationHelper;SchedulePurgeJob;{"mode":"Remove"}', '', '', '', orgName));
          defaultSettings.add(newCS('AH_UDC_PurgeCron', 'String', PageGroupName, PageName, PageSectionName, 8, 'Purge Job CRON setting', 'This controls when the Purge job will run. NOTE: You must remove the job and reinitialize in order for this setting to take effect.', '', '0 0 2 * * ?', '', '', orgName));
          defaultSettings.add(newCS('AH_UDC_PurgeVerify', 'Method', PageGroupName, PageName, PageSectionName, 9, 'Verify Scheduled Job', 'This will verify the scheduled data maintenance job is scheduled and when it will run.', 'AH_UDC_InitializationHelper;SchedulePurgeJob;{"mode":"Verify"}', '', '', '', orgName));
+
+         PageSectionName = 'Workbook Sent Email';
+         defaultSettings.add(newCS('AH_UDC_WorkbookSentEmailEnabled', 'Checkbox', PageGroupName, PageName, PageSectionName, 1, 'Workbook Sent Email Enabled', 'This determines if the Workbook Sent Email job will send emails when the scheduled job runs; this relies on the job being sceduled.', '', 'true', '', '', orgName));
+         defaultSettings.add(newCS('AH_UDC_WorkbookSentEmailOrgWideEmail', 'String', PageGroupName, PageName, PageSectionName, 2, 'Org Wide Email', 'This is the email address setup in Organization-Wide Addresses.', '', 'udcservice@amadeus.com', '', '', orgName));
+         defaultSettings.add(newCS('AH_UDC_WorkbookSentEmailBatchSize', 'Integer', PageGroupName, PageName, PageSectionName, 3, 'Number Records in each Workbook Sent Email Batch', 'This determines number of records that will be sent to each Batch execution; this needs to be set appropriately to avoid governor issues.', '', '10', '1\r\n200', '', orgName));
+         defaultSettings.add(newCS('AH_UDC_WorkbookSentEmailRemoveScheduledJob', 'Method', PageGroupName, PageName, PageSectionName, 4, 'Remove Scheduled Job', 'This will remove the scheduled job.', 'AH_UDC_InitializationHelper;ScheduleWorkbookSentEmailJob;{"mode":"Remove"}', '', '', '', orgName));
+         defaultSettings.add(newCS('AH_UDC_WorkbookSentEmailCron', 'String', PageGroupName, PageName, PageSectionName, 5, 'Purge Job CRON setting', 'This controls when the job will run. NOTE: You must remove the job and reinitialize in order for this setting to take effect.', '', '0 0 2 * * ?', '', '', orgName));
+         defaultSettings.add(newCS('AH_UDC_WorkbookSentEmailAdd', 'Method', PageGroupName, PageName, PageSectionName, 6, 'Add Scheduled Job', 'This will add the job if it is not already scheduled.', 'AH_UDC_InitializationHelper;ScheduleWorkbookSentEmailJob;{"mode":"Add"}', '', '', '', orgName));
+         defaultSettings.add(newCS('AH_UDC_WorkbookSentEmailVerify', 'Method', PageGroupName, PageName, PageSectionName, 7, 'Verify Scheduled Job', 'This will verify the job is scheduled and when it will run.', 'AH_UDC_InitializationHelper;ScheduleWorkbookSentEmailJob;{"mode":"Verify"}', '', '', '', orgName));
+         defaultSettings.add(newCS('AH_UDC_WorkbookSentEmailForceRun', 'Method', PageGroupName, PageName, PageSectionName, 8, 'Run Job', 'This will force the Workbook Sent Email job to run.', 'AH_UDC_InitializationHelper;ScheduleWorkbookSentEmailJob;{"mode":"Run"}', '', '', '', orgName));
 
          PageSectionName = 'Amadeus Custom Form Settings';
          defaultSettings.add(newCS('AH_UDC_APIUrl', 'String', PageGroupName, PageName, PageSectionName, 1, 'API URL to get/save form response data', 'This is the URL which will be used to get/save form response data.', '', 'https://staging-mbrfp.meetingbroker.com/AmadeusHospitality/UnifiedDataCollection/FormToSalesforceUDCSB/AmadeusForm/', '', '', orgName));
@@ -298,7 +304,7 @@ public with sharing class AH_UDC_InitializationHelper implements Callable {
             defaultSettings.add(newCS('AH_UDC_UnitTestUDCUsersRevokeError', 'Checkbox', PageGroupName, PageName, PageSectionName, 1, 'Force UDC Users Revoke Error', 'Forces an error on the UDC Users page when Revoking a permission set.', '', 'FALSE', 'TRUE\r\nFALSE', '', orgName));
 
             PageSectionName = 'Community User';
-            defaultSettings.add(newCS('AH_UDC_ChangeCommunityUserProfile', 'Checkbox', PageGroupName, PageName, PageSectionName, 1, 'Force Community User Profile Change Error', 'Forces an error anywhere in the code that a Community User\'s Profile is being changed (e.g. When a new Community User confirms opt into Chatter)', '', 'FALSE', 'TRUE\r\nFALSE', '', orgName));
+            defaultSettings.add(newCS('AH_UDC_UnitTestChangeCommunityUserProfile', 'Checkbox', PageGroupName, PageName, PageSectionName, 1, 'Force Community User Profile Change Error', 'Forces an error anywhere in the code that a Community User\'s Profile is being changed (e.g. When a new Community User confirms opt into Chatter)', '', 'FALSE', 'TRUE\r\nFALSE', '', orgName));
 
             PageSectionName = 'ChangeUserProfileToChatter';
             defaultSettings.add(newCS('AH_UDC_UnitTestSetCommunityUserProfileHttpNon200Error', 'Checkbox', PageGroupName, PageName, PageSectionName, 1, 'Force Community User Profile Change HTTP Error', 'Forces an error anywhere in the code that a Community User\'s Profile is being changed (e.g. When a new Community User confirms opt into Chatter)', '', 'FALSE', 'TRUE\r\nFALSE', '', orgName));
@@ -307,6 +313,9 @@ public with sharing class AH_UDC_InitializationHelper implements Callable {
             PageSectionName = 'Send Workbook';
             defaultSettings.add(newCS('AH_UDC_UnitTestSendWorkbookError', 'Checkbox', PageGroupName, PageName, PageSectionName, 1, 'Force Send Workbook Error', 'Forces an error on the sending of a Workbook', '', 'FALSE', 'TRUE\r\nFALSE', '', orgName));
             defaultSettings.add(newCS('AH_UDC_UnitTestForceSendWorkbookCreateCommunityUserException', 'Checkbox', PageGroupName, PageName, PageSectionName, 1, 'Force Send Workbook Create Community User Exception', 'Forces an exception on the creating of the community user', '', 'FALSE', 'TRUE\r\nFALSE', '', orgName));
+
+            PageSectionName = 'Release Workbook';
+            defaultSettings.add(newCS('AH_UDC_UnitTestForceReleaseWorkbookSendToContactsException', 'Checkbox', PageGroupName, PageName, PageSectionName, 1, 'Force Release Workbook Send to Contacts Exception', 'Forces an exception on the creating of the community user and sending of emails', '', 'FALSE', 'TRUE\r\nFALSE', '', orgName));
 
             PageSectionName = 'View Help';
             defaultSettings.add(newCS('AH_UDC_UnitTestForceViewHelpError', 'Checkbox', PageGroupName, PageName, PageSectionName, 1, 'Force View Help Load Error', 'Forces an error on the load of the View Help page', '', 'FALSE', 'TRUE\r\nFALSE', '', orgName));
@@ -323,6 +332,10 @@ public with sharing class AH_UDC_InitializationHelper implements Callable {
             PageSectionName = 'Workbook Archive';
             defaultSettings.add(newCS('AH_UDC_UnitTestForceArchivePageLoadError', 'Checkbox', PageGroupName, PageName, PageSectionName, 1, 'Force Archive Page Load Error', 'Forces an error during Archive page load', '', 'FALSE', 'TRUE\r\nFALSE', '', orgName));
             defaultSettings.add(newCS('AH_UDC_UnitTestForceArchiveError', 'Checkbox', PageGroupName, PageName, PageSectionName, 2, 'Force Archive Error', 'Forces an error during archive', '', 'FALSE', 'TRUE\r\nFALSE', '', orgName));
+
+            PageSectionName = 'Custom Lookup Dialog';
+            defaultSettings.add(newCS('AH_UDC_UnitTestForceCustomLookupDialogPageLoadError', 'Checkbox', PageGroupName, PageName, PageSectionName, 1, 'Force Custom Lookup Dialog Page Load Error', 'Forces an error during Custom Lookup Dialog page load', '', 'FALSE', 'TRUE\r\nFALSE', '', orgName));
+            defaultSettings.add(newCS('AH_UDC_UnitTestForceProjectLookupDialogeError', 'Checkbox', PageGroupName, PageName, PageSectionName, 2, 'Force Project Lookup Dialog Error', 'Forces an error during Project Lookup  Dialog', '', 'FALSE', 'TRUE\r\nFALSE', '', orgName));
          }
 
          //Create map from default settings list
@@ -404,7 +417,6 @@ public with sharing class AH_UDC_InitializationHelper implements Callable {
 
          AH_UDC_LogHelper.Log('Message', 'Initializing AH_UDC Configuration Settings', AH_UDC_LogHelper.getClassAndMethodName(new DmlException()),
                               'Initialize AH_UDC_ConfigurationSettings Completed');
-
          return true;
       }
       catch(Exception exc) {
@@ -435,7 +447,8 @@ public with sharing class AH_UDC_InitializationHelper implements Callable {
    }
 
    Private static string SchedulePurgeJob(string mode) {
-      List<CronTrigger> jobs = AH_UDC_SystemContext.query('SELECT Id,NextFireTime FROM CronTrigger where cronjobdetail.name = \'' + AH_UDC_Constants.Purge_Scheduled_Job_Name + '\'');
+      string jobName = AH_UDC_Constants.PURGE_SCHEDULED_JOB_NAME + (Test.isRunningTest()?'_TEST':'');
+      List<CronTrigger> jobs = AH_UDC_SystemContext.query('SELECT Id,NextFireTime FROM CronTrigger where cronjobdetail.name = \'' + jobName + '\'');
       if (mode.toLowerCase() == 'remove') {
          if (jobs.size() == 0) return 'The Purge job is currently not scheduled';
          System.abortJob(jobs[0].id);
@@ -444,13 +457,42 @@ public with sharing class AH_UDC_InitializationHelper implements Callable {
       if (mode.toLowerCase() == 'add') {
          if (jobs.size() > 0) return 'The Purge job is already scheduled';
          String cronStr = AH_UDC_ConfigHelper.GetString('AH_UDC_PurgeCron', '0 0 2 * * ?'); //Default is class runs every day at 2 AM
-         String jobID = System.schedule(AH_UDC_Constants.Purge_Scheduled_Job_Name, cronStr, new AH_UDC_DataMaintenance_Schedule());
-         return 'Scheduled Purge job was removed';
+         String jobID = System.schedule(jobName, cronStr, new AH_UDC_DataMaintenance_Schedule());
+         return 'Scheduled Purge job was added';
       }
       if (mode.toLowerCase() == 'verify') {
          if (jobs.size() == 0) return 'The Purge job is currently not scheduled';
          return 'Scheduled Purge job will run at: ' + jobs[0].NextFireTime.format();
       }
       return 'SchedulePurgeJob, unkown mode: ' + mode;
+   }
+
+   Private static string ScheduleWorkbookSentEmailJob(string mode) {
+      string jobName = AH_UDC_Constants.WORKBOOK_SENT_EMAIL_SCHEDULED_JOB_NAME + (Test.isRunningTest()?'_TEST':'');
+      List<CronTrigger> jobs = AH_UDC_SystemContext.query('SELECT Id,NextFireTime FROM CronTrigger where cronjobdetail.name = \'' + jobName + '\'');
+      if (mode.toLowerCase() == 'remove') {
+         if (jobs.size() == 0) return 'The Workbook Sent Email job is currently not scheduled';
+         System.abortJob(jobs[0].id);
+         return 'Scheduled Workbook Sent Email job was removed';
+      }
+      if (mode.toLowerCase() == 'add') {
+         if (jobs.size() > 0) return 'The Workbook Sent Email job is already scheduled';
+         String cronStr = AH_UDC_ConfigHelper.GetString('AH_UDC_WorkbookSentEmailCron', '0 0 2 * * ?'); //Default is class runs every day at 2 AM
+         String jobID = System.schedule(jobName, cronStr, new AH_UDC_WorkbookSentEmail_Schedule());
+         return 'Scheduled Workbook Sent Email job was added';
+      }
+      if (mode.toLowerCase() == 'verify') {
+         if (jobs.size() == 0) return 'The Workbook Sent Email job is currently not scheduled';
+         return 'Scheduled Workbook Sent Email job will run at: ' + jobs[0].NextFireTime.format();
+      }
+      if (mode.toLowerCase() == 'run') {
+         //Get the size of the batch to run
+         Integer MAX_BATCH_SIZE = AH_UDC_ConfigHelper.GetInteger('AH_UDC_WorkbookSentEmailBatchSize',10);
+         //Start the Batch
+         AH_UDC_WorkbookSentEmail_Batch wbSentEmailBatch = new AH_UDC_WorkbookSentEmail_Batch();
+         database.executebatch(wbSentEmailBatch, MAX_BATCH_SIZE);
+         return 'Workbook Sent Email job will run now. Please use the log to verify when the job is finished.';
+      }
+      return 'ScheduleWorkbookSentEmailJob, unkown mode: ' + mode;
    }
 }

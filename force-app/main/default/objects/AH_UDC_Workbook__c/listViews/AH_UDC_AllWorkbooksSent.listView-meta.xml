@@ -2,13 +2,14 @@
 <ListView xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>AH_UDC_AllWorkbooksSent</fullName>
     <columns>NAME</columns>
+    <columns>RelatedToDocName__c</columns>
     <columns>Product__c</columns>
     <columns>CREATEDBY_USER</columns>
     <columns>SentDate__c</columns>
     <columns>SentStatus__c</columns>
     <columns>CompletedDate__c</columns>
     <columns>WorkbookSentDueDate__c</columns>
-    <columns>RelatedToDocName__c</columns>
+    <columns>PercentageComplete__c</columns>
     <filterScope>Everything</filterScope>
     <filters>
         <field>RECORDTYPE</field>
@@ -16,4 +17,5 @@
         <value>AH_UDC_Workbook__c.AH_UDC_WorkbookSent</value>
     </filters>
     <label>All Workbooks Sent</label>
+    <language>en_US</language>
 </ListView>

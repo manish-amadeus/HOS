@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>TotalNumberOfSteps__c</fullName>
+    <description>Rollup Summary of total number of steps associated with the workbook</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Rollup Summary of total number of steps associated with the workbook</inlineHelpText>
+    <label>Total Number of Steps</label>
+    <summaryFilterItems>
+        <field>AH_UDC_WorkbookStep__c.RecordTypeId</field>
+        <operation>equals</operation>
+        <value>Workbook Step Sent</value>
+    </summaryFilterItems>
+    <summaryForeignKey>AH_UDC_WorkbookStep__c.Workbook__c</summaryForeignKey>
+    <summaryOperation>count</summaryOperation>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Summary</type>
+</CustomField>

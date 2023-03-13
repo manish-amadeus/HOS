@@ -2,10 +2,10 @@
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Manager__c</fullName>
     <deleteConstraint>SetNull</deleteConstraint>
-    <description>Support Rep&apos;s manager</description>
+    <description>Report To</description>
     <externalId>false</externalId>
-    <inlineHelpText>Please choose the Support Rep&apos;s manager</inlineHelpText>
-    <label>Manager</label>
+    <inlineHelpText>Report To</inlineHelpText>
+    <label>Reports to</label>
     <referenceTo>User</referenceTo>
     <relationshipName>Support_Tier_Designations</relationshipName>
     <required>false</required>

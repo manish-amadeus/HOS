@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>RES_iH_Request_Type__c</fullName>
+    <businessOwnerUser>lorie.park@amadeus.com</businessOwnerUser>
+    <businessStatus>Active</businessStatus>
+    <description>NICC-057703; update label per NICC-062907; This field is used to populate a picklist choice set in the Flow called &quot;Request - Creative Team Intake Form&quot;. DO NOT add values to this list without confirmation from Creative Team first.</description>
+    <externalId>false</externalId>
+    <label>RES/iH Request</label>
+    <required>false</required>
+    <securityClassification>Internal</securityClassification>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>MultiselectPicklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Booking Engine Look and Feel (BE L&amp;F)</fullName>
+                <default>false</default>
+                <label>Booking Engine Look and Feel (BE L&amp;F)</label>
+            </value>
+            <value>
+                <fullName>Basic Email Wrapper</fullName>
+                <default>false</default>
+                <label>Basic Email Wrapper</label>
+            </value>
+            <value>
+                <fullName>Custom Email</fullName>
+                <default>false</default>
+                <label>Custom Email</label>
+            </value>
+            <value>
+                <fullName>Area Search Mask (ASM)</fullName>
+                <default>false</default>
+                <label>Area Search Mask (ASM)</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+    <visibleLines>4</visibleLines>
+</CustomField>

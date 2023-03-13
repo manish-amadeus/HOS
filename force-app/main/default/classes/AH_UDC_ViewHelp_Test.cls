@@ -4,7 +4,7 @@
   Created Date    : 14-Apr-2021
   Last Mod Date   : 14-Apr-2021 , 15-June-2021
   Last Mod By     : Tushar Gupta , Ravi Shah
-  Description     : Test class for AH_UDC_PopOut_Help
+  Description     : Test class for AH_UDC_ViewHelp
  ************************************************************************************************/
 @isTest
 public class AH_UDC_ViewHelp_TEST {
@@ -22,7 +22,7 @@ public class AH_UDC_ViewHelp_TEST {
       insert objAccount;
 
       //Create Contact record
-      Contact objContact = AH_UDC_TestData.GetContactObject(objAccount.Id, TEST_CONTACT_FIRSTNAME+'001', 'AH_UDC_Contact', 'US', 'Portsmouth', '03801', 'NH', '75 New Hampshire Ave');
+      Contact objContact = AH_UDC_TestData.GetContactObject(objAccount.Id, TEST_CONTACT_FIRSTNAME + '001', 'AH_UDC_Contact', 'US', 'Portsmouth', '03801', 'NH', '75 New Hampshire Ave');
       insert objContact;
 
       // Create Property Account object with blank property name to get more code coverage
@@ -52,14 +52,15 @@ public class AH_UDC_ViewHelp_TEST {
       List<User> listUsers = new List<User> ();
       //Build Community User with chatter
       listUsers.add(AH_UDC_TestData.BuildUser(AH_UDC_Constants.PROFILE_DEFAULT_NAME_COMMUNITY_PLUS_LOGIN_WITH_CHATTER,
-                                    AH_UDC_Constants.PERMISSIONSET_DEFAULT_NAME_UDC_COMMUNITY_USER,
-                                    'ViewHelpCommunityUser', objContact.Id, true));
+                                              AH_UDC_Constants.PERMISSIONSET_DEFAULT_NAME_UDC_COMMUNITY_USER,
+                                              'ViewHelpCommunityUser', objContact.Id, true));
 
       User oCurrentUser = [SELECT Id FROM User WHERE Id = :UserInfo.getUserId()];
       oCurrentUser.ContactId = null;
 
       System.runAs(oCurrentUser) {
-         AH_UDC_TestData.InsertWithRetries(listUsers);
+         //AH_UDC_TestData.InsertWithRetries(listUsers);
+         insert listUsers;
 
          // Community Users
          AH_UDC_TestData.AddPermissionSetToUser(AH_UDC_Constants.PERMISSIONSET_DEFAULT_NAME_UDC_COMMUNITY_USER, listUsers[0].Id);
@@ -91,70 +92,84 @@ public class AH_UDC_ViewHelp_TEST {
    @isTest
    // Test passing an invalid Workbook Step ID to the AH_UDC_ViewHelp
    private static void AH_UDC_ViewHelp_Negative_Test1() {
+      User u = [SELECT Id FROM User where Username = :('TestViewHelpCommunityUser@amadeus.com' + AH_UDC_Constants.DEFAULT_COMMUNITY_USER_NAME_POSTFIX)];
       PageReference pageRef = Page.AH_UDC_ViewHelp;
       pageRef.getParameters().put('id', 'a1029000002aFZ2AAM'); // Input invalid Step id
       pageRef.getParameters().put('Popout', 'false');
-      Test.setCurrentPageReference(pageRef);
+      System.runAs(u) {
+         Test.setCurrentPageReference(pageRef);
 
-      Test.startTest();
-      AH_UDC_ViewHelp popout = new AH_UDC_ViewHelp();
-      System.assert(popout.IsErrorOccurred, 'Error should have occurred in the AH_UDC_ViewHelp constructor');
-      Test.stopTest();
+         Test.startTest();
+         AH_UDC_ViewHelp popout = new AH_UDC_ViewHelp();
+         System.assert(popout.IsErrorOccurred, 'Error should have occurred in the AH_UDC_ViewHelp constructor');
+         Test.stopTest();
+      }
    }
 
    @isTest
    // Test not passing a Workbook Step ID
    private static void AH_UDC_ViewHelp_Negative_Test2() {
+      User u = [SELECT Id FROM User where Username = :('TestViewHelpCommunityUser@amadeus.com' + AH_UDC_Constants.DEFAULT_COMMUNITY_USER_NAME_POSTFIX)];
       PageReference pageRef = Page.AH_UDC_ViewHelp;
       pageRef.getParameters().put('Popout', 'true');
-      Test.setCurrentPageReference(pageRef);
+      System.runAs(u) {
+         Test.setCurrentPageReference(pageRef);
 
-      Test.startTest();
-      AH_UDC_ViewHelp popout = new AH_UDC_ViewHelp();
-      System.assert(popout.IsErrorOccurred, 'Error should have occurred in the AH_UDC_ViewHelp constructor');
-      Test.stopTest();
+         Test.startTest();
+         AH_UDC_ViewHelp popout = new AH_UDC_ViewHelp();
+         System.assert(popout.IsErrorOccurred, 'Error should have occurred in the AH_UDC_ViewHelp constructor');
+         Test.stopTest();
+      }
    }
 
    @isTest
    // Test Help being accessed by a user that is not a Community user
    private static void AH_UDC_ViewHelp_Negative_Test3() {
       AH_UDC_WorkbookStep__c wbs = [SELECT Id, Name, Help__c FROM AH_UDC_WorkbookStep__c WHERE Workbook__r.Name = :TEST_Workbook_Name];
-
+      User u = [SELECT Id FROM User where Username = :('TestViewHelpCommunityUser@amadeus.com' + AH_UDC_Constants.DEFAULT_COMMUNITY_USER_NAME_POSTFIX)];
       PageReference pageRef = Page.AH_UDC_ViewHelp;
       pageRef.getParameters().put('id', wbs.Id);
       pageRef.getParameters().put('community', 'false'); // Input community false
-      Test.setCurrentPageReference(pageRef);
+      System.runAs(u) {
+         Test.setCurrentPageReference(pageRef);
 
-      Test.startTest();
-      AH_UDC_ViewHelp popout = new AH_UDC_ViewHelp();
-      System.assert(!popout.IsCommunityView, 'AH_UDC_ViewHelp should not have been set to COMMUNITY view');
-      Test.stopTest();
+         Test.startTest();
+         AH_UDC_ViewHelp popout = new AH_UDC_ViewHelp();
+         System.assert(!popout.IsCommunityView, 'AH_UDC_ViewHelp should not have been set to COMMUNITY view');
+         Test.stopTest();
+      }
    }
 
    @isTest
    // Pass "TestException" to force code to fall into the CATCH block of the AH_UDC_ViewHelp constructor
    private static void AH_UDC_ViewHelp_Negative_Test4() {
+      User u = [SELECT Id FROM User where Username = :('TestViewHelpCommunityUser@amadeus.com' + AH_UDC_Constants.DEFAULT_COMMUNITY_USER_NAME_POSTFIX)];
       PageReference pageRef = Page.AH_UDC_ViewHelp;
       pageRef.getParameters().put('id', 'TestException');
       pageRef.getParameters().put('community', 'false'); // Input community false
-      Test.setCurrentPageReference(pageRef);
+      System.runAs(u) {
+         Test.setCurrentPageReference(pageRef);
 
-      Test.startTest();
-      AH_UDC_ViewHelp popout = new AH_UDC_ViewHelp();
-      System.assert(popout.IsErrorOccurred, 'Error should have occurred in the AH_UDC_ViewHelp constructor due to passing TestException as the WorkbookStep Id');
-      Test.stopTest();
+         Test.startTest();
+         AH_UDC_ViewHelp popout = new AH_UDC_ViewHelp();
+         System.assert(popout.IsErrorOccurred, 'Error should have occurred in the AH_UDC_ViewHelp constructor due to passing TestException as the WorkbookStep Id');
+         Test.stopTest();
+      }
    }
 
    @isTest
    private static void AH_UDC_ViewHelp_ServerLogMessage() {
-      Test.startTest();
-      Test.clearApexPageMessages();
+      User u = [SELECT Id FROM User where Username = :('TestViewHelpCommunityUser@amadeus.com' + AH_UDC_Constants.DEFAULT_COMMUNITY_USER_NAME_POSTFIX)];
+      System.runAs(u) {
+         Test.startTest();
+         Test.clearApexPageMessages();
 
-      AH_UDC_ViewHelp vh = new AH_UDC_ViewHelp();
-      vh.LogFunctionalArea = 'TestException';
-      vh.serverLogMessages();
-      System.assert(vh.HasPageLoadLogMessages != true, 'HasPageLoadLogMessages should be false now as we have inserted all pending logs');
+         AH_UDC_ViewHelp vh = new AH_UDC_ViewHelp();
+         vh.LogFunctionalArea = 'TestException';
+         vh.serverLogMessages();
+         System.assert(vh.HasPageLoadLogMessages != true, 'HasPageLoadLogMessages should be false now as we have inserted all pending logs');
 
-      Test.stopTest();
+         Test.stopTest();
+      }
    }
 }

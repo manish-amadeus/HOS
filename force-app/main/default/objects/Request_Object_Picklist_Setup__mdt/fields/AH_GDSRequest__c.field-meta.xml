@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>AH_GDSRequest__c</fullName>
+    <businessStatus>Active</businessStatus>
+    <description>NICC-057703; Used to populate Product choices in the Flow called &quot;Request - Creative Request Intake Form&quot;. Used on the screen called &quot;MediaInputScreen&quot;, field &quot;GDS Request&quot;</description>
+    <externalId>false</externalId>
+    <fieldManageability>DeveloperControlled</fieldManageability>
+    <label>GDS Request</label>
+    <required>false</required>
+    <securityClassification>Internal</securityClassification>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>AGB</fullName>
+                <default>false</default>
+                <label>AGB</label>
+            </value>
+            <value>
+                <fullName>AGB Landing Page</fullName>
+                <default>false</default>
+                <label>AGB Landing Page</label>
+            </value>
+            <value>
+                <fullName>TPG</fullName>
+                <default>false</default>
+                <label>TPG</label>
+            </value>
+            <value>
+                <fullName>SABRE - Normal</fullName>
+                <default>false</default>
+                <label>SABRE - Normal</label>
+            </value>
+            <value>
+                <fullName>SABRE - Full Width</fullName>
+                <default>false</default>
+                <label>SABRE - Full Width</label>
+            </value>
+            <value>
+                <fullName>SABRE - Carousel</fullName>
+                <default>false</default>
+                <label>SABRE - Carousel</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

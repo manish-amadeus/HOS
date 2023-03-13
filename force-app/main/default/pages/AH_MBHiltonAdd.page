@@ -214,9 +214,6 @@
                 theForm.description.value = theForm.description.value + "Hilton Worldwide Sales (Connex), ";
             } 
      
-            if (theForm.cBoxHSearch.checked == true) {
-                theForm.description.value = theForm.description.value + "Hilton Search Availability/MGAST, ";
-            }
       theForm.description.value = theForm.description.value + "\n";
 
             theForm.description.value = theForm.description.value + "SUE = " + theForm.EmailOnly.value + "\n";
@@ -628,7 +625,7 @@
                                         <option value="JM">Jamaica</option>
                                         <option value="JP">Japan</option>
                                         <option value="JO">Jordan</option>
-                                        <option value="KZ">Kayakhstan</option>
+                                        <option value="KZ">Kazakhstan</option>
                                         <option value="KE">Kenya</option>
                                         <option value="KI">Kiribati</option>
                                         <option value="KR">Korea, South</option>
@@ -780,9 +777,6 @@
                                     <br/>
                                     <input id="cHiltonWorldwideSales" name="Hilton Worldwide Sales (Connex)" title="Hilton Worldwide Sales (Connex)" type="checkbox" value="Hilton Worldwide Sales (Connex)" checked="true" />
                                     Hilton Worldwide Sales (Connex)
-                                    <br/>
-                                    <input id="cBoxHSearch" name="Hilton Search Availability/MGAST" title="Hilton Search Availability/MGAST" type="checkbox" value="Hilton Search Availability/MGAST" />
-                                    Hilton Search Availability/MGAST
                                     <br/>
                                     <input id="cBoxScout" name="Scout" title="Scout" type="checkbox" value="scout" />
                                     Scout

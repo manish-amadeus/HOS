@@ -1,4 +1,4 @@
-<apex:page standardController="NI_Org_Details__c" extensions="NI_OrgDetailsLogController" standardStylesheets="false">
+<apex:page standardController="NI_Org_Details__c" extensions="NI_OrgDetailsLogController" standardStylesheets="true">
 <chatter:feedWithFollowers entityid="{!NI_Org_Details__c.Id}"/>    
     <apex:pageMessage id="inValidCred" severity="error" summary="{!inValidCredPopupMsg}" strength="2" rendered="{!NOT(IsNull(inValidCredPopupMsg))}"/>
     <apex:form >   

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>IssueResolution_CaseClosing_Q05</fullName>
+    <active>true</active>
+    <description>&quot;Completed proper follow up procedure&quot; must be 0, 1 or 5</description>
+    <errorConditionFormula>AND (
+    RecordType.DeveloperName = &quot;Customer_Care_Quality_Form&quot;, 
+    OR (
+        NOT(CONTAINS(&quot;0,1,5&quot;, TEXT(Completed_Proper_Follow_Up_Procedure__c))),
+        ISNULL(Completed_Proper_Follow_Up_Procedure__c)
+    )
+)</errorConditionFormula>
+    <errorDisplayField>Completed_Proper_Follow_Up_Procedure__c</errorDisplayField>
+    <errorMessage>Please update your value to: 0 for N/A, 1 for NO or 5 for YES.</errorMessage>
+</ValidationRule>

@@ -43,14 +43,6 @@
                 <behavior>Edit</behavior>
                 <field>AH_UDC_CustomerNotificationOptIn__c</field>
             </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>AH_UDC_WorkbookWithdrawn__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Readonly</behavior>
-                <field>Email_Ref_Id__c</field>
-            </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>
@@ -60,6 +52,10 @@
             <layoutItems>
                 <behavior>Readonly</behavior>
                 <field>AH_UDC_WorkbookLocked__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>AH_UDC_WorkbookWithdrawn__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
@@ -210,7 +206,7 @@
     <showRunAssignmentRulesCheckbox>false</showRunAssignmentRulesCheckbox>
     <showSubmitAndAttachButton>false</showSubmitAndAttachButton>
     <summaryLayout>
-        <masterLabel>00h3g000000JCwT</masterLabel>
+        <masterLabel>00h29000000MEFd</masterLabel>
         <sizeX>4</sizeX>
         <sizeY>0</sizeY>
         <summaryLayoutStyle>Default</summaryLayoutStyle>

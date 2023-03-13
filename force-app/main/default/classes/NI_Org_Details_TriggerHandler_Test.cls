@@ -12,8 +12,8 @@ Description     : test Class for NI_Org_Details_TriggerHandler Class
 @isTest (SeeAllData=true)
 private class NI_Org_Details_TriggerHandler_Test 
 {
-    
-    static testMethod void myUnitTest() 
+    @isTest
+    static void myUnitTest() 
     {    
         
         NI_Org_Details_TriggerHandler handler = new NI_Org_Details_TriggerHandler(true);
@@ -36,7 +36,8 @@ private class NI_Org_Details_TriggerHandler_Test
         
     } 
     
-    static testMethod void testUpdate() 
+    @isTest
+    static void testUpdate() 
     {    
         
         NI_Org_Details_TriggerHandler handler = new NI_Org_Details_TriggerHandler(true);
@@ -68,9 +69,10 @@ private class NI_Org_Details_TriggerHandler_Test
         od.Shared_Org__c = true;
         update od;
         
-    }   
-    
-    static testMethod void testUpdate1()
+    }
+
+    @isTest
+    static void testUpdate1()
     {
          NI_Org_Details_TriggerHandler handler = new NI_Org_Details_TriggerHandler(true);
         boolean IsTriggerContext = handler.IsTriggerContext;        
@@ -102,7 +104,8 @@ private class NI_Org_Details_TriggerHandler_Test
         update od;
     }
     
-    static testMethod void testUpdate2() 
+    @isTest
+    static void testUpdate2() 
     {    
         
         NI_Org_Details_TriggerHandler handler = new NI_Org_Details_TriggerHandler(true);

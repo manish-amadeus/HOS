@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Outcome_Required_Failed_Test</fullName>
+    <active>true</active>
+    <description>If the Test Result is Failed, the Outcome field is required for further research and test execution.</description>
+    <errorConditionFormula>ISPICKVAL( Test_Result__c , &quot;Failed&quot;)  &amp;&amp; 
+  LEN( Outcome__c ) = 0</errorConditionFormula>
+    <errorDisplayField>Outcome__c</errorDisplayField>
+    <errorMessage>Please complete the Outcome field with the Outcome of this test execution. This information will be used in future test executions.</errorMessage>
+</ValidationRule>

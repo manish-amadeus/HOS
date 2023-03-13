@@ -1,8 +1,5 @@
-<apex:component >
-   <apex:attribute name="Token" description="Token Value" type="String" required="true" />
-   <apex:attribute name="SaveButtonText" description="Save button text" type="String" required="true" />
-   <apex:attribute name="LoadingText" description="Loading text to display before rendring form" type="String" required="true" />
-   <apex:attribute name="SaveResponseSuccessMessage" description="Message to display in form response is saved" type="String" required="true" />
+<apex:component >   
+   <apex:attribute name="attributeWorkbook" description="Current Workbook" type="AH_UDC_CommunityWorkbook" required="true" />
    <c:AH_UDC_AmadeusFormJSuitesCSS />
    <c:AH_UDC_AmadeusFormJExcelCSS />
    <c:AH_UDC_AmadeusFormCSS />
@@ -12,9 +9,8 @@
    <c:AH_UDC_Tool_Tip />
    <script type="text/javascript">
       var objJSON = null;
-      var token = '{!Token}';
    </script>
-   <c:AH_UDC_AmadeusFormJS />
+   <c:AH_UDC_AmadeusFormJS attributeWorkbook="{!attributeWorkbook}"/>
 
    <div id="divAmadeusFormError" style="display: none; margin-bottom: 10px;" class="messageText">
       <span style="color:#cc0000">
@@ -28,9 +24,9 @@
 
    <div class="form-container">
       <div id="divButtons" style="display:none;">
-         <button id="btnSave" class="btn btn-primary btn-save-form" onclick="javascript:validateFormAndSaveResponse(); return false;">{!SaveButtonText}</button>
+         <button id="btnSave" class="btn btn-primary btn-save-form" onclick="javascript:validateFormAndSaveResponse(); return false;">{!$Label.AH_UDC_AmadeusFormSaveButtonText}</button>
       </div>
-      <div id="formRender" style="margin:0px;padding:0px;min-height:100px;"><strong>{!LoadingText}</strong></div>
+      <div id="formRender" style="margin:0px;padding:0px;min-height:100px;"><strong>{!$Label.AH_UDC_AmadeusFormLoadingText}</strong></div>
       <br/>
    </div>
 

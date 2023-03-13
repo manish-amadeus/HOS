@@ -36,21 +36,21 @@ public with sharing class AH_UDC_PrefixHelper implements Callable
    public Object call(String action, Map<String, Object> args)
    {
       Switch on action {
-         when 'getNamespace' {
-            return getNamespace();
-         }
-         when 'getObjectPrefix' {
-            return getObjectPrefix();
-         }
-         when 'getClassPrefix' {
-            return getClassPrefix();
-         }
-         when 'getFieldPrefix' {
-            return getClassPrefix();
-         }
-         when 'getRemoteActionPrefix' {
-            return getRemoteActionPrefix();
-         }
+         //when 'getNamespace' {
+            //return getNamespace();
+         //}
+         //when 'getObjectPrefix' {
+            //return getObjectPrefix();
+         //}
+         //when 'getClassPrefix' {
+            //return getClassPrefix();
+         //}
+         //when 'getFieldPrefix' {
+            //return getClassPrefix();
+         //}
+         //when 'getRemoteActionPrefix' {
+            //return getRemoteActionPrefix();
+         //}
          when 'getObjectName' {
             string argName = 'baseName';
 
@@ -75,141 +75,141 @@ public with sharing class AH_UDC_PrefixHelper implements Callable
 
             return getFieldName((string) args.get(argName));
          }
-         when 'getApexRestUrl'{
-            string argName = 'baseApexRestUrl';
+         //when 'getApexRestUrl'{
+            //string argName = 'baseApexRestUrl';
 
-            // Ensure that ARG_NAME was specified
-            if (!args.containsKey(argName) || String.isBlank((String) args.get(argName))) { throw new ExtensionMalformedCallException(action + ': Missing argument/value for \'' + argName + '\'.'); }
+            //// Ensure that ARG_NAME was specified
+            //if (!args.containsKey(argName) || String.isBlank((String) args.get(argName))) { throw new ExtensionMalformedCallException(action + ': Missing argument/value for \'' + argName + '\'.'); }
 
-            return getApexRestUrl((string) args.get(argName));
-         }
-         when 'objectExists'{
-            string argName = 'ObjectNameParam';
+            //return getApexRestUrl((string) args.get(argName));
+         //}
+         //when 'objectExists'{
+            //string argName = 'ObjectNameParam';
 
-            // Ensure that ARG_NAME was specified
-            if (!args.containsKey(argName) || String.isBlank((String) args.get(argName))) { throw new ExtensionMalformedCallException(action + ': Missing argument/value for \'' + argName + '\'.'); }
+            //// Ensure that ARG_NAME was specified
+            //if (!args.containsKey(argName) || String.isBlank((String) args.get(argName))) { throw new ExtensionMalformedCallException(action + ': Missing argument/value for \'' + argName + '\'.'); }
 
-            return objectExists((string) args.get(argName));
-         }
+            //return objectExists((string) args.get(argName));
+         //}
          when else {
             throw new ExtensionMalformedCallException('Method not implemented (' + action + ')');
          }
       }
    }
 
-   private static boolean objectExists(String objectNameParam) {
-      for (Schema.SObjectType sObjectType : Schema.getGlobalDescribe().values()) {
-         String objName = String.valueOf(sObjectType);
-         if (objName.contains(objectNameParam)) { return true; }
-      }
-      return false;
-   }
+   //private static boolean objectExists(String objectNameParam) {
+      //for (Schema.SObjectType sObjectType : Schema.getGlobalDescribe().values()) {
+         //String objName = String.valueOf(sObjectType);
+         //if (objName.contains(objectNameParam)) { return true; }
+      //}
+      //return false;
+   //}
 
-   public static string getNamespace() {
-      if (namespace == null) {
-         namespace = '';
-         // If class with namespace exist
-         Type dynamicApexType = Type.forName('AHUDC.Constants');
-         if (dynamicApexType != null) {
-            namespace = AH_UDC_Constants.APPLICATION_PREFIX;
-         }
-      }
+   //public static string getNamespace() {
+      //if (namespace == null) {
+         //namespace = '';
+         //// If class with namespace exist
+         //Type dynamicApexType = Type.forName('AHUDC.Constants');
+         //if (dynamicApexType != null) {
+            //namespace = AH_UDC_Constants.APPLICATION_PREFIX;
+         //}
+      //}
 
-      return namespace;
-   }
+      //return namespace;
+   //}
 
-   public static string getObjPrefix() {
-      string s = getNamespace();
-      if (s.length() > 0) { s += '__'; }
+   //public static string getObjPrefix() {
+      //string s = getNamespace();
+      //if (s.length() > 0) { s += '__'; }
 
-      return s;
-   }
+      //return s;
+   //}
 
-   public static string getObjectPrefix() {
-      string s = getNamespace();
-      if (s.length() > 0) { s += '__'; }
+   //public static string getObjectPrefix() {
+      //string s = getNamespace();
+      //if (s.length() > 0) { s += '__'; }
 
-      return s;
-   }
+      //return s;
+   //}
 
-   public static string getFieldSetPrefix() {
-      string s = getNamespace();
-      if (s.length() > 0) { s += '__'; }
+   //public static string getFieldSetPrefix() {
+      //string s = getNamespace();
+      //if (s.length() > 0) { s += '__'; }
 
-      return s;
-   }
+      //return s;
+   //}
 
-   public static string getClassPrefix() {
-      string s = getNamespace();
-      if (s.length() > 0) { s += '.'; }
+   //public static string getClassPrefix() {
+      //string s = getNamespace();
+      //if (s.length() > 0) { s += '.'; }
 
-      return s;
-   }
+      //return s;
+   //}
 
-   public static string getFieldPrefix() {
-      string s = getNamespace();
-      if (s.length() > 0) { s += '__'; }
+   //public static string getFieldPrefix() {
+      //string s = getNamespace();
+      //if (s.length() > 0) { s += '__'; }
 
-      return s;
-   }
+      //return s;
+   //}
 
-   public static String getRemoteActionPrefix() {
-      string s = getNamespace();
-      if (s.length() > 0) { s += '.'; }
+   //public static String getRemoteActionPrefix() {
+      //string s = getNamespace();
+      //if (s.length() > 0) { s += '.'; }
 
-      return s;
-   }
+      //return s;
+   //}
 
-   public static String getUrlPrefix() {
-      string s = getNamespace();
-      if (s.length() > 0) { s += '__'; }
+   //public static String getUrlPrefix() {
+      //string s = getNamespace();
+      //if (s.length() > 0) { s += '__'; }
 
-      return s;
-   }
+      //return s;
+   //}
 
    public static string getObjectName(string baseObjectName) {
-      string namespacePrefix = getObjectPrefix();
-      if (String.isBlank(namespacePrefix)) {
+      //string namespacePrefix = getObjectPrefix();
+      //if (String.isBlank(namespacePrefix)) {
          return baseObjectName;
-      }
+      //}
 
       // If this is not a custom object, it is a standard Salesforce object, so
       // return the baseObjectName unchanged
-      if (!baseObjectName.endsWith('__c')) {
-         return baseObjectName;
-      }
+      //if (!baseObjectName.endsWith('__c')) {
+         //return baseObjectName;
+      //}
 
       // This is a managed package object, might be AHUDC, might not be, 
       // but it already has a namespace prefix, so return it unchanged
-      if (baseObjectName.indexOf('__') != baseObjectName.lastIndexOf('__')) {
-         return baseObjectName;
-      }
+      //if (baseObjectName.indexOf('__') != baseObjectName.lastIndexOf('__')) {
+         //return baseObjectName;
+      //}
 
       // Whereas this function is CALLABLE, this makes sure we don't add a prefix
       // to the object name if it is one of the Solution Delivery prefixes
-      for (String prefix : AH_UDC_Constants.SOLUTION_DELIVERY_PREFIXES) {
-         if (baseObjectName.startsWith(prefix)) {
-            return baseObjectName;
-         }
-      }
+      //for (String prefix : AH_UDC_Constants.SOLUTION_DELIVERY_PREFIXES) {
+         //if (baseObjectName.startsWith(prefix)) {
+            //return baseObjectName;
+         //}
+      //}
 
-      return getObjectPrefix() + baseObjectName;
+      //return getObjectPrefix() + baseObjectName;
    }
 
    public static string getFieldSetName(string baseFieldSetName) {
-      return getFieldSetPrefix() + baseFieldSetName;
+      return  baseFieldSetName; //getFieldSetPrefix() +
    }
 
    public static string getClassName(string baseClassName) {
-      return getClassPrefix() + baseClassName;
+      return  baseClassName; //getClassPrefix() +
    }
 
    public static string getFieldName(string baseFieldName) {
-      return getFieldPrefix() + baseFieldName;
+      return baseFieldName; //getFieldPrefix() +
    }
-   public static string getApexRestUrl(string baseApexRestUrl) {
-      return baseApexRestUrl.replace('apexrest/', 'apexrest/' + getUrlPrefix());
-   }
+   //public static string getApexRestUrl(string baseApexRestUrl) {
+      //return baseApexRestUrl.replace('apexrest/', 'apexrest/'); //+ getUrlPrefix()
+   //}
 
    // To throw exceptions
    public class ExtensionMalformedCallException extends Exception { }

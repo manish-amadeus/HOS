@@ -59,7 +59,7 @@
          <!--These are action functions for File Upload-->
          <apex:actionfunction name="actionfunction_GetUserFiles" action="{!serverGetFiles}" rerender="fileUploadPanel" oncomplete="hideSpinner(); enableButtons();" />
          <apex:actionfunction name="actionfunction_DeleteFile" action="{!serverDeleteFile}" oncomplete="onCompleteDeleteFile()" rerender="displayMessages,FileListArea,displayMessages,serverside">
-            <apex:param id="DeleteFileID" name="DeleteFileID" assignTo="{!DeleteFileID}" value="" />
+            <apex:param id="DeleteFileID" name="DeleteFileID" assignTo="{!workbook.currentStep.fileUploadInfo.fileId}" value="" />
          </apex:actionfunction>
          <!--This action function is used to change step status to in-progress-->
          <apex:actionfunction name="actionfunction_SetStepInProgress" action="{!serverSetStepInProgress}" rerender="displayMessages,serverside,opExpandedMenu,opCollapsedMenu,opStart" />
@@ -70,7 +70,7 @@
                <apex:outputpanel id="opExpandedMenu">
                   <div class="left-side">
                      <div class="heading">
-                        <span class="title">{!$Label.AH_UDC_Steps_Complete}: {!workbook.completedSteps} of {!workbook.totalSteps}</span>
+                        <span class="title">{!workbook.Title}</span>
                      </div>
                      <ul class="steps-list">
                         <li class="step-item start-finish" onclick="changeToStep('0');">
@@ -198,8 +198,8 @@
                      </div>
                      <div class="button-group">
                         <apex:outputpanel id="contenttitlebuttons">
-                           <a id="mark_complete_button" class="btn btn-primary" href="#" onclick="MarkStepComplete();" style="{!IF(currentStep.status=='Completed' || currentStep.status=='Locked','display:none','')}">{!$Label.AH_UDC_Common_Buttons_Mark_Step_Complete_Btn}</a>
-                           <a id="completed_button" class="btn btn-green" style="{!IF(currentStep.status=='Completed' || currentStep.status=='Locked','','display:none')}">{!$Label.AH_UDC_ViewWorkbook_CompletedStep}</a>
+                           <a id="mark_complete_button" class="btn btn-primary" href="#" onclick="MarkStepComplete();">{!$Label.AH_UDC_Common_Buttons_Mark_Step_Complete_Btn}</a>
+                           <a id="completed_button" class="btn btn-green" style="display:none">{!$Label.AH_UDC_ViewWorkbook_CompletedStep}</a>
                            <a id="chatterButton" class="btn {!IF(IsCommunityView==true,'IsCommunityViewTrue','IsCommunityViewFalse')}" onclick="onClickChatterButton();">
                               <i id="chatterButtonImage" class="fas fa-comment-dots"></i>
                            </a>
@@ -223,17 +223,16 @@
                      <!--Display Amadeus Custom Form-->
                      <apex:outputpanel rendered="{!currentPosition > 0 && currentStep.isAmadeusCustomForm}">
                         <div id="divAmadeusForm">
-                           <c:AH_UDC_AmadeusForm token="{!currentStep.token}" savebuttontext="{!$Label.AH_UDC_AmadeusFormSaveButtonText}" loadingtext="{!$Label.AH_UDC_AmadeusFormLoadingText}" saveresponsesuccessmessage="{!$Label.AH_UDC_AmadeusFormSaveResponseSuccessMessage}" />
+                           <c:AH_UDC_AmadeusForm attributeWorkbook="{!workbook}" />
                         </div>
                      </apex:outputpanel>
                      <!--Display Amadeus File Upload-->
                      <apex:outputpanel id="fileUploadPanel" rendered="{!currentPosition > 0 && currentStep.isAmadeusFileUpload}">
                         <div id="divAmadeusfileUpload">
                            <apex:outputpanel id="FileUploadArea">
-                              <c:AH_UDC_FileUpload token="{!currentStep.token}" id="AmadeusFileUpload"
-                                                   uploadedfilelist="{!UploadedFileList}"
-                                                   fileuploadurl="{!FileUploadUrl}" 
-                                                   UploadFilesHeader="{!currentStep.description}"/>
+                              <c:AH_UDC_FileUpload id="AmadeusFileUpload"
+                                                   attributeWorkbook="{!workbook}"
+                                                   attributeDisplayConsoleLogMessages="{!DisplayConsoleLogMessages}"/>
                            </apex:outputpanel>
                         </div>
                      </apex:outputpanel>
@@ -260,38 +259,9 @@
          <c:AH_UDC_ViewWorkbookJS workbookdocumentid="{!workbook.documentId}" />
 
          <!--IMPORTANT: This block does not rerender but does use serverside values-->
-         <script>
-            var LABEL_VerifyFormSave = '{!$Label.AH_UDC_ViewWorkbook_VerifyFormSave}';
-            var LABEL_PrerequisiteStepNotCompletedMessage = '{!$Label.AH_UDC_PrerequisiteStepNotCompletedMessage}';
-            var LABEL_StepLockedMessage = '{!$Label.AH_UDC_StepLockedMessage}';
+         <script>            
             var NotificationDisplayMilliseconds = {!NotificationDisplayMilliseconds};
             var UpdateTimerIntervalInMilliSeconds = {!UpdateTimerIntervalInMilliSeconds};
-
-            //File Upload Variables
-            var LABEL_FileUploadStatusUploading = '{!$Label.AH_UDC_FileUploadStatusUploading}';
-            var LABEL_FileUploadStatusUploaded = '{!$Label.AH_UDC_FileUploadStatusUploaded}';
-            var LABEL_FileUploadStatusFailedtoUpload = '{!$Label.AH_UDC_FileUploadStatusFailedtoUpload}';
-            var LABEL_FileUploadSuccessMessage = '{!$Label.AH_UDC_FileUploadSuccessMessage}';
-            var LABEL_MaxFileUploadCountMessage = '{!$Label.AH_UDC_MaxFileUploadCountMessage}';
-            var LABEL_SelectedFileMessage = '{!$Label.AH_UDC_SelectedFileMessage}';
-            var LABEL_MaxFileUploadSizeMessage = '{!$Label.AH_UDC_MaxFileUploadSizeMessage}';
-            var LABEL_ValidFileExtensionMessage = '{!$Label.AH_UDC_ValidFileExtensionMessage}';
-            var LABEL_FileUploadFormRenderErrorMessage = '{!$Label.AH_UDC_FileUploadFormRenderErrorMessage}';
-            var LABEL_DeleteFileConfirmationMessage = '{!$Label.AH_UDC_DeleteFileConfirmationMessage}';
-            var LABEL_FileDeleteSuccessfulMessage = '{!$Label.AH_UDC_FileDeleteSuccessfulMessage}';
-            var maxFileUploadCount = "{!FileUploadCount}";
-            var fileUploadMaxSize = "{!FileUploadMaximumSize}";
-            var arrayOfFileExtension = '{!FileUploadExtension}'.toLowerCase().replace(/\s*\,\s*/g, ",").trim().split(",");
-            var acceptFileExtension = arrayOfFileExtension.map(function (value) { return " ." + value; }).toString();
-            
-            //Amadeus custom form variables
-            var AmdeusCustomFormAPIUrl = '{!AmdeusCustomFormAPIUrl}';
-            var LABEL_AmadeusFormRenderErrorMessage = '{!$Label.AH_UDC_AmadeusFormRenderErrorMessage}';
-            var LABEL_AmadeusFormSaveErrorMessage = '{!$Label.AH_UDC_AmadeusFormSaveErrorMessage}';
-            var LABEL_AmadeusFormValidationErrorMessage = '{!$Label.AH_UDC_AmadeusFormValidationErrorMessage}';
-            var LABEL_AmadeusFormRequiredValidationMessage = '{!$Label.AH_UDC_AmadeusFormRequiredValidationMessage}';
-            var LABEL_AmadeusFormMinLengthValidationMessage = '{!$Label.AH_UDC_AmadeusFormMinLengthValidationMessage}';
-            var LABEL_AmadeusFormMaxLengthValidationMessage = '{!$Label.AH_UDC_AmadeusFormMaxLengthValidationMessage}';
          </script>
 
          <!--IMPORTANT : This block is re-rendered only on the change of a step-->
@@ -324,6 +294,8 @@
                //var changeToStepUrl = "changeToStepUrl";
                var currentPosition = "{!currentPosition}";
                var currentStepId = '{!currentStep.id}';
+               var currentStepURL = '{!currentStep.url}';
+               var currentStepIsAmadeusFileUpload = ('true'=='{!currentStep.isAmadeusFileUpload}');
                var IsCommunityView = {!IsCommunityView};
                var currentStepHelpUrl = '{!currentStep.helpurl}';
                var currentStepStatus = '{!currentStep.status}';
@@ -332,6 +304,8 @@
                var returnToWelcomePageUrl = '{!JSINHTMLENCODE(ReturnToWelcomePageUrl)}';
                var isPropertyConfirmed = {!workbook.propertyInfo.isPropertyConfirmed};
                var isWorkbookCompleted = {!workbook.isCompleted};
+               var isWorkbookSent = {!workbook.IsSent};
+               var isWorkbookArchived = {!workbook.isArchived};
                var chatterUpdate = {!chatterUpdate};
                var documentationId = '{!workbook.documentId}';
                var NotificationToShow = "{!NotificationToShow}";

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>AH_PSCaseProduct__c</fullName>
+    <businessStatus>Active</businessStatus>
+    <description>NICC-063942; Used to populate a picklist in a Flow called &quot;Case - PS Escalations Case Creation&quot;. Populates the field called &quot;Product&quot; on the screen.</description>
+    <externalId>false</externalId>
+    <fieldManageability>DeveloperControlled</fieldManageability>
+    <label>PS Case Product</label>
+    <required>false</required>
+    <securityClassification>Internal</securityClassification>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>BI</fullName>
+                <default>false</default>
+                <label>BI</label>
+            </value>
+            <value>
+                <fullName>GMS</fullName>
+                <default>false</default>
+                <label>GMS</label>
+            </value>
+            <value>
+                <fullName>Property Management Products</fullName>
+                <default>false</default>
+                <label>Property Management Products</label>
+            </value>
+            <value>
+                <fullName>Sales &amp; Catering</fullName>
+                <default>false</default>
+                <label>Sales &amp; Catering</label>
+            </value>
+            <value>
+                <fullName>Service Optimization</fullName>
+                <default>false</default>
+                <label>Service Optimization</label>
+            </value>
+            <value>
+                <fullName>Web</fullName>
+                <default>false</default>
+                <label>Web</label>
+            </value>
+            <value>
+                <fullName>Distribution &amp; Diagramming</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Distribution &amp; Diagramming</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

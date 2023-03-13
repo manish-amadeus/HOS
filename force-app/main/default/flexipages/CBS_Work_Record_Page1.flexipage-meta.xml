@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <FlexiPage xmlns="http://soap.sforce.com/2006/04/metadata">
-    <description>NICC 050506; updated NICC-053250; NICC-054879;NICC-054812; NICC-057149; NICC-057634; NICC-058600; NICC-060980</description>
+    <description>NICC 050506; updated NICC-053250; NICC-054879;NICC-054812; NICC-057149; NICC-057634; NICC-058600; NICC-060980; NICC-06353; NICC-064171</description>
     <flexiPageRegions>
         <itemInstances>
             <componentInstance>
@@ -8,140 +8,19 @@
                     <name>actionNames</name>
                     <valueList>
                         <valueListItems>
-                            <value>agf__ADM_Work__c.EditWorkCBS</value>
-                            <visibilityRule>
-                                <booleanFilter>4 and 2 and (1 or 3 or 5)</booleanFilter>
-                                <criteria>
-                                    <leftValue>{!Record.agf__Scrum_Team__r.Name}</leftValue>
-                                    <operator>EQUAL</operator>
-                                    <rightValue>DTS Team</rightValue>
-                                </criteria>
-                                <criteria>
-                                    <leftValue>{!Record.agf__Scrum_Team__r.Name}</leftValue>
-                                    <operator>NE</operator>
-                                    <rightValue>SLTC Hospitality Transformation</rightValue>
-                                </criteria>
-                                <criteria>
-                                    <leftValue>{!Record.agf__Scrum_Team__r.Name}</leftValue>
-                                    <operator>EQUAL</operator>
-                                    <rightValue>Technical Solutions</rightValue>
-                                </criteria>
-                                <criteria>
-                                    <leftValue>{!Record.RecordType.DeveloperName}</leftValue>
-                                    <operator>EQUAL</operator>
-                                    <rightValue>User_Story</rightValue>
-                                </criteria>
-                                <criteria>
-                                    <leftValue>{!Record.agf__Scrum_Team__r.Name}</leftValue>
-                                    <operator>EQUAL</operator>
-                                    <rightValue>Portal Team</rightValue>
-                                </criteria>
-                            </visibilityRule>
+                            <value>Edit</value>
                         </valueListItems>
                         <valueListItems>
-                            <value>agf__ADM_Work__c.AH_EditWorkSLTCOperations</value>
-                            <visibilityRule>
-                                <criteria>
-                                    <leftValue>{!Record.agf__Scrum_Team__r.Name}</leftValue>
-                                    <operator>EQUAL</operator>
-                                    <rightValue>SLTC Operations</rightValue>
-                                </criteria>
-                            </visibilityRule>
+                            <value>Delete</value>
                         </valueListItems>
                         <valueListItems>
-                            <value>agf__ADM_Work__c.AH_UpdateWorkSLTCHOS</value>
-                            <visibilityRule>
-                                <booleanFilter>1 and 5 and 6 and (2 or 3 or 4)</booleanFilter>
-                                <criteria>
-                                    <leftValue>{!Record.RecordType.DeveloperName}</leftValue>
-                                    <operator>EQUAL</operator>
-                                    <rightValue>User_Story</rightValue>
-                                </criteria>
-                                <criteria>
-                                    <leftValue>{!Record.agf__Scrum_Team__r.Name}</leftValue>
-                                    <operator>EQUAL</operator>
-                                    <rightValue>SLTC Hospitality Transformation</rightValue>
-                                </criteria>
-                                <criteria>
-                                    <leftValue>{!Record.agf__Scrum_Team__r.Name}</leftValue>
-                                    <operator>EQUAL</operator>
-                                    <rightValue>SLTC- Integrations team</rightValue>
-                                </criteria>
-                                <criteria>
-                                    <leftValue>{!Record.agf__Product_Tag__r.Name}</leftValue>
-                                    <operator>CONTAINS</operator>
-                                    <rightValue>SLTC</rightValue>
-                                </criteria>
-                                <criteria>
-                                    <leftValue>{!Record.agf__Scrum_Team__r.Name}</leftValue>
-                                    <operator>NE</operator>
-                                    <rightValue>SLTC Operations</rightValue>
-                                </criteria>
-                                <criteria>
-                                    <leftValue>{!Record.agf__Scrum_Team__r.Name}</leftValue>
-                                    <operator>NE</operator>
-                                    <rightValue>DTS Team</rightValue>
-                                </criteria>
-                            </visibilityRule>
-                        </valueListItems>
-                        <valueListItems>
-                            <value>agf__ADM_Work__c.AH_UpdateBugSLTCHOS</value>
-                            <visibilityRule>
-                                <booleanFilter>1 and 5 and (2 or 3 or 4)</booleanFilter>
-                                <criteria>
-                                    <leftValue>{!Record.RecordType.DeveloperName}</leftValue>
-                                    <operator>EQUAL</operator>
-                                    <rightValue>Bug</rightValue>
-                                </criteria>
-                                <criteria>
-                                    <leftValue>{!Record.agf__Scrum_Team__r.Name}</leftValue>
-                                    <operator>EQUAL</operator>
-                                    <rightValue>SLTC Hospitality Transformation</rightValue>
-                                </criteria>
-                                <criteria>
-                                    <leftValue>{!Record.agf__Scrum_Team__r.Name}</leftValue>
-                                    <operator>EQUAL</operator>
-                                    <rightValue>SLTC- Integrations Team</rightValue>
-                                </criteria>
-                                <criteria>
-                                    <leftValue>{!Record.agf__Product_Tag__r.Name}</leftValue>
-                                    <operator>CONTAINS</operator>
-                                    <rightValue>SLTC</rightValue>
-                                </criteria>
-                                <criteria>
-                                    <leftValue>{!Record.agf__Scrum_Team__r.Name}</leftValue>
-                                    <operator>NE</operator>
-                                    <rightValue>SLTC Operations</rightValue>
-                                </criteria>
-                            </visibilityRule>
-                        </valueListItems>
-                        <valueListItems>
-                            <value>agf__ADM_Work__c.agf__CustomEditBug</value>
-                            <visibilityRule>
-                                <booleanFilter>1 AND 2</booleanFilter>
-                                <criteria>
-                                    <leftValue>{!Record.RecordType.Name}</leftValue>
-                                    <operator>CONTAINS</operator>
-                                    <rightValue>Bug</rightValue>
-                                </criteria>
-                                <criteria>
-                                    <leftValue>{!Record.agf__Scrum_Team__r.Name}</leftValue>
-                                    <operator>NE</operator>
-                                    <rightValue>SLTC Hospitality Transformation</rightValue>
-                                </criteria>
-                            </visibilityRule>
+                            <value>ChangeRecordType</value>
                         </valueListItems>
                         <valueListItems>
                             <value>Clone</value>
                         </valueListItems>
                         <valueListItems>
                             <value>ChangeOwnerOne</value>
-                        </valueListItems>
-                        <valueListItems>
-                            <value>ChangeRecordType</value>
-                        </valueListItems>
-                        <valueListItems>
-                            <value>PrintableView</value>
                         </valueListItems>
                         <valueListItems>
                             <value>CustomButton.agf__ADM_Work__c.agf__Deep_Clone</value>
@@ -166,7 +45,7 @@
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>numVisibleActions</name>
-                    <value>5</value>
+                    <value>10</value>
                 </componentInstanceProperties>
                 <componentName>force:highlightsPanel</componentName>
                 <identifier>force_highlightsPanel</identifier>
@@ -194,6 +73,13 @@
                 </fieldInstanceProperties>
                 <fieldItem>Record.agf__Details__c</fieldItem>
                 <identifier>Recordagf_Details_cField1</identifier>
+                <visibilityRule>
+                    <criteria>
+                        <leftValue>{!Record.RecordType.DeveloperName}</leftValue>
+                        <operator>EQUAL</operator>
+                        <rightValue>User_Story</rightValue>
+                    </criteria>
+                </visibilityRule>
             </fieldInstance>
         </itemInstances>
         <itemInstances>
@@ -245,30 +131,30 @@
             <fieldInstance>
                 <fieldInstanceProperties>
                     <name>uiBehavior</name>
-                    <value>none</value>
+                    <value>required</value>
                 </fieldInstanceProperties>
-                <fieldItem>Record.agf__Product_Tag__c</fieldItem>
-                <identifier>Recordagf_Product_Tag_cField1</identifier>
+                <fieldItem>Record.AH_Team__c</fieldItem>
+                <identifier>RecordAH_Team_cField</identifier>
             </fieldInstance>
         </itemInstances>
         <itemInstances>
             <fieldInstance>
                 <fieldInstanceProperties>
                     <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
-                <fieldItem>Record.agf__Scrum_Team__c</fieldItem>
-                <identifier>Recordagf_Scrum_Team_cField1</identifier>
-            </fieldInstance>
-        </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
+                    <value>required</value>
                 </fieldInstanceProperties>
                 <fieldItem>Record.agf__Status__c</fieldItem>
                 <identifier>Recordagf_Status_cField1</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>required</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.agf__Product_Tag__c</fieldItem>
+                <identifier>Recordagf_Product_Tag_cField1</identifier>
             </fieldInstance>
         </itemInstances>
         <itemInstances>
@@ -281,7 +167,7 @@
                 <identifier>RecordOps_ID_cField</identifier>
                 <visibilityRule>
                     <criteria>
-                        <leftValue>{!Record.agf__Scrum_Team__r.Name}</leftValue>
+                        <leftValue>{!Record.AH_Team__c}</leftValue>
                         <operator>EQUAL</operator>
                         <rightValue>SLTC Operations</rightValue>
                     </criteria>
@@ -300,6 +186,13 @@
                 </fieldInstanceProperties>
                 <fieldItem>Record.agf__Epic__c</fieldItem>
                 <identifier>Recordagf_Epic_cField1</identifier>
+                <visibilityRule>
+                    <criteria>
+                        <leftValue>{!Record.AH_Team__c}</leftValue>
+                        <operator>NE</operator>
+                        <rightValue>SLTC Testing</rightValue>
+                    </criteria>
+                </visibilityRule>
             </fieldInstance>
         </itemInstances>
         <itemInstances>
@@ -312,9 +205,9 @@
                 <identifier>Recordagf_Priority_cField1</identifier>
                 <visibilityRule>
                     <criteria>
-                        <leftValue>{!Record.agf__Scrum_Team__r.Name}</leftValue>
+                        <leftValue>{!Record.RecordType.DeveloperName}</leftValue>
                         <operator>EQUAL</operator>
-                        <rightValue>SLTC Hospitality Transformation</rightValue>
+                        <rightValue>User_Story</rightValue>
                     </criteria>
                 </visibilityRule>
             </fieldInstance>
@@ -328,10 +221,16 @@
                 <fieldItem>Record.Level_of_Customization__c</fieldItem>
                 <identifier>RecordLevel_of_Customization_cField1</identifier>
                 <visibilityRule>
+                    <booleanFilter>1 OR 2</booleanFilter>
                     <criteria>
-                        <leftValue>{!Record.agf__Scrum_Team__r.Name}</leftValue>
-                        <operator>CONTAINS</operator>
-                        <rightValue>SLTC</rightValue>
+                        <leftValue>{!Record.AH_Team__c}</leftValue>
+                        <operator>EQUAL</operator>
+                        <rightValue>SLTC Hospitality Transformation</rightValue>
+                    </criteria>
+                    <criteria>
+                        <leftValue>{!Record.AH_Team__c}</leftValue>
+                        <operator>EQUAL</operator>
+                        <rightValue>SLTC- Integrations Team</rightValue>
                     </criteria>
                 </visibilityRule>
             </fieldInstance>
@@ -344,6 +243,13 @@
                 </fieldInstanceProperties>
                 <fieldItem>Record.AH_SLTC_Team__c</fieldItem>
                 <identifier>RecordAH_SLTC_Team_cField</identifier>
+                <visibilityRule>
+                    <criteria>
+                        <leftValue>{!Record.AH_Team__c}</leftValue>
+                        <operator>EQUAL</operator>
+                        <rightValue>SLTC Testing</rightValue>
+                    </criteria>
+                </visibilityRule>
             </fieldInstance>
         </itemInstances>
         <name>Facet-d27f91ef-4c64-4273-a960-4d2d067760a1</name>
@@ -378,45 +284,7 @@
             <fieldInstance>
                 <fieldInstanceProperties>
                     <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
-                <fieldItem>Record.agf__Frequency__c</fieldItem>
-                <identifier>Recordagf_Frequency_cField1</identifier>
-                <visibilityRule>
-                    <criteria>
-                        <leftValue>{!Record.agf__Scrum_Team__r.Name}</leftValue>
-                        <operator>NE</operator>
-                        <rightValue>SLTC Hospitality Transformation</rightValue>
-                    </criteria>
-                </visibilityRule>
-            </fieldInstance>
-        </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
-                <fieldItem>Record.agf__Impact__c</fieldItem>
-                <identifier>Recordagf_Impact_cField1</identifier>
-                <visibilityRule>
-                    <criteria>
-                        <leftValue>{!Record.agf__Scrum_Team__r.Name}</leftValue>
-                        <operator>NE</operator>
-                        <rightValue>SLTC Hospitality Transformation</rightValue>
-                    </criteria>
-                </visibilityRule>
-            </fieldInstance>
-        </itemInstances>
-        <name>Facet-c1dde3d3-c125-4176-97fb-c3b4b84ff56a</name>
-        <type>Facet</type>
-    </flexiPageRegions>
-    <flexiPageRegions>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
+                    <value>required</value>
                 </fieldInstanceProperties>
                 <fieldItem>Record.agf__Priority__c</fieldItem>
                 <identifier>Recordagf_Priority_cField2</identifier>
@@ -431,10 +299,33 @@
                 <fieldItem>Record.AH_Category__c</fieldItem>
                 <identifier>RecordAH_Category_cField</identifier>
                 <visibilityRule>
+                    <booleanFilter>1 OR 2</booleanFilter>
                     <criteria>
                         <leftValue>{!Record.agf__Scrum_Team__r.Name}</leftValue>
                         <operator>EQUAL</operator>
                         <rightValue>SLTC Hospitality Transformation</rightValue>
+                    </criteria>
+                    <criteria>
+                        <leftValue>{!Record.AH_Team__c}</leftValue>
+                        <operator>EQUAL</operator>
+                        <rightValue>SLTC Testing</rightValue>
+                    </criteria>
+                </visibilityRule>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>required</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.agf__Severity_Level__c</fieldItem>
+                <identifier>Recordagf_Severity_Level_cField</identifier>
+                <visibilityRule>
+                    <criteria>
+                        <leftValue>{!Record.AH_Team__c}</leftValue>
+                        <operator>EQUAL</operator>
+                        <rightValue>SLTC Testing</rightValue>
                     </criteria>
                 </visibilityRule>
             </fieldInstance>
@@ -447,6 +338,73 @@
                 </fieldInstanceProperties>
                 <fieldItem>Record.AH_SystemWorkstream__c</fieldItem>
                 <identifier>RecordAH_SystemWorkstream_cField</identifier>
+                <visibilityRule>
+                    <criteria>
+                        <leftValue>{!Record.AH_Team__c}</leftValue>
+                        <operator>EQUAL</operator>
+                        <rightValue>SLTC Testing</rightValue>
+                    </criteria>
+                </visibilityRule>
+            </fieldInstance>
+        </itemInstances>
+        <name>Facet-c1dde3d3-c125-4176-97fb-c3b4b84ff56a</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.agf__Impact__c</fieldItem>
+                <identifier>Recordagf_Impact_cField</identifier>
+                <visibilityRule>
+                    <booleanFilter>1 AND 2 AND 3</booleanFilter>
+                    <criteria>
+                        <leftValue>{!Record.AH_Team__c}</leftValue>
+                        <operator>NE</operator>
+                        <rightValue>SLTC Hospitality Transformation</rightValue>
+                    </criteria>
+                    <criteria>
+                        <leftValue>{!Record.AH_Team__c}</leftValue>
+                        <operator>NE</operator>
+                        <rightValue>SLTC Testing</rightValue>
+                    </criteria>
+                    <criteria>
+                        <leftValue>{!Record.AH_Team__c}</leftValue>
+                        <operator>NE</operator>
+                        <rightValue>Technical Solutions</rightValue>
+                    </criteria>
+                </visibilityRule>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.agf__Frequency__c</fieldItem>
+                <identifier>Recordagf_Frequency_cField</identifier>
+                <visibilityRule>
+                    <booleanFilter>1 AND 2 AND 3</booleanFilter>
+                    <criteria>
+                        <leftValue>{!Record.AH_Team__c}</leftValue>
+                        <operator>NE</operator>
+                        <rightValue>SLTC Hospitality Transformation</rightValue>
+                    </criteria>
+                    <criteria>
+                        <leftValue>{!Record.AH_Team__c}</leftValue>
+                        <operator>NE</operator>
+                        <rightValue>SLTC Testing</rightValue>
+                    </criteria>
+                    <criteria>
+                        <leftValue>{!Record.AH_Team__c}</leftValue>
+                        <operator>NE</operator>
+                        <rightValue>Technical Solutions</rightValue>
+                    </criteria>
+                </visibilityRule>
             </fieldInstance>
         </itemInstances>
         <name>Facet-ac893482-72af-40e3-944a-565214472436</name>
@@ -495,6 +453,13 @@
                 </fieldInstanceProperties>
                 <fieldItem>Record.agf__Product_Owner__c</fieldItem>
                 <identifier>Recordagf_Product_Owner_cField1</identifier>
+                <visibilityRule>
+                    <criteria>
+                        <leftValue>{!Record.AH_Team__c}</leftValue>
+                        <operator>NE</operator>
+                        <rightValue>SLTC Testing</rightValue>
+                    </criteria>
+                </visibilityRule>
             </fieldInstance>
         </itemInstances>
         <itemInstances>
@@ -507,7 +472,7 @@
                 <identifier>RecordDepartment_cField</identifier>
                 <visibilityRule>
                     <criteria>
-                        <leftValue>{!Record.agf__Scrum_Team__r.Name}</leftValue>
+                        <leftValue>{!Record.AH_Team__c}</leftValue>
                         <operator>EQUAL</operator>
                         <rightValue>SLTC Operations</rightValue>
                     </criteria>
@@ -522,6 +487,13 @@
                 </fieldInstanceProperties>
                 <fieldItem>Record.agf__QA_Engineer__c</fieldItem>
                 <identifier>Recordagf_QA_Engineer_cField1</identifier>
+                <visibilityRule>
+                    <criteria>
+                        <leftValue>{!Record.AH_Team__c}</leftValue>
+                        <operator>NE</operator>
+                        <rightValue>SLTC Testing</rightValue>
+                    </criteria>
+                </visibilityRule>
             </fieldInstance>
         </itemInstances>
         <itemInstances>
@@ -532,6 +504,13 @@
                 </fieldInstanceProperties>
                 <fieldItem>Record.agf__Tech_Writer__c</fieldItem>
                 <identifier>Recordagf_Tech_Writer_cField1</identifier>
+                <visibilityRule>
+                    <criteria>
+                        <leftValue>{!Record.AH_Team__c}</leftValue>
+                        <operator>NE</operator>
+                        <rightValue>SLTC Testing</rightValue>
+                    </criteria>
+                </visibilityRule>
             </fieldInstance>
         </itemInstances>
         <name>Facet-31da143e-bd4c-464d-b825-affcfd007b45</name>
@@ -548,7 +527,7 @@
                 <identifier>Recordagf_UE_Engineer_cField1</identifier>
                 <visibilityRule>
                     <criteria>
-                        <leftValue>{!Record.agf__Scrum_Team__r.Name}</leftValue>
+                        <leftValue>{!Record.AH_Team__c}</leftValue>
                         <operator>EQUAL</operator>
                         <rightValue>DTS Team</rightValue>
                     </criteria>
@@ -565,7 +544,7 @@
                 <identifier>Recordagf_System_Test_Engineer_cField1</identifier>
                 <visibilityRule>
                     <criteria>
-                        <leftValue>{!Record.agf__Scrum_Team__r.Name}</leftValue>
+                        <leftValue>{!Record.AH_Team__c}</leftValue>
                         <operator>EQUAL</operator>
                         <rightValue>DTS Team</rightValue>
                     </criteria>
@@ -608,6 +587,13 @@
                 </fieldInstanceProperties>
                 <fieldItem>Record.agf__Sprint__c</fieldItem>
                 <identifier>Recordagf_Sprint_cField1</identifier>
+                <visibilityRule>
+                    <criteria>
+                        <leftValue>{!Record.AH_Team__c}</leftValue>
+                        <operator>NE</operator>
+                        <rightValue>SLTC Testing</rightValue>
+                    </criteria>
+                </visibilityRule>
             </fieldInstance>
         </itemInstances>
         <itemInstances>
@@ -618,13 +604,20 @@
                 </fieldInstanceProperties>
                 <fieldItem>Record.agf__Scheduled_Build__c</fieldItem>
                 <identifier>Recordagf_Scheduled_Build_cField1</identifier>
+                <visibilityRule>
+                    <criteria>
+                        <leftValue>{!Record.AH_Team__c}</leftValue>
+                        <operator>NE</operator>
+                        <rightValue>SLTC Testing</rightValue>
+                    </criteria>
+                </visibilityRule>
             </fieldInstance>
         </itemInstances>
         <itemInstances>
             <fieldInstance>
                 <fieldInstanceProperties>
                     <name>uiBehavior</name>
-                    <value>none</value>
+                    <value>required</value>
                 </fieldInstanceProperties>
                 <fieldItem>Record.agf__Found_in_Build__c</fieldItem>
                 <identifier>Recordagf_Found_in_Build_cField1</identifier>
@@ -647,7 +640,7 @@
                 <identifier>Recordagf_Story_Points_cField1</identifier>
                 <visibilityRule>
                     <criteria>
-                        <leftValue>{!Record.agf__Scrum_Team__r.Name}</leftValue>
+                        <leftValue>{!Record.AH_Team__c}</leftValue>
                         <operator>NE</operator>
                         <rightValue>SLTC Hospitality Transformation</rightValue>
                     </criteria>
@@ -658,6 +651,40 @@
         <type>Facet</type>
     </flexiPageRegions>
     <flexiPageRegions>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.AH_Theme_One__c</fieldItem>
+                <identifier>RecordAH_Theme_One_cField</identifier>
+                <visibilityRule>
+                    <criteria>
+                        <leftValue>{!Record.AH_Team__c}</leftValue>
+                        <operator>NE</operator>
+                        <rightValue>SLTC Testing</rightValue>
+                    </criteria>
+                </visibilityRule>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.AH_Theme_Two__c</fieldItem>
+                <identifier>RecordAH_Theme_Two_cField</identifier>
+                <visibilityRule>
+                    <criteria>
+                        <leftValue>{!Record.AH_Team__c}</leftValue>
+                        <operator>NE</operator>
+                        <rightValue>SLTC Testing</rightValue>
+                    </criteria>
+                </visibilityRule>
+            </fieldInstance>
+        </itemInstances>
         <name>Facet-1b170c0f-32b4-4d27-9be9-d55d0f947122</name>
         <type>Facet</type>
     </flexiPageRegions>
@@ -694,6 +721,13 @@
                 </fieldInstanceProperties>
                 <fieldItem>Record.AHProjectBacklog__c</fieldItem>
                 <identifier>RecordAHProjectBacklog_cField1</identifier>
+                <visibilityRule>
+                    <criteria>
+                        <leftValue>{!Record.AH_Team__c}</leftValue>
+                        <operator>NE</operator>
+                        <rightValue>SLTC Testing</rightValue>
+                    </criteria>
+                </visibilityRule>
             </fieldInstance>
         </itemInstances>
         <itemInstances>
@@ -704,6 +738,13 @@
                 </fieldInstanceProperties>
                 <fieldItem>Record.agf__Product_Area__c</fieldItem>
                 <identifier>Recordagf_Product_Area_cField1</identifier>
+                <visibilityRule>
+                    <criteria>
+                        <leftValue>{!Record.AH_Team__c}</leftValue>
+                        <operator>NE</operator>
+                        <rightValue>SLTC Testing</rightValue>
+                    </criteria>
+                </visibilityRule>
             </fieldInstance>
         </itemInstances>
         <itemInstances>
@@ -714,6 +755,13 @@
                 </fieldInstanceProperties>
                 <fieldItem>Record.agf__Column__c</fieldItem>
                 <identifier>Recordagf_Column_cField1</identifier>
+                <visibilityRule>
+                    <criteria>
+                        <leftValue>{!Record.AH_Team__c}</leftValue>
+                        <operator>NE</operator>
+                        <rightValue>SLTC Testing</rightValue>
+                    </criteria>
+                </visibilityRule>
             </fieldInstance>
         </itemInstances>
         <itemInstances>
@@ -724,6 +772,13 @@
                 </fieldInstanceProperties>
                 <fieldItem>Record.agf__Color__c</fieldItem>
                 <identifier>Recordagf_Color_cField1</identifier>
+                <visibilityRule>
+                    <criteria>
+                        <leftValue>{!Record.AH_Team__c}</leftValue>
+                        <operator>NE</operator>
+                        <rightValue>SLTC Testing</rightValue>
+                    </criteria>
+                </visibilityRule>
             </fieldInstance>
         </itemInstances>
         <name>Facet-85050a7b-51db-427a-9a76-ab6cbada7e50</name>
@@ -738,6 +793,13 @@
                 </fieldInstanceProperties>
                 <fieldItem>Record.QA_Automation__c</fieldItem>
                 <identifier>RecordQA_Automation_cField</identifier>
+                <visibilityRule>
+                    <criteria>
+                        <leftValue>{!Record.AH_Team__c}</leftValue>
+                        <operator>NE</operator>
+                        <rightValue>SLTC Testing</rightValue>
+                    </criteria>
+                </visibilityRule>
             </fieldInstance>
         </itemInstances>
         <itemInstances>
@@ -748,6 +810,13 @@
                 </fieldInstanceProperties>
                 <fieldItem>Record.Hours_Remaining__c</fieldItem>
                 <identifier>RecordHours_Remaining_cField1</identifier>
+                <visibilityRule>
+                    <criteria>
+                        <leftValue>{!Record.AH_Team__c}</leftValue>
+                        <operator>NE</operator>
+                        <rightValue>SLTC Testing</rightValue>
+                    </criteria>
+                </visibilityRule>
             </fieldInstance>
         </itemInstances>
         <itemInstances>
@@ -758,6 +827,13 @@
                 </fieldInstanceProperties>
                 <fieldItem>Record.agf__Completed_Hours__c</fieldItem>
                 <identifier>Recordagf_Completed_Hours_cField1</identifier>
+                <visibilityRule>
+                    <criteria>
+                        <leftValue>{!Record.AH_Team__c}</leftValue>
+                        <operator>NE</operator>
+                        <rightValue>SLTC Testing</rightValue>
+                    </criteria>
+                </visibilityRule>
             </fieldInstance>
         </itemInstances>
         <itemInstances>
@@ -768,6 +844,13 @@
                 </fieldInstanceProperties>
                 <fieldItem>Record.agf__Closed_On__c</fieldItem>
                 <identifier>Recordagf_Closed_On_cField1</identifier>
+                <visibilityRule>
+                    <criteria>
+                        <leftValue>{!Record.AH_Team__c}</leftValue>
+                        <operator>NE</operator>
+                        <rightValue>SLTC Testing</rightValue>
+                    </criteria>
+                </visibilityRule>
             </fieldInstance>
         </itemInstances>
         <name>Facet-7b555423-bfcb-4076-a6e7-06f063de65e5</name>
@@ -817,10 +900,61 @@
                 <fieldItem>Record.agf__Closed_On__c</fieldItem>
                 <identifier>Recordagf_Closed_On_cField</identifier>
                 <visibilityRule>
+                    <booleanFilter>1 AND 2 AND 3</booleanFilter>
                     <criteria>
-                        <leftValue>{!Record.agf__Scrum_Team__r.Name}</leftValue>
+                        <leftValue>{!Record.AH_Team__c}</leftValue>
+                        <operator>NE</operator>
+                        <rightValue>DTS Team</rightValue>
+                    </criteria>
+                    <criteria>
+                        <leftValue>{!Record.AH_Team__c}</leftValue>
+                        <operator>NE</operator>
+                        <rightValue>Technical Solutions</rightValue>
+                    </criteria>
+                    <criteria>
+                        <leftValue>{!Record.AH_Team__c}</leftValue>
+                        <operator>NE</operator>
+                        <rightValue>SLTC Testing</rightValue>
+                    </criteria>
+                </visibilityRule>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.agf__Scrum_Team__c</fieldItem>
+                <identifier>Recordagf_Scrum_Team_cField1</identifier>
+                <visibilityRule>
+                    <criteria>
+                        <leftValue>{!Record.AH_Team__c}</leftValue>
+                        <operator>NE</operator>
+                        <rightValue>SLTC Testing</rightValue>
+                    </criteria>
+                </visibilityRule>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.AH_TestCase__c</fieldItem>
+                <identifier>RecordAH_TestCase_cField</identifier>
+                <visibilityRule>
+                    <booleanFilter>1 AND 2</booleanFilter>
+                    <criteria>
+                        <leftValue>{!Record.AH_Team__c}</leftValue>
                         <operator>EQUAL</operator>
-                        <rightValue>SLTC Operations</rightValue>
+                        <rightValue>SLTC Testing</rightValue>
+                    </criteria>
+                    <criteria>
+                        <leftValue>{!Record.RecordType.DeveloperName}</leftValue>
+                        <operator>EQUAL</operator>
+                        <rightValue>Bug</rightValue>
                     </criteria>
                 </visibilityRule>
             </fieldInstance>
@@ -847,6 +981,13 @@
                 </fieldInstanceProperties>
                 <fieldItem>Record.CurrencyIsoCode</fieldItem>
                 <identifier>RecordCurrencyIsoCodeField1</identifier>
+                <visibilityRule>
+                    <criteria>
+                        <leftValue>{!$User.Profile.Name}</leftValue>
+                        <operator>CONTAINS</operator>
+                        <rightValue>System Administrator</rightValue>
+                    </criteria>
+                </visibilityRule>
             </fieldInstance>
         </itemInstances>
         <name>Facet-f1efa205-4f7b-4a7f-be29-096b762dfcec</name>
@@ -966,24 +1107,6 @@
                 </componentInstanceProperties>
                 <componentName>flexipage:fieldSection</componentName>
                 <identifier>flexipage_fieldSection6</identifier>
-                <visibilityRule>
-                    <booleanFilter>1 OR 2 OR 3</booleanFilter>
-                    <criteria>
-                        <leftValue>{!Record.agf__Scrum_Team__r.Name}</leftValue>
-                        <operator>CONTAINS</operator>
-                        <rightValue>DTS</rightValue>
-                    </criteria>
-                    <criteria>
-                        <leftValue>{!Record.agf__Scrum_Team__r.Name}</leftValue>
-                        <operator>CONTAINS</operator>
-                        <rightValue>SLTC</rightValue>
-                    </criteria>
-                    <criteria>
-                        <leftValue>{!Record.agf__Scrum_Team__r.Name}</leftValue>
-                        <operator>CONTAINS</operator>
-                        <rightValue>Technical</rightValue>
-                    </criteria>
-                </visibilityRule>
             </componentInstance>
         </itemInstances>
         <itemInstances>
@@ -1076,6 +1199,10 @@
     <flexiPageRegions>
         <itemInstances>
             <componentInstance>
+                <componentInstanceProperties>
+                    <name>showLegacyActivityComposer</name>
+                    <value>false</value>
+                </componentInstanceProperties>
                 <componentName>runtime_sales_activities:activityPanel</componentName>
                 <identifier>runtime_sales_activities_activityPanel1</identifier>
             </componentInstance>
@@ -1629,7 +1756,7 @@
         <name>main</name>
         <type>Region</type>
     </flexiPageRegions>
-    <masterLabel>CBS Work Record Page</masterLabel>
+    <masterLabel>DTS Work Record Page</masterLabel>
     <sobjectType>agf__ADM_Work__c</sobjectType>
     <template>
         <name>flexipage:recordHomeSingleColTemplateDesktop</name>

@@ -1,25 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Flow xmlns="http://soap.sforce.com/2006/04/metadata">
-    <apiVersion>55.0</apiVersion>
-    <assignments>
-        <name>AddToCollection</name>
-        <label>AddToCollection</label>
-        <locationX>1491</locationX>
-        <locationY>608</locationY>
-        <assignmentItems>
-            <assignToReference>varTempNewDIRecordCollection</assignToReference>
-            <operator>Add</operator>
-            <value>
-                <elementReference>varTempNewDIRecord</elementReference>
-            </value>
-        </assignmentItems>
-    </assignments>
+    <apiVersion>56.0</apiVersion>
     <assignments>
         <description>Adds a count of 1 everytime a record is matched in the loop. Used to decide if the record in the loop needs a new DI created.</description>
         <name>AssignMatchingRecordCount</name>
         <label>AssignMatchingRecordCount</label>
-        <locationX>1406</locationX>
-        <locationY>63</locationY>
+        <locationX>1212</locationX>
+        <locationY>64</locationY>
         <assignmentItems>
             <assignToReference>varNumberOfMatchingRecords</assignToReference>
             <operator>Add</operator>
@@ -35,8 +22,8 @@
         <description>Assigns field values to a temporary record</description>
         <name>AssignTempNewDIRecord</name>
         <label>AssignTempNewDIRecord</label>
-        <locationX>844</locationX>
-        <locationY>315</locationY>
+        <locationX>717</locationX>
+        <locationY>295</locationY>
         <assignmentItems>
             <assignToReference>varTempNewDIRecord.Product2Id</assignToReference>
             <operator>Assign</operator>
@@ -73,13 +60,6 @@
             </value>
         </assignmentItems>
         <assignmentItems>
-            <assignToReference>varTempNewDIRecord.AccountId_ProductId__c</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <elementReference>formulaAccountID_ProductID</elementReference>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
             <assignToReference>varTempNewDIRecordCollection</assignToReference>
             <operator>Add</operator>
             <value>
@@ -94,8 +74,8 @@
         <description>Counts the number of existing Deployment Instance records on the Account.</description>
         <name>CountExistingDeploymentInstances</name>
         <label>CountExistingDeploymentInstances</label>
-        <locationX>49</locationX>
-        <locationY>529</locationY>
+        <locationX>58</locationX>
+        <locationY>439</locationY>
         <assignmentItems>
             <assignToReference>CountDeploymentInstances</assignToReference>
             <operator>AssignCount</operator>
@@ -111,8 +91,8 @@
         <description>Counts the total number of DI records waiting to be created</description>
         <name>CountNewDIRecords</name>
         <label>CountNewDIRecords</label>
-        <locationX>808</locationX>
-        <locationY>641</locationY>
+        <locationX>789</locationX>
+        <locationY>551</locationY>
         <assignmentItems>
             <assignToReference>CountCreateNewDIRecords</assignToReference>
             <operator>AssignCount</operator>
@@ -125,11 +105,28 @@
         </connector>
     </assignments>
     <assignments>
+        <description>Counts the number of subscription activations records found the &quot;GetSubscriptionActivation&quot; element</description>
+        <name>CountSubscriptionActivations</name>
+        <label>CountSubscriptionActivations</label>
+        <locationX>205</locationX>
+        <locationY>552</locationY>
+        <assignmentItems>
+            <assignToReference>varCountSubscriptionActivations</assignToReference>
+            <operator>AssignCount</operator>
+            <value>
+                <elementReference>SubscriptionActivationRecordsColl</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>LoopSubActRecords</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
         <description>Counts the total number of records in the TempNewDIRecordCollection</description>
         <name>CountTempDIRecords</name>
         <label>CountTempDIRecords</label>
-        <locationX>367</locationX>
-        <locationY>486</locationY>
+        <locationX>397</locationX>
+        <locationY>490</locationY>
         <assignmentItems>
             <assignToReference>varCountTempDIRecords</assignToReference>
             <operator>AssignCount</operator>
@@ -145,8 +142,8 @@
         <description>Creates a collection of records to be created at the end of the loop. This list should be a de-duped list based on AccountID_DIIndexID</description>
         <name>FinalCollectionList</name>
         <label>FinalCollectionList</label>
-        <locationX>1437</locationX>
-        <locationY>447</locationY>
+        <locationX>1218</locationX>
+        <locationY>375</locationY>
         <assignmentItems>
             <assignToReference>CreateNewDeploymentInstanceColl</assignToReference>
             <operator>Add</operator>
@@ -162,8 +159,8 @@
         <description>Resets the count of matching records back to 0 for the next loop</description>
         <name>ResetNumberOfMatchingRecords</name>
         <label>ResetNumberOfMatchingRecords</label>
-        <locationX>501</locationX>
-        <locationY>287</locationY>
+        <locationX>492</locationX>
+        <locationY>254</locationY>
         <assignmentItems>
             <assignToReference>varNumberOfMatchingRecords</assignToReference>
             <operator>Assign</operator>
@@ -179,8 +176,8 @@
         <description>Assigns the AccountID_DIIndexID from the current loop item to a temporary variable for comparing against the next record to go through the loop.</description>
         <name>TempAssignAcctIdIndexID</name>
         <label>TempAssignAcctIdIndexID</label>
-        <locationX>1249</locationX>
-        <locationY>444</locationY>
+        <locationX>1070</locationX>
+        <locationY>351</locationY>
         <assignmentItems>
             <assignToReference>varTempAssignAcctIDDIIndexID</assignToReference>
             <operator>Assign</operator>
@@ -196,8 +193,8 @@
         <name>SortTempCollection</name>
         <elementSubtype>SortCollectionProcessor</elementSubtype>
         <label>SortTempCollection</label>
-        <locationX>688</locationX>
-        <locationY>489</locationY>
+        <locationX>614</locationX>
+        <locationY>413</locationY>
         <collectionProcessorType>SortCollectionProcessor</collectionProcessorType>
         <collectionReference>varTempNewDIRecordCollection</collectionReference>
         <connector>
@@ -213,8 +210,8 @@
         <description>Decides whether to add the current record to the final collection of records to create. The AccountID_DIIndexID from the current item from the loop will be compared against the AccountID_DIIndexId from the last item that went through and will be excluded if the fields match.</description>
         <name>AddToFinalListDecision</name>
         <label>AddToFinalListDecision</label>
-        <locationX>1352</locationX>
-        <locationY>630</locationY>
+        <locationX>1100</locationX>
+        <locationY>555</locationY>
         <defaultConnector>
             <targetReference>LoopTempNewDIRecord</targetReference>
         </defaultConnector>
@@ -239,8 +236,8 @@
         <description>Decides if the current Subscription Activation record in the loop needs a DI created for it. If the number of matching records is = 0, a new DI record is needed. If the count is greater than 0, no DI is needed as a DI already exists.</description>
         <name>CreateNewDIRecordDecision</name>
         <label>CreateNewDIRecordDecision</label>
-        <locationX>1122</locationX>
-        <locationY>269</locationY>
+        <locationX>1102</locationX>
+        <locationY>161</locationY>
         <defaultConnector>
             <targetReference>ResetNumberOfMatchingRecords</targetReference>
         </defaultConnector>
@@ -265,7 +262,7 @@
         <description>If the Account has existing DI records, the Flow will loop through to see if an existing DI record has a DI Index that matches a DI Index of a new record that needs to be created. If the Flow finds an existing DI Index on an Account, the current item in the loop is discarded and the path will take the Flow back to &quot;Loop SA records&quot;. If no existing DI records are found, the Flow continues to the next part.</description>
         <name>DecisionHasExistingDIRecords</name>
         <label>DecisionHasExistingDIRecords</label>
-        <locationX>902</locationX>
+        <locationX>849</locationX>
         <locationY>59</locationY>
         <defaultConnector>
             <targetReference>AssignTempNewDIRecord</targetReference>
@@ -291,8 +288,8 @@
         <description>Decides whether a Deployment Instance record exists for the new record to be created. If it exists, the loop will skip to the next Subscription Activation record. If it doesn&apos;t exist, the new record will be added to the collection of records to create.</description>
         <name>DIRecordCompareDecision</name>
         <label>DIRecordCompareDecision</label>
-        <locationX>1424</locationX>
-        <locationY>303</locationY>
+        <locationX>1252</locationX>
+        <locationY>221</locationY>
         <defaultConnector>
             <targetReference>LoopDIRecords</targetReference>
         </defaultConnector>
@@ -307,20 +304,6 @@
                     <elementReference>LoopDIRecords.Product2.DI_Index__r.Id</elementReference>
                 </rightValue>
             </conditions>
-            <conditions>
-                <leftValueReference>formulaAccountId_DIIndexID</leftValueReference>
-                <operator>EqualTo</operator>
-                <rightValue>
-                    <elementReference>LoopDIRecords.AccountId_DIIndexID__c</elementReference>
-                </rightValue>
-            </conditions>
-            <conditions>
-                <leftValueReference>formulaAccountID_ProductID</leftValueReference>
-                <operator>EqualTo</operator>
-                <rightValue>
-                    <elementReference>LoopDIRecords.AccountId_ProductId__c</elementReference>
-                </rightValue>
-            </conditions>
             <connector>
                 <targetReference>AssignMatchingRecordCount</targetReference>
             </connector>
@@ -331,8 +314,8 @@
         <description>Decides whether a Product has a DI Index or not. If not, the Flow is sent back to the next loop. If it does, it continues on. If a Product does not have a DI Index populated, no DI is needed.</description>
         <name>ProductHasDI_IndexDecision</name>
         <label>Product Has DI Index Decision</label>
-        <locationX>525</locationX>
-        <locationY>46</locationY>
+        <locationX>473</locationX>
+        <locationY>43</locationY>
         <defaultConnector>
             <targetReference>LoopSubActRecords</targetReference>
         </defaultConnector>
@@ -353,7 +336,7 @@
             <label>ProductHasDI_Index</label>
         </rules>
     </decisions>
-    <description>NICC-053482; NICC-053773; NICC-053660; NICC-057398; NICC-058163; updated via NICC-060001; updated via NICC-061384
+    <description>NICC-053482; NICC-053773; NICC-053660; NICC-057398; NICC-058163
 
 Creates a Deployment Instance record for each product in a bundle that doesn&apos;t have a corresponding Opportunity Line Item. This is a subloop on the TCSubscriptionActivations flow.</description>
     <environments>Default</environments>
@@ -369,20 +352,14 @@ Creates a Deployment Instance record for each product in a bundle that doesn&apo
         <dataType>String</dataType>
         <expression>{!AccountId}&amp;{!DI_Index_Details.Id}</expression>
     </formulas>
-    <formulas>
-        <description>Concatenates the Account Id and Product Id of the potential new Subscription Activation record</description>
-        <name>formulaAccountID_ProductID</name>
-        <dataType>String</dataType>
-        <expression>{!AccountId}&amp;{!ProductDetail.Id}</expression>
-    </formulas>
     <interviewLabel>CreateDIBundleProduct {!$Flow.CurrentDateTime}</interviewLabel>
     <label>CreateDIBundleProductV2</label>
     <loops>
         <description>Loops through all existing Deployment Instance records and compare the DI Index on the new record to existing DI Indexes on the Account to avoid creating duplicate DI Indexes.</description>
         <name>LoopDIRecords</name>
         <label>LoopDIRecords</label>
-        <locationX>1136</locationX>
-        <locationY>48</locationY>
+        <locationX>1013</locationX>
+        <locationY>42</locationY>
         <collectionReference>ExistingDeploymentInstancesColl</collectionReference>
         <iterationOrder>Asc</iterationOrder>
         <nextValueConnector>
@@ -409,8 +386,8 @@ Creates a Deployment Instance record for each product in a bundle that doesn&apo
     <loops>
         <name>LoopTempNewDIRecord</name>
         <label>LoopTempNewDIRecord</label>
-        <locationX>1064</locationX>
-        <locationY>539</locationY>
+        <locationX>931</locationX>
+        <locationY>477</locationY>
         <collectionReference>varTempNewDIRecordCollection</collectionReference>
         <iterationOrder>Asc</iterationOrder>
         <nextValueConnector>
@@ -442,61 +419,16 @@ Creates a Deployment Instance record for each product in a bundle that doesn&apo
     <recordCreates>
         <name>CreateDeploymentInstances</name>
         <label>CreateDeploymentInstances</label>
-        <locationX>534</locationX>
-        <locationY>551</locationY>
+        <locationX>545</locationX>
+        <locationY>576</locationY>
         <inputReference>CreateNewDeploymentInstanceColl</inputReference>
-    </recordCreates>
-    <recordCreates>
-        <description>Adds a record into the AH Error Log object if the Flow fails to complete the &quot;CreateDeploymentInstances&quot; create record element</description>
-        <name>CreateErrorLog_CreateDeploymentInstances</name>
-        <label>CreateErrorLog-CreateDeploymentInstances</label>
-        <locationX>368</locationX>
-        <locationY>628</locationY>
-        <inputAssignments>
-            <field>Apex_Class_Name__c</field>
-            <value>
-                <stringValue>CreateDIBundleProductV2 (API Name: CreateDIBundleProductVersion2)</stringValue>
-            </value>
-        </inputAssignments>
-        <inputAssignments>
-            <field>DML_Type__c</field>
-            <value>
-                <stringValue>Create Records (CreateDeploymntInstances node)</stringValue>
-            </value>
-        </inputAssignments>
-        <inputAssignments>
-            <field>Message__c</field>
-            <value>
-                <elementReference>$Flow.FaultMessage</elementReference>
-            </value>
-        </inputAssignments>
-        <inputAssignments>
-            <field>Object_Name__c</field>
-            <value>
-                <stringValue>Deployment Instances</stringValue>
-            </value>
-        </inputAssignments>
-        <inputAssignments>
-            <field>RecordTypeId</field>
-            <value>
-                <stringValue>0120d000000JOx3AAG</stringValue>
-            </value>
-        </inputAssignments>
-        <inputAssignments>
-            <field>User__c</field>
-            <value>
-                <elementReference>$User.Id</elementReference>
-            </value>
-        </inputAssignments>
-        <object>NI_Admin_Error_Log__c</object>
-        <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordCreates>
     <recordLookups>
         <description>Gets the existing Deployment Instances on the Account record</description>
         <name>GetDeploymentInstances</name>
         <label>GetDeploymentInstances</label>
-        <locationX>50</locationX>
-        <locationY>386</locationY>
+        <locationX>64</locationX>
+        <locationY>268</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>CountExistingDeploymentInstances</targetReference>
@@ -516,71 +448,19 @@ Creates a Deployment Instance record for each product in a bundle that doesn&apo
                 <booleanValue>false</booleanValue>
             </value>
         </filters>
-        <filters>
-            <field>DI_Index_Name__c</field>
-            <operator>IsNull</operator>
-            <value>
-                <booleanValue>false</booleanValue>
-            </value>
-        </filters>
         <object>Asset</object>
         <outputReference>ExistingDeploymentInstancesColl</outputReference>
         <queriedFields>Id</queriedFields>
         <queriedFields>Product2Id</queriedFields>
         <queriedFields>DI_Index_Name__c</queriedFields>
         <queriedFields>AccountId_DIIndexID__c</queriedFields>
-        <queriedFields>AccountId_ProductId__c</queriedFields>
-    </recordLookups>
-    <recordLookups>
-        <description>Gets the Group ID from the previous portion of the Flow and feeds it through</description>
-        <name>GetGroup</name>
-        <label>GetGroup</label>
-        <locationX>55</locationX>
-        <locationY>266</locationY>
-        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
-        <connector>
-            <targetReference>GetDeploymentInstances</targetReference>
-        </connector>
-        <filterLogic>and</filterLogic>
-        <filters>
-            <field>Id</field>
-            <operator>EqualTo</operator>
-            <value>
-                <elementReference>GroupId</elementReference>
-            </value>
-        </filters>
-        <getFirstRecordOnly>false</getFirstRecordOnly>
-        <object>pse__Grp__c</object>
-        <storeOutputAutomatically>true</storeOutputAutomatically>
-    </recordLookups>
-    <recordLookups>
-        <description>Gets the Opportunity from the previous portions of the Flow and feeds the ID through</description>
-        <name>GetOppty</name>
-        <label>GetOppty</label>
-        <locationX>49</locationX>
-        <locationY>145</locationY>
-        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
-        <connector>
-            <targetReference>GetGroup</targetReference>
-        </connector>
-        <filterLogic>and</filterLogic>
-        <filters>
-            <field>Id</field>
-            <operator>EqualTo</operator>
-            <value>
-                <elementReference>OppId</elementReference>
-            </value>
-        </filters>
-        <getFirstRecordOnly>true</getFirstRecordOnly>
-        <object>Opportunity</object>
-        <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordLookups>
     <recordLookups>
         <description>Gets the Name of the Deployment Instance Index associated with the Product. This will be used for comparing potential new records against existing DI records on the Account. Only one DI Index can exist on an Account record.</description>
         <name>GetProductDI_IndexDetails</name>
         <label>GetProductDI_IndexDetails</label>
-        <locationX>724</locationX>
-        <locationY>67</locationY>
+        <locationX>641</locationX>
+        <locationY>39</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>DecisionHasExistingDIRecords</targetReference>
@@ -655,18 +535,18 @@ Creates a Deployment Instance record for each product in a bundle that doesn&apo
         <description>Gets the Subscription Activation records attached to the Opportunity. Does not include any SA record where the Product Name contains &quot;Core4&quot;, &quot;Core 4&quot;, or &quot;Guest Portal&quot;.</description>
         <name>GetSubscriptionActivation</name>
         <label>GetSubscriptionActivation</label>
-        <locationX>190</locationX>
-        <locationY>516</locationY>
+        <locationX>63</locationX>
+        <locationY>592</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
-            <targetReference>LoopSubActRecords</targetReference>
+            <targetReference>CountSubscriptionActivations</targetReference>
         </connector>
         <filterLogic>(1) and (4) and (5) and (NOT(2)) AND (NOT(3) AND NOT(6))</filterLogic>
         <filters>
             <field>Opportunity__c</field>
             <operator>EqualTo</operator>
             <value>
-                <elementReference>OppId</elementReference>
+                <elementReference>varOpportunityRecordFlow3.Id</elementReference>
             </value>
         </filters>
         <filters>
@@ -694,7 +574,7 @@ Creates a Deployment Instance record for each product in a bundle that doesn&apo
             <field>Group__c</field>
             <operator>EqualTo</operator>
             <value>
-                <elementReference>GroupId</elementReference>
+                <elementReference>varGroupRecordFlow3.Id</elementReference>
             </value>
         </filters>
         <filters>
@@ -713,10 +593,10 @@ Creates a Deployment Instance record for each product in a bundle that doesn&apo
         <queriedFields>Account__c</queriedFields>
     </recordLookups>
     <start>
-        <locationX>26</locationX>
-        <locationY>22</locationY>
+        <locationX>38</locationX>
+        <locationY>83</locationY>
         <connector>
-            <targetReference>GetOppty</targetReference>
+            <targetReference>GetDeploymentInstances</targetReference>
         </connector>
     </start>
     <status>Active</status>
@@ -843,12 +723,33 @@ Creates a Deployment Instance record for each product in a bundle that doesn&apo
         <isOutput>true</isOutput>
     </variables>
     <variables>
+        <description>Holds the count of Subscription Activation records</description>
+        <name>varCountSubscriptionActivations</name>
+        <dataType>Number</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <scale>0</scale>
+        <value>
+            <numberValue>0.0</numberValue>
+        </value>
+    </variables>
+    <variables>
         <name>varCountTempDIRecords</name>
         <dataType>Number</dataType>
         <isCollection>false</isCollection>
         <isInput>true</isInput>
         <isOutput>true</isOutput>
         <scale>0</scale>
+    </variables>
+    <variables>
+        <description>Holds the Group record passed in from the second flow</description>
+        <name>varGroupRecordFlow3</name>
+        <dataType>SObject</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>false</isOutput>
+        <objectType>pse__Grp__c</objectType>
     </variables>
     <variables>
         <name>varNumberOfMatchingRecords</name>
@@ -860,6 +761,15 @@ Creates a Deployment Instance record for each product in a bundle that doesn&apo
         <value>
             <numberValue>0.0</numberValue>
         </value>
+    </variables>
+    <variables>
+        <description>Holds the Opportunity record passed in from the 2nd Flow</description>
+        <name>varOpportunityRecordFlow3</name>
+        <dataType>SObject</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>false</isOutput>
+        <objectType>Opportunity</objectType>
     </variables>
     <variables>
         <name>varTempAssignAcctIDDIIndexID</name>

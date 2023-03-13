@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ListView xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>AH_UDC_MyWorkbooksSent</fullName>
+    <columns>RelatedToDocName__c</columns>
     <columns>NAME</columns>
     <columns>Product__c</columns>
     <columns>SentDate__c</columns>
     <columns>SentStatus__c</columns>
     <columns>CompletedDate__c</columns>
     <columns>WorkbookSentDueDate__c</columns>
-    <columns>RelatedToDocName__c</columns>
     <filterScope>Mine</filterScope>
     <filters>
         <field>RECORDTYPE</field>

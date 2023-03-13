@@ -198,8 +198,6 @@ Change History  :
                   //Initialize the datatable
                   initializeDataTable();
                   window.parent.scrollTo(0, 0); //Scroll to top and display error message
-                  //Set community page height based on our page content height to remove extra space at bottom
-                  setCommunityPageHeight();
                   $('#spinner').hide();
                }             
                
@@ -227,72 +225,16 @@ Change History  :
             }
 
             $(document).ready(function () {
-               //Set community page height based on our page content height to remove extra space at bottom
-               setTimeout(setCommunityPageHeight, 200);
-
                if('{!IsTermsandConditionAccepted}'.toLowerCase() == 'true') {
                   //Initialize the datatable
                   initializeDataTable();
                }
-
-                window.onbeforeunload = function() { //Before leaving Product Workbook tab
-                    var parentWindow = window.parent.document;
-                    //Display top white-space which was removed previously on community layout
-                    $('div[data-region-name="customHeader"]', parentWindow).show();
-
-                    //Display Section-A (Search bar and Profile Menu) which was hide prviously on community layout
-                    $('.cHeaderLine', parentWindow).show();
-                    $('.cNavBarCon', parentWindow).css('position', 'absolute');
-                }
-
+               
                 $('#spinner').hide();
             });
 
-            $(window.parent.document).ready(function() { //Onload of community page
-                var parentWindow = window.parent.document;
 
-                //Hide top white-space from community layout
-                $('div[data-region-name="customHeader"]', parentWindow).hide();
-
-                //Hide Section-A (Search bar and Profile Menu) from community layout
-                $('.cHeaderLine', parentWindow).hide();
-                $('.cNavBarCon', parentWindow).css('position', 'initial');
-
-                //Hide top image
-                $('.comm-content-header', parentWindow).hide();
-
-                //Optimizing white space
-                if(window.parent.document.body.getElementsByClassName('cCenterPanel')) {
-                  window.parent.document.body.getElementsByClassName('cCenterPanel')[0].style['max-width'] = '1400px';
-                }
-            });
-
-            $(window.parent).resize(function() {
-               //Set community page height based on our page content height to remove extra space at bottom
-               setTimeout(setCommunityPageHeight, 200);
-            });
-
-            function removeCommunityImageAndSearchBar() {
-               var parentWindow = window.parent.document;
-               //Remove top white-space from community layout
-               $('div[data-region-name="customHeader"]', parentWindow).remove();
-
-               //Remove Section-A (Search bar and Profile Menu) from community layout
-               $('.cHeaderLine', parentWindow).remove();
-               var strHtml = $('.cNavBarCon', parentWindow).html();
-               $('.cNavBarCon', parentWindow).empty();
-               $('.cNavBarCon', parentWindow).parent().append(strHtml);
-               $('.cNavBarCon', parentWindow).remove();
-
-               //Remove top image
-               $('.comm-content-header', parentWindow).remove();
-            }
-
-            //Set community page height based on our page content height to remove extra scroll bars
-            function setCommunityPageHeight() {
-               var parentWindow = window.parent.document;
-               $('.comm-layout-column .forceCommunityTabset .forceCommunityVisualforcePage iframe', parentWindow).attr('height', $('#divUDCWelcome').outerHeight() + 70);
-            }
+            
          </script>
       </div>
    </body>

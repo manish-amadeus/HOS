@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Case_Management_Q02</fullName>
+    <active>true</active>
+    <description>&quot;Avoids unnecessary repetition&quot; value to be between 0 and 5.</description>
+    <errorConditionFormula>AND (
+    RecordType.DeveloperName = &quot;Customer_Care_Quality_Form&quot;, 
+    OR (
+        NOT(CONTAINS(&quot;0,1,2,3,4,5&quot;, TEXT(Avoids_Unnecessary_Repetition__c))),
+        ISNULL(Avoids_Unnecessary_Repetition__c)
+    )
+)</errorConditionFormula>
+    <errorDisplayField>Avoids_Unnecessary_Repetition__c</errorDisplayField>
+    <errorMessage>Please update your value to be between 0 and 5.</errorMessage>
+</ValidationRule>

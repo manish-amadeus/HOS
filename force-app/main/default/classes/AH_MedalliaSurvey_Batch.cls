@@ -82,7 +82,7 @@ global class AH_MedalliaSurvey_Batch implements Database.Batchable<sObject>
             supportSurveySOQL +='pse__Project__r.pse__End_Date__c, pse__Project__r.Customer_Project_Contact__r.AccountId,pse__Project__r.Customer_Project_Contact__r.Account.Name,pse__Project__r.Customer_Project_Contact__r.Account.AccountNumber,pse__Project__r.Customer_Project_Contact__r.Account.Brand__c,';
             supportSurveySOQL +='pse__Project__r.Customer_Project_Contact__r.MailingAddress,pse__Project__r.Customer_Project_Contact__r.MailingCity,pse__Project__r.Customer_Project_Contact__r.MailingCountry,pse__Project__r.Customer_Project_Contact__r.Phone,';
             supportSurveySOQL +='pse__Project__r.Customer_Project_Contact__r.MailingState,pse__Project__r.Customer_Project_Contact__r.MailingPostalCode,pse__Project__r.Customer_Project_Contact__r.Email,pse__Project__r.Customer_Project_Contact__r.FirstName,';
-            supportSurveySOQL +='pse__Project__r.Customer_Project_Contact__r.LastName,pse__Project__r.Customer_Project_Contact__r.Title,pse__Project__r.Customer_Project_Contact__r.Account.Franchisor__c,pse__Project__r.Customer_Project_Contact__r.Primary_Language__c,';
+            supportSurveySOQL +='pse__Project__r.Customer_Project_Contact__r.LastName,pse__Project__r.pse__Stage__c,pse__Project__r.Customer_Project_Contact__r.Title,pse__Project__r.Customer_Project_Contact__r.Account.Franchisor__c,pse__Project__r.Customer_Project_Contact__r.Primary_Language__c,';
             supportSurveySOQL +='Project_Manager__c,Project_Manager__r.Name';
             supportSurveySOQL +=' FROM pse__Assignment__c ';
         }
@@ -93,7 +93,7 @@ global class AH_MedalliaSurvey_Batch implements Database.Batchable<sObject>
         {
             serviceCriterialst = [Select Id,Type__c,Days_between_Surveys__c,Number_of_Days__c,Active__c,Case_Origin__c,Case_Reason__c,Restricted_Emails__c,Assignment_Status__c,
                                   Case_Status__c,Case_Type__c,Credit_Status__c,Project_Type__c,Role__c,Override_Project_Practice__c,Group__c,
-                                  Milestone_Type__c,Project_Object__c,Project_Record__c,Record_Type__c,Support_Tier__c,
+                                  Milestone_Type__c,Project_Object__c,Project_Record__c,Record_Type__c,Support_Tier__c,Project_Stage__c,
                                   RecordType.Name,RecordType.DeveloperName, SurveyType__c,SurveySubType__c from Medallia_Selection_Criteria__c 
                                   where Active__c = true AND RecordType.DeveloperName =: this.recordType AND SurveyType__c =: this.surveyType AND SurveySubType__c =: this.surveySubType];    
         }
@@ -101,7 +101,7 @@ global class AH_MedalliaSurvey_Batch implements Database.Batchable<sObject>
         {
             serviceCriterialst = [Select Id,Type__c,Days_between_Surveys__c,Number_of_Days__c,Active__c,Case_Origin__c,Case_Reason__c,Restricted_Emails__c,Assignment_Status__c,
                                   Case_Status__c,Case_Type__c,Credit_Status__c,Project_Type__c,Role__c,Override_Project_Practice__c,Group__c,
-                                  Milestone_Type__c,Project_Object__c,Project_Record__c,Record_Type__c,Support_Tier__c,
+                                  Milestone_Type__c,Project_Object__c,Project_Record__c,Record_Type__c,Support_Tier__c,Project_Stage__c,
                                   RecordType.Name,RecordType.DeveloperName, SurveyType__c,SurveySubType__c from Medallia_Selection_Criteria__c 
                                   where Active__c = true AND RecordType.DeveloperName =: this.recordType AND SurveyType__c =: this.surveyType];
         }    
@@ -109,7 +109,7 @@ global class AH_MedalliaSurvey_Batch implements Database.Batchable<sObject>
         {
             serviceCriterialst = [Select Id,Type__c,Days_between_Surveys__c,Number_of_Days__c,Active__c,Case_Origin__c,Case_Reason__c,Restricted_Emails__c,Assignment_Status__c,
                                   Case_Status__c,Case_Type__c,Credit_Status__c,Project_Type__c,Role__c,Override_Project_Practice__c,Group__c,
-                                  Milestone_Type__c,Project_Object__c,Project_Record__c,Record_Type__c,Support_Tier__c,
+                                  Milestone_Type__c,Project_Object__c,Project_Record__c,Record_Type__c,Support_Tier__c,Project_Stage__c,
                                   RecordType.Name,RecordType.DeveloperName, SurveyType__c,SurveySubType__c from Medallia_Selection_Criteria__c 
                                   where Active__c = true AND RecordType.DeveloperName =: this.recordType];    
         }
@@ -165,7 +165,7 @@ global class AH_MedalliaSurvey_Batch implements Database.Batchable<sObject>
                 {   
                     if(serviceCriteria.Days_between_Surveys__c != null)
                         numberOfDaysForAdoption = serviceCriteria.Days_between_Surveys__c.intValue();
-                    supportSOQLWhere += ' AND RecordType.Name =\''+serviceCriteria.Record_Type__c+'\' AND Status =\''+serviceCriteria.Case_Status__c+'\'';
+                    supportSOQLWhere += ' AND Appointment_Booked_Email_Received__c = true AND RecordType.Name =\''+serviceCriteria.Record_Type__c+'\' AND Status =\''+serviceCriteria.Case_Status__c+'\'';
                     supportSOQLWhere += ' AND ClosedDate = LAST_N_DAYS:'+serviceCriteria.Number_of_Days__c;//+serviceCriteria.Number_of_Days__c;//N_DAYS_AGO:7
                 }
                 
@@ -360,7 +360,8 @@ global class AH_MedalliaSurvey_Batch implements Database.Batchable<sObject>
                             Date enddateProject = Date.valueOf(Datetime.now().addDays(- Integer.valueOf(serviceCriteria.Number_of_Days__c)).formatGmt('yyyy-MM-dd'));
                             supportSOQLWhere += ' pse__Project__r.pse__End_Date__c IN (:enddateProject)'; 
                             supportSOQLWhere += ' AND pse__Project__r.Survey_Sent__c = false AND pse__Project__r.Customer_Project_Contact__c != null';
-                            supportSOQLWhere += ' AND pse__Project__r.pse__Project_Type__c = \'' + serviceCriteria.Project_Type__c + '\'';//pse__Milestone__r.pse__Override_Project_Practice__r.Name = \''+serviceCriteria.Override_Project_Practice__c+'\' AND 
+                            supportSOQLWhere += ' AND pse__Project__r.pse__Project_Type__c = \'' + serviceCriteria.Project_Type__c + '\'';
+                            supportSOQLWhere += ' AND pse__Project__r.pse__Stage__c = \'' + serviceCriteria.Project_Stage__c + '\'';//pse__Milestone__r.pse__Override_Project_Practice__r.Name = \''+serviceCriteria.Override_Project_Practice__c+'\' AND 
                             supportSOQLWhere += ' AND pse__Project__r.Customer_Project_Contact__r.Status__c = \'Active\' AND pse__Project__r.Customer_Project_Contact__r.Bounced_Email__c = false';
 
                             if (!projectgroupName.IsEmpty())
@@ -400,7 +401,7 @@ global class AH_MedalliaSurvey_Batch implements Database.Batchable<sObject>
                 queryString +='pse__Project__r.Customer_Project_Contact__r.AccountId,pse__Project__r.Customer_Project_Contact__r.Account.Name,pse__Project__r.Customer_Project_Contact__r.Account.AccountNumber,pse__Project__r.Customer_Project_Contact__r.Account.Brand__c,';
                 queryString +='pse__Project__r.Customer_Project_Contact__r.MailingAddress,pse__Project__r.Customer_Project_Contact__r.MailingCity,pse__Project__r.Customer_Project_Contact__r.MailingCountry,pse__Project__r.Customer_Project_Contact__r.Phone,';
                 queryString +='pse__Project__r.Customer_Project_Contact__r.MailingState,pse__Project__r.Customer_Project_Contact__r.MailingPostalCode,pse__Project__r.Customer_Project_Contact__r.Email,pse__Project__r.Customer_Project_Contact__r.FirstName,';
-                queryString +='pse__Project__r.Customer_Project_Contact__r.LastName,pse__Project__r.Customer_Project_Contact__r.Title,pse__Project__r.Customer_Project_Contact__r.Account.Franchisor__c,pse__Project__r.Customer_Project_Contact__r.Primary_Language__c,';
+                queryString +='pse__Project__r.Customer_Project_Contact__r.LastName,pse__Project__r.pse__Stage__c,pse__Project__r.Customer_Project_Contact__r.Title,pse__Project__r.Customer_Project_Contact__r.Account.Franchisor__c,pse__Project__r.Customer_Project_Contact__r.Primary_Language__c,';
                 queryString +='Project_Manager__c,Project_Manager__r.Name';
                 queryString +=' FROM pse__Assignment__c ';
             }

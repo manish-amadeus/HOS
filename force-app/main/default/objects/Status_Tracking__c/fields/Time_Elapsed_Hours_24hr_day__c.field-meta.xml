@@ -1,16 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Time_Elapsed_Hours_24hr_day__c</fullName>
-    <businessOwnerUser>adavid.robinson@amadeus.com</businessOwnerUser>
+    <businessOwnerUser>kcontreraz@newmarketinc.com</businessOwnerUser>
     <businessStatus>Active</businessStatus>
-    <description>NICC-051009</description>
+    <description>NICC-051009; updated via NICC-057681</description>
     <externalId>false</externalId>
-    <inlineHelpText>This field is populated from a lightning process called Status Tracking Time Elapsed and shows the time elapsed between Enter and Exit time, in hours, based on a 24 hr work day.</inlineHelpText>
-    <label>Time Elapsed Hours (24 hr day)</label>
+    <inlineHelpText>This field is populated from a trigger called “AH_StatusTracking_TriggerHandler”. This field shows the time elapsed between Start and End Time based on a 24 hr day. Time does not include weekends.</inlineHelpText>
+    <label>Status Time Elapsed</label>
     <precision>6</precision>
     <required>false</required>
     <scale>2</scale>
     <securityClassification>Internal</securityClassification>
+    <trackHistory>true</trackHistory>
     <trackTrending>false</trackTrending>
     <type>Number</type>
     <unique>false</unique>

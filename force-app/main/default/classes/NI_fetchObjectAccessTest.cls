@@ -17,8 +17,8 @@ Description     :
 @isTest
 private class NI_fetchObjectAccessTest 
 {
-    
-    static testMethod void testFetchObjectAccess() 
+    @isTest
+    static void testFetchObjectAccess() 
     {
         
         //RecordType rt = [SELECT Name, Id FROM RecordType WHERE sObjectType = 'NI_Org_Details__c' AND Name = 'Delphi.Net Support User' AND isActive = true];
@@ -64,7 +64,8 @@ private class NI_fetchObjectAccessTest
                 
     }
    
-    static testMethod void testGetpermset() 
+    @isTest
+    static void testGetpermset() 
     {
         //RecordType rt = [SELECT Name, Id FROM RecordType WHERE sObjectType = 'NI_Org_Details__c' AND Name = 'Delphi.Net Support User' AND isActive = true];
         Id rtInit = NI_TestClassData.getRecordTypeId('NI_Org_Details__c', 'Delphi.Net Support User');
@@ -133,8 +134,9 @@ private class NI_fetchObjectAccessTest
         
         Test.StopTest();  
     }
-        
-    static testMethod void testSchedule()  
+    
+    @isTest
+    static void testSchedule()  
     {
         Test.startTest();
         NI_fetchObjectAccess fetchObjectAccess = new NI_fetchObjectAccess();

@@ -1,9 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Agent_Sends_Case_Number_Via_Email__c</fullName>
-    <description>Agent sends the case number via e-mail.</description>
+    <defaultValue>0</defaultValue>
+    <description>Agent sends the case number via e-mail.
+NICC 053612</description>
     <externalId>false</externalId>
-    <inlineHelpText>All cases should contain an email confirming case number</inlineHelpText>
+    <inlineHelpText>All cases from a phone call should contain an email from the initial case creator confirming case number.
+POSSIBLE VALUES: 0, 1, 5</inlineHelpText>
     <label>Agent sends the case number via e-mail *</label>
     <precision>2</precision>
     <required>false</required>

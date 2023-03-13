@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ListView xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Shared_Services_Requests_In_Progress</fullName>
+    <booleanFilter>1 AND 3 AND 4 AND (2 OR 5)</booleanFilter>
+    <columns>Work_Record_Number__c</columns>
     <columns>Enhancement_Department_Priority__c</columns>
-    <columns>Customer_Experience_Department__c</columns>
     <columns>NAME</columns>
     <columns>Request_Title__c</columns>
-    <columns>Request_Status__c</columns>
     <columns>Request_Type__c</columns>
-    <columns>Priority__c</columns>
-    <columns>Request_Contact__c</columns>
-    <columns>OWNER.ALIAS</columns>
+    <columns>Request_Status__c</columns>
     <columns>MSD_Ticket__c</columns>
+    <columns>Priority__c</columns>
+    <columns>OWNER.LAST_NAME</columns>
     <columns>BS_Related_AH_Project_Backlog__c</columns>
     <filterScope>Everything</filterScope>
     <filters>
@@ -19,9 +19,22 @@
         <value>Request__c.Shared_Services_Request</value>
     </filters>
     <filters>
-        <field>Request_Status__c</field>
+        <field>MSD_Ticket__c</field>
+        <operation>notEqual</operation>
+    </filters>
+    <filters>
+        <field>BS_Related_AH_Project_Backlog__c</field>
         <operation>equals</operation>
-        <value>In Progress</value>
+    </filters>
+    <filters>
+        <field>Request_Status__c</field>
+        <operation>notEqual</operation>
+        <value>Closed,Closed - Contract Processed,Closed - Incorrect Mailbox,Closed - Info/Admin Opty Processed,Closed - Unresolved,Rejected,SPAM,Duplicate,Closed Blocked,Closed Cancelled,Closed Fulfilled,Close Duplicate,Pending User Confirmation</value>
+    </filters>
+    <filters>
+        <field>Request_Title__c</field>
+        <operation>contains</operation>
+        <value>MSD</value>
     </filters>
     <label>SS Requests - BS List View</label>
 </ListView>

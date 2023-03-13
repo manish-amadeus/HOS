@@ -56,6 +56,9 @@ public class NI_OrgDetailsLogController
     Set<String> setCSRecordTypeName = new Set<String>();
     Map<String,String> mapCSRecordType = new Map<String,String>();
     
+    public boolean displayPopup {get; set;}
+    
+    
     //INITIALIZE THE CONTROLLER
     public NI_OrgDetailsLogController(ApexPages.StandardController controller) 
     {
@@ -112,8 +115,130 @@ public class NI_OrgDetailsLogController
         
     }
     
-    public boolean displayPopup {get; set;}
+    public static Id getRecordTypeId(String sObjTypeName, String RecordTypeName)
+    {
+        RecordType rt = [SELECT Name, Id FROM RecordType WHERE sObjectType =: sObjTypeName AND Name =: RecordTypeName AND isActive = true];
+        return rt.Id;
+    }
     
+    // FUNCTION THAT EXCEPTS (USER ID, PUBLIC GROUP NAME STRING) AND RETURNS TRUE OR FALSE IF IT FINDS A RELATION MATCH
+    public static boolean hasAccessByPublicGroup(Id usersId, String publicGroupName)
+    {
+        
+        // LIST TO HOLD PUBLIC GROUP TO BE EVALUATED (USED LIST TO UTILIZE SIZE() FUNCTION)
+        List<Group> lstPublicGroup = new List<Group>([SELECT Id FROM Group WHERE Name =: publicGroupName LIMIT 1]);
+        
+        // IF NO GROUP FOUND RETURN FALSE
+        if (lstPublicGroup.Size() < 1)
+        {
+            System.debug('!!! =========== NI_FUNCTIONS.hasAccessByPublicGroup : CANNOT FIND PUBLIC GROUP NAMED ' + publicGroupName + ' =========== !!!');
+            return false;
+        }
+        
+        // SET TO HOLD IDS OF PUBLIC GROUPS & USER ROLE USER BELONGS TO 
+        Set<Id> setMemberOf = new Set<Id>();
+        
+        // GET USER RECORD WITH USER ROLE ID
+        User u = [SELECT Id, UserRoleId FROM User WHERE Id = : usersId LIMIT 1];
+        // ADD USER ROLE ID TO "MEMBER OF" SET
+        setMemberOf.Add(u.UserRoleId);
+        
+        // FILL SET WILL ALL GROUP IDs THAT THE USER BELONGS TO 
+        for (GroupMember m : [SELECT Id, GroupId, UserOrGroupId 
+                              FROM GroupMember 
+                              WHERE Group.Type = 'Regular' 
+                              AND UserOrGroupId = : usersId]) 
+        {
+            setMemberOf.Add(m.GroupId); 
+        }
+        
+        // LOOP THROUGH "MEMBER OF" LIST TO SEE IF VISITOR BELONGS TO THE GROUP PASSED IN DIRECTLY
+        for (Id i : setMemberOf)
+        {
+            if (lstPublicGroup[0].Id == i)
+            {
+                // MATCH FOUND RETURN TRUE
+                return true;
+            }
+        }
+        
+        // SETS TO HOLD ALL PUBLIC GROUP AND ROLE IDS FOUND IN RECURSION
+        Set<Id> setSubGroupsAndRoles = new Set<Id>();
+        Set<Id> setSubGroupsAndRolesTEMP = new Set<Id>();
+        
+        // USED TO LIMIT THE RECURSION ITERATIONS
+        integer iLevelsDeep = 5;
+        
+        // START PROCESS BY FINDING ANY PUBLIC GROUPS OF ROLES ON THE GROUP PASSED IN
+        findSubGroupsAndRoles(lstPublicGroup[0].Id, setSubGroupsAndRolesTEMP); 
+        
+        // LOOP THOUGH NESTED GROUPS
+        for (integer j = 0; (j < iLevelsDeep); j++)
+        {
+            // TEMP WORKING SET FOR EACH LOOP ITERATION
+            Set<Id> setTmp = new Set<Id>();
+            
+            // TRANSFER ALL IDS IN REUSABLE TEMP SET TO RUNNING SET
+            for (Id tmp1 : setSubGroupsAndRolesTEMP)
+            {
+                setSubGroupsAndRoles.Add(tmp1);
+                findSubGroupsAndRoles(tmp1, setTmp); 
+            } 
+            // THEN CLEAR TEMP SET FOR NEXT RUN
+            setSubGroupsAndRolesTEMP.Clear();
+            
+            // IF SIZE IS ZERO IT IS THE END OF NEST, EXIT LOOP
+            if (setTmp.Size() == 0)
+            {
+                break;
+            }
+            
+            // REFILL TEMP SET FOR NEXT LOOP ITERATION
+            for (Id tmp2 : setTmp)
+            {
+                setSubGroupsAndRolesTEMP.Add(tmp2);
+            }         
+            
+        }
+        
+        // LOOP THROUGH "MEMBER OF" AND RUNNING SET TO FIND ANY MATCHES
+        for (Id i2 : setMemberOf)
+        {
+            for (Id i3 : setSubGroupsAndRoles)
+            {        
+                if (i2 == i3)
+                {
+                    // MATCH FOUND RETURN TRUE
+                    return true;
+                }
+            }
+        }
+        
+        // RETURN DEFAULT FALSE IF NOTHIN ABOVE RETURNED TRUE
+        return false;
+        
+    }
+    
+    // FINDS GROUPS AND ROLES BELONGING TO A PUBLIC GROUP AND ADDS THE IDS OF THEM TO A PASSED IN SET
+    public static void findSubGroupsAndRoles(Id grpId, Set<Id> setGroupId)
+    {   
+        for (Group grp : [SELECT g.Id, g.DeveloperName, g.RelatedId, g.Type
+                          FROM Group g
+                          WHERE g.Id IN (SELECT UserOrGroupId FROM GroupMember WHERE GroupId = : grpId)])    
+        {     
+            if (grp.Type == 'Regular')
+            {
+                // PUBLIC GROUP FOUND
+                setGroupId.Add(grp.Id);
+            }
+            else
+            {
+                // ROLE OR ROLE & SUBORDINATES
+                setGroupId.Add(grp.RelatedId);   
+            }      
+        }    
+    } 
+
     public pagereference verifyCred()
     {
         
@@ -235,8 +360,10 @@ public class NI_OrgDetailsLogController
     } 
     
     //WEB SERVICES REST CALL TO VALIDATE THE ORG DETAILS CREDENTIALS BEFORE LOGGING INTO THE CUSTOMER ORG
+	@TestVisible
     private boolean validateUserCredentials(String UserName, String UserPassword, String sEndPoint)
     {   
+        
         Httprequest req = new HttpRequest();    
         req.setMethod('POST');    
         req.setHeader('Content-Type','application/x-www-form-urlencoded');
@@ -255,42 +382,40 @@ public class NI_OrgDetailsLogController
         
         system.debug(res);
         
-        try {
+        try 
+        {
             
-            if(!Test.isRunningTest())
+            if (!Test.isRunningTest())
             { 
                 res = http.send(req);
             }                  
-            if((Test.isRunningTest()) && (NI_TriggerManager.isValidOrgDetails = false))
+            if ((Test.isRunningTest()) && (NI_TriggerManager.isValidOrgDetails = false))
             {
                 res = http.send(req);
             }
-            if((Test.isRunningTest()) && (NI_TriggerManager.isValidOrgDetails = true))
+            if ((Test.isRunningTest()) && (NI_TriggerManager.isValidOrgDetails = true))
             {   
                 return true;
             } 
             
         }
-        catch(system.CalloutException e)
+        catch (system.CalloutException e)
         {
-            ApexPages.addMessage(new ApexPages.Message
-                                 
-                                 (ApexPages.Severity.ERROR, e.getMessage()));
+            ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.ERROR, e.getMessage()));
             NI_TriggerManager.isValidOrgDetails = true;
             return false;          
         }
         
-        if(res.getStatusCode() > 300)
-            return false;         
+        if (res.getStatusCode() > 300)
+        {
+            return false;   
+        }
+                  
         
         return true;                    
         
     }
-    
-    
-    
-    
-    
+
     // PASSWORD VIEWER ================================================================================
     // PASSWORD VIEWER VARIABLES 
     public boolean displayPwdPopup {get; set;}
@@ -310,7 +435,7 @@ public class NI_OrgDetailsLogController
         newPage = new PageReference('/' + od.id);
         newPage.getParameters().put('id', od.id);
         return newPage.setRedirect(true);
-       
+        
     }   
     
     public pagereference showPwd()
@@ -367,22 +492,17 @@ public class NI_OrgDetailsLogController
         }
         set;
     }
-    
-    //**************************************************************************************************
-    //                                       PAGE REDIRECT METHODS
-    //**************************************************************************************************
-    
-    //METHOD TO REDIRECT THE USER TO THE STANDARD VIEW PAGE OR CUSTOM VISUALFORCE PAGE
+
+    // METHOD TO REDIRECT THE USER TO THE STANDARD VIEW PAGE OR CUSTOM VISUALFORCE PAGE
     public PageReference redirectViewPage() 
-    { 
-        
+    {      
         
         //GET THE OBJECT PREFEX CODE FOR THE ORG DETAILS OBJECT  
         String rType = od.RecordTypeId;
         
         PageReference newPage;
         
-        if(setRecordTypeIds.size()>0 && setRecordTypeIds.contains(rType))
+        if (setRecordTypeIds.size()>0 && setRecordTypeIds.contains(rType))
         {     
             System.debug('Record Type Id: ' + rType);
             newPage = page.NI_OrgDetails; 
@@ -398,15 +518,11 @@ public class NI_OrgDetailsLogController
         return newPage.setRedirect(true);
         
     }
-    
-    //**************************************************************************************************
-    //                                       FUNCTIONS
-    //**************************************************************************************************                                          
-    
+                                              
     public boolean bRecordTypeFound(String strRtype)
     {
-        List<RecordType> lstRecordTypes = [SELECT Id FROM RecordType WHERE Name =:strRtype];
-        If(lstRecordTypes.size()>0)
+        List<RecordType> lstRecordTypes = [SELECT Id FROM RecordType WHERE Name =: strRtype];
+        if (lstRecordTypes.size() > 0)
         {
             Return true; 
         }
@@ -422,13 +538,13 @@ public class NI_OrgDetailsLogController
             
             if(od.Org_Type__c == 'Salesforce Production')
             {
-            	strSoapEndPoint = 'https://login.salesforce.com/services/Soap/u/26.0'; 
+              strSoapEndPoint = 'https://login.salesforce.com/services/Soap/u/26.0'; 
             }
             else if(od.Org_Type__c.contains('Salesforce Sandbox'))
             {
                 strSoapEndPoint = 'https://test.salesforce.com/services/Soap/u/26.0';
             }
-			
+      
             PartnerRemote.Soap soap = new PartnerRemote.Soap();
             PartnerRemote.LoginResult loginResult = soap.login(strUserName, strPwdSecToken, strSoapEndPoint);
             system.debug(loginResult);

@@ -66,7 +66,7 @@
         </values>
         <values>
             <fullName>Project Created</fullName>
-            <default>false</default>
+            <default>true</default>
         </values>
     </picklistValues>
     <picklistValues>
@@ -106,12 +106,12 @@
     <picklistValues>
         <picklist>AH_PLCM_Product__c</picklist>
         <values>
-            <fullName>Delphi%2Efdc Winter %2713</fullName>
+            <fullName>BE4 to BE5 Upgrade</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>Hotel SalesPro</fullName>
-            <default>true</default>
+            <fullName>Meeting Matrix Conversion</fullName>
+            <default>false</default>
         </values>
     </picklistValues>
     <picklistValues>
@@ -126,6 +126,21 @@
         </values>
         <values>
             <fullName>Yes</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Account_Segment__c</picklist>
+        <values>
+            <fullName>A-High</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>B-Med</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>C-Low</fullName>
             <default>false</default>
         </values>
     </picklistValues>
@@ -376,63 +391,45 @@
     <picklistValues>
         <picklist>Integration_Type__c</picklist>
         <values>
-            <fullName>Epitome</fullName>
+            <fullName>Integrated %E2%80%93 Custom</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>EzRMS</fullName>
+            <fullName>Integrated %E2%80%93 Template</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>Galaxy</fullName>
+            <fullName>Standalone</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Private_Offer_Enabled__c</picklist>
+        <values>
+            <fullName>No</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>HMS</fullName>
+            <fullName>Yes</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Region__c</picklist>
+        <values>
+            <fullName>ASPAC</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>IDPMS</fullName>
+            <fullName>EMEA</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>IDeaS</fullName>
+            <fullName>LATAM</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>IQpms</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>LMS</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Maestro</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Micros OXI %28Opera%29</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>ResortSuite</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Rover</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>SIHOT</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>SMS Host</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Visual One</fullName>
+            <fullName>NORAM</fullName>
             <default>false</default>
         </values>
     </picklistValues>
@@ -467,6 +464,17 @@
         </values>
         <values>
             <fullName>Sent for Review</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Vanity_URL__c</picklist>
+        <values>
+            <fullName>No</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Yes</fullName>
             <default>false</default>
         </values>
     </picklistValues>

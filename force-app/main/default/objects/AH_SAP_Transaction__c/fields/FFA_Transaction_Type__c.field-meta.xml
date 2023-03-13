@@ -3,7 +3,7 @@
     <fullName>FFA_Transaction_Type__c</fullName>
     <description>NICC-053663 - Created for GFT.</description>
     <externalId>false</externalId>
-    <formula>CASE( Transaction_Type__c , &quot;P&quot;, &quot;Receipt&quot;, &quot;A&quot;, &quot;Receipt&quot;, &quot;R&quot;, &quot;Refund&quot;, &quot;W&quot;, &quot;Write-Off&quot;, &quot;C&quot;, &quot;Clearing&quot;, &quot;L&quot;, &quot;Rejection&quot;, &quot;D&quot;, &quot;Rejection&quot;, &quot;Unknown&quot;)</formula>
+    <formula>CASE( Transaction_Type__c , &quot;P&quot;, &quot;Receipt&quot;, &quot;A&quot;, &quot;Receipt&quot;, &quot;R&quot;, &quot;Refund&quot;, &quot;W&quot;, &quot;Write-Off&quot;, &quot;C&quot;, &quot;Receipt&quot;, &quot;L&quot;, &quot;Rejection&quot;, &quot;D&quot;, &quot;Rejection&quot;, &quot;Unknown&quot;)</formula>
     <label>FFA Transaction Type</label>
     <required>false</required>
     <trackHistory>false</trackHistory>

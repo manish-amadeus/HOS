@@ -5007,6 +5007,25 @@
         </values>
     </picklistValues>
     <picklistValues>
+        <picklist>SLTC_Impact__c</picklist>
+        <values>
+            <fullName>Interim Eliminate</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Interim Revise</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>No Impact</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Unknown</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
         <picklist>Solution_Domain__c</picklist>
         <values>
             <fullName>AIP</fullName>
@@ -5030,6 +5049,10 @@
         </values>
         <values>
             <fullName>Media Solutions</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Meeting and Event Distribution</fullName>
             <default>false</default>
         </values>
         <values>
@@ -5061,10 +5084,6 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>Video Solutions</fullName>
-            <default>false</default>
-        </values>
-        <values>
             <fullName>Web Solutions</fullName>
             <default>false</default>
         </values>
@@ -5087,27 +5106,7 @@
     <picklistValues>
         <picklist>Stakeholder_Department__c</picklist>
         <values>
-            <fullName>Account Management</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Accounting</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Billing %26 Collections</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Consulting</fullName>
-            <default>false</default>
-        </values>
-        <values>
             <fullName>Corporate</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Creative</fullName>
             <default>false</default>
         </values>
         <values>
@@ -5119,10 +5118,6 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>Data Services</fullName>
-            <default>false</default>
-        </values>
-        <values>
             <fullName>Enterprise Program Management</fullName>
             <default>false</default>
         </values>
@@ -5131,15 +5126,7 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>Integrations</fullName>
-            <default>false</default>
-        </values>
-        <values>
             <fullName>Legal</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Media Delivery</fullName>
             <default>false</default>
         </values>
         <values>
@@ -5151,10 +5138,6 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>PLCM</fullName>
-            <default>false</default>
-        </values>
-        <values>
             <fullName>Product</fullName>
             <default>false</default>
         </values>
@@ -5163,35 +5146,7 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>Product Management</fullName>
-            <default>false</default>
-        </values>
-        <values>
             <fullName>Sales</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Solution Delivery</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Subscription Management</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Support</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Systems Engineering</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Tax</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Training</fullName>
             <default>false</default>
         </values>
     </picklistValues>
@@ -5327,11 +5282,19 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>Customer Portal %28AHCC%29</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>EBS</fullName>
             <default>false</default>
         </values>
         <values>
             <fullName>Insite</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Power Platform</fullName>
             <default>false</default>
         </values>
         <values>

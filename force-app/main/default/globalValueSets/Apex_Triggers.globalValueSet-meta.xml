@@ -1002,10 +1002,10 @@
         <label>FixRevisionChangeRequestToSolution</label>
     </customValue>
     <customValue>
-        <fullName>tgrNIOrgDetailsToAccounts</fullName>
+        <fullName>ValidateArtifacts</fullName>
         <default>false</default>
         <isActive>false</isActive>
-        <label>tgrNIOrgDetailsToAccounts</label>
+        <label>ValidateArtifacts</label>
     </customValue>
     <customValue>
         <fullName>NI_Change_Control_Change_Owner_Share</fullName>
@@ -1024,12 +1024,6 @@
         <default>false</default>
         <isActive>false</isActive>
         <label>NI_CustomDetailToService_AfterInsert</label>
-    </customValue>
-    <customValue>
-        <fullName>addCustomerSignOffArtifact</fullName>
-        <default>false</default>
-        <isActive>false</isActive>
-        <label>addCustomerSignOffArtifact</label>
     </customValue>
     <customValue>
         <fullName>NI_Opportunity_ClosedWon_Verify_ContactRole</fullName>
@@ -1062,6 +1056,12 @@
         <label>AddCase_To_NICCRequestCaseJunction</label>
     </customValue>
     <customValue>
+        <fullName>addCustomerSignOffArtifact</fullName>
+        <default>false</default>
+        <isActive>false</isActive>
+        <label>addCustomerSignOffArtifact</label>
+    </customValue>
+    <customValue>
         <fullName>NI_CustomDetailToService_AfterUpdate</fullName>
         <default>false</default>
         <isActive>false</isActive>
@@ -1092,12 +1092,6 @@
         <label>NI_Customization_Service_BeforeUpdate</label>
     </customValue>
     <customValue>
-        <fullName>NI_Softrax_Asset_AfterUpdate</fullName>
-        <default>false</default>
-        <isActive>false</isActive>
-        <label>NI_Softrax_Asset_AfterUpdate</label>
-    </customValue>
-    <customValue>
         <fullName>NI_Softrax_Asset_AfterDelete</fullName>
         <default>false</default>
         <isActive>false</isActive>
@@ -1114,6 +1108,12 @@
         <default>false</default>
         <isActive>false</isActive>
         <label>NI_Softrax_Asset_AfterUnDelete</label>
+    </customValue>
+    <customValue>
+        <fullName>NI_Softrax_Asset_AfterUpdate</fullName>
+        <default>false</default>
+        <isActive>false</isActive>
+        <label>NI_Softrax_Asset_AfterUpdate</label>
     </customValue>
     <customValue>
         <fullName>NI_Softrax_Asset_BeforeDelete</fullName>
@@ -1176,10 +1176,10 @@
         <label>NICCpeerReviewerShare</label>
     </customValue>
     <customValue>
-        <fullName>ValidateArtifacts</fullName>
+        <fullName>tgrNIOrgDetailsToAccounts</fullName>
         <default>false</default>
         <isActive>false</isActive>
-        <label>ValidateArtifacts</label>
+        <label>tgrNIOrgDetailsToAccounts</label>
     </customValue>
     <customValue>
         <fullName>GroupLineUpdateCaseSharing</fullName>

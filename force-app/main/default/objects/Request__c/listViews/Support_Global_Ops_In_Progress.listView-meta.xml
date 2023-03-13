@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Support_Global_Ops_In_Progress</fullName>
+    <columns>NAME</columns>
+    <columns>Request_Title__c</columns>
+    <columns>OWNER.LAST_NAME</columns>
+    <columns>Request_Type__c</columns>
+    <columns>Enhancement_Department_Priority__c</columns>
+    <columns>Request_Contact__c</columns>
+    <columns>CREATED_DATE</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>RECORDTYPE</field>
+        <operation>equals</operation>
+        <value>Request__c.Support_Global_Ops_Request</value>
+    </filters>
+    <filters>
+        <field>Request_Status__c</field>
+        <operation>equals</operation>
+        <value>In Progress</value>
+    </filters>
+    <label>Support Global Ops - In Progress</label>
+</ListView>

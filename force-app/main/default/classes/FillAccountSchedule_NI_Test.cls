@@ -9,16 +9,14 @@ Description     :
                 : 
                 : 
 ******************************************************************************************/
-@isTest //(SeeAllData=true)
+@isTest
 public class FillAccountSchedule_NI_Test
 {
-
     // TEST METHOD FOR CLASS ===================================================
-    public static testmethod void testFake() 
+    public static testmethod void testFake()
     {
-        FillAccountSchedule_NI fas = new FillAccountSchedule_NI();        
+        FillAccountSchedule_NI fas = new FillAccountSchedule_NI();
         fas.isTest = true;
         fas.execute(null);
     }
-    
 }

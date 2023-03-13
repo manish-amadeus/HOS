@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Test_Case__c</fullName>
+    <businessStatus>Active</businessStatus>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <description>NICC-</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Link to the Test Case this execution is for</inlineHelpText>
+    <label>Test Case</label>
+    <referenceTo>AH_TestCase__c</referenceTo>
+    <relationshipName>Test_Case_Executions</relationshipName>
+    <required>false</required>
+    <securityClassification>Internal</securityClassification>
+    <trackHistory>true</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

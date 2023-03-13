@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Final_Email_All_Issues_Addressed__c</fullName>
+    <defaultValue>0</defaultValue>
     <description>Final e-mail relates to the initial reason for contact to assure all questions/issues have been addressed. Ensures customer is advised of any root causes that were identified and/or resolved.</description>
     <externalId>false</externalId>
-    <inlineHelpText>Final email related to the initial reason for the contact recaps all questions and addresses all issues. Ensures customer is advised of any root causes that were identified and/or resolved as appropriate.</inlineHelpText>
+    <inlineHelpText>Final email related to the initial reason for the contact recaps all questions and addresses all issues. Ensures customer is advised of any root causes that were identified and/or resolved as appropriate.
+POSSIBLE VALUES: 0, 1, 5</inlineHelpText>
     <label>Final e-mail (all issues addressed) *</label>
     <precision>2</precision>
     <required>false</required>

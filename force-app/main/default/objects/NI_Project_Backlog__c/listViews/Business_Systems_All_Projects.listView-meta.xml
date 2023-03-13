@@ -11,14 +11,13 @@
     <columns>Priority__c</columns>
     <columns>Complexity__c</columns>
     <columns>Sprint__c</columns>
-    <filterScope>Everything</filterScope>
+    <filterScope>Mine</filterScope>
     <filters>
         <field>RECORDTYPE</field>
         <operation>equals</operation>
-        <value>NI_Project_Backlog__c.Business_Systems</value>
+        <value>NI_Project_Backlog__c.Business_Systems,NI_Project_Backlog__c.Development_Opportunity,NI_Project_Backlog__c.Development_Request,NI_Project_Backlog__c.Finance_Project,NI_Project_Backlog__c.IT_Project,NI_Project_Backlog__c.Commercial_Operation_Projects,NI_Project_Backlog__c.Marketing_Project,NI_Project_Backlog__c.Security_Project</value>
     </filters>
     <label>Business Systems - All</label>
-    <language>en_US</language>
     <sharedTo>
         <group>Business_Systems_Internal</group>
     </sharedTo>

@@ -1,6 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <PermissionSet xmlns="http://soap.sforce.com/2006/04/metadata">
     <classAccesses>
+        <apexClass>AH_UDC_Archive</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>AH_UDC_Archive_TEST</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>AH_UDC_Chatter</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -169,6 +177,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>AH_UDC_REST_CreateCommunityUser_TEST</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>AH_UDC_REST_FormDefinition</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -222,6 +234,14 @@
     </classAccesses>
     <classAccesses>
         <apexClass>AH_UDC_REST_WorkbookSentInfo_TEST</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>AH_UDC_ReleaseWorkbook</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>AH_UDC_ReleaseWorkbook_TEST</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -321,10 +341,6 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>AH_UDC_WBStepResponseTriggerHelper_TEST</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
         <apexClass>AH_UDC_Welcome</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -341,7 +357,23 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>AH_UDC_WorkbookStepResponseTriggerHelper</apexClass>
+        <apexClass>AH_UDC_WorkbookSentEmail_Batch</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>AH_UDC_WorkbookSentEmail_Schedule</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>AH_UDC_WorkbookSentEmail_TEST</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>AH_UDC_WorkbookStepRespTrigHelper</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>AH_UDC_WorkbookStepRespTrigHelper_TEST</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -501,6 +533,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>AH_UDC_Form__c.AllowedExtensions__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>AH_UDC_Form__c.CentralDataMapping__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -520,6 +557,11 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>true</editable>
+        <field>AH_UDC_Form__c.Description__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>false</editable>
         <field>AH_UDC_Form__c.DevelopForm__c</field>
         <readable>true</readable>
@@ -535,8 +577,38 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>true</editable>
+        <field>AH_UDC_Form__c.HeightMaximumPixels__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>AH_UDC_Form__c.HeightMinimumPixels__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>AH_UDC_Form__c.MaxIndividualFileSizeMB__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>AH_UDC_Form__c.NumberOfFiles__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>false</editable>
         <field>AH_UDC_Form__c.URL__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>AH_UDC_Form__c.WidthMaximumPixels__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>AH_UDC_Form__c.WidthMinimumPixels__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -1291,11 +1363,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>AH_UDC_WorkbookStep__c.UDC_WorkbookStepCompletedBy__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
         <field>AH_UDC_WorkbookStep__c.URL__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -1322,6 +1389,11 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>AH_UDC_Workbook__c.DueDate__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>AH_UDC_Workbook__c.EmailTemplate__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -1367,6 +1439,91 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>AH_UDC_Workbook__c.RelatedTo__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>AH_UDC_Workbook__c.Released__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>AH_UDC_Workbook__c.Reminder1Days__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>AH_UDC_Workbook__c.Reminder1EmailTemplate__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>AH_UDC_Workbook__c.Reminder1Enabled__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>AH_UDC_Workbook__c.Reminder1Sent__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>AH_UDC_Workbook__c.Reminder2Days__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>AH_UDC_Workbook__c.Reminder2EmailTemplate__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>AH_UDC_Workbook__c.Reminder2Enabled__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>AH_UDC_Workbook__c.Reminder2Sent__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>AH_UDC_Workbook__c.Reminder3Days__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>AH_UDC_Workbook__c.Reminder3EmailTemplate__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>AH_UDC_Workbook__c.Reminder3Enabled__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>AH_UDC_Workbook__c.Reminder3Sent__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>AH_UDC_Workbook__c.Reminder4Days__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>AH_UDC_Workbook__c.Reminder4EmailTemplate__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>AH_UDC_Workbook__c.Reminder4Enabled__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>AH_UDC_Workbook__c.Reminder4Sent__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -1607,6 +1764,10 @@
     </pageAccesses>
     <pageAccesses>
         <apexPage>AH_UDC_LockWorkbookStep</apexPage>
+        <enabled>true</enabled>
+    </pageAccesses>
+    <pageAccesses>
+        <apexPage>AH_UDC_ReleaseWorkbook</apexPage>
         <enabled>true</enabled>
     </pageAccesses>
     <pageAccesses>

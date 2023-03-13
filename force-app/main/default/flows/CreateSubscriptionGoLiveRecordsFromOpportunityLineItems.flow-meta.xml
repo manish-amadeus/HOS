@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Flow xmlns="http://soap.sforce.com/2006/04/metadata">
-    <apiVersion>49.0</apiVersion>
+    <apiVersion>56.0</apiVersion>
     <assignments>
         <description>When creating the new Subscription Activation object, the fields from the opportunity detail line item will copy to fields in the Subscription Activation object or default based on information from the project.</description>
         <name>Assignment_Subscription_GoLive</name>
         <label>Assignment Subscription Activation</label>
-        <locationX>1450</locationX>
-        <locationY>601</locationY>
+        <locationX>1034</locationX>
+        <locationY>547</locationY>
         <assignmentItems>
             <assignToReference>indSubscriptionGoLive.Account__c</assignToReference>
             <operator>Assign</operator>
@@ -112,39 +112,40 @@
                 <elementReference>indProduct2.Product_Line_Global__c</elementReference>
             </value>
         </assignmentItems>
-        <connector>
-            <targetReference>Update_SubscriptionGoLive</targetReference>
-        </connector>
-    </assignments>
-    <assignments>
-        <description>In order to update the opportunity line items, the original lines will be copied to a new SO variable and the Synched checkbox will be changed to true.</description>
-        <name>Synched_Checkbox</name>
-        <label>Synched Checkbox</label>
-        <locationX>1032</locationX>
-        <locationY>729</locationY>
         <assignmentItems>
-            <assignToReference>indUPOppLineItems</assignToReference>
-            <operator>Assign</operator>
+            <assignToReference>CollSubscriptionGoLive</assignToReference>
+            <operator>Add</operator>
             <value>
-                <elementReference>indOppLineItems</elementReference>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>indUPOppLineItems.Synched__c</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <booleanValue>true</booleanValue>
+                <elementReference>indSubscriptionGoLive</elementReference>
             </value>
         </assignmentItems>
         <connector>
-            <targetReference>Update_CollOppLineItem</targetReference>
+            <targetReference>Loop_Through_ActivityLineItems</targetReference>
         </connector>
     </assignments>
     <assignments>
-        <name>TCAssignment</name>
-        <label>TCAssignment</label>
-        <locationX>1806</locationX>
-        <locationY>50</locationY>
+        <description>Counts the number of Opportunity Line Items found the previous GetRecords element</description>
+        <name>CountOfOppLineItems</name>
+        <label>CountOfOppLineItems</label>
+        <locationX>66</locationX>
+        <locationY>351</locationY>
+        <assignmentItems>
+            <assignToReference>varCountOfOppLineItemsFound</assignToReference>
+            <operator>AssignCount</operator>
+            <value>
+                <elementReference>CollOppLineItems</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>GetOpportunity</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <description>Creates a new Subscription Activation record and adds it into the record collection to create later in the Flow</description>
+        <name>CreateTCSubActivation</name>
+        <label>CreateTCSubActivation</label>
+        <locationX>817</locationX>
+        <locationY>41</locationY>
         <assignmentItems>
             <assignToReference>indSubscriptionGoLive.Account__c</assignToReference>
             <operator>Assign</operator>
@@ -156,7 +157,7 @@
             <assignToReference>indSubscriptionGoLive.Contracted_Quantity__c</assignToReference>
             <operator>Assign</operator>
             <value>
-                <elementReference>LoopTCOli.Quantity</elementReference>
+                <elementReference>LoopTCOppLineItems.Quantity</elementReference>
             </value>
         </assignmentItems>
         <assignmentItems>
@@ -170,7 +171,7 @@
             <assignToReference>indSubscriptionGoLive.CurrencyIsoCode</assignToReference>
             <operator>Assign</operator>
             <value>
-                <elementReference>GetOpportunity.CurrencyIsoCode</elementReference>
+                <elementReference>varOpportunityRecordFlow1.CurrencyIsoCode</elementReference>
             </value>
         </assignmentItems>
         <assignmentItems>
@@ -184,7 +185,7 @@
             <assignToReference>indSubscriptionGoLive.Product_Code__c</assignToReference>
             <operator>Assign</operator>
             <value>
-                <elementReference>LoopTCOli.ProductCode</elementReference>
+                <elementReference>LoopTCOppLineItems.ProductCode</elementReference>
             </value>
         </assignmentItems>
         <assignmentItems>
@@ -233,18 +234,9 @@
             <assignToReference>indSubscriptionGoLive.Product_ID__c</assignToReference>
             <operator>Assign</operator>
             <value>
-                <elementReference>LoopTCOli.Id</elementReference>
+                <elementReference>LoopTCOppLineItems.Id</elementReference>
             </value>
         </assignmentItems>
-        <connector>
-            <targetReference>TCCollection</targetReference>
-        </connector>
-    </assignments>
-    <assignments>
-        <name>TCCollection</name>
-        <label>TCCollection</label>
-        <locationX>1391</locationX>
-        <locationY>177</locationY>
         <assignmentItems>
             <assignToReference>CollSubscriptionGoLive</assignToReference>
             <operator>Add</operator>
@@ -253,15 +245,29 @@
             </value>
         </assignmentItems>
         <connector>
-            <targetReference>TCUpdates</targetReference>
+            <targetReference>UpdateOppProductSynced</targetReference>
         </connector>
     </assignments>
     <assignments>
-        <description>Copy all of the SO variable indUPOppLineItem details to a new SO collection variable CollUPOppLineItems</description>
-        <name>Update_CollOppLineItem</name>
-        <label>Update CollOppLineItem</label>
-        <locationX>839</locationX>
-        <locationY>727</locationY>
+        <description>In order to update the opportunity line items, the original lines will be copied to a new SO variable and the Synched checkbox will be changed to true.</description>
+        <name>Synched_Checkbox</name>
+        <label>Synched Checkbox</label>
+        <locationX>759</locationX>
+        <locationY>562</locationY>
+        <assignmentItems>
+            <assignToReference>indUPOppLineItems</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>indOppLineItems</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>indUPOppLineItems.Synched__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </assignmentItems>
         <assignmentItems>
             <assignToReference>CollUPOppLineItems</assignToReference>
             <operator>Add</operator>
@@ -274,11 +280,10 @@
         </connector>
     </assignments>
     <assignments>
-        <description>Store the SO variable indSubscriptionGoLive detail to the SO collection variable CollSubscriptionGoLive</description>
-        <name>Update_SubscriptionGoLive</name>
-        <label>Update SubscriptionGoLive</label>
-        <locationX>1243</locationX>
-        <locationY>607</locationY>
+        <name>TCCollection</name>
+        <label>TCCollection</label>
+        <locationX>1705</locationX>
+        <locationY>40</locationY>
         <assignmentItems>
             <assignToReference>CollSubscriptionGoLive</assignToReference>
             <operator>Add</operator>
@@ -286,42 +291,98 @@
                 <elementReference>indSubscriptionGoLive</elementReference>
             </value>
         </assignmentItems>
+    </assignments>
+    <assignments>
+        <description>Copy all of the SO variable indUPOppLineItem details to a new SO collection variable CollUPOppLineItems</description>
+        <name>Update_CollOppLineItem</name>
+        <label>Update CollOppLineItem</label>
+        <locationX>1725</locationX>
+        <locationY>307</locationY>
+        <assignmentItems>
+            <assignToReference>CollUPOppLineItems</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>indUPOppLineItems</elementReference>
+            </value>
+        </assignmentItems>
+    </assignments>
+    <assignments>
+        <description>Store the SO variable indSubscriptionGoLive detail to the SO collection variable CollSubscriptionGoLive</description>
+        <name>Update_SubscriptionGoLive</name>
+        <label>Update SubscriptionGoLive</label>
+        <locationX>1713</locationX>
+        <locationY>156</locationY>
+        <assignmentItems>
+            <assignToReference>CollSubscriptionGoLive</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>indSubscriptionGoLive</elementReference>
+            </value>
+        </assignmentItems>
+    </assignments>
+    <assignments>
+        <description>Updates the Synced checkbox on the Opp Product record and adds the record into a collection for later update</description>
+        <name>UpdateOppProductSynced</name>
+        <label>UpdateOppProductSynced</label>
+        <locationX>959</locationX>
+        <locationY>117</locationY>
+        <assignmentItems>
+            <assignToReference>varUpdateOppProductSynced.Synched__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>varUpdateOppProductSynced.Id</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>LoopTCOppLineItems.Id</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>collUpdateOppProductSyncedCheckbox</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>varUpdateOppProductSynced</elementReference>
+            </value>
+        </assignmentItems>
         <connector>
-            <targetReference>Loop_Through_ActivityLineItems</targetReference>
+            <targetReference>LoopTCOppLineItems</targetReference>
         </connector>
     </assignments>
     <decisions>
         <name>AdditionalSubscriptions</name>
         <label>AdditionalSubscriptions</label>
-        <locationX>1497</locationX>
+        <locationX>1217</locationX>
         <locationY>337</locationY>
         <defaultConnectorLabel>NoAdditionalSubscriptions</defaultConnectorLabel>
         <rules>
             <name>GMSRESBIorSO</name>
             <conditionLogic>or</conditionLogic>
             <conditions>
-                <leftValueReference>GetGroup.Name</leftValueReference>
+                <leftValueReference>varGroupRecordFlow1.Name</leftValueReference>
                 <operator>EqualTo</operator>
                 <rightValue>
                     <stringValue>GMS</stringValue>
                 </rightValue>
             </conditions>
             <conditions>
-                <leftValueReference>GetGroup.Name</leftValueReference>
+                <leftValueReference>varGroupRecordFlow1.Name</leftValueReference>
                 <operator>EqualTo</operator>
                 <rightValue>
                     <stringValue>RES</stringValue>
                 </rightValue>
             </conditions>
             <conditions>
-                <leftValueReference>GetGroup.Name</leftValueReference>
+                <leftValueReference>varGroupRecordFlow1.Name</leftValueReference>
                 <operator>EqualTo</operator>
                 <rightValue>
                     <stringValue>BI</stringValue>
                 </rightValue>
             </conditions>
             <conditions>
-                <leftValueReference>GetGroup.Name</leftValueReference>
+                <leftValueReference>varGroupRecordFlow1.Name</leftValueReference>
                 <operator>EqualTo</operator>
                 <rightValue>
                     <stringValue>Service Optimization</stringValue>
@@ -336,17 +397,17 @@
     <decisions>
         <name>GroupMatch</name>
         <label>GroupMatch</label>
-        <locationX>1278</locationX>
-        <locationY>46</locationY>
+        <locationX>624</locationX>
+        <locationY>47</locationY>
         <defaultConnector>
-            <targetReference>LoopTCOli</targetReference>
+            <targetReference>LoopTCOppLineItems</targetReference>
         </defaultConnector>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
             <name>GMS</name>
             <conditionLogic>and</conditionLogic>
             <conditions>
-                <leftValueReference>GetGroup.Name</leftValueReference>
+                <leftValueReference>varGroupRecordFlow1.Name</leftValueReference>
                 <operator>EqualTo</operator>
                 <rightValue>
                     <stringValue>GMS</stringValue>
@@ -360,7 +421,7 @@
                 </rightValue>
             </conditions>
             <connector>
-                <targetReference>TCAssignment</targetReference>
+                <targetReference>CreateTCSubActivation</targetReference>
             </connector>
             <label>GMS</label>
         </rules>
@@ -368,7 +429,7 @@
             <name>BI</name>
             <conditionLogic>and</conditionLogic>
             <conditions>
-                <leftValueReference>GetGroup.Name</leftValueReference>
+                <leftValueReference>varGroupRecordFlow1.Name</leftValueReference>
                 <operator>EqualTo</operator>
                 <rightValue>
                     <stringValue>BI</stringValue>
@@ -382,7 +443,7 @@
                 </rightValue>
             </conditions>
             <connector>
-                <targetReference>TCAssignment</targetReference>
+                <targetReference>CreateTCSubActivation</targetReference>
             </connector>
             <label>BI</label>
         </rules>
@@ -390,7 +451,7 @@
             <name>RES</name>
             <conditionLogic>and</conditionLogic>
             <conditions>
-                <leftValueReference>GetGroup.Name</leftValueReference>
+                <leftValueReference>varGroupRecordFlow1.Name</leftValueReference>
                 <operator>EqualTo</operator>
                 <rightValue>
                     <stringValue>RES</stringValue>
@@ -404,7 +465,7 @@
                 </rightValue>
             </conditions>
             <connector>
-                <targetReference>TCAssignment</targetReference>
+                <targetReference>CreateTCSubActivation</targetReference>
             </connector>
             <label>RES</label>
         </rules>
@@ -412,7 +473,7 @@
             <name>Web</name>
             <conditionLogic>1 AND (2 OR 3)</conditionLogic>
             <conditions>
-                <leftValueReference>GetGroup.Name</leftValueReference>
+                <leftValueReference>varGroupRecordFlow1.Name</leftValueReference>
                 <operator>EqualTo</operator>
                 <rightValue>
                     <stringValue>Web Solutions</stringValue>
@@ -433,7 +494,7 @@
                 </rightValue>
             </conditions>
             <connector>
-                <targetReference>TCAssignment</targetReference>
+                <targetReference>CreateTCSubActivation</targetReference>
             </connector>
             <label>Web</label>
         </rules>
@@ -441,7 +502,7 @@
             <name>Media</name>
             <conditionLogic>and</conditionLogic>
             <conditions>
-                <leftValueReference>GetGroup.Name</leftValueReference>
+                <leftValueReference>varGroupRecordFlow1.Name</leftValueReference>
                 <operator>EqualTo</operator>
                 <rightValue>
                     <stringValue>Media Solutions</stringValue>
@@ -455,7 +516,7 @@
                 </rightValue>
             </conditions>
             <connector>
-                <targetReference>TCAssignment</targetReference>
+                <targetReference>CreateTCSubActivation</targetReference>
             </connector>
             <label>Media</label>
         </rules>
@@ -463,8 +524,8 @@
     <decisions>
         <name>Sales_and_Catering</name>
         <label>Sales and Catering</label>
-        <locationX>1028</locationX>
-        <locationY>868</locationY>
+        <locationX>866</locationX>
+        <locationY>663</locationY>
         <defaultConnectorLabel>[Default Outcome]</defaultConnectorLabel>
         <rules>
             <name>CreateMilestone</name>
@@ -492,8 +553,8 @@
     <decisions>
         <name>TCOpportunity</name>
         <label>TCOpportunity</label>
-        <locationX>647</locationX>
-        <locationY>252</locationY>
+        <locationX>240</locationX>
+        <locationY>347</locationY>
         <defaultConnector>
             <targetReference>Loop_Through_OppLineItems</targetReference>
         </defaultConnector>
@@ -502,7 +563,7 @@
             <name>TCOpp</name>
             <conditionLogic>and</conditionLogic>
             <conditions>
-                <leftValueReference>GetOpportunity.RecordType.Name</leftValueReference>
+                <leftValueReference>varRecordType.Name</leftValueReference>
                 <operator>EqualTo</operator>
                 <rightValue>
                     <stringValue>TravelClick</stringValue>
@@ -515,6 +576,7 @@
         </rules>
     </decisions>
     <description>Flow to create Subscription Activation records based on opportunity line items and then update the opportunity line items in order to prevent duplicate records; updated via NICC-053482</description>
+    <environments>Default</environments>
     <formulas>
         <description>Populates the &quot;Product ID&quot; field on the new Subscription Activation record if Activity Line Item Total Amount &gt; 0. Leave it blank if the amount is = 0.</description>
         <name>AssignSubActProductID</name>
@@ -539,8 +601,8 @@
         <description>In the TC Org, if a product is purchased for 3 years, there is no way for the team to identify what the first year revenue is.  This formula will assist with this calculation so that revenue is not over inflated</description>
         <name>TCSalesCredit</name>
         <dataType>Currency</dataType>
-        <expression>IF({!GetOpportunity.Agreement_Term_End_Date__c} - {!GetOpportunity.Agreement_Term_Begin_Date__c} &lt;= 365, {!LoopTCOli.TotalPrice},
-{!LoopTCOli.TotalPrice}/({!GetOpportunity.Agreement_Term_End_Date__c} - {!GetOpportunity.Agreement_Term_Begin_Date__c}) * 365)</expression>
+        <expression>IF({!varOpportunityRecordFlow1.Agreement_Term_End_Date__c} - {!varOpportunityRecordFlow1.Agreement_Term_Begin_Date__c} &lt;= 365, {!LoopTCOppLineItems.TotalPrice},
+{!LoopTCOppLineItems.TotalPrice}/({!varOpportunityRecordFlow1.Agreement_Term_End_Date__c} - {!varOpportunityRecordFlow1.Agreement_Term_Begin_Date__c}) * 365)</expression>
         <scale>2</scale>
     </formulas>
     <interviewLabel>CreateSubscriptionGoLiveRecordsFromOpportunityLineItems {!$Flow.CurrentDateTime}</interviewLabel>
@@ -549,8 +611,8 @@
         <description>Loop through the SO collection variable CollOppLineItems created in the last step and assign records to SO variable indOppLineItems</description>
         <name>Loop_Through_ActivityLineItems</name>
         <label>Loop Through ActivityLineItems</label>
-        <locationX>1068</locationX>
-        <locationY>454</locationY>
+        <locationX>799</locationX>
+        <locationY>409</locationY>
         <assignNextValueToReference>IndActivityLineItem</assignNextValueToReference>
         <collectionReference>CollActivityLine</collectionReference>
         <iterationOrder>Asc</iterationOrder>
@@ -565,23 +627,23 @@
         <description>Loop through the SO collection variable CollOppLineItems created in the last step and assign records to SO variable indOppLineItems</description>
         <name>Loop_Through_OppLineItems</name>
         <label>Loop Through OppLineItems</label>
-        <locationX>646</locationX>
-        <locationY>451</locationY>
+        <locationX>350</locationX>
+        <locationY>498</locationY>
         <assignNextValueToReference>indOppLineItems</assignNextValueToReference>
         <collectionReference>CollOppLineItems</collectionReference>
         <iterationOrder>Asc</iterationOrder>
         <nextValueConnector>
-            <targetReference>Fast_Lookup_Activity_Line_Item</targetReference>
+            <targetReference>Get_Activity_Line_Item</targetReference>
         </nextValueConnector>
         <noMoreValuesConnector>
             <targetReference>Fast_Create_SubscriptionGoLive</targetReference>
         </noMoreValuesConnector>
     </loops>
     <loops>
-        <name>LoopTCOli</name>
-        <label>LoopTCOli</label>
-        <locationX>858</locationX>
-        <locationY>234</locationY>
+        <name>LoopTCOppLineItems</name>
+        <label>LoopTCOppLineItems</label>
+        <locationX>597</locationX>
+        <locationY>230</locationY>
         <collectionReference>CollOppLineItems</collectionReference>
         <iterationOrder>Asc</iterationOrder>
         <nextValueConnector>
@@ -605,20 +667,21 @@
     </processMetadataValues>
     <processType>Flow</processType>
     <recordCreates>
+        <description>Creates Subscription Activation records from the collection CollSubscriptionGoLive</description>
         <name>CreateTCCoreProduct</name>
         <label>CreateTCCoreProduct</label>
-        <locationX>1102</locationX>
-        <locationY>325</locationY>
+        <locationX>930</locationX>
+        <locationY>317</locationY>
         <connector>
-            <targetReference>AdditionalSubscriptions</targetReference>
+            <targetReference>TCUpdates</targetReference>
         </connector>
         <inputReference>CollSubscriptionGoLive</inputReference>
     </recordCreates>
     <recordCreates>
         <name>Enable_Channel</name>
         <label>Enable Channel</label>
-        <locationX>1300</locationX>
-        <locationY>869</locationY>
+        <locationX>1080</locationX>
+        <locationY>671</locationY>
         <inputAssignments>
             <field>Milestone_Type__c</field>
             <value>
@@ -691,8 +754,8 @@
         <description>Create new Subscription Go-Live records from data in the SO collection variable CollSubscriptionGoLive</description>
         <name>Fast_Create_SubscriptionGoLive</name>
         <label>Fast Create SubscriptionGoLive</label>
-        <locationX>644</locationX>
-        <locationY>865</locationY>
+        <locationX>504</locationX>
+        <locationY>637</locationY>
         <connector>
             <targetReference>Fast_Update_Original_Line_Items</targetReference>
         </connector>
@@ -700,10 +763,10 @@
     </recordCreates>
     <recordLookups>
         <description>Look up the activity line associated with the opportunity line item and assign them to the IndlActivityLine SO Variable as we&apos;ll be passing the activity line to the new subscription record.</description>
-        <name>Fast_Lookup_Activity_Line_Item</name>
-        <label>Fast Lookup Activity Line Item</label>
-        <locationX>894</locationX>
-        <locationY>453</locationY>
+        <name>Get_Activity_Line_Item</name>
+        <label>Get Activity Line Item</label>
+        <locationX>659</locationX>
+        <locationY>385</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>Loop_Through_ActivityLineItems</targetReference>
@@ -742,11 +805,11 @@
         <description>Get PSA Groups</description>
         <name>GetGroup</name>
         <label>GetGroup</label>
-        <locationX>655</locationX>
-        <locationY>65</locationY>
+        <locationX>335</locationX>
+        <locationY>203</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
-            <targetReference>LoopTCOli</targetReference>
+            <targetReference>LoopTCOppLineItems</targetReference>
         </connector>
         <filterLogic>and</filterLogic>
         <filters>
@@ -756,18 +819,19 @@
                 <elementReference>GroupID</elementReference>
             </value>
         </filters>
-        <getFirstRecordOnly>true</getFirstRecordOnly>
         <object>pse__Grp__c</object>
-        <storeOutputAutomatically>true</storeOutputAutomatically>
+        <outputReference>varGroupRecordFlow1</outputReference>
+        <queriedFields>Id</queriedFields>
+        <queriedFields>Name</queriedFields>
     </recordLookups>
     <recordLookups>
         <name>GetOpportunity</name>
         <label>GetOpportunity</label>
-        <locationX>429</locationX>
-        <locationY>251</locationY>
+        <locationX>70</locationX>
+        <locationY>495</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
-            <targetReference>TCOpportunity</targetReference>
+            <targetReference>GetRecordType</targetReference>
         </connector>
         <filterLogic>and</filterLogic>
         <filters>
@@ -777,16 +841,23 @@
                 <elementReference>OpportunityID</elementReference>
             </value>
         </filters>
-        <getFirstRecordOnly>true</getFirstRecordOnly>
         <object>Opportunity</object>
-        <storeOutputAutomatically>true</storeOutputAutomatically>
+        <outputReference>varOpportunityRecordFlow1</outputReference>
+        <queriedFields>Id</queriedFields>
+        <queriedFields>Name</queriedFields>
+        <queriedFields>RecordTypeId</queriedFields>
+        <queriedFields>Notes_to_Fulfillment__c</queriedFields>
+        <queriedFields>Notes_to_Subscription_Management__c</queriedFields>
+        <queriedFields>CurrencyIsoCode</queriedFields>
+        <queriedFields>Agreement_Term_Begin_Date__c</queriedFields>
+        <queriedFields>Agreement_Term_End_Date__c</queriedFields>
     </recordLookups>
     <recordLookups>
         <description>Get Product Info</description>
         <name>GetProduct</name>
         <label>GetProduct</label>
-        <locationX>856</locationX>
-        <locationY>9</locationY>
+        <locationX>430</locationX>
+        <locationY>45</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>GroupMatch</targetReference>
@@ -796,7 +867,7 @@
             <field>Id</field>
             <operator>EqualTo</operator>
             <value>
-                <elementReference>LoopTCOli.Product2Id</elementReference>
+                <elementReference>LoopTCOppLineItems.Product2Id</elementReference>
             </value>
         </filters>
         <getFirstRecordOnly>true</getFirstRecordOnly>
@@ -804,14 +875,45 @@
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordLookups>
     <recordLookups>
+        <description>Gets the record corresponding to the Opportunity record type</description>
+        <name>GetRecordType</name>
+        <label>GetRecordType</label>
+        <locationX>194</locationX>
+        <locationY>542</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>TCOpportunity</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>SobjectType</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Opportunity</stringValue>
+            </value>
+        </filters>
+        <filters>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>varOpportunityRecordFlow1.RecordType.Id</elementReference>
+            </value>
+        </filters>
+        <object>RecordType</object>
+        <outputReference>varRecordType</outputReference>
+        <queriedFields>Id</queriedFields>
+        <queriedFields>Name</queriedFields>
+        <queriedFields>DeveloperName</queriedFields>
+    </recordLookups>
+    <recordLookups>
         <description>Pull all subscriptions where the NotServiceSubscription checkbox is not selected, the project opportunity ID equals the opportunity ID on the opportunity line item, the order of delivery date is 1 or blank and the synched checkbox is not selected and store values in a SO collection variable named CollOppLineItems.  Once pull, store the follwowing fields in order to update the Subscription Go-Live detail object: Opportunity ID, Product Code, Name, Unit Price, Total Price, Quanity and Synch.</description>
         <name>Lookup_CollOppLineItems</name>
         <label>Lookup CollOppLineItems</label>
-        <locationX>430</locationX>
-        <locationY>452</locationY>
+        <locationX>78</locationX>
+        <locationY>195</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
-            <targetReference>GetOpportunity</targetReference>
+            <targetReference>CountOfOppLineItems</targetReference>
         </connector>
         <filterLogic>and</filterLogic>
         <filters>
@@ -890,8 +992,8 @@
     <recordLookups>
         <name>LookupProductDetails</name>
         <label>LookupProductDetails</label>
-        <locationX>1271</locationX>
-        <locationY>459</locationY>
+        <locationX>989</locationX>
+        <locationY>444</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>Assignment_Subscription_GoLive</targetReference>
@@ -913,8 +1015,8 @@
         <description>Update the original opportunity line items Synched checkbox to true based on the SO collection variable CollUPOppLineItems</description>
         <name>Fast_Update_Original_Line_Items</name>
         <label>Fast Update Original Line Items</label>
-        <locationX>832</locationX>
-        <locationY>866</locationY>
+        <locationX>674</locationX>
+        <locationY>656</locationY>
         <connector>
             <targetReference>Sales_and_Catering</targetReference>
         </connector>
@@ -923,37 +1025,16 @@
     <recordUpdates>
         <name>TCUpdates</name>
         <label>TCUpdates</label>
-        <locationX>1256</locationX>
-        <locationY>194</locationY>
+        <locationX>1068</locationX>
+        <locationY>314</locationY>
         <connector>
-            <targetReference>LoopTCOli</targetReference>
+            <targetReference>AdditionalSubscriptions</targetReference>
         </connector>
-        <filterLogic>and</filterLogic>
-        <filters>
-            <field>OpportunityId</field>
-            <operator>EqualTo</operator>
-            <value>
-                <elementReference>OpportunityID</elementReference>
-            </value>
-        </filters>
-        <filters>
-            <field>Id</field>
-            <operator>EqualTo</operator>
-            <value>
-                <elementReference>LoopTCOli.Id</elementReference>
-            </value>
-        </filters>
-        <inputAssignments>
-            <field>Synched__c</field>
-            <value>
-                <booleanValue>true</booleanValue>
-            </value>
-        </inputAssignments>
-        <object>OpportunityLineItem</object>
+        <inputReference>collUpdateOppProductSyncedCheckbox</inputReference>
     </recordUpdates>
     <start>
-        <locationX>50</locationX>
-        <locationY>433</locationY>
+        <locationX>48</locationX>
+        <locationY>32</locationY>
         <connector>
             <targetReference>Lookup_CollOppLineItems</targetReference>
         </connector>
@@ -962,8 +1043,8 @@
     <subflows>
         <name>TCSubscriptions</name>
         <label>TCSubscriptions</label>
-        <locationX>1812</locationX>
-        <locationY>298</locationY>
+        <locationX>1488</locationX>
+        <locationY>129</locationY>
         <flowName>TCSubscriptionActivations</flowName>
         <inputAssignments>
             <name>AccountId</name>
@@ -993,6 +1074,24 @@
             <name>RegionId</name>
             <value>
                 <elementReference>RegionID</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <name>varGroupRecordFlow2</name>
+            <value>
+                <elementReference>varGroupRecordFlow1</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <name>varOpportunityLineItemsCollection</name>
+            <value>
+                <elementReference>CollOppLineItems</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <name>varOpportunityRecordFlow2</name>
+            <value>
+                <elementReference>varOpportunityRecordFlow1</elementReference>
             </value>
         </inputAssignments>
         <storeOutputAutomatically>true</storeOutputAutomatically>
@@ -1027,6 +1126,15 @@
         <isInput>true</isInput>
         <isOutput>true</isOutput>
         <objectType>Subscription_Activation__c</objectType>
+    </variables>
+    <variables>
+        <description>Collection to hold Opportunity Products to update the Synced checkbox.</description>
+        <name>collUpdateOppProductSyncedCheckbox</name>
+        <dataType>SObject</dataType>
+        <isCollection>true</isCollection>
+        <isInput>true</isInput>
+        <isOutput>true</isOutput>
+        <objectType>OpportunityLineItem</objectType>
     </variables>
     <variables>
         <name>CollUPOppLineItems</name>
@@ -1147,5 +1255,53 @@
         <isCollection>false</isCollection>
         <isInput>true</isInput>
         <isOutput>true</isOutput>
+    </variables>
+    <variables>
+        <description>Count of the number of Opportunity Line Items that were found</description>
+        <name>varCountOfOppLineItemsFound</name>
+        <dataType>Number</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <scale>0</scale>
+        <value>
+            <numberValue>0.0</numberValue>
+        </value>
+    </variables>
+    <variables>
+        <description>Holds the record for the Group on the Project</description>
+        <name>varGroupRecordFlow1</name>
+        <dataType>SObject</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>true</isOutput>
+        <objectType>pse__Grp__c</objectType>
+    </variables>
+    <variables>
+        <description>Holds the Opportunity record for the Project</description>
+        <name>varOpportunityRecordFlow1</name>
+        <dataType>SObject</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>true</isOutput>
+        <objectType>Opportunity</objectType>
+    </variables>
+    <variables>
+        <description>Holds the record for the Record Type of the Opportunity</description>
+        <name>varRecordType</name>
+        <dataType>SObject</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>true</isOutput>
+        <objectType>RecordType</objectType>
+    </variables>
+    <variables>
+        <description>Updates the Synced checkbox on the Opportunity Product</description>
+        <name>varUpdateOppProductSynced</name>
+        <dataType>SObject</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>true</isOutput>
+        <objectType>OpportunityLineItem</objectType>
     </variables>
 </Flow>

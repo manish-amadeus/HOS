@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>AH_GMSRequestType__c</fullName>
+    <businessStatus>Active</businessStatus>
+    <description>NICC-057703; Used to populate a picklist in a Flow called &quot;Request - Creative Team Intake Form&quot;. Populates the field called &quot;Request Type&quot; on the screen called &quot;GMSInputScreen&quot;</description>
+    <externalId>false</externalId>
+    <fieldManageability>DeveloperControlled</fieldManageability>
+    <label>GMS Request Type</label>
+    <required>false</required>
+    <securityClassification>Internal</securityClassification>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>New Transactional Email(s)</fullName>
+                <default>false</default>
+                <label>New Transactional Email(s)</label>
+            </value>
+            <value>
+                <fullName>New Transactional Template(s)</fullName>
+                <default>false</default>
+                <label>New Transactional Template(s)</label>
+            </value>
+            <value>
+                <fullName>New Campaign Email(s)</fullName>
+                <default>false</default>
+                <label>New Campaign Email(s)</label>
+            </value>
+            <value>
+                <fullName>New Campaign Template(s)</fullName>
+                <default>false</default>
+                <label>New Campaign Template(s)</label>
+            </value>
+            <value>
+                <fullName>New Form(s)</fullName>
+                <default>false</default>
+                <label>New Form(s)</label>
+            </value>
+            <value>
+                <fullName>New Dynamic Variable(s)</fullName>
+                <default>false</default>
+                <label>New Dynamic Variable(s)</label>
+            </value>
+            <value>
+                <fullName>Update Transactional Email(s)</fullName>
+                <default>false</default>
+                <label>Update Transactional Email(s)</label>
+            </value>
+            <value>
+                <fullName>Update Transactional Template(s)</fullName>
+                <default>false</default>
+                <label>Update Transactional Template(s)</label>
+            </value>
+            <value>
+                <fullName>Update Campaign Email(s)</fullName>
+                <default>false</default>
+                <label>Update Campaign Email(s)</label>
+            </value>
+            <value>
+                <fullName>Update Campaign Template(s)</fullName>
+                <default>false</default>
+                <label>Update Campaign Template(s)</label>
+            </value>
+            <value>
+                <fullName>Update Form(s)</fullName>
+                <default>false</default>
+                <label>Update Form(s)</label>
+            </value>
+            <value>
+                <fullName>Update Dynamic Variable(s)</fullName>
+                <default>false</default>
+                <label>Update Dynamic Variable(s)</label>
+            </value>
+            <value>
+                <fullName>Troubleshooting</fullName>
+                <default>false</default>
+                <label>Troubleshooting</label>
+            </value>
+            <value>
+                <fullName>Other</fullName>
+                <default>false</default>
+                <label>Other</label>
+            </value>
+            <value>
+                <fullName>Campaign(s)</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Campaign(s)</label>
+            </value>
+            <value>
+                <fullName>Dynamic Variable(s)</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Dynamic Variable(s)</label>
+            </value>
+            <value>
+                <fullName>Form(s)</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Form(s)</label>
+            </value>
+            <value>
+                <fullName>Transactional(s)</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Transactional(s)</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

@@ -1,14 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Time_Elapsed_24_hr_Display_Hrs_Min__c</fullName>
-    <description>NICC-053437</description>
+    <businessOwnerUser>kcontreraz@newmarketinc.com</businessOwnerUser>
+    <description>NICC-053437; updated via NICC-057681</description>
     <externalId>false</externalId>
     <formula>TEXT(FLOOR( Time_Elapsed_Hours_24hr_day__c )) + &apos; h &apos; +
 TEXT( FLOOR( ( ROUND(Time_Elapsed_Hours_24hr_day__c,2)-FLOOR(Time_Elapsed_Hours_24hr_day__c) ) * 60 ) ) + &apos; min&apos;</formula>
     <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
-    <inlineHelpText>Displays the total hours from the field &quot;Time Elapsed (24 hr day)&quot; in hours and minutes</inlineHelpText>
-    <label>Time Elapsed (24 hr, Display Hrs &amp; Min)</label>
+    <inlineHelpText>Displays the total hours from the field “Status Time Elapsed” in hours and minutes</inlineHelpText>
+    <label>Time Elapsed (hh:mm)</label>
     <required>false</required>
+    <trackHistory>false</trackHistory>
     <trackTrending>false</trackTrending>
     <type>Text</type>
     <unique>false</unique>

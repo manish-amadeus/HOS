@@ -15,6 +15,11 @@
         <operation>equals</operation>
         <value>Completed</value>
     </filters>
+    <filters>
+        <field>RECORDTYPE</field>
+        <operation>equals</operation>
+        <value>AH_Finance_Request__c.Refund_Request</value>
+    </filters>
     <label>All Completed Finance Requests</label>
     <language>en_US</language>
     <sharedTo>

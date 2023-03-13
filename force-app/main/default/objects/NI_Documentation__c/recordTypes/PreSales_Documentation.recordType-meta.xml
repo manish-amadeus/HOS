@@ -3,7 +3,7 @@
     <fullName>PreSales_Documentation</fullName>
     <active>true</active>
     <description>Used for Pre-Sales Documentation</description>
-    <label>Pre-Sales Documentation</label>
+    <label>Sales/CSM Documentation</label>
     <picklistValues>
         <picklist>AH_PLCM_MM_Maximum_Capacity_Option__c</picklist>
         <values>
@@ -126,6 +126,21 @@
         </values>
         <values>
             <fullName>Yes</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Account_Segment__c</picklist>
+        <values>
+            <fullName>A-High</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>B-Med</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>C-Low</fullName>
             <default>false</default>
         </values>
     </picklistValues>
@@ -254,6 +269,36 @@
         </values>
     </picklistValues>
     <picklistValues>
+        <picklist>Private_Offer_Enabled__c</picklist>
+        <values>
+            <fullName>No</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Yes</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Region__c</picklist>
+        <values>
+            <fullName>ASPAC</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>EMEA</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>LATAM</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>NORAM</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
         <picklist>Stage__c</picklist>
         <values>
             <fullName>Draft</fullName>
@@ -261,6 +306,17 @@
         </values>
         <values>
             <fullName>Final</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Vanity_URL__c</picklist>
+        <values>
+            <fullName>No</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Yes</fullName>
             <default>false</default>
         </values>
     </picklistValues>

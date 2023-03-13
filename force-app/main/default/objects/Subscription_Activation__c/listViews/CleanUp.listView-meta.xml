@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ListView xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>CleanUp</fullName>
-    <booleanFilter>(1 OR 2 OR 3 OR (4 AND 5)) AND 6</booleanFilter>
+    <booleanFilter>(1 OR 2 OR (3 AND 4)) AND 5 AND 6</booleanFilter>
     <columns>Product_Line__c</columns>
     <columns>NAME</columns>
     <columns>Region__c</columns>
@@ -16,6 +16,7 @@
     <columns>Project__c</columns>
     <columns>UPDATEDBY_USER</columns>
     <columns>Project_Manager__c</columns>
+    <columns>CREATED_DATE</columns>
     <filterScope>Everything</filterScope>
     <filters>
         <field>Group__c</field>
@@ -24,11 +25,6 @@
     <filters>
         <field>Product_Line__c</field>
         <operation>equals</operation>
-    </filters>
-    <filters>
-        <field>Region__c</field>
-        <operation>equals</operation>
-        <value>AP</value>
     </filters>
     <filters>
         <field>Region__c</field>
@@ -43,8 +39,12 @@
         <operation>notEqual</operation>
         <value>VEN-CERT-SUB-01,SO-HSINT.MVIPTV</value>
     </filters>
-    <label>CleanUp</label>
-    <language>en_US</language>
+    <filters>
+        <field>Group__c</field>
+        <operation>notEqual</operation>
+        <value>Media Solutions,Web Solutions,BI,RES,GMS</value>
+    </filters>
+    <label>PO - CleanUp?</label>
     <sharedTo>
         <role>ClientServices</role>
     </sharedTo>

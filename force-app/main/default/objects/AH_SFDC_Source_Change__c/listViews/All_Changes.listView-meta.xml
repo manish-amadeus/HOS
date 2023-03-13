@@ -9,6 +9,11 @@
     <columns>Change_Date__c</columns>
     <columns>Production_Change__c</columns>
     <filterScope>Everything</filterScope>
+    <filters>
+        <field>Component__c</field>
+        <operation>equals</operation>
+        <value>AH_MBHiltonRemove</value>
+    </filters>
     <label>All Changes</label>
     <sharedTo>
         <group>Administrators</group>

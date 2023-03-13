@@ -72,7 +72,11 @@ public with sharing class AH_UDC_CloneWorkbook {
             }
          }
          Workbook = [SELECT Name, Enabled__c, Description__c, Product__c, RecordTypeId, RelatedToDocName__c,
-                     RelatedTo__c, SentStatus__c, StepsinOrder__c
+                     RelatedTo__c, SentStatus__c, StepsinOrder__c, EmailTemplate__c,
+                     Reminder1EmailTemplate__c, Reminder1Days__c, Reminder1Enabled__c,
+                     Reminder2EmailTemplate__c, Reminder2Days__c, Reminder2Enabled__c,
+                     Reminder3EmailTemplate__c, Reminder3Days__c, Reminder3Enabled__c,
+                     Reminder4EmailTemplate__c, Reminder4Days__c, Reminder4Enabled__c
                      FROM AH_UDC_Workbook__c
                      WHERE Id = :WorkbookId
                      and recordtypeid = :recordTypeIdWorkbook];
@@ -183,14 +187,37 @@ public with sharing class AH_UDC_CloneWorkbook {
                               }
                            }
                         }
+
                         AH_UDC_LogHelper.Debug('workbookSortOrderWithCloneStepIdMap' + workbookSortOrderWithCloneStepIdMap);
                         //Update the prereq in clone workbook steps
                         if (isNeedtoBeUpdate) {
                            AH_UDC_SystemContext.UpdateObjects(lstWorkbookSteps);
                         }
+
+                        //Clone Responses
+                        List<AH_UDC_WorkbookStepResponse__c> lstCloneWBStepResponses = new List<AH_UDC_WorkbookStepResponse__c> ();
+                        List<AH_UDC_WorkbookStepResponse__c> lstWBStepResponses = [SELECT WorkbookStep__c, WorkbookStep__r.SortOrder__c, Response__c
+                                                                                   FROM AH_UDC_WorkbookStepResponse__c
+                                                                                   WHERE WorkbookStep__c in :workbookSortOrderWithStepIdMap.keySet()
+                                                                                   AND IsMostRecentResponse__c = true];
+
+                        for (AH_UDC_WorkbookStepResponse__c wbsResponse : lstWBStepResponses) {
+                           if (workbookSortOrderWithCloneStepIdMap.containsKey(wbsResponse.WorkbookStep__r.SortOrder__c)) {
+                              lstCloneWBStepResponses.add(new AH_UDC_WorkbookStepResponse__c(WorkbookStep__c = workbookSortOrderWithCloneStepIdMap.get(wbsResponse.WorkbookStep__r.SortOrder__c),
+                                                                                             Response__c = wbsResponse.Response__c));
+                           }
+                        }
+
+                        AH_UDC_LogHelper.Debug('CloneStepResponses - lstWBStepResponses: ' + lstWBStepResponses);
+
+                        if (lstWBStepResponses.size() > 0) {
+                           //Insert records into the object AH_UDC_WorkbookStepResponse__c
+                           AH_UDC_SystemContext.CreateObjects(lstCloneWBStepResponses);
+                        }
                      }
                   }
-               } else {
+               }
+               else {
                   LogException('CloneWorkbook', 'Failed to clone the workbook.', null, sp);
                   return;
                }

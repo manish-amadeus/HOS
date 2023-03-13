@@ -9,8 +9,8 @@
     <filterScope>Everything</filterScope>
     <filters>
         <field>Renewal_Date__c</field>
-        <operation>lessThan</operation>
-        <value>6/30/2021</value>
+        <operation>equals</operation>
+        <value>THIS_YEAR</value>
     </filters>
     <label>Pending Renewals</label>
     <sharedTo>

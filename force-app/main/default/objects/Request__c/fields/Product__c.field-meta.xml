@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Product__c</fullName>
-    <businessOwnerUser>adavid.robinson@amadeus.com</businessOwnerUser>
     <businessStatus>Active</businessStatus>
     <description>NICC-051009</description>
     <externalId>false</externalId>
@@ -109,6 +108,11 @@
                 <label>Destination Insights</label>
             </value>
             <value>
+                <fullName>Digital</fullName>
+                <default>false</default>
+                <label>Digital</label>
+            </value>
+            <value>
                 <fullName>Directbook</fullName>
                 <default>false</default>
                 <label>Directbook</label>
@@ -152,6 +156,11 @@
                 <fullName>FuturePace</fullName>
                 <default>false</default>
                 <label>FuturePace</label>
+            </value>
+            <value>
+                <fullName>GDS</fullName>
+                <default>false</default>
+                <label>GDS</label>
             </value>
             <value>
                 <fullName>GDS Media</fullName>
@@ -209,6 +218,11 @@
                 <label>InSite</label>
             </value>
             <value>
+                <fullName>Internal Request</fullName>
+                <default>false</default>
+                <label>Internal Request</label>
+            </value>
+            <value>
                 <fullName>iTrak</fullName>
                 <default>false</default>
                 <label>iTrak</label>
@@ -227,6 +241,11 @@
                 <fullName>MDM</fullName>
                 <default>false</default>
                 <label>MDM</label>
+            </value>
+            <value>
+                <fullName>Media</fullName>
+                <default>false</default>
+                <label>Media</label>
             </value>
             <value>
                 <fullName>Meetingbroker</fullName>
@@ -272,6 +291,11 @@
                 <fullName>RDP</fullName>
                 <default>false</default>
                 <label>RDP</label>
+            </value>
+            <value>
+                <fullName>RES/iH</fullName>
+                <default>false</default>
+                <label>RES/iH</label>
             </value>
             <value>
                 <fullName>RevenueStrategy360</fullName>
@@ -354,6 +378,16 @@
                 <label>TC Bundle</label>
             </value>
             <value>
+                <fullName>Travel Advertising</fullName>
+                <default>false</default>
+                <label>Travel Advertising</label>
+            </value>
+            <value>
+                <fullName>Travel Audience (TA)</fullName>
+                <default>false</default>
+                <label>Travel Audience (TA)</label>
+            </value>
+            <value>
                 <fullName>Trip Advisor</fullName>
                 <default>false</default>
                 <label>Trip Advisor</label>
@@ -362,6 +396,11 @@
                 <fullName>TVS</fullName>
                 <default>false</default>
                 <label>TVS</label>
+            </value>
+            <value>
+                <fullName>Web</fullName>
+                <default>false</default>
+                <label>Web</label>
             </value>
             <value>
                 <fullName>Webbuilder</fullName>
@@ -429,6 +468,7 @@
         </valueSettings>
         <valueSettings>
             <controllingFieldValue>GMS</controllingFieldValue>
+            <controllingFieldValue>Creative Requests</controllingFieldValue>
             <valueName>GMS</valueName>
         </valueSettings>
         <valueSettings>
@@ -598,6 +638,38 @@
         <valueSettings>
             <controllingFieldValue>PMS</controllingFieldValue>
             <valueName>RezExchange</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Creative Requests</controllingFieldValue>
+            <valueName>Digital</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Creative Requests</controllingFieldValue>
+            <valueName>GDS</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Creative Requests</controllingFieldValue>
+            <valueName>Internal Request</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Creative Requests</controllingFieldValue>
+            <valueName>Media</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Creative Requests</controllingFieldValue>
+            <valueName>RES/iH</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Creative Requests</controllingFieldValue>
+            <valueName>Travel Advertising</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Creative Requests</controllingFieldValue>
+            <valueName>Travel Audience (TA)</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Creative Requests</controllingFieldValue>
+            <valueName>Web</valueName>
         </valueSettings>
     </valueSet>
     <visibleLines>3</visibleLines>

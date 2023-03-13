@@ -28,6 +28,18 @@
             </value>
         </inputParameters>
         <inputParameters>
+            <name>senderAddress</name>
+            <value>
+                <stringValue>intake.noreply@amadeus.com</stringValue>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>senderType</name>
+            <value>
+                <stringValue>OrgWideEmailAddress</stringValue>
+            </value>
+        </inputParameters>
+        <inputParameters>
             <name>emailSubject</name>
             <value>
                 <elementReference>formulaSubjectForEmail</elementReference>
@@ -288,7 +300,7 @@
             <targetReference>CreateTaskRecords</targetReference>
         </connector>
     </assignments>
-    <description>NICC-058179; Auto-creates 4 NI Project Backlog Task records for Internal Projects to remind users to add Realized Benefits to the Project</description>
+    <description>NICC-058179; updated via NICC-063342; Auto-creates 4 NI Project Backlog Task records for Internal Projects to remind users to add Realized Benefits to the Project</description>
     <environments>Default</environments>
     <formulas>
         <description>Creates a Subject Line for the email notification</description>

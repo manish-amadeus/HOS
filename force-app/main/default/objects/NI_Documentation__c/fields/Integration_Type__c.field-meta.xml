@@ -1,20 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Integration_Type__c</fullName>
-    <description>Salesforce.com Change Request: NICC-007494
+    <businessOwnerUser>shuebner@newmarketinc.com</businessOwnerUser>
+    <businessStatus>Active</businessStatus>
+    <description>Salesforce.com Change Request: NICC-007494; update via NICC-062947
 
 Select the type of Interface</description>
     <externalId>false</externalId>
     <inlineHelpText>Select the type of Interface</inlineHelpText>
     <label>Integration Type</label>
     <required>false</required>
+    <securityClassification>Internal</securityClassification>
     <trackFeedHistory>false</trackFeedHistory>
     <trackHistory>false</trackHistory>
     <trackTrending>false</trackTrending>
     <type>Picklist</type>
     <valueSet>
         <valueSetDefinition>
-            <sorted>true</sorted>
+            <sorted>false</sorted>
             <value>
                 <fullName>Epitome</fullName>
                 <default>false</default>
@@ -89,6 +92,21 @@ Select the type of Interface</description>
                 <fullName>Visual One</fullName>
                 <default>false</default>
                 <label>Visual One</label>
+            </value>
+            <value>
+                <fullName>Integrated – Custom</fullName>
+                <default>false</default>
+                <label>Integrated – Custom</label>
+            </value>
+            <value>
+                <fullName>Integrated – Template</fullName>
+                <default>false</default>
+                <label>Integrated – Template</label>
+            </value>
+            <value>
+                <fullName>Standalone</fullName>
+                <default>false</default>
+                <label>Standalone</label>
             </value>
         </valueSetDefinition>
     </valueSet>

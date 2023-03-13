@@ -154,7 +154,7 @@ This object is part of the integration between Salesforce and ConfirmIT.  Confir
     <enableSearch>true</enableSearch>
     <enableSharing>true</enableSharing>
     <enableStreamingApi>true</enableStreamingApi>
-    <externalSharingModel>ReadWrite</externalSharingModel>
+    <externalSharingModel>Private</externalSharingModel>
     <label>Survey Response Data</label>
     <nameField>
         <displayFormat>RESP-{00000}</displayFormat>
@@ -170,9 +170,8 @@ This object is part of the integration between Salesforce and ConfirmIT.  Confir
         <customTabListAdditionalFields>Confirmit_RespID__c</customTabListAdditionalFields>
         <customTabListAdditionalFields>CREATED_DATE</customTabListAdditionalFields>
         <excludedStandardButtons>New</excludedStandardButtons>
-        <excludedStandardButtons>Accept</excludedStandardButtons>
         <excludedStandardButtons>ChangeOwner</excludedStandardButtons>
-        <listViewButtons>Update_Contact_Score</listViewButtons>
+        <excludedStandardButtons>Accept</excludedStandardButtons>
     </searchLayouts>
     <sharingModel>ReadWrite</sharingModel>
     <visibility>Public</visibility>

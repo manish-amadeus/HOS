@@ -15,7 +15,7 @@
                         <valueListItems>
                             <value>AH_TestCase__c.AH_CreateDefect</value>
                             <visibilityRule>
-                                <booleanFilter>(1 or 2 or 4) and Not(3)</booleanFilter>
+                                <booleanFilter>(1 or 2 or 4 or 5) and Not(3)</booleanFilter>
                                 <criteria>
                                     <leftValue>{!Record.User_Story__r.agf__Product_Tag__r.Name}</leftValue>
                                     <operator>CONTAINS</operator>
@@ -35,6 +35,11 @@
                                     <leftValue>{!Record.User_Story__r.agf__Scrum_Team__r.Name}</leftValue>
                                     <operator>EQUAL</operator>
                                     <rightValue>SLTC- Integrations team</rightValue>
+                                </criteria>
+                                <criteria>
+                                    <leftValue>{!Record.User_Story__r.AH_Team__c}</leftValue>
+                                    <operator>EQUAL</operator>
+                                    <rightValue>SLTC Testing</rightValue>
                                 </criteria>
                             </visibilityRule>
                         </valueListItems>

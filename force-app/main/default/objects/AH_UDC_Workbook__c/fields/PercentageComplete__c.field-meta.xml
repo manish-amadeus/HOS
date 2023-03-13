@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>PercentageComplete__c</fullName>
+    <description>Calculates the % of the Workbook Steps Completed</description>
+    <externalId>false</externalId>
+    <formula>NumberOfStepsCompleted__c  /  TotalNumberOfSteps__c</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <inlineHelpText>Calculates the % of the Workbook Steps Completed</inlineHelpText>
+    <label>Percentage Complete</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>0</scale>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Percent</type>
+</CustomField>

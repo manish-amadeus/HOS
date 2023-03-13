@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>PO_Cleanup_Service_Order</fullName>
+    <columns>Product_Line__c</columns>
+    <columns>NAME</columns>
+    <columns>Region__c</columns>
+    <columns>Group__c</columns>
+    <columns>Product_Code__c</columns>
+    <columns>Account__c</columns>
+    <columns>Account_Address_Formula__c</columns>
+    <columns>Opportunity__c</columns>
+    <columns>Status__c</columns>
+    <columns>Billing_Contract__c</columns>
+    <columns>Activity_Line_Item__c</columns>
+    <columns>Project__c</columns>
+    <columns>UPDATEDBY_USER</columns>
+    <columns>Project_Manager__c</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>Product_Code__c</field>
+        <operation>startsWith</operation>
+        <value>LOD</value>
+    </filters>
+    <filters>
+        <field>Region__c</field>
+        <operation>equals</operation>
+    </filters>
+    <label>PO - Audit - Service Order</label>
+    <sharedTo>
+        <group>PSA_Project_Office</group>
+    </sharedTo>
+</ListView>

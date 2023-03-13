@@ -1,9 +1,20 @@
 <apex:component >
+   <apex:attribute name="attributeWorkbook" description="Current Workbook" type="AH_UDC_CommunityWorkbook" required="true" />
    <script type="text/javascript">
+      function consolelog(message)
+      {
+         if (DisplayConsoleLogMessages) console.log(message);
+      }
       var fileIdToDelete = null;
       var validFileCount = 0;
       $(document).ready(function () {
          try {
+            if (isSent.toUpperCase() == 'FALSE'){
+               $('#addFiles').prop('disabled', true);
+            }
+            var maxFileUploadCount = parseInt({!attributeWorkbook.currentStep.fileUploadInfo.maxFileUploadCount});
+            var arrayOfFileExtension = '{!attributeWorkbook.currentStep.fileUploadInfo.fileUploadExtension}'.toLowerCase().replace(/\s*\,\s*/g, ",").trim().split(",");
+            var acceptFileExtension = arrayOfFileExtension.map(function (value) { return " ." + value; }).toString();
             document.getElementById("FileUploadList").accept = acceptFileExtension;
             $('[id$="btnFileUpload"]').prop('disabled', true);
             $('#addFiles').on('click', function () {
@@ -54,7 +65,7 @@
                      var fileExtension = "";
                      const fileSize = uploadFileList[i].size;
 
-                     if (fileSize > (fileUploadMaxSize * 1024 * 1024)) {
+                     if (fileSize > (parseInt({!attributeWorkbook.currentStep.fileUploadInfo.fileUploadMaximumSize}) * 1024 * 1024)) {
                         $('#file-upload-maxfilesizefilename').show();
                         fileNames.push(uploadFileList[i].name);
                         $('#file-upload-maxfilesizefilename').append('<br/> ' + fileNames[i].toString() + '<br/>');
@@ -74,18 +85,17 @@
                         }
                      }
 
-                     if (isFileMaxSize == false && isFileSupported == true)
-                     {
+                     if (isFileMaxSize == false && isFileSupported == true){
                         fileNames.push(uploadFileList[i].name);
                         $('#file-upload-filename').append('<br/> ' + fileNames[i].toString() + '<br/> ');
                         isFileUpload = true;
                         validFileCount = validFileCount + 1;
-                        if (validFileCount > maxFileUploadCount) {
+                        if (validFileCount > parseInt({!attributeWorkbook.currentStep.fileUploadInfo.maxFileUploadCount})) {
                            $('#file-upload-notsupportedfilename').hide();
                            $('#file-upload-maxfilesizefilename').hide();
                            $('#file-upload-filename').hide();
                            $('[id$="btnFileUpload"]').prop('disabled', true);
-                           var maxFileCountStringMessage = LABEL_MaxFileUploadCountMessage.replace('{0}', maxFileUploadCount);
+                           var maxFileCountStringMessage = '{!$Label.AH_UDC_MaxFileUploadCountMessage}'.replace('{0}', maxFileUploadCount);
                            showNotifications(maxFileCountStringMessage);
                            return;
                         }
@@ -99,14 +109,18 @@
                      }
                   }
                   if (isFileUpload == true) {
-                     $('#file-upload-header').html(LABEL_SelectedFileMessage);
+                     $('#file-upload-header').html('{!$Label.AH_UDC_SelectedFileMessage}');
                   }
                   if (isAnyMaxFileSize == true) {
-                     var maximumFileUploadSize = LABEL_MaxFileUploadSizeMessage.replace('{0}', fileUploadMaxSize);
+                     var maximumFileUploadSize = '{!$Label.AH_UDC_MaxFileUploadSizeMessage}'.replace('{0}', {!attributeWorkbook.currentStep.fileUploadInfo.fileUploadMaximumSize});
                      $('#file-upload-sizeheader').html('<br/> ' + maximumFileUploadSize);
                   }
                   if (isAnyUnsupportedFile == true) {
-                     $('#file-upload-extensionheader').html('<br/> ' + LABEL_ValidFileExtensionMessage);
+                     $('#file-upload-extensionheader').html('<br/> {!$Label.AH_UDC_ValidFileExtensionMessage}');
+                  }
+                  if(validFileCount > 0) {
+                     disableButtons();
+                     $('[id$="btnFileUpload"]').prop('disabled', false);
                   }
                } else {
                   $('[id$="btnFileUpload"]').prop('disabled', true);
@@ -122,6 +136,67 @@
             handleJSError('Document.Ready', typeof(ex) == 'string' ? ex : ex.stack);
          }
       });
+
+      function doUpload(reader, fileName, i, totalFileCount, arrErrorMsgs){
+         var filebase64encodedstring = reader.result.toString().replace(/^data:(.*,)?/, '');
+         var requestBody = '{"Token" : "' + securityToken + '","fileName":"' + fileName + '","fileContentBase64String":"' + filebase64encodedstring + '"}';
+         $.ajax({
+            type: "POST",
+            async: true,
+            crossDomain: true,
+            contentType: 'application/json',
+            dataType: "json",
+            url: apiUrl,
+            data: requestBody,
+            success: function (data) {
+               const nextFileNumber = i + 1;
+               // base case
+               if (nextFileNumber < totalFileCount) {
+                  uploadFilesUsingApi(file, nextFileNumber, totalFileCount, arrErrorMsgs);
+                  if (data.statusCode == '200') {
+                     consolelog('Uploaded 200: ' + fileName);
+                     var sucessfileList = $('#file-upload-filename').html();
+                     $('#file-upload-filename').html(sucessfileList.replace(fileName + '<span class="uploading"> - {!$Label.AH_UDC_FileUploadStatusUploading} </span>', fileName + '<span class="success"> - {!$Label.AH_UDC_FileUploadStatusFailedtoUpload} </span>'));
+                  } else {
+                     showFileUploadFailNotification(fileName);
+                  }
+               } else {
+                  if(arrErrorMsgs.length > 0) //If last file then log error messages
+                     logFailedFilesErrorMessage('uploadFilesUsingApi', arrErrorMsgs);
+
+                  if (data.statusCode == '200') {
+                     hideNotifications();
+                     showNotifications('{!$Label.AH_UDC_FileUploadSuccessMessage}');
+                     actionfunction_GetUserFiles();
+                     if(currentStepStatus == '' || currentStepStatus == 'New')
+                        actionfunction_SetStepInProgress();
+                  } else {
+                     showFileUploadFailNotification(fileName);
+                     enableButtons(); //If failed to upload last file then enable buttons and hide spinner
+                     hideSpinner();
+                  }
+               }
+            },
+            error: function (error) {
+               showFileUploadFailNotification(fileName);
+
+               var errorMsg = 'There is an error in calling api for file upload. Error message: ';
+               errorMsg += typeof(error.statusText) != 'undefined' ? error.statusText : $.trim(error);
+               errorMsg += ' File name: ' + fileName;
+               if(arrErrorMsgs.indexOf(errorMsg) == -1) //Don't add same error again
+                  arrErrorMsgs.push(errorMsg);
+
+               if((i + 1) < totalFileCount)
+                  uploadFilesUsingApi(file, i + 1, totalFileCount, arrErrorMsgs);
+               else  {
+                  //If last file then log error messages
+                  logFailedFilesErrorMessage('uploadFilesUsingApi', arrErrorMsgs);
+                  enableButtons();
+                  hideSpinner();
+               }
+            }
+         });
+      }
 
       function uploadFilesUsingApi(file, i, totalFileCount, arrErrorMsgs) {
          try {
@@ -146,13 +221,13 @@
             }
 
             var toBeUploadFileList = $('#file-upload-filename').html();
-            if(toBeUploadFileList.indexOf(fileName + '<span class="failed"> - ' + LABEL_FileUploadStatusFailedtoUpload + '</span>') > -1) {
+            if(toBeUploadFileList.indexOf(fileName + '<span class="failed"> - {!$Label.AH_UDC_FileUploadStatusFailedtoUpload}</span>') > -1) {
                //If upload is failed previously and user is trying to upload same file again then replace failed status with uploading
-               $('#file-upload-filename').html(toBeUploadFileList.replace(fileName + '<span class="failed"> - ' + LABEL_FileUploadStatusFailedtoUpload + '</span>',
-                                                                           fileName + '<span class="uploading"> - ' + LABEL_FileUploadStatusUploading + '</span>'));
+               $('#file-upload-filename').html(toBeUploadFileList.replace(fileName + '<span class="failed"> - {!$Label.AH_UDC_FileUploadStatusFailedtoUpload}</span>',
+                                                                           fileName + '<span class="uploading"> - {!$Label.AH_UDC_FileUploadStatusUploading}</span>'));
             }
             else {
-               $('#file-upload-filename').html(toBeUploadFileList.replace(fileName, fileName + '<span class="uploading"> - ' + LABEL_FileUploadStatusUploading + '</span>'));
+               $('#file-upload-filename').html(toBeUploadFileList.replace(fileName, fileName + '<span class="uploading"> - {!$Label.AH_UDC_FileUploadStatusUploading}</span>'));
             }
             var reader = new FileReader();
             reader.readAsDataURL(file.files[i]);
@@ -160,64 +235,40 @@
                showSpinner(); //Show spinner before starting upload of first file then it will be hide once last file is uploaded
                disableButtons();
             }
-            reader.onload = function () {
-               var filebase64encodedstring = reader.result.toString().replace(/^data:(.*,)?/, '');
-               var requestBody = '{"Token" : "' + securityToken + '","fileName":"' + fileName + '","fileContentBase64String":"' + filebase64encodedstring + '"}';
-               $.ajax({
-                  type: "POST",
-                  async: true,
-                  crossDomain: true,
-                  contentType: 'application/json',
-                  dataType: "json",
-                  url: apiUrl,
-                  data: requestBody,
-                  success: function (data) {
-                     const nextFileNumber = i + 1;
-                     // base case
-                     if (nextFileNumber < totalFileCount) {
-                        uploadFilesUsingApi(file, nextFileNumber, totalFileCount, arrErrorMsgs);
-                        if (data.statusCode == '200') {
-                           var sucessfileList = $('#file-upload-filename').html();
-                           $('#file-upload-filename').html(sucessfileList.replace(fileName + '<span class="uploading"> - ' + LABEL_FileUploadStatusUploading + '</span>', fileName + '<span class="success"> - ' + LABEL_FileUploadStatusUploaded + '</span>'));
-                        } else {
-                           showFileUploadFailNotification(fileName);
-                        }
-                     } else {
-                        if(arrErrorMsgs.length > 0) //If last file then log error messages
-                           logFailedFilesErrorMessage('uploadFilesUsingApi', arrErrorMsgs);
+            reader.onload = (e) => {
+               var FNU = fileName.toUpperCase();
+               if(FNU.endsWith("BMP") || FNU.endsWith("JPEG") || FNU.endsWith("PNG") || FNU.endsWith("JPG") || FNU.endsWith("GIF") || FNU.endsWith("SVG")){
+                  const image = new Image();
+                  image.src = e.target.result;
+                  image.onload = () => {
+                     const {
+                        height,
+                        width
+                     } = image;
+                     var minHeight = {!attributeWorkbook.currentStep.fileUploadInfo.minHeight};
+                     var maxHeight = {!attributeWorkbook.currentStep.fileUploadInfo.maxHeight};
+                     var minWidth = {!attributeWorkbook.currentStep.fileUploadInfo.minWidth};
+                     var maxWidth = {!attributeWorkbook.currentStep.fileUploadInfo.maxWidth};
 
-                        if (data.statusCode == '200') {
-                           hideNotifications();
-                           showNotifications(LABEL_FileUploadSuccessMessage);
-                           actionfunction_GetUserFiles();
-                           if(currentStepStatus == '' || currentStepStatus == 'New')
-                              actionfunction_SetStepInProgress();
-                        } else {
-                           showFileUploadFailNotification(fileName);
-                           enableButtons(); //If failed to upload last file then enable buttons and hide spinner
-                           hideSpinner();
-                        }
-                     }
-                  },
-                  error: function (error) {
-                     showFileUploadFailNotification(fileName);
-
-                     var errorMsg = 'There is an error in calling api for file upload. Error message: ';
-                     errorMsg += typeof(error.statusText) != 'undefined' ? error.statusText : $.trim(error);
-                     errorMsg += ' File name: ' + fileName;
-                     if(arrErrorMsgs.indexOf(errorMsg) == -1) //Don't add same error again
-                        arrErrorMsgs.push(errorMsg);
-
-                     if((i + 1) < totalFileCount)
-                        uploadFilesUsingApi(file, i + 1, totalFileCount, arrErrorMsgs);
-                     else  {
-                        //If last file then log error messages
-                        logFailedFilesErrorMessage('uploadFilesUsingApi', arrErrorMsgs);
+                     var meetsRequirements = true;
+                     if (minHeight>0 && height<minHeight) meetsRequirements = false;
+                     if (maxHeight>0 && height>maxHeight) meetsRequirements = false;
+                     if (minWidth>0 && width<minWidth) meetsRequirements = false;
+                     if (maxWidth>0 && width>maxWidth) meetsRequirements = false;
+                     if (!meetsRequirements){
+                        $('#file-upload-filename').html(('<br>' + fileName + '<span class="failed">&nbsp;{!$Label.AH_UDC_FileUploadPixelRequirements}</span><br>').replace('{HEIGHT}',height).replace('{WIDTH}',width));
                         enableButtons();
                         hideSpinner();
+                        return false;
                      }
+                     //Uploaded image has valid Height and Width
+                     doUpload(reader, fileName, i, totalFileCount, arrErrorMsgs);
+                     return true;
                   }
-               });
+               }
+               else{
+                  doUpload(reader, fileName, i, totalFileCount, arrErrorMsgs);
+               }
             };
             reader.onerror = function (uploaderror) {
                showFileUploadFailNotification(fileName);
@@ -278,7 +329,7 @@
       function showFileUploadFailNotification(fileName) {
          try {
             var failedfileList = $('#file-upload-filename').html();
-            $('#file-upload-filename').html(failedfileList.replace(fileName + '<span class="uploading"> - ' + LABEL_FileUploadStatusUploading + '</span>', fileName + '<span class="failed"> - ' + LABEL_FileUploadStatusFailedtoUpload + '</span>'));
+            $('#file-upload-filename').html(failedfileList.replace(fileName + '<span class="uploading"> - {!$Label.AH_UDC_FileUploadStatusUploading} </span>', fileName + '<span class="failed"> - {!$Label.AH_UDC_FileUploadStatusFailedtoUpload}</span>'));
          } catch (ex) {
             handleJSError('showFileUploadFailNotification', typeof(ex) == 'string' ? ex : ex.stack);
          }
@@ -308,7 +359,7 @@
       function showDeleteFileConfirmation(fileId) {
          try {
             if (blockNavigation == true) return; //If server action is in progress then don't allow to delete file
-            showNotificationsWithButtons(LABEL_DeleteFileConfirmationMessage, 'DeleteUploadedFile');
+            showNotificationsWithButtons('{!$Label.AH_UDC_DeleteFileConfirmationMessage}', 'DeleteUploadedFile');
             fileIdToDelete = fileId;
          }
          catch (ex) {
@@ -321,7 +372,7 @@
             setTimeout(function() {
                enableButtons();
                hideSpinner();
-               if(isPageLoadErrorMessage == true && NotificationToShow != '') showNotifications(LABEL_FileDeleteSuccessfulMessage);
+               if(isPageLoadErrorMessage == true && NotificationToShow != '') showNotifications('{!$Label.AH_UDC_FileDeleteSuccessfulMessage}');
             }, 500); //Allow it to refresh files grid before hiding spinner
          }
          catch (ex) {
@@ -335,7 +386,7 @@
             //Log error into db
             actionfunction_LogClientException(strMethodName, strErrorMessage);
             $('.form-container-file-Upload').hide();
-            $('#spnFileUploadErrorMsg').text(LABEL_FileUploadFormRenderErrorMessage);
+            $('#spnFileUploadErrorMsg').text('{!$Label.AH_UDC_FileUploadFormRenderErrorMessage}');
             $('#divFileUploadError').show();
          }
          catch (ex) {

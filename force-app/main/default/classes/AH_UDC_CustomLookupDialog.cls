@@ -28,8 +28,7 @@ public with sharing class AH_UDC_CustomLookupDialog {
    public List<NIDocumentWrapper> NIDocRecordsList { get; set; }
    public List<AccountWrapper> AccountRecordsList { get; set; }
    public List<ContactWrapper> ContactRecordsList { get; set; }
-   public List<ProjectWrapper> ProjectRecordsList { get; set; }
-   public WorkbookStepWrapper StepDetails { get; set; }
+   public List<pse__Proj__c> ProjectRecordsList { get; set; }
    public List<WorkbookStepWrapper> WorkbookStepRecordsList { get; set; }
    @TestVisible private String LogFunctionalArea = 'AH_UDC_CustomLookupDialog'; //This is used for AH_UDC_Log Entries being written on this page
    //This is used to store AH_UDC_Log records that can't be written on the load of the controller
@@ -67,13 +66,6 @@ public with sharing class AH_UDC_CustomLookupDialog {
       public String HasExternalUser { get; set; }
    }
 
-   public class ProjectWrapper {
-      public Id Id { get; set; }
-      public String Name { get; set; }
-      public String ProjectManager { get; set; }
-      public String ProjectStatus { get; set; }
-   }
-
    public class WorkbookStepWrapper {
       public Id Id { get; set; }
       public String Name { get; set; }
@@ -95,6 +87,13 @@ public with sharing class AH_UDC_CustomLookupDialog {
       try {
          //This is a controller load, DML is not allowed so Queue logs
          AH_UDC_LogHelper.QueueLogs = true;
+
+         //Unit Test Force Exception
+         if (AH_UDC_ConfigHelper.GetBoolean('AH_UDC_UnitTestForceCustomLookupDialogPageLoadError', FALSE, true))
+         {
+            throw(new AH_UDC_Shared.UDCException(AH_UDC_Constants.UNIT_TEST_EXCEPTION_PREFIX + 'Custom Lookup Dialog Page Load'));
+         }
+
          TotalRecordsAllowed = AH_UDC_ConfigHelper.GetInteger('AH_UDC_CustomLookupMaxRecordsAllowed', 200);
          RecordsPerPage = AH_UDC_ConfigHelper.GetInteger('AH_UDC_CustomLookupRecordsPerPage', 25);
          AH_UDC_LogHelper.Debug('TotalRecordsAllowed => ' + TotalRecordsAllowed);
@@ -108,7 +107,7 @@ public with sharing class AH_UDC_CustomLookupDialog {
          NIDocRecordsList = new List<NIDocumentWrapper> ();
          AccountRecordsList = new List<AccountWrapper> ();
          ContactRecordsList = new List<ContactWrapper> ();
-         ProjectRecordsList = new List<ProjectWrapper> ();
+         ProjectRecordsList = new List<pse__Proj__c> ();
          WorkbookStepRecordsList = new List<WorkbookStepWrapper> ();
 
          LookupType = null;
@@ -208,8 +207,7 @@ public with sharing class AH_UDC_CustomLookupDialog {
    public String EscapeSpecialCharacters(String strText) {
       String strNewText = null;
       try {
-         strNewText = strText.replace('\\', '\\\\');
-         strNewText = strNewText.replace('_', '\\_');
+         strNewText = strText.replace('_', '\\_');
          strNewText = strNewText.replace('%', '\\%');
          AH_UDC_LogHelper.Debug('SearchText after replacing special characters -> ' + strNewText);
          return strNewText;
@@ -452,7 +450,12 @@ public with sharing class AH_UDC_CustomLookupDialog {
    private Boolean GetProjectRecords(Integer intLimit, Integer intOffSet) {
       List<pse__Proj__c> lstProjects = null;
       try {
-         ProjectRecordsList = new List<ProjectWrapper> ();
+         //Unit Test Force Exception
+         if (AH_UDC_ConfigHelper.GetBoolean('AH_UDC_UnitTestForceProjectLookupDialogeError', FALSE, true))
+         {
+            throw(new AH_UDC_Shared.UDCException(AH_UDC_Constants.UNIT_TEST_EXCEPTION_PREFIX + 'Project Lookup Dialoge'));
+         }
+         ProjectRecordsList = new List<pse__Proj__c> ();
          if (String.isNotBlank(SearchText)) {
             String strObjectName = 'pse__Proj__c';
             String strSelectColumns = 'Id, Name, pse__Project_Manager__r.Name, pse__Project_Status__c';
@@ -460,46 +463,17 @@ public with sharing class AH_UDC_CustomLookupDialog {
             String strOrderByColumns = 'Name';
             //Prepare query to get records from pse__Proj__c object based on search text
             //Featching all projects here without using limit and offset because pagination will be performed after checking project access rights
-            String strQuery = GetSOQLQuery(false, strObjectName, strSelectColumns, arrFilterColumns, '', strOrderByColumns, 10000, 0);
+            String strQuery = GetSOQLQuery(false, strObjectName, strSelectColumns, arrFilterColumns, '', strOrderByColumns, intLimit, intOffSet);
             if (String.isNotBlank(strQuery)) {
-               lstProjects = Database.query(strQuery);
+               ProjectRecordsList = Database.query(strQuery);
             }
          }
          else { //Get recently viewed records
             AH_UDC_LogHelper.Debug('Get Project Records from Recently Viewed Object');
-            lstProjects = GetRecentlyViewedProjects(false, intLimit, intOffSet);
+            ProjectRecordsList = GetRecentlyViewedProjects(false, intLimit, intOffSet);
          }
-
-         Set<Id> lstIds = new Set<Id>();
-         for (pse__Proj__c objProject : lstProjects)
-            lstIds.add(objProject.Id);
-
-         AH_UDC_LogHelper.Debug('GetProjectRecords() => lstIds.size(): ' + lstIds.size());
-         List<UserRecordAccess> lstUserRecordAccess = [SELECT RecordId
-                                                      FROM UserRecordAccess
-                                                      WHERE RecordId = :lstIds
-                                                      AND UserId = :UserInfo.getUserId()
-                                                      AND HasReadAccess = true];
-         AH_UDC_LogHelper.Debug('GetProjectRecords() => lstUserRecordAccess.size(): ' + lstUserRecordAccess.size());
          AH_UDC_LogHelper.Debug('GetProjectRecords() => intOffSet: ' + intOffSet);
          AH_UDC_LogHelper.Debug('GetProjectRecords() => intLimit: ' + intLimit);
-         Integer count = 0;
-         for (pse__Proj__c objProject : lstProjects) {
-            for (UserRecordAccess objUserRecordAccess : lstUserRecordAccess) {
-               if(objUserRecordAccess.RecordId == objProject.Id) {
-                  if(count >= intOffSet && count < (intOffSet + intLimit)) { //Pagination
-                     ProjectWrapper objProjectWrapper = new ProjectWrapper();
-                     objProjectWrapper.Id = objProject.Id;
-                     objProjectWrapper.Name = objProject.Name;
-                     objProjectWrapper.ProjectManager = objProject.pse__Project_Manager__r.Name;
-                     objProjectWrapper.ProjectStatus = objProject.pse__Project_Status__c;
-                     ProjectRecordsList.add(objProjectWrapper);
-                  }
-                  count++;
-                  break;
-               }
-            }
-         }
          AH_UDC_LogHelper.Debug('GetProjectRecords() => ProjectRecordsList.size(): ' + ProjectRecordsList.size());
          return true;
       }
@@ -521,7 +495,7 @@ public with sharing class AH_UDC_CustomLookupDialog {
          if (lstRecentlyViewedRecords != null && lstRecentlyViewedRecords.size() > 0) {
             lstIds = new Set<Id> ();
             for (RecentlyViewed obj : lstRecentlyViewedRecords)
-               lstIds.add(obj.Id);
+            lstIds.add(obj.Id);
 
             AH_UDC_LogHelper.Debug('lstIds -> ' + lstIds);
             if (IsCountQuery) {
@@ -580,12 +554,12 @@ public with sharing class AH_UDC_CustomLookupDialog {
       try {
          AH_UDC_LogHelper.Debug('Query to get Recently Viewed Project Records -> SELECT Id FROM RecentlyViewed WHERE Type = \'' + pse__Proj__c.sObjectType.getDescribe().getName() + '\'');
          List<RecentlyViewed> lstRecentlyViewedRecords = [SELECT Id
-                                                         FROM RecentlyViewed
-                                                         WHERE Type = :pse__Proj__c.sObjectType.getDescribe().getName()
-                                                         ORDER BY LastViewedDate DESC NULLS LAST];
+                                                          FROM RecentlyViewed
+                                                          WHERE Type = :pse__Proj__c.sObjectType.getDescribe().getName()
+                                                          ORDER BY LastViewedDate DESC NULLS LAST];
          AH_UDC_LogHelper.Debug('GetRecentlyViewedProjects() => lstRecentlyViewedRecords: ' + lstRecentlyViewedRecords);
          if (lstRecentlyViewedRecords.size() == 0)
-            return new List<pse__Proj__c> ();
+         return new List<pse__Proj__c> ();
 
          List<Id> lstIds = new List<Id> ();
          for (RecentlyViewed obj : lstRecentlyViewedRecords) {
@@ -595,16 +569,16 @@ public with sharing class AH_UDC_CustomLookupDialog {
          AH_UDC_LogHelper.Debug('GetRecentlyViewedProjects() => lstIds: ' + lstIds);
          if (IsCountQuery) {
             AH_UDC_LogHelper.Debug('Query to get Recently Viewed Projects -> SELECT Id, Name, pse__Project_Manager__r.Name, pse__Project_Status__c FROM pse__Proj__c WHERE Id IN : lstIds');
-            return [SELECT Id, Name, pse__Project_Manager__r.Name, pse__Project_Status__c
-                     FROM pse__Proj__c
-                     WHERE Id IN : lstIds];
+            return[SELECT Id, Name, pse__Project_Manager__r.Name, pse__Project_Status__c
+            FROM pse__Proj__c
+            WHERE Id IN : lstIds];
          }
          else {
             AH_UDC_LogHelper.Debug('Query to get Recently Viewed Projects -> SELECT Id, Name, pse__Project_Manager__r.Name, pse__Project_Status__c FROM pse__Proj__c WHERE Id IN : lstIds LIMIT ' + intLimit + ' OFFSET ' + intOffSet);
-            return [SELECT Id, Name, pse__Project_Manager__r.Name, pse__Project_Status__c
-                     FROM pse__Proj__c
-                     WHERE Id IN : lstIds
-                     ORDER BY LastViewedDate DESC NULLS LAST LIMIT : intLimit OFFSET : intOffSet];
+            return[SELECT Id, Name, pse__Project_Manager__r.Name, pse__Project_Status__c
+            FROM pse__Proj__c
+            WHERE Id IN : lstIds
+            ORDER BY LastViewedDate DESC NULLS LAST LIMIT : intLimit OFFSET : intOffSet];
          }
       }
       catch(Exception ex) {
@@ -718,19 +692,19 @@ public with sharing class AH_UDC_CustomLookupDialog {
          }
 
          strQuery += ' FROM ' + strObjectName;
-         if(String.isNotBlank(strDefaultFilter)) {        
+         if (String.isNotBlank(strDefaultFilter)) {
             strQuery += ' WHERE ' + strDefaultFilter;
          }
 
          if (String.isNotBlank(SearchText)) {
             String strFilter = GetFilterString(arrFilterColumns);
-            if(String.isNotBlank(strFilter)) {
+            if (String.isNotBlank(strFilter)) {
                //If default filter is blank then construct WHERE block and append search filters
                //otherwise append search filters after default filter with AND block
                strQuery += String.isNotBlank(strDefaultFilter) ? ' AND ' : ' WHERE ';
                strQuery += strFilter; //Add search text filter in the query
             }
-         }      
+         }
 
          if (!isCountQuery) {
             if (String.isNotBlank(strOrderByColumns)) {
@@ -791,7 +765,7 @@ public with sharing class AH_UDC_CustomLookupDialog {
 
          AH_UDC_LogHelper.Debug('SetPaginationVariablesValue() => TotalRecords: ' + TotalRecords);
          AH_UDC_LogHelper.Debug('SetPaginationVariablesValue() => RecordsPerPage: ' + RecordsPerPage);
-         if (math.mod(TotalRecords, RecordsPerPage) > 0) {
+         if (math.mod(TotalRecords, RecordsPerPage)> 0) {
             TotalPages = TotalRecords / RecordsPerPage;
          }
          else {

@@ -1,11 +1,68 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Flow xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <actionCalls>
-        <description>Sends an email to the &quot;PS Escalations&quot; queue alerting them that a new Case has been created</description>
-        <name>EmailAlertToQueue</name>
-        <label>EmailAlertToQueue</label>
-        <locationX>991</locationX>
-        <locationY>135</locationY>
+        <description>Sends an email using the &quot;PS Escalations BI Case Creation Alert&quot; to the &quot;PS Escalations BI Group&quot; public group alerting them that a new Case has been created</description>
+        <name>EmailAlertToBIQueue</name>
+        <label>EmailAlertToBIQueue</label>
+        <locationX>916</locationX>
+        <locationY>33</locationY>
+        <actionName>Case.PS_Escalations_BI_Case_Creation_Alert</actionName>
+        <actionType>emailAlert</actionType>
+        <connector>
+            <targetReference>GetNewCaseRecord</targetReference>
+        </connector>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <inputParameters>
+            <name>SObjectRowId</name>
+            <value>
+                <elementReference>varNewCaseRecordId</elementReference>
+            </value>
+        </inputParameters>
+    </actionCalls>
+    <actionCalls>
+        <description>Sends an email using the &quot;PS Escalations GMS Case Creation Alert&quot; to the &quot;PS Escalations GMS Group&quot; public group alerting them that a new Case has been created</description>
+        <name>EmailAlertToGMSQueue</name>
+        <label>EmailAlertToGMSQueue</label>
+        <locationX>976</locationX>
+        <locationY>149</locationY>
+        <actionName>Case.PS_Escalations_GMS_Case_Creation_Alert</actionName>
+        <actionType>emailAlert</actionType>
+        <connector>
+            <targetReference>GetNewCaseRecord</targetReference>
+        </connector>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <inputParameters>
+            <name>SObjectRowId</name>
+            <value>
+                <elementReference>varNewCaseRecordId</elementReference>
+            </value>
+        </inputParameters>
+    </actionCalls>
+    <actionCalls>
+        <description>Sends an email alert to the members of the PMS Queue to alert them there is a new PS Escalations case.</description>
+        <name>EmailAlertToPMSQueue</name>
+        <label>EmailAlertToPMSQueue</label>
+        <locationX>1018</locationX>
+        <locationY>544</locationY>
+        <actionName>Case.PS_Escalations_PMS_Case_Creation_Alert</actionName>
+        <actionType>emailAlert</actionType>
+        <connector>
+            <targetReference>GetNewCaseRecord</targetReference>
+        </connector>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <inputParameters>
+            <name>SObjectRowId</name>
+            <value>
+                <elementReference>varNewCaseRecordId</elementReference>
+            </value>
+        </inputParameters>
+    </actionCalls>
+    <actionCalls>
+        <description>Sends an email using the &quot;PS Escalations Case Creation Email Alert&quot; to the &quot;PS Escalations&quot; public group alerting them that a new Case has been created</description>
+        <name>EmailAlertToPSEscalationsQueue</name>
+        <label>EmailAlertToPSEscalationsQueue</label>
+        <locationX>1002</locationX>
+        <locationY>405</locationY>
         <actionName>Case.PS_Escalations_Case_Creation_Email_Alert</actionName>
         <actionType>emailAlert</actionType>
         <connector>
@@ -23,8 +80,8 @@
         <description>Sends an email to the Case creator with a link to their new Case</description>
         <name>EmailAlertToRequester</name>
         <label>EmailAlertToRequester</label>
-        <locationX>1422</locationX>
-        <locationY>178</locationY>
+        <locationX>1414</locationX>
+        <locationY>327</locationY>
         <actionName>emailSimple</actionName>
         <actionType>emailSimple</actionType>
         <connector>
@@ -56,12 +113,31 @@
             </value>
         </inputParameters>
     </actionCalls>
-    <apiVersion>54.0</apiVersion>
+    <actionCalls>
+        <description>Sends an email using the &quot;PS Escalations Web Case Creation Alert&quot; to the &quot;PS Escalations Web Group&quot; public group alerting them that a new Case has been created</description>
+        <name>EmailAlertToWebQueue</name>
+        <label>EmailAlertToWebQueue</label>
+        <locationX>992</locationX>
+        <locationY>276</locationY>
+        <actionName>Case.PS_Escalations_Web_Case_Creation_Alert</actionName>
+        <actionType>emailAlert</actionType>
+        <connector>
+            <targetReference>GetNewCaseRecord</targetReference>
+        </connector>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <inputParameters>
+            <name>SObjectRowId</name>
+            <value>
+                <elementReference>varNewCaseRecordId</elementReference>
+            </value>
+        </inputParameters>
+    </actionCalls>
+    <apiVersion>57.0</apiVersion>
     <assignments>
         <name>AssignCaseId</name>
         <label>AssignCaseId</label>
-        <locationX>950</locationX>
-        <locationY>319</locationY>
+        <locationX>755</locationX>
+        <locationY>476</locationY>
         <assignmentItems>
             <assignToReference>varNewCaseRecordId</assignToReference>
             <operator>Assign</operator>
@@ -70,14 +146,14 @@
             </value>
         </assignmentItems>
         <connector>
-            <targetReference>EmailAlertToQueue</targetReference>
+            <targetReference>DecideProductForEmail</targetReference>
         </connector>
     </assignments>
     <assignments>
         <name>AssignNewCaseNumber</name>
         <label>AssignNewCaseNumber</label>
-        <locationX>1231</locationX>
-        <locationY>155</locationY>
+        <locationX>1401</locationX>
+        <locationY>188</locationY>
         <assignmentItems>
             <assignToReference>varNewCaseNumber</assignToReference>
             <operator>Assign</operator>
@@ -100,8 +176,8 @@
         <description>Assigns field values to the new Case record</description>
         <name>AssignNewRecord</name>
         <label>AssignNewRecord</label>
-        <locationX>621</locationX>
-        <locationY>331</locationY>
+        <locationX>554</locationX>
+        <locationY>433</locationY>
         <assignmentItems>
             <assignToReference>varNewCaseRecord.AccountId</assignToReference>
             <operator>Assign</operator>
@@ -141,7 +217,7 @@
             <assignToReference>varNewCaseRecord.OwnerId</assignToReference>
             <operator>Assign</operator>
             <value>
-                <elementReference>GetQueueRecord.Id</elementReference>
+                <elementReference>varQueueRecord.Id</elementReference>
             </value>
         </assignmentItems>
         <assignmentItems>
@@ -201,8 +277,8 @@
         <description>Assigns the Working With Customer End Date value to a temporary variable to use in a formula so it displays in the description field correctly.</description>
         <name>AssignTempDateVariable</name>
         <label>AssignTempDateVariable</label>
-        <locationX>600</locationX>
-        <locationY>90</locationY>
+        <locationX>561</locationX>
+        <locationY>256</locationY>
         <assignmentItems>
             <assignToReference>varTempEndDate</assignToReference>
             <operator>Assign</operator>
@@ -214,66 +290,149 @@
             <targetReference>AssignNewRecord</targetReference>
         </connector>
     </assignments>
-    <choices>
-        <name>choiceDistributionDiagramming</name>
-        <choiceText>Distribution and Diagramming</choiceText>
-        <dataType>String</dataType>
-        <value>
-            <stringValue>Distribution &amp; Diagramming</stringValue>
-        </value>
-    </choices>
-    <choices>
-        <description>Priority choice P1</description>
-        <name>choiceP1</name>
-        <choiceText>P1</choiceText>
-        <dataType>String</dataType>
-        <value>
-            <stringValue>P1</stringValue>
-        </value>
-    </choices>
-    <choices>
-        <description>Priority choice P2</description>
-        <name>choiceP2</name>
-        <choiceText>P2</choiceText>
-        <dataType>String</dataType>
-        <value>
-            <stringValue>P2</stringValue>
-        </value>
-    </choices>
-    <choices>
-        <description>Priority choice P3</description>
-        <name>choiceP3</name>
-        <choiceText>P3</choiceText>
-        <dataType>String</dataType>
-        <value>
-            <stringValue>P3</stringValue>
-        </value>
-    </choices>
-    <choices>
-        <name>choicePMS</name>
-        <choiceText>Property Management Products</choiceText>
-        <dataType>String</dataType>
-        <value>
-            <stringValue>Property Management Products</stringValue>
-        </value>
-    </choices>
-    <choices>
-        <name>choiceSC</name>
-        <choiceText>Sales and Catering</choiceText>
-        <dataType>String</dataType>
-        <value>
-            <stringValue>Sales &amp; Catering</stringValue>
-        </value>
-    </choices>
-    <choices>
-        <name>choiceSO</name>
-        <choiceText>Service Optimization</choiceText>
-        <dataType>String</dataType>
-        <value>
-            <stringValue>Service Optimization</stringValue>
-        </value>
-    </choices>
-    <description>NICC-057654; updated via NICC-059265; updated via NICC-06144
+    <decisions>
+        <description>Decides which Product was chosen from the first screen to send the correct queue email</description>
+        <name>DecideProductForEmail</name>
+        <label>DecideProductForEmail</label>
+        <locationX>694</locationX>
+        <locationY>243</locationY>
+        <defaultConnector>
+            <targetReference>EmailAlertToPSEscalationsQueue</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>ProductBIEmail</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>ProductScreenInput</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>BI</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>EmailAlertToBIQueue</targetReference>
+            </connector>
+            <label>ProductBIEmail</label>
+        </rules>
+        <rules>
+            <name>ProductGMSEmail</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>ProductScreenInput</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>GMS</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>EmailAlertToGMSQueue</targetReference>
+            </connector>
+            <label>ProductGMSEmail</label>
+        </rules>
+        <rules>
+            <name>ProductWebEmail</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>ProductScreenInput</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Web</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>EmailAlertToWebQueue</targetReference>
+            </connector>
+            <label>ProductWebEmail</label>
+        </rules>
+        <rules>
+            <name>ProductPMSEmail</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>ProductScreenInput</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Property Management Products</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>EmailAlertToPMSQueue</targetReference>
+            </connector>
+            <label>ProductPMSEmail</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <description>ecides which Product was chosen from the first screen to assign the correct queue as Case Owner</description>
+        <name>DecideProductForOwner</name>
+        <label>DecideProductForOwner</label>
+        <locationX>50</locationX>
+        <locationY>429</locationY>
+        <defaultConnector>
+            <targetReference>GetPSEscalationsQueueRecord</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>ProductBI</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>ProductScreenInput</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>BI</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>GetBIQueueRecord</targetReference>
+            </connector>
+            <label>ProductBI</label>
+        </rules>
+        <rules>
+            <name>ProductGMS</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>ProductScreenInput</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>GMS</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>GetGMSQueueRecord</targetReference>
+            </connector>
+            <label>ProductGMS</label>
+        </rules>
+        <rules>
+            <name>ProductWeb</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>ProductScreenInput</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Web</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>GetWebQueueRecord</targetReference>
+            </connector>
+            <label>ProductWeb</label>
+        </rules>
+        <rules>
+            <name>ProductPMS</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>ProductScreenInput</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Property Management Products</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>GetPMSQueue</targetReference>
+            </connector>
+            <label>ProductPMS</label>
+        </rules>
+    </decisions>
+    <description>NICC-057654; updated via NICC-059265; updated via NICC-06144; NICC-063942
 Screen Flow to create PS Escalations Cases</description>
     <dynamicChoiceSets>
         <name>choicesRequestType</name>
@@ -283,7 +442,31 @@ Screen Flow to create PS Escalations Cases</description>
         <picklistField>SD_Request_Type__c</picklistField>
         <picklistObject>Case</picklistObject>
     </dynamicChoiceSets>
+    <dynamicChoiceSets>
+        <description>Populated from the picklist field called &quot;PS Case Priority&quot; on the custom metadata type &quot;Case Object Picklist Setup&quot;</description>
+        <name>PSCasePriorityPicklistChoiceSet</name>
+        <dataType>Picklist</dataType>
+        <displayField xsi:nil="true"/>
+        <object xsi:nil="true"/>
+        <picklistField>AH_PSCasePriority__c</picklistField>
+        <picklistObject>Case_Object_Picklist_Setup__mdt</picklistObject>
+    </dynamicChoiceSets>
+    <dynamicChoiceSets>
+        <description>Presents a list of Products for PS Escalation cases. Populated from the picklist field called &quot;PS Case Product&quot; on the custom metadata type &quot;Case Object Picklist Setup&quot;</description>
+        <name>PSCaseProductPicklistChoiceSet</name>
+        <dataType>Picklist</dataType>
+        <displayField xsi:nil="true"/>
+        <object xsi:nil="true"/>
+        <picklistField>AH_PSCaseProduct__c</picklistField>
+        <picklistObject>Case_Object_Picklist_Setup__mdt</picklistObject>
+    </dynamicChoiceSets>
     <environments>Default</environments>
+    <formulas>
+        <description>hyperlink to route users back to beginning of the Flow</description>
+        <name>formulaCreateNewCaseLink</name>
+        <dataType>String</dataType>
+        <expression>LEFT({!$Api.Partner_Server_URL_550}, FIND( &apos;/services&apos;, {!$Api.Partner_Server_URL_550}))&amp; &quot;/flow/Case_PSEscalationsCaseCreation?retURL=home/home.jsp&quot;</expression>
+    </formulas>
     <formulas>
         <name>formulaDescription</name>
         <dataType>String</dataType>
@@ -296,6 +479,12 @@ Screen Flow to create PS Escalations Cases</description>
 &quot;Product &amp; Version: &quot;  &amp;&quot; &quot;&amp; {!ProductVersionInput} &amp;&quot; &quot;&amp;
 {!varLineBreak}&amp;
 &quot;How is this issue impacting the customer?&quot; &amp;&quot; &quot;&amp;{!IssueImpactingCustomerScreenInput}</expression>
+    </formulas>
+    <formulas>
+        <description>hyperlink to the new Case that was just created</description>
+        <name>formulaNewCaseRecordLink</name>
+        <dataType>String</dataType>
+        <expression>LEFT({!$Api.Partner_Server_URL_550}, FIND( &apos;/services&apos;, {!$Api.Partner_Server_URL_550})) &amp; {!varNewCaseRecordId}</expression>
     </formulas>
     <formulas>
         <name>varLineBreak</name>
@@ -324,11 +513,11 @@ Screen Flow to create PS Escalations Cases</description>
     </processMetadataValues>
     <processType>Flow</processType>
     <recordCreates>
-        <description>Creates a Case and assigns it to the {queue name}</description>
+        <description>Creates a Case and assigns it to the appropriate queue</description>
         <name>CreateCase</name>
         <label>CreateCase</label>
-        <locationX>779</locationX>
-        <locationY>332</locationY>
+        <locationX>567</locationX>
+        <locationY>595</locationY>
         <connector>
             <targetReference>AssignCaseId</targetReference>
         </connector>
@@ -341,8 +530,8 @@ Screen Flow to create PS Escalations Cases</description>
         <description>Gets details of the Account record associated with the Case</description>
         <name>GetAccount</name>
         <label>GetAccount</label>
-        <locationX>184</locationX>
-        <locationY>326</locationY>
+        <locationX>509</locationX>
+        <locationY>40</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>GetProject</targetReference>
@@ -367,14 +556,38 @@ Screen Flow to create PS Escalations Cases</description>
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordLookups>
     <recordLookups>
+        <description>Gets the record for the Queue named &quot;Q-BI&quot;</description>
+        <name>GetBIQueueRecord</name>
+        <label>GetBIQueueRecord</label>
+        <locationX>192</locationX>
+        <locationY>148</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>GetAccount</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>DeveloperName</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Q_BI</stringValue>
+            </value>
+        </filters>
+        <object>Group</object>
+        <outputReference>varQueueRecord</outputReference>
+        <queriedFields>Id</queriedFields>
+        <queriedFields>DeveloperName</queriedFields>
+        <queriedFields>Name</queriedFields>
+    </recordLookups>
+    <recordLookups>
         <description>Gets details of the PS Escalations case record type</description>
         <name>GetCaseRecordType</name>
         <label>GetCaseRecordType</label>
-        <locationX>54</locationX>
-        <locationY>209</locationY>
+        <locationX>73</locationX>
+        <locationY>147</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
-            <targetReference>GetQueueRecord</targetReference>
+            <targetReference>CaseCreationScreen</targetReference>
         </connector>
         <filterLogic>and</filterLogic>
         <filters>
@@ -389,10 +602,34 @@ Screen Flow to create PS Escalations Cases</description>
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordLookups>
     <recordLookups>
+        <description>Gets the record for the Queue named &quot;Q-GMS&quot;</description>
+        <name>GetGMSQueueRecord</name>
+        <label>GetGMSQueueRecord</label>
+        <locationX>222</locationX>
+        <locationY>271</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>GetAccount</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>DeveloperName</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Q_GMS</stringValue>
+            </value>
+        </filters>
+        <object>Group</object>
+        <outputReference>varQueueRecord</outputReference>
+        <queriedFields>Id</queriedFields>
+        <queriedFields>DeveloperName</queriedFields>
+        <queriedFields>Name</queriedFields>
+    </recordLookups>
+    <recordLookups>
         <name>GetNewCaseRecord</name>
         <label>GetNewCaseRecord</label>
-        <locationX>1108</locationX>
-        <locationY>322</locationY>
+        <locationX>1403</locationX>
+        <locationY>33</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>AssignNewCaseNumber</targetReference>
@@ -413,8 +650,8 @@ Screen Flow to create PS Escalations Cases</description>
         <description>Gets details about the Opportunity that will be associated to the Case</description>
         <name>GetOpportunity</name>
         <label>GetOpportunity</label>
-        <locationX>460</locationX>
-        <locationY>213</locationY>
+        <locationX>713</locationX>
+        <locationY>40</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>AssignTempDateVariable</targetReference>
@@ -432,11 +669,34 @@ Screen Flow to create PS Escalations Cases</description>
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordLookups>
     <recordLookups>
+        <name>GetPMSQueue</name>
+        <label>GetPMSQueue</label>
+        <locationX>109</locationX>
+        <locationY>574</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>GetAccount</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>DeveloperName</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Q_PMS_Escalations</stringValue>
+            </value>
+        </filters>
+        <object>Group</object>
+        <outputReference>varQueueRecord</outputReference>
+        <queriedFields>Id</queriedFields>
+        <queriedFields>Name</queriedFields>
+        <queriedFields>DeveloperName</queriedFields>
+    </recordLookups>
+    <recordLookups>
         <description>Gets details about the Project that will be associated to the Case</description>
         <name>GetProject</name>
         <label>GetProject</label>
-        <locationX>299</locationX>
-        <locationY>225</locationY>
+        <locationX>615</locationX>
+        <locationY>44</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>GetOpportunity</targetReference>
@@ -461,14 +721,14 @@ Screen Flow to create PS Escalations Cases</description>
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordLookups>
     <recordLookups>
-        <description>Gets the Id of the Queue for UDC request type</description>
-        <name>GetQueueRecord</name>
-        <label>GetQueueRecord</label>
-        <locationX>36</locationX>
-        <locationY>346</locationY>
+        <description>Gets the Id of the PS Escalations Queue</description>
+        <name>GetPSEscalationsQueueRecord</name>
+        <label>GetPSEscalationsQueueRecord</label>
+        <locationX>241</locationX>
+        <locationY>507</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
-            <targetReference>CaseCreationScreen</targetReference>
+            <targetReference>GetAccount</targetReference>
         </connector>
         <filterLogic>and</filterLogic>
         <filters>
@@ -478,16 +738,42 @@ Screen Flow to create PS Escalations Cases</description>
                 <stringValue>Q_PS_Escalations</stringValue>
             </value>
         </filters>
-        <getFirstRecordOnly>true</getFirstRecordOnly>
         <object>Group</object>
-        <storeOutputAutomatically>true</storeOutputAutomatically>
+        <outputReference>varQueueRecord</outputReference>
+        <queriedFields>Id</queriedFields>
+        <queriedFields>DeveloperName</queriedFields>
+        <queriedFields>Name</queriedFields>
+    </recordLookups>
+    <recordLookups>
+        <description>Gets the record for the Queue named &quot;Q-Web&quot;</description>
+        <name>GetWebQueueRecord</name>
+        <label>GetWebQueueRecord</label>
+        <locationX>239</locationX>
+        <locationY>395</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>GetAccount</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>DeveloperName</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Q_Web</stringValue>
+            </value>
+        </filters>
+        <object>Group</object>
+        <outputReference>varQueueRecord</outputReference>
+        <queriedFields>Id</queriedFields>
+        <queriedFields>DeveloperName</queriedFields>
+        <queriedFields>Name</queriedFields>
     </recordLookups>
     <runInMode>SystemModeWithoutSharing</runInMode>
     <screens>
         <name>CaseCreationFaultScreen</name>
         <label>CaseCreationFaultScreen</label>
-        <locationX>789</locationX>
-        <locationY>137</locationY>
+        <locationX>823</locationX>
+        <locationY>599</locationY>
         <allowBack>true</allowBack>
         <allowFinish>false</allowFinish>
         <allowPause>false</allowPause>
@@ -502,25 +788,22 @@ Screen Flow to create PS Escalations Cases</description>
     <screens>
         <name>CaseCreationScreen</name>
         <label>CaseCreationScreen</label>
-        <locationX>61</locationX>
-        <locationY>546</locationY>
+        <locationX>59</locationX>
+        <locationY>264</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>false</allowPause>
         <connector>
-            <targetReference>GetAccount</targetReference>
+            <targetReference>DecideProductForOwner</targetReference>
         </connector>
         <fields>
             <name>CaseCreationScreenDisplayText</name>
-            <fieldText>&lt;p&gt;&lt;b&gt;PS Escalations Case Creation Form&lt;/b&gt;&lt;/p&gt;&lt;p&gt;Please use this form to report questions, problems or enhancement requests for:&lt;/p&gt;&lt;ul&gt;&lt;li&gt;Distribution and Diagramming&lt;/li&gt;&lt;li&gt;Property Management Products&lt;/li&gt;&lt;li&gt;Sales and Catering&lt;/li&gt;&lt;li&gt;Service Optimization&lt;/li&gt;&lt;/ul&gt;</fieldText>
+            <fieldText>&lt;p&gt;&lt;strong&gt;PS Escalations Case Creation Form&lt;/strong&gt;&lt;/p&gt;&lt;p&gt;Please use this form to report questions, problems or enhancement requests for:&lt;/p&gt;&lt;ul&gt;&lt;li&gt;BI&lt;/li&gt;&lt;li&gt;GMS&lt;/li&gt;&lt;li&gt;Property Management Products&lt;/li&gt;&lt;li&gt;Sales and Catering&lt;/li&gt;&lt;li&gt;Service Optimization&lt;/li&gt;&lt;li&gt;Web&lt;/li&gt;&lt;/ul&gt;</fieldText>
             <fieldType>DisplayText</fieldType>
         </fields>
         <fields>
             <name>ProductScreenInput</name>
-            <choiceReferences>choiceDistributionDiagramming</choiceReferences>
-            <choiceReferences>choicePMS</choiceReferences>
-            <choiceReferences>choiceSC</choiceReferences>
-            <choiceReferences>choiceSO</choiceReferences>
+            <choiceReferences>PSCaseProductPicklistChoiceSet</choiceReferences>
             <dataType>String</dataType>
             <fieldText>Select a Product</fieldText>
             <fieldType>DropdownBox</fieldType>
@@ -528,11 +811,11 @@ Screen Flow to create PS Escalations Cases</description>
         </fields>
         <fields>
             <name>PriorityScreenInput</name>
-            <choiceReferences>choiceP3</choiceReferences>
-            <choiceReferences>choiceP2</choiceReferences>
-            <choiceReferences>choiceP1</choiceReferences>
+            <choiceReferences>PSCasePriorityPicklistChoiceSet</choiceReferences>
             <dataType>String</dataType>
-            <defaultSelectedChoiceReference>choiceP3</defaultSelectedChoiceReference>
+            <defaultValue>
+                <stringValue>P3</stringValue>
+            </defaultValue>
             <fieldText>Priority - For problem requests, please specify your request priority. This field defaults to P3 which is normal priority. Click the circle to see priority descriptions.</fieldText>
             <fieldType>DropdownBox</fieldType>
             <helpText>&lt;p&gt;P1 - Critical.&amp;nbsp;Business impacting.&amp;nbsp;Will be reviewed and worked within 1 business day. Resolution may take longer.&lt;/p&gt;&lt;p&gt;P2 - High Importance. Impacting one or more areas of the application.&lt;/p&gt;&lt;p&gt;P3 - Normal Priority. Doesn&apos;t impact the flow of training, typically a workaround exists.&lt;/p&gt;</helpText>
@@ -723,8 +1006,8 @@ Screen Flow to create PS Escalations Cases</description>
         <description>Shows the User the Case Number of the Case that was created</description>
         <name>NewCaseScreen</name>
         <label>NewCaseScreen</label>
-        <locationX>1461</locationX>
-        <locationY>396</locationY>
+        <locationX>1416</locationX>
+        <locationY>461</locationY>
         <allowBack>false</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>false</allowPause>
@@ -784,7 +1067,7 @@ Screen Flow to create PS Escalations Cases</description>
                 <fieldType>Region</fieldType>
                 <fields>
                     <name>GoToCaseDisplayText</name>
-                    <fieldText>&lt;p&gt;&lt;a href=&quot;https://amadeus-hospitality.my.salesforce.com/{!varNewCaseRecordId}&quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot;&gt;&lt;b&gt;&lt;u&gt;Go to Case&lt;/u&gt;&lt;/b&gt;&lt;/a&gt;&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;&lt;a href=&quot;https://amadeus-hospitality.my.salesforce.com/flow/Case_PSEscalationsCaseCreation?retURL=home/home.jsp&quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot; style=&quot;background-color: rgb(255, 255, 255);&quot;&gt;&lt;b&gt;&lt;u&gt;﻿Enter New Case&lt;/u&gt;&lt;/b&gt;&lt;/a&gt;&lt;/p&gt;</fieldText>
+                    <fieldText>&lt;p&gt;&lt;a href=&quot;{!formulaNewCaseRecordLink}&quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot;&gt;&lt;strong&gt;Go to Case&lt;/strong&gt;&lt;/a&gt;&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;&lt;a href=&quot;{!formulaCreateNewCaseLink}&quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot;&gt;&lt;strong&gt;﻿Enter New Case&lt;/strong&gt;&lt;/a&gt;&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;</fieldText>
                     <fieldType>DisplayText</fieldType>
                 </fields>
                 <inputParameters>
@@ -803,8 +1086,8 @@ Screen Flow to create PS Escalations Cases</description>
         <showHeader>false</showHeader>
     </screens>
     <start>
-        <locationX>30</locationX>
-        <locationY>56</locationY>
+        <locationX>111</locationX>
+        <locationY>25</locationY>
         <connector>
             <targetReference>GetCaseRecordType</targetReference>
         </connector>
@@ -814,7 +1097,7 @@ Screen Flow to create PS Escalations Cases</description>
         <description>Template to send an email alert to the user who created the Case, alerting them their Case has been created and including a link to the Case.</description>
         <name>templateCaseEmailAlert</name>
         <isViewedAsPlainText>false</isViewedAsPlainText>
-        <text>&lt;p&gt;*** NEW PS Escalations CASE ASSIGNMENT NOTIFICATION ***&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;font-size: 11pt; font-family: Calibri, sans-serif;&quot;&gt;The following case has been assigned to Q-PS Escalations. The Customer Delivery Managers will review the case and ensure it is quickly routed to the right resource to assist.&lt;/span&gt;&lt;/p&gt;&lt;p&gt;Case #: &lt;u style=&quot;background-color: rgb(255, 255, 255); font-size: 14.6667px; font-family: Calibri, sans-serif; color: rgb(68, 68, 68);&quot;&gt;{!GetNewCaseRecord.CaseRecordURL__c}&lt;/u&gt;&lt;/p&gt;&lt;p&gt;Account Name: {!AccountInputScreen.recordName}&lt;/p&gt;&lt;p&gt;Subject: {!GetNewCaseRecord.Subject}&lt;span style=&quot;font-family: Calibri, sans-serif; font-size: 11pt;&quot;&gt;&amp;nbsp;&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;font-family: Calibri, sans-serif; font-size: 11pt;&quot;&gt;Thank you.&lt;/span&gt;&lt;/p&gt;</text>
+        <text>&lt;p&gt;*** NEW PS Escalations CASE ASSIGNMENT NOTIFICATION ***&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;font-family: Calibri, sans-serif; font-size: 11pt;&quot;&gt;The following case has been assigned to {!GetNewCaseRecord.Owner:Group.Name}. The Customer Delivery Managers will review the case and ensure it is quickly routed to the right resource to assist.&lt;/span&gt;&lt;/p&gt;&lt;p&gt;Case #: &lt;u style=&quot;color: rgb(68, 68, 68); font-family: Calibri, sans-serif; font-size: 14.6667px; background-color: rgb(255, 255, 255);&quot;&gt;{!GetNewCaseRecord.CaseRecordURL__c}&lt;/u&gt;&lt;/p&gt;&lt;p&gt;Account Name: {!AccountInputScreen.recordName}&lt;/p&gt;&lt;p&gt;Subject: {!GetNewCaseRecord.Subject}&lt;span style=&quot;font-size: 11pt; font-family: Calibri, sans-serif;&quot;&gt;&amp;nbsp;&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;font-size: 11pt; font-family: Calibri, sans-serif;&quot;&gt;Thank you.&lt;/span&gt;&lt;/p&gt;</text>
     </textTemplates>
     <variables>
         <description>Holds the ID of the Account the Case will be connected to</description>
@@ -877,21 +1160,13 @@ Screen Flow to create PS Escalations Cases</description>
         <isOutput>true</isOutput>
     </variables>
     <variables>
-        <name>varQueueMemberRecordCollection</name>
-        <dataType>SObject</dataType>
-        <isCollection>true</isCollection>
-        <isInput>true</isInput>
-        <isOutput>true</isOutput>
-        <objectType>GroupMember</objectType>
-    </variables>
-    <variables>
-        <description>Contains Queue Members to send an email to</description>
-        <name>varQueueMembersCollection</name>
+        <description>Holds the record of the Queue</description>
+        <name>varQueueRecord</name>
         <dataType>SObject</dataType>
         <isCollection>false</isCollection>
-        <isInput>true</isInput>
-        <isOutput>true</isOutput>
-        <objectType>User</objectType>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <objectType>Group</objectType>
     </variables>
     <variables>
         <name>varRequestor</name>

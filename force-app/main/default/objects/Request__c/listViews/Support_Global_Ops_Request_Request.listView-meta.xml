@@ -2,12 +2,21 @@
 <ListView xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Support_Global_Ops_Request_Request</fullName>
     <columns>NAME</columns>
+    <columns>OWNER.ALIAS</columns>
     <columns>Request_Title__c</columns>
     <columns>Request_Contact__c</columns>
     <columns>Request_Status__c</columns>
     <columns>Request_Type__c</columns>
+    <columns>CREATED_DATE</columns>
+    <columns>Requested_Completion_Date__c</columns>
+    <columns>Priority__c</columns>
     <filterScope>Queue</filterScope>
-    <label>Support Global Ops Request Queue</label>
+    <filters>
+        <field>Request_Status__c</field>
+        <operation>notEqual</operation>
+        <value>Closed,Closed - Contract Processed,Closed - Incorrect Mailbox,Closed - Info/Admin Opty Processed,Closed - Unresolved,Closed Blocked,Closed Cancelled,Closed Fulfilled,Close Duplicate</value>
+    </filters>
+    <label>Support Global Ops - Queue</label>
     <queue>Support_Global_Ops_Request</queue>
     <sharedTo>
         <allInternalUsers></allInternalUsers>

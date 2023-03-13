@@ -460,8 +460,8 @@
                               <apex:column headervalue="{!$ObjectType.pse__Proj__c.fields.Name.Label}" style="white-space:nowrap;">
                                  <a class="lookup-action" data-lookupname="{!Project.Name}" data-lookupid="{!Project.Id}" href="javascript:void(0);" onclick="javascript:return false;">{!Project.Name}</a>
                               </apex:column>
-                              <apex:column headervalue="{!$ObjectType.pse__Proj__c.fields.pse__Project_Manager__c.Label}" value="{!Project.ProjectManager}" />
-                              <apex:column headervalue="{!$ObjectType.pse__Proj__c.fields.pse__Project_Status__c.Label}" value="{!Project.ProjectStatus}" />
+                              <apex:column headervalue="{!$ObjectType.pse__Proj__c.fields.pse__Project_Manager__c.Label}" value="{!Project.pse__Project_Manager__r.Name}" />
+                              <apex:column headervalue="{!$ObjectType.pse__Proj__c.fields.pse__Project_Status__c.Label}" value="{!Project.pse__Project_Status__c}" />
                            </apex:pageblocktable>
                            <!--No Data Section-->
                            <table style="{!IF((IsNIDocLookup && NIDocRecordsList.size > 0) 

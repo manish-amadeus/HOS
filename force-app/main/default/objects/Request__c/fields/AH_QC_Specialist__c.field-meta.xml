@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>AH_QC_Specialist__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <description>NICC-060915</description>
+    <externalId>false</externalId>
+    <inlineHelpText>User who is the designated QC Specialist for this Request</inlineHelpText>
+    <label>QC Specialist</label>
+    <referenceTo>User</referenceTo>
+    <relationshipName>Requests2</relationshipName>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

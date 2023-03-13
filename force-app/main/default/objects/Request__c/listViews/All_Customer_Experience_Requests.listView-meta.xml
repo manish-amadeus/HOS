@@ -8,6 +8,7 @@
     <columns>Request_Type__c</columns>
     <columns>Request_Contact__c</columns>
     <columns>OWNER.ALIAS</columns>
+    <columns>CREATED_DATE</columns>
     <filterScope>Everything</filterScope>
     <filters>
         <field>Request_Status__c</field>
@@ -17,7 +18,7 @@
     <filters>
         <field>RECORDTYPE</field>
         <operation>equals</operation>
-        <value>Request__c.Shared_Services_Request,Request__c.Support_Global_Ops_Request</value>
+        <value>Request__c.Support_Global_Ops_Request</value>
     </filters>
     <label>All - Open Customer Experience Requests</label>
 </ListView>

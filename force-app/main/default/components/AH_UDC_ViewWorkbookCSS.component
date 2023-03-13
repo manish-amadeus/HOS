@@ -51,7 +51,7 @@
       CSS Variables
       ****************************************  */
       :root {
-         --text-color: #515e59;
+         --text-color: #1a1a1a; /* OVERRIDE 515e59*/
          --primary-color: #005eb8;
          --secondary-color: #004485;
          --completed-color: #008540;
@@ -79,6 +79,7 @@
          margin: 0;
          padding: 0;
          text-rendering: optimizeLegibility;
+         line-height: 1.618; /* OVERRIDE */
       }
 
       a {
@@ -904,6 +905,8 @@
          line-height: 0;
          padding: 3px;
          height: 1.75em;
+         font-family: 'Source Sans Pro';
+         font-size: 16px;
       }
 
       .lastupdatedby-helptext-show .tippy-content {

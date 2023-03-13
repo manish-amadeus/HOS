@@ -1,7 +1,37 @@
 <apex:component >
 <style>
-   btn {
-      font-family:'Source Sans Pro';
+   @font-face {
+      font-family: 'Source Sans Pro';
+      font-style: normal;
+      font-weight: normal;
+      src: url('https://mbrfp.meetingbroker.com/AmadeusHospitality/UnifiedDataCollection/Shared/AH_UDC_Webfonts/source-sans-pro-v21-latin-regular.woff') format('woff'), /* Modern Browsers */
+      url('https://mbrfp.meetingbroker.com/AmadeusHospitality/UnifiedDataCollection/Shared/AH_UDC_Webfonts/source-sans-pro-v21-latin-regular.woff2') format('woff2'), /* Super Modern Browsers */
+      url('https://mbrfp.meetingbroker.com/AmadeusHospitality/UnifiedDataCollection/Shared/AH_UDC_Webfonts/source-sans-pro-v21-latin-regular.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+      url('https://mbrfp.meetingbroker.com/AmadeusHospitality/UnifiedDataCollection/Shared/AH_UDC_Webfonts/source-sans-pro-v21-latin-regular.ttf') format('truetype'), /* Safari, Android, iOS */
+      url('https://mbrfp.meetingbroker.com/AmadeusHospitality/UnifiedDataCollection/Shared/AH_UDC_Webfonts/source-sans-pro-v21-latin-regular.svg#SourceSansPro') format('svg'); /* Legacy iOS */
+   }
+
+   /* ****************************************
+      CSS Variables
+      ****************************************  */
+   :root {
+      --text-color: #1a1a1a;
+      --primary-color: #005eb8;
+      --active-color: #40564B; /* OVERRIDE #e95326 */
+   }
+   body {
+      color: var(--text-color);
+      font-family: "Source Sans Pro" !important;
+      font-feature-settings: "kern" 1;
+      font-kerning: normal;
+      font-size: 16px;
+      margin: 0;
+      padding: 0;
+      text-rendering: optimizeLegibility;
+      line-height: 1.618;
+   }
+   .btn {
+      font-family: 'Source Sans Pro';
       display: inline-block;
       font-weight: 400;
       line-height: 1.5;
@@ -73,6 +103,204 @@
          color: #fff;
          background-color: #005eb8;
          border-color: #005eb8;
+      }
+
+   .form-control, .df-table.ag-theme-alpine .ag-input-field-input.ag-text-field-input {
+      display: block;
+      width: 100%;
+      padding: .3125rem .75rem;
+      font-size: 1rem;
+      font-weight: 400;
+      line-height: 1.5;
+      color: #1a1a1a;
+      background-color: #fff;
+      background-clip: padding-box;
+      border: 1px solid #999;
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      appearance: none;
+      border-radius: .175rem;
+      transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+   }
+
+   @media (prefers-reduced-motion: reduce) {
+      .form-control, .df-table.ag-theme-alpine .ag-input-field-input.ag-text-field-input {
+         transition: none;
+      }
+   }
+
+   .form-control[type=file], .df-table.ag-theme-alpine [type=file].ag-input-field-input.ag-text-field-input {
+      overflow: hidden;
+   }
+
+      .form-control[type=file]:not(:disabled):not([readonly]), .df-table.ag-theme-alpine [type=file].ag-input-field-input.ag-text-field-input:not(:disabled):not([readonly]) {
+         cursor: pointer;
+      }
+
+   .form-control:focus, .df-table.ag-theme-alpine .ag-input-field-input.ag-text-field-input:focus {
+      color: #1a1a1a;
+      background-color: #fff;
+      border-color: #005eb8;
+      outline: 0;
+      box-shadow: 0 0 0 .25rem #005eb840;
+   }
+
+   .form-control::-webkit-date-and-time-value, .df-table.ag-theme-alpine .ag-input-field-input.ag-text-field-input::-webkit-date-and-time-value {
+      height: 1.5em;
+   }
+
+   .form-control::placeholder, .df-table.ag-theme-alpine .ag-input-field-input.ag-text-field-input::placeholder {
+      color: #666;
+      opacity: 1;
+   }
+
+   .form-control:disabled, .df-table.ag-theme-alpine .ag-input-field-input.ag-text-field-input:disabled, .form-control[readonly], .df-table.ag-theme-alpine [readonly].ag-input-field-input.ag-text-field-input {
+      background-color: #e6e6e6;
+      opacity: 1;
+   }
+
+   .form-control::file-selector-button, .df-table.ag-theme-alpine .ag-input-field-input.ag-text-field-input::file-selector-button {
+      padding: .3125rem .75rem;
+      margin: -.3125rem -.75rem;
+      margin-inline-end: .75rem;
+      color: #fff;
+      background-color: #005eb8;
+      pointer-events: none;
+      border-color: inherit;
+      border-style: solid;
+      border-width: 0;
+      border-inline-end-width: 1px;
+      border-radius: 0;
+      transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+   }
+
+   @media (prefers-reduced-motion: reduce) {
+      .form-control::-webkit-file-upload-button, .df-table.ag-theme-alpine .ag-input-field-input.ag-text-field-input::-webkit-file-upload-button {
+         -webkit-transition: none;
+         transition: none;
+      }
+
+      .form-control::file-selector-button, .df-table.ag-theme-alpine .ag-input-field-input.ag-text-field-input::file-selector-button {
+         transition: none;
+      }
+   }
+
+   .form-control:hover:not(:disabled):not([readonly])::file-selector-button, .df-table.ag-theme-alpine .ag-input-field-input.ag-text-field-input:hover:not(:disabled):not([readonly])::file-selector-button {
+      background-color: #0059af;
+   }
+
+   .form-control::-webkit-file-upload-button, .df-table.ag-theme-alpine .ag-input-field-input.ag-text-field-input::-webkit-file-upload-button {
+      padding: .3125rem .75rem;
+      margin: -.3125rem -.75rem;
+      margin-inline-end: .75rem;
+      color: #fff;
+      background-color: #005eb8;
+      pointer-events: none;
+      border-color: inherit;
+      border-style: solid;
+      border-width: 0;
+      border-inline-end-width: 1px;
+      border-radius: 0;
+      -webkit-transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+      transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+   }
+
+   @media (prefers-reduced-motion: reduce) {
+      .form-control::-webkit-file-upload-button, .df-table.ag-theme-alpine .ag-input-field-input.ag-text-field-input::-webkit-file-upload-button {
+         -webkit-transition: none;
+         transition: none;
+      }
+   }
+
+   .form-control:hover:not(:disabled):not([readonly])::-webkit-file-upload-button, .df-table.ag-theme-alpine .ag-input-field-input.ag-text-field-input:hover:not(:disabled):not([readonly])::-webkit-file-upload-button {
+      background-color: #0059af;
+   }
+
+   .form-control-plaintext {
+      display: block;
+      width: 100%;
+      padding: .3125rem 0;
+      margin-bottom: 0;
+      line-height: 1.5;
+      color: #1a1a1a;
+      background-color: transparent;
+      border: solid transparent;
+      border-width: 1px 0;
+   }
+
+      .form-control-plaintext.form-control-sm, .df-table.ag-theme-alpine .form-control-plaintext.ag-input-field-input.ag-text-field-input, .form-sm .form-control-plaintext.form-control, .form-sm .form-control-plaintext.ng-select, .form-control-plaintext.form-control-lg, .form-lg .form-control-plaintext.form-control {
+         padding-right: 0;
+         padding-left: 0;
+      }
+
+   .form-control-sm, .df-table.ag-theme-alpine .ag-input-field-input.ag-text-field-input, .form-sm .form-control, .form-sm .ng-select {
+      min-height: calc(1.5em + .4375rem + 2px);
+      padding: .21875rem .65625rem;
+      font-size: .875rem;
+      border-radius: .153125rem;
+   }
+
+      .form-control-sm::file-selector-button, .df-table.ag-theme-alpine .ag-input-field-input.ag-text-field-input::file-selector-button, .form-sm .form-control::file-selector-button, .form-sm .ng-select::file-selector-button {
+         padding: .21875rem .65625rem;
+         margin: -.21875rem -.65625rem;
+         margin-inline-end: .65625rem;
+      }
+
+      .form-control-sm::-webkit-file-upload-button, .df-table.ag-theme-alpine .ag-input-field-input.ag-text-field-input::-webkit-file-upload-button, .form-sm .form-control::-webkit-file-upload-button, .form-sm .ng-select::-webkit-file-upload-button {
+         padding: .21875rem .65625rem;
+         margin: -.21875rem -.65625rem;
+         margin-inline-end: .65625rem;
+      }
+
+   .form-control-lg, .form-lg .form-control, .form-lg .df-table.ag-theme-alpine .ag-input-field-input.ag-text-field-input, .df-table.ag-theme-alpine .form-lg .ag-input-field-input.ag-text-field-input {
+      min-height: calc(1.5em + 1.1875rem + 2px);
+      padding: .59375rem .84375rem;
+      font-size: 1.125rem;
+      border-radius: .196875rem;
+   }
+
+      .form-control-lg::file-selector-button, .form-lg .form-control::file-selector-button, .form-lg .df-table.ag-theme-alpine .ag-input-field-input.ag-text-field-input::file-selector-button, .df-table.ag-theme-alpine .form-lg .ag-input-field-input.ag-text-field-input::file-selector-button {
+         padding: .59375rem .84375rem;
+         margin: -.59375rem -.84375rem;
+         margin-inline-end: .84375rem;
+      }
+
+      .form-control-lg::-webkit-file-upload-button, .form-lg .form-control::-webkit-file-upload-button, .form-lg .df-table.ag-theme-alpine .ag-input-field-input.ag-text-field-input::-webkit-file-upload-button, .df-table.ag-theme-alpine .form-lg .ag-input-field-input.ag-text-field-input::-webkit-file-upload-button {
+         padding: .59375rem .84375rem;
+         margin: -.59375rem -.84375rem;
+         margin-inline-end: .84375rem;
+      }
+
+   textarea.form-control, .df-table.ag-theme-alpine textarea.ag-input-field-input.ag-text-field-input {
+      min-height: calc(1.5em + .625rem + 2px);
+   }
+
+   textarea.form-control-sm, .df-table.ag-theme-alpine textarea.ag-input-field-input.ag-text-field-input, .form-sm textarea.form-control, .form-sm textarea.ng-select {
+      min-height: calc(1.5em + .4375rem + 2px);
+   }
+
+   textarea.form-control-lg, .form-lg textarea.form-control, .form-lg .df-table.ag-theme-alpine textarea.ag-input-field-input.ag-text-field-input, .df-table.ag-theme-alpine .form-lg textarea.ag-input-field-input.ag-text-field-input {
+      min-height: calc(1.5em + 1.1875rem + 2px);
+   }
+
+   .form-control-color {
+      width: 3rem;
+      height: auto;
+      padding: .3125rem;
+   }
+
+      .form-control-color:not(:disabled):not([readonly]) {
+         cursor: pointer;
+      }
+
+      .form-control-color::-moz-color-swatch {
+         height: 1.5em;
+         border-radius: .175rem;
+      }
+
+      .form-control-color::-webkit-color-swatch {
+         height: 1.5em;
+         border-radius: .175rem;
       }
 </style>
 </apex:component>

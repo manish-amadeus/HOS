@@ -4,12 +4,14 @@
     <active>true</active>
     <description>Created per Salesforce.com Change Request: NICC-005028
 
-This Validation Rule prevents users from changing the Type field after the record has been created.</description>
+This Validation Rule prevents users from changing the Type field after the record has been created.
+NICC-060869</description>
     <errorConditionFormula>AND (
 NOT($Profile.Name = &quot;NI Administrator&quot;),
-NOT($Profile.Name = &quot;System Administrator&quot;), 
+NOT($Profile.Name = &quot;System Administrator&quot;),
 NOT($Profile.Name = &quot;NI Support Managers&quot;),
 NOT(ISNEW()),
+NOT(Product_Group__r.Name = &quot;PMS&quot;),
 ISCHANGED(Type__c)
 )</errorConditionFormula>
     <errorDisplayField>Type__c</errorDisplayField>

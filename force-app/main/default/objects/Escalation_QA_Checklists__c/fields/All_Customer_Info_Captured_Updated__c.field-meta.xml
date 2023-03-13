@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>All_Customer_Info_Captured_Updated__c</fullName>
+    <defaultValue>0</defaultValue>
     <description>All customer information captured (for creating a ticket- like hotel id, customer name, position etc).</description>
     <externalId>false</externalId>
-    <inlineHelpText>Correct contact tagged and/or contact details noted in case – Name, Email and Phone#.</inlineHelpText>
+    <inlineHelpText>Correct contact tagged and/or contact details noted in case - Name, Email and Phone#.
+POSSIBLE VALUES: 0, 1, 5</inlineHelpText>
     <label>All customer info captured/updated *</label>
     <precision>2</precision>
     <required>false</required>

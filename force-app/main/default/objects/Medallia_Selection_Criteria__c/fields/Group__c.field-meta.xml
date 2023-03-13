@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Group__c</fullName>
+    <externalId>false</externalId>
+    <label>Group</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>MultiselectPicklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Property Management</fullName>
+                <default>false</default>
+                <label>Property Management</label>
+            </value>
+            <value>
+                <fullName>Sales and Catering</fullName>
+                <default>false</default>
+                <label>Sales and Catering</label>
+            </value>
+            <value>
+                <fullName>Service Optimization</fullName>
+                <default>false</default>
+                <label>Service Optimization</label>
+            </value>
+            <value>
+                <fullName>CRS</fullName>
+                <default>false</default>
+                <label>CRS</label>
+            </value>
+            <value>
+                <fullName>GMS</fullName>
+                <default>false</default>
+                <label>GMS</label>
+            </value>
+            <value>
+                <fullName>RES</fullName>
+                <default>false</default>
+                <label>RES</label>
+            </value>
+            <value>
+                <fullName>BI</fullName>
+                <default>false</default>
+                <label>BI</label>
+            </value>
+            <value>
+                <fullName>Web</fullName>
+                <default>false</default>
+                <label>Web</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+    <visibleLines>4</visibleLines>
+</CustomField>

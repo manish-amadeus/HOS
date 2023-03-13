@@ -14,6 +14,11 @@
         <operation>contains</operation>
         <value>PMS</value>
     </filters>
-    <label>PMS - All CRs</label>
+    <filters>
+        <field>CREATED_DATE</field>
+        <operation>greaterOrEqual</operation>
+        <value>1/1/2021 12:00 AM</value>
+    </filters>
+    <label>PMS - All CRs 2021+</label>
     <language>en_US</language>
 </ListView>

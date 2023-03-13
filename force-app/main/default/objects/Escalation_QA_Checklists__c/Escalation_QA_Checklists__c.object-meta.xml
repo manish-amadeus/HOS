@@ -153,7 +153,7 @@
     <enableSearch>true</enableSearch>
     <enableSharing>true</enableSharing>
     <enableStreamingApi>true</enableStreamingApi>
-    <externalSharingModel>ReadWrite</externalSharingModel>
+    <externalSharingModel>Private</externalSharingModel>
     <label>Escalations</label>
     <nameField>
         <displayFormat>EQ-{0000}</displayFormat>
@@ -166,16 +166,16 @@
     <searchLayouts>
         <lookupDialogsAdditionalFields>Related_Case__c</lookupDialogsAdditionalFields>
         <lookupDialogsAdditionalFields>Status__c</lookupDialogsAdditionalFields>
-        <lookupDialogsAdditionalFields>Escalation_Manager_Owner__c</lookupDialogsAdditionalFields>
+        <lookupDialogsAdditionalFields>Escalation_Manager_Owner_old__c</lookupDialogsAdditionalFields>
         <lookupDialogsAdditionalFields>Age__c</lookupDialogsAdditionalFields>
         <lookupPhoneDialogsAdditionalFields>Related_Case__c</lookupPhoneDialogsAdditionalFields>
         <lookupPhoneDialogsAdditionalFields>Status__c</lookupPhoneDialogsAdditionalFields>
-        <lookupPhoneDialogsAdditionalFields>Escalation_Manager_Owner__c</lookupPhoneDialogsAdditionalFields>
+        <lookupPhoneDialogsAdditionalFields>Escalation_Manager_Owner_old__c</lookupPhoneDialogsAdditionalFields>
         <lookupPhoneDialogsAdditionalFields>Age__c</lookupPhoneDialogsAdditionalFields>
         <searchFilterFields>Related_Case__c</searchFilterFields>
         <searchFilterFields>NAME</searchFilterFields>
         <searchFilterFields>Status__c</searchFilterFields>
-        <searchFilterFields>Escalation_Manager_Owner__c</searchFilterFields>
+        <searchFilterFields>Escalation_Manager_Owner_old__c</searchFilterFields>
         <searchFilterFields>Age__c</searchFilterFields>
     </searchLayouts>
     <sharingModel>ReadWrite</sharingModel>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<RecordType xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>AH_UDC_AmadeusForm</fullName>
+    <active>true</active>
+    <description>This form is a Amadeus Custom Form</description>
+    <label>Amadeus Form</label>
+    <picklistValues>
+        <picklist>FormType__c</picklist>
+        <values>
+            <fullName>Central</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Product</fullName>
+            <default>true</default>
+        </values>
+        <values>
+            <fullName>Shared</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+</RecordType>

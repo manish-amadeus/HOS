@@ -156,7 +156,10 @@ public without sharing class AH_UDC_Welcome {
                                     FROM AH_UDC_Workbook__c
                                     WHERE Enabled__c = true AND RecordTypeId = :workbookSentRecordTypeId
                                     AND Archive__c = false AND RelatedTo__c IN :lstNIDocs
-                                    AND RelatedTo__r.AH_UDC_WorkbookWithdrawn__c = false LIMIT 2000];
+                                    AND SentStatus__c in (:AH_UDC_Constants.SENT_STATUS_NEW,:AH_UDC_Constants.SENT_STATUS_IN_PROGRESS,:AH_UDC_Constants.SENT_STATUS_COMPLETE_LOCKED)
+                                    AND RelatedTo__r.AH_UDC_WorkbookWithdrawn__c = false
+                                    AND Released__c = true
+                                    LIMIT 2000];
 
                      if (lstWorkbook != null && lstWorkbook.size() > 0) {
                         //Initialize list to prevent error

@@ -3,9 +3,9 @@
     <fullName>QC_Non_Critical_Error_Category__c</fullName>
     <businessOwnerUser>adavid.robinson@amadeus.com</businessOwnerUser>
     <businessStatus>Active</businessStatus>
-    <description>NICC-051009</description>
+    <description>NICC-051009; updated via NICC-059046</description>
     <externalId>false</externalId>
-    <label>QC Non Critical Error Category</label>
+    <label>Primary Non-Critical Error</label>
     <required>false</required>
     <securityClassification>Internal</securityClassification>
     <trackFeedHistory>false</trackFeedHistory>
@@ -14,54 +14,6 @@
     <type>Picklist</type>
     <valueSet>
         <restricted>true</restricted>
-        <valueSetDefinition>
-            <sorted>false</sorted>
-            <value>
-                <fullName>PO Number missing</fullName>
-                <default>false</default>
-                <label>PO Number missing</label>
-            </value>
-            <value>
-                <fullName>None</fullName>
-                <default>false</default>
-                <label>None</label>
-            </value>
-            <value>
-                <fullName>Calculator, approval e-email not attached to opty</fullName>
-                <default>false</default>
-                <isActive>false</isActive>
-                <label>Calculator, approval e-email not attached to opty</label>
-            </value>
-            <value>
-                <fullName>Case mapping not correct</fullName>
-                <default>false</default>
-                <isActive>false</isActive>
-                <label>Case mapping not correct</label>
-            </value>
-            <value>
-                <fullName>Checklist not attached</fullName>
-                <default>false</default>
-                <isActive>false</isActive>
-                <label>Checklist not attached</label>
-            </value>
-            <value>
-                <fullName>Contract requested check box ticked</fullName>
-                <default>false</default>
-                <isActive>false</isActive>
-                <label>Contract requested check box ticked</label>
-            </value>
-            <value>
-                <fullName>Other</fullName>
-                <default>false</default>
-                <isActive>false</isActive>
-                <label>Other</label>
-            </value>
-            <value>
-                <fullName>Property is on credit hold, contract created</fullName>
-                <default>false</default>
-                <isActive>false</isActive>
-                <label>Property is on credit hold, contract created</label>
-            </value>
-        </valueSetDefinition>
+        <valueSetName>Non_Critical_Error_Category</valueSetName>
     </valueSet>
 </CustomField>

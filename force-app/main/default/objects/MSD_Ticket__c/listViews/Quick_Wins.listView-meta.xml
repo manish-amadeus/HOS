@@ -10,6 +10,7 @@
     <columns>Last_Contact__c</columns>
     <columns>Status__c</columns>
     <columns>Admin_Comments__c</columns>
+    <columns>Assigned_admin__c</columns>
     <filterScope>Everything</filterScope>
     <filters>
         <field>Status__c</field>
@@ -23,12 +24,12 @@
     <filters>
         <field>Request_Type__c</field>
         <operation>equals</operation>
-        <value>Approval Process,Community Issue/Request,Dataload,Email Notification,Exchange Rates,&quot;Field (New field, field visibility)&quot;,General User Update,Grant Login Access,Lightning for Outlook,Locked Account,Manager update</value>
+        <value>Approval Process,Community Issue/Request,Dataload,Email Notification,Exchange Rates,General User Update,Grant Login Access,Lightning for Outlook,Locked Account,Manager update</value>
     </filters>
     <filters>
         <field>Request_Type__c</field>
         <operation>equals</operation>
-        <value>Page Layout Change,Partner Community Access,Password Reset,Permission Update,Picklist Value Addition/Update,Queue/Public Group,Quip,Remove User,Role/Profile Change,Sandbox Access,Sandbox Refresh,Vas024/Surveys,Webform</value>
+        <value>Other,Page Layout Change,Partner Community Access,Password Reset,Permission Update,Picklist Value Addition/Update,Queue/Public Group,Quip,Remove User,Reporting,Role/Profile Change,Sandbox Access,Sandbox Refresh,Vas024/Surveys,Webform</value>
     </filters>
     <filters>
         <field>Affected_user__c</field>

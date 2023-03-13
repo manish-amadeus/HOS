@@ -80,6 +80,18 @@
             </value>
         </inputParameters>
         <inputParameters>
+            <name>senderAddress</name>
+            <value>
+                <stringValue>intake.noreply@amadeus.com</stringValue>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>senderType</name>
+            <value>
+                <stringValue>OrgWideEmailAddress</stringValue>
+            </value>
+        </inputParameters>
+        <inputParameters>
             <name>emailSubject</name>
             <value>
                 <stringValue>NI Project Backlog Task is Overdue</stringValue>
@@ -111,6 +123,18 @@
             <name>sendRichBody</name>
             <value>
                 <booleanValue>true</booleanValue>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>senderAddress</name>
+            <value>
+                <stringValue>intake.noreply@amadeus.com</stringValue>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>senderType</name>
+            <value>
+                <stringValue>OrgWideEmailAddress</stringValue>
             </value>
         </inputParameters>
         <inputParameters>
@@ -235,7 +259,7 @@
             <label>TaskStillOpenBeforeDueDate</label>
         </rules>
     </decisions>
-    <description>NICC-058179; Sends reminders to users to add Realized Benefits to Internal Projects</description>
+    <description>NICC-058179; updated via NICC-063342; Sends reminders to users to add Realized Benefits to Internal Projects</description>
     <environments>Default</environments>
     <formulas>
         <description>Calculates the number of months since the AH Project Backlog Completion Date</description>

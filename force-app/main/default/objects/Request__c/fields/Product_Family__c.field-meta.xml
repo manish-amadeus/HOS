@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Product_Family__c</fullName>
-    <businessOwnerUser>adavid.robinson@amadeus.com</businessOwnerUser>
     <businessStatus>Active</businessStatus>
     <description>NICC-051009</description>
     <externalId>false</externalId>
@@ -61,6 +60,11 @@
                 <fullName>PMS</fullName>
                 <default>false</default>
                 <label>PMS</label>
+            </value>
+            <value>
+                <fullName>Creative Requests</fullName>
+                <default>false</default>
+                <label>Creative Requests</label>
             </value>
         </valueSetDefinition>
     </valueSet>

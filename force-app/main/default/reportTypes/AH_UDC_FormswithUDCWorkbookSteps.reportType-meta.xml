@@ -90,6 +90,46 @@
             <field>CopyResponseWhenSendingNew__c</field>
             <table>AH_UDC_Form__c</table>
         </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>Description__c</field>
+            <table>AH_UDC_Form__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>NumberOfFiles__c</field>
+            <table>AH_UDC_Form__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>MaxIndividualFileSizeMB__c</field>
+            <table>AH_UDC_Form__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>AllowedExtensions__c</field>
+            <table>AH_UDC_Form__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>HeightMinimumPixels__c</field>
+            <table>AH_UDC_Form__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>HeightMaximumPixels__c</field>
+            <table>AH_UDC_Form__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>WidthMinimumPixels__c</field>
+            <table>AH_UDC_Form__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>WidthMaximumPixels__c</field>
+            <table>AH_UDC_Form__c</table>
+        </columns>
         <masterLabel>UDC Forms</masterLabel>
     </sections>
     <sections>
@@ -184,5 +224,54 @@
             <table>AH_UDC_Form__c.Workbook_Steps__r</table>
         </columns>
         <masterLabel>UDC Workbook Steps</masterLabel>
+    </sections>
+    <sections>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>Workbook__c.SentStatus__c</field>
+            <table>AH_UDC_Form__c.Workbook_Steps__r</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>Workbook__c.InternalUseOnly__c</field>
+            <table>AH_UDC_Form__c.Workbook_Steps__r</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>Workbook__c.RecordType</field>
+            <table>AH_UDC_Form__c.Workbook_Steps__r</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Workbook: Record Type Name</displayNameOverride>
+            <field>Workbook__c.RecordType.DeveloperName</field>
+            <table>AH_UDC_Form__c.Workbook_Steps__r</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>Workbook__c.Withdrawn__c</field>
+            <table>AH_UDC_Form__c.Workbook_Steps__r</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>Workbook__c.Archive__c</field>
+            <table>AH_UDC_Form__c.Workbook_Steps__r</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>Workbook__c.Id</field>
+            <table>AH_UDC_Form__c.Workbook_Steps__r</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>Workbook__c.Name</field>
+            <table>AH_UDC_Form__c.Workbook_Steps__r</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>Workbook__c.Enabled__c</field>
+            <table>AH_UDC_Form__c.Workbook_Steps__r</table>
+        </columns>
+        <masterLabel>UDC Workbook</masterLabel>
     </sections>
 </ReportType>

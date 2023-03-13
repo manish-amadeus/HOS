@@ -36,7 +36,41 @@
             </value>
         </inputParameters>
     </actionCalls>
-    <apiVersion>55.0</apiVersion>
+    <apiVersion>56.0</apiVersion>
+    <assignments>
+        <description>If the Request is for GMS, this will assign the Desired Due Date from the GMS screen to the variable for mapping to the new record</description>
+        <name>AssignDesiredDueDateGMS</name>
+        <label>AssignDesiredDueDateGMS</label>
+        <locationX>407</locationX>
+        <locationY>93</locationY>
+        <assignmentItems>
+            <assignToReference>varDesiredDueDate</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>DesiredDueDateGMSScreenInput</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>CreateRequestRecord</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <description>If the Request is for RES, this will assign the Desired Due Date from the RES/iH screen to the variable for mapping to the new record</description>
+        <name>AssignDesiredDueDateRES</name>
+        <label>AssignDesiredDueDateRES</label>
+        <locationX>529</locationX>
+        <locationY>357</locationY>
+        <assignmentItems>
+            <assignToReference>varDesiredDueDate</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>DesiredDueDateRESScreenInput</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>CreateRequestRecord</targetReference>
+        </connector>
+    </assignments>
     <assignments>
         <description>Assigns the length of the uploaded file to a variable for decision making</description>
         <name>AssignFileUploadLength</name>
@@ -187,8 +221,8 @@
         <description>Decides which product the Requestor chose to determine which screen to go to next</description>
         <name>ProductDecision</name>
         <label>ProductDecision</label>
-        <locationX>151</locationX>
-        <locationY>576</locationY>
+        <locationX>146</locationX>
+        <locationY>638</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
             <name>Web</name>
@@ -313,7 +347,7 @@
             <label>SendEmail</label>
         </rules>
     </decisions>
-    <description>NICC-057703; updated via NICC-062907; Screen flow for the Global Creative team to create new Request records</description>
+    <description>NICC-057703; updated via NICC-062907; updated viaNICC-064110; update via NICC-064361;Screen flow for the Global Creative team to create new Request records</description>
     <dynamicChoiceSets>
         <description>Populated from the field called “Video Banner Add-Ons” on the custom object called “Request”</description>
         <name>BannerAddOnsPicklistChoiceSet</name>
@@ -321,6 +355,15 @@
         <displayField xsi:nil="true"/>
         <object xsi:nil="true"/>
         <picklistField>Banner_Add_Ons__c</picklistField>
+        <picklistObject>Request__c</picklistObject>
+    </dynamicChoiceSets>
+    <dynamicChoiceSets>
+        <description>Picklist choices for answering &quot;Booking Engine Look &amp; Feel&quot; question on RES/iH input screen</description>
+        <name>BookingEngineLookFeedPicklistChoiceSet</name>
+        <dataType>Picklist</dataType>
+        <displayField xsi:nil="true"/>
+        <object xsi:nil="true"/>
+        <picklistField>Booking_Engine_Look_Feel__c</picklistField>
         <picklistObject>Request__c</picklistObject>
     </dynamicChoiceSets>
     <dynamicChoiceSets>
@@ -351,6 +394,15 @@
         <picklistObject>Request_Object_Picklist_Setup__mdt</picklistObject>
     </dynamicChoiceSets>
     <dynamicChoiceSets>
+        <description>Picklist choices for answering &quot;iStay Enabled&quot; question on the RES/iH input screen</description>
+        <name>iStayEnabledPicklistChoiceSet</name>
+        <dataType>Picklist</dataType>
+        <displayField xsi:nil="true"/>
+        <object xsi:nil="true"/>
+        <picklistField>iStay_Enabled__c</picklistField>
+        <picklistObject>Request__c</picklistObject>
+    </dynamicChoiceSets>
+    <dynamicChoiceSets>
         <description>Populates from the field called &quot;Product&quot; on the custom metadata type &quot;Request Object Picklist Setup&quot;</description>
         <name>ProductPicklistChoiceSet</name>
         <dataType>Picklist</dataType>
@@ -369,13 +421,13 @@
         <picklistObject>Request__c</picklistObject>
     </dynamicChoiceSets>
     <dynamicChoiceSets>
-        <description>Populated from the field called “Region” on the custom object called “Request”</description>
+        <description>Populated from the custom metadata type called “Request Object Picklist Setup”, Region picklist field</description>
         <name>RegionPicklistChoiceSet</name>
         <dataType>Picklist</dataType>
         <displayField xsi:nil="true"/>
         <object xsi:nil="true"/>
-        <picklistField>Region_picklist__c</picklistField>
-        <picklistObject>Request__c</picklistObject>
+        <picklistField>AH_Region__c</picklistField>
+        <picklistObject>Request_Object_Picklist_Setup__mdt</picklistObject>
     </dynamicChoiceSets>
     <dynamicChoiceSets>
         <description>Populated from the field called “RES/iH Request Type” on the custom object called “Request”</description>
@@ -419,14 +471,15 @@
         <name>formulaComments</name>
         <dataType>String</dataType>
         <expression>IF(
-{!ProductInput} = &quot;Digital&quot;, {!CommentsMediaScreenInput},
+{!ProductInput} = &quot;Media&quot;, {!CommentsMediaScreenInput},
 IF(
  OR({!GMSRequestTypeInput} = &quot;Troubleshooting&quot;,{!GMSRequestTypeInput} = &quot;Other&quot;) , 
    {!GMSDescriptionInput} , 
   IF({!ProductInput} = &quot;Internal Request&quot;, {!Page1CommentsInput}, 
  IF( NOT( ISBLANK({!CommentsGMSScreenInput})) , {!CommentsGMSScreenInput}, 
  IF(NOT( ISBLANK({!WebScreenDescriptionOfRequestScreenInput})), {!WebScreenDescriptionOfRequestScreenInput}, 
-&quot;&quot;
+IF(NOT(ISBLANK({!CommentsRESiHScreenInput})), {!CommentsRESiHScreenInput}, 
+&quot;&quot;)
 ) 
 ) 
 ) 
@@ -546,6 +599,12 @@ NOT( ISBLANK({!WebsiteURLWebScreenInput}) ),
             </value>
         </inputAssignments>
         <inputAssignments>
+            <field>Booking_Engine_Look_Feel__c</field>
+            <value>
+                <elementReference>BookingEngineLookFeelScreenInput</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
             <field>Case__c</field>
             <value>
                 <elementReference>CaseScreenInput.recordId</elementReference>
@@ -560,7 +619,7 @@ NOT( ISBLANK({!WebsiteURLWebScreenInput}) ),
         <inputAssignments>
             <field>Desired_Send_Date__c</field>
             <value>
-                <elementReference>DesiredDueDateInpit</elementReference>
+                <elementReference>varDesiredDueDate</elementReference>
             </value>
         </inputAssignments>
         <inputAssignments>
@@ -669,6 +728,12 @@ NOT( ISBLANK({!WebsiteURLWebScreenInput}) ),
             <field>Website_URL__c</field>
             <value>
                 <elementReference>formulaWebsiteUrl</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>iStay_Enabled__c</field>
+            <value>
+                <elementReference>iStayEnabledScreenInput</elementReference>
             </value>
         </inputAssignments>
         <object>Request__c</object>
@@ -1068,7 +1133,7 @@ NOT( ISBLANK({!WebsiteURLWebScreenInput}) ),
         <allowFinish>true</allowFinish>
         <allowPause>false</allowPause>
         <connector>
-            <targetReference>CreateRequestRecord</targetReference>
+            <targetReference>AssignDesiredDueDateGMS</targetReference>
         </connector>
         <fields>
             <name>GMSPageTitle</name>
@@ -1116,7 +1181,7 @@ NOT( ISBLANK({!WebsiteURLWebScreenInput}) ),
                     <fieldType>DisplayText</fieldType>
                 </fields>
                 <fields>
-                    <name>DesiredDueDateInpit</name>
+                    <name>DesiredDueDateGMSScreenInput</name>
                     <dataType>Date</dataType>
                     <fieldText>Desired Due Date</fieldText>
                     <fieldType>InputField</fieldType>
@@ -1573,13 +1638,13 @@ NOT( ISBLANK({!WebsiteURLWebScreenInput}) ),
     <screens>
         <name>RES_iH_InputScreen</name>
         <label>RES/iHInputScreen</label>
-        <locationX>431</locationX>
+        <locationX>513</locationX>
         <locationY>533</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>true</allowPause>
         <connector>
-            <targetReference>CreateRequestRecord</targetReference>
+            <targetReference>AssignDesiredDueDateRES</targetReference>
         </connector>
         <fields>
             <name>RESiHPageTitle</name>
@@ -1619,6 +1684,32 @@ NOT( ISBLANK({!WebsiteURLWebScreenInput}) ),
                     <fieldText>RES/iH Request Type</fieldText>
                     <fieldType>MultiSelectCheckboxes</fieldType>
                     <isRequired>true</isRequired>
+                </fields>
+                <fields>
+                    <name>iStayEnabledScreenInput</name>
+                    <choiceReferences>iStayEnabledPicklistChoiceSet</choiceReferences>
+                    <dataType>String</dataType>
+                    <fieldText>iStay Enabled</fieldText>
+                    <fieldType>DropdownBox</fieldType>
+                    <isRequired>true</isRequired>
+                </fields>
+                <fields>
+                    <name>BookingEngineLookFeelScreenInput</name>
+                    <choiceReferences>BookingEngineLookFeedPicklistChoiceSet</choiceReferences>
+                    <dataType>String</dataType>
+                    <fieldText>Booking Engine Look &amp; Feel</fieldText>
+                    <fieldType>DropdownBox</fieldType>
+                    <isRequired>true</isRequired>
+                    <visibilityRule>
+                        <conditionLogic>and</conditionLogic>
+                        <conditions>
+                            <leftValueReference>RESiHRequestSubTypeScreenInput</leftValueReference>
+                            <operator>Contains</operator>
+                            <rightValue>
+                                <stringValue>Booking Engine Look and Feel (BE L&amp;F)</stringValue>
+                            </rightValue>
+                        </conditions>
+                    </visibilityRule>
                 </fields>
                 <fields>
                     <name>NumberOfLanguagesScreenInput</name>
@@ -1681,6 +1772,19 @@ NOT( ISBLANK({!WebsiteURLWebScreenInput}) ),
                     <fieldText>Website/BETA URL</fieldText>
                     <fieldType>InputField</fieldType>
                     <isRequired>false</isRequired>
+                </fields>
+                <fields>
+                    <name>DesiredDueDateRESScreenInput</name>
+                    <dataType>Date</dataType>
+                    <fieldText>Desired Due Date</fieldText>
+                    <fieldType>InputField</fieldType>
+                    <isRequired>true</isRequired>
+                </fields>
+                <fields>
+                    <name>CommentsRESiHScreenInput</name>
+                    <fieldText>Comments</fieldText>
+                    <fieldType>LargeTextArea</fieldType>
+                    <isRequired>true</isRequired>
                 </fields>
                 <inputParameters>
                     <name>width</name>
@@ -1806,6 +1910,14 @@ NOT( ISBLANK({!WebsiteURLWebScreenInput}) ),
         <isCollection>true</isCollection>
         <isInput>true</isInput>
         <isOutput>true</isOutput>
+    </variables>
+    <variables>
+        <description>Holds the Desired Due Date</description>
+        <name>varDesiredDueDate</name>
+        <dataType>Date</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
     </variables>
     <variables>
         <description>Stores the length of the uploaded file</description>

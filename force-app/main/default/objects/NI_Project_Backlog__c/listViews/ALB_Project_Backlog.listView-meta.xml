@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ListView xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>ALB_Project_Backlog</fullName>
+    <booleanFilter>(1 OR 4) AND 3 AND 2 and 5</booleanFilter>
+    <columns>Project_Contact__c</columns>
     <columns>CREATED_DATE</columns>
     <columns>NAME</columns>
     <columns>Requested_Completion_Date__c</columns>
@@ -11,6 +13,7 @@
     <columns>Master_Project__c</columns>
     <columns>CREATEDBY_USER</columns>
     <columns>Beneficiaries__c</columns>
+    <columns>RECORDTYPE</columns>
     <filterScope>Everything</filterScope>
     <filters>
         <field>Sponsor__c</field>
@@ -20,7 +23,21 @@
     <filters>
         <field>Request_Status__c</field>
         <operation>notEqual</operation>
-        <value>Completed,Rejected,Canceled</value>
+        <value>Rejected,Redirected,Completed,Canceled</value>
+    </filters>
+    <filters>
+        <field>Project_Contact__c</field>
+        <operation>equals</operation>
+        <value>Alesha Burnham</value>
+    </filters>
+    <filters>
+        <field>Account__c</field>
+        <operation>equals</operation>
+    </filters>
+    <filters>
+        <field>RECORDTYPE</field>
+        <operation>equals</operation>
+        <value>NI_Project_Backlog__c.Business_Systems</value>
     </filters>
     <label>ALB Business Systems Projects</label>
 </ListView>

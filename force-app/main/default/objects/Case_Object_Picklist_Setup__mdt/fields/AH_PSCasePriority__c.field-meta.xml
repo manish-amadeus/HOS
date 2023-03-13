@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>AH_PSCasePriority__c</fullName>
+    <businessStatus>Active</businessStatus>
+    <description>NICC-063942; Used to populate a picklist in a Flow called &quot;Case - PS Escalations Case Creation&quot;. Populates the field called &quot;Priority&quot; on the screen.</description>
+    <externalId>false</externalId>
+    <fieldManageability>DeveloperControlled</fieldManageability>
+    <label>PS Case Priority</label>
+    <required>false</required>
+    <securityClassification>Internal</securityClassification>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>P1</fullName>
+                <default>true</default>
+                <label>P1</label>
+            </value>
+            <value>
+                <fullName>P2</fullName>
+                <default>false</default>
+                <label>P2</label>
+            </value>
+            <value>
+                <fullName>P3</fullName>
+                <default>false</default>
+                <label>P3</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

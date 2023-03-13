@@ -97,6 +97,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>AH_UDC_Form__c.AllowedExtensions__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>AH_UDC_Form__c.CentralDataMapping__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -116,6 +121,11 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>true</editable>
+        <field>AH_UDC_Form__c.Description__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>false</editable>
         <field>AH_UDC_Form__c.DevelopForm__c</field>
         <readable>true</readable>
@@ -131,8 +141,38 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>true</editable>
+        <field>AH_UDC_Form__c.HeightMaximumPixels__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>AH_UDC_Form__c.HeightMinimumPixels__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>AH_UDC_Form__c.MaxIndividualFileSizeMB__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>AH_UDC_Form__c.NumberOfFiles__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>false</editable>
         <field>AH_UDC_Form__c.URL__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>AH_UDC_Form__c.WidthMaximumPixels__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>AH_UDC_Form__c.WidthMinimumPixels__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -808,11 +848,6 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>AH_UDC_WorkbookStep__c.StepStatus__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>AH_UDC_WorkbookStep__c.UDC_WorkbookStepCompletedBy__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>

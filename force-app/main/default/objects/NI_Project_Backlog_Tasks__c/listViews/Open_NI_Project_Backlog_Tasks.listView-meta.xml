@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Open_NI_Project_Backlog_Tasks</fullName>
+    <columns>NAME</columns>
+    <columns>NI_Project_Backlog_Item__c</columns>
+    <columns>Assigned_To__c</columns>
+    <columns>Due_Date__c</columns>
+    <columns>Status__c</columns>
+    <columns>Date_Completed__c</columns>
+    <columns>Details__c</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>Status__c</field>
+        <operation>notEqual</operation>
+        <value>Completed</value>
+    </filters>
+    <filters>
+        <field>RECORDTYPE</field>
+        <operation>equals</operation>
+        <value>NI_Project_Backlog_Tasks__c.Commercial_Operation_Tasks</value>
+    </filters>
+    <filters>
+        <field>Assigned_To_Current_User__c</field>
+        <operation>equals</operation>
+        <value>Yes</value>
+    </filters>
+    <label>Open NI Project Backlog Tasks</label>
+</ListView>

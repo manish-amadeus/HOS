@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Total_Time_Elapsed__c</fullName>
+    <businessStatus>Active</businessStatus>
+    <description>NICC-057681</description>
+    <externalId>false</externalId>
+    <formula>IF(
+  Close_Time__c - Open_Time__c &gt; 0 ,
+  TEXT( FLOOR( Close_Time__c - Open_Time__c ) ) &amp; &quot; days &quot;
+  &amp; TEXT( FLOOR( MOD( (Close_Time__c - Open_Time__c ) * 24, 24 ) ) ) &amp; &quot; hrs &quot;
+  &amp; TEXT( ROUND( MOD( (Close_Time__c - Open_Time__c ) * 24 * 60, 60 ), 0 ) ) &amp; &quot; min&quot;,
+  &quot;&quot;
+)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <inlineHelpText>Calculates the total time elapsed between Open Time and Close Time</inlineHelpText>
+    <label>Total Time Elapsed (hh:mm)</label>
+    <required>false</required>
+    <securityClassification>Internal</securityClassification>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

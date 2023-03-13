@@ -49,6 +49,13 @@
          text-decoration: underline;
       }
 
+      .form-container p {
+         white-space: break-spaces;
+         margin: 0px;
+         margin-bottom: 10px;
+         clear: both;
+      }
+
       .btn-save-form {
          float:right;
       }
@@ -76,6 +83,10 @@
       .field-wrapper {
          margin-bottom: 5px;
       }
+         .field-wrapper > label {
+            margin-top: 0px !important;
+            font-weight: normal !important;
+         }
 
       fieldset:first-child {
          margin-top: 0;
@@ -102,10 +113,10 @@
          width: auto;
          margin: 0;
          padding: 0 8px;
-         font-size: 15px;
-         font-weight: 700;
+         font-size: 16px;
+         font-weight: normal;
          border: none;
-         color: #515e59;
+         color: #1a1a1a;
       }
 
       div.inline {
@@ -118,11 +129,11 @@
          margin-top: 5px;
       }
 
-      .inline label, .inline input[type=text], .inline select {
+      .inline label, .inline input[type=text], .inline input[type=date], .inline select {
          display: inline-block;
       }
 
-      .form-container input[type=text] {
+      .form-container input[type=text], .form-container input[type=date] {
          border: 1px solid;
          border-radius: 2px;
          line-height: 0;
@@ -131,6 +142,11 @@
          height: 1.2em;
       }
 
+      .form-container input[type=date] {
+         line-height: unset !important;
+         width: 81% !important;
+      }
+      
       .form-container select {
          border: 1px solid;
          border-radius: 2px;
@@ -159,6 +175,7 @@
          clear: none;
          display: block;
          margin-left: 5px;
+         font-weight: normal;
       }
 
       .radio-group label { margin-right: 10px}
@@ -205,12 +222,12 @@
       }
 
       .jexcel > thead > tr:first-child > td {
-         font-weight: 700;
+         font-weight: normal;
          padding: 4px;
       }
 
       .jexcel tr td {
-         font-size: 14px;
+         font-size: 16px;
       }
 
       .jexcel td[data-longtext="true"] {
@@ -262,15 +279,15 @@
 
       .form-container label {
          display: inline-block;
-         font-size: 14px;
+         font-size: 16px;
          max-width: 100%;
          margin-bottom: 5px;
-         margin-top: 3px;
-         font-weight: bold;
+         margin-top: 0px;
+         font-weight: normal;
       }
 
       .tippy-content {
-         font-size: 14px;
+         font-size: 16px;
          padding: 5px;      
       }
 
@@ -308,7 +325,7 @@
 
       .modal .close {
          float: right;
-         font-size: 17px;
+         font-size: 16px;
          font-weight: 700;
          line-height: 1;
          color: #000;
@@ -355,7 +372,7 @@
          overflow: hidden;
          -webkit-overflow-scrolling: touch;
          outline: 0;
-         font-size: 15px;
+         font-size: 16px;
       }
 
       .modal.fade .modal-dialog {
@@ -519,7 +536,7 @@
       
       .modal .modal-title; {
          font-weight: 700;
-         font-size: 14px;
+         font-size: 16px;
       }
 
       .modal .modal-title, .modal .close {
@@ -537,9 +554,9 @@
          height: auto;
          padding: 6px 12px;
          font-family: 'Source Sans Pro';
-         font-size: 14px;
+         font-size: 16px;
          line-height: 1.42857143;
-         color: #555;
+         color: #1a1a1a;
          background-color: #fff;
          background-image: none;
          border: 1px solid #ccc;
@@ -593,7 +610,7 @@
       .save_message {
          color: rgba(0,0,0,0.8);
          font-family: 'Source Sans Pro', sans-serif;
-         font-size: 1em;
+         font-size: 16px;
       }
 
       .save_mark_complete {

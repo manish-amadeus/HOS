@@ -49,7 +49,8 @@ private class AH_UDC_ViewWorkbook_TEST {
       oCurrentUser.ContactId = null;
 
       System.runAs(oCurrentUser) {
-         AH_UDC_TestData.InsertWithRetries(listUsers);
+         //AH_UDC_TestData.InsertWithRetries(listUsers);
+         insert listUsers;
 
          AH_UDC_TestData.AddPermissionSetToUser(AH_UDC_Constants.PERMISSIONSET_DEFAULT_NAME_UDC_COMMUNITY_USER, listUsers[0].Id);
          AH_UDC_TestData.AddPermissionSetToUser(AH_UDC_Constants.PERMISSIONSET_DEFAULT_NAME_UDC_COMMUNITY_USER, listUsers[1].Id);
@@ -72,10 +73,11 @@ private class AH_UDC_ViewWorkbook_TEST {
       lstUDCContacts[2].ChatterLastViewed__c = Datetime.now(); //Get code coverge of else block in the method CheckChatterFeedNotification
       //Assign workbook to both the users
       insert lstUDCContacts;
-
       AH_UDC_Workbook__c objWorkbook = AH_UDC_TestData.GetWorkbookObject(objNIDoc.Id, 'Test Workbook 1', 'Test Workbook 1 Description', 'Central Sales');
+
       //Set workbook status to new to cover code of changing workbook status in-progress in the method serverConfirmProperty
       objWorkbook.SentStatus__c = AH_UDC_Constants.SENT_STATUS_NEW;
+      objWorkbook.Released__c = true;
       insert objWorkbook;
 
       List<AH_UDC_WorkbookStep__c> lstWorkbookSteps = new List<AH_UDC_WorkbookStep__c> ();
@@ -130,6 +132,7 @@ private class AH_UDC_ViewWorkbook_TEST {
       AH_UDC_Workbook__c objWorkbook3 = AH_UDC_TestData.GetWorkbookObject(objNIDoc3.Id, 'Test FileUpload Workbook', 'Test FileUpload Workbook Description', 'SO');
       objWorkbook3.SentStatus__c = AH_UDC_Constants.SENT_STATUS_NEW;
       objWorkbook3.RecordtypeId = rtWbSentId;
+      objWorkbook3.StepsinOrder__c = true;
       insert objWorkbook3;
 
       //Insert Contact NI Doc mapping record
@@ -140,6 +143,13 @@ private class AH_UDC_ViewWorkbook_TEST {
       AH_UDC_Form__c fileUploadForm = AH_UDC_TestData.GetForm('', '', 'TestFormFileUpload', '');
       fileUploadForm.RecordTypeId = fileUploadRecordTypeId;
       insert fileUploadForm;
+
+      AH_UDC_Form__c fileUploadForm1 = AH_UDC_TestData.GetForm('', '', 'TestFormFileUpload1', '');
+      fileUploadForm1.RecordTypeId = fileUploadRecordTypeId;
+      fileUploadForm1.AllowedExtensions__c = 'TXT';
+      fileUploadForm1.MaxIndividualFileSizeMB__c = 1;
+      fileUploadForm1.Description__c = 'Files cannot be larger than {MaxIndividualFileSizeMB} MB in size';
+      insert fileUploadForm1;
       // Find the Workbook Step Sent Record Type
       Id rtWbsSentId = Schema.SObjectType.AH_UDC_WorkbookStep__c.getRecordTypeInfosByDeveloperName().get(AH_UDC_Constants.RECORD_TYPE_WORKBOOK_STEP_SENT).getRecordTypeId();
 
@@ -149,6 +159,12 @@ private class AH_UDC_ViewWorkbook_TEST {
       fileUploadWBS.Workbook__c = objWorkbook3.Id;
       fileUploadWBS.Form__c = fileUploadForm.Id;
       insert fileUploadWBS;
+
+      AH_UDC_WorkbookStep__c fileUploadWBS1 = AH_UDC_TestData.GetWorkbookStepObject(objWorkbook3.Id, 'TestFileUpload');
+      fileUploadWBS1.RecordTypeId = rtWbsSentId;
+      fileUploadWBS1.Workbook__c = objWorkbook3.Id;
+      fileUploadWBS1.Form__c = fileUploadForm1.Id;
+      insert fileUploadWBS1;
 
       Blob bodyBlob = Blob.valueOf('Unit Test ContentVersion Body to be insert in test class for testing');
       User UDCServiceUser1 = [SELECT Id FROM user WHERE LastName = 'VW_ServiceUser1'];
@@ -167,7 +183,7 @@ private class AH_UDC_ViewWorkbook_TEST {
          ContentVersion cvWithCDId = [SELECT ContentDocumentId FROM ContentVersion WHERE Id = :cv.Id LIMIT 1];
 
          ContentDocumentLink contentlink = new ContentDocumentLink();
-         contentlink.LinkedEntityId = objNIDoc3.id;
+         contentlink.LinkedEntityId = fileUploadWBS.id;
          contentlink.Visibility = 'AllUsers';
          contentlink.ContentDocumentId = cvWithCDId.ContentDocumentId;
          insert contentlink;
@@ -197,6 +213,47 @@ private class AH_UDC_ViewWorkbook_TEST {
          objFeedItem.Body = 'Test Message 2';
          AH_UDC_SystemContext.CreateObject(objFeedItem);
       }
+
+      //Create workbook of recordtype workbook
+      Id workbookRecordTypeId = Schema.SObjectType.AH_UDC_Workbook__c.getRecordTypeInfosByDeveloperName().get(AH_UDC_Constants.RECORD_TYPE_WORKBOOK).getRecordTypeId();
+      AH_UDC_Workbook__c objTestWorkbook = AH_UDC_TestData.GetWorkbookObjectWithoutDocId('TestWorkbookwithWBRT', 'Test workbook description', 'SO');
+      insert objTestWorkbook;
+      
+      Id workbookstepRecordTypeId = Schema.SObjectType.AH_UDC_WorkbookStep__c.getRecordTypeInfosByDeveloperName().get(AH_UDC_Constants.RECORD_TYPE_WORKBOOK_STEP).getRecordTypeId();
+      
+      AH_UDC_WorkbookStep__c objWorkbookStep = AH_UDC_TestData.GetWorkbookStepObject(objTestWorkbook.Id, 'Test Step 1');      
+      objWorkbookStep.SortOrder__c = 1;
+      objWorkbookStep.RecordTypeId = workbookstepRecordTypeId;
+      objWorkbookStep.URL__c = 'www.amadeus.com';
+      insert objWorkbookStep;
+
+      //AmadeusForm      
+      String definition = '{"product":"","formulas":[],"sections":[{"title":"Instructions","apiname":"UDC0","repeat":"false","inline":"false","scrollable":"true","fields":' +
+         '[{"title":"Add all inventory rooms (Guest Sleeping Rooms) in the list below.","name":"UDC1","type":"paragraph","tooltip":""},{"title":"Non Inventory rooms (Virtual Rooms) will be added in a different section.","name":"AHUDC_1_1","type":"paragraph","tooltip":""},' +
+         '{"title":"Use Buildings?","name":"UDC2","type":"radiogroup","source":[{"id":"UDC2-0","name":"Yes"},{"id":"UDC2-1","name":"No"}],"defaultvalue":"Yes"},' +
+         '{"title":"Will you be interfacing your phone system to APMS?","name":"UDC3","type":"radiogroup","tooltip":"Will you be interfacing your phone system to APMS?","source":[{"id":"UDC3-0","name":"Yes"},{"id":"UDC3-1","name":"No"}],"defaultvalue":""}]}]}';
+
+      //Find Amadeusform Record Type
+      Id AmadeusFormRecordTypeId = Schema.SObjectType.AH_UDC_Form__c.getRecordTypeInfosByDeveloperName().get(AH_UDC_Constants.RECORD_TYPE_FORM_AMADEUS_FORM).getRecordTypeId();
+      AH_UDC_Form__c amadeusForm = AH_UDC_TestData.GetForm(definition, '', 'TestAmadeusForm', '');
+      amadeusForm.RecordTypeId = AmadeusFormRecordTypeId;
+      insert amadeusForm;
+  
+      objWorkbookStep = AH_UDC_TestData.GetWorkbookStepObject(objTestWorkbook.Id, 'Test Step 2');      
+      objWorkbookStep.RecordTypeId = workbookstepRecordTypeId;
+      objWorkbookStep.Form__c = amadeusForm.Id;
+      objWorkbookStep.SortOrder__c = 2;
+      insert objWorkbookStep;
+
+      String definitionFA = '{"title":"UDCSB - Unit Test - Picklist - Source","FormAssemblyId":"4853245","CustomUrlId":"58c874ca-f1e4-4504-9878-b4b97af509ec","fields":[{"Name":"Security Code","APIName":"tfa_6","Repeat":"","Picklist":"false"},{"Name":"Token","APIName":"tfa_7","Repeat":"","Picklist":"false"},{"Name":"Parent Security Code","APIName":"tfa_9","Repeat":"","Picklist":"false"},{"Name":"Room Types","APIName":"tfa_1","Repeat":"tfa_1-D[0]","Picklist":"false"},{"Name":"Yes","APIName":"tfa_13","Repeat":""},{"Name":"No","APIName":"tfa_11","Repeat":""},{"Name":"Do you have Rooms","APIName":"tfa_10","Repeat":""}]}';
+      AH_UDC_Form__c faForm = AH_UDC_TestData.GetForm(definitionFA, '4853245', 'TestForm0', '58c874ca-f1e4-4504-9878-b4b97af509ec');
+      insert faForm;
+
+      objWorkbookStep = AH_UDC_TestData.GetWorkbookStepObject(objTestWorkbook.Id, 'Test Step 3');      
+      objWorkbookStep.RecordTypeId = workbookstepRecordTypeId;
+      objWorkbookStep.Form__c = faForm.Id;
+      objWorkbookStep.SortOrder__c = 3;
+      insert objWorkbookStep;
    }
 
    @isTest static void TestWithChatterUser() {
@@ -317,8 +374,8 @@ private class AH_UDC_ViewWorkbook_TEST {
       System.assert(lstNIDocs.size() > 0, 'NI Document record not found with the name Test FileUpload NI Document');
 
       List<ContentDocumentLink> lstCDL = [SELECT ContentDocument.title, ContentDocument.CreatedDate, ContentDocumentId FROM ContentDocumentLink
-                                          WHERE IsDeleted = false AND LinkedEntityId = :lstNIDocs[0].Id];
-      System.assert(lstCDL.size() > 0, 'File not exist for Test FileUpload NI Doc');
+                                          WHERE IsDeleted = false AND LinkedEntityId = :wbSteps[0].Id];
+      System.assert(lstCDL.size() > 0, 'File not exist for step 1');
 
       lstNIDocs[0].AH_UDC_PropertyConfirmation__c = true;
       lstNIDocs[0].AH_UDC_PropertyConfirmationAccepted_Date__c = Datetime.now();
@@ -333,9 +390,12 @@ private class AH_UDC_ViewWorkbook_TEST {
 
          AH_UDC_ViewWorkbook objViewWorkbook = new AH_UDC_ViewWorkbook();
          System.assertEquals(true, objViewWorkbook.currentStep.isAmadeusFileUpload, 'isAmadeusFileUpload should be true');
-         System.assertEquals(1, objViewWorkbook.workbook.steps.size(), 'Workbook step count did not match');
-         System.assertEquals(1, objViewWorkbook.UploadedFileList.size(), 'UploadedFileList count did not match');
-
+         System.assertEquals(false, objViewWorkbook.currentStep.isAmadeusCustomForm, 'isAmadeusCustomForm should be false');
+         System.assertEquals(2, objViewWorkbook.workbook.steps.size(), 'Workbook step count did not match');
+         System.assertEquals(1, objViewWorkbook.workbook.currentStep.fileUploadInfo.uploadedFileList.size(), 'UploadedFileList count did not match');
+         System.assertEquals('TXT', objViewWorkbook.workbook.steps[1].fileUploadInfo.fileUploadExtension, 'Workbook step-2 fileUploadExtension did not match');
+         System.assertEquals('1', objViewWorkbook.workbook.steps[1].fileUploadInfo.fileUploadMaximumSize, 'Workbook step-2 fileUploadMaximumSize did not match');
+         System.assertEquals('Files cannot be larger than 1 MB in size', objViewWorkbook.workbook.steps[1].fileUploadInfo.fileUploadDescription, 'Workbook step-2 fileUploadDescription did not match');
          //Change file upload step status to in-progress
          objViewWorkbook.serverSetStepInProgress();
          System.assertEquals(AH_UDC_Constants.STEP_STATUS_IN_PROGRESS, objViewWorkbook.currentStep.status, 'Current step status should be ' + AH_UDC_Constants.STEP_STATUS_IN_PROGRESS);
@@ -347,18 +407,55 @@ private class AH_UDC_ViewWorkbook_TEST {
          System.assert(lstWorkbookSteps.size() > 0, 'Current step record not found');
          System.assertEquals(AH_UDC_Constants.STEP_STATUS_IN_PROGRESS, lstWorkbookSteps[0].StepStatus__c, 'Workbook step status should be ' + AH_UDC_Constants.STEP_STATUS_IN_PROGRESS);
 
-         objViewWorkbook.DeleteFileID = null;
+         objViewWorkbook.workbook.currentStep.fileUploadInfo.fileId = null;
          objViewWorkbook.serverDeleteFile(); //Try to delete file without id
          System.assert(String.isNotBlank(objViewWorkbook.NotificationToShow), 'NotificationToShow should be a message to display as trying to delete file without id');
 
          objViewWorkbook.isPageLoadErrorMessage = false;
-         objViewWorkbook.DeleteFileID = objViewWorkbook.UploadedFileList[0].ContentDocumentId;
+         objViewWorkbook.workbook.currentStep.fileUploadInfo.fileId = objViewWorkbook.workbook.currentStep.fileUploadInfo.uploadedFileList[0].ContentDocumentId;
          objViewWorkbook.serverDeleteFile();
-         System.assertEquals(0, objViewWorkbook.UploadedFileList.size(), 'After Delete : File still exists for Test FileUpload NI Doc');
+         System.assertEquals(0, objViewWorkbook.workbook.currentStep.fileUploadInfo.uploadedFileList.size(), 'After Delete : File still exists for '+objViewWorkbook.workbook.currentStep);         
          Test.stopTest();
       }
    }
+   @isTest static void TestAmadeusFormWithWorkbookRecordType() {
 
+     List<User> lstWBUsers = [SELECT ContactId FROM User
+                                      WHERE Username like '%VW_WBUser1%'
+                                      AND IsActive = true];
+      System.assert(lstWBUsers.size() > 0, 'No chatter user record not found');
+
+      Id workbookRecordTypeId = Schema.SObjectType.AH_UDC_Workbook__c.getRecordTypeInfosByDeveloperName().get(AH_UDC_Constants.RECORD_TYPE_WORKBOOK).getRecordTypeId();
+      System.assert(String.isNotBlank(String.valueOf(workbookRecordTypeId)), 'Record Type not found - ' + AH_UDC_Constants.RECORD_TYPE_WORKBOOK);
+
+      List<AH_UDC_Workbook__c> lstWorkbooks = [SELECT Id, StepsinOrder__c
+                                               FROM AH_UDC_Workbook__c
+                                               WHERE Name = 'TestWorkbookwithWBRT'
+                                               AND RecordTypeId = :workbookRecordTypeId];
+      System.assert(lstworkbooks.size() > 0, 'Workbook record not found with the name - TestWorkbookwithWBRT');
+      List<AH_UDC_WorkbookStep__c> wbSteps = [SELECT id, name, Form__r.RecordTypeId
+                                              FROM AH_UDC_WorkbookStep__c
+                                              WHERE Enabled__c = true and Workbook__c = :lstWorkbooks[0].Id order by SortOrder__c asc];
+      System.assert(wbSteps.size() > 0, 'WorkbookStep records not found');
+
+     
+      System.runAs(lstWBUsers[0]) { //Test using workbook user
+         Test.startTest();
+         PageReference pageRef = Page.AH_UDC_ViewWorkbook;
+         pageRef.getParameters().put('Id', lstworkbooks[0].Id); //Pass Workbook Id as a parameter
+         pageRef.getParameters().put('community', 'false');
+         Test.setCurrentPageReference(pageRef);
+
+         AH_UDC_ViewWorkbook objViewWorkbook = new AH_UDC_ViewWorkbook();
+         System.assertEquals(3, objViewWorkbook.workbook.steps.size(), 'Workbook step count did not match');
+         System.assertEquals(true, objViewWorkbook.workbook.steps[1].isAmadeusCustomForm, 'isAmadeusCustomForm should be true');
+         objViewWorkbook.changeToPositionNumber = 0;
+         objViewWorkbook.serverChangeToStep();
+         System.assertEquals(0, objViewWorkbook.currentPosition, 'Workbook step current position should be 0');
+         
+         Test.stopTest();
+      }
+   }
    static void TestViewWorkbook(Id WorkbookId, Boolean IsPropertyConfirmed, Id FeedItemId, Boolean IsCommunityPortal) {
       PageReference pageRef = Page.AH_UDC_ViewWorkbook;
       pageRef.getParameters().put('Id', WorkbookId); //Pass Workbook Id as a parameter
@@ -553,7 +650,8 @@ private class AH_UDC_ViewWorkbook_TEST {
 
          objViewWorkbook.isPageLoadErrorMessage = false;
          objViewWorkbook.NotificationToShow = '';
-         objViewWorkbook.DeleteFileID = 'WrongDeleteId';
+         objViewWorkbook.workbook.currentStep = new AH_UDC_CommunityWorkbook.WorkbookStep();
+         objViewWorkbook.workbook.currentStep.fileUploadInfo.fileId = 'WrongDeleteId';
          objViewWorkbook.serverDeleteFile();
          System.assert(String.isNotBlank(objViewWorkbook.NotificationToShow), 'NotificationToShow should be a message to display as it will generate exception because of wrong NIDoc and attached file name');
 

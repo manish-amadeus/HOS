@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>SurveySubType__c</fullName>
+    <externalId>false</externalId>
+    <label>SurveySubType</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>true</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Project</fullName>
+                <default>false</default>
+                <label>Project</label>
+            </value>
+            <value>
+                <fullName>W/Training</fullName>
+                <default>false</default>
+                <label>W/Training</label>
+            </value>
+            <value>
+                <fullName>No/Training</fullName>
+                <default>false</default>
+                <label>No/Training</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

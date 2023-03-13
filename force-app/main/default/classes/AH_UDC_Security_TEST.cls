@@ -21,7 +21,8 @@ public class AH_UDC_Security_TEST {
       oCurrentUser.ContactId = null;
 
       System.runAs(oCurrentUser) {
-         AH_UDC_TestData.InsertWithRetries(listUsers);
+         //AH_UDC_TestData.InsertWithRetries(listUsers);
+         insert listUsers;
 
          AH_UDC_TestData.AddPermissionSetToUser(AH_UDC_Constants.PERMISSIONSET_DEFAULT_NAME_UDC_SYSTEM_ADMIN, listUsers[0].Id);
       }
@@ -29,7 +30,7 @@ public class AH_UDC_Security_TEST {
 
    @isTest
    static void isTest_Security() {
-
+      Test.startTest();
       List<User> lstUser = [Select Id From User Where Email like '%SecurityUDCSysAdmin%'];
       System.assert(lstUser.size() > 0, 'UDC System Admin user was not created');
 
@@ -60,7 +61,7 @@ public class AH_UDC_Security_TEST {
                AH_UDC_Security.CreateObject(allWorkbooksA[0]);
             }
             catch (Exception exc) {
-               System.assert(false, 'Failed to create object: ' + exc.getMessage() + '.  ' + AH_UDC_TestData.GetLastLogMessage());
+               System.assert(false, 'Failed to create object: ' + exc.getMessage());
             }
             System.assertEquals(1, [SELECT COUNT() FROM AH_UDC_Workbook__c WHERE Name = :allWorkbooksA[0].Name]);
             AH_UDC_Security.CreateObject(allWorkbooksA[1], false);
@@ -147,13 +148,14 @@ public class AH_UDC_Security_TEST {
          retValue = AH_UDC_Security.getIsStrictSecurityCheck();
          System.assertEquals(retValue, false, 'getIsStrictSecurityCheck() did not return the expected value');
       }
+      Test.stopTest();
    }
 
    @isTest
    static void isTest_SecurityException() {
       String objectTypeName = 'Rfp__c';
       String fieldName = 'Status__c';
-
+      Test.startTest();
       try {
          AH_UDC_Security.throwInsufficientPrivileges(objectTypeName, fieldName);
          System.assert(false, 'While trying to test an Insufficient Privileges Exception, an exception was not thrown');
@@ -165,5 +167,6 @@ public class AH_UDC_Security_TEST {
       catch(Exception exc) {
          System.assert(false, 'An unexpected exception type occurred while trying to test an Insufficient Privileges Exception');
       }
+      Test.stopTest();
    }
 }

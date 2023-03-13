@@ -9,19 +9,54 @@
 public with sharing class AH_UDC_Shared {
    public class UDCException extends System.Exception {
    }
-
    private static String kHexChars = '0123456789abcdefABCDEF';
 
    public static String GetSecurityCode() {
       return generateGUID() + generateGUID();
    }
 
-   //Creates a token
-   public static string CreateStepToken(String SecurityCode, string FormId)
+   //Decrypt token
+   public static Token DecryptToken(String token)
    {
-      string token = SecurityCode + '_' + UserInfo.getUserId() + '_' + FormId;
+      String sEncryptionKey = AH_UDC_ConfigHelper.GetString('AH_UDC_ViewWorkbookTokenEncryptionKey', '');
+     
+      if (!String.isEmpty(sEncryptionKey) && AH_UDC_ConfigHelper.GetBoolean('AH_UDC_ViewWorkbookTokenEncryption', true)) {
+         Blob key = EncodingUtil.base64Decode(sEncryptionKey);
+         token = token.replace('_2f_', '/').replace('_2b_', '+'); //Base64 has 2 special characters / + that are not compatible with a URL ID
+         Blob data = EncodingUtil.base64Decode(token);
+         Blob decryptedData = Crypto.decryptWithManagedIV('AES256', key, data);
+         token = decryptedData.toString();
+      }
+      Token returnToken = new Token();
+
+      String[] tokenParts = token.split('_');
+      if (tokenParts.size() != 4) return returnToken; //Invalid Token
+
+      returnToken.SecurityCode = tokenParts[0];
+      returnToken.ResponderUserId = tokenParts[1];
+      returnToken.FormId = tokenParts[2];
+      returnToken.StepId = tokenParts[3];
+
+      //Verify that "Null" was not passed as text
+      returnToken.SecurityCode = (returnToken.SecurityCode != null && returnToken.SecurityCode.toUpperCase() == 'NULL' ? null : returnToken.SecurityCode);
+      returnToken.ResponderUserId = (returnToken.ResponderUserId != null && returnToken.ResponderUserId.toUpperCase() == 'NULL' ? null : returnToken.ResponderUserId);
+      returnToken.FormId = (returnToken.FormId != null && returnToken.FormId.toUpperCase() == 'NULL' ? null : returnToken.FormId);
+      returnToken.StepId = (returnToken.StepId != null && returnToken.StepId.toUpperCase() == 'NULL' ? null : returnToken.StepId);
+
+      if (String.isBlank(returnToken.SecurityCode) || String.isBlank(returnToken.ResponderUserId) || String.isBlank(returnToken.FormId) || String.isBlank(returnToken.StepId)) 
+         returnToken.IsValid = false;
+      else
+         returnToken.IsValid = true; //Token is valid
+      return returnToken;
+   }
+
+   //Creates a token
+   public static string CreateStepToken(String SecurityCode, string FormId, string stepId)
+   {
+      string token = SecurityCode + '_' + UserInfo.getUserId() + '_' + FormId + '_' + stepId;
       //Encrypt token
       string sEncryptionKey = AH_UDC_ConfigHelper.GetString('AH_UDC_ViewWorkbookTokenEncryptionKey', '');
+      
       if (!String.isEmpty(sEncryptionKey) && AH_UDC_ConfigHelper.GetBoolean('AH_UDC_ViewWorkbookTokenEncryption', true)) {
          Blob key = EncodingUtil.base64Decode(sEncryptionKey);
          Blob data = Blob.valueOf(token);
@@ -147,6 +182,17 @@ public with sharing class AH_UDC_Shared {
       }
    }
 
+   public class Token {
+      public string SecurityCode;
+      public string ResponderUserId;
+      public string FormId;
+      public string StepId;
+      public boolean IsValid;
+      public Token() {
+         IsValid = false;
+      }
+   }
+
    public class FormField {
       public string Name;
       public string APIName;
@@ -176,13 +222,14 @@ public with sharing class AH_UDC_Shared {
       public string onlynumber { get; set; }
       public string onlyalpha { get; set; }
       public string alphanumeric { get; set; }
+      public string allowpastdate { get; set; }
    }
 
    public class DynamicSource
    {
       public string formid { get; set; }
       public string formfield { get; set; }
-   }   
+   }
    public class Options
    {
       public string format { get; set; }
@@ -211,8 +258,9 @@ public with sharing class AH_UDC_Shared {
       public string mask { get; set; }
       public Validation validation { get; set; }
       public List<Source> source { get; set; }
-      public DynamicSource dynamicsource { get; set; }      
+      public DynamicSource dynamicsource { get; set; }
       public Options options { get; set; }
+      public string readOnly { get; set; }
       public string autocomplete { get; set; }
       public string labelabove { get; set; }
       public string defaultvalue { get; set; }
@@ -279,6 +327,25 @@ public with sharing class AH_UDC_Shared {
          }
          catch(Exception exc) {
             AH_UDC_LogHelper.Debug('AmadeusFormField-getDynamicPicklists-returnFields-exception: ' + exc);
+            //This is purposely not logged here; logged by the caller
+            throw(exc);
+         }
+      }
+      public List<Field> getDynamicDefaults() {
+         try {
+            List<Field> returnFields = new List<Field> ();
+            if (fields != null && fields.size() > 0)
+            {
+               for (Field ff : fields) {
+                  if ((ff.type == 'text' || ff.type == 'hidden') && ff.dynamicSource != null) {
+                     returnFields.add(ff);
+                  }
+               }
+            }
+            return returnFields;
+         }
+         catch(Exception exc) {
+            AH_UDC_LogHelper.Debug('AmadeusFormField-getDynamicDefaults-returnFields-exception: ' + exc);
             //This is purposely not logged here; logged by the caller
             throw(exc);
          }

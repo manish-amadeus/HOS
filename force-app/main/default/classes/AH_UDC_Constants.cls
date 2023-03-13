@@ -29,6 +29,7 @@ public class AH_UDC_Constants {
    public static final String PROFILE_DEFAULT_NAME_COMMUNITY_PLUS_LOGIN_WITHOUT_CHATTER = 'AH Customer Community Plus Login - No Chatter';
    public static final String PROFILE_DEFAULT_NAME_PSA_SF_LIGHTNING = 'AH PSA T&E - SF - Lightning';
    public static final String PROFILE_DEFAULT_NAME_SYSTEM_ADMINISTRATOR = 'System Administrator';
+   public static final String PROFILE_DEFAULT_NAME_AH_UDC_SERVICE = 'AH UDC Service';
 
    public static final String STEP_STATUS_NEW = 'New';
    public static final String STEP_STATUS_LOCKED = 'Locked';
@@ -39,7 +40,7 @@ public class AH_UDC_Constants {
    public static final String SENT_STATUS_IN_PROGRESS = 'In Progress';
    public static final String SENT_STATUS_COMPLETE_LOCKED = 'Completed/Locked';
    public static final String SENT_STATUS_FAILED_TO_SEND = 'Failed To Send';
-
+   
    public static final String RECORD_TYPE_WORKBOOK = 'AH_UDC_Workbook';
    public static final String RECORD_TYPE_WORKBOOK_SENT = 'AH_UDC_WorkbookSent';
    public static final String RECORD_TYPE_WORKBOOK_STEP = 'AH_UDC_WorkbookStep';
@@ -67,7 +68,10 @@ public class AH_UDC_Constants {
 
    public static List<String> SOLUTION_DELIVERY_PREFIXES = new List<String> { 'ahsvc_', 'nisvc_', 'AH_UDC_' };
 
-   public static final String PageName_AmadeusFileUpload = 'AH_UDC_fileUpload';
+   public static final String PAGENAME_AMADEUSFILEUPLOAD = 'AH_UDC_fileUpload';
 
-   public static final string Purge_Scheduled_Job_Name = 'UDC Purge Response Records';
+   public static final string PURGE_SCHEDULED_JOB_NAME = 'UDC Purge Response Records';
+   public static final string WORKBOOK_SENT_EMAIL_SCHEDULED_JOB_NAME = 'UDC Workbook Sent Email';
+
+   public static final string FILE_UPLOAD_MAXIMUM_SIZE_IN_MB_DEFAULT = '21';
 }

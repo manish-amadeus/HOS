@@ -30,7 +30,7 @@
         <inputParameters>
             <name>submitterId</name>
             <value>
-                <elementReference>$User.Id</elementReference>
+                <elementReference>$Record.Owner:User.Id</elementReference>
             </value>
         </inputParameters>
         <storeOutputAutomatically>true</storeOutputAutomatically>
@@ -76,7 +76,7 @@
             <label>Submit</label>
         </rules>
     </decisions>
-    <description>NICC-061167; updated via NICC-061427; updated via NICC-061427
+    <description>NICC-061167; updated via NICC-061427; updated via NICC-061427; updated via NICC-063571
 
 Moved from process builder with the same name. Invokes the Case CR Approval Process</description>
     <environments>Default</environments>

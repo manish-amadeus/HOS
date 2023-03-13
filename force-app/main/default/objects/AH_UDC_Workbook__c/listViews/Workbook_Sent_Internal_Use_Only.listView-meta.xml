@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Workbook_Sent_Internal_Use_Only</fullName>
+    <columns>NAME</columns>
+    <columns>SentStatus__c</columns>
+    <columns>RelatedToDocName__c</columns>
+    <columns>InternalUseOnly__c</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>RECORDTYPE</field>
+        <operation>equals</operation>
+        <value>AH_UDC_Workbook__c.AH_UDC_WorkbookSent</value>
+    </filters>
+    <filters>
+        <field>InternalUseOnly__c</field>
+        <operation>equals</operation>
+        <value>1</value>
+    </filters>
+    <label>Workbook Sent Internal Use Only</label>
+    <language>en_US</language>
+</ListView>

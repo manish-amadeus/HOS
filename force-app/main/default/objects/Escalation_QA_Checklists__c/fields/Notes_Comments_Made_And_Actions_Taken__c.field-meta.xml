@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Notes_Comments_Made_And_Actions_Taken__c</fullName>
+    <defaultValue>0</defaultValue>
     <description>Appropriate notes / comments made and actions taken. Problem descriptions are accurate and concise.</description>
     <externalId>false</externalId>
-    <inlineHelpText>Notes should be completed during each case interaction and include findings, pending items, AND all actions taken to resolve (per team SOP). Emails received and sent should also be summarized.</inlineHelpText>
+    <inlineHelpText>Notes should be completed during each case interaction and include findings, pending items, AND all actions taken to resolve (per team SOP). Emails received and sent should also be summarized.
+POSSIBLE VALUES: 0, 1, 3, 5</inlineHelpText>
     <label>Notes/comments made &amp; actions taken</label>
     <precision>2</precision>
     <required>false</required>

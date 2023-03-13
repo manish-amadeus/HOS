@@ -29,7 +29,8 @@ private class AH_UDC_Welcome_TEST {
       oCurrentUser.ContactId = null;
 
       System.runAs(oCurrentUser) {
-         AH_UDC_TestData.InsertWithRetries(listUsers);
+         //AH_UDC_TestData.InsertWithRetries(listUsers);
+         insert listUsers;
 
          // Community Users
          AH_UDC_TestData.AddPermissionSetToUser(AH_UDC_Constants.PERMISSIONSET_DEFAULT_NAME_UDC_COMMUNITY_USER, listUsers[0].Id);
@@ -70,7 +71,8 @@ private class AH_UDC_Welcome_TEST {
          for (integer i = 0; i<lstUDCContacts.size(); i++)
          lstUDCContacts[i].TermsandConditionsAccepted__c = true;
          //Assign workbook to community user
-         AH_UDC_SystemContext.CreateObjects(lstUDCContacts);
+         //AH_UDC_SystemContext.CreateObjects(lstUDCContacts);
+         insert(lstUDCContacts);
       //}
 
       //Insert Workbook Record
@@ -102,6 +104,7 @@ private class AH_UDC_Welcome_TEST {
          System.debug('objWelcome' + objWelcome);
          System.assertEquals(true, (objWelcome.WorkbookList != null), 'Error occurred in welcome page execution');
          System.debug('(objWelcome.WorkbookList:' + objWelcome.WorkbookList);
+         
          System.assertEquals(3, objWelcome.WorkbookList.size(), 'Total Workbook count should match');
 
          objWelcome.Opt_Into_Social_Media_Feature = true;
@@ -113,19 +116,19 @@ private class AH_UDC_Welcome_TEST {
          Test.setMock(HttpCalloutMock.class, mock);
 
          objWelcome.TermsAndConditionNext();
-         //System.assertEquals(true, objWelcome.isProfileChanged, 'External User profile has not been changed');
+         System.assertEquals(true, objWelcome.isProfileChanged, 'External User profile has not been changed');
          List<AH_UDC_Contact__c> lstUDCContact = AH_UDC_SystemContext.query('SELECT Id, TermsandConditionsAcceptedDate__c, TermsandConditionsAccepted__c' + 
                                                                             ' FROM AH_UDC_Contact__c' + 
                                                                             ' WHERE Contact__c = \'' + objUser.ContactId + '\'' +
                                                                             ' ORDER BY CreatedDate DESC' +
                                                                             ' LIMIT 1');
-         //System.assertEquals(1, lstUDCContact.size(), 'Contact not found');
-         //System.assertEquals(true, lstUDCContact[0].TermsandConditionsAcceptedDate__c != null, 'TermsandConditionsAcceptedDate__c should not have been null');
+         System.assertEquals(1, lstUDCContact.size(), 'Contact not found');
+         System.assertEquals(true, lstUDCContact[0].TermsandConditionsAcceptedDate__c != null, 'TermsandConditionsAcceptedDate__c should not have been null');
          
          objWelcome.LogFunctionalArea = 'TestRecordType';
          objWelcome.IsErrorOccurred = false;
          objWelcome.FillWorkbookList();
-         //System.assert(objWelcome.IsErrorOccurred, 'IsErrorOccurred should be true as recordtype set to null');
+         System.assert(objWelcome.IsErrorOccurred, 'IsErrorOccurred should be true as recordtype set to null');
 
          Test.stopTest();
       }

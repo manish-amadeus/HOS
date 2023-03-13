@@ -163,16 +163,12 @@ public with sharing class AH_UDC_SendWorkbookAddContact {
       try {
          if (Test.isRunningTest() && LogFunctionalArea == 'TestException') Integer a = 1 / 0; //Throw an exception from the test class
          if (String.isNotBlank(NiDocId)) {
-            List<User> lstUser = [SELECT Id, Email
-                                  FROM User
-                                  WHERE ContactId = :SelectedContactId
-                                  AND IsActive = true];
+            List<Contact> sendContacts = [SELECT Id, Email
+                                          FROM Contact
+                                          WHERE ID = :SelectedContactId];
 
-            if (lstUser.size() > 0 && String.isNotBlank(lstUser.get(0).Email)) {
-               List<string> lstToAddresses = new List<string> ();
-               lstToAddresses.add(lstUser.get(0).Email); //Prepare to email addresses list
-
-               Boolean IsEmailSent = AH_UDC_SharedWithoutSharing.SendEmailToContacts(LogFunctionalArea, lstToAddresses, SelectedEmailTemplateId, SelectedContactId, NiDocId);
+            if (sendContacts.size() > 0 && String.isNotBlank(sendContacts[0].Email)) {
+               Boolean IsEmailSent = AH_UDC_SharedWithoutSharing.SendEmailToContacts(LogFunctionalArea, sendContacts, SelectedEmailTemplateId, NiDocId, null);
                if (IsEmailSent) {
                   AH_UDC_LogHelper.Debug('Email has been sent successfully.');
                }

@@ -7,19 +7,20 @@
  **/
 public with sharing class AH_UDC_WorkbookTriggerHelper
 {
-   @TestVisible public static Boolean IsWorkbookSentRecordTypeForException = false;
+   @TestVisible private static Boolean IsRecordTypeExceptionForWBS = false;
+   @TestVisible private static Boolean IsRecordTypeExceptionForWB = false;
+   @TestVisible private static Boolean IsRecordTypeExceptionForWBSLocked = false;
 
    public static void onTrigger()
    {
       List<NI_Documentation__c> lstNIDocs = null;
       List<AH_UDC_Workbook__c> lstWorkbook = null;
       try {
-        
+
          if (Trigger.isBefore && Trigger.isUpdate) {
             Set<Id> workbookSentRecordSet = new Set<Id> ();
             Id WorkbookSentRecordTypeId = Schema.SObjectType.AH_UDC_Workbook__c.getRecordTypeInfosByDeveloperName().get(AH_UDC_Constants.RECORD_TYPE_WORKBOOK_SENT).getRecordTypeId();
-            if (Test.isRunningTest() && IsWorkbookSentRecordTypeForException == true) WorkbookSentRecordTypeId = null; // Check for record type id is null for testing
-
+            if (Test.isRunningTest() && IsRecordTypeExceptionForWBS == true) WorkbookSentRecordTypeId = null; // Check for record type id is null for testing
             if (String.isNotBlank(String.valueOf(WorkbookSentRecordTypeId))) {
                for (SObject obj : Trigger.new) {
                   AH_UDC_Workbook__c objWorkbookSent = (AH_UDC_Workbook__c) obj;
@@ -47,30 +48,96 @@ public with sharing class AH_UDC_WorkbookTriggerHelper
                }
             }
             else {
-               AH_UDC_LogHelper.Debug('Workbook Sent record type not found');
-               AH_UDC_LogHelper.Log(AH_UDC_LogHelper.LogLevel_ERROR,
-                                    'AH_UDC_WorkbookTriggerHelper',
-                                    'onTrigger - Before Update', 'An error occurred during workbook trigger (Before Update) execution for the user (' + System.UserInfo.getUserId() + ' : ' + System.UserInfo.getUserName() + ') and Workbook List : ' + Trigger.new + ' Error : Record Type not found - ' + AH_UDC_Constants.RECORD_TYPE_WORKBOOK_SENT,
-                                    null, null, null);
-
+               AH_UDC_LogHelper.Debug('Workbook Sent record type not found');               
                for (SObject sObj : Trigger.new) {
                   sObj.addError('An error occurred in before update workbook record(s). Please contact UDC System Administrator.');
                }
                return;
             }
          }
-	
+
          if ((Trigger.isBefore && (Trigger.isInsert || Trigger.isUpdate)) || (Trigger.isAfter && Trigger.isUndelete)) {
+            //Check for EmailTemplate start
+            Set<String> setEmailTemplates = null;
+            Set<String> setAllEmailTemplate = new Set<String> ();
+            Map<Id, Set<String>> mapWBEmailTemplates = new Map<Id, Set<String>> ();
+            for (SObject obj : Trigger.new) {
+               AH_UDC_Workbook__c objWorkbook = (AH_UDC_Workbook__c) obj;
+               if (String.isEmpty(objWorkbook.EmailTemplate__c) && String.isEmpty(objWorkbook.Reminder1EmailTemplate__c) && String.isEmpty(objWorkbook.Reminder2EmailTemplate__c)
+                   && String.isEmpty(objWorkbook.Reminder3EmailTemplate__c) && String.isEmpty(objWorkbook.Reminder4EmailTemplate__c)) {
+                  continue;
+               }
+               else
+               {
+                  setEmailTemplates = new Set<String> ();
+                  if (String.isNotEmpty(objWorkbook.EmailTemplate__c)) {
+                     setEmailTemplates.add(objWorkbook.EmailTemplate__c);
+                     setAllEmailTemplate.add(objWorkbook.EmailTemplate__c);
+                  }
+                  if (String.isNotEmpty(objWorkbook.Reminder1EmailTemplate__c)) {
+                     setEmailTemplates.add(objWorkbook.Reminder1EmailTemplate__c);
+                     setAllEmailTemplate.add(objWorkbook.Reminder1EmailTemplate__c);
+                  }
+                  if (String.isNotEmpty(objWorkbook.Reminder2EmailTemplate__c)) {
+                     setEmailTemplates.add(objWorkbook.Reminder2EmailTemplate__c);
+                     setAllEmailTemplate.add(objWorkbook.Reminder2EmailTemplate__c);
+                  }
+                  if (String.isNotEmpty(objWorkbook.Reminder3EmailTemplate__c)) {
+                     setEmailTemplates.add(objWorkbook.Reminder3EmailTemplate__c);
+                     setAllEmailTemplate.add(objWorkbook.Reminder3EmailTemplate__c);
+                  }
+                  if (String.isNotEmpty(objWorkbook.Reminder4EmailTemplate__c)) {
+                     setEmailTemplates.add(objWorkbook.Reminder4EmailTemplate__c);
+                     setAllEmailTemplate.add(objWorkbook.Reminder4EmailTemplate__c);
+                  }
+                  mapWBEmailTemplates.put(objWorkbook.Id, setEmailTemplates);
+               }
+            }
+
+            //Only check when Template field has some value
+            if (setAllEmailTemplate.size() > 0) {
+               //Check for valid Email Template
+               List<string> existingTemplates = new List<string> ();
+               If (setAllEmailTemplate.size() > 0)
+               {
+                  for (EmailTemplate template :[SELECT DeveloperName FROM EmailTemplate WHERE DeveloperName IN :setAllEmailTemplate])
+                  existingTemplates.add(template.DeveloperName);
+               }
+               for (SObject obj : Trigger.new) {
+                  AH_UDC_Workbook__c objWorkbook = (AH_UDC_Workbook__c) obj;
+                  if (existingTemplates.size() > 0)
+                  {
+                     if (mapWBEmailTemplates.containsKey(objWorkbook.Id))
+                     {
+                        for (String temp : mapWBEmailTemplates.get(objWorkbook.Id))
+                        {
+                           if (String.isNotBlank(temp) && !existingTemplates.contains(temp))
+                           {
+                              obj.addError(Label.AH_UDC_InvalidEmailTemplateError);
+                              break;
+                           }
+                        }
+                     }
+                  }
+                  else {
+                     obj.addError(Label.AH_UDC_InvalidEmailTemplateError);
+                  }
+               }
+            }
+            //end
             Set<Id> setWorkbookId = new Set<Id> ();
             Set<String> setWorkbookName = new Set<String> ();
 
             // Get the RecordType Id for WORKBOOK
             Id RecordTypeId = Schema.SObjectType.AH_UDC_Workbook__c.getRecordTypeInfosByDeveloperName().get(AH_UDC_Constants.RECORD_TYPE_WORKBOOK).getRecordTypeId();
-            if (Test.isRunningTest() && IsWorkbookSentRecordTypeForException == true) RecordTypeId = null; // Check for record type id is null for testing
-
+            if (Test.isRunningTest() && IsRecordTypeExceptionForWB == true) RecordTypeId = null; // Check for record type id is null for testing
             if (String.isNotBlank(String.valueOf(RecordTypeId))) {
                for (SObject obj : Trigger.new) {
                   AH_UDC_Workbook__c objWorkbook = (AH_UDC_Workbook__c) obj;
+
+                  //Ensure the workbook has a security code
+                  if (String.isEmpty(objWorkbook.SecurityCode__c)) objWorkbook.SecurityCode__c = AH_UDC_Shared.GetSecurityCode();
+
                   if (objWorkbook.RecordTypeId == RecordTypeId) {
                      if (setWorkbookName.contains(objWorkbook.Name)) {
                         obj.addError(Label.AH_UDC_DuplicateWorkbookNameMessage);
@@ -114,23 +181,17 @@ public with sharing class AH_UDC_WorkbookTriggerHelper
             }
             else {
                AH_UDC_LogHelper.Debug('Workbook record type not found');
-               AH_UDC_LogHelper.Log(AH_UDC_LogHelper.LogLevel_ERROR,
-                                    'AH_UDC_WorkbookTriggerHelper',
-                                    'onTrigger - Before Update/Insert/UnDelete', 'An error occurred during workbook trigger (Before Update/Insert/UnDelete) execution for the user (' + System.UserInfo.getUserId() + ' : ' + System.UserInfo.getUserName() + ') and Workbook List : ' + Trigger.new + ' Error : Record Type not found - ' + AH_UDC_Constants.RECORD_TYPE_WORKBOOK,
-                                    null, null, null);
-
                for (SObject sObj : Trigger.new) {
                   sObj.addError('An error occurred in before update/insert/undelete workbook record(s). Please contact UDC System Administrator.');
                }
+               return;
             }
-            return;
          }
 
          if (Trigger.isAfter && Trigger.isUpdate) {
             lstNIDocs = new List<NI_Documentation__c> ();
             Id RecordTypeId = Schema.SObjectType.AH_UDC_Workbook__c.getRecordTypeInfosByDeveloperName().get(AH_UDC_Constants.RECORD_TYPE_WORKBOOK_SENT).getRecordTypeId();
-            if (Test.isRunningTest() && IsWorkbookSentRecordTypeForException == true) RecordTypeId = null; // Check for record type id is null for testing
-
+            if (Test.isRunningTest() && IsRecordTypeExceptionForWBSLocked == true) RecordTypeId = null; // Check for record type id is null for testing
             if (String.isNotBlank(String.valueOf(RecordTypeId))) {
                for (SObject obj : Trigger.new) {
                   AH_UDC_Workbook__c objWorkbook = (AH_UDC_Workbook__c) obj;
@@ -148,14 +209,10 @@ public with sharing class AH_UDC_WorkbookTriggerHelper
             }
             else {
                AH_UDC_LogHelper.Debug('Workbook sent record type not found');
-               AH_UDC_LogHelper.Log(AH_UDC_LogHelper.LogLevel_ERROR,
-                                    'AH_UDC_WorkbookTriggerHelper',
-                                    'onTrigger - After Update', 'An error occurred during workbook trigger (After Update) execution for the user (' + System.UserInfo.getUserId() + ' : ' + System.UserInfo.getUserName() + ') and Workbook List : ' + Trigger.new + ' Error : Record Type not found - ' + AH_UDC_Constants.RECORD_TYPE_WORKBOOK_SENT,
-                                    null, null, null);
-
                for (SObject sObj : Trigger.new) {
                   sObj.addError('An error occurred in updating workbook record(s). Please contact UDC System Administrator.');
                }
+               return;
             }
          } else if (Trigger.isBefore && Trigger.isDelete) {
             //Determine if the current user has the UDC System Admin permission set assigned to them
@@ -168,7 +225,7 @@ public with sharing class AH_UDC_WorkbookTriggerHelper
             if (intCount == 0) {
                AH_UDC_LogHelper.Log('Trace', 'AH_UDC_WorkbookTriggerHelper', 'onTrigger', 'The user (' + System.UserInfo.getUserName() + ') is trying to delete a WORKBOOK_SENT record');
                Id RecordTypeId = Schema.SObjectType.AH_UDC_Workbook__c.getRecordTypeInfosByDeveloperName().get(AH_UDC_Constants.RECORD_TYPE_WORKBOOK_SENT).getRecordTypeId();
-               if (Test.isRunningTest() && IsWorkbookSentRecordTypeForException == true) RecordTypeId = null; // Check for record type id is null for testing
+               if (Test.isRunningTest() && IsRecordTypeExceptionForWBS == true) RecordTypeId = null; // Check for record type id is null for testing
 
                if (String.isNotBlank(String.valueOf(RecordTypeId))) {
                   //Prevent users who are not UDC System Admin from deleting WORKBOOK_SENT records
@@ -181,25 +238,16 @@ public with sharing class AH_UDC_WorkbookTriggerHelper
                }
                else {
                   AH_UDC_LogHelper.Debug('Workbook sent record type not found');
-                  AH_UDC_LogHelper.Log(AH_UDC_LogHelper.LogLevel_ERROR,
-                                       'AH_UDC_WorkbookTriggerHelper',
-                                       'onTrigger - Before Delete', 'An error occurred during workbook trigger (Before Delete) execution for the user (' + System.UserInfo.getUserId() + ' : ' + System.UserInfo.getUserName() + ') and Workbook List : ' + Trigger.new + ' Error : Record Type not found - ' + AH_UDC_Constants.RECORD_TYPE_WORKBOOK_SENT,
-                                       null, null, null);
-
                   for (SObject sObj : Trigger.old) {
                      sObj.addError('An error occurred in before delete workbook record(s). Please contact UDC System Administrator.');
                   }
+                  return;
                }
             }
          }
       }
       catch(Exception exc) {
          AH_UDC_LogHelper.Debug('Error occurred in workbook trigger execution: ' + exc.getMessage() + ' at Line Number : ' + exc.getLineNumber());
-         AH_UDC_LogHelper.Log(AH_UDC_LogHelper.LogLevel_EXC,
-                              'AH_UDC_WorkbookTriggerHelper',
-                              'onTrigger', 'An exception occurred during workbook trigger execution for the user (' + System.UserInfo.getUserId() + ' : ' + System.UserInfo.getUserName() + ') and Workbook List : ' + Trigger.new,
-                              exc, null, null);
-
          for (SObject sObj : (Trigger.new != null ? Trigger.new : Trigger.old)) {
             String strAction = Trigger.isDelete ? 'deleting' : (Trigger.isUndelete ? 'restoring' : 'saving');
             sObj.addError('An error occurred while ' + strAction + ' workbook record. Please contact UDC System Administrator.');

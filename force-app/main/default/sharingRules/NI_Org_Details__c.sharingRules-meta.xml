@@ -127,6 +127,36 @@
         </criteriaItems>
         <includeRecordsOwnedByAll>false</includeRecordsOwnedByAll>
     </sharingCriteriaRules>
+    <sharingCriteriaRules>
+        <fullName>Price_Position_Read_Only</fullName>
+        <accessLevel>Read</accessLevel>
+        <description>Shares the Price Position record type to Public Group &quot;Price Position Support - Read Only&quot;. NICC-063922</description>
+        <label>Price Position Read Only</label>
+        <sharedTo>
+            <group>Price_Position_Support_Read_Only</group>
+        </sharedTo>
+        <criteriaItems>
+            <field>RecordTypeId</field>
+            <operation>equals</operation>
+            <value>Price Position</value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
+    <sharingCriteriaRules>
+        <fullName>Price_Position_Read_Write</fullName>
+        <accessLevel>Edit</accessLevel>
+        <description>Shares the Price Position record type to Public Group &quot;Price Position Support - Read/Write&quot;. NICC-063922</description>
+        <label>Price Position Read/Write</label>
+        <sharedTo>
+            <group>Price_Position_Support_Read_Write</group>
+        </sharedTo>
+        <criteriaItems>
+            <field>RecordTypeId</field>
+            <operation>equals</operation>
+            <value>Price Position</value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
     <sharingOwnerRules>
         <fullName>Org_Details_All</fullName>
         <accessLevel>Read</accessLevel>

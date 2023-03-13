@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>DTS_CompletionDateCompletedProjects</fullName>
+    <active>true</active>
+    <description>A completion date is required when DTS Projects are marked as Complete</description>
+    <errorConditionFormula>AND
+(RecordType.DeveloperName = &quot;Business_Systems&quot;,
+ISPICKVAL(Request_Status__c,&quot;Completed&quot;),
+OR(ISBLANK(Project_Completion_Date__c))
+)</errorConditionFormula>
+    <errorDisplayField>Project_Completion_Date__c</errorDisplayField>
+    <errorMessage>A completion date is required when changing the status to Complete</errorMessage>
+</ValidationRule>

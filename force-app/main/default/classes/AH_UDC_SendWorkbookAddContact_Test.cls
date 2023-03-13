@@ -78,7 +78,8 @@ private class AH_UDC_SendWorkbookAddContact_TEST {
       oCurrentUser.ContactId = null;
 
       System.runAs(oCurrentUser) {
-         AH_UDC_TestData.InsertWithRetries(listUsers);
+         //AH_UDC_TestData.InsertWithRetries(listUsers);
+         insert listUsers;
 
          // Community Users
          AH_UDC_TestData.AddPermissionSetToUser(AH_UDC_Constants.PERMISSIONSET_DEFAULT_NAME_UDC_COMMUNITY_USER, listUsers[0].Id);

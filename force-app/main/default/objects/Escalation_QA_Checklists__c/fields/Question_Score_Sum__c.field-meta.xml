@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Question_Score_Sum__c</fullName>
+    <description>Sum of all question Scores. Not visible in UI</description>
+    <externalId>false</externalId>
+    <formula>(First_Day_Acknowledgement_Of_Request__c + 
+
+Uses_Customers_Name__c + 
+Confirms_correct_contact_information__c + 
+Demonstrates_Empathy_Apology_Statements__c + 
+Uses_Professional_Lang_Tone_On_Call__c + 
+Avoids_Long_Pauses_Dead_Air__c + 
+Confidence_In_Communication__c + 
+Focus_And_Displays_Call_Control__c + 
+Initial_Follow_Up_Call_Capture_per_Cal__c + 
+Provided_CaseNumber_To_Client_Verbally__c + 
+Uses_Proper_Hold_Procedures__c + 
+Brands_Correctly_Appreciates_Client__c + 
+
+Customized_Template_If_Needed__c + 
+Correct_Template_Chosen_For_Case__c + 
+Acknowledges_Displays_Understands_Issue__c + 
+Correct_Grammar_Spelling_Punctuation__c + 
+Response_Addressed_Correct_Recipients__c + 
+
+Subject_line_accuracy__c + 
+Avoids_Unnecessary_Repetition__c + 
+Notes_Comments_Made_And_Actions_Taken__c + 
+Demonstrates_Product_Knowledge__c + 
+All_Customer_Info_Captured_Updated__c + 
+All_Client_Emails_Answered_And_Actioned__c + 
+Case_Tagging_Accuracy__c + 
+Agent_Sends_Case_Number_Via_Email__c + 
+Directed_Client_To_Online_Help_Or_LS__c + 
+Tagged_Correct_Property__c + 
+
+Issue_Not_Resolved_FCR_Next_Steps__c + 
+All_Steps_Are_Taken_To_Resolve__c + 
+Refers_Transfer_To_Correct_Department__c + 
+Final_Email_All_Issues_Addressed__c + 
+Completed_Proper_Follow_Up_Procedure__c)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Question Score Sum</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>0</scale>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Number</type>
+    <unique>false</unique>
+</CustomField>

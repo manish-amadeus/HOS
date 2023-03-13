@@ -157,7 +157,12 @@ public with sharing class AH_UDC_ConfigHelper
 
    // Returns the value associated with the key 
    public static Boolean GetBoolean(string key, Boolean defaultValue) {
-      Object ret = GetValue(key);
+      return GetBoolean(key, defaultValue, false);
+   }
+
+   // Returns the value associated with the key 
+   public static Boolean GetBoolean(string key, Boolean defaultValue, Boolean silent) {
+      Object ret = GetValue(key, silent);
       if (ret == null) {
          ret = (Object) defaultValue;
       }

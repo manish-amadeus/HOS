@@ -15,39 +15,6 @@ global with sharing class AH_UDC_REST_FormResponse {
    global static void post() {
       AH_UDC_LogHelper.QueueLogs = true;
 
-      //ROBDEV TEMP RESOLVE ISSUE
-	  integer codeCoverage = 0;
-	  codeCoverage = codeCoverage +1;
-	  codeCoverage = codeCoverage +1;
-	  codeCoverage = codeCoverage +1;
-	  codeCoverage = codeCoverage +1;
-	  codeCoverage = codeCoverage +1;
-	  codeCoverage = codeCoverage +1;
-	  codeCoverage = codeCoverage +1;
-	  codeCoverage = codeCoverage +1;
-	  codeCoverage = codeCoverage +1;
-	  codeCoverage = codeCoverage +1;
-	  codeCoverage = codeCoverage +1;
-	  codeCoverage = codeCoverage +1;
-	  codeCoverage = codeCoverage +1;
-	  codeCoverage = codeCoverage +1;
-	  codeCoverage = codeCoverage +1;
-	  codeCoverage = codeCoverage +1;
-	  codeCoverage = codeCoverage +1;
-	  codeCoverage = codeCoverage +1;
-	  codeCoverage = codeCoverage +1;
-	  codeCoverage = codeCoverage +1;
-      codeCoverage = codeCoverage +1;
-      codeCoverage = codeCoverage +1;
-      codeCoverage = codeCoverage +1;
-      codeCoverage = codeCoverage +1;
-      codeCoverage = codeCoverage +1;
-      codeCoverage = codeCoverage +1;
-      codeCoverage = codeCoverage +1;
-      codeCoverage = codeCoverage +1;
-      codeCoverage = codeCoverage +1;
-      codeCoverage = codeCoverage +1;
-	  
       FormResponseResponse resp = new FormResponseResponse();
       RestRequest req = RestContext.request;
       Savepoint objSavePoint = Database.setSavepoint();
@@ -59,9 +26,7 @@ global with sharing class AH_UDC_REST_FormResponse {
          AH_UDC_LogHelper.Debug('requestBody: ' + requestBody);
 
          FormResponseRequest request = (FormResponseRequest) JSON.deserialize(requestBody, FormResponseRequest.class);
-         string SecurityCode = '';
-         string ResponderUserId = '';
-         string FormId = '';
+         AH_UDC_Shared.Token decryptedToken = new AH_UDC_Shared.Token();
 
          //Find the token in the request
          for (QuestionAnswer qa : request.QuestionAnswers) {
@@ -70,32 +35,27 @@ global with sharing class AH_UDC_REST_FormResponse {
             string token = qa.Answer.substring(AH_UDC_Constants.FORM_TOKEN_PREFIX.length());
 
             //Decrypt token
-            string sEncryptionKey = AH_UDC_ConfigHelper.GetString('AH_UDC_ViewWorkbookTokenEncryptionKey', '');
-            if (!String.isEmpty(sEncryptionKey) && AH_UDC_ConfigHelper.GetBoolean('AH_UDC_ViewWorkbookTokenEncryption', true)) {
-               Blob key = EncodingUtil.base64Decode(sEncryptionKey);
-               token = token.replace('_2f_', '/').replace('_2b_', '+'); //Base64 has 2 special characters / + that are not compatible with a URL ID
-               Blob data = EncodingUtil.base64Decode(token);
-               Blob decryptedData = Crypto.decryptWithManagedIV('AES256', key, data);
-               token = decryptedData.toString();
+            decryptedToken = AH_UDC_Shared.DecryptToken(token);
+            if (!decryptedToken.IsValid) {
+               resp.statusCode = '400';
+               resp.message = 'Token Not Valid';
+               RestContext.response.responseBody = Blob.valueOf(resp.compileResponse());
+               return;
             }
-
-            string[] tokenParts = token.split('_');
-            SecurityCode = tokenParts[0];
-            ResponderUserId = tokenParts[1];
-            FormId = tokenParts[2];
             break;
          }
 
          //Find the Workbook Step Sent record for the posted Security Code
          List<AH_UDC_WorkbookStep__c> stepsSent = null; 
+         Boolean isWorkbookSent = true;
 
          if (Schema.sObjectType.AH_UDC_WorkbookStep__c.fields.Form__c.isAccessible() &&
              Schema.sObjectType.AH_UDC_WorkbookStep__c.fields.Workbook__c.isAccessible()) {
             stepsSent = [SELECT Id, Form__r.Definition__c, Form__r.FormType__c,
-                                                Workbook__r.RelatedTo__r.AH_UDC_PropertyAccount__c
-                                                FROM AH_UDC_WorkbookStep__c
-                                                WHERE Workbook__r.SecurityCode__c = :SecurityCode
-                                                AND Form__c = :FormId];
+                         Workbook__r.RelatedTo__r.AH_UDC_PropertyAccount__c, Workbook__r.RecordType.DeveloperName
+                         FROM AH_UDC_WorkbookStep__c
+                         WHERE Workbook__r.SecurityCode__c = :decryptedToken.SecurityCode
+                         AND Form__c = :decryptedToken.FormId];
             AH_UDC_LogHelper.Debug('###stepsSent: ' + stepsSent);
             AH_UDC_LogHelper.Debug('###stepsSent Size: ' + stepsSent.size());
          }
@@ -107,6 +67,8 @@ global with sharing class AH_UDC_REST_FormResponse {
             return;
          }
 
+         if (stepsSent[0].Workbook__r.RecordType.DeveloperName == AH_UDC_Constants.RECORD_TYPE_WORKBOOK) isWorkbookSent= false;
+
          //Central & Shared Form Responses - Find UnLocked Workbook Step Sent records with the same Form for the same Property
          List<AH_UDC_WorkbookStep__c> sharedSentSteps = new List<AH_UDC_WorkbookStep__c> ();
          if (stepsSent[0].Form__r.FormType__c == AH_UDC_Constants.FORM_TYPE_SHARED || stepsSent[0].Form__r.FormType__c == AH_UDC_Constants.FORM_TYPE_CENTRAL) {
@@ -115,7 +77,7 @@ global with sharing class AH_UDC_REST_FormResponse {
                sharedSentSteps = [SELECT Id, Form__r.Definition__c, Form__r.FormType__c
                                   FROM AH_UDC_WorkbookStep__c
                                   WHERE Workbook__r.SentStatus__c in(:AH_UDC_Constants.SENT_STATUS_NEW, :AH_UDC_Constants.SENT_STATUS_IN_PROGRESS)
-                                  AND Form__c = :FormId
+                                  AND Form__c = :decryptedToken.FormId
                                   AND Workbook__r.RelatedTo__r.AH_UDC_PropertyAccount__c = :stepsSent[0].Workbook__r.RelatedTo__r.AH_UDC_PropertyAccount__c
                                   AND Id != :stepsSent[0].id];
                AH_UDC_LogHelper.Debug('###sharedSentSteps: ' + sharedSentSteps.size());
@@ -129,27 +91,29 @@ global with sharing class AH_UDC_REST_FormResponse {
          {
             StepSentIds.add(sharedSentStep.id);
          }
-         //Update steps to inprogress if still in New
-         List<AH_UDC_WorkbookStep__c> updateStatusSteps = null;
-         if (Schema.sObjectType.AH_UDC_WorkbookStep__c.fields.StepStatus__c.isAccessible()) {
-            updateStatusSteps = [SELECT Id, StepStatus__c
-                                   FROM AH_UDC_WorkbookStep__c
-                                  WHERE StepStatus__c = :AH_UDC_Constants.STEP_STATUS_NEW
-                                    AND Id in :StepSentIds];
-         }
-
-         if (updateStatusSteps != null && updateStatusSteps.size() > 0) {
-            for (AH_UDC_WorkbookStep__c updateStatusStep : updateStatusSteps)
-            {
-               updateStatusStep.StepStatus__c = AH_UDC_Constants.STEP_STATUS_IN_PROGRESS;
+         if (isWorkbookSent)
+         {
+            //Update steps to inprogress if still in New
+            List<AH_UDC_WorkbookStep__c> updateStatusSteps = null;
+            if (Schema.sObjectType.AH_UDC_WorkbookStep__c.fields.StepStatus__c.isAccessible()) {
+               updateStatusSteps = [SELECT Id, StepStatus__c
+                                      FROM AH_UDC_WorkbookStep__c
+                                     WHERE StepStatus__c = :AH_UDC_Constants.STEP_STATUS_NEW
+                                       AND Id in :StepSentIds];
             }
-            AH_UDC_Security.UpdateObjects(updateStatusSteps);
-         }
 
+            if (updateStatusSteps != null && updateStatusSteps.size() > 0) {
+               for (AH_UDC_WorkbookStep__c updateStatusStep : updateStatusSteps)
+               {
+                  updateStatusStep.StepStatus__c = AH_UDC_Constants.STEP_STATUS_IN_PROGRESS;
+               }
+               AH_UDC_Security.UpdateObjects(updateStatusSteps);
+            }
+         }
          //Find the Contact sending the response
          List<User> responseUser = null;
          if (Schema.sObjectType.User.fields.Id.isAccessible()) {
-            responseUser = [SELECT Id FROM User WHERE Id = :ResponderUserId];
+            responseUser = [SELECT Id FROM User WHERE Id = :decryptedToken.ResponderUserId];
          }
 
          if (responseUser == null || responseUser.size() == 0) {
@@ -194,9 +158,9 @@ global with sharing class AH_UDC_REST_FormResponse {
 
          //Need to sort QA by QuestionField since Form Assembly doesn't submit them in the correct order
          request.QuestionAnswers.sort();
-         for (QuestionAnswer qa : request.QuestionAnswers) {
-            System.debug('@@@qa.QuestionField: ' + qa.QuestionField);
-         }
+         //for (QuestionAnswer qa : request.QuestionAnswers) {
+            //System.debug('@@@qa.QuestionField: ' + qa.QuestionField);
+         //}
 
          //Create the Response QA Records - up to 10K can be created
          List<AH_UDC_ResponseQA__c> rQAs = new List<AH_UDC_ResponseQA__c> ();
@@ -383,28 +347,14 @@ global with sharing class AH_UDC_REST_FormResponse {
          }
 
          //Decrypt token
-         string sEncryptionKey = AH_UDC_ConfigHelper.GetString('AH_UDC_ViewWorkbookTokenEncryptionKey', '');
-         if (!String.isEmpty(sEncryptionKey) && AH_UDC_ConfigHelper.GetBoolean('AH_UDC_ViewWorkbookTokenEncryption', true)) {
-            Blob key = EncodingUtil.base64Decode(sEncryptionKey);
-            token = token.replace('_2f_', '/').replace('_2b_', '+'); //Base64 has 2 special characters / + that are not compatible with a URL ID
-            Blob data = EncodingUtil.base64Decode(token);
-            Blob decryptedData = Crypto.decryptWithManagedIV('AES256', key, data);
-            token = decryptedData.toString();
-         }
-
-         //Split token
-         string[] tokenParts = token.split('_');
-
-         //Get Form Id
-         if (tokenParts.size() != 3 || String.isBlank(tokenParts[0]) || String.isBlank(tokenParts[1]) || String.isBlank(tokenParts[2])) {
+         AH_UDC_Shared.Token decryptedToken = AH_UDC_Shared.DecryptToken(token);
+  
+         if (!decryptedToken.IsValid) {
             resp.statusCode = '400';
-            resp.message = 'Bad Request';
+            resp.message = 'Token Not Valid';
             RestContext.response.responseBody = Blob.valueOf(resp.compileResponse());
             return;
          }
-         string SecurityCode = tokenParts[0];
-         String FormId = tokenParts[2];
-         //AH_UDC_LogHelper.Debug('###FormId: ' + FormId);
 
          //Check that SecurityCode And FormId are for a valid step
          List<AH_UDC_WorkbookStep__c> stepsSent = null;
@@ -413,8 +363,8 @@ global with sharing class AH_UDC_REST_FormResponse {
 
             stepsSent = [SELECT Id, Workbook__c, Workbook__r.ParentWorkbookSent__c, Form__r.Definition__c, Form__r.FormType__c
                            FROM AH_UDC_WorkbookStep__c
-                          WHERE Workbook__r.SecurityCode__c = :SecurityCode
-                            AND Form__c = :FormId LIMIT 1];
+                          WHERE Workbook__r.SecurityCode__c = :decryptedToken.SecurityCode
+                            AND Form__c = :decryptedToken.FormId LIMIT 1];
             //AH_UDC_LogHelper.Debug('###stepsSent: ' + stepsSent);
             //AH_UDC_LogHelper.Debug('###stepsSent Size: ' + stepsSent.size());
          }

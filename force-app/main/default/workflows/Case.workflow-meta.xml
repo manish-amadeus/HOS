@@ -272,6 +272,17 @@
         <template>PS_Enerprise_Workflows/PSEscalationCase_Manager_Case_Alert</template>
     </alerts>
     <alerts>
+        <fullName>PS_Escalations_BI_Case_Creation_Alert</fullName>
+        <description>PS Escalations BI Case Creation Alert</description>
+        <protected>false</protected>
+        <recipients>
+            <recipient>PS_Escalations_BI_Group</recipient>
+            <type>group</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>Professional_Services_Email_Templates/New_PS_Escalations_case_inqueue_notification</template>
+    </alerts>
+    <alerts>
         <fullName>PS_Escalations_Case_Closed_Email_Alert</fullName>
         <description>PS Escalations Case Closed Email Alert</description>
         <protected>false</protected>
@@ -288,6 +299,39 @@
         <protected>false</protected>
         <recipients>
             <recipient>PS_Escalations</recipient>
+            <type>group</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>Professional_Services_Email_Templates/New_PS_Escalations_case_inqueue_notification</template>
+    </alerts>
+    <alerts>
+        <fullName>PS_Escalations_GMS_Case_Creation_Alert</fullName>
+        <description>PS Escalations GMS Case Creation Alert</description>
+        <protected>false</protected>
+        <recipients>
+            <recipient>PS_Escalations_GMS_Group</recipient>
+            <type>group</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>Professional_Services_Email_Templates/New_PS_Escalations_case_inqueue_notification</template>
+    </alerts>
+    <alerts>
+        <fullName>PS_Escalations_PMS_Case_Creation_Alert</fullName>
+        <description>PS Escalations PMS Case Creation Alert</description>
+        <protected>false</protected>
+        <recipients>
+            <recipient>PS_Escalations_PMS_Group</recipient>
+            <type>group</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>Professional_Services_Email_Templates/New_PS_Escalations_case_inqueue_notification</template>
+    </alerts>
+    <alerts>
+        <fullName>PS_Escalations_Web_Case_Creation_Alert</fullName>
+        <description>PS Escalations Web Case Creation Alert</description>
+        <protected>false</protected>
+        <recipients>
+            <recipient>PS_Escalations_Web_Group</recipient>
             <type>group</type>
         </recipients>
         <senderType>CurrentUser</senderType>

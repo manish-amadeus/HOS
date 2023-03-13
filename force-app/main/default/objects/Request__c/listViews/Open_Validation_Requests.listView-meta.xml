@@ -8,9 +8,12 @@
     <columns>Request_Status__c</columns>
     <columns>Request_Contact__c</columns>
     <columns>Product_Family__c</columns>
+    <columns>AH_Opportunity_Number__c</columns>
     <columns>Related_Opportunity__c</columns>
     <columns>Reason_for_Delay__c</columns>
     <columns>Request_Contact_Role__c</columns>
+    <columns>Contract_Type__c</columns>
+    <columns>Number_of_Follow_Ups__c</columns>
     <filterScope>Everything</filterScope>
     <filters>
         <field>RECORDTYPE</field>
@@ -22,7 +25,7 @@
         <operation>notEqual</operation>
         <value>Closed,Closed - Contract Processed,Closed - Incorrect Mailbox,Closed - Info/Admin Opty Processed,Closed - Unresolved,Rejected,SPAM,Duplicate</value>
     </filters>
-    <label>Open Validation Requests</label>
+    <label>NMI OM  - All Open Validation Requests</label>
     <sharedTo>
         <roleAndSubordinatesInternal>ContractsAdministrator</roleAndSubordinatesInternal>
         <roleAndSubordinatesInternal>DirectorofContracts</roleAndSubordinatesInternal>

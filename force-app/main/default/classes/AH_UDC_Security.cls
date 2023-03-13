@@ -505,8 +505,7 @@ public with sharing class AH_UDC_Security {
 
       Security.checkAreFieldsUpdateable(objectTypeName, new List<String> (mutableMap.keySet()));
    }
-*/
-/*
+
    // Returns TRUE if the current user has the permission set named in permissionSetName assigned
    public static Boolean userHasPermissionSet(String permissionSetName) {
       return userHasPermissionSet(new List<String> { permissionSetName });
@@ -532,7 +531,7 @@ public with sharing class AH_UDC_Security {
 
       return listProfiles[0].Name.equalsIgnoreCase(profileName);
    }
-*/
+
    public static Boolean userHasCustomPermission(String customPermissionDeveloperName) {
       // Query the Custom Permissions to get the 
       List<CustomPermission> listCustomPermissions = [SELECT Id, DeveloperName
@@ -552,6 +551,7 @@ public with sharing class AH_UDC_Security {
 
       return count > 0;
    }
+*/
 
    // Throw an exception due to insufficent privilege on object and field
    @TestVisible public static void throwInsufficientPrivileges(String objectTypeName, String fieldName) {

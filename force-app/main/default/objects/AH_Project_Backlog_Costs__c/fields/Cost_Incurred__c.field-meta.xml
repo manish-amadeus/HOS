@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Cost_Incurred__c</fullName>
+    <businessOwnerGroup>DEPT_Professional_Services</businessOwnerGroup>
+    <businessStatus>Active</businessStatus>
+    <description>NICC-058111</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Is this Cost incurred annually or one time?</inlineHelpText>
+    <label>Cost Incurred</label>
+    <required>false</required>
+    <securityClassification>Internal</securityClassification>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>One Time</fullName>
+                <default>false</default>
+                <label>One Time</label>
+            </value>
+            <value>
+                <fullName>Annually</fullName>
+                <default>false</default>
+                <label>Annually</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

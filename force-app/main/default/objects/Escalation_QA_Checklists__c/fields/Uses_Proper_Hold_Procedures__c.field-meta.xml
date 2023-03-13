@@ -1,10 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Uses_Proper_Hold_Procedures__c</fullName>
-    <description>project 2122</description>
+    <defaultValue>0</defaultValue>
+    <description>project 2122
+NICC 053612</description>
     <externalId>false</externalId>
-    <inlineHelpText>Asks client prior to placing on hold, hold is no longer than 2 minutes, thanks client for holding using their name.  (Additional time must be specified)</inlineHelpText>
-    <label>Uses proper hold procedures *</label>
+    <inlineHelpText>After the second hold, the customer should be presented with the option for a call back or to hold longer.
+POSSIBLE VALUES: 0, 1, 5</inlineHelpText>
+    <label>Uses proper hold procedures &lt;  2 mins *</label>
     <precision>2</precision>
     <required>false</required>
     <scale>0</scale>

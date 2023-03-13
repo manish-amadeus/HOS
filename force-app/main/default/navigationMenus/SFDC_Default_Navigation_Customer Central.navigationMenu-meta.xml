@@ -4,7 +4,7 @@
     <containerType>Network</containerType>
     <label>Default Navigation</label>
     <navigationMenuItem>
-        <label>Customer Experience</label>
+        <label>Customer Support</label>
         <position>1</position>
         <publiclyAvailable>false</publiclyAvailable>
         <target>/support</target>
@@ -25,31 +25,31 @@
         <type>InternalLink</type>
     </navigationMenuItem>
     <navigationMenuItem>
-        <label>Collaboration</label>
-        <position>4</position>
-        <publiclyAvailable>false</publiclyAvailable>
-        <target>CollaborationGroup</target>
-        <type>SalesforceObject</type>
-    </navigationMenuItem>
-    <navigationMenuItem>
         <label>Knowledge &amp; Answers</label>
-        <position>5</position>
+        <position>4</position>
         <publiclyAvailable>true</publiclyAvailable>
         <target>ShowMoreTopics</target>
         <type>NavigationalTopic</type>
     </navigationMenuItem>
     <navigationMenuItem>
         <label>Documentation</label>
-        <position>6</position>
+        <position>5</position>
         <publiclyAvailable>true</publiclyAvailable>
         <target>/contentdocument/ContentDocument/All</target>
         <type>InternalLink</type>
     </navigationMenuItem>
     <navigationMenuItem>
         <label>System Status</label>
-        <position>7</position>
+        <position>6</position>
         <publiclyAvailable>false</publiclyAvailable>
         <target>/SystemStatus</target>
+        <type>InternalLink</type>
+    </navigationMenuItem>
+    <navigationMenuItem>
+        <label>Product Logins</label>
+        <position>7</position>
+        <publiclyAvailable>false</publiclyAvailable>
+        <target>/product-logins</target>
         <type>InternalLink</type>
     </navigationMenuItem>
 </NavigationMenu>

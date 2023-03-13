@@ -27,9 +27,6 @@ global with sharing class AH_UDC_REST_AmadeusFormResponse {
 
          AmadeusFormPostRequest request = (AmadeusFormPostRequest) JSON.deserialize(requestBody, AmadeusFormPostRequest.class);
 
-         String securityCode = '';
-         String responderUserId = '';
-         String formId = '';
          Id recordTypeIdResponse = Schema.SObjectType.AH_UDC_Response__c.getRecordTypeInfosByDeveloperName().get(AH_UDC_Constants.RECORD_TYPE_RESPONSE_AMADEUS_FORM).getRecordTypeId();
          Id recordTypeIdQA = Schema.SObjectType.AH_UDC_ResponseQA__c.getRecordTypeInfosByDeveloperName().get(AH_UDC_Constants.RECORD_TYPE_RESPONSE_QA_AMADEUS_FORM).getRecordTypeId();
 
@@ -45,22 +42,16 @@ global with sharing class AH_UDC_REST_AmadeusFormResponse {
             String token = request.token.substring(AH_UDC_Constants.FORM_TOKEN_PREFIX.length());
 
             //Decrypt token
-            String sEncryptionKey = AH_UDC_ConfigHelper.GetString('AH_UDC_ViewWorkbookTokenEncryptionKey', '');
-            if (!String.isEmpty(sEncryptionKey) && AH_UDC_ConfigHelper.GetBoolean('AH_UDC_ViewWorkbookTokenEncryption', true)) {
-               Blob key = EncodingUtil.base64Decode(sEncryptionKey);
-               token = token.replace('_2f_', '/').replace('_2b_', '+'); //Base64 has 2 special characters / + that are not compatible with a URL ID
-               Blob data = EncodingUtil.base64Decode(token);
-               Blob decryptedData = Crypto.decryptWithManagedIV('AES256', key, data);
-               token = decryptedData.toString();
+            AH_UDC_Shared.Token decryptedToken = AH_UDC_Shared.DecryptToken(token);
+            if (!decryptedToken.IsValid) {
+               resp.statusCode = '400';
+               resp.message = 'Token Not Valid';
+               RestContext.response.responseBody = Blob.valueOf(resp.compileResponse());
+               return;
             }
 
-            String[] tokenParts = token.split('_');
-            securityCode = tokenParts[0];
-            responderUserId = tokenParts[1];
-            formId = tokenParts[2];
-
             //Find the Contact sending the response
-            List<User> responseUser = [SELECT Id FROM User where Id = :responderUserId WITH SECURITY_ENFORCED];
+            List<User> responseUser = [SELECT Id FROM User where Id = :decryptedToken.ResponderUserId WITH SECURITY_ENFORCED];
 
             if (responseUser == null || responseUser.size() == 0) {
                resp.statusCode = '404';
@@ -70,19 +61,19 @@ global with sharing class AH_UDC_REST_AmadeusFormResponse {
             }
 
             Id amadeusFormRecordTypeId = Schema.SObjectType.AH_UDC_Form__c.getRecordTypeInfosByDeveloperName().get(AH_UDC_Constants.RECORD_TYPE_FORM_AMADEUS_FORM).getRecordTypeId();
-            AH_UDC_LogHelper.debug('$$$:SecurityCode' + securityCode);
+            AH_UDC_LogHelper.debug('$$$:SecurityCode' + decryptedToken.SecurityCode);
             AH_UDC_LogHelper.debug('$$$:AmadeusFormRecordTypeId' + amadeusFormRecordTypeId);
-            AH_UDC_LogHelper.debug('$$$:FormId' + formId);
+            AH_UDC_LogHelper.debug('$$$:FormId' + decryptedToken.FormId);
             //Find the Workbook Step Sent record for the posted Security Code
             List<AH_UDC_WorkbookStep__c> stepsSent = null;
             if (Schema.sObjectType.AH_UDC_WorkbookStep__c.fields.Form__c.isAccessible() &&
                 Schema.sObjectType.AH_UDC_WorkbookStep__c.fields.Workbook__c.isAccessible()) {
                stepsSent = [SELECT Id, Form__r.Definition__c, Form__r.FormType__c,
-                                   Workbook__r.RelatedTo__r.AH_UDC_PropertyAccount__c
-                              FROM AH_UDC_WorkbookStep__c
-                             WHERE Workbook__r.SecurityCode__c = :SecurityCode
-                               AND Form__r.RecordTypeId = :AmadeusFormRecordTypeId
-                               AND Form__c = :FormId WITH SECURITY_ENFORCED];
+                            Workbook__r.RelatedTo__r.AH_UDC_PropertyAccount__c
+                            FROM AH_UDC_WorkbookStep__c
+                            WHERE Workbook__r.SecurityCode__c = :decryptedToken.SecurityCode
+                            AND Form__r.RecordTypeId = :AmadeusFormRecordTypeId
+                            AND Form__c = :decryptedToken.FormId WITH SECURITY_ENFORCED];
                AH_UDC_LogHelper.Debug('###stepsSent: ' + stepsSent);
                AH_UDC_LogHelper.Debug('###$AmadeusFormRecordTypeId: ' + amadeusFormRecordTypeId);
                AH_UDC_LogHelper.Debug('###stepsSent Size: ' + stepsSent.size());
@@ -104,7 +95,7 @@ global with sharing class AH_UDC_REST_AmadeusFormResponse {
                sharedSentSteps = [SELECT Id, Form__r.Definition__c, Form__r.FormType__c
                                   FROM AH_UDC_WorkbookStep__c
                                   WHERE Workbook__r.SentStatus__c in(:AH_UDC_Constants.SENT_STATUS_NEW, :AH_UDC_Constants.SENT_STATUS_IN_PROGRESS)
-                                  AND Form__c = :formId
+                                  AND Form__c = :decryptedToken.FormId
                                   AND Form__r.RecordTypeId = :amadeusFormRecordTypeId
                                   AND Workbook__r.RelatedTo__r.AH_UDC_PropertyAccount__c = :stepsSent[0].Workbook__r.RelatedTo__r.AH_UDC_PropertyAccount__c
                                   AND Id != :stepsSent[0].id WITH SECURITY_ENFORCED];
@@ -280,29 +271,15 @@ global with sharing class AH_UDC_REST_AmadeusFormResponse {
             }
 
             //Decrypt token
-            String sEncryptionKey = AH_UDC_ConfigHelper.GetString('AH_UDC_ViewWorkbookTokenEncryptionKey', '');
-            if (!String.isEmpty(sEncryptionKey) && AH_UDC_ConfigHelper.GetBoolean('AH_UDC_ViewWorkbookTokenEncryption', true)) {
-               Blob key = EncodingUtil.base64Decode(sEncryptionKey);
-               token = token.replace('_2f_', '/').replace('_2b_', '+'); //Base64 has 2 special characters / + that are not compatible with a URL ID
-               Blob data = EncodingUtil.base64Decode(token);
-               Blob decryptedData = Crypto.decryptWithManagedIV('AES256', key, data);
-               token = decryptedData.toString();
-            }
-
-            //Split token
-            String[] tokenParts = token.split('_');
-
-            //Get Form Id
-            if (tokenParts.size() != 3 || String.isBlank(tokenParts[0]) || String.isBlank(tokenParts[1]) || String.isBlank(tokenParts[2])) {
+            AH_UDC_Shared.Token decryptedToken = AH_UDC_Shared.DecryptToken(token);
+            if (!decryptedToken.IsValid) {
                resp.statusCode = '400';
-               resp.message = 'Bad Request';
+               resp.message = 'Token Not Valid';
                RestContext.response.responseBody = Blob.valueOf(resp.compileResponse());
                return;
             }
-            String securityCode = tokenParts[0];
-            String formId = tokenParts[2];
-            AH_UDC_LogHelper.Debug('###FormId: ' + formId);
 
+            AH_UDC_LogHelper.Debug('###FormId: ' + decryptedToken.FormId);
 
             Id amadeusFormRecordTypeId = Schema.SObjectType.AH_UDC_Form__c.getRecordTypeInfosByDeveloperName().get(AH_UDC_Constants.RECORD_TYPE_FORM_AMADEUS_FORM).getRecordTypeId();
             Id recordTypeIdFormFormAssembly = Schema.SObjectType.AH_UDC_Form__c.getRecordTypeInfosByDeveloperName().get(AH_UDC_Constants.RECORD_TYPE_FORM_FORM_ASSEMBLY).getRecordTypeId();
@@ -310,8 +287,8 @@ global with sharing class AH_UDC_REST_AmadeusFormResponse {
             //Check that SecurityCode And FormId are for a valid step
             List<AH_UDC_WorkbookStep__c> stepsSent = [SELECT Id, Workbook__c, Workbook__r.ParentWorkbookSent__c, Form__r.Definition__c, Form__r.FormType__c, Workbook__r.Product__c
                                                       FROM AH_UDC_WorkbookStep__c
-                                                      where Workbook__r.SecurityCode__c = :SecurityCode
-                                                      AND Form__c = :FormId
+                                                      where Workbook__r.SecurityCode__c = :decryptedToken.SecurityCode
+                                                      AND Form__c = :decryptedToken.FormId
                                                       AND Form__r.RecordTypeId = :AmadeusFormRecordTypeId
                                                       WITH SECURITY_ENFORCED LIMIT 1];
             AH_UDC_LogHelper.Debug('###stepsSent: ' + stepsSent);
@@ -333,12 +310,14 @@ global with sharing class AH_UDC_REST_AmadeusFormResponse {
 
             //Use Definition to find dynamic controls(picklist/radio)
             Id formRecordTypeIdResponse = Schema.SObjectType.AH_UDC_Response__c.getRecordTypeInfosByDeveloperName().get(AH_UDC_Constants.RECORD_TYPE_RESPONSE_FORM_ASSEMBLY).getRecordTypeId();
-            AH_UDC_LogHelper.Debug('#Find Dynamic Picklists & Radio group');
+            AH_UDC_LogHelper.Debug('#Find Dynamic Picklists, Radio group & Text Defaults');
             List<AH_UDC_Shared.Field> lstDynamicPicklist = new List<AH_UDC_Shared.Field> ();
             List<AH_UDC_Shared.Field> lstDynamicRadioGroup = new List<AH_UDC_Shared.Field> ();
+            List<AH_UDC_Shared.Field> lstDynamicDefault = new List<AH_UDC_Shared.Field> ();
             for (AH_UDC_Shared.section sec : objFormDefinition.sections) {
                lstDynamicRadioGroup.addAll(sec.getDynamicRadioGroups()); //add all the dynamic radiogroups in the list
                lstDynamicPicklist.addAll(sec.getDynamicPicklists()); //add all the dynamic picklists in the list
+               lstDynamicDefault.addAll(sec.getDynamicDefaults()); //add all the dynamic defaults in the list
 
                if (sec.insidesections != null && sec.insidesections.size() > 0)
                {
@@ -346,28 +325,33 @@ global with sharing class AH_UDC_REST_AmadeusFormResponse {
                   {
                      lstDynamicRadioGroup.addAll(insideSection.getDynamicRadioGroups()); //add all the dynamic radiogroups in the list
                      lstDynamicPicklist.addAll(insideSection.getDynamicPicklists()); //add all the dynamic picklists in the list
+                     lstDynamicDefault.addAll(sec.getDynamicDefaults()); //add all the dynamic defaults in the list
                   }
                }
             }
 
             //If there are dynamic sources them responses from other steps in this workbook or the parent workbook are needed
-            if (lstDynamicPicklist.size() > 0 || lstDynamicRadioGroup.size() > 0)
+            if (lstDynamicPicklist.size() > 0 || lstDynamicRadioGroup.size() > 0 || lstDynamicDefault.size() > 0)
             {
-               //Get the Step IDs for all Form Assembly Forms in this and the parent workbook
+               //Get the Step IDs for all Form Assembly Forms and Amadeus Forms in this and the parent workbook
                List<AH_UDC_WorkbookStep__c> allSteps;
                if (stepsSent[0].Workbook__r.ParentWorkbookSent__c == null)
                {
-                  allSteps = [select Id, Workbook__c, Form__c, Workbook__r.ParentWorkbookSent__c
+                  allSteps = [select Id, Workbook__c, Form__c, Workbook__r.ParentWorkbookSent__c, Form__r.RecordTypeId
                               from AH_UDC_WorkbookStep__c
                               where Workbook__c = :stepsSent[0].Workbook__c
                               AND Form__c != null
-                              AND Form__r.RecordTypeId = :recordTypeIdFormFormAssembly WITH SECURITY_ENFORCED];
+                              AND(Form__r.RecordTypeId = :recordTypeIdFormFormAssembly
+                                  OR Form__r.RecordTypeId = :amadeusFormRecordTypeId)
+                              WITH SECURITY_ENFORCED];
                } else {
-                  allSteps = [SELECT Id, Workbook__c, Form__c, Workbook__r.ParentWorkbookSent__c
+                  allSteps = [SELECT Id, Workbook__c, Form__c, Workbook__r.ParentWorkbookSent__c, Form__r.RecordTypeId
                               FROM AH_UDC_WorkbookStep__c
-                              WHERE (Workbook__c = :stepsSent[0].Workbook__c or Workbook__c = :stepsSent[0].Workbook__r.ParentWorkbookSent__c)
+                              WHERE(Workbook__c = :stepsSent[0].Workbook__c or Workbook__c = :stepsSent[0].Workbook__r.ParentWorkbookSent__c)
                               AND Form__c != null
-                              AND Form__r.RecordTypeId = :recordTypeIdFormFormAssembly WITH SECURITY_ENFORCED];
+                              AND(Form__r.RecordTypeId = :recordTypeIdFormFormAssembly
+                                  OR Form__r.RecordTypeId = :amadeusFormRecordTypeId)
+                              WITH SECURITY_ENFORCED];
                }
                List<Id> allStepsIds = new List<Id> ();
                Map<string, StepDetail> mapStepDetails = new Map<string, StepDetail> ();
@@ -375,7 +359,9 @@ global with sharing class AH_UDC_REST_AmadeusFormResponse {
                {
                   allStepsIds.add(allStep.Id);
                   Boolean isParentWorkbookStep = allStep.Workbook__c == allStep.Workbook__r.ParentWorkbookSent__c;
-                  mapStepDetails.put(allStep.Id, new StepDetail(allStep.Id, allStep.Workbook__c, allStep.Form__c, null, isParentWorkbookStep));
+                  Boolean isAamdeusForm = allStep.Form__r.RecordTypeId == amadeusFormRecordTypeId;
+                  Boolean isFormAssemblyForm = allStep.Form__r.RecordTypeId == recordTypeIdFormFormAssembly;
+                  mapStepDetails.put(allStep.Id, new StepDetail(allStep.Id, allStep.Workbook__c, allStep.Form__c, null, isParentWorkbookStep, isAamdeusForm, isFormAssemblyForm));
                }
 
                //Get Most Recent Workbook Step Responses for all steps that are Form Assembly Forms in the workbook or parent workbook
@@ -383,7 +369,6 @@ global with sharing class AH_UDC_REST_AmadeusFormResponse {
                                                                               FROM AH_UDC_WorkbookStepResponse__c
                                                                               WHERE IsMostRecentResponse__c = true
                                                                               AND WorkbookStep__c in :allStepsIds WITH SECURITY_ENFORCED];
-
 
                for (AH_UDC_WorkbookStepResponse__c mostRecentWbsResponse : mostRecentWbsResponses)
                {
@@ -412,6 +397,13 @@ global with sharing class AH_UDC_REST_AmadeusFormResponse {
                   FindResponseQuestions.add(new FindResponseQuestion(fs.name, fs.dynamicsource.formid, fs.dynamicsource.formfield, 'PICKLIST'));
                }
 
+               //Dynamic default
+               AH_UDC_LogHelper.Debug('###lstDynamicDefault: ' + lstDynamicDefault);
+               for (AH_UDC_Shared.Field fs : lstDynamicDefault)
+               {
+                  FindResponseQuestions.add(new FindResponseQuestion(fs.name, fs.dynamicsource.formid, fs.dynamicsource.formfield, 'DEFAULT'));
+               }
+
                //Loop through FindResponseQuestions that need to be found and assign them to responses that exist based on form id
                for (FindResponseQuestion frq : FindResponseQuestions)
                {
@@ -421,6 +413,8 @@ global with sharing class AH_UDC_REST_AmadeusFormResponse {
                   {
                      if (findStepDetail.formId != frq.FindFormId) { continue; }
 
+                     frq.IsAmadeusForm = findStepDetail.IsAmadeusForm;
+                     frq.IsFormAssemblyForm = findStepDetail.IsFormAssemblyForm;
                      if (findStepDetail.isParentWorkbook)
                      {
                         findParentResponseId = findStepDetail.mostRecentResponseId;
@@ -433,19 +427,26 @@ global with sharing class AH_UDC_REST_AmadeusFormResponse {
                   else if (findParentResponseId != null) { frq.ResponseId = findParentResponseId; }
                   //Else there is no response so don't add any id
                }
+               //Return the list to the calling c# so it can retreive the Amadeus Form Responses
+               resp.findResponseQuestions = FindResponseQuestions;
+
+               //NOTE: This SOQL will only get Form Assembly Responses as Amadeus Form JSON is too large
 
                //Get Current Workbook Responses for Picklists/Options/Defaults
                string sQuery = '';
                for (FindResponseQuestion frq : FindResponseQuestions)
                {
-                  if (frq.ResponseId == null) { continue; }
-
-                  if (sQuery != '') { sQuery += ' OR '; }
-                  if (frq.FindType == 'PICKLIST')
+                  if (frq.IsFormAssemblyForm)
                   {
-                     sQuery += '(Response__c = \'' + frq.ResponseId + '\' and QuestionField__c LIKE \'' + frq.FindQuestionField + '[%]\') ';
-                  } else {
-                     sQuery += '(Response__c = \'' + frq.ResponseId + '\' and QuestionField__c =\'' + frq.FindQuestionField + '\') ';
+                     if (frq.ResponseId == null) { continue; }
+
+                     if (sQuery != '') { sQuery += ' OR '; }
+                     if (frq.FindType == 'PICKLIST')
+                     {
+                        sQuery += '(Response__c = \'' + frq.ResponseId + '\' and QuestionField__c LIKE \'' + frq.FindQuestionField + '[%]\') ';
+                     } else {
+                        sQuery += '(Response__c = \'' + frq.ResponseId + '\' and QuestionField__c =\'' + frq.FindQuestionField + '\') ';
+                     }
                   }
                }
                if (sQuery != '')
@@ -473,7 +474,7 @@ global with sharing class AH_UDC_REST_AmadeusFormResponse {
 
                            FindResponseQuestion frq = mapFindResponseQuestions.get(dQA.Response__c + '_' + dQA.QuestionField__c);
                            if (dr.dynamicsource.formid == frq.FindFormId
-                                 && dr.dynamicsource.formfield == frq.FindQuestionField)
+                               && dr.dynamicsource.formfield == frq.FindQuestionField)
                            {
                               List<AH_UDC_Shared.Source> src = dr.source;
                               for (integer i = 0; i<src.size(); i++)
@@ -507,7 +508,7 @@ global with sharing class AH_UDC_REST_AmadeusFormResponse {
                               if (dp.dynamicsource.formid == frq.FindFormId
                                   && dp.dynamicsource.formfield == frq.FindQuestionField && dQA.Answer__c != null)
                               {
-                                 string id = dp.name + '-' +i;
+                                 string id = dp.name + '-' + i;
                                  i++;
                                  AH_UDC_Shared.Source src = new AH_UDC_Shared.Source();
                                  src.id = dQA.Answer__c;
@@ -518,6 +519,21 @@ global with sharing class AH_UDC_REST_AmadeusFormResponse {
                         }
                         dp.source = lstSource; //Add options list to picklist source   
                         AH_UDC_LogHelper.Debug('###lstSource: ' + lstSource);
+                     }
+
+                     //Dynamic Default
+                     for (AH_UDC_Shared.Field dr : lstDynamicDefault)
+                     {
+                        for (AH_UDC_ResponseQA__c dQA : dQAs) {
+                           if (!mapFindResponseQuestions.containsKey(dQA.Response__c + '_' + dQA.QuestionField__c)) { continue; }
+
+                           FindResponseQuestion frq = mapFindResponseQuestions.get(dQA.Response__c + '_' + dQA.QuestionField__c);
+                           if (dr.dynamicsource.formid == frq.FindFormId && dr.dynamicsource.formfield == frq.FindQuestionField)
+                           {
+                               dr.defaultvalue = dQA.Answer__c; //assign dynamic value as default value to radiogroup                               
+                           }
+                           break; //out of drQA loop since only 1 value is needed
+                        }
                      }
                   }
                }
@@ -611,14 +627,18 @@ global with sharing class AH_UDC_REST_AmadeusFormResponse {
       public String FormId;
       public Id MostRecentResponseId;
       public Boolean IsParentWorkbook = false;
+      public Boolean IsAmadeusForm = false;
+      public Boolean IsFormAssemblyForm = false;
 
-      public StepDetail(Id stepId, Id workbookId, String formId, Id mostRecentResponseId, Boolean isParentWorkbook)
+      public StepDetail(Id stepId, Id workbookId, String formId, Id mostRecentResponseId, Boolean isParentWorkbook, Boolean IsAmadeusForm, Boolean IsFormAssemblyForm)
       {
          this.StepId = stepId;
          this.WorkbookId = workbookId;
          this.FormId = formId;
          this.MostRecentResponseId = mostRecentResponseId;
          this.IsParentWorkbook = isParentWorkbook;
+         this.IsAmadeusForm = IsAmadeusForm;
+         this.IsFormAssemblyForm = IsFormAssemblyForm;
       }
    }
 
@@ -629,6 +649,8 @@ global with sharing class AH_UDC_REST_AmadeusFormResponse {
       public String FindQuestionField;
       public String FindType;
       public String ResponseId;
+      public Boolean IsAmadeusForm = false;
+      public Boolean IsFormAssemblyForm = false;
 
       public FindResponseQuestion(string formField, string findFormId, string findQuestionField, string findType) {
          this.FormField = formField;
@@ -657,10 +679,6 @@ global with sharing class AH_UDC_REST_AmadeusFormResponse {
    @TestVisible
    private class QuestionAnswer {
       public String QAJson;
-      public String QF; //QuestionField
-      public String Q; //Question
-      public String AF; //AnswerField
-      public String A; //Answer
       public String SO; //SortOrder
       public QuestionAnswer() { }
       public QuestionAnswer(string QAJson, string SortOrder)
@@ -693,8 +711,12 @@ global with sharing class AH_UDC_REST_AmadeusFormResponse {
       public String formDefinition;
       public String responseQABatches;
       public List<QuestionAnswer> QuestionAnswers;
-
-      public AmadeusFormResponseGetResponse() { QuestionAnswers = new List<QuestionAnswer> (); }
+      public List<FindResponseQuestion> FindResponseQuestions;
+      public AmadeusFormResponseGetResponse() 
+      { 
+         QuestionAnswers = new List<QuestionAnswer> (); 
+         FindResponseQuestions = new List<FindResponseQuestion> ();
+      }
 
       //Convert response to the JSON format
       public String compileResponse() {

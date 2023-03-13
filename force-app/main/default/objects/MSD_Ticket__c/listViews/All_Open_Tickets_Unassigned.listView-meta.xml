@@ -18,7 +18,17 @@
     <filters>
         <field>Assigned_admin__c</field>
         <operation>notEqual</operation>
-        <value>Anitha,Laura,Lisa,Pete,Sean,Stu</value>
+        <value>Anitha,Laura,Lisa,Manish,Pete,Sean,Srinivasa,Stu,Trevor,Vaibhav,Veerandra</value>
+    </filters>
+    <filters>
+        <field>Request_Type__c</field>
+        <operation>notEqual</operation>
+        <value>Add User,Einstein Analytics,Enhancement - Minor,Enhancement - Project,Platform Changes,Process Change Review,Vas024/Surveys</value>
+    </filters>
+    <filters>
+        <field>Affected_user__c</field>
+        <operation>notContain</operation>
+        <value>Hammond</value>
     </filters>
     <label>All Open Tickets - Unassigned</label>
     <sharedTo>

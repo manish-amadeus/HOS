@@ -14,6 +14,10 @@
         <literalValue>New</literalValue>
     </fieldOverrides>
     <fieldOverrides>
+        <field>AH_Team__c</field>
+        <formula>TEXT(AH_TestCase__c.User_Story__r.AH_Team__c)</formula>
+    </fieldOverrides>
+    <fieldOverrides>
         <field>AH_TestCase__c</field>
         <formula>AH_TestCase__c.Id</formula>
     </fieldOverrides>
@@ -34,12 +38,27 @@
             </quickActionLayoutItems>
             <quickActionLayoutItems>
                 <emptySpace>false</emptySpace>
+                <field>AH_Team__c</field>
+                <uiBehavior>Edit</uiBehavior>
+            </quickActionLayoutItems>
+            <quickActionLayoutItems>
+                <emptySpace>false</emptySpace>
+                <field>AH_SLTC_Team__c</field>
+                <uiBehavior>Edit</uiBehavior>
+            </quickActionLayoutItems>
+            <quickActionLayoutItems>
+                <emptySpace>false</emptySpace>
                 <field>agf__Product_Tag__c</field>
                 <uiBehavior>Edit</uiBehavior>
             </quickActionLayoutItems>
             <quickActionLayoutItems>
                 <emptySpace>false</emptySpace>
                 <field>agf__Priority__c</field>
+                <uiBehavior>Required</uiBehavior>
+            </quickActionLayoutItems>
+            <quickActionLayoutItems>
+                <emptySpace>false</emptySpace>
+                <field>agf__Severity_Level__c</field>
                 <uiBehavior>Required</uiBehavior>
             </quickActionLayoutItems>
             <quickActionLayoutItems>

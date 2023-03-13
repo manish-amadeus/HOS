@@ -3,7 +3,8 @@
     <fullName>DevelopForm__c</fullName>
     <description>This URL will open the Form in the Form Assembly designer.</description>
     <externalId>false</externalId>
-    <formula>&apos;https://amadeushospitality.tfaforms.net/forms/builder/5.0.0/&apos; + FormAssemblyId__c</formula>
+    <formula>IF( RecordType.DeveloperName !=&apos;FormAssembly&apos;,&apos;&apos;,
+&apos;https://amadeushospitality.tfaforms.net/forms/builder/5.0.0/&apos; + FormAssemblyId__c)</formula>
     <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
     <inlineHelpText>This URL will open the Form in the Form Assembly designer.</inlineHelpText>
     <label>Develop Form</label>

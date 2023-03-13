@@ -15,8 +15,13 @@
     <filterScope>Everything</filterScope>
     <filters>
         <field>Status__c</field>
-        <operation>notEqual</operation>
+        <operation>equals</operation>
         <value>Completed,Cancelled</value>
+    </filters>
+    <filters>
+        <field>RECORDTYPE</field>
+        <operation>equals</operation>
+        <value>AH_Finance_Request__c.Refund_Request</value>
     </filters>
     <label>All Finance Requests</label>
     <language>en_US</language>

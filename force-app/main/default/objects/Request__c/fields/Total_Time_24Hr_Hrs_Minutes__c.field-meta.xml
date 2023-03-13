@@ -3,13 +3,13 @@
     <fullName>Total_Time_24Hr_Hrs_Minutes__c</fullName>
     <businessOwnerUser>adavid.robinson@amadeus.com</businessOwnerUser>
     <businessStatus>Active</businessStatus>
-    <description>NICC-051009</description>
+    <description>Description: NICC-051009; NICC-057681; Displays the total hours from the field &quot;Total Time (24 hr, rollup summary)&quot; in hours and minutes</description>
     <externalId>false</externalId>
     <formula>TEXT(FLOOR( TotalTime24HrRollup__c )) + &apos; h &apos; +
 TEXT( FLOOR( ( ROUND(TotalTime24HrRollup__c,2)-FLOOR(TotalTime24HrRollup__c) ) * 60 ) ) + &apos; min&apos;</formula>
     <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
-    <inlineHelpText>Displays the total hours from the field &quot;Total Time (24 hr, rollup summary)&quot; in hours and minutes</inlineHelpText>
-    <label>Total Time (24 hr, Display Hrs &amp; Min)</label>
+    <inlineHelpText>Rollup summary of the Status Time Elapsed from all Status Tracking records minus excluded Statuses</inlineHelpText>
+    <label>Total Time Status Tracking (hh:mm)</label>
     <required>false</required>
     <securityClassification>Internal</securityClassification>
     <trackHistory>false</trackHistory>

@@ -86,9 +86,6 @@ public class NI_Org_Details_TriggerHandler
         //MAP TO HOLD THE PARENT ACCOUNTID AND THE ORG ID
         Map<Id,String> mapAccountOrgId = new Map<Id,String>();  
         
-        //LIST OF CHANNEL_ORDERS__Customer__c TO INSERT   
-        List<CHANNEL_ORDERS__Customer__c> lstCustomersToInsert = new List<CHANNEL_ORDERS__Customer__c>(); 
-        
         // TARGETED RECORD TYPES - NICC-011686
         RecordType rtHRM = [SELECT Name, Id FROM RecordType WHERE sObjectType =: 'NI_Org_Details__c' AND Name =: 'HRM Support Admin'];
         RecordType rtLOD = [SELECT Name, Id FROM RecordType WHERE sObjectType =: 'NI_Org_Details__c' AND Name =: 'LOD Support Admin'];
@@ -113,6 +110,9 @@ public class NI_Org_Details_TriggerHandler
 //        System.debug('MAP ACCOUNTORGID SIZE: ' + mapAccountOrgId.size());
         Database.insert(lstToInsert);
 
+
+        //  LIST OF CHANNEL_ORDERS__Customer__c TO INSERT   
+         List<CHANNEL_ORDERS__Customer__c> lstCustomersToInsert = new List<CHANNEL_ORDERS__Customer__c>(); 
         //LIST TO HOLD THE ACCOUNT INFORMATION TO BE USED IN CREATING CHANNEL ORDER CUSTOMER RECORDS   
         List<Account> lstOrgDetailAccounts = [SELECT Id, Name, BillingCity, BillingCountry, BillingState, BillingStreet, BillingPostalCode 
                                               FROM Account 

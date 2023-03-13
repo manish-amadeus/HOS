@@ -34,7 +34,7 @@ global class AH_MedalliaInvitationsBatch_Schedule implements Schedulable
             
             //  Medallia_Adoption_Survey__c records
             String adoptionSurveySOQL = 'SELECT Id from Medallia_Adoption_Survey__c ';
-            String adoptionSOQLWhere = 'WHERE Process_Status__c = \'Not Processed Yet\' AND (Retry__c = true OR CreatedDate = TODAY)';
+            String adoptionSOQLWhere = 'WHERE Process_Status__c = \'Not Processed Yet\' AND AppointmentBookedEmailReceived__c = true AND (Retry__c = true OR CreatedDate = TODAY)';
            
             AH_MedalliaInvitations_Batch adoptionbatch = new AH_MedalliaInvitations_Batch(adoptionSurveySOQL + adoptionSOQLWhere, 'Adoption_FieldSet', 'sfdc_create_survey_hos_adoption', 'Adoption Survey');
             Id adoptionbatchId = Database.executeBatch(adoptionbatch, 10); 

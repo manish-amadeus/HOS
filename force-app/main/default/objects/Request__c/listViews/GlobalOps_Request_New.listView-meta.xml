@@ -4,10 +4,10 @@
     <columns>NAME</columns>
     <columns>OWNER.ALIAS</columns>
     <columns>RECORDTYPE</columns>
-    <columns>Request_Title__c</columns>
     <columns>Request_Status__c</columns>
     <columns>Request_Type__c</columns>
     <columns>Request_Contact__c</columns>
+    <columns>CREATED_DATE</columns>
     <filterScope>Everything</filterScope>
     <filters>
         <field>Request_Status__c</field>
@@ -15,4 +15,5 @@
         <value>New</value>
     </filters>
     <label>Request - New</label>
+    <language>en_US</language>
 </ListView>

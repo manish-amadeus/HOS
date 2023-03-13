@@ -153,6 +153,7 @@
          <apex:actionfunction name="addContactLookup" action="{!AddContactLookup}" rerender="opAddContact,opErrorMessage,opJs" oncomplete="javascript:addContactCompleted();" />
          <apex:actionfunction name="createCommunityUsers" action="{!CreateCommunityUsers}" oncomplete="javascript:createCommunityUsersCompleted();" reRender="renderJS"></apex:actionfunction>
          <apex:actionfunction name="sendWorkbook" action="{!SendWorkbook}" oncomplete="javascript:sendWorkbookCompleted();" rerender="opErrorMessage,renderJS"></apex:actionfunction>
+         <apex:actionfunction name="afSetEmailTemplate" action="{!SetEmailTemplate}" oncomplete="" rerender="opErrorMessage,renderJS,pnlEmailTemplate"></apex:actionfunction>
                      
          <!--popup if contact does not have email-->
          <div class="section-d" id="ContactHasEmail" style="justify-content: center;{!IF(IsErrorOccurred == false && AllowSend ==false, 'display:flex', 'display:none')}">
@@ -160,7 +161,7 @@
                <div class="slds-popover__body" id="dialog-body-id-989">
                   <div class="slds-media">
                      <div class="slds-media__body">
-                        <h2 id="dialog-heading-id-6" class="slds-modal__title slds-hyphenate slds-text-heading_medium slds-align_absolute-center slds-text-align--center" style="display:block; font-weight:700;">{!SendNotAllowedMessage}</h2>
+                        <h2 id="dialog-heading-id-6" class="slds-modal__title slds-hyphenate slds-text-heading_medium slds-align_absolute-center slds-text-align--center" style="display:block;">{!SendNotAllowedMessage}</h2>
                         <div class="slds-var-p-around_xx-small"></div>
                      </div>
                   </div>
@@ -264,10 +265,10 @@
                                  <div class="slds-form-element__control">
                                     <apex:selectlist id="selectWorkbook" size="1" value="{!SelectedWorkbook}" style="width: 100%;"
                                                      onclick="javascript:setNiDocumentFromWorkbook();"
-                                                     onchange="setNiDocumentName(); javascript:enableSendButton(); "
+                                                     onchange="setEmailTemplate(); setNiDocumentName(); enableSendButton();"
                                                      styleclass="selectWorkbook" tabindex="4"
-                                                     disabled="{!IF(SelectedProduct==$Label.AH_UDC_Send_Workbook_SelectProduct_Label 
-                                                                    || SelectedProduct=='' 
+                                                     disabled="{!IF(SelectedProduct==$Label.AH_UDC_Send_Workbook_SelectProduct_Label
+                                                                    || SelectedProduct==''
                                                                     || isCopyWorkbook, true, false)}">
                                        <apex:selectoptions value="{!EnabledProductWorkbooks}" />
                                     </apex:selectlist>
@@ -384,24 +385,26 @@
                               </div>
                            </div>
                            <!--Email Template Lookup Field-->
-                           <div class="slds-form-element">
-                              <div class="slds-form-element__control">
-                                 <label class="slds-form-element__label">
-                                    <abbr class="slds-required" title="required">*</abbr> {!$Label.AH_UDC_Send_Workbook_Email_Template_lbl}
-                                 </label>
-                                 <span class="lookupInput" style="width: 100%">
-                                    <apex:inputhidden value="{!SelectedEmailTemplateId}" id="EmailTemplate_lkid" />
-                                    <apex:inputhidden value="{!SelectedEmailTemplateName}" id="EmailTemplate_lkold" />
-                                    <apex:inputtext value="{!SelectedEmailTemplateName}" id="EmailTemplate" style="width: 100%;margin-left: 0px" onchange="javascript:document.getElementById('{!$Component.frmSendWorkbook.pbSendWorkbook.EmailTemplate_lkid}').value=''; setTimeout(enableSendButton, 50);" maxlength="80" tabindex="10" />
-                                    <script>
-                                       new ForeignKeyInputElement("EmailTemplate", "/_ui/common/data/LookupValidationServlet", null, true, {"acent":"{!$ObjectType['EmailTemplate'].keyPrefix}"});
-                                    </script>
-                                    <a tabindex="11" title="{!$ObjectType['EmailTemplate'].label} {!$Label.AH_UDC_Custom_Lookup_Tooltip_Text}" style="margin-left:-4px;" href="javascript:openLookup('/_ui/common/data/LookupPage?lkfm=' + escapeUTF('{!$Component.frmSendWorkbook}') + '&lknm=' + escapeUTF('{!$Component.frmSendWorkbook.pbSendWorkbook.EmailTemplate}') + '&lkrf=&epf=1&lktp={!$ObjectType['EmailTemplate'].keyPrefix}', 750, '1', '&lksrch=' + escapeUTF(document.getElementById('{!$Component.frmSendWorkbook.pbSendWorkbook.EmailTemplate}').value.substring(0, 80)));">
-                                       <img class="lookupIcon" src="{!URLFOR($Resource.AH_UDC_Empty_Image)}" alt="Email Template {!$Label.AH_UDC_Custom_Lookup_Tooltip_Text}" title="Email Template {!$Label.AH_UDC_Custom_Lookup_Tooltip_Text}" onmouseover="this.className = 'lookupIconOn';" onmouseout="this.className = 'lookupIcon';" onfocus="this.className = 'lookupIconOn';" onblur="this.className = 'lookupIcon';" />
-                                    </a>
-                                 </span>
+                           <apex:outputpanel id="pnlEmailTemplate">
+                              <div class="slds-form-element">
+                                 <div class="slds-form-element__control">
+                                    <label class="slds-form-element__label">
+                                       <abbr class="slds-required" title="required">*</abbr> {!$Label.AH_UDC_Send_Workbook_Email_Template_lbl}
+                                    </label>
+                                    <span class="lookupInput" style="width: 100%">
+                                       <apex:inputhidden value="{!SelectedEmailTemplateId}" id="EmailTemplate_lkid" />
+                                       <apex:inputhidden value="{!SelectedEmailTemplateName}" id="EmailTemplate_lkold" />
+                                       <apex:inputtext value="{!SelectedEmailTemplateName}" id="EmailTemplate" style="width: 100%;margin-left: 0px" onchange="javascript:document.getElementById('{!$Component.frmSendWorkbook.pbSendWorkbook.EmailTemplate_lkid}').value=''; setTimeout(enableSendButton, 50);" maxlength="80" tabindex="10" />
+                                       <script>
+                                          new ForeignKeyInputElement("EmailTemplate", "/_ui/common/data/LookupValidationServlet", null, true, {"acent":"{!$ObjectType['EmailTemplate'].keyPrefix}"});
+                                       </script>
+                                       <a tabindex="11" title="{!$ObjectType['EmailTemplate'].label} {!$Label.AH_UDC_Custom_Lookup_Tooltip_Text}" style="margin-left:-4px;" href="javascript:openLookup('/_ui/common/data/LookupPage?lkfm=' + escapeUTF('{!$Component.frmSendWorkbook}') + '&lknm=' + escapeUTF('{!$Component.frmSendWorkbook.pbSendWorkbook.EmailTemplate}') + '&lkrf=&epf=1&lktp={!$ObjectType['EmailTemplate'].keyPrefix}', 750, '1', '&lksrch=' + escapeUTF(document.getElementById('{!$Component.frmSendWorkbook.pbSendWorkbook.EmailTemplate}').value.substring(0, 80)));">
+                                          <img class="lookupIcon" src="{!URLFOR($Resource.AH_UDC_Empty_Image)}" alt="Email Template {!$Label.AH_UDC_Custom_Lookup_Tooltip_Text}" title="Email Template {!$Label.AH_UDC_Custom_Lookup_Tooltip_Text}" onmouseover="this.className = 'lookupIconOn';" onmouseout="this.className = 'lookupIcon';" onfocus="this.className = 'lookupIconOn';" onblur="this.className = 'lookupIcon';" />
+                                       </a>
+                                    </span>
+                                 </div>
                               </div>
-                           </div>
+                           </apex:outputpanel>
                         </div>
                      </div>
                      <div class="slds-size_1-of-2">
@@ -506,6 +509,11 @@
                   </apex:outputpanel>
                   <!--Send & Cancel Button-->
                   <div class="slds-no-flex slds-align_absolute-center slds-text-heading_small" style="margin-top: 10px; margin-bottom: 10px;{!IF(AllowSend==true,'','display:none;')}">
+                     <apex:inputcheckbox id="chkReleaseWorkbook" value="{!ReleaseWorkbook}" selected="{!ReleaseWorkbook}"/>
+                     <label class="slds-checkbox__label" for="{!$Component.frmSendWorkbook.pbSendWorkbook.chkReleaseWorkbook}">
+                        <span class="slds-checkbox_faux"></span>
+                        <span class="slds-form-element__label">{!$Label.AH_UDC_SendWorkbook_ReleaseCheckboxLabel}</span>
+                     </label>
                      <button id="btnSend" class="slds-button slds-button_brand send_btn" name="send" onclick="javascript:onClickSendButton(); return false;" disabled="disabled" style="{!IF(IsErrorOccurred, 'display:none;', '')}">
                         {!$Label.AH_UDC_Send_Workbook_Send_btn}
                      </button>
@@ -845,6 +853,12 @@
          }
       }
 
+      //Set Email Template
+      function setEmailTemplate(obj){
+         var workbookName = $('.selectWorkbook :selected').text();
+         console.log('setEmailTemplate: ' + workbookName);
+         afSetEmailTemplate();
+      }
       //Set NI Document Name
       function setNiDocumentName() {
          var workbookName = $('.selectWorkbook :selected').text();

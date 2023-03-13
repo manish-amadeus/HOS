@@ -3,7 +3,7 @@
     <fullName>Business_Systems</fullName>
     <active>true</active>
     <compactLayoutAssignment>Business_Systems_Project_Backlog</compactLayoutAssignment>
-    <description>NICC-028375. Created for Business Systems use.</description>
+    <description>NICC-028375. Created for Business Systems use. NICC-055369</description>
     <label>Business Systems</label>
     <picklistValues>
         <picklist>Affected_Objects__c</picklist>
@@ -4300,10 +4300,6 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>Pending Business Requirements Approval</fullName>
-            <default>false</default>
-        </values>
-        <values>
             <fullName>Pending Solution Design Approval</fullName>
             <default>false</default>
         </values>
@@ -4985,6 +4981,10 @@
             <default>true</default>
         </values>
         <values>
+            <fullName>On Hold</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Pending CFO Approval</fullName>
             <default>false</default>
         </values>
@@ -5051,6 +5051,25 @@
         </values>
     </picklistValues>
     <picklistValues>
+        <picklist>SLTC_Impact__c</picklist>
+        <values>
+            <fullName>Interim Eliminate</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Interim Revise</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>No Impact</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Unknown</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
         <picklist>Solution_Domain__c</picklist>
         <values>
             <fullName>AIP</fullName>
@@ -5074,6 +5093,10 @@
         </values>
         <values>
             <fullName>Media Solutions</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Meeting and Event Distribution</fullName>
             <default>false</default>
         </values>
         <values>
@@ -5105,10 +5128,6 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>Video Solutions</fullName>
-            <default>false</default>
-        </values>
-        <values>
             <fullName>Web Solutions</fullName>
             <default>false</default>
         </values>
@@ -5131,31 +5150,11 @@
     <picklistValues>
         <picklist>Stakeholder_Department__c</picklist>
         <values>
-            <fullName>Account Management</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Billing %26 Collections</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Consulting</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Data Services</fullName>
-            <default>false</default>
-        </values>
-        <values>
             <fullName>Enterprise Program Management</fullName>
             <default>false</default>
         </values>
         <values>
             <fullName>Finance</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Integrations</fullName>
             <default>false</default>
         </values>
         <values>
@@ -5168,22 +5167,6 @@
         </values>
         <values>
             <fullName>Sales</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Solution Delivery</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Subscription Management</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Support</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Training</fullName>
             <default>false</default>
         </values>
     </picklistValues>
@@ -5312,6 +5295,10 @@
         </values>
         <values>
             <fullName>CI</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Customer Portal %28AHCC%29</fullName>
             <default>false</default>
         </values>
         <values>

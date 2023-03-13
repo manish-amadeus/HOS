@@ -3,12 +3,12 @@
     <fullName>On_Hold_Reason</fullName>
     <active>true</active>
     <description>If the project is put on hold (blocked or redirected) then the &quot;Reason&quot; is required.
-Updated per NICC-030954.</description>
+Updated per NICC-030954. NICC-055369</description>
     <errorConditionFormula>AND( ISBLANK(On_Hold_Reason__c), 
 OR( ISPICKVAL(Request_Status__c, &quot;Blocked&quot;), 
 ISPICKVAL(Request_Status__c, &quot;Redirected&quot;), 
 ISPICKVAL(Request_Status__c, &quot;On Hold&quot;) ) 
 )</errorConditionFormula>
     <errorDisplayField>On_Hold_Reason__c</errorDisplayField>
-    <errorMessage>You must fill in the &quot;On Hold Reason(s)&quot; field whenever the Status of the Request is set to &quot;Blocked&quot; or &quot;Redirected&quot;.</errorMessage>
+    <errorMessage>You must fill in the &quot;On Hold Reason(s)&quot; field whenever the Status of the Request is set to &quot;Blocked&quot;, &quot;On Hold&quot; or &quot;Redirected&quot;.</errorMessage>
 </ValidationRule>

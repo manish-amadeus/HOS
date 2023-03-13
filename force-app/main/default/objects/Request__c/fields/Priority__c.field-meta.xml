@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Priority__c</fullName>
-    <businessOwnerUser>kcontreraz@newmarketinc.com</businessOwnerUser>
     <businessStatus>Active</businessStatus>
     <description>NICC-051009; updated via NICC-054214</description>
     <externalId>false</externalId>
@@ -41,6 +40,16 @@
                 <fullName>Correction</fullName>
                 <default>false</default>
                 <label>Correction</label>
+            </value>
+            <value>
+                <fullName>Urgent</fullName>
+                <default>false</default>
+                <label>Urgent</label>
+            </value>
+            <value>
+                <fullName>Normal</fullName>
+                <default>false</default>
+                <label>Normal</label>
             </value>
         </valueSetDefinition>
     </valueSet>

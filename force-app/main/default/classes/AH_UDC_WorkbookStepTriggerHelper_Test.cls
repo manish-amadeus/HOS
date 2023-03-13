@@ -30,7 +30,8 @@ private class AH_UDC_WorkbookStepTriggerHelper_TEST {
       oCurrentUser.ContactId = null;
 
       System.runAs(oCurrentUser) {
-         AH_UDC_TestData.InsertWithRetries(listUsers);
+         //AH_UDC_TestData.InsertWithRetries(listUsers);
+         insert listUsers;
 
          AH_UDC_TestData.AddPermissionSetToUser(AH_UDC_Constants.PERMISSIONSET_DEFAULT_NAME_UDC_WORKBOOK_USER, listUsers[0].Id);
          AH_UDC_TestData.AddPermissionSetToUser(AH_UDC_Constants.PERMISSIONSET_DEFAULT_NAME_UDC_WORKBOOK_ADMIN, listUsers[1].Id);
@@ -227,18 +228,20 @@ private class AH_UDC_WorkbookStepTriggerHelper_TEST {
 
       Id fileUploadFormRecordTypeId = Schema.SObjectType.AH_UDC_Form__c.getRecordTypeInfosByDeveloperName().get(AH_UDC_Constants.RECORD_TYPE_FORM_AMADEUS_FILE_UPLOAD).getRecordTypeId();
       //Create file upload form
-      AH_UDC_Form__c objFileUploadForm1 = new AH_UDC_Form__c(Name = 'File Upload Form 1', RecordTypeId = fileUploadFormRecordTypeId, FormType__c = AH_UDC_Constants.FORM_TYPE_PRODUCT);
-      insert objFileUploadForm1;
+      List<AH_UDC_Form__c> lstFileUploadForms = new List<AH_UDC_Form__c>();
+      lstFileUploadForms.add(new AH_UDC_Form__c(Name = 'File Upload Form 1', RecordTypeId = fileUploadFormRecordTypeId, FormType__c = AH_UDC_Constants.FORM_TYPE_PRODUCT));
+      lstFileUploadForms.add(new AH_UDC_Form__c(Name = 'File Upload Form 2', RecordTypeId = fileUploadFormRecordTypeId, FormType__c = AH_UDC_Constants.FORM_TYPE_PRODUCT));
+      insert lstFileUploadForms;
 
       AH_UDC_Workbook__c objFileUploadWorkbook = AH_UDC_TestData.GetWorkbookObjectWithoutDocId('File Upload Workbook', 'File Upload Workbook', 'Central Sales');
       objFileUploadWorkbook.Enabled__c = true;
       insert objFileUploadWorkbook;
 
-      AH_UDC_WorkbookStep__c objFormAssemblyStep1 = new AH_UDC_WorkbookStep__c(Name = 'Form Assembly Step 1', RecordtypeId = wbsRTId, Workbook__c = objFileUploadWorkbook.Id, form__c = objFormAssemblyForm1.Id);
-      insert objFormAssemblyStep1;
-
-      AH_UDC_WorkbookStep__c objFileUploadStep1 = new AH_UDC_WorkbookStep__c(Name = 'File Upload Step 1', RecordtypeId = wbsRTId, Workbook__c = objFileUploadWorkbook.Id, form__c = objFileUploadForm1.Id);
-      insert objFileUploadStep1;
+      List<AH_UDC_WorkbookStep__c> lstWorkbookSteps = new List<AH_UDC_WorkbookStep__c>();
+      lstWorkbookSteps.add(new AH_UDC_WorkbookStep__c(Name = 'Form Assembly Step 1', RecordtypeId = wbsRTId, Workbook__c = objFileUploadWorkbook.Id, form__c = objFormAssemblyForm1.Id));
+      lstWorkbookSteps.add(new AH_UDC_WorkbookStep__c(Name = 'File Upload Step 1', RecordtypeId = wbsRTId, Workbook__c = objFileUploadWorkbook.Id, form__c = lstFileUploadForms[0].Id));
+      lstWorkbookSteps.add(new AH_UDC_WorkbookStep__c(Name = 'File Upload Step 2', RecordtypeId = wbsRTId, Workbook__c = objFileUploadWorkbook.Id, form__c = lstFileUploadForms[1].Id));
+      insert lstWorkbookSteps;
       //Prepare test Data for File Upload testing : End
    }
 
@@ -699,154 +702,6 @@ private class AH_UDC_WorkbookStepTriggerHelper_TEST {
          System.assertEquals(false, lstUnDeletedWorkbooks == null || lstUnDeletedWorkbooks.size() == 0, 'Workbook should be undeleted by UDC System Admin user');
       }
 
-      Test.stopTest();
-   }
-
-   @isTest
-   private static void testStepWithFileUploadForm() {
-      Test.startTest();
-      Id formAssemblyRecordTypeId = Schema.SObjectType.AH_UDC_Form__c.getRecordTypeInfosByDeveloperName().get(AH_UDC_Constants.RECORD_TYPE_FORM_FORM_ASSEMBLY).getRecordTypeId();
-      System.assert(String.isNotBlank(formAssemblyRecordTypeId), 'Form assembly form record type id not found');
-
-      Id fileUploadFormRecordTypeId = Schema.SObjectType.AH_UDC_Form__c.getRecordTypeInfosByDeveloperName().get(AH_UDC_Constants.RECORD_TYPE_FORM_AMADEUS_FILE_UPLOAD).getRecordTypeId();
-      System.assert(String.isNotBlank(fileUploadFormRecordTypeId), 'File upload form record type id not found');
-
-      Id workbookRecordTypeId = Schema.SObjectType.AH_UDC_Workbook__c.getRecordTypeInfosByDeveloperName().get(AH_UDC_Constants.RECORD_TYPE_WORKBOOK).getRecordTypeId();
-      System.assert(String.isNotBlank(workbookRecordTypeId), 'Workbook record type id not found');
-
-      Id workbookStepRecordTypeId = Schema.SObjectType.AH_UDC_WorkbookStep__c.getRecordTypeInfosByDeveloperName().get('AH_UDC_WorkbookStep').getRecordTypeId();
-      System.assert(String.isNotBlank(workbookStepRecordTypeId), 'Workbook step record type id not found');
-
-      List<AH_UDC_Workbook__c> lstWorkbooks = [SELECT Id
-                                               FROM AH_UDC_Workbook__c
-                                               WHERE Name = 'File Upload Workbook'
-                                               AND RecordTypeId = :workbookRecordTypeId];
-      System.assert(lstWorkbooks.size() > 0, 'Workbook record not found with name File Upload Workbook');
-
-      List<AH_UDC_Form__c> lstFormsToInsert = new List<AH_UDC_Form__c> ();
-      lstFormsToInsert.add(new AH_UDC_Form__c(Name = 'Form Assembly Form 2',
-                                              FormAssemblyId__c = '1818181',
-                                              RecordTypeId = formAssemblyRecordTypeId,
-                                              FormType__c = AH_UDC_Constants.FORM_TYPE_PRODUCT));
-      for (Integer i = 2; i <= 5; i++) {
-         //Add 4 file upload forms in the list for bulk insert
-         lstFormsToInsert.add(new AH_UDC_Form__c(Name = 'File Upload Form ' + i,
-                                                 RecordTypeId = fileUploadFormRecordTypeId,
-                                                 FormType__c = AH_UDC_Constants.FORM_TYPE_PRODUCT));
-      }
-      insert lstFormsToInsert; //Bulk insert forms
-
-      List<AH_UDC_WorkbookStep__c> lstWorkbookStepsToInsert = new List<AH_UDC_WorkbookStep__c> ();
-      lstWorkbookStepsToInsert.add(new AH_UDC_WorkbookStep__c(Name = 'Form Assembly 2',
-                                                              RecordTypeId = workbookStepRecordTypeId,
-                                                              Workbook__c = lstWorkbooks[0].Id,
-                                                              form__c = lstFormsToInsert[0].Id));
-      for (Integer i = 1; i <= 4; i++) {
-         //Add 4 file upload steps in the list for bulk insert
-         lstWorkbookStepsToInsert.add(new AH_UDC_WorkbookStep__c(Name = 'File Upload Step ' + (i + 1),
-                                                                 RecordTypeId = workbookStepRecordTypeId,
-                                                                 Workbook__c = lstWorkbooks[0].Id,
-                                                                 form__c = lstFormsToInsert[i].Id));
-      }
-
-      try {
-         insert lstWorkbookStepsToInsert; //Try to insert multiple file upload steps in a bulk
-      }
-      catch(Exception ex) {
-         System.assert(ex.getMessage().indexOf(Label.AH_UDC_FileUploadTriggerError) > - 1, 'Error not generated when trying to insert multiple file upload steps in a bulk.');
-      }
-
-      List<AH_UDC_WorkbookStep__c> lstFileUploadSteps = [SELECT Id
-                                                         FROM AH_UDC_WorkbookStep__c
-                                                         WHERE Name = 'File Upload Step 1'
-                                                         AND Workbook__c = :lstWorkbooks[0].Id
-                                                         AND RecordTypeId = :workbookStepRecordTypeId
-                                                         And Form__c != null
-                                                         AND Form__r.RecordTypeId = :fileUploadFormRecordTypeId];
-      System.assert(lstFileUploadSteps.size() > 0, 'Workbook step record not found with name File Upload Step 1');
-
-      AH_UDC_WorkbookStep__c objFileUploadStep2 = new AH_UDC_WorkbookStep__c(Name = 'File Upload Step 2',
-                                                                             RecordtypeId = workbookStepRecordTypeId,
-                                                                             Workbook__c = lstWorkbooks[0].Id,
-                                                                             form__c = lstFormsToInsert[1].Id);
-      try {
-         insert objFileUploadStep2; //Try to insert another file upload step when one file upload step is already there
-      }
-      catch(Exception ex) {
-         System.assert(ex.getMessage().indexOf(Label.AH_UDC_FileUploadTriggerError) > - 1, 'Error not generated when trying to insert step with file upload form and one file upload form is already there.');
-      }
-
-      //Fetch other step than file upload step
-      List<AH_UDC_WorkbookStep__c> lstSteps = [SELECT Id, Form__c
-                                               FROM AH_UDC_WorkbookStep__c
-                                               WHERE Name = 'Form Assembly Step 1'
-                                               AND Workbook__c = :lstWorkbooks[0].Id
-                                               AND Form__r.RecordTypeId != :fileUploadFormRecordTypeId
-                                               AND RecordTypeId = :workbookStepRecordTypeId];
-      System.assert(lstSteps.size() > 0, 'Workbook step record not found with name Form Assembly Step 1');
-
-      lstSteps[0].Form__c = lstFormsToInsert[1].Id;
-      try {
-         //Try to update step with file upload form when one file upload form is already there
-         update lstSteps[0];
-      }
-      catch(Exception ex) {
-         System.assert(ex.getMessage().indexOf(Label.AH_UDC_FileUploadTriggerError) > - 1, 'Error not generated when trying to update step with file upload form and one file upload form is already there.');
-      }
-
-      //Delete file upload step to test undelete case
-      delete lstFileUploadSteps[0];
-
-      //Insert another file upload step after deleting previous file upload step
-      insert objFileUploadStep2;
-
-      lstFileUploadSteps = [SELECT Id
-                            FROM AH_UDC_WorkbookStep__c
-                            WHERE Name = 'File Upload Step 1'
-                            AND RecordTypeId = :workbookStepRecordTypeId ALL ROWS];
-      System.assert(lstFileUploadSteps.size() > 0, 'Deleted step not found with name File Upload Step 1');
-
-      try {
-         //Try to undelete step with file upload form when one file upload form is already there
-         undelete lstFileUploadSteps[0];
-      }
-      catch(Exception ex) {
-         System.assert(ex.getMessage().indexOf(Label.AH_UDC_FileUploadTriggerError) > - 1, 'Error not generated when trying to undelete step with file upload form and one file upload form is already there.');
-      }
-
-      AH_UDC_WorkbookStep__c objFileUploadStep = new AH_UDC_WorkbookStep__c(Name = 'File Upload Step 2',
-                                                                            Workbook__c = lstWorkbooks[0].Id,
-                                                                            RecordtypeId = workbookStepRecordTypeId,
-                                                                            URL__c = 'https://www.test.com/');
-      AH_UDC_WorkbookStepTriggerHelper.IsWorkbookRecordTypeException = true;
-      try {
-         //This insert action is only for executing the trigger
-         insert objFileUploadStep;
-      }
-      catch(Exception ex) {
-         System.assert(ex.getMessage().indexOf(Label.AH_UDC_WorkbookStepTriggerExceptionMessage) > - 1, 'Error not generated after making IsWorkbookRecordTypeException = true. Actual error message : ' + ex.getMessage());
-      }
-
-      AH_UDC_WorkbookStepTriggerHelper.IsWorkbookRecordTypeException = false;
-      AH_UDC_WorkbookStepTriggerHelper.IsFormRecordTypeException = true;
-      try {
-         //This insert action is only for executing the trigger
-         insert objFileUploadStep;
-      }
-      catch(Exception ex) {
-         System.assert(ex.getMessage().indexOf(Label.AH_UDC_WorkbookStepTriggerExceptionMessage) > - 1, 'Error not generated after making IsFormRecordTypeException = true. Actual error message : ' + ex.getMessage());
-      }
-
-      AH_UDC_WorkbookStepTriggerHelper.IsWorkbookRecordTypeException = false;
-      AH_UDC_WorkbookStepTriggerHelper.IsFormRecordTypeException = false;
-      AH_UDC_WorkbookStepTriggerHelper.IsExceptionToCoverCatchBlock = true;
-      try {
-         //This insert action is only for executing the trigger
-         insert objFileUploadStep;
-      }
-      catch(Exception ex) {
-         System.assert(ex.getMessage().indexOf(Label.AH_UDC_WorkbookStepTriggerExceptionMessage) > - 1, 'Error not generated after making IsExceptionToCoverCatchBlock = true. Actual error message : ' + ex.getMessage());
-      }
       Test.stopTest();
    }
 }

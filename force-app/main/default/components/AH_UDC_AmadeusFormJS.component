@@ -1,10 +1,13 @@
 <apex:component >
+   <apex:attribute name="attributeWorkbook" description="Current Workbook" type="AH_UDC_CommunityWorkbook" required="true" />
    <script type="text/javascript">
+      var amdeusFormAPIUrl = '{!attributeWorkbook.currentStep.amdeusFormAPIUrl}';
+      var token = '{!attributeWorkbook.currentStep.token}';
       var longTextModal = null;
       var product = '';
       $(document).ready(function () {
          longTextModal = document.getElementById('longTextModal');
-         $('#spnAmadeusFormErrorMsg').text(LABEL_AmadeusFormRenderErrorMessage);
+         $('#spnAmadeusFormErrorMsg').text('{!$Label.AH_UDC_AmadeusFormRenderErrorMessage}');
          $(document).keydown(function(event) {
             if($(event.target).parents('#addRowsModal').length > 0 && event.target.id == 'txtRows') {
                var keyCode = event.keyCode || event.which;
@@ -12,7 +15,7 @@
                   $('#addRowsModal #btnAddRows').click();
                   event.preventDefault();
                }
-            }
+            } 
             else if(typeof(event.target.jexcel) != 'undefined' && event.target.jexcel != null) {
                var keyCode = event.keyCode || event.which;
                if (keyCode === 46 && event.target.jexcel.selectedRow) { //Don't allow user to delete spreadsheet row on press of delete key
@@ -158,7 +161,7 @@
          if(flagError == true) {
             var errorSummary = $('#formRender #divErrorSummary');
             if(errorSummary.length == 0) {
-               var errorSummary = $('<div id="divErrorSummary" style="color: red;">' + LABEL_AmadeusFormValidationErrorMessage + '</div>');
+               var errorSummary = $('<div id="divErrorSummary" style="color: red;">{!$Label.AH_UDC_AmadeusFormValidationErrorMessage}</div>');
                $('#formRender').prepend(errorSummary);
             }
 
@@ -188,7 +191,7 @@
          var sectionData = [];
          var flagError = false;
          $('> div .field-wrapper', parentField).each(function(fieldIndex, objField) {
-            if($(objField).is(':visible') == false) return; //Ignore hidden fields
+            //ROBDEV SAVE HIDDEN if($(objField).is(':visible') == false) return; //Ignore hidden fields
 
             var objData = {};
             var label = $('label', objField).first();
@@ -202,10 +205,17 @@
             objData.AF = ''; //AF - AnswerField
 
             if($('input[type=text]', objField).length > 0) {
-               if($(objField).data('required') == true && $.trim($('input[type=text]', objField).val()) == '') {
+               var intMinLength = parseInt($.trim($(objField).data('minlength')));
+               var strValue = $.trim($('input[type=text]', objField).val());
+               if($(objField).data('required') == true && strValue == '') {
                   flagError = true;
                   $('input[type=text]', objField).addClass('error-field');
-                  bindToolTip(objField, LABEL_AmadeusFormRequiredValidationMessage);
+                  bindToolTip(objField, '{!$Label.AH_UDC_AmadeusFormRequiredValidationMessage}');
+               }
+               else if(intMinLength > 0 && strValue.length > 0 && strValue.length < intMinLength) {
+                  flagError = true;
+                  $('input[type=text]', objField).addClass('error-field');
+                  bindToolTip(objField, '{!$Label.AH_UDC_AmadeusFormMinLengthValidationMessage}'.replace('{0}', intMinLength));
                }
                else {
                   $('input[type=text]', objField).removeClass('error-field');
@@ -217,20 +227,21 @@
                if($(objField).data('required') == true && $.trim($('select', objField).val()) == '') {
                   flagError = true;
                   $('select', objField).addClass('error-field');
-                  bindToolTip(objField, LABEL_AmadeusFormRequiredValidationMessage);
+                  bindToolTip(objField, '{!$Label.AH_UDC_AmadeusFormRequiredValidationMessage}');
                }
                else {
                   $('select', objField).removeClass('error-field');
                   unBindToolTip(objField);
                   objData.A = $.trim($('select option:selected', objField).text());
-                  objData.AF = $.trim($('select', objField).val());
+                  if(!$('select', objField).data('dynamicsource'))
+                     objData.AF = $.trim($('select', objField).val());
                }
             }
             else if($('input[type=checkbox]', objField).length > 0) {
                if($(objField).data('required') == true && $('input[type=checkbox]:checked', objField).length == 0) {
                   flagError = true;
                   $(objField).addClass('error-field');
-                  bindToolTip(objField, LABEL_AmadeusFormRequiredValidationMessage);
+                  bindToolTip(objField, '{!$Label.AH_UDC_AmadeusFormRequiredValidationMessage}');
                }
                else {
                   $(objField).removeClass('error-field');
@@ -242,7 +253,7 @@
                if($(objField).data('required') == true && $.trim($('input[type=radio]:checked', objField).val()) == '') {
                   flagError = true;
                   $('.radio-group', objField).css('border', '1px solid red');
-                  bindToolTip(objField, LABEL_AmadeusFormRequiredValidationMessage);
+                  bindToolTip(objField, '{!$Label.AH_UDC_AmadeusFormRequiredValidationMessage}');
                }
                else {
                   $('.radio-group', objField).css('border', 'none');
@@ -256,7 +267,7 @@
 
          $('> .jexcel_container table.jexcel tbody', parentField).each(function(tblIndex, objTbody) {
             $('td[data-required=true], td[data-minlength], td[data-maxlength]', objTbody).each(function(tdIndex, objTd) {
-               if($(objTd).is(':visible') == false) return; //Ignore hidden columns
+               //ROBDEV SAVE HIDDEN  if($(objTd).is(':visible') == false) return; //Ignore hidden columns
 
                var intMinLength = $(this).data('minlength');
                var intMaxLength = $(this).data('maxlength');
@@ -264,17 +275,17 @@
                   && ($.trim($(this).text()) == '' || ($(this).data('type') == 'radio' && $('input[type=radio]:checked', this).length == 0))) {
                   flagError = true;
                   $(this).addClass('error-field');
-                  bindToolTip(this, LABEL_AmadeusFormRequiredValidationMessage);
+                  bindToolTip(this, '{!$Label.AH_UDC_AmadeusFormRequiredValidationMessage}');
                }
-               else if(intMinLength > 0 && $.trim($(this).text()).length < intMinLength) {
+               else if(intMinLength > 0 && $.trim($(this).text()).length > 0 && $.trim($(this).text()).length < intMinLength) {
                   flagError = true;
                   $(this).addClass('error-field');
-                  bindToolTip(this, LABEL_AmadeusFormMinLengthValidationMessage.replace('{0}', intMinLength));
+                  bindToolTip(this, '{!$Label.AH_UDC_AmadeusFormMinLengthValidationMessage}'.replace('{0}', intMinLength));
                }
                else if(intMaxLength > 0 && $.trim($(this).text()).length > intMaxLength) {
                   flagError = true;
                   $(this).addClass('error-field');
-                  bindToolTip(this, LABEL_AmadeusFormMaxLengthValidationMessage.replace('{0}', intMaxLength));
+                  bindToolTip(this, '{!$Label.AH_UDC_AmadeusFormMaxLengthValidationMessage}'.replace('{0}', intMaxLength));
                }
                else {
                   $(this).removeClass('error-field');
@@ -292,6 +303,13 @@
                $.each(objJExcel.getJson(), function(keyMain, valueMain) {
                   var columnIndex = 0;
                   $.each(valueMain, function(key, value) {
+                     var cellName = jexcel.getColumnNameFromId([columnIndex, rowIndex]);
+                     var cell = objJExcel.getCell(cellName);
+                     //ROBDEV SAVE HIDDEN
+                     //if(!$(cell).is(':visible') && objJExcel.options.columns[columnIndex].type != 'hidden') {
+                     //   columnIndex++;
+                     //   return; //Don't save response of hidden column which are hide based on formula
+                     //}
                      var rowData = {};
                      rowData.QF = key + '_' + rowIndex;
                      rowData.Q = arrColumnNames[columnIndex] + ' ' + rowIndex;
@@ -330,7 +348,7 @@
             $.ajax({
                type: "GET",
                async: true,
-               url: AmdeusCustomFormAPIUrl + token, //Url comming from configuration
+               url: amdeusFormAPIUrl + token, //Url comming from configuration
                success: function (data) {
                   objJSON = data != '' ? JSON.parse(data) : null;
                   console.log('GetData:'+data);
@@ -349,13 +367,12 @@
 		  //TODO:Rob, Vaishali - discuss with team
                   //show save button only when work is not completed
                   //if(isWorkbookCompleted  == false)
-         	  $('#divButtons').show();
+         	      $('#divButtons').show();
                },
                error: function (error) {
-                  $('.form-container').hide();
-                  $('#divAmadeusFormError').show();
-                  hideSpinner();
-                  $('.modal-backdrop').hide();
+                  var strErrorMsg = 'There is a network issue or some technical error while calling api for getting amadeus form response. API call state: ';
+                  strErrorMsg += typeof(error.state) == 'function' ? error.state() : '';
+                  handleJSError('getAmadeusFormResponse', strErrorMsg);
                }
             });
          }
@@ -376,7 +393,7 @@
                crossDomain:true,
                contentType: 'application/json',
                dataType: "json",
-               url: AmdeusCustomFormAPIUrl, //Url comming from configuration
+               url: amdeusFormAPIUrl, //Url comming from configuration
                data: jsonRequest,
                success: function (data) {
                   $('.form-container').hide();
@@ -390,7 +407,7 @@
                      UpdateTimer();
                   }
                   else {
-                     $('#spnAmadeusFormErrorMsg').text(LABEL_AmadeusFormSaveErrorMessage);
+                     $('#spnAmadeusFormErrorMsg').text('{!$Label.AH_UDC_AmadeusFormSaveErrorMessage}');
                      $('#divAmadeusFormError').show();
                   }
                },
@@ -400,7 +417,7 @@
                   $('.modal-backdrop').hide();
                   //Log error in db
                   actionfunction_LogClientException('saveAmadeusFormResponse', typeof(error) == 'string' ? error : JSON.stringify(error));
-                  $('#spnAmadeusFormErrorMsg').text(LABEL_AmadeusFormSaveErrorMessage);
+                  $('#spnAmadeusFormErrorMsg').text('{!$Label.AH_UDC_AmadeusFormSaveErrorMessage}');
                   $('#divAmadeusFormError').show();
                   $('.form-container #btnSave').prop('disabled', false);
                }
@@ -412,7 +429,7 @@
             $('.modal-backdrop').hide();
             //Log error in db
             actionfunction_LogClientException('saveAmadeusFormResponse', typeof(ex) == 'string' ? ex : ex.stack);
-            $('#spnAmadeusFormErrorMsg').text(LABEL_AmadeusFormSaveErrorMessage);
+            $('#spnAmadeusFormErrorMsg').text('{!$Label.AH_UDC_AmadeusFormSaveErrorMessage}');
             $('#divAmadeusFormError').show();
             $('.form-container #btnSave').prop('disabled', false);
          }
@@ -617,16 +634,21 @@
 
                objSection.fields.forEach(function (objField, fieldIndex) {
                   if (objField.type.toLowerCase() == 'paragraph') {
-                     wrapperDiv.append($('<p style="white-space: break-spaces; margin:0px; margin-bottom: 10px;"  id="' + objField.name + '">' + objField.title + '</p>'));
-                     //wrapperDiv.append($('<p>' + objField.title + '</p>'));
+                     wrapperDiv.append($('<p id="' + objField.name + '">' + objField.title + '</p>'));
                      return;
                   }
                   var fieldWrapper = $('<div id="' + objField.name + '" style="margin-right:5px;"></div>');
                   fieldWrapper.addClass('field-wrapper');
                   var strLabelText = objField.title;
-                  if (typeof(objField.validation) != 'undefined' && objField.validation != null && objField.validation.required == 'true') {
-                     strLabelText += '<span style="color:#f00; font-weight:bold;">*</span>';
-                     fieldWrapper.attr('data-required', 'true');
+                  var intMaxLength = 0;
+
+                  if (typeof(objField.validation) != 'undefined' && objField.validation != null) {
+                     if (typeof(objField.validation.required) != 'undefined' && $.trim(objField.validation.required).toLowerCase() == 'true') {
+                        strLabelText += '<span style="color:#f00; font-weight:bold;">*</span>';
+                        fieldWrapper.attr('data-required', 'true');
+                     }
+                     if (typeof(objField.validation.maxlength) != 'undefined' && parseInt(objField.validation.maxlength) > 0)
+                        intMaxLength = parseInt(objField.validation.maxlength);
                   }
 
                   var label = $('<label style="margin-right:5px;">' + strLabelText + '</label>');
@@ -648,7 +670,8 @@
 
                   var inputField = null, inputFieldValue = null;
                   var flagDynamciSource = typeof(objField.dynamicsource != null) != 'undefined' && objField.dynamicsource != null;
-                  if(typeof(objField.value) != 'undefined' && objField.value != null && objField.value != '')
+
+                  if(typeof(objField.value) != 'undefined' && objField.value != null)
                      inputFieldValue = objField.value;
                   else if(typeof(objField.defaultvalue) != 'undefined' && objField.defaultvalue != null)
                      inputFieldValue = objField.defaultvalue;
@@ -656,16 +679,27 @@
                   if (objField.type.toLowerCase() == 'text') {
                      inputField = $('<input type="text" />');
                      inputField.val(inputFieldValue);
+                     if(intMaxLength > 0 )
+                        inputField.attr('maxlength', intMaxLength);
                      if(typeof(objField.tooltip) != 'undefined' && objField.tooltip != null && objField.tooltip != '')
                         inputField.attr('title', objField.tooltip);
                      if(typeof(objField.placeholder) != 'undefined' && objField.placeholder != null && objField.placeholder != '')
                         inputField.attr('placeholder', objField.placeholder);
 
+                     if(flagDynamciSource)
+                        inputField.prop('disabled', true); //readonly text control in case of dynamic source
+
                      if (typeof objSection.inline == 'undefined' || objSection.inline != 'true')
                         fieldWrapper.css('margin-bottom', '8px');
                   }
+                  /*else if (objField.type.toLowerCase() == 'date') {
+                     inputField = $('<input type="date" />');
+                     inputField.val(inputFieldValue);
+                  }*/
                   else if (objField.type.toLowerCase() == 'dropdown') {
                      inputField = $('<select title="' + objField.tooltip + '"/></select>');
+                     if(flagDynamciSource)
+                        inputField.data('dynamicsource', true);
                      if(flagDynamciSource && inputFieldValue != null && inputFieldValue != '') {
                         //Blank option added to dynamic picklist
                         var option = $('<option value=""></option>');
@@ -728,6 +762,9 @@
                   }
 
                   fieldWrapper.append(inputField);
+                  if (typeof(objField.type) != 'undefined' && $.trim(objField.type).toLowerCase() == 'text'
+                     && typeof(objField.validation) != 'undefined' && objField.validation != null)
+                     bindValidationsOnTextControl(objField, fieldWrapper);
                   wrapperDiv.append(fieldWrapper);
                });
                parentField.append(wrapperDiv);
@@ -1077,13 +1114,33 @@
 
       function bindJSpreadSheet(wrapperDiv, APIName, objSection) {
          try {
+            var today = new Date();
+            var strToday = today.getFullYear() + '-' + String(today.getMonth() + 1).padStart(2, '0') + '-' + String(today.getDate()).padStart(2, '0');
             var defaultValues = [];
-            if(objSection.data != null) {
-               defaultValues = JSON.parse(JSON.stringify(objSection.data));
-            }
             var arrFields = JSON.parse(JSON.stringify(objSection.fields));
+            var isResponseSaved = typeof(objSection.data) != 'undefined' && objSection.data != null && objSection.data.length > 0;
+            if(isResponseSaved)
+               defaultValues = JSON.parse(JSON.stringify(objSection.data));
+            else
+               defaultValues.push(new Array());
             arrFields.forEach(function(objField) {
                objField.wordWrap = false; //Disable word wrap in all cells
+               //If response is not set then use default values
+               if(!isResponseSaved) {
+                  if(typeof(objField.defaultvalue) && objField.defaultvalue != null)
+                     defaultValues[0].push(objField.defaultvalue);
+                  else
+                     defaultValues[0].push('');
+               }
+
+               if(objField.type.toLowerCase() != 'calendar')
+                  return;
+               if(typeof(objField.options) == 'undefined' || objField.options == null)
+                  objField.options = { format: 'YYYY-mmm-DD' };
+
+               if(typeof(objField.validation) != 'undefined' && objField.validation != null
+                  && typeof(objField.validation.allowpastdate) != 'undefined' && objField.validation.allowpastdate != null && objField.validation.allowpastdate.toLowerCase() == 'false')
+                  objField.options.validRange = [strToday, null];
             });
 
             var objJSpreadSheet = jspreadsheet(wrapperDiv.get(0), {
@@ -1097,6 +1154,7 @@
                allowManualInsertRow: false,
                allowRenameColumn: false,
                allowDeleteColumn: false,
+               allowExport: false,
                wordWrap: false,
                filters: true,
                onbeforechange: onBeforeCellValueChange,
@@ -1104,27 +1162,31 @@
                   onCellValueChange(el, cell, x, y, newValue, oldValue);
                },
                onload: function (containerDiv, objInstance) {
-                  bindValidation(objSection.fields, containerDiv);
+                  bindValidationsOnGrid(objSection.fields, containerDiv);
                   bindLongTextPopup(objSection.fields, containerDiv);
                   setCalendarType(objSection.fields, containerDiv);
                   bindDropdownValidation(objSection.fields, containerDiv);
                   //syncTable(this, objSection.data);
                },
-               oninsertrow: function (containerDiv, rowNumber, numOfRows, insertBefore) {
-                  //Find hidden columns in the first row of grid and hide respective columns in new inserted row
-                  $('table.jexcel tbody tr', containerDiv).first().find('td[data-x]').not(':visible').each(function() {
+               oninsertrow: function (containerDiv, rowNumber, numOfRows, historyArray, insertBefore) {
+                  var tr = $('table.jexcel tbody tr', containerDiv).first();
+                  if(insertBefore) tr = $('table.jexcel tbody tr', containerDiv).last();
+                  else rowNumber = rowNumber + 1;
+                  //Find hidden columns in the grid and hide respective columns in new inserted row
+                  tr.find('td[data-x]').not(':visible').each(function() {
                      var intColumnIndex = parseInt($.trim($(this).data('x')));
                      hideColumnWithFilter(containerDiv.jexcel, intColumnIndex);
                   });
 
-                  bindValidation(objSection.fields, containerDiv);
+                  setRowDefaultValues(containerDiv.jexcel, objSection.fields, rowNumber, rowNumber + numOfRows - 1);
+                  bindValidationsOnGrid(objSection.fields, containerDiv);
                   bindLongTextPopup(objSection.fields, containerDiv);
                   setCalendarType(objSection.fields, containerDiv);
                   bindDropdownValidation(objSection.fields, containerDiv);
                  // syncTable(this);
                },
                onpaste: function (containerDiv, arrData) {
-                  bindValidation(objSection.fields, containerDiv);
+                  bindValidationsOnGrid(objSection.fields, containerDiv);
                   bindLongTextPopup(objSection.fields, containerDiv);
                   setCalendarType(objSection.fields, containerDiv);
                },
@@ -1161,7 +1223,11 @@
                   }
                   else {
                      setTimeout(function() {
-                        bindEventsOnCell(cell);
+                        var intMaxLength = parseInt($(cell).data('maxlength'));
+                        if(intMaxLength > 0) {
+                           $('input', cell).attr('maxlength', intMaxLength);
+                        }
+                        bindEventsOnInput(cell, true);
                      }, 100);
                   }
                }
@@ -1173,49 +1239,120 @@
          }
       }
 
-      function bindEventsOnCell(cell) {
-         var intMaxLength = parseInt($(cell).data('maxlength'));
-         if(intMaxLength > 0) {
-            $('input', cell).attr('maxlength', intMaxLength);
+      function setRowDefaultValues(objSpreadSheet, objFields, startRow, endRow) {
+         var index = objFields.findIndex(x => typeof(x.defaultvalue) != 'undefined' && x.defaultvalue != null);
+         if (index == -1) return; //Don't procedd further if default values are not provided
+
+         var arrDefaultValues = [];
+         objFields.forEach(function(obj) {
+            if(typeof(obj.defaultvalue) != 'undefined' && obj.defaultvalue != null)
+               arrDefaultValues.push(obj.defaultvalue);
+            else
+               arrDefaultValues.push('');
+         });
+
+         for(i = startRow; i <= endRow; i++)
+            objSpreadSheet.setRowData(i, arrDefaultValues);
+      }
+
+      function bindEventsOnInput(parent, isGrid) {
+         var intMinLength = parseInt($.trim($(parent).data('minlength')));
+         if($(parent).data('required') != true && $(parent).data('onlynumber') != true && $(parent).data('onlyalpha') != true
+            && $(parent).data('alphanumeric') != true && $.trim($(parent).data('mask')) == '' && (intMinLength > 0) == false)
+            return;
+         $('input', parent).keydown(function (event) {
+            var keyCode = event.keyCode || event.which;
+            //8 - Back Space, 9 - Tab, 32 - Space Bar, 35 - Home key, 36 - End key, 37 - Left Arrow, 39 - Right Arrow, 46 - Delete
+            if ($.inArray(keyCode, [8, 9, 32, 35, 36, 37, 39, 46]) > -1
+               //Allow CTL + A, CTL + C, CTL + X, CTL + V. A - 65, C - 67, V - 86, X - 88
+               || ((keyCode == 65 || keyCode == 67 || keyCode == 86 || keyCode == 88) && (event.ctrlKey === true || event.metaKey === true)))
+               return;
+
+            if($(parent).data('onlynumber') == true) {
+               var arrMask = $.trim($(parent).data('mask')).split('.');
+               var value = $(this).val();
+               if(isNumberKeyPressed(event)) {
+                  var arrValue = value.split('.');
+                  if(arrMask.length > 1 && arrValue.length == 2 && ($.trim(arrValue[1]).length >= $.trim(arrMask[1]).length
+                     && event.target.selectionStart > value.indexOf('.'))) //Prevent adding more than allowed decimal places after dot
+                     event.preventDefault();
+               }
+               //If dot is pressed then check if mask is provided or not. 190 - Dot is Pressed
+               else if(keyCode == 190 && !event.shiftKey) {
+                  if(arrMask.length < 2 || value.indexOf('.') > -1
+                     //Don't allow dot in between number if digit remains after dot are more than the allowed digits
+                     || value.substring(event.target.selectionEnd, value.length).length > $.trim(arrMask[1]).length)
+                     event.preventDefault();
+               }
+               else
+                  event.preventDefault();
+            }
+            else if($(parent).data('onlyalpha') == true && isAlphabetKeyPressed(event) == false)
+               event.preventDefault();
+            else if($(parent).data('alphanumeric') == true && isNumberKeyPressed(event) == false && isAlphabetKeyPressed(event) == false)
+               event.preventDefault();
+         });
+
+         $('input', parent).bind('paste', function (event) {
+            var pastedData = $.trim(event.originalEvent.clipboardData.getData('text'));
+            if($(parent).data('onlynumber') == true && /^[0-9]+$/i.test(pastedData) == false) {
+               if($.trim($(parent).data('mask')).indexOf('.') > -1 && pastedData.indexOf('.') > -1) {
+                  var arrMask = $(parent).data('mask').split('.');
+                  var arrValue = $.trim(pastedData).split('.');
+                  if(arrValue.length >= 2 && /^[0-9]+$/i.test($.trim(arrValue[0])) && /^[0-9]+$/i.test($.trim(arrValue[1]))) {
+                     $(this).val($.trim(arrValue[0]) + '.' + $.trim(arrValue[1]).substring(0, arrMask[1].length));
+                     return false;
+                  }
+                  else
+                     event.preventDefault();
+               }
+               event.preventDefault();
+            }
+            else if($(parent).data('onlyalpha') == true && /^[a-z]+$/i.test(pastedData) == false)
+               event.preventDefault();
+            else if($(parent).data('alphanumeric') == true && /^[a-z0-9]+$/i.test(pastedData) == false)
+               event.preventDefault();
+         });
+
+         if($(parent).data('required') == true || intMinLength > 0) {
+            $('input', parent).blur(function () {
+               checkRequiredAndMinLength($.trim($(this).val()), $(parent).get(0), isGrid);
+            });
          }
 
-         if($(cell).data('onlynumber') == true || $(cell).data('onlyalpha') == true || $(cell).data('alphanumeric') == true) {
-            $('input', cell).keydown(function (event) {
-               var keyCode = event.keyCode || event.which;
-               if (keyCode != 8 && keyCode != 32 && keyCode != 46 //8 - Back Space, 32 - Space Bar, 46 - Delete
-                  && keyCode != 35 && keyCode != 36 //35 - Home key, 36 - End key
-                  && keyCode != 37 && keyCode != 39) { //37 - Left Arrow, 39 - Right Arrow
-                  if($(cell).data('onlynumber') == true && isNumberKeyPressed(event) == false)
-                     event.preventDefault();
-                  if($(cell).data('onlyalpha') == true && isAlphabetKeyPressed(event) == false)
-                     event.preventDefault();
-                  if($(cell).data('alphanumeric') == true && isNumberKeyPressed(event) == false && isAlphabetKeyPressed(event) == false)
-                     event.preventDefault();
-               }
-            });
-
-            $('input', cell).bind('paste', function (event) {
-               var pastedData = event.originalEvent.clipboardData.getData('text');
-               if($(cell).data('onlynumber') == true && /^[0-9]+$/i.test(pastedData) == false)
-                  event.preventDefault();
-               if($(cell).data('onlyalpha') == true && /^[a-z]+$/i.test(pastedData) == false)
-                  event.preventDefault();
-               if($(cell).data('alphanumeric') == true && /^[a-z0-9]+$/i.test(pastedData) == false)
-                  event.preventDefault();
-            });
-
-            var strValue = $.trim($('input', cell).val());
+         if(isGrid) {
+            var strValue = $.trim($('input', parent).val());
             if(strValue != '') {
-               if($(cell).data('onlynumber') == true && /^[0-9]+$/i.test(strValue) == false) {
-                  $('input', cell).val('');
+               if($(parent).data('onlynumber') == true && /^[0-9]+$/i.test(strValue) == false) {
+                  $('input', parent).val('');
                }
-               else if($(cell).data('onlyalpha') == true && /^[a-z ]+$/i.test(strValue) == false) {
-                  $('input', cell).val('');
+               else if($(parent).data('onlyalpha') == true && /^[a-z ]+$/i.test(strValue) == false) {
+                  $('input', parent).val('');
                }
-               else if($(cell).data('alphanumeric') == true && /^[a-z 0-9]+$/i.test(strValue) == false) {
-                  $('input', cell).val('');
+               else if($(parent).data('alphanumeric') == true && /^[a-z 0-9]+$/i.test(strValue) == false) {
+                  $('input', parent).val('');
                }
             }
+         }
+      }
+
+      function checkRequiredAndMinLength(value, parent, isGrid) {
+         var intMinLength = parseInt($(parent).data('minlength'));
+         var errorMsg = '';
+         if($(parent).data('required') && value == '')
+            errorMsg = '{!$Label.AH_UDC_AmadeusFormRequiredValidationMessage}';
+         else if(intMinLength > 0 && value != '' && value.length < intMinLength)
+            errorMsg ='{!$Label.AH_UDC_AmadeusFormMinLengthValidationMessage}'.replace('{0}', intMinLength);
+
+         if(errorMsg != '') {
+            if(isGrid) $(parent).addClass('error-field');
+            else $('input', parent).addClass('error-field');
+            bindToolTip(parent, errorMsg);
+         }
+         else {
+            if(isGrid) $(parent).removeClass('error-field');
+            else $('input', parent).removeClass('error-field');
+            unBindToolTip(parent);
          }
       }
 
@@ -1363,13 +1500,13 @@
          if($(cell).data('required') == true || intMinLength > 0 || intMaxLength > 0) {
             var strErrorMessage = '';
             if($(cell).data('required') == true && (value == null || $.trim(value) == '')) {
-               strErrorMessage = LABEL_AmadeusFormRequiredValidationMessage;
+               strErrorMessage = '{!$Label.AH_UDC_AmadeusFormRequiredValidationMessage}';
             }
             else if(intMinLength > 0 && (value == null || $.trim(value).length < intMinLength)) {
-               strErrorMessage = LABEL_AmadeusFormMinLengthValidationMessage.replace('{0}', intMinLength);
+               strErrorMessage = '{!$Label.AH_UDC_AmadeusFormMinLengthValidationMessage}'.replace('{0}', intMinLength);
             }
             else if(intMaxLength > 0 && $.trim(value).length > intMaxLength) {
-               strErrorMessage = LABEL_AmadeusFormMaxLengthValidationMessage.replace('{0}', intMinLength);
+               strErrorMessage = '{!$Label.AH_UDC_AmadeusFormMaxLengthValidationMessage}'.replace('{0}', intMinLength);
             }
 
             if(strErrorMessage != '') {
@@ -1476,7 +1613,24 @@
          });
       }
 
-      function bindValidation(fields, jspreadsheetEl) {
+      function bindValidationsOnTextControl(objField, fieldWrapper) {
+         if (typeof(objField.type) == 'undefined' || $.trim(objField.type).toLowerCase() != 'text'
+            || typeof(objField.validation) == 'undefined' || objField.validation == null)
+            return;
+         if (typeof(objField.validation.minlength) != 'undefined' && parseInt($.trim(objField.validation.minlength)) > 0)
+            fieldWrapper.attr('data-minlength', parseInt($.trim(objField.validation.minlength)));
+         if (typeof(objField.validation.onlynumber) != 'undefined' && $.trim(objField.validation.onlynumber).toLowerCase() == 'true')
+            fieldWrapper.attr('data-onlynumber', 'true');
+         if (typeof(objField.validation.onlyalpha) != 'undefined' && $.trim(objField.validation.onlyalpha).toLowerCase() == 'true')
+            fieldWrapper.attr('data-onlyalpha', 'true');
+         if (typeof(objField.validation.alphanumeric) != 'undefined' && $.trim(objField.validation.alphanumeric).toLowerCase() == 'true')
+            fieldWrapper.attr('data-alphanumeric', 'true');
+         if (typeof(objField.mask) != 'undefined' && $.trim(objField.mask) != '')
+            fieldWrapper.attr('data-mask', $.trim(objField.mask));
+         bindEventsOnInput(fieldWrapper, false);
+      }
+
+      function bindValidationsOnGrid(fields, jspreadsheetEl) {
          var arrFields = fields.filter(x => x.validation != null);
          arrFields.forEach(function (obj, i) {
             var columnIndex = fields.indexOf(obj);
@@ -1695,7 +1849,7 @@
          //Log error in db
          actionfunction_LogClientException(strMethodName, strErrorMessage);
          $('.form-container').hide();
-         $('#spnAmadeusFormErrorMsg').text(LABEL_AmadeusFormRenderErrorMessage);
+         $('#spnAmadeusFormErrorMsg').text('{!$Label.AH_UDC_AmadeusFormRenderErrorMessage}');
          $('#divAmadeusFormError').show();
       }
 

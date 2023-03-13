@@ -1,5 +1,9 @@
 <apex:component >
    <style type="text/css">
+      .remove-p-space > span > p {
+         padding: 0;
+         margin: 0;
+      }
       .error-field {
          border-color: red !important;
       }

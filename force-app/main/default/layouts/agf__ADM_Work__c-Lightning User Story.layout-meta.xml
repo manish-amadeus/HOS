@@ -221,6 +221,7 @@
     </quickActionList>
     <relatedLists>
         <fields>agf__Theme__c</fields>
+        <fields>AH_CreatedByAutomation__c</fields>
         <relatedList>agf__ADM_Theme_Assignment__c.agf__Work__c</relatedList>
     </relatedLists>
     <relatedLists>
@@ -305,6 +306,10 @@
     </relatedLists>
     <relatedLists>
         <fields>NAME</fields>
+        <fields>agf__Column__c</fields>
+        <fields>agf__Column_Type__c</fields>
+        <fields>CREATEDBY_USER</fields>
+        <fields>CREATED_DATE</fields>
         <relatedList>agf__ADM_Column_History__c.agf__Work__c</relatedList>
     </relatedLists>
     <showEmailCheckbox>false</showEmailCheckbox>

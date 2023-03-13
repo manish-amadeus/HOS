@@ -3,13 +3,15 @@
     <fullName>Shared_Services_Owned_Requests</fullName>
     <columns>NAME</columns>
     <columns>Request_Title__c</columns>
-    <columns>Request_Status__c</columns>
+    <columns>OWNER.LAST_NAME</columns>
     <columns>Request_Type__c</columns>
+    <columns>BS_Related_AH_Project_Backlog__c</columns>
+    <columns>Work_Record_Number__c</columns>
+    <columns>Request_Status__c</columns>
+    <columns>MSD_Ticket__c</columns>
     <columns>Priority__c</columns>
     <columns>Request_Contact__c</columns>
-    <columns>OWNER.ALIAS</columns>
-    <columns>MSD_Ticket__c</columns>
-    <columns>BS_Related_AH_Project_Backlog__c</columns>
+    <columns>Enhancement_Department_Priority__c</columns>
     <filterScope>Everything</filterScope>
     <filters>
         <field>RECORDTYPE</field>
@@ -17,9 +19,9 @@
         <value>Request__c.Shared_Services_Request</value>
     </filters>
     <filters>
-        <field>Request_Status__c</field>
-        <operation>equals</operation>
-        <value>New,Backlog,Acknowledged,In Progress,Pending External Team,Awaiting Information,Pending QA,Waiting on internal</value>
+        <field>Request_Title__c</field>
+        <operation>notContain</operation>
+        <value>Master</value>
     </filters>
     <label>Shared Services Requests - All</label>
 </ListView>

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomSite xmlns="http://soap.sforce.com/2006/04/metadata">
     <active>false</active>
+    <allowGuestPaymentsApi>false</allowGuestPaymentsApi>
     <allowHomePage>false</allowHomePage>
     <allowStandardAnswersPages>false</allowStandardAnswersPages>
     <allowStandardIdeasPages>false</allowStandardIdeasPages>
@@ -28,12 +29,14 @@
     <siteRedirectMappings>
         <action>Permanent</action>
         <isActive>true</isActive>
+        <isDynamic>false</isDynamic>
         <source>/SiteLogin</source>
         <target>/neighborhood/NeighborhoodLogin</target>
     </siteRedirectMappings>
     <siteRedirectMappings>
         <action>Permanent</action>
         <isActive>true</isActive>
+        <isDynamic>false</isDynamic>
         <source>/login</source>
         <target>/neighborhood/NeighborhoodLogin</target>
     </siteRedirectMappings>

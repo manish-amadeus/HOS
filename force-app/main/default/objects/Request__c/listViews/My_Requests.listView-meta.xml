@@ -3,24 +3,20 @@
     <fullName>My_Requests</fullName>
     <columns>NAME</columns>
     <columns>Request_Title__c</columns>
-    <columns>Request_Status__c</columns>
-    <columns>Request_Type__c</columns>
     <columns>MSD_Ticket__c</columns>
-    <columns>BS_Related_AH_Project_Backlog__c</columns>
-    <columns>Priority__c</columns>
-    <columns>Parent_Request__c</columns>
-    <columns>Open_Time__c</columns>
+    <columns>Work_Record_Number__c</columns>
     <columns>Request_Contact__c</columns>
+    <columns>BS_Related_AH_Project_Backlog__c</columns>
+    <columns>RECORDTYPE</columns>
+    <columns>Request_Status__c</columns>
+    <columns>Open_Time__c</columns>
+    <columns>OWNER.FIRST_NAME</columns>
+    <columns>Request_Type__c</columns>
     <filterScope>Mine</filterScope>
     <filters>
         <field>Request_Status__c</field>
         <operation>notEqual</operation>
-        <value>Closed</value>
-    </filters>
-    <filters>
-        <field>Request_Title__c</field>
-        <operation>notContain</operation>
-        <value>Master</value>
+        <value>Closed,Closed - Contract Processed,Closed - Incorrect Mailbox,Closed - Info/Admin Opty Processed,Closed - Unresolved,Rejected,SPAM,Duplicate,Closed Blocked,Closed Cancelled,Closed Fulfilled,Close Duplicate</value>
     </filters>
     <label>My Requests - Owned</label>
 </ListView>

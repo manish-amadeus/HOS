@@ -13,6 +13,7 @@ Description     :
 *************************************************************************************************/
 public with sharing class FillAccount 
 { 
+    
     public NI_Org_Details__c account;   
     public PollingResult__c previous { get; set; }
     public PollingResult__c result { get; set; }    
@@ -23,53 +24,15 @@ public with sharing class FillAccount
     private String orgId;     
     private String origLocale;    
     private String userId;
-
-    // ===== PollingResult__c Fields ===== //
-    // AccountName__c
-    // ApiAllocation__c
-    // ApiCallsRemaining__c
-    // ApiUsage__c
-    // DataStorageAllocation__c
-    // DataStorageRemaining__c
-    // DataStorageUsage__c
-    // DateTime__c
-    // Error__c
-    // ErrorOccured__c
-    // ErrorType__c
-    // HRMPackageVersion__c
-    // AccountId__c
-    // OrgName__c
-    // PackageAllowedLicenses__c
-    // PackageExpirationDate__c
-    // PackageStatus__c
-    // PackageUsedLicenses__c
-    // ReportingPeriod__c
-    // TotalActiveSalesforcePlatformUsers__c
-    // TotalActiveSalesforceUsers__c
-    // TotalActiveUsers__c
-    // TotalBookings__c
-    // TotalEmailCampaigns__c
-    // TotalLicensedSalesforcePlatformUsers__c
-    // TotalLicensedSalesforceUsers__c
-    // TotalLicensedUsers__c
-    // TotalMemberAccounts__c
-    // TotalReservations__c
-    // TotalUsersRemaining__c
-    // UnmanagedCustomApps__c
-    // UnmanagedCustomObjects__c
-    // UnmanagedCustomTabs__c
-// ADDED THESE FIELDS 3/11/2014 for NICC-009760    
-    // FileStorageLimit__c
-    // FileStoragePercentUsed__c
-    // FileStorageUsed__c
-                    
+     
+    
     public FillAccount()
     {
         this.isTest = false;
         this.previous = new PollingResult__c();
         this.result = new PollingResult__c();
     }
-
+    
     // MAIN FUNCTION
     public void fill()
     { 
@@ -82,21 +45,17 @@ public with sharing class FillAccount
             { 
                 return;
             }
-
+            
             parseStorageUsage(); 
-            parseStorageFileUsage(); // ADDED THIS CALL TO NEW FUNCTION 3/11/2014 for NICC-009760  
+            parseStorageFileUsage();
             parseUnmanaged(); 
             parsePackages(); 
             parseLicenses(); 
-            
-            // SMH - INSTALLED PACKAGES DETAILS - START
             fetchInstalledPackages(); 
-            // SMH - INSTALLED PACKAGES DETAILS - END 
+            
         }
         catch (Exception ex)
         {
-        	system.debug('exception==='+ex.getmessage()+'===='+ex.getlinenumber());
-        	system.debug('exception==='+ex.getStackTraceString());
             fillError(ex);
         }
     }
@@ -115,73 +74,71 @@ public with sharing class FillAccount
         Long repPerMilli = getCurDateTime().getTime() - previous.DateTime__c.getTime();
         result.ReportingPeriod__c = repPerMilli / (1000 * 60 * 60);
     }
-       
+
     private void login() 
     {   
         // ADDED 7/16/2013 ====================================================================================
-        string sEndPoint = 'https://login.salesforce.com/services/Soap/u/26.0'; 
+        string sEndPoint = 'https://login.salesforce.com/services/Soap/u/55.0'; 
         
         if (account.Org_Type__c.Contains('Salesforce Sandbox'))
         {   
-            sEndPoint = 'https://test.salesforce.com/services/Soap/u/26.0'; 
+            sEndPoint = 'https://test.salesforce.com/services/Soap/u/55.0'; 
         }
-
+        
         PartnerRemote.Soap soap = new PartnerRemote.Soap();
-        //PartnerRemote.LoginResult loginResult = soap.login(account.AdminLoginName__c, account.AdminPassword__c); <-- ORIGINAL
-        // PartnerRemote.LoginResult loginResult = soap.login(account.AdminLoginName__c, account.AdminPassword__c, sEndPoint); 
-        //PartnerRemote.LoginResult loginResult = soap.login(account.AdminLoginName__c, account.AdminPassword__c.trim() + account.SecurityToken__c.trim(), sEndPoint); 
-        //if(!Test.isRunningTest()){
-	        PartnerRemote.LoginResult loginResult = soap.login(account.Admin_Login_Name_Encrypted__c, account.Admin_Password_Encrypted__c.trim() + account.Security_Token_Encrypted__c.trim(), sEndPoint);  
-	        soap.endpoint_x = loginResult.serverUrl; 
-	        serverUrl = loginResult.serverUrl.split('/services')[0]; 
-	        sessionId = loginResult.sessionId; 
-	        orgId = loginResult.userInfo.organizationId; 
-	        origLocale = loginResult.userInfo.userLocale; 
-	        userId = loginResult.userInfo.userId; 
-        //}
-    }
+        
+        PartnerRemote.LoginResult loginResult = soap.login(account.Admin_Login_Name_Encrypted__c, account.Admin_Password_Encrypted__c.trim() + account.Security_Token_Encrypted__c.trim(), sEndPoint);  
 
+        soap.endpoint_x = loginResult.serverUrl; 
+        serverUrl = loginResult.serverUrl.split('/services')[0]; 
+        sessionId = loginResult.sessionId; 
+        orgId = loginResult.userInfo.organizationId; 
+        origLocale = loginResult.userInfo.userLocale; 
+        userId = loginResult.userInfo.userId; 
+        
+    }
+    
     // PARSING FUNCTIONS ===========================================================================================    
     private Boolean parseSystemOverview() 
     {
+
         String body = getPage('/setup/systemOverview.apexp', false);
+
         // IF PASSWORD CHANGED, BAIL
         if (Test.isRunningTest() && body.contains('Unauthorized endpoint, please check Setup->Security->Remote site settings'))
         {
             fillError(body);
         }
+        
         if (detectChangePassword(body))
         {
             return false;
         }
-system.debug('*^* body.length() = ' + body.length());        
+system.debug(' *** body = ' + body);        
         Matcher pattApiUsage = Pattern.compile('usage_block_api_num_1"><span class="textOnly">(.+)<').matcher(body);
-        //Matcher pattApiAllocation = Pattern.compile('</span>\\(.*? (\\d.+)\\)').matcher(body.substringAfter('j_id0:j_id12:1:j_id16:j_id17:j_id24:0:j_id52'));
         Matcher pattApiAllocation = Pattern.compile('</span>&nbsp;\\(.*? (\\d.+)\\)').matcher(body.substringAfter('j_id0:j_id12:1:j_id16:j_id17:j_id24:0:j_id52'));
-        //Matcher pattDataStorage = Pattern.compile('usage_block_schema_num_3">.*>(.+)&nbsp;(GB|MB|KB)</a>').matcher(body);
         Matcher pattDataStorage = Pattern.compile('usage_block_schema_num_5">.*>(.+)&nbsp;(GB|MB|KB)</a>').matcher(body);
         Matcher pattDataAllocation = Pattern.compile('</span>.*? (\\d.+)&nbsp;(MB|GB|KB)\\)').matcher(body.substringAfter('j_id0:j_id12:0:j_id16:j_id17:j_id24:2:j_id52'));
-
+        
         pattApiUsage.find();
-system.debug('*^* pattApiUsage.group(1) = ' + pattApiUsage.group(1));            
+        
         result.ApiUsage__c = getDecimal(pattApiUsage.group(1).replace(',', ''));       
         pattApiAllocation.find();
-system.debug('*^* pattApiAllocation.group(1) = ' + pattApiAllocation.group(1));            
+        
         result.ApiAllocation__c = getDecimal(pattApiAllocation.group(1));           
         pattDataStorage.find();
-system.debug('*^* pattDataStorage.group(1) = ' + pattDataStorage.group(1)); 
+        
         result.DataStorageUsage__c = getGbAmount(pattDataStorage.group(1), pattDataStorage.group(2));      
         
         if (!pattDataAllocation.find()) 
         {
-            //pattDataAllocation = Pattern.compile('&nbsp;.*? .*? (\\d.*?)&nbsp;(GB|MB|KB)').matcher(body.substringAfter('j_id0:j_id12:0:j_id16:j_id17:j_id24:2:j_id46'));
             pattDataAllocation = Pattern.compile('&nbsp;.*? .*? (\\d.*?)&nbsp;(GB|MB|KB)').matcher(body.substringAfter('j_id0:j_id12:4:j_id16:j_id17:j_id24:0:j_id46'));
             pattDataAllocation.find();
         }
         result.DataStorageAllocation__c = getGbAmount(pattDataAllocation.group(1), pattDataAllocation.group(2));
         return true;
     }
-        
+    
     private void parseStorageUsage() 
     {
         String body = getPage('/setup/org/orgstorageusage.jsp?id=' + orgId, true);
@@ -190,8 +147,8 @@ system.debug('*^* pattDataStorage.group(1) = ' + pattDataStorage.group(1));
         result.TotalEmailCampaigns__c = parseStorageUsageElement(body, '(?:Email Campaigns|Почтовые рассылки)');
         result.TotalMemberAccounts__c = parseStorageUsageElement(body, '(?:Member Accounts|Счета участника)');
     }
-
-// ADDED THIS FUNCTION 3/11/2014 for NICC-009760     
+    
+    // ADDED THIS FUNCTION 3/11/2014 for NICC-009760     
     private void parseStorageFileUsage() 
     {
         string str = '>File Storage</th><td class=" dataCell  numericalColumn">(.+?)</td><td class=" dataCell  numericalColumn">(.+?)</td><td class=" dataCell  numericalColumn">(.+?)<';
@@ -219,29 +176,6 @@ system.debug('*^* pattDataStorage.group(1) = ' + pattDataStorage.group(1));
         result.UnmanagedCustomTabs__c = getUnManagedCount(getPage('/setup/ui/customtabs.jsp', true));
     }   
     
- /*   NICC-026755
-    private void parsePackages() 
-    {
-        String body = getPage('/0A3?setupid=ImportedPackage', true);
-        String headerBody = body.substringAfter('zen-deemphasize">');
-        //Matcher pattBeginMarker = Pattern.compile('(HRM|Libra OnDemand)</a>').matcher(headerBody);
-        Matcher pattBeginMarker = Pattern.compile('(HRM|Libra OnDemand|Sales\\s*&amp;\\s*Event\\s*Management)</a>').matcher(headerBody);
-        //Matcher pattBeginMarker = Pattern.compile('(MQL\\s*&amp;\\s*New\\s*Opportunity\\s*Process)</a>').matcher(body);
-        if (!pattBeginMarker.find()) 
-        {
-            return;
-        }       
-        String packBody = headerBody.substring(pattBeginMarker.end());          
-        result.HRMPackageVersion__c = getPackageCollumn(packBody, getCollumnIndex(headerBody, new String[] {'Version Number', 'Номер версии'}));
-        result.PackageStatus__c = getPackageCollumn(packBody, getCollumnIndex(headerBody, new String[] {'Status', 'Статус'}));
-        result.PackageAllowedLicenses__c = getPackageCollumn(packBody, getCollumnIndex(headerBody, new String[] {'Allowed Licenses', 'Допустимые лицензии'}));
-        result.PackageUsedLicenses__c = getPackageCollumn(packBody, getCollumnIndex(headerBody, new String[] {'Used Licenses', 'Использовано лицензий'}));
-        result.PackageExpirationDate__c = getPackageCollumn(packBody, getCollumnIndex(headerBody, new String[] {'Expiration Date', 'Дата истечения срока действия'}));
-    }
-*/        
-
-    
-    // NICC-026755
     public void parsePackages() 
     {
         MetadataService.SERVER_URL = serverUrl;
@@ -249,16 +183,13 @@ system.debug('*^* pattDataStorage.group(1) = ' + pattDataStorage.group(1));
         Httprequest request = getHttpRequests(serverUrl);
         httpresponse permiResp = getHttpResponse(request, sessionId, sql);
         string resp= permiResp.getBody();
-        //system.debug('resp'+resp);
         Dom.XmlNode resultElmtPerm;
         
         List<Package_Namespace_Preefix__mdt> packagePrefixes = new List<Package_Namespace_Preefix__mdt>();
         packagePrefixes = [SELECT DeveloperName FROM Package_Namespace_Preefix__mdt];
         List<String> NameList = new List<String>();
-        
-        system.debug('packagePrefixes : '+packagePrefixes);
-        
-        for(Package_Namespace_Preefix__mdt pck : packagePrefixes){
+
+        for (Package_Namespace_Preefix__mdt pck : packagePrefixes) {
             NameList.add(pck.DeveloperName);
         }
         
@@ -278,13 +209,12 @@ system.debug('*^* pattDataStorage.group(1) = ' + pattDataStorage.group(1));
                     .getChildElement('Body', 'http://schemas.xmlsoap.org/soap/envelope/')
                     .getChildElement('queryResponse', 'urn:enterprise.soap.sforce.com')
                     .getChildElement('result', 'urn:enterprise.soap.sforce.com');
-                System.debug('resultElmtPerm : '+ resultElmtPerm);
-                
+ 
                 Map<String, Map<String,String>> instPkgs = new Map<String, Map<String,String>>();
                 
                 if (resultElmtPerm != null) {
-                    for(Dom.XMLNode child : resultElmtPerm .getChildElements()) {
-                        if(child.getName() == 'records' ) {
+                    for (Dom.XMLNode child : resultElmtPerm .getChildElements()) {
+                        if (child.getName() == 'records' ) {
                             
                             String ExpirationDate = '';
                             String Status = '';
@@ -296,23 +226,23 @@ system.debug('*^* pattDataStorage.group(1) = ' + pattDataStorage.group(1));
                                 
                                 if (innerChild.getName() != null && innerChild.getName() == 'NamespacePrefix') 
                                     NamespacePrefix_pkg = innerChild.getText();
-                                	installedPkg.put('NamespacePrefix', NamespacePrefix_pkg);
+                                installedPkg.put('NamespacePrefix', NamespacePrefix_pkg);
                                 
                                 if (innerChild.getName() != null && innerChild.getName() == 'ExpirationDate') 
                                     ExpirationDate = innerChild.getText();
-                                	installedPkg.put('ExpirationDate', ExpirationDate);
+                                installedPkg.put('ExpirationDate', ExpirationDate);
                                 
                                 if (innerChild.getName() != null && innerChild.getName() == 'Status') 
                                     Status = innerChild.getText();
-                                	installedPkg.put('Status', Status);
+                                installedPkg.put('Status', Status);
                                 
                                 if (innerChild.getName() != null && innerChild.getName() == 'AllowedLicenses') 
                                     AllowedLicenses = innerChild.getText();
-                                	installedPkg.put('AllowedLicenses', AllowedLicenses);
+                                installedPkg.put('AllowedLicenses', AllowedLicenses);
                                 
                                 if (innerChild.getName() != null && innerChild.getName() == 'UsedLicenses') 
                                     UsedLicenses = innerChild.getText();
-                                	installedPkg.put('UsedLicenses', UsedLicenses);
+                                installedPkg.put('UsedLicenses', UsedLicenses);
                             }
                             if (NamespacePrefix_pkg != '' && !instPkgs.containsKey(NamespacePrefix_pkg))
                             {
@@ -321,8 +251,6 @@ system.debug('*^* pattDataStorage.group(1) = ' + pattDataStorage.group(1));
                         }
                     }
                 }
-                system.debug('instPkgs : '+instPkgs);
-                system.debug('NameList : '+NameList);
                 
                 // ITERATE OVER nameSpaces FROM CUSTOM METADATA TYPE
                 for (String nameSpacePrefix : NameList) {
@@ -331,7 +259,6 @@ system.debug('*^* pattDataStorage.group(1) = ' + pattDataStorage.group(1));
                     // IF MATCH FOUND MAKE METADATA API CALL FOR VERSION NUMBER AND BREAK THE LOOP 
                     if (instPkgs.containsKey(nameSpacePrefix)) {
                         
-                        system.debug('Name space found : '+ nameSpacePrefix);
                         Map<String, String> retPkgdata = instPkgs.get(nameSpacePrefix);
                         
                         result.PackageExpirationDate__c = retPkgdata.get('ExpirationDate');
@@ -346,63 +273,59 @@ system.debug('*^* pattDataStorage.group(1) = ' + pattDataStorage.group(1));
                         {
                             result.PackageAllowedLicenses__c = 'Unlimited';
                         }
-
+                        
                         // METADATA API CALL TO GET PACKAGE VERSION NUMBER                                
                         MetadataService.MetadataPort service = createService();
                         List<String> nameList1 = new List<String>();
                         nameList1.add(nameSpacePrefix);
                         MetadataService.IReadResult readResult = service.readMetadata('InstalledPackage', nameList1);
-                        //System.debug('readResult : '+readResult);
-                        List<MetadataService.InstalledPackage> t = (List<MetadataService.InstalledPackage>)readResult.getRecords();
 
-                        for(MetadataService.InstalledPackage ins : t){
+                        List<MetadataService.InstalledPackage> t = (List<MetadataService.InstalledPackage>)readResult.getRecords();
+                        
+                        for (MetadataService.InstalledPackage ins : t){
                             result.HRMPackageVersion__c = ins.versionNumber;
                         }
-						break;
+                        break;
                     }
-            	}
+                }
             }
             catch(Exception e){
                 System.debug('Error occured at line : ' +e.getLineNumber() + ' => '+e);
             }
         }  
-        System.debug('result.HRMPackageVersion__c :'+result.HRMPackageVersion__c);
-        System.debug('result.PackageStatus__c :'+result.PackageStatus__c);
-        System.debug('result.PackageAllowedLicenses__c :'+result.PackageAllowedLicenses__c);
-        System.debug('result.PackageUsedLicenses__c :'+result.PackageUsedLicenses__c);
-        System.debug('result.PackageExpirationDate__c :'+result.PackageExpirationDate__c);
+        
     }
     
     public MetadataService.MetadataPort createService()
-	{   
-		MetadataService.MetadataPort service = new MetadataService.MetadataPort();
-		service.SessionHeader = new MetadataService.SessionHeader_element();
+    {   
+        MetadataService.MetadataPort service = new MetadataService.MetadataPort();
+        service.SessionHeader = new MetadataService.SessionHeader_element();
         service.SessionHeader.sessionId = sessionId;
-		return service;		
-	}
-
-	public static httprequest getHttpRequests(string SERVER_URL){
+        return service;     
+    }
+    
+    public static httprequest getHttpRequests(string SERVER_URL){
         
         Httprequest request = new HttpRequest();
-        request.setEndpoint(SERVER_URL + '/services/Soap/c/36.0');
+        request.setEndpoint(SERVER_URL + '/services/Soap/c/55.0');
         request.setMethod('POST');
         request.setHeader('Content-Type', 'text/xml;charset=UTF-8');
         request.setHeader('SOAPAction', '""');
         return request;
     }
-
+    
     public static HttpResponse getHttpResponse (Httprequest request, String SESSION_ID, String sql){
         
         HttpResponse permiResp = new HttpResponse();
         try {
-        	request.setBody('<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:urn="urn:enterprise.soap.sforce.com">'+
-                        '<soapenv:Header><urn:QueryOptions><urn:batchSize>2</urn:batchSize></urn:QueryOptions>'+
-                        '<urn:SessionHeader><urn:sessionId>'+SESSION_ID+'</urn:sessionId></urn:SessionHeader>'+
-                        '</soapenv:Header><soapenv:Body>'+
-                        '<urn:query><urn:queryString>'+sql+'</urn:queryString>'+
-                        '</urn:query></soapenv:Body></soapenv:Envelope>');      
-        
-        	permiResp = (new Http()).send(request);
+            request.setBody('<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:urn="urn:enterprise.soap.sforce.com">'+
+                            '<soapenv:Header><urn:QueryOptions><urn:batchSize>2</urn:batchSize></urn:QueryOptions>'+
+                            '<urn:SessionHeader><urn:sessionId>'+SESSION_ID+'</urn:sessionId></urn:SessionHeader>'+
+                            '</soapenv:Header><soapenv:Body>'+
+                            '<urn:query><urn:queryString>'+sql+'</urn:queryString>'+
+                            '</urn:query></soapenv:Body></soapenv:Envelope>');      
+            
+            permiResp = (new Http()).send(request);
         } 
         catch(Exception e) {
             System.debug('Exception captured in getHttpRespose : '+e.getlinenumber()+'\n\n'+e.getMessage());
@@ -429,7 +352,7 @@ system.debug('*^* pattDataStorage.group(1) = ' + pattDataStorage.group(1));
         return getDecimal(pattElem.group(1).replace(',', ''));
     }
     
-        
+    
     // ERROR REPORTING FUNCTIONS ==================================================================================
     private void fillError(Exception ex) 
     {
@@ -448,14 +371,14 @@ system.debug('*^* pattDataStorage.group(1) = ' + pattDataStorage.group(1));
         {
             result.ErrorType__c = pattErrorType.group(1);
         }
-     
+        
         if (error.contains('Unauthorized endpoint, please check Setup->Security->Remote site settings'))
         {
             result.ErrorType__c = 'Unauthorized endpoint';
             result.Endpoint_URL__c = endPointURL;
         }
     }    
-
+    
     private String getPage(string url, Boolean setSid) 
     {        
         PageReference theUrl = new PageReference(serverUrl + url);
@@ -478,17 +401,17 @@ system.debug('*^* pattDataStorage.group(1) = ' + pattDataStorage.group(1));
         HttpResponse response = (new Http()).send(request);
         return response.getBody();
     }
-
+    
     private Integer getCheckedCount(String body) 
     {
         return getPatternCount(body, 'src="/img/checkbox_checked.gif"');
     }
-
+    
     private Integer getUnManagedCount(String body) 
     {
         return getPatternCount(body, '<td class="iconColumn">&nbsp;</td>');
     }
-
+    
     private Integer getItemsCount(String body) 
     {
         return getPatternCount(body, '<!-- ListRow -->');       
@@ -552,7 +475,6 @@ system.debug('*^* pattDataStorage.group(1) = ' + pattDataStorage.group(1));
     private Integer getLicensesCollumn(String licType, Integer col, String body) 
     {
         String itemBeginMarker = licType + '</th>';
-        //String itemBody = body.substringAfter(itemBeginMarker);
         String itemBody = body.substringAfter(itemBeginMarker).replace(',', '');
         Matcher pattCol = Pattern.compile('<td class=" *dataCell *numericalColumn">(\\d+)</td>').matcher(itemBody);
         
@@ -565,7 +487,7 @@ system.debug('*^* pattDataStorage.group(1) = ' + pattDataStorage.group(1));
         }
         return Integer.valueOf(pattCol.group(1));
     }
-      
+    
     private Datetime getCurDateTime() 
     {
         return isTest ? Datetime.newInstance(0) : Datetime.now();
@@ -574,13 +496,6 @@ system.debug('*^* pattDataStorage.group(1) = ' + pattDataStorage.group(1));
     private Decimal getDecimal(String value) 
     {
         Decimal retDec = 0;
-/*
-        Boolean euroLocale = isEuropeanLocale(value);
-        value = value.replace(' ', '');                     
-        value = value.replace(euroLocale ? '.' : ',', '');
-        return Decimal.valueOf(value.replace(euroLocale ? ',' : '.', '.')); 
-*/
-    	
         // REMOVE ANY SPACES
         value = value.replace(' ', '');  
         // REMOVE COMMAS 
@@ -590,12 +505,10 @@ system.debug('*^* pattDataStorage.group(1) = ' + pattDataStorage.group(1));
         // REMOVE PERIODS 
         Boolean euroLocale = isEuropeanLocale(value);                    
         value = value.replace(euroLocale ? '.' : ',', '');
-        //value = value.replace('.', '');  
-        
         retDec = Decimal.valueOf(value);
-            
+        
         return retDec;
-            
+        
     }
     
     private Decimal getGbAmount(String value, String unitType) 
@@ -603,32 +516,18 @@ system.debug('*^* pattDataStorage.group(1) = ' + pattDataStorage.group(1));
         return getDecimal(value) / (unitType == 'MB' ? 1024 : unitType == 'KB' ? 1024 * 1024 : 1);
     }    
     
-    
-    // UTILITY FUNCTIONS  ==================================================================================================
-    /*private String addParam(String input, String param) 
-    {
-        if (input == null || param == null) 
-        {
-            return param;
-        }   
-        else 
-        {
-            return input + ',' + param;
-        }
-    }   
-    */
     private Boolean detectChangePassword(string body) 
     { 
         if (body.indexOf('var url = \'/_ui/system/security/ChangePassword?') != -1) 
         {
-        	//system.debug('==password expired==');
+            //system.debug('==password expired==');
             fillError('Password expired');
             result.ErrorType__C = 'PASSWORD_EXPIRED';
             return true;
         }
         return false;
     }
-
+    
     private Boolean isEuropeanLocale(String value) 
     {
         Integer commaIndex = value.indexOf(',');
@@ -644,9 +543,7 @@ system.debug('*^* pattDataStorage.group(1) = ' + pattDataStorage.group(1));
         }
         return false;
     }
- 
-
-    // SMH - INSTALLED PACKAGES DETAILS - START
+    
     private void fetchInstalledPackages()
     {         
         try 
@@ -656,7 +553,7 @@ system.debug('*^* pattDataStorage.group(1) = ' + pattDataStorage.group(1));
             
             // RETRIEVE INSTALLED PACKAGES PAGE MARKUP
             String body = getPage('/0A3?setupid=ImportedPackage', true);
-
+            
             // EXTRACT INSTALLED PACKAGES HTML TABLE
             String htmlTableBody = body.substringAfter('<table class="list"');
             htmlTableBody = htmlTableBody.substringBefore('</table>');
@@ -666,7 +563,7 @@ system.debug('*^* pattDataStorage.group(1) = ' + pattDataStorage.group(1));
             
             // LIST OF EXTRACTED INSTALLED PACKAGES TO BE UPSERTED
             List<NI_Org_Details_Installed_Packages__c> lstODInstPacksUpsert = new List<NI_Org_Details_Installed_Packages__c>();
-
+            
             // LIST OF EXTRACTED INSTALLED PACKAGES FROM SCRAPE
             List<NI_Org_Details_Installed_Packages__c> lstODInstPacksNew = new List<NI_Org_Details_Installed_Packages__c>();
             
@@ -678,11 +575,6 @@ system.debug('*^* pattDataStorage.group(1) = ' + pattDataStorage.group(1));
                  FROM NI_Org_Details_Installed_Packages__c 
                  WHERE NI_Org_Details__c =: od.Id]
             );
-            
-            // LIST OF PREVIOUSLY INSERTED INSTALLED PACKAGE DETAILS RECORDS TO BE DELETED
-//            List<NI_Org_Details_Installed_Packages__c> lstODInstPacksPurge = new List<NI_Org_Details_Installed_Packages__c>(
-//                [SELECT Id FROM NI_Org_Details_Installed_Packages__c WHERE NI_Org_Details__c =: od.Id]
-//            );
             
             // LOOP THOUGH AND PARSE TABLE ROWS
             for (integer i = 0; i < strRows.Size(); i++)
@@ -766,12 +658,11 @@ system.debug('*^* pattDataStorage.group(1) = ' + pattDataStorage.group(1));
                     if ((lstNewIPs.Name == lstOldIPs.Name) && 
                         (lstNewIPs.Publisher__c == lstOldIPs.Publisher__c) && 
                         (lstNewIPs.NI_Org_Details__c == lstOldIPs.NI_Org_Details__c) 
-                    )
+                       )
                     {
-						bFound = true;
-                        //lstOldIPs.Managed__c;
-                        //lstOldIPs.Install_Date__c;  
-						if (lstNewIPs.Version_Number__c != lstOldIPs.Version_Number__c)
+                        bFound = true;
+                        
+                        if (lstNewIPs.Version_Number__c != lstOldIPs.Version_Number__c)
                         {
                             bHasChanged = true;
                         }
@@ -787,7 +678,7 @@ system.debug('*^* pattDataStorage.group(1) = ' + pattDataStorage.group(1));
                         {
                             bHasChanged = true;
                         }
-						if (lstNewIPs.Expiration_Date__c != lstOldIPs.Expiration_Date__c)
+                        if (lstNewIPs.Expiration_Date__c != lstOldIPs.Expiration_Date__c)
                         {
                             bHasChanged = true;
                         }
@@ -799,7 +690,7 @@ system.debug('*^* pattDataStorage.group(1) = ' + pattDataStorage.group(1));
                         {
                             bHasChanged = true;
                         }                 
-						if (lstNewIPs.Tabs__c != lstOldIPs.Tabs__c)
+                        if (lstNewIPs.Tabs__c != lstOldIPs.Tabs__c)
                         {
                             bHasChanged = true;
                         }
@@ -807,10 +698,9 @@ system.debug('*^* pattDataStorage.group(1) = ' + pattDataStorage.group(1));
                         {
                             bHasChanged = true;
                         }       
-						// ADD TO UPSERT ONLY IF THERE IS CHANGE
+                        // ADD TO UPSERT ONLY IF THERE IS CHANGE
                         if (bHasChanged)
                         {
-system.debug(' --- bHasChanged = ' + bHasChanged);
                             lstODInstPacksUpsert.Add(lstOldIPs);
                         }
                         
@@ -818,8 +708,7 @@ system.debug(' --- bHasChanged = ' + bHasChanged);
                 }
                 // ADD TO UPSERT ONLY IF MISSING
                 if (!bFound)
-                {
-system.debug(' --- bFound = ' + bFound);                     
+                {                    
                     lstODInstPacksUpsert.add(lstNewIPs);
                 }
                 
@@ -827,10 +716,9 @@ system.debug(' --- bFound = ' + bFound);
             
             if (lstODInstPacksUpsert.Size() > 0)
             {
-system.debug(' --- ' + lstODInstPacksUpsert.get(0).NI_Org_Details__c +  ' = lstODInstPacksUpsert.Size() = ' + lstODInstPacksUpsert.Size()); 
-            	Database.upsert(lstODInstPacksUpsert);                
+                Database.upsert(lstODInstPacksUpsert);                
             }
-			 
+            
         }        
         catch (Exception e)
         {
@@ -841,7 +729,7 @@ system.debug(' --- ' + lstODInstPacksUpsert.get(0).NI_Org_Details__c +  ' = lstO
         }
         
     } 
-
+    
     // REGEX PARSERS ===============================================================================================================================
     private String getPackageNumeric(String body, Integer col) 
     {
@@ -849,7 +737,7 @@ system.debug(' --- ' + lstODInstPacksUpsert.get(0).NI_Org_Details__c +  ' = lstO
         {
             return null;
         }
-
+        
         Matcher pattColl = Pattern.compile('<td class=" *dataCell *numericalColumn">(<span +class=".*?">)?(.*?)(</span>)?</td>').matcher(body);
         
         for(Integer i = 0; i < col; i++) 
@@ -865,7 +753,7 @@ system.debug(' --- ' + lstODInstPacksUpsert.get(0).NI_Org_Details__c +  ' = lstO
         {
             return null;
         }
-
+        
         Matcher pattColl = Pattern.compile('<th scope="row" class=" *dataCell *">(<a href=".*?">)?(.*?)(</a>)?</th>').matcher(body);
         
         for(Integer i = 0; i < col; i++) 
@@ -881,7 +769,7 @@ system.debug(' --- ' + lstODInstPacksUpsert.get(0).NI_Org_Details__c +  ' = lstO
         {
             return null;
         }
-
+        
         Matcher pattColl = Pattern.compile('<td class=" *dataCell *DateElement">(<span +class=".*?">)?(.*?)(</span>)?</td>').matcher(body);
         
         for(Integer i = 0; i < col; i++) 
@@ -890,7 +778,5 @@ system.debug(' --- ' + lstODInstPacksUpsert.get(0).NI_Org_Details__c +  ' = lstO
         }
         return pattColl.group(2);
     } 
-        
-    // SMH - INSTALLED PACKAGES DETAILS - END 
-
+    
 }

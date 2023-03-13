@@ -16,7 +16,7 @@
       }
       function updateTimerStart(){
          //Only start the refresh timer if there isn't an error
-         if (isPageLoadErrorMessage=='') RefreshTimer = setTimeout(UpdateTimer, UpdateTimerIntervalInMilliSeconds);
+         if (isPageLoadErrorMessage=='' && isWorkbookSent == true) RefreshTimer = setTimeout(UpdateTimer, UpdateTimerIntervalInMilliSeconds);
       }
       function updateTimerStop(){
          clearTimeout(RefreshTimer);
@@ -87,7 +87,7 @@
          //Check if current step is saved - otherwise prompt
          if(!isFormAssemblySaved)
          {
-            showNotificationsWithButtons(LABEL_VerifyFormSave, 'MarkStepComplete');
+            showNotificationsWithButtons('{!$Label.AH_UDC_ViewWorkbook_VerifyFormSave}', 'MarkStepComplete');
             return;
          }
 
@@ -121,6 +121,7 @@
             //Don't display confirmation message if user is on start page or workbook completion page
             isFormAssemblySaved = true;
          }
+
       }
 
       function changeToStep(requestedStepPosition, isLocked, isPrerequisiteStepNotCompleted, prerequisiteStepPosition, prerequisiteStepName)
@@ -137,22 +138,22 @@
          {
             if(typeof(isLocked) != 'undefined' && isLocked.toLowerCase() == 'true')
             {
-               showNotifications(LABEL_StepLockedMessage); //Display message and don't allow user to proceed with step
+               showNotifications('{!$Label.AH_UDC_StepLockedMessage}'); //Display message and don't allow user to proceed with step
                return;
             }
 
             if(typeof(isPrerequisiteStepNotCompleted) != 'undefined' && isPrerequisiteStepNotCompleted.toLowerCase() == 'true')
             {
-               var message = LABEL_PrerequisiteStepNotCompletedMessage.replace('{0}', prerequisiteStepPosition).replace('{1}', prerequisiteStepName);
+               var message = '{!$Label.AH_UDC_PrerequisiteStepNotCompletedMessage}'.replace('{0}', prerequisiteStepPosition).replace('{1}', prerequisiteStepName);
                showNotifications(message); //Display message and don't allow user to proceed with step
                return;
             }
 
             //Check if current step is saved - otherwise prompt
-            if(!isFormAssemblySaved)
+            if(!isFormAssemblySaved && !currentStepIsAmadeusFileUpload)
             {
                requestedStepPositionForConfirm = requestedStepPosition;
-               showNotificationsWithButtons(LABEL_VerifyFormSave, 'ChangeToStep');
+               showNotificationsWithButtons('{!$Label.AH_UDC_ViewWorkbook_VerifyFormSave}', 'ChangeToStep');
                return;
             }
             showSpinner();
@@ -282,13 +283,17 @@
 
       function isStepVisible(elem)
       {
-          var docViewTop = $('.sidebar .left-side').scrollTop();
-          var docViewBottom = docViewTop + $('.sidebar .left-side').height();
+         try {
+            var docViewTop = $('.sidebar .left-side').scrollTop();
+            var docViewBottom = docViewTop + $('.sidebar .left-side').height();
 
-          var elemTop = $(elem).offset().top;
-          var elemBottom = elemTop + $(elem).height();
+            var elemTop = $(elem).offset().top;
+            var elemBottom = elemTop + $(elem).height();
 
-          return (elemBottom <= docViewBottom && elemTop >= docViewTop);
+            return (elemBottom <= docViewBottom && elemTop >= docViewTop);
+         }
+         catch(e){
+         }
       }
 
       function completeInitialRender()
@@ -307,30 +312,52 @@
 
       function completeReRender()
       {
-         if (isPageLoadErrorMessage == true)
-            //Don't show the page if a controller page load error has occurred
-            updateTimerStop(); //If there is an error then stop timer otherwise it will hide error message and show page again
-         else {
-            setChatterIcon();
-            setStartCompleteColor();
+         if (isWorkbookSent == false)
+         {
+            document.getElementById('mark_complete_button').style.display='none';
+            document.getElementById('completed_button').style.display='none';
+         }
+         else
+         {
+            if (isPageLoadErrorMessage == true)
+               //Don't show the page if a controller page load error has occurred
+               updateTimerStop(); //If there is an error then stop timer otherwise it will hide error message and show page again
+            else {
+               setChatterIcon();
+               setStartCompleteColor();
 
-            displayHelp(currentStepHelpUrl);
+               displayHelp(currentStepHelpUrl);
 
-            //Hide Mark Complete Button
-            if (currentStepStatus=='' || currentStepStatus=='Completed' || currentStepStatus=='Locked')
-            {
                document.getElementById('mark_complete_button').style.display='none';
-            }
-            else
-            {
-               document.getElementById('mark_complete_button').style.display='';
                document.getElementById('completed_button').style.display='none';
-            }
-            if (NotificationToShow!='') showNotifications(NotificationToShow);
 
-            if($('#infoIcon').length > 0) {
-               unBindToolTip($('#infoIcon').get(0));
-               bindToolTip($('#infoIcon').get(0), $('#infoIcon').data('tooltip'), null, '75%', 'lastupdatedby-helptext-show');
+               //Hide Mark Complete Button
+               if (isWorkbookArchived)
+               {
+                  document.getElementById('mark_complete_button').style.display='none';
+                  document.getElementById('completed_button').style.display='none';
+               }
+               else if (currentStepStatus=='Completed' || currentStepStatus=='Locked')
+               {
+                  document.getElementById('mark_complete_button').style.display='none';
+                  document.getElementById('completed_button').style.display='';
+               }
+               else if (currentStepStatus=='New')
+               {
+                  document.getElementById('mark_complete_button').style.display='none';
+                  document.getElementById('completed_button').style.display='none';
+               }
+               else if (currentStepStatus=='In Progress')
+               {
+                  document.getElementById('mark_complete_button').style.display='';
+                  document.getElementById('completed_button').style.display='none';
+               }
+               if (NotificationToShow!='') showNotifications(NotificationToShow);
+
+               if($('#infoIcon').length > 0) {
+                  unBindToolTip($('#infoIcon').get(0));
+                  bindToolTip($('#infoIcon').get(0), $('#infoIcon').data('tooltip'), null, '75%', 'lastupdatedby-helptext-show');
+               }
             }
          }
       }

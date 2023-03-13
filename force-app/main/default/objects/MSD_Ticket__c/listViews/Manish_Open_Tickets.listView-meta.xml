@@ -7,16 +7,18 @@
     <columns>Last_Contact__c</columns>
     <columns>Detail__c</columns>
     <columns>Admin_Comments__c</columns>
+    <columns>NI_Change_Control__c</columns>
+    <columns>Status__c</columns>
     <filterScope>Everything</filterScope>
-    <filters>
-        <field>Status__c</field>
-        <operation>notEqual</operation>
-        <value>Cancelled,Closed,Closed in 1st contact,Completed,Solved,Solved in 1st Contact</value>
-    </filters>
     <filters>
         <field>Assigned_admin__c</field>
         <operation>equals</operation>
         <value>Manish</value>
+    </filters>
+    <filters>
+        <field>Status__c</field>
+        <operation>notEqual</operation>
+        <value>Cancelled,Closed,Closed in 1st contact,Completed,Solved,Solved in 1st Contact</value>
     </filters>
     <label>Manish&apos;s Open Tickets</label>
     <sharedTo>

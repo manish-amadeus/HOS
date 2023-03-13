@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>ApprovedCheckboxNoChanges</fullName>
+    <active>true</active>
+    <description>NICC-056786
+Users are not allowed to uncheck the Approved checkbox once checked. Only users with a specific custom permission may uncheck the box.</description>
+    <errorConditionFormula>AND(
+RecordType.DeveloperName = &quot;Commercial_Operation_Projects&quot;,
+NOT( ISNEW() ),
+ISCHANGED(Approved__c),
+Approved__c = FALSE,
+$Profile.Name &lt;&gt; &quot;System Administrator&quot;,
+$Permission.Edit_AH_Project_Backlog_Internal_Projects = FALSE
+)</errorConditionFormula>
+    <errorDisplayField>Approved__c</errorDisplayField>
+    <errorMessage>You are not allowed to uncheck the Approved checkbox. Please contact the Process Improvement team for assistance.</errorMessage>
+</ValidationRule>

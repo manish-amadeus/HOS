@@ -16,22 +16,23 @@ private class AH_UDC_WorkbookTriggerHelper_TEST {
 
       //Insert Workbook user
       listUsers.add(AH_UDC_TestData.BuildUser(AH_UDC_Constants.PROFILE_DEFAULT_NAME_PSA_SF_LIGHTNING,
-                                    AH_UDC_Constants.PERMISSIONSET_DEFAULT_NAME_UDC_WORKBOOK_USER,
-                                    'UDCWorkbookUser', null, false));
+                                              AH_UDC_Constants.PERMISSIONSET_DEFAULT_NAME_UDC_WORKBOOK_USER,
+                                              'UDCWorkbookUser', null, false));
       //Insert Workbook Admin user
       listUsers.add(AH_UDC_TestData.BuildUser(AH_UDC_Constants.PROFILE_DEFAULT_NAME_PSA_SF_LIGHTNING,
-                                    AH_UDC_Constants.PERMISSIONSET_DEFAULT_NAME_UDC_WORKBOOK_ADMIN,
-                                    'UDCWorkbookAdmin', null, false));
+                                              AH_UDC_Constants.PERMISSIONSET_DEFAULT_NAME_UDC_WORKBOOK_ADMIN,
+                                              'UDCWorkbookAdmin', null, false));
       //Insert UDC System Admin user
       listUsers.add(AH_UDC_TestData.BuildUser(AH_UDC_Constants.PROFILE_DEFAULT_NAME_PSA_SF_LIGHTNING,
-                                    AH_UDC_Constants.PERMISSIONSET_DEFAULT_NAME_UDC_SYSTEM_ADMIN,
-                                    'UDCSystemAdmin', null, false));
+                                              AH_UDC_Constants.PERMISSIONSET_DEFAULT_NAME_UDC_SYSTEM_ADMIN,
+                                              'UDCSystemAdmin', null, false));
 
       User oCurrentUser = [SELECT Id FROM User WHERE Id = :UserInfo.getUserId()];
       oCurrentUser.ContactId = null;
 
       System.runAs(oCurrentUser) {
-         AH_UDC_TestData.InsertWithRetries(listUsers);
+         //AH_UDC_TestData.InsertWithRetries(listUsers);
+         insert listUsers;
 
          AH_UDC_TestData.AddPermissionSetToUser(AH_UDC_Constants.PERMISSIONSET_DEFAULT_NAME_UDC_WORKBOOK_USER, listUsers[0].Id);
          AH_UDC_TestData.AddPermissionSetToUser(AH_UDC_Constants.PERMISSIONSET_DEFAULT_NAME_UDC_WORKBOOK_ADMIN, listUsers[1].Id);
@@ -97,11 +98,11 @@ private class AH_UDC_WorkbookTriggerHelper_TEST {
    }
 
    @isTest
-   private static void TestNagativeScenarioForWorkbookSent() {
+   private static void TestNullRecordType() {
 
       Test.startTest();
 
-      AH_UDC_WorkbookTriggerHelper.IsWorkbookSentRecordTypeForException = true;
+      AH_UDC_WorkbookTriggerHelper.IsRecordTypeExceptionForWBS = true;
 
       Id WorkbookSentRecordTypeId = Schema.SObjectType.AH_UDC_Workbook__c.getRecordTypeInfosByDeveloperName().get(AH_UDC_Constants.RECORD_TYPE_WORKBOOK_SENT).getRecordTypeId();
       System.assert(String.isNotBlank(WorkbookSentRecordTypeId), 'Workbook Sent record type not found');
@@ -120,42 +121,12 @@ private class AH_UDC_WorkbookTriggerHelper_TEST {
          update lstWorkbookSent[0];
       }
       catch(Exception ex) {
-         //Ignore Case         
-      }
+         System.assert(ex.getMessage().contains('FIELD_CUSTOM_VALIDATION_EXCEPTION'));
+         System.assert(ex.getMessage().contains(lstWorkbookSent[0].Id));
+         System.assert(ex.getMessage().indexOf('An error occurred in before update workbook record(s).') > - 1, 'Unexpected error occurred in workbook trigger while updating product of workbook sent record. Error : ' + ex.getMessage() + ' at Line number ' + ex.getLineNumber());
+      }       
 
-      List<AH_UDC_Workbook__c> lstWorkbookUpdates = [SELECT Id, Name
-                                                     FROM AH_UDC_Workbook__c
-                                                     WHERE Name = 'Test Workbook 1'
-                                                     AND RecordTypeId = :WorkbookRecordType];
-      System.assertEquals(1, lstWorkbookUpdates.size(), 'Workbook Record is not created with the name Test Workbook 1');
-      try {
-         lstWorkbookUpdates[0].Name = 'Test Workbook 288';
-         // Check duplicate workbook name validation
-         update lstWorkbookUpdates;
-      }
-      catch(Exception ex) {
-         //Ignore Case         
-      }
-
-      try {
-         List<AH_UDC_Workbook__c> lstWorkbooks = [SELECT Id, Name, RelatedTo__c
-                                                  FROM AH_UDC_Workbook__c
-                                                  WHERE RecordTypeId = :WorkbookSentRecordTypeId AND Name = 'Test Workbook Sent 1'];
-         System.assert(lstWorkbooks != null && lstWorkbooks.size() > 0, 'Workbook Sent Record Not Found');
-
-         //Update workbook sent status to execute trigger
-         lstWorkbooks[0].SentStatus__c = AH_UDC_Constants.SENT_STATUS_COMPLETE_LOCKED;
-         update lstWorkbooks[0];
-
-         //Check if the field AH_UDC_WorkbookLocked__c is updated to true or not
-         NI_Documentation__c objNIDoc = [SELECT Id, AH_UDC_WorkbookLocked__c FROM NI_Documentation__c WHERE Id = :lstWorkbooks[0].RelatedTo__c];
-         System.assert(objNIDoc != null, 'NI Doc Record of the Workbook Sent Record (' + lstWorkbooks[0].Name + ') Not Found');
-         System.assert(objNIDoc.AH_UDC_WorkbookLocked__c, 'AH_UDC_WorkbookLocked__c is not set to true');
-      }
-      catch(Exception ex) {
-         //Ignore Case         
-      }
-
+      AH_UDC_WorkbookTriggerHelper.IsRecordTypeExceptionForWBS = true;
       List<User> lstWorkbookAdminUsers = [SELECT Id
                                           FROM User
                                           WHERE Username = 'TestUDCWorkbookAdmin@amadeus.com'
@@ -169,8 +140,50 @@ private class AH_UDC_WorkbookTriggerHelper_TEST {
             delete lstWorkbookSent[0];
          }
          catch(Exception ex) {
-            // Ignore Case
+            System.assert(ex.getMessage().contains('FIELD_CUSTOM_VALIDATION_EXCEPTION'));
+            System.assert(ex.getMessage().contains(lstWorkbookSent[0].Id));
+            System.assert(ex.getMessage().indexOf('An error occurred in before delete workbook record(s).') > - 1, 'Unexpected error occurred in workbook trigger while deleting workbook sent record. Error : ' + ex.getMessage() + ' at Line number ' + ex.getLineNumber());
          }
+      }
+
+      AH_UDC_WorkbookTriggerHelper.IsRecordTypeExceptionForWBS = false;
+      AH_UDC_WorkbookTriggerHelper.IsRecordTypeExceptionForWB = true;
+      List<AH_UDC_Workbook__c> lstWorkbookUpdates = [SELECT Id, Name
+                                                     FROM AH_UDC_Workbook__c
+                                                     WHERE Name = 'Test Workbook 1'
+                                                     AND RecordTypeId = :WorkbookRecordType];
+      System.assertEquals(1, lstWorkbookUpdates.size(), 'Workbook Record is not created with the name Test Workbook 1');
+      try {
+         lstWorkbookUpdates[0].Name = 'Test Workbook 2';
+         // Check duplicate workbook name validation
+         update lstWorkbookUpdates;
+      }
+      catch(Exception ex) {
+         System.assert(ex.getMessage().contains('FIELD_CUSTOM_VALIDATION_EXCEPTION'));
+         System.assert(ex.getMessage().contains(lstWorkbookUpdates[0].Id));
+         System.assert(ex.getMessage().indexOf('An error occurred in before update/insert/undelete workbook record(s).') > - 1, 'Unexpected error occurred in workbook trigger while updating workbook name of workbook record. Error : ' + ex.getMessage() + ' at Line number ' + ex.getLineNumber());
+      }
+            
+      AH_UDC_WorkbookTriggerHelper.IsRecordTypeExceptionForWB = false;
+      AH_UDC_WorkbookTriggerHelper.IsRecordTypeExceptionForWBSLocked = true;
+      List<AH_UDC_Workbook__c> lstWorkbooks = [SELECT Id, Name, RelatedTo__c
+                                               FROM AH_UDC_Workbook__c
+                                               WHERE RecordTypeId = :WorkbookSentRecordTypeId AND Name = 'Test Workbook Sent 1'];
+      System.assert(lstWorkbooks != null && lstWorkbooks.size() > 0, 'Workbook Sent Record Not Found');
+      try {
+         //Update workbook sent status to execute trigger
+         lstWorkbooks[0].SentStatus__c = AH_UDC_Constants.SENT_STATUS_COMPLETE_LOCKED;
+         update lstWorkbooks[0];
+
+         //Check if the field AH_UDC_WorkbookLocked__c is updated to true or not
+         NI_Documentation__c objNIDoc = [SELECT Id, AH_UDC_WorkbookLocked__c FROM NI_Documentation__c WHERE Id = :lstWorkbooks[0].RelatedTo__c];
+         System.assert(objNIDoc != null, 'NI Doc Record of the Workbook Sent Record (' + lstWorkbooks[0].Name + ') Not Found');
+         System.assert(objNIDoc.AH_UDC_WorkbookLocked__c, 'AH_UDC_WorkbookLocked__c is not set to true');
+      }
+      catch(Exception ex) {
+         System.assert(ex.getMessage().contains('FIELD_CUSTOM_VALIDATION_EXCEPTION'));
+         System.assert(ex.getMessage().contains(lstWorkbooks[0].Id));
+         System.assert(ex.getMessage().indexOf('An error occurred in updating workbook record(s).') > - 1, 'Unexpected error occurred in workbook trigger after updating workbook sent record. Error : ' + ex.getMessage() + ' at Line number ' + ex.getLineNumber());
       }
 
       Test.stopTest();
@@ -430,6 +443,9 @@ private class AH_UDC_WorkbookTriggerHelper_TEST {
       Id RecordTypeId = Schema.SObjectType.AH_UDC_Workbook__c.getRecordTypeInfosByDeveloperName().get(AH_UDC_Constants.RECORD_TYPE_WORKBOOK).getRecordTypeId();
       System.assert(String.isNotBlank(RecordTypeId), 'Workbook Record type not found');
 
+      Id WorkbookSentRecordTypeId = Schema.SObjectType.AH_UDC_Workbook__c.getRecordTypeInfosByDeveloperName().get(AH_UDC_Constants.RECORD_TYPE_WORKBOOK_SENT).getRecordTypeId();
+      System.assert(String.isNotBlank(WorkbookSentRecordTypeId), 'Workbook Sent record type Not Found');
+
       try {
          AH_UDC_Workbook__c objWorkbook1 = AH_UDC_TestData.GetWorkbookObject(null, 'Test Workbook 1', 'Test Workbook 1 Description', 'Central Sales');
          objWorkbook1.RecordTypeId = RecordTypeId;
@@ -448,6 +464,32 @@ private class AH_UDC_WorkbookTriggerHelper_TEST {
       }
       catch(Exception ex) {
          System.assert(ex.getMessage().indexOfIgnoreCase(Label.AH_UDC_DuplicateWorkbookNameMessage) > - 1, 'Duplicate workbook - Error message did not match');
+      }
+      //Check email template
+      try {
+         List<AH_UDC_Workbook__C> lstWBET = new List<AH_UDC_Workbook__C> ();
+         AH_UDC_Workbook__C WBET1 = new AH_UDC_Workbook__C(Name = AH_UDC_Shared.generateGUID(), Product__c = 'Central Sales', RecordTypeId = RecordTypeId, Reminder1EmailTemplate__c = '', Reminder2EmailTemplate__c = '',
+                                                           Reminder3EmailTemplate__c = '', Reminder4EmailTemplate__c = '', EmailTemplate__c = '');
+         lstWBET.add(WBET1);
+         AH_UDC_Workbook__C WBET2 = new AH_UDC_Workbook__C(Name = AH_UDC_Shared.generateGUID(), Product__c = 'Central Sales', RecordTypeId = WorkbookSentRecordTypeId, Reminder1EmailTemplate__c = '', Reminder2EmailTemplate__c = '',
+                                                           Reminder3EmailTemplate__c = '', Reminder4EmailTemplate__c = '', EmailTemplate__c = '');
+         lstWBET.add(WBET2);
+         insert lstWBET;
+         System.assert(WBET1.Id != null, 'Workbook record not created.');
+         System.assert(WBET2.Id != null, 'Workbook record not created.');
+      }
+      catch(Exception ex) {
+         System.assert(false, 'UDC System Admin user/ Workbook Admin should be able to insert the Workbook' + ex.getMessage());
+      }
+
+      try {
+         List<AH_UDC_Workbook__C> lstWBETInvalid = new List<AH_UDC_Workbook__C> ();
+         lstWBETInvalid.add(new AH_UDC_Workbook__C(Name = 'Web RFP Toolkit WorkbookET11', Product__c = 'Central Sales', RecordTypeId = RecordTypeId, EmailTemplate__c = 'test'));
+         lstWBETInvalid.add(new AH_UDC_Workbook__C(Name = 'Web RFP Toolkit WorkbookET12', Product__c = 'Central Sales', RecordTypeId = RecordTypeId, Reminder2EmailTemplate__c = 'test'));
+         insert lstWBETInvalid;
+      }
+      catch(Exception ex) {
+         System.assert(ex.getMessage().indexOfIgnoreCase(Label.AH_UDC_InvalidEmailTemplateError) > - 1, 'Invalid Email Template - Error message did not match');
       }
    }
 
@@ -572,7 +614,7 @@ private class AH_UDC_WorkbookTriggerHelper_TEST {
          update lstBulkUpdateWorkbook;
       }
       catch(Exception ex) {
-         System.assert(false, 'UDC Workbook Admin user should be able to insert the Workbook' + ex.getMessage());
+         System.assert(false, 'UDC System Admin/Workbook Admin user should be able to insert the Workbook' + ex.getMessage());
       }
 
       try {
@@ -590,6 +632,23 @@ private class AH_UDC_WorkbookTriggerHelper_TEST {
       }
       catch(Exception ex) {
          System.assert(ex.getMessage().indexOfIgnoreCase(Label.AH_UDC_DuplicateWorkbookNameMessage) > - 1, 'Duplicate workbook - Error message did not match');
+      }
+      try {
+         List<AH_UDC_Workbook__c> lstBulkWorkbook = [SELECT Id, Name
+                                                     FROM AH_UDC_Workbook__c
+                                                     WHERE RecordTypeId = :WorkbookRecordType];
+         System.assert(lstBulkWorkbook.size() > 0, 'Workbook Record is not created with the workbook record type');
+
+         lstBulkWorkbook[0].Reminder4EmailTemplate__c = 'Test Workbook 19';
+         lstBulkWorkbook[1].Reminder1EmailTemplate__c = '';
+         lstBulkWorkbook[1].Reminder3EmailTemplate__c = 'Test';
+         lstBulkWorkbook[2].Reminder3EmailTemplate__c = 'AH_UDC_Workbook_Sent_Due_Date_Notification';
+         lstBulkWorkbook[3].EmailTemplate__c = 'Test';
+         // Check duplicate workbook name validation
+         update lstBulkWorkbook;
+      }
+      catch(Exception ex) {
+         System.assert(ex.getMessage().indexOfIgnoreCase(Label.AH_UDC_InvalidEmailTemplateError) > - 1, 'Invalid Email Template - Error message did not match');
       }
    }
 

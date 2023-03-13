@@ -9,6 +9,7 @@
     <columns>CREATEDBY_USER</columns>
     <columns>CREATED_DATE</columns>
     <columns>Functional_Area__c</columns>
+    <columns>Work_Record_Number__c</columns>
     <filterScope>Everything</filterScope>
     <filters>
         <field>Change_Status__c</field>
@@ -26,5 +27,4 @@
         <value>LAST_N_DAYS:30</value>
     </filters>
     <label>SFCR: Closed - Implemented Last 30 Days</label>
-    <language>en_US</language>
 </ListView>

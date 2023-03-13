@@ -9,6 +9,10 @@ public without sharing class AH_UDC_ViewWorkbook {
    public Boolean DisplayConsoleLogMessages { get; set; } { DisplayConsoleLogMessages = AH_UDC_ConfigHelper.GetBoolean('AH_UDC_ViewWorkbookDisplayConsoleLogMessages', false); }
    Boolean isPageLoad { get; set; } { isPageLoad = false; }
 
+   //Deprecate in version 2.3
+   Public Decimal FileUploadMaximumSize { get; set; } 
+   Public String FileUploadExtension { get; set; } 
+
    public Boolean isViewWorkbookEnabled { get { return AH_UDC_ConfigHelper.GetBoolean('AH_UDC_ViewWorkbookEnabled', false); } }
 
    public Integer CollapsedMenuCirclesPerPage { get; set; } { CollapsedMenuCirclesPerPage = AH_UDC_ConfigHelper.GetInteger('AH_UDC_CollapsedMenuCirclesPerPage', 10); }
@@ -18,6 +22,7 @@ public without sharing class AH_UDC_ViewWorkbook {
    public Integer collapsedMenuMoveDirection { get; set; } { collapsedMenuMoveDirection = 0; }
 
    public Boolean IsCommunityView { get; set; } { IsCommunityView = true; } //Used to determine if it's a community user viewing the page
+  
    public string ReturnToWelcomePageUrl { get; set; } { ReturnToWelcomePageUrl = AH_UDC_ConfigHelper.GetString('AH_UDC_ReturnToWelcomePageURL', ''); } //This is the URL for the top bar menu
    public Boolean chatterUpdate { get; set; } { chatterUpdate = false; } //This is used to show if there are new chatter messages
 
@@ -39,26 +44,22 @@ public without sharing class AH_UDC_ViewWorkbook {
    public Boolean ShowErrorMessage { get; set; } { ShowErrorMessage = false; } //TODO: Deprecate in 2.2
    public Boolean ShowErrorMessageAsNotification { get; set; } { ShowErrorMessageAsNotification = false; } //TODO: Deprecate in 2.2
    public boolean CallbackErrorOccurred { get; set; } { CallbackErrorOccurred = false; } //TODO: Remove in V2.2
-   
+
    //This is used to cause the client page to show a generic error message in the page message block
    public Boolean isPageLoadErrorMessage { get; set; } { isPageLoadErrorMessage = false; }
 
    //This is used to cause the client page to show a generic error message
    public string NotificationToShow { get; set; } { NotificationToShow = ''; }
-   
+
    //This is used to store AH_UDC_Log records that can't be written on the load of the controller
    public List<AH_UDC_log__c> PageLoadLogMessages { get; set; } { PageLoadLogMessages = new List<AH_UDC_Log__c> (); }
 
-   //File Upload Variables
+   //TODO: Deprecate in V2.3 File Upload Variables and AmdeusCustomFormAPIUrl
    public String DeleteFileID { get; set; }
-   public List<ContentDocumentLink> UploadedFileList { get; set; } { UploadedFileList = new List<ContentDocumentLink> (); } //This is used to diplay a file list on the Amadeus File Update component
-   public Integer FileUploadCount { get; set; } { FileUploadCount = AH_UDC_ConfigHelper.GetInteger('AH_UDC_FileUploadMaximumFileCount', 5); } //Used by the client to determine how many file upload at time
-   public Integer FileUploadMaximumSize { get; set; } { FileUploadMaximumSize = AH_UDC_ConfigHelper.GetInteger('AH_UDC_FileUploadMaximumSizeInMB', 35); } //Used by the client to determine maximum file upload size
-   public string FileUploadExtension { get; set; } { FileUploadExtension = AH_UDC_ConfigHelper.GetString('AH_UDC_FileUploadAllowedExtensions', ''); } //Used by the client to determine which file upload extension should upload
-   public string FileUploadUrl { get; set; } { FileUploadUrl = AH_UDC_ConfigHelper.GetString('AH_UDC_FileUploadUrl', ''); } //This is the URL of the File Upload REST API
-
-   //API URL to get/save form response data
-   public string AmdeusCustomFormAPIUrl { get; set; } { AmdeusCustomFormAPIUrl = AH_UDC_ConfigHelper.GetString('AH_UDC_APIUrl', ''); }
+   public List<ContentDocumentLink> UploadedFileList { get; set; } //This is used to diplay a file list on the Amadeus File Update component
+   public Integer FileUploadCount { get; set; } //Used by the client to determine how many file upload at time   
+   public string FileUploadUrl { get; set; } //This is the URL of the File Upload REST API      
+   public string AmdeusCustomFormAPIUrl { get; set; } //API URL to get/save form response data
 
    //TODO: Deprecate in V2.2
    public void clientLogException() {
@@ -78,7 +79,7 @@ public without sharing class AH_UDC_ViewWorkbook {
       get {
          //Add time zone and date format in custom label text
          String strHelpText = string.format(Label.AH_UDC_ViewWorkbook_LastUpdatedByHelpText,
-                                             new String[] { UserTimeZone, UserLocale });
+                                            new String[] { UserTimeZone, UserLocale });
          return strHelpText.replace('\n', '<br/>'); //Display text in new line if new line exists
       }
    }
@@ -125,7 +126,7 @@ public without sharing class AH_UDC_ViewWorkbook {
          WorkbookId = String.escapeSingleQuotes(ApexPages.currentPage().getParameters().get('id'));
 
          //Unit Test Force Exception
-         if (AH_UDC_ConfigHelper.GetBoolean('AH_UDC_UnitTestForceViewWorkbookLoadError', FALSE))
+         if (AH_UDC_ConfigHelper.GetBoolean('AH_UDC_UnitTestForceViewWorkbookLoadError', FALSE, true))
          {
             throw(new AH_UDC_Shared.UDCException(AH_UDC_Constants.UNIT_TEST_EXCEPTION_PREFIX + 'View Workbook Load'));
          }
@@ -158,15 +159,17 @@ public without sharing class AH_UDC_ViewWorkbook {
          }
 
          //Get the workbook steps
-         List<AH_UDC_WorkbookStep__c> wbSteps = [select id, name, description__c,
+         List<AH_UDC_WorkbookStep__c> wbSteps = [SELECT Id, Name, Description__c,
                                                  Workbook__r.RelatedTo__r.Id, Workbook__r.RelatedTo__r.Document_Name__c, Workbook__r.RelatedTo__r.AH_UDC_WorkbookDueDate__c,
-                                                 Workbook__r.StepsinOrder__c, Workbook__r.SentStatus__c,
+                                                 Workbook__r.StepsinOrder__c, Workbook__r.SentStatus__c, Workbook__r.Released__c,
                                                  Workbook__r.Archive__c, SortOrder__c, StepStatus__c, URL__c, form__c, help__c,
                                                  Prerequisite_Step__c, Prerequisite_Step__r.StepStatus__c,
                                                  Workbook__r.RelatedTo__r.AH_UDC_PropertyConfirmation__c,
                                                  Workbook__r.RelatedTo__r.AH_UDC_PropertyAccount__c, Workbook__r.SecurityCode__c, Form__r.id,
-                                                 Form__r.RecordTypeId,
-                                                 Workbook__r.RelatedTo__r.Project__r.name,Workbook__r.RelatedTo__r.project__r.pse__Project_Manager__r.name
+                                                 Form__r.RecordTypeId, Form__r.MaxIndividualFileSizeMB__c, Form__r.NumberOfFiles__c, Form__r.Description__c, Form__r.AllowedExtensions__c, Form__r.HeightMaximumPixels__c,
+                                                 Form__r.HeightMinimumPixels__c, Form__r.WidthMaximumPixels__c, Form__r.WidthMinimumPixels__c, Form__r.FormType__c,
+                                                 Workbook__r.RelatedTo__r.Project__r.name, Workbook__r.RelatedTo__r.project__r.pse__Project_Manager__r.name,
+                                                 Workbook__r.RecordType.DeveloperName
                                                  from AH_UDC_WorkbookStep__c
                                                  where Enabled__c = true and Workbook__c = :WorkbookId order by SortOrder__c asc];
 
@@ -179,35 +182,43 @@ public without sharing class AH_UDC_ViewWorkbook {
             return;
          }
          workbook.id = WorkbookId;
+         if (wbSteps[0].Workbook__r.RecordType.DeveloperName == AH_UDC_Constants.RECORD_TYPE_WORKBOOK)
+         {
+            workbook.isSent = false;
+            workbook.propertyInfo.isPropertyConfirmed = true;
+         }
          workbook.isCompleted = (wbSteps[0].Workbook__r.SentStatus__c == AH_UDC_Constants.SENT_STATUS_COMPLETE_LOCKED);
          workbook.isArchived = wbSteps[0].Workbook__r.Archive__c;
-         workbook.documentId = String.valueOf(wbSteps[0].Workbook__r.RelatedTo__r.Id);
-         workbook.name = String.valueOf(wbSteps[0].Workbook__r.RelatedTo__r.Document_Name__c);
-         workbook.propertyInfo.id = String.valueOf(wbSteps[0].Workbook__r.RelatedTo__r.AH_UDC_PropertyAccount__c);
-         workbook.propertyInfo.isPropertyConfirmed = Boolean.valueOf(wbSteps[0].Workbook__r.RelatedTo__r.AH_UDC_PropertyConfirmation__c);
-         workbook.ProjectName = wbSteps[0].Workbook__r.RelatedTo__r.Project__r.name;
-         workbook.ProjectContact = wbSteps[0].Workbook__r.RelatedTo__r.project__r.pse__Project_Manager__r.name;
-
-         if (wbSteps[0].Workbook__r.RelatedTo__r.AH_UDC_WorkbookDueDate__c != null) workbook.dueDate = wbSteps[0].Workbook__r.RelatedTo__r.AH_UDC_WorkbookDueDate__c;
-
-         AH_UDC_LogHelper.Debug(LogFunctionalArea + ' - workbook.propertyInfo.id: ' + workbook.propertyInfo.id);
-         if (String.isBlank(workbook.propertyInfo.id))
+         if (workbook.isSent)
          {
-            LogException('Constructor', 'An error "Property Info ID missing" occurred loading workbook for user ('
-                         + System.UserInfo.getUserId() + ' : '
-                         + System.UserInfo.getUserName() + ') and Workbook ID: ' + WorkbookId, null, null, null, null);
-            return;
-         }
+            workbook.documentId = String.valueOf(wbSteps[0].Workbook__r.RelatedTo__r.Id);
+            workbook.name = String.valueOf(wbSteps[0].Workbook__r.RelatedTo__r.Document_Name__c);
+            workbook.propertyInfo.id = String.valueOf(wbSteps[0].Workbook__r.RelatedTo__r.AH_UDC_PropertyAccount__c);
+            workbook.propertyInfo.isPropertyConfirmed = Boolean.valueOf(wbSteps[0].Workbook__r.RelatedTo__r.AH_UDC_PropertyConfirmation__c);
+            workbook.ProjectName = wbSteps[0].Workbook__r.RelatedTo__r.Project__r.name;
+            workbook.ProjectContact = wbSteps[0].Workbook__r.RelatedTo__r.project__r.pse__Project_Manager__r.name;
 
-         // Get property account details
-         List<AH_UDC_PropertyAccount__c> propertyAccounts = [SELECT PropertyName__c,
-                                                             Address__c, City__c, StateProvince__c,
-                                                             PostalCode__c, Country__c, Phone__c
-                                                             FROM AH_UDC_PropertyAccount__c
-                                                             WHERE Id = :workbook.propertyInfo.id];
-         workbook.propertyInfo.address = GetAddress(propertyAccounts[0]);
-         workbook.propertyInfo.phone = propertyAccounts[0].Phone__c;
-         workbook.propertyInfo.name = propertyAccounts[0].PropertyName__c;
+            if (wbSteps[0].Workbook__r.RelatedTo__r.AH_UDC_WorkbookDueDate__c != null) workbook.dueDate = wbSteps[0].Workbook__r.RelatedTo__r.AH_UDC_WorkbookDueDate__c;
+
+            AH_UDC_LogHelper.Debug(LogFunctionalArea + ' - workbook.propertyInfo.id: ' + workbook.propertyInfo.id);
+            if (String.isBlank(workbook.propertyInfo.id))
+            {
+               LogException('Constructor', 'An error "Property Info ID missing" occurred loading workbook for user ('
+                            + System.UserInfo.getUserId() + ' : '
+                            + System.UserInfo.getUserName() + ') and Workbook ID: ' + WorkbookId, null, null, null, null);
+               return;
+            }
+
+            // Get property account details
+            List<AH_UDC_PropertyAccount__c> propertyAccounts = [SELECT PropertyName__c,
+                                                                Address__c, City__c, StateProvince__c,
+                                                                PostalCode__c, Country__c, Phone__c
+                                                                FROM AH_UDC_PropertyAccount__c
+                                                                WHERE Id = :workbook.propertyInfo.id];
+            workbook.propertyInfo.address = GetAddress(propertyAccounts[0]);
+            workbook.propertyInfo.phone = propertyAccounts[0].Phone__c;
+            workbook.propertyInfo.name = propertyAccounts[0].PropertyName__c;
+         }
 
          Integer Position = 1;
          workbook.allStepsComplete = true;
@@ -216,14 +227,19 @@ public without sharing class AH_UDC_ViewWorkbook {
          Id AmadeusFileUploadRecordTypeId = Schema.SObjectType.AH_UDC_Form__c.getRecordTypeInfosByDeveloperName().get(AH_UDC_Constants.RECORD_TYPE_FORM_AMADEUS_FILE_UPLOAD).getRecordTypeId();
          Id FormAssemblyFormRecordTypeId = Schema.SObjectType.AH_UDC_Form__c.getRecordTypeInfosByDeveloperName().get(AH_UDC_Constants.RECORD_TYPE_FORM_FORM_ASSEMBLY).getRecordTypeId();
 
+         //Build dictionary of allowed extensions
+         Set<String> udcAllowedExtensions = new Set<String>();
+         for(string ext : AH_UDC_ConfigHelper.GetString('AH_UDC_FileUploadAllowedExtensions', '').split(',')){
+            udcAllowedExtensions.add(ext.trim());
+         }
+
          //Build Steps for Display in page
          for (AH_UDC_WorkbookStep__c wbStep : wbSteps)
          {
             AH_UDC_CommunityWorkbook.WorkbookStep wbs = new AH_UDC_CommunityWorkbook.WorkbookStep();
             wbs.name = wbStep.Name;
             wbs.id = wbStep.Id;
-            wbs.description = wbStep.description__c;
-
+            wbs.description = wbStep.Description__c;
             //Determine the Step Help Url
             wbs.helpurl = '';
             if (String.isNotEmpty(wbStep.Help__c))
@@ -240,11 +256,12 @@ public without sharing class AH_UDC_ViewWorkbook {
             }
             wbs.position = Position;
             wbs.status = String.valueOf(wbStep.StepStatus__c);
+            if (String.isEmpty(wbs.status)) wbs.status = AH_UDC_Constants.SENT_STATUS_NEW;
             wbs.isLocked = false;
             if (!(isUDCUserOrUDCWBAdmin || isUDCSysAdmin) && wbs.status == AH_UDC_Constants.STEP_STATUS_LOCKED) wbs.isLocked = true; //Locked status only impacts Community users
             if (wbs.status != AH_UDC_Constants.STEP_STATUS_COMPLETED && wbs.status != AH_UDC_Constants.STEP_STATUS_LOCKED) workbook.allStepsComplete = false;
             //Adding completed class to display green color for locked step
-            wbs.css = String.valueOf(wbStep.StepStatus__c).replaceAll(AH_UDC_Constants.STEP_STATUS_LOCKED, AH_UDC_Constants.STEP_STATUS_COMPLETED);
+            wbs.css = String.valueOf(wbs.status).replaceAll(AH_UDC_Constants.STEP_STATUS_LOCKED, AH_UDC_Constants.STEP_STATUS_COMPLETED);
             wbs.css = wbs.css.replaceAll(' ', '-').toLowerCase();
             wbs.cssI = 'default-step-i';
             wbs.cssCurrent = '';
@@ -260,17 +277,59 @@ public without sharing class AH_UDC_ViewWorkbook {
             }
             else if (wbStep.Form__r.RecordTypeId == AmadeusFormRecordTypeId) {
                wbs.isamadeuscustomform = true;
-               wbs.token = AH_UDC_Shared.CreateStepToken(wbStep.Workbook__r.SecurityCode__c, wbStep.Form__r.id);
+               wbs.amdeusFormAPIUrl = AH_UDC_ConfigHelper.GetString('AH_UDC_APIUrl', '');
+               wbs.token = AH_UDC_Shared.CreateStepToken(wbStep.Workbook__r.SecurityCode__c, wbStep.Form__r.id, wbStep.id);
             }
             else if (wbStep.Form__r.RecordTypeId == AmadeusFileUploadRecordTypeId) {
                wbs.isAmadeusFileUpload = true;
-               if (String.isEmpty(wbStep.Description__c)){
-                  wbs.description = Label.AH_UDC_FileUploadNotes;
-                  wbs.description = wbs.description.replace('{0}',  String.valueOf(FileUploadCount)).replace('{1}', String.valueOf(FileUploadMaximumSize)).replace('{2}', FileUploadExtension);
+               wbs.fileUploadInfo.minHeight = (wbStep.Form__r.HeightMinimumPixels__c ==null?'0':String.valueOf(wbStep.Form__r.HeightMinimumPixels__c));
+               wbs.fileUploadInfo.maxHeight = (wbStep.Form__r.HeightMaximumPixels__c ==null?'0':String.valueOf(wbStep.Form__r.HeightMaximumPixels__c));
+               wbs.fileUploadInfo.minWidth = (wbStep.Form__r.WidthMinimumPixels__c ==null?'0':String.valueOf(wbStep.Form__r.WidthMinimumPixels__c));
+               wbs.fileUploadInfo.maxWidth = (wbStep.Form__r.WidthMaximumPixels__c ==null?'0':String.valueOf(wbStep.Form__r.WidthMaximumPixels__c));
+               
+               if (String.isEmpty(wbStep.Form__r.Description__c))
+                  wbs.fileUploadInfo.fileUploadDescription = Label.AH_UDC_FileUploadNotes;
+               else
+                  wbs.fileUploadInfo.fileUploadDescription = wbStep.Form__r.Description__c;
+
+               Decimal fileUploadMaximumSize = Decimal.valueOf(AH_UDC_ConfigHelper.GetString('AH_UDC_FileUploadMaximumSizeInMB', AH_UDC_Constants.FILE_UPLOAD_MAXIMUM_SIZE_IN_MB_DEFAULT));
+               if (wbStep.Form__r.MaxIndividualFileSizeMB__c != null && wbStep.Form__r.MaxIndividualFileSizeMB__c > 0 && wbStep.Form__r.MaxIndividualFileSizeMB__c <= fileUploadMaximumSize ){
+                  fileUploadMaximumSize = wbStep.Form__r.MaxIndividualFileSizeMB__c;
                }
+               wbs.fileUploadInfo.fileUploadMaximumSize = String.valueOf(fileUploadMaximumSize);
+
+               if (String.isNotEmpty(wbStep.Form__r.AllowedExtensions__c)) {
+                  Set<String> stepAllowedExtensions = new Set<String>();
+                  for(string ext : wbStep.Form__r.AllowedExtensions__c.split(',')){
+                     string extTrim = ext.trim();
+                     if (udcAllowedExtensions.contains(extTrim))
+                     {
+                        stepAllowedExtensions.add(extTrim);
+                     }
+                  }
+                  for(string validExt : stepAllowedExtensions) {
+                     if(String.isNotEmpty(wbs.fileUploadInfo.fileUploadExtension)) wbs.fileUploadInfo.fileUploadExtension = wbs.fileUploadInfo.fileUploadExtension + ', ';
+                     wbs.fileUploadInfo.fileUploadExtension = (String.isEmpty(wbs.fileUploadInfo.fileUploadExtension)?'':wbs.fileUploadInfo.fileUploadExtension) + validExt;
+                  }
+               }
+               else {
+                  wbs.fileUploadInfo.fileUploadExtension = AH_UDC_ConfigHelper.GetString('AH_UDC_FileUploadAllowedExtensions', '');
+               }
+               
+               wbs.fileUploadInfo.maxFileUploadCount = String.valueOf(AH_UDC_ConfigHelper.GetInteger('AH_UDC_FileUploadMaximumFileCount', 5)); //Used by the client to determine how many file upload at time  
+               wbs.fileUploadInfo.fileUploadUrl = AH_UDC_ConfigHelper.GetString('AH_UDC_FileUploadUrl', ''); //This is the URL of the File Upload REST API
+               wbs.fileUploadInfo.fileUploadDescription = wbs.fileUploadInfo.fileUploadDescription.replace('{NumberOfFilesAtOnce}', wbs.fileUploadInfo.maxFileUploadCount)
+                                                                                                   .replace('{NumberOfFiles}', (wbStep.Form__r.NumberOfFiles__c!=null && wbStep.Form__r.NumberOfFiles__c>0? String.valueOf(wbStep.Form__r.NumberOfFiles__c) : ''))
+                                                                                                   .replace('{MaxIndividualFileSizeMB}', (wbs.fileUploadInfo.fileUploadMaximumSize=='0'?'':wbs.fileUploadInfo.fileUploadMaximumSize))
+                                                                                                   .replace('{AllowedExtensions}', wbs.fileUploadInfo.fileUploadExtension)
+                                                                                                   .replace('{HeightMinimumPixels}', (wbs.fileUploadInfo.minHeight=='0'?'':wbs.fileUploadInfo.minHeight))
+                                                                                                   .replace('{HeightMaximumPixels}', (wbs.fileUploadInfo.maxHeight=='0'?'':wbs.fileUploadInfo.maxHeight))
+                                                                                                   .replace('{WidthMinimumPixels}', (wbs.fileUploadInfo.minWidth=='0'?'':wbs.fileUploadInfo.minWidth))
+                                                                                                   .replace('{WidthMaximumPixels}', (wbs.fileUploadInfo.maxWidth=='0'?'':wbs.fileUploadInfo.maxWidth));
+
                //Don't set token value for generating unit test error
-               if (AH_UDC_ConfigHelper.GetBoolean('AH_UDC_UnitTestForceFileUploadError', false) == false)
-                  wbs.token = AH_UDC_Shared.CreateStepToken(wbStep.Workbook__r.SecurityCode__c, wbStep.Form__r.id);
+               if (AH_UDC_ConfigHelper.GetBoolean('AH_UDC_UnitTestForceFileUploadError', false, true) == false)
+               wbs.token = AH_UDC_Shared.CreateStepToken(wbStep.Workbook__r.SecurityCode__c, wbStep.Form__r.id, wbStep.id);
             }
             else if (wbStep.Form__r.RecordTypeId == FormAssemblyFormRecordTypeId) {
                wbs.isFormAssemblyForm = true;
@@ -278,27 +337,30 @@ public without sharing class AH_UDC_ViewWorkbook {
 
             Integer intPrereqStepIndex = - 1;
             wbs.isPrerequisiteStepNotCompleted = false;
-            if (wbSteps[0].Workbook__r.StepsinOrder__c) {
-               //If steps in order is set to true then set previous step as a prerequisite step
-               intPrereqStepIndex = workbook.steps.size() - 1;
-            }
-            else if (wbStep.Prerequisite_Step__c != null) {
-               //Find index of prerequisite step from the prepared steps list
-               for (Integer i = 0; i<workbook.steps.size(); i++) {
-                  if (workbook.steps[i].id == String.valueOf(wbStep.Prerequisite_Step__c)) {
-                     intPrereqStepIndex = i;
-                     break;
+            if (workbook.isSent && wbSteps[0].Workbook__r.Released__c)
+            {
+               if (wbSteps[0].Workbook__r.StepsinOrder__c) {
+                  //If steps in order is set to true then set previous step as a prerequisite step
+                  intPrereqStepIndex = workbook.steps.size() - 1;
+               }
+               else if (wbStep.Prerequisite_Step__c != null) {
+                  //Find index of prerequisite step from the prepared steps list
+                  for (Integer i = 0; i<workbook.steps.size(); i++) {
+                     if (workbook.steps[i].id == String.valueOf(wbStep.Prerequisite_Step__c)) {
+                        intPrereqStepIndex = i;
+                        break;
+                     }
                   }
                }
-            }
 
-            if (intPrereqStepIndex> - 1) {
-               //This will be used to display prerequisite step name in client side notification message
-               wbs.prerequisiteStepName = workbook.steps[intPrereqStepIndex].name;
-               //This will be used to display prerequisite step number in client side notification message
-               wbs.prerequisiteStepPosition = intPrereqStepIndex + 1;
-               wbs.isPrerequisiteStepNotCompleted = workbook.steps[intPrereqStepIndex].status != AH_UDC_Constants.STEP_STATUS_COMPLETED
-               && workbook.steps[intPrereqStepIndex].status != AH_UDC_Constants.STEP_STATUS_LOCKED;
+               if (intPrereqStepIndex> - 1) {
+                  //This will be used to display prerequisite step name in client side notification message
+                  wbs.prerequisiteStepName = workbook.steps[intPrereqStepIndex].name;
+                  //This will be used to display prerequisite step number in client side notification message
+                  wbs.prerequisiteStepPosition = intPrereqStepIndex + 1;
+                  wbs.isPrerequisiteStepNotCompleted = workbook.steps[intPrereqStepIndex].status != AH_UDC_Constants.STEP_STATUS_COMPLETED
+                  && workbook.steps[intPrereqStepIndex].status != AH_UDC_Constants.STEP_STATUS_LOCKED;
+               }
             }
 
             workbook.steps.add(wbs);
@@ -317,6 +379,7 @@ public without sharing class AH_UDC_ViewWorkbook {
                   if (currentStep == null)
                   {
                      currentStep = wbs;
+                     workbook.currentStep = wbs;
                      wbs.cssCurrent += 'current-step';
                      if (String.isNotBlank(wbStep.Form__c)) currentStep.url = AH_UDC_SharedWithoutSharing.GetWorkbookStepSentUrl(wbStep.id);
                      currentPosition = Position;
@@ -325,7 +388,7 @@ public without sharing class AH_UDC_ViewWorkbook {
                      if (currentStep.isAmadeusFileUpload) serverGetFiles();
                      else {
                         List<SelectOption> lstLastUpdatedByUsers = GetStepLastUpdatedByUsersList(currentStep.id);
-                        if(lstLastUpdatedByUsers != null && lstLastUpdatedByUsers.size() > 0) {
+                        if (lstLastUpdatedByUsers != null && lstLastUpdatedByUsers.size() > 0) {
                            currentStep.lastUpdatedByUsersList = lstLastUpdatedByUsers;
                            currentStep.selectedLastUpdatedById = lstLastUpdatedByUsers[0].getValue();
                         }
@@ -366,8 +429,12 @@ public without sharing class AH_UDC_ViewWorkbook {
 
          Workbook.totalSteps = workbook.steps.size();
 
+         workbook.Title = System.Label.AH_UDC_Steps_Complete + ': ' + workbook.completedSteps + ' of ' + workbook.totalSteps;
+         if (!workbook.isSent) workbook.Title = 'Workbook Defaults';
+
          //If all Steps are completed then set current position to the Complete step
          if (workbook.steps.size() == workbook.completedSteps) currentPosition = - 1;
+
       }
       catch(Exception exc)
       {
@@ -444,7 +511,7 @@ public without sharing class AH_UDC_ViewWorkbook {
    }
 
    //Create property address string
-   @TestVisible 
+   @TestVisible
    private string GetAddress(AH_UDC_PropertyAccount__c propertyAccount) {
 
       AH_UDC_LogHelper.Debug(LogFunctionalArea + '.GetAddress');
@@ -600,8 +667,8 @@ public without sharing class AH_UDC_ViewWorkbook {
          }
 
          Integer WBTotalNotCompletedSteps = [SELECT COUNT() FROM AH_UDC_workbookstep__c
-                                             WHERE Enabled__c = true 
-                                             AND stepStatus__c != :AH_UDC_Constants.STEP_STATUS_COMPLETED 
+                                             WHERE Enabled__c = true
+                                             AND stepStatus__c != :AH_UDC_Constants.STEP_STATUS_COMPLETED
                                              AND stepStatus__c != :AH_UDC_Constants.STEP_STATUS_LOCKED
                                              AND Workbook__r.Id = :workbook.id];
 
@@ -773,7 +840,7 @@ public without sharing class AH_UDC_ViewWorkbook {
          if (Test.isRunningTest() && LogFunctionalArea == 'TestException') Integer a = 1 / 0;
 
          //Unit Test Force Exception
-         if (AH_UDC_ConfigHelper.GetBoolean('AH_UDC_UnitTestForceViewWorkbookRefreshError', FALSE)) throw(new AH_UDC_Shared.UDCException(AH_UDC_Constants.UNIT_TEST_EXCEPTION_PREFIX + 'Refresh Workbook Steps'));
+         if (AH_UDC_ConfigHelper.GetBoolean('AH_UDC_UnitTestForceViewWorkbookRefreshError', FALSE, true)) throw(new AH_UDC_Shared.UDCException(AH_UDC_Constants.UNIT_TEST_EXCEPTION_PREFIX + 'Refresh Workbook Steps'));
 
          AH_UDC_LogHelper.Debug(LogFunctionalArea + '.refreshSteps - CheckViewWorkbookUserAccess: ' + AH_UDC_SharedWithoutSharing.CheckViewWorkbookUserAccess(workbook.id));
          //Verify the user is still logged in and has access to the workbook
@@ -795,70 +862,77 @@ public without sharing class AH_UDC_ViewWorkbook {
 
          AH_UDC_LogHelper.Debug(LogFunctionalArea + '.refreshSteps => wbSteps:' + wbSteps);
          //TODO: ROBDEV - ONHOLD - We should check wbSteps.size() > 0 before proceeding further
-         workbook.propertyInfo.isPropertyConfirmed = Boolean.valueOf(wbSteps[0].Workbook__r.RelatedTo__r.AH_UDC_PropertyConfirmation__c);
-         workbook.isCompleted = (wbSteps[0].Workbook__r.SentStatus__c == AH_UDC_Constants.SENT_STATUS_COMPLETE_LOCKED);
-         workbook.isArchived = wbSteps[0].Workbook__r.Archive__c;
-         Boolean allStepsComplete = true;
-         workbook.completedSteps = 0;
 
-         //Update Steps for Display in page
-         Map<Id, AH_UDC_WorkbookStep__c> refreshWorkbookSteps = new Map<Id, AH_UDC_WorkbookStep__c> ();
-         for (AH_UDC_WorkbookStep__c wbStep : wbSteps)
+         if (workbook.isSent)
          {
-            refreshWorkbookSteps.put(wbStep.Id, wbStep);
-         }
+            workbook.propertyInfo.isPropertyConfirmed = Boolean.valueOf(wbSteps[0].Workbook__r.RelatedTo__r.AH_UDC_PropertyConfirmation__c);
+            workbook.isCompleted = (wbSteps[0].Workbook__r.SentStatus__c == AH_UDC_Constants.SENT_STATUS_COMPLETE_LOCKED);
+            workbook.isArchived = wbSteps[0].Workbook__r.Archive__c;
 
-         workbook.allStepsComplete = true;
-         for (AH_UDC_CommunityWorkbook.WorkbookStep wbs : workbook.steps)
-         {
-            AH_UDC_WorkbookStep__c refreshWorkbookStep = refreshWorkbookSteps.get(wbs.id);
+            Boolean allStepsComplete = true;
+            workbook.completedSteps = 0;
 
-            wbs.status = String.valueOf(refreshWorkbookStep.StepStatus__c);
-            wbs.isLocked = false;
-            if (!(isUDCUserOrUDCWBAdmin || isUDCSysAdmin) && wbs.status == AH_UDC_Constants.STEP_STATUS_LOCKED) wbs.isLocked = true; //Locked status only impacts Community users
-            if (wbs.status != AH_UDC_Constants.STEP_STATUS_COMPLETED && wbs.status != AH_UDC_Constants.STEP_STATUS_LOCKED) workbook.allStepsComplete = false;
-            //Adding completed class to display green color for locked step
-            wbs.css = String.valueOf(refreshWorkbookStep.StepStatus__c).replaceAll(AH_UDC_Constants.STEP_STATUS_LOCKED, AH_UDC_Constants.STEP_STATUS_COMPLETED);
-            wbs.css = wbs.css.replaceAll(' ', '-').toLowerCase();
-            wbs.cssI = 'default-step-i';
-            if (wbs.status == AH_UDC_Constants.STEP_STATUS_COMPLETED || wbs.status == AH_UDC_Constants.STEP_STATUS_LOCKED) wbs.cssI = 'fas fa-check';
-
-            wbs.cssCurrent = '';
-            if (currentStep != null && currentStep.id == wbs.id)
+            //Update Steps for Display in page
+            Map<Id, AH_UDC_WorkbookStep__c> refreshWorkbookSteps = new Map<Id, AH_UDC_WorkbookStep__c> ();
+            for (AH_UDC_WorkbookStep__c wbStep : wbSteps)
             {
-               wbs.cssCurrent = 'current-step';
+               refreshWorkbookSteps.put(wbStep.Id, wbStep);
             }
 
-            //If step has prerequisite step not completed then check if it is completed now
-            if (wbs.prerequisiteStepPosition != null && wbs.isPrerequisiteStepNotCompleted) {
-               //For the workbook with Steps In Order set to true, wbs.prerequisiteStepPosition will have the value of position of previous step
-               AH_UDC_WorkbookStep__c objPrereqStep = wbSteps[wbs.prerequisiteStepPosition - 1];
-
-               AH_UDC_LogHelper.Debug('refreshSteps => objPrereqStep.StepStatus__c : ' + objPrereqStep.StepStatus__c);
-               //Check if prerequisite step is completed or not
-               wbs.isPrerequisiteStepNotCompleted = objPrereqStep.StepStatus__c != AH_UDC_Constants.STEP_STATUS_COMPLETED
-               && objPrereqStep.StepStatus__c != AH_UDC_Constants.STEP_STATUS_LOCKED;
-            }
-
-            //Determine number of steps complete
-            if (refreshWorkbookStep.StepStatus__c == AH_UDC_Constants.STEP_STATUS_COMPLETED || refreshWorkbookStep.StepStatus__c == AH_UDC_Constants.STEP_STATUS_LOCKED)
+            workbook.allStepsComplete = true;
+            for (AH_UDC_CommunityWorkbook.WorkbookStep wbs : workbook.steps)
             {
-               workbook.completedSteps++;
-            }
-            else
-            {
-               allStepsComplete = false;
-            }
-         }
+               AH_UDC_WorkbookStep__c refreshWorkbookStep = refreshWorkbookSteps.get(wbs.id);
 
-         AH_UDC_LogHelper.Debug('refreshSteps => currentStep : ' + currentStep);
-         if(currentStep != null && String.isNotBlank(String.valueOf(currentStep.id))
-            && currentStep.isAmadeusFileUpload != true) {
-            List<SelectOption> lstLastUpdatedByUsers = GetStepLastUpdatedByUsersList(currentStep.id);
-            if(lstLastUpdatedByUsers != null && lstLastUpdatedByUsers.size() > 0) {
-               currentStep.lastUpdatedByUsersList = lstLastUpdatedByUsers;
-               currentStep.selectedLastUpdatedById = lstLastUpdatedByUsers[0].getValue();
+               wbs.status = String.valueOf(refreshWorkbookStep.StepStatus__c);
+               wbs.isLocked = false;
+               if (!(isUDCUserOrUDCWBAdmin || isUDCSysAdmin) && wbs.status == AH_UDC_Constants.STEP_STATUS_LOCKED) wbs.isLocked = true; //Locked status only impacts Community users
+               if (wbs.status != AH_UDC_Constants.STEP_STATUS_COMPLETED && wbs.status != AH_UDC_Constants.STEP_STATUS_LOCKED) workbook.allStepsComplete = false;
+               //Adding completed class to display green color for locked step
+               wbs.css = String.valueOf(refreshWorkbookStep.StepStatus__c).replaceAll(AH_UDC_Constants.STEP_STATUS_LOCKED, AH_UDC_Constants.STEP_STATUS_COMPLETED);
+               wbs.css = wbs.css.replaceAll(' ', '-').toLowerCase();
+               wbs.cssI = 'default-step-i';
+               if (wbs.status == AH_UDC_Constants.STEP_STATUS_COMPLETED || wbs.status == AH_UDC_Constants.STEP_STATUS_LOCKED) wbs.cssI = 'fas fa-check';
+
+               wbs.cssCurrent = '';
+               if (currentStep != null && currentStep.id == wbs.id)
+               {
+                  wbs.cssCurrent = 'current-step';
+               }
+
+               //If step has prerequisite step not completed then check if it is completed now
+               if (wbs.prerequisiteStepPosition != null && wbs.isPrerequisiteStepNotCompleted) {
+                  //For the workbook with Steps In Order set to true, wbs.prerequisiteStepPosition will have the value of position of previous step
+                  AH_UDC_WorkbookStep__c objPrereqStep = wbSteps[wbs.prerequisiteStepPosition - 1];
+
+                  AH_UDC_LogHelper.Debug('refreshSteps => objPrereqStep.StepStatus__c : ' + objPrereqStep.StepStatus__c);
+                  //Check if prerequisite step is completed or not
+                  wbs.isPrerequisiteStepNotCompleted = objPrereqStep.StepStatus__c != AH_UDC_Constants.STEP_STATUS_COMPLETED
+                  && objPrereqStep.StepStatus__c != AH_UDC_Constants.STEP_STATUS_LOCKED;
+               }
+
+               //Determine number of steps complete
+               if (refreshWorkbookStep.StepStatus__c == AH_UDC_Constants.STEP_STATUS_COMPLETED || refreshWorkbookStep.StepStatus__c == AH_UDC_Constants.STEP_STATUS_LOCKED)
+               {
+                  workbook.completedSteps++;
+               }
+               else
+               {
+                  allStepsComplete = false;
+               }
             }
+
+            AH_UDC_LogHelper.Debug('refreshSteps => currentStep : ' + currentStep);
+            if (currentStep != null && String.isNotBlank(String.valueOf(currentStep.id))
+                && currentStep.isAmadeusFileUpload != true) {
+               List<SelectOption> lstLastUpdatedByUsers = GetStepLastUpdatedByUsersList(currentStep.id);
+               if (lstLastUpdatedByUsers != null && lstLastUpdatedByUsers.size() > 0) {
+                  currentStep.lastUpdatedByUsersList = lstLastUpdatedByUsers;
+                  currentStep.selectedLastUpdatedById = lstLastUpdatedByUsers[0].getValue();
+               }
+            }
+
+            workbook.Title = System.Label.AH_UDC_Steps_Complete + ': ' + workbook.completedSteps + ' of ' + workbook.totalSteps;
          }
       }
       catch(Exception exc)
@@ -951,6 +1025,7 @@ public without sharing class AH_UDC_ViewWorkbook {
 
             //TODO:ROBDEV-ONHOLD if allowed move to new step
             currentStep = moveToStep;
+            workbook.currentStep = moveToStep;
             AH_UDC_LogHelper.Debug(LogFunctionalArea + '.serverChangeToStep: currentStep : Name: ' + currentStep.name);
             currentStep.url = changeToStepUrl;
             currentPosition = changeToPositionNumber;
@@ -960,7 +1035,7 @@ public without sharing class AH_UDC_ViewWorkbook {
             if (currentStep.isAmadeusFileUpload) serverGetFiles();
             else {
                List<SelectOption> lstLastUpdatedByUsers = GetStepLastUpdatedByUsersList(currentStep.id);
-               if(lstLastUpdatedByUsers != null && lstLastUpdatedByUsers.size() > 0) {
+               if (lstLastUpdatedByUsers != null && lstLastUpdatedByUsers.size() > 0) {
                   currentStep.lastUpdatedByUsersList = lstLastUpdatedByUsers;
                   currentStep.selectedLastUpdatedById = lstLastUpdatedByUsers[0].getValue();
                }
@@ -978,23 +1053,23 @@ public without sharing class AH_UDC_ViewWorkbook {
    private List<SelectOption> GetStepLastUpdatedByUsersList(Id StepId) {
       try {
          AH_UDC_LogHelper.Debug('GetStepLastUpdatedByUsersList => StepId : ' + StepId);
-         if(String.isBlank(String.valueOf(StepId))) {
+         if (String.isBlank(String.valueOf(StepId))) {
             LogException('GetStepLastUpdatedByUsersList', 'Error: StepId is blank.', null, null, null, null);
             return null;
          }
 
-         List<SelectOption> lstLastUpdatedByUsers = new List<SelectOption>();
+         List<SelectOption> lstLastUpdatedByUsers = new List<SelectOption> ();
          List<AH_UDC_WorkbookStepResponse__c> lstStepResponses = [SELECT Response__c, Response__r.Responded__c, Response__r.Responder__r.Name
                                                                   FROM AH_UDC_WorkbookStepResponse__c
                                                                   WHERE WorkbookStep__c = :StepId
-                                                                  ORDER BY Response__r.Responded__c DESC ];
+                                                                  ORDER BY Response__r.Responded__c DESC];
          Integer index = 0;
-         for(AH_UDC_WorkbookStepResponse__c objStepResponse : lstStepResponses) {
+         for (AH_UDC_WorkbookStepResponse__c objStepResponse : lstStepResponses) {
             //Gives a string version of the date formatted in the current user's locale
             String strCreatedDate = objStepResponse.Response__r.Responded__c.format();
             lstLastUpdatedByUsers.add(new SelectOption(objStepResponse.Response__c,
-                                                      (String.isEmpty(objStepResponse.Response__r.Responder__r.Name) ? '' : objStepResponse.Response__r.Responder__r.Name + ' ') + strCreatedDate,
-                                                      index > 0)); //Make all options disabled other than 1st
+            (String.isEmpty(objStepResponse.Response__r.Responder__r.Name) ? '' : objStepResponse.Response__r.Responder__r.Name + ' ') + strCreatedDate,
+                                                       index > 0)); //Make all options disabled other than 1st
             index++;
          }
          return lstLastUpdatedByUsers;
@@ -1037,7 +1112,7 @@ public without sharing class AH_UDC_ViewWorkbook {
                                               WHERE ParentId = :Workbook.documentId AND CreatedById = :objUser.Id];
                //If there are no feed items just return the default of false
                if (lstFeedItems.size() == 0) return;
-               
+
                //Get the IDs of the Feed Items
                for (FeedItem feedItem : lstFeedItems)
                {
@@ -1108,22 +1183,28 @@ public without sharing class AH_UDC_ViewWorkbook {
 
    public void serverGetFiles()
    {
+
       try {
          NotificationToShow = '';
          isPageLoad = false;
+
          if (Test.isRunningTest() && LogFunctionalArea == 'TestException') Integer a = 1 / 0;
          List<PermissionSetAssignment> lstPSA = [SELECT AssigneeId FROM PermissionSetAssignment WHERE PermissionSet.Name = :AH_UDC_Constants.PERMISSIONSET_DEFAULT_NAME_UDC_SERVICE];
          Set<Id> setServiceUserIds = new Set<Id> ();
          for (PermissionSetAssignment psa : lstPSA) {
             setServiceUserIds.Add(psa.AssigneeId);
          }
-         UploadedFileList = [SELECT ContentDocument.title, ContentDocument.CreatedDate, ContentDocumentId FROM ContentDocumentLink
-                             WHERE IsDeleted = false AND LinkedEntityId = :workbook.documentId
-                             AND ContentDocument.OwnerId IN :setServiceUserIds
-                             ORDER BY ContentDocument.CreatedDate DESC];
+
+         workbook.currentStep.fileUploadInfo.uploadedFileList = [SELECT ContentDocument.title, ContentDocument.CreatedDate, ContentDocumentId FROM ContentDocumentLink
+                                                                 WHERE IsDeleted = false AND LinkedEntityId = :workbook.currentStep.id
+                                                                 AND ContentDocument.OwnerId IN :setServiceUserIds
+                                                                 ORDER BY ContentDocument.CreatedDate DESC];
       }
       catch(Exception exc) {
-         LogException('serverGetFiles', 'An exception occurred while fetching files', null, exc, String.valueOf(workbook.documentId), 'NI_Documentation__c');
+         if(workbook.currentStep == null)
+            LogException('serverGetFiles', 'Current step is not set',null, exc, null, null);
+         else
+            LogException('serverGetFiles', 'An exception occurred while fetching files for the step: '+workbook.currentStep.id, null, exc, String.valueOf(workbook.currentStep.id), 'AH_UDC_WorkbookStep__c');
       }
    }
 
@@ -1135,40 +1216,43 @@ public without sharing class AH_UDC_ViewWorkbook {
          if (Test.isRunningTest() && LogFunctionalArea == 'TestException') Integer a = 1 / 0;
 
          if (!AH_UDC_SharedWithoutSharing.CheckViewWorkbookUserAccess(workbook.id)) {
-            LogException('serverDeleteFile', 'Error: User does not have access to current Workbook. User Id:' + System.UserInfo.getUserId() + ' and Workbook Id: ' + workbook.id, 
-               null, null, null, null);
+            LogException('serverDeleteFile', 'Error: User does not have access to the current Workbook. User Id:' + System.UserInfo.getUserId() + ' and Workbook Id: ' + workbook.id,
+                         null, null, null, null);
             return;
          }
 
-         if (String.isBlank(DeleteFileID)) {
-            LogException('serverDeleteFile', 'Error: DeleteFileID is blank.', null, null, null, null);
+         if (String.isBlank(workbook.currentStep.fileUploadInfo.fileId)) {
+            LogException('serverDeleteFile', 'Error: FileId is blank.', null, null, null, null);
             return;
          }
 
          //Unit Test Force Exception
-         if (AH_UDC_ConfigHelper.GetBoolean('AH_UDC_UnitTestForceFileDeleteError', FALSE))
+         if (AH_UDC_ConfigHelper.GetBoolean('AH_UDC_UnitTestForceFileDeleteError', FALSE, true))
          {
             throw(new AH_UDC_Shared.UDCException(AH_UDC_Constants.UNIT_TEST_EXCEPTION_PREFIX + 'File Delete'));
          }
 
          List<ContentDocumentLink> objCDL = [SELECT ContentDocumentId FROM ContentDocumentLink
-                                             WHERE IsDeleted = false AND LinkedEntityId = :workbook.documentId
-                                             AND ContentDocumentId = :DeleteFileID];
+                                             WHERE IsDeleted = false AND LinkedEntityId = :workbook.currentStep.Id
+                                             AND ContentDocumentId = :workbook.currentStep.fileUploadInfo.fileId];
          if (objCDL.size() > 0) {
-            List<ContentDocument> lstCD = [SELECT Id FROM ContentDocument WHERE Id = :DeleteFileID];
+            List<ContentDocument> lstCD = [SELECT Id FROM ContentDocument WHERE Id = :workbook.currentStep.fileUploadInfo.fileId];
             if (lstCD.size() > 0) {
                AH_UDC_SystemContext.DeleteObjects(lstCD);
                serverGetFiles();
             }
          }
          else {
-            LogException('serverDeleteFile', 'Error: Content Document Id (' + DeleteFileID + ') does not belong to current NIDoc (' + workbook.documentId + ') / Workbook (' + workbook.id + ')',
-                         null, null, String.valueOf(workbook.documentId), 'NI_Documentation__c');
+            LogException('serverDeleteFile', 'Error: Content Document Id (' + workbook.currentStep.fileUploadInfo.fileId + ') does not belong to current NIDoc (' + workbook.documentId + ') / Workbook (' + workbook.id + ') / WorkbookStep (' + workbook.currentStep.id + ')',
+                         null, null, String.valueOf(workbook.currentStep.Id), 'AH_UDC_WorkbookStep__c');
             return;
          }
       }
       catch(Exception exc) {
-         LogException('serverDeleteFile', 'An exception occurred while deleting files', null, exc, String.valueOf(workbook.documentId), 'NI_Documentation__c');
+      if(workbook.currentStep == null)
+         LogException('serverDeleteFile', 'Current step is not set',null, exc, null, null);
+      else
+         LogException('serverDeleteFile', 'An exception occurred while deleting file for the step: '+workbook.currentStep.id, null, exc, String.valueOf(workbook.currentStep.Id), 'AH_UDC_WorkbookStep__c');
       }
    }
 
@@ -1185,7 +1269,7 @@ public without sharing class AH_UDC_ViewWorkbook {
          }
          //Only change the step status if the status is still new
          List<AH_UDC_WorkbookStep__c> wbUpdateSteps = [select Id, StepStatus__c FROM AH_UDC_WorkbookStep__c WHERE Id = :currentStep.id FOR UPDATE];
-         if (wbUpdateSteps.size() == 1 && !AH_UDC_ConfigHelper.GetBoolean('AH_UDC_UnitTestForceViewWorkbookFileUploadStepInProgressError', false))
+         if (wbUpdateSteps.size() == 1 && !AH_UDC_ConfigHelper.GetBoolean('AH_UDC_UnitTestForceViewWorkbookFileUploadStepInProgressError', false, true))
          {
             if (wbUpdateSteps[0].StepStatus__c == AH_UDC_Constants.STEP_STATUS_NEW)
             {

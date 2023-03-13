@@ -3,8 +3,9 @@
     <fullName>URL__c</fullName>
     <description>Click this link to preview your form.</description>
     <externalId>false</externalId>
-    <formula>&apos;https://amadeushospitality.tfaforms.net/&apos; +
-IF(ISBLANK(CustomUrlId__c), FormAssemblyId__c, &apos;f/&apos; + CustomUrlId__c)</formula>
+    <formula>IF( RecordType.DeveloperName !=&apos;FormAssembly&apos;,&apos;&apos;,
+&apos;https://amadeushospitality.tfaforms.net/&apos; +
+IF(ISBLANK(CustomUrlId__c), FormAssemblyId__c, &apos;f/&apos; + CustomUrlId__c))</formula>
     <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
     <inlineHelpText>Click this link to preview your form.</inlineHelpText>
     <label>Preview Form</label>

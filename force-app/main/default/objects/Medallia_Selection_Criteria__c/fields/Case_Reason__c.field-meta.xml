@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Case_Reason__c</fullName>
+    <externalId>false</externalId>
+    <label>Case Reason</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>true</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>MultiselectPicklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>true</sorted>
+            <value>
+                <fullName>Amadeus Configuration</fullName>
+                <default>false</default>
+                <label>Amadeus Configuration</label>
+            </value>
+            <value>
+                <fullName>Cannot Duplicate</fullName>
+                <default>false</default>
+                <label>Cannot Duplicate</label>
+            </value>
+            <value>
+                <fullName>Customer Environment</fullName>
+                <default>false</default>
+                <label>Customer Environment</label>
+            </value>
+            <value>
+                <fullName>Data Fix</fullName>
+                <default>false</default>
+                <label>Data Fix</label>
+            </value>
+            <value>
+                <fullName>Defect</fullName>
+                <default>false</default>
+                <label>Defect</label>
+            </value>
+            <value>
+                <fullName>Development Deployment</fullName>
+                <default>false</default>
+                <label>Development Deployment</label>
+            </value>
+            <value>
+                <fullName>Duplicate Case</fullName>
+                <default>false</default>
+                <label>Duplicate Case</label>
+            </value>
+            <value>
+                <fullName>Enhancement</fullName>
+                <default>false</default>
+                <label>Enhancement</label>
+            </value>
+            <value>
+                <fullName>Platform Performance</fullName>
+                <default>false</default>
+                <label>Platform Performance</label>
+            </value>
+            <value>
+                <fullName>Return Material Application</fullName>
+                <default>false</default>
+                <label>Return Material Application</label>
+            </value>
+            <value>
+                <fullName>Sales / Services</fullName>
+                <default>false</default>
+                <label>Sales / Services</label>
+            </value>
+            <value>
+                <fullName>Services Deployment</fullName>
+                <default>false</default>
+                <label>Services Deployment</label>
+            </value>
+            <value>
+                <fullName>Training / HDI</fullName>
+                <default>false</default>
+                <label>Training / HDI</label>
+            </value>
+            <value>
+                <fullName>Unassisted Closures</fullName>
+                <default>false</default>
+                <label>Unassisted Closures</label>
+            </value>
+            <value>
+                <fullName>User Management</fullName>
+                <default>false</default>
+                <label>User Management</label>
+            </value>
+            <value>
+                <fullName>Vendor Challenges</fullName>
+                <default>false</default>
+                <label>Vendor Challenges</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+    <visibleLines>4</visibleLines>
+</CustomField>

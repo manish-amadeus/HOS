@@ -61,7 +61,8 @@ public with sharing class AH_UDC_SendWorkbook {
    public Boolean isSendWorkbookEnabled { get { return AH_UDC_ConfigHelper.GetBoolean('AH_UDC_SendWorkbookEnabled', false); } }
    public Boolean AllowSend { get; set; } { AllowSend = true; }
    public String SendNotAllowedMessage { get; set; }
-
+   public Boolean ReleaseWorkbook { get; set; } { ReleaseWorkbook = true; }
+   
    public class ContactLookupWrapper {
       public Integer Index { get; set; }
       public Id Id { get; set; }
@@ -96,20 +97,6 @@ public with sharing class AH_UDC_SendWorkbook {
             SendNotAllowedMessage = AH_UDC_ConfigHelper.GetString('AH_UDC_SendWorkbookDisabledMessage', 'Send Workbook is currently disabled.');
             return;
          }
-
-         //Refactored to send as Service User //TODO: Remove in V2.2
-         ////Alert the user if their profile does not allow creating Community Users
-         //Id profileId = userinfo.getProfileId();
-         //List<Profile> userProfiles = AH_UDC_SystemContext.query('Select Id,Name from Profile where Id=\'' + profileId + '\'');
-         //if (userProfiles[0].Name != 'System Administrator')
-         //{
-            //List<Create_External_User_Setting__mdt> ceuSettings = AH_UDC_SystemContext.query('SELECT id from Create_External_User_Setting__mdt where Running_Users_Profile__c = \'' + userProfiles[0].Name + '\'');
-            //if (!Test.isRunningTest() && ceuSettings.size() == 0) {
-               //AllowSend = false;
-               //SendNotAllowedMessage = Label.AH_UDC_Send_Workbook_Profile_Unable_To_Create_Community_Users;
-               //return;
-            //}
-         //}
 
          IsCopyWorkbook = false;
          SelectedContact = new Contact();
@@ -156,11 +143,16 @@ public with sharing class AH_UDC_SendWorkbook {
             }
             else {
                ProjectName = lstProjects[0].Name;
-               lstContacts = [SELECT Id, FirstName, Name, Email, AccountId, Account.Name
+               lstContacts = [SELECT Id, FirstName, Name, Email, AccountId, Account.Name, Status__c
                               FROM Contact
-                              WHERE Id = :lstProjects[0].Customer_Project_Contact__c AND Status__c = 'Active'];
+                              WHERE Id = :lstProjects[0].Customer_Project_Contact__c];
 
                if (lstContacts.size() > 0) {
+                  if (lstContacts[0].Status__c != 'Active') {
+                     AllowSend = false;
+                     SendNotAllowedMessage = Label.AH_UDC_SendWorkbookProjectWithInActiveContactErrorMessage;
+                     return;
+                  }
                   ContactId = lstContacts[0].Id;
                   SelectedContact = lstContacts[0];
                   if (String.isNotBlank(String.valueOf(lstProjects[0].pse__Account__c))) {
@@ -272,6 +264,30 @@ public with sharing class AH_UDC_SendWorkbook {
       }
    }
 
+   //Called by action function to set the Email Template for the selected workbook
+   public void SetEmailTemplate(){
+      AH_UDC_LogHelper.Debug('SetEmailTemplate - Start');
+      if (String.isNotEmpty(SelectedWorkbook)){
+         AH_UDC_LogHelper.Debug('SetEmailTemplate - SelectedWorkbookID: ' + SelectedWorkbook);
+         List<AH_UDC_Workbook__c> workbooks = [SELECT Id, EmailTemplate__c from AH_UDC_Workbook__c where ID=:SelectedWorkbook and RecordType.DeveloperName = :AH_UDC_Constants.RECORD_TYPE_WORKBOOK];
+         List<EmailTemplate> lstEmailTemplates = null;
+         if(workbooks.size() ==0 || workbooks[0].EmailTemplate__c ==null)
+         {
+            AH_UDC_LogHelper.Debug('SetEmailTemplate - L2');
+            lstEmailTemplates = [SELECT Id, Name FROM EmailTemplate WHERE DeveloperName = :Label.AH_UDC_Send_Workbook_Default_Email_Template];
+         }
+         else {
+            AH_UDC_LogHelper.Debug('SetEmailTemplate - L3');
+            lstEmailTemplates = [SELECT Id, Name FROM EmailTemplate WHERE DeveloperName = :workbooks[0].EmailTemplate__c];
+         }
+         SelectedEmailTemplateId = (lstEmailTemplates.size()!= 1? null : lstEmailTemplates[0].Id);
+         SelectedEmailTemplateName = (lstEmailTemplates.size()!= 1? null : lstEmailTemplates[0].Name);
+         AH_UDC_LogHelper.Debug('SetEmailTemplate - SelectedEmailTemplateId: ' + SelectedEmailTemplateId);
+         AH_UDC_LogHelper.Debug('SetEmailTemplate - SelectedEmailTemplateName: ' +  SelectedEmailTemplateName);
+      }
+      AH_UDC_LogHelper.Debug('SetEmailTemplate - Stop');
+   }
+
    //Get default email template details based on developer name
    public void GetDefaultEmailTemplateDetails() {
       List<EmailTemplate> lstEmailTemplates = null;
@@ -300,10 +316,11 @@ public with sharing class AH_UDC_SendWorkbook {
          AH_UDC_LogHelper.QueueLogs = true;
 
          //Unit Test Force Exception
-         if (AH_UDC_ConfigHelper.GetBoolean('AH_UDC_UnitTestForceSendWorkbookCreateCommunityUserException', FALSE)) throw(new AH_UDC_Shared.UDCException(AH_UDC_Constants.UNIT_TEST_EXCEPTION_PREFIX + 'Send Workbook Create Community Users'));
+         if (AH_UDC_ConfigHelper.GetBoolean('AH_UDC_UnitTestForceSendWorkbookCreateCommunityUserException', FALSE, true)) throw(new AH_UDC_Shared.UDCException(AH_UDC_Constants.UNIT_TEST_EXCEPTION_PREFIX + 'Send Workbook Create Community Users'));
 
          //Create the primary contact's Community User
-         Boolean IsAllUsersCreated = AH_UDC_SharedWithoutSharing.SetupCommunityAccess(ContactId);
+         Boolean IsAllUsersCreated = true;
+         if (ReleaseWorkbook) IsAllUsersCreated = AH_UDC_SharedWithoutSharing.SetupCommunityAccess(ContactId);
 
          //Create any other contact Community User's
          AH_UDC_LogHelper.Debug('CreateCommunityUsers-ContactLookupList: ' + ContactLookupList);
@@ -311,11 +328,10 @@ public with sharing class AH_UDC_SendWorkbook {
          if (ContactLookupList != null && ContactLookupList.size() > 0) {
             for (ContactLookupWrapper objContact : ContactLookupList) {
                if (String.isNotBlank(String.valueOf(objContact.Id)) && String.isBlank(objContact.ErrorMessage)) {
-                  Boolean IsAddUserCreated = AH_UDC_SharedWithoutSharing.SetupCommunityAccess(objContact.Id);
+                  Boolean IsAddUserCreated = true;
+                  if (ReleaseWorkbook) IsAddUserCreated = AH_UDC_SharedWithoutSharing.SetupCommunityAccess(objContact.Id);
                   AH_UDC_LogHelper.Debug('CreateCommunityUsers : IsAddUserCreated: ' + IsAddUserCreated);
-                  if (!IsAddUserCreated) {
-                     IsAllUsersCreated = false;
-                  }
+                  if (!IsAddUserCreated) IsAllUsersCreated = false;
                }
             }
          }
@@ -353,7 +369,10 @@ public with sharing class AH_UDC_SendWorkbook {
 
       try {
          //Alert the user if sending workbooks is disabled; buttons will be hidden too
-         if (!isSendWorkbookEnabled) {
+         String UDCSystemAdminPermissionSetName = AH_UDC_ConfigHelper.GetString('AH_UDC_PermissionSetUDCSystemAdministrator', AH_UDC_Constants.PERMISSIONSET_DEFAULT_NAME_UDC_SYSTEM_ADMIN);
+         Boolean isUDCSysAdmin = 0 < (Integer) [SELECT COUNT() FROM PermissionSetAssignment WHERE AssigneeId = :System.UserInfo.getUserId() AND PermissionSet.Name = :UDCSystemAdminPermissionSetName];
+
+         if (!isUDCSysAdmin && !isSendWorkbookEnabled) {
             ApexPages.addmessage(new ApexPages.message(ApexPages.severity.Warning, AH_UDC_ConfigHelper.GetString('AH_UDC_SendWorkbookDisabledMessage', 'Send Workbook is currently disabled.')));
             return;
          }
@@ -364,7 +383,7 @@ public with sharing class AH_UDC_SendWorkbook {
          }
 
          //Unit Test Force Exception
-         if (AH_UDC_ConfigHelper.GetBoolean('AH_UDC_UnitTestSendWorkbookError', FALSE)) throw(new AH_UDC_Shared.UDCException(AH_UDC_Constants.UNIT_TEST_EXCEPTION_PREFIX + 'Send Workbook'));
+         if (AH_UDC_ConfigHelper.GetBoolean('AH_UDC_UnitTestSendWorkbookError', FALSE, true)) throw(new AH_UDC_Shared.UDCException(AH_UDC_Constants.UNIT_TEST_EXCEPTION_PREFIX + 'Send Workbook'));
 
          //The the account ID for the active contact
          accountId = SelectedContact.Account.Id;
@@ -401,8 +420,9 @@ public with sharing class AH_UDC_SendWorkbook {
          if (IsErrorOccurred) return; //CreateUDCContacts() will show the Error to the user and the rollback will occur if it can't insert a record
 
          //Send welcome email to all selected contacts
-         SendEmailToContacts();
-
+         if (ReleaseWorkbook){
+            SendEmailToContacts();
+         }
          if (!IsCommunityUserCreated) {
             //If there is an error in creating community users then display message to user 
             ApexPages.addmessage(new ApexPages.message(ApexPages.severity.Error, Label.AH_UDC_CreateCommunityUserErrorMessage));
@@ -449,33 +469,57 @@ public with sharing class AH_UDC_SendWorkbook {
          //Get record type id to insert NI Doc record
          workbookSentRecordTypeId = Schema.SObjectType.AH_UDC_Workbook__c.getRecordTypeInfosByDeveloperName().get(AH_UDC_Constants.RECORD_TYPE_WORKBOOK_SENT).getRecordTypeId();
          if (String.isNotBlank(String.valueOf(workbookSentRecordTypeId))) {
-            lstWorkbooks = [SELECT CompletedDate__c, Description__c, Enabled__c, Id, Name, OwnerId, Product__c, RecordTypeId, RelatedToDocName__c, RelatedTo__c, SentDate__c, SentStatus__c, StepsinOrder__c, CompletedBy__c, WorkbookSentDueDate__c, ParentWorkbookSent__c, OriginalWorkbook__c
+            lstWorkbooks = [SELECT CompletedDate__c, Description__c, Enabled__c, Id, Name, OwnerId, Product__c, RecordTypeId,
+                            RelatedToDocName__c, RelatedTo__c, SentDate__c,
+                            SentStatus__c, StepsinOrder__c, CompletedBy__c, DueDate__c, ParentWorkbookSent__c, OriginalWorkbook__c,
+                            Reminder1Enabled__c,Reminder1Days__c,Reminder1EmailTemplate__c,
+                            Reminder2Enabled__c,Reminder2Days__c,Reminder2EmailTemplate__c,
+                            Reminder3Enabled__c,Reminder3Days__c,Reminder3EmailTemplate__c,
+                            Reminder4Enabled__c,Reminder4Days__c,Reminder4EmailTemplate__c
                             FROM AH_UDC_Workbook__c
                             WHERE Id = :SelectedWorkbook];
 
             if (lstWorkbooks != null && lstWorkbooks.size() > 0) {
                objWorkbookClone = lstWorkbooks[0].clone(false, false, false, false);
+               //Set Email Template
+               List<EmailTemplate> wbTemplates = [select Id, DeveloperName from EmailTemplate where ID = :SelectedEmailTemplateId];
+               objWorkbookClone.EmailTemplate__c = wbTemplates[0].DeveloperName;
+               //Setup Reminders
+               objWorkbookClone.Reminder1Sent__c = null;
+               objWorkbookClone.Reminder2Sent__c = null;
+               objWorkbookClone.Reminder3Sent__c = null;
+               objWorkbookClone.Reminder4Sent__c = null;
+               List<String> ReminderEmailTemplates = new List<String>();
+               if (String.isNotBlank(objWorkbookClone.Reminder1EmailTemplate__c)) ReminderEmailTemplates.add(objWorkbookClone.Reminder1EmailTemplate__c);
+               if (String.isNotBlank(objWorkbookClone.Reminder2EmailTemplate__c)) ReminderEmailTemplates.add(objWorkbookClone.Reminder2EmailTemplate__c);
+               if (String.isNotBlank(objWorkbookClone.Reminder3EmailTemplate__c)) ReminderEmailTemplates.add(objWorkbookClone.Reminder3EmailTemplate__c);
+               if (String.isNotBlank(objWorkbookClone.Reminder4EmailTemplate__c)) ReminderEmailTemplates.add(objWorkbookClone.Reminder4EmailTemplate__c);
+               List<EmailTemplate> templates = new List<EmailTemplate>();
+               If (ReminderEmailTemplates.size() > 0) templates= [select id, DeveloperName from EmailTemplate where DeveloperName in :ReminderEmailTemplates];
+               objWorkbookClone.Reminder1Enabled__c = checkReminderEnabled(objWorkbookClone.Reminder1Enabled__c,objWorkbookClone.Reminder1Days__c, objWorkbookClone.Reminder1EmailTemplate__c, DueDate, templates);
+               objWorkbookClone.Reminder2Enabled__c = checkReminderEnabled(objWorkbookClone.Reminder2Enabled__c,objWorkbookClone.Reminder2Days__c, objWorkbookClone.Reminder2EmailTemplate__c, DueDate, templates);
+               objWorkbookClone.Reminder3Enabled__c = checkReminderEnabled(objWorkbookClone.Reminder3Enabled__c,objWorkbookClone.Reminder3Days__c, objWorkbookClone.Reminder3EmailTemplate__c, DueDate, templates);
+               objWorkbookClone.Reminder4Enabled__c = checkReminderEnabled(objWorkbookClone.Reminder4Enabled__c,objWorkbookClone.Reminder4Days__c, objWorkbookClone.Reminder4EmailTemplate__c, DueDate, templates);
                objWorkbookClone.RecordTypeId = workbookSentRecordTypeId;
                objWorkbookClone.RelatedTo__c = NewNIDocId;
+               if (ReleaseWorkbook) objWorkbookClone.Released__c = true;
                objWorkbookClone.SentStatus__c = AH_UDC_Constants.SENT_STATUS_NEW;
                objWorkbookClone.SentDate__c = Datetime.now();
                objWorkbookClone.CompletedDate__c = null;
                objWorkbookClone.CompletedBy__c = null;
                objWorkbookClone.OwnerId = UserInfo.getUserId();
                objWorkbookClone.SecurityCode__c = AH_UDC_Shared.GetSecurityCode(); //Security Code for each Workbook Sent must be unique
+               objWorkbookClone.OriginalWorkbook__c = SelectedWorkbook;
                AH_UDC_LogHelper.Debug('CreateWorkbookSentRecord => IsCopyWorkbook: ' + IsCopyWorkbook);
-               if (IsCopyWorkbook == false) { //Only if New Workbook option is selected
-                  objWorkbookClone.OriginalWorkbook__c = SelectedWorkbook;
-                  if (String.isNotBlank(String.valueOf(SelectedNIDocIdNew))) { //If parent Workbook NI Doc is selected then set value in the field
-                     lstParentWorkbooks = [SELECT Id
-                                           FROM AH_UDC_Workbook__c
-                                           WHERE RelatedTo__c = :SelectedNIDocIdNew];
-                     if (lstParentWorkbooks != null && lstParentWorkbooks.size() > 0) {
-                        objWorkbookClone.ParentWorkbookSent__c = lstParentWorkbooks[0].Id;
-                     }
-                     else {
-                        LogException('CreateWorkbookSentRecord', 'Selected NI Doc record do not workbook associated', null, objSavepoint);
-                     }
+               if (IsCopyWorkbook == false && String.isNotBlank(String.valueOf(SelectedNIDocIdNew))) { //If parent Workbook NI Doc is selected then set value in the field
+                  lstParentWorkbooks = [SELECT Id
+                                          FROM AH_UDC_Workbook__c
+                                          WHERE RelatedTo__c = :SelectedNIDocIdNew];
+                  if (lstParentWorkbooks != null && lstParentWorkbooks.size() > 0) {
+                     objWorkbookClone.ParentWorkbookSent__c = lstParentWorkbooks[0].Id;
+                  }
+                  else {
+                     LogException('CreateWorkbookSentRecord', 'Selected NI Doc record do not workbook associated', null, objSavepoint);
                   }
                }
                if (objWorkbookClone != null) {
@@ -501,78 +545,100 @@ public with sharing class AH_UDC_SendWorkbook {
       }
    }
 
+   //Determine if Reminder on Sent Workbook should be enabled
+   private Boolean checkReminderEnabled(Boolean ReminderEnabled, Decimal ReminderDays, string ReminderEmailTemplate, Date wbDueDate, List<EmailTemplate> templates)
+   {
+      if (!ReminderEnabled || ReminderDays ==null || wbDueDate == null) return false;
+      //Determine if template is specified and valid
+      if (String.isEmpty(ReminderEmailTemplate)) return false;
+      Boolean isValidTemplate = false;
+      for(EmailTemplate et : templates)
+      {
+         if(et.DeveloperName == ReminderEmailTemplate) {
+            isValidTemplate = true;
+            break;
+         }
+      }
+      if (!isValidTemplate) return false;
+      if (ReminderDays > -1)
+      {
+         If ((system.today()).daysBetween(Date.valueOf(wbDueDate)) > ReminderDays) return true;
+      }
+      else
+      {
+         If ((system.today()).daysBetween(Date.valueOf(wbDueDate)) > ReminderDays) return true;
+      }
+      return false;
+   }
+
    //Create Workboook Step Sent record based on values provided
    private void CreateWorkbookStepSentRecord(Savepoint objSavepoint, Id originalWorkbookId, Id newWorkbookId) {
-      Id workbookStepSentRecordTypeId = null;
-      Id workbookRecordTypeId = null;
       try {
          //Get record type id to insert Workboook Step Sent record
-         workbookStepSentRecordTypeId = Schema.SObjectType.AH_UDC_WorkbookStep__c.getRecordTypeInfosByDeveloperName().get(AH_UDC_Constants.RECORD_TYPE_WORKBOOK_STEP_SENT).getRecordTypeId();
-         if (IsCopyWorkbook) {
-            workbookRecordTypeId = workbookStepSentRecordTypeId;
-         }
-         else {
-            workbookRecordTypeId = Schema.SObjectType.AH_UDC_WorkbookStep__c.getRecordTypeInfosByDeveloperName().get('AH_UDC_WorkbookStep').getRecordTypeId();
-         }
-         if (String.isNotBlank(String.valueOf(workbookStepSentRecordTypeId)) && String.isNotBlank(String.valueOf(workbookRecordTypeId))) {
-            List<AH_UDC_WorkbookStep__c> lstNewWorkbookSteps = new List<AH_UDC_WorkbookStep__c> ();
-            Map<Decimal, Decimal> stepSortOrderMapPrereq = new Map<Decimal, Decimal> (); //It will hold sort order along with sort order of it's prequisite step
-            List<AH_UDC_WorkbookStep__c> lstOriginalWorkbookSteps = [SELECT Id, Name, CurrencyIsoCode, Description__c, Enabled__c, Form__c, Help__c, Prerequisite_Step__c,
-                                                                     RecordTypeId, SortOrder__c, StepCompleted__c, StepStatus__c, URL__c, StepCompletedBy__c, Workbook__c,
-                                                                     Form__r.FormType__c, Form__r.CopyResponseWhenSendingNew__c
-                                                                     FROM AH_UDC_WorkbookStep__c
-                                                                     WHERE Workbook__c = :originalWorkbookId AND RecordTypeId = :workbookRecordTypeId
-                                                                     AND Enabled__c = true //Only Copy enabled steps to Sent Workbook
-                                                                     ORDER BY SortOrder__c];
-            AH_UDC_LogHelper.Debug('CreateWorkbookStepSentRecord => Total Steps to be created: ' + lstOriginalWorkbookSteps.size());
-            Map<Id, Decimal> stepIdSortOrderMap = new Map<Id, Decimal> (); //It will hold StepId and it's Sort Order
-            for (AH_UDC_WorkbookStep__c objOriginalStep : lstOriginalWorkbookSteps) {
-               AH_UDC_WorkbookStep__c objNewStep = objOriginalStep.clone(false, false, false, false);
-               objNewStep.RecordTypeId = workbookStepSentRecordTypeId;
-               objNewStep.Workbook__c = newWorkbookId;
-               objNewStep.StepStatus__c = AH_UDC_Constants.STEP_STATUS_NEW;
-               objNewStep.StepCompleted__c = null;
-               objNewStep.StepCompletedBy__c = null;
-               objNewStep.CreatedById = UserInfo.getUserId();
-               objNewStep.CreatedDate = DateTime.now();
-               objNewStep.LastModifiedById = UserInfo.getUserId();
-               objNewStep.LastModifiedDate = DateTime.now();
-               if (String.isNotBlank(objOriginalStep.Prerequisite_Step__c)) {
-                  objNewStep.Prerequisite_Step__c = null;
-                  stepSortOrderMapPrereq.put(objOriginalStep.SortOrder__c, stepIdSortOrderMap.get(objOriginalStep.Prerequisite_Step__c));
-               }
-               stepIdSortOrderMap.put(objOriginalStep.Id, objOriginalStep.SortOrder__c);
-               lstNewWorkbookSteps.add(objNewStep);
-            }
-
-            if (lstNewWorkbookSteps != null && lstNewWorkbookSteps.size() > 0) {
-               AH_UDC_LogHelper.Debug('CreateWorkbookStepSentRecord => lstNewWorkbookSteps.size(): ' + lstNewWorkbookSteps.size());
-               AH_UDC_SystemContext.CreateObjects(lstNewWorkbookSteps);
-
-               //Map of SortOrder and StepId for which copy of form responses is pending
-               Map<Decimal, Id> mapNewInsertedStepIdAndSortOrder = new Map<Decimal, Id> ();
-               for (AH_UDC_WorkbookStep__c objInsertedStep : lstNewWorkbookSteps) {
-                  mapNewInsertedStepIdAndSortOrder.put(objInsertedStep.SortOrder__c, objInsertedStep.Id);
-                  if (stepSortOrderMapPrereq.containsKey(objInsertedStep.SortOrder__c)) {
-                     Decimal sortOrderOfPrereqStep = stepSortOrderMapPrereq.get(objInsertedStep.SortOrder__c);
-                     //Get prerequisite stepid based on it's sort order
-                     objInsertedStep.Prerequisite_Step__c = mapNewInsertedStepIdAndSortOrder.get(sortOrderOfPrereqStep);
-                  }
-               }
-
-               AH_UDC_LogHelper.Debug('CreateWorkbookStepSentRecord => mapNewInsertedStepIdAndSortOrder: ' + mapNewInsertedStepIdAndSortOrder);
-               AH_UDC_LogHelper.Debug('CreateWorkbookStepSentRecord => stepSortOrderMapPrereq: ' + stepSortOrderMapPrereq);
-               if (stepSortOrderMapPrereq != null && stepSortOrderMapPrereq.size() > 0) {
-                  //Update inserted steps to set prerequisite step
-                  AH_UDC_SystemContext.UpdateObjects(lstNewWorkbookSteps);
-               }
-
-               //Copy responses for new inserted steps
-               CopyStepResponses(objSavepoint, lstOriginalWorkbookSteps, mapNewInsertedStepIdAndSortOrder);
-            }
-         }
-         else {
+         Id workbookStepSentRecordTypeId = Schema.SObjectType.AH_UDC_WorkbookStep__c.getRecordTypeInfosByDeveloperName().get(AH_UDC_Constants.RECORD_TYPE_WORKBOOK_STEP_SENT).getRecordTypeId();
+         Id workbookStepRecordTypeId = Schema.SObjectType.AH_UDC_WorkbookStep__c.getRecordTypeInfosByDeveloperName().get(AH_UDC_Constants.RECORD_TYPE_WORKBOOK_STEP).getRecordTypeId();
+         if (String.isBlank(String.valueOf(workbookStepSentRecordTypeId)) || String.isBlank(String.valueOf(workbookStepRecordTypeId))) {
             LogException('CreateWorkbookStepSentRecord', 'AH_UDC_WorkbookStep Or AH_UDC_WorkbookStepSent Record Type Not Found', null, objSavepoint);
+            return;
+         }
+         
+         List<AH_UDC_WorkbookStep__c> lstNewWorkbookSteps = new List<AH_UDC_WorkbookStep__c> ();
+         Map<Decimal, Decimal> stepSortOrderMapPrereq = new Map<Decimal, Decimal> (); //It will hold sort order along with sort order of it's prequisite step
+         List<AH_UDC_WorkbookStep__c> lstOriginalWorkbookSteps = [SELECT Id, Name, CurrencyIsoCode, Description__c, Enabled__c, Form__c, Help__c, Prerequisite_Step__c,
+                                                                  RecordTypeId, SortOrder__c, StepCompleted__c, StepStatus__c, URL__c, StepCompletedBy__c, Workbook__c,
+                                                                  Form__r.FormType__c, Form__r.CopyResponseWhenSendingNew__c
+                                                                  FROM AH_UDC_WorkbookStep__c
+                                                                  WHERE Workbook__c = :originalWorkbookId AND RecordTypeId = :workbookStepRecordTypeId
+                                                                  AND Enabled__c = true //Only Copy enabled steps to Sent Workbook
+                                                                  ORDER BY SortOrder__c];
+         AH_UDC_LogHelper.Debug('CreateWorkbookStepSentRecord => Total Steps to be created: ' + lstOriginalWorkbookSteps.size());
+         Map<Id, Decimal> stepIdSortOrderMap = new Map<Id, Decimal> (); //It will hold StepId and it's Sort Order
+         for (AH_UDC_WorkbookStep__c objOriginalStep : lstOriginalWorkbookSteps) {
+            AH_UDC_WorkbookStep__c objNewStep = objOriginalStep.clone(false, false, false, false);
+            objNewStep.RecordTypeId = workbookStepSentRecordTypeId;
+            objNewStep.Workbook__c = newWorkbookId;
+            objNewStep.StepStatus__c = AH_UDC_Constants.STEP_STATUS_NEW;
+            objNewStep.StepCompleted__c = null;
+            objNewStep.StepCompletedBy__c = null;
+            objNewStep.CreatedById = UserInfo.getUserId();
+            objNewStep.CreatedDate = DateTime.now();
+            objNewStep.LastModifiedById = UserInfo.getUserId();
+            objNewStep.LastModifiedDate = DateTime.now();
+            if (String.isNotBlank(objOriginalStep.Prerequisite_Step__c)) {
+               objNewStep.Prerequisite_Step__c = null;
+               stepSortOrderMapPrereq.put(objOriginalStep.SortOrder__c, stepIdSortOrderMap.get(objOriginalStep.Prerequisite_Step__c));
+            }
+            stepIdSortOrderMap.put(objOriginalStep.Id, objOriginalStep.SortOrder__c);
+            lstNewWorkbookSteps.add(objNewStep);
+         }
+
+         if (lstNewWorkbookSteps != null && lstNewWorkbookSteps.size() > 0) {
+            AH_UDC_LogHelper.Debug('CreateWorkbookStepSentRecord => lstNewWorkbookSteps.size(): ' + lstNewWorkbookSteps.size());
+            AH_UDC_SystemContext.CreateObjects(lstNewWorkbookSteps);
+
+            //Map of SortOrder and StepId for which copy of form responses is pending
+            Map<Decimal, Id> mapNewInsertedStepIdAndSortOrder = new Map<Decimal, Id> ();
+            Map<Id, Id> mapNewInsertedStepIdAndFormId = new Map<Id, Id> ();
+            for (AH_UDC_WorkbookStep__c objInsertedStep : lstNewWorkbookSteps) {
+               if(String.isNotBlank(String.valueOf(objInsertedStep.Form__c)))
+                  mapNewInsertedStepIdAndFormId.put(objInsertedStep.Form__c, objInsertedStep.Id);
+               mapNewInsertedStepIdAndSortOrder.put(objInsertedStep.SortOrder__c, objInsertedStep.Id);
+               if (stepSortOrderMapPrereq.containsKey(objInsertedStep.SortOrder__c)) {
+                  Decimal sortOrderOfPrereqStep = stepSortOrderMapPrereq.get(objInsertedStep.SortOrder__c);
+                  //Get prerequisite stepid based on it's sort order
+                  objInsertedStep.Prerequisite_Step__c = mapNewInsertedStepIdAndSortOrder.get(sortOrderOfPrereqStep);
+               }
+            }
+
+            AH_UDC_LogHelper.Debug('CreateWorkbookStepSentRecord => mapNewInsertedStepIdAndSortOrder: ' + mapNewInsertedStepIdAndSortOrder);
+            AH_UDC_LogHelper.Debug('CreateWorkbookStepSentRecord => stepSortOrderMapPrereq: ' + stepSortOrderMapPrereq);
+            if (stepSortOrderMapPrereq != null && stepSortOrderMapPrereq.size() > 0) {
+               //Update inserted steps to set prerequisite step
+               AH_UDC_SystemContext.UpdateObjects(lstNewWorkbookSteps);
+            }
+
+            //Copy responses for new inserted steps
+            CopyStepResponses(objSavepoint, lstOriginalWorkbookSteps, mapNewInsertedStepIdAndFormId);
          }
       }
       catch(Exception ex) {
@@ -582,18 +648,26 @@ public with sharing class AH_UDC_SendWorkbook {
    }
 
    //Insert responses into junction object AH_UDC_WorkbookStepResponse__c
-   private void CopyStepResponses(Savepoint objSavepoint, List<AH_UDC_WorkbookStep__c> lstOriginalWorkbookSteps, Map<Decimal, Id> mapNewInsertedStepIdAndSortOrder) {
+   private void CopyStepResponses(Savepoint objSavepoint, List<AH_UDC_WorkbookStep__c> lstOriginalWorkbookSteps, Map<Id, Id> mapNewInsertedStepIdAndFormId) {
       try {
          //Determine which forms are Shared/Central, or product form, where CopyResponseWhenSendingNew__c checkbox is checked
-         Map<Id, Decimal> mapFormIdAndSortOrder = new Map<Id, Decimal> ();
+         Set<Id> formIdsToCopyResponses = new Set<Id> ();
+         Set<Id> formIdsWithProductTypeWithoutCopyData = new Set<Id> ();
          for (AH_UDC_WorkbookStep__c wbStep : lstOriginalWorkbookSteps) {
+            if(String.isBlank(String.valueOf(wbStep.Form__c)))
+               continue;
+
             if (wbStep.Form__r.FormType__c == AH_UDC_Constants.FORM_TYPE_CENTRAL
                 || wbStep.Form__r.FormType__c == AH_UDC_Constants.FORM_TYPE_SHARED
                 || wbStep.Form__r.CopyResponseWhenSendingNew__c) {
-               mapFormIdAndSortOrder.put(wbStep.Form__c, wbStep.SortOrder__c);
+               formIdsToCopyResponses.add(wbStep.Form__c);
+            }
+            else {
+               //Create list of forms with product type to copy responses from workbook sent record
+               formIdsWithProductTypeWithoutCopyData.add(wbStep.Form__c);
             }
          }
-         AH_UDC_LogHelper.Debug('CopyStepResponses : mapFormIdAndSortOrder: ' + mapFormIdAndSortOrder);
+         AH_UDC_LogHelper.Debug('CopyStepResponses : formIdsToCopyResponses: ' + formIdsToCopyResponses);
          AH_UDC_LogHelper.Debug('CopyStepResponses : propertyAccountId: ' + propertyAccountId);
 
          List<AH_UDC_WorkbookStepResponse__c> lstStepResponses = new List<AH_UDC_WorkbookStepResponse__c> ();
@@ -603,11 +677,11 @@ public with sharing class AH_UDC_SendWorkbook {
          // performing the query on ProductFormResponses
          List<Id> lstIdOfFormWithStepResponsesBeingCopied = new List<Id> ();
 
-         if (mapFormIdAndSortOrder.size() > 0) {
+         if (formIdsToCopyResponses.size() > 0) {
             //Get shared & central forms responses as well as product form responses if checkbox CopyResponseWhenSendingNew__c is checked
             AggregateResult[] groupedResults = [SELECT WorkbookStep__r.Form__c FormId, max(Response__c) maxResponseId
                                                 FROM AH_UDC_WorkbookStepResponse__c
-                                                WHERE WorkbookStep__r.Form__c IN :mapFormIdAndSortOrder.keySet()
+                                                WHERE WorkbookStep__r.Form__c IN :formIdsToCopyResponses
                                                 AND IsMostRecentResponse__c = true
                                                 AND WorkbookStep__r.Workbook__r.RelatedTo__r.AH_UDC_PropertyAccount__c = :propertyAccountId
                                                 GROUP BY WorkbookStep__r.Form__c];
@@ -615,32 +689,54 @@ public with sharing class AH_UDC_SendWorkbook {
             for (AggregateResult result : groupedResults) {
                Id formId = (Id) result.get('FormId');
                Id responseId = (Id) result.get('maxResponseId');
-               if (mapFormIdAndSortOrder.containsKey(formId) && mapNewInsertedStepIdAndSortOrder.containsKey(mapFormIdAndSortOrder.get(formId))) {
+               if (mapNewInsertedStepIdAndFormId.containsKey(formId)) {
                   lstIdOfFormWithStepResponsesBeingCopied.add(formId);
-                  lstStepResponses.add(new AH_UDC_WorkbookStepResponse__c(WorkbookStep__c = mapNewInsertedStepIdAndSortOrder.get(mapFormIdAndSortOrder.get(formId)),
+                  lstStepResponses.add(new AH_UDC_WorkbookStepResponse__c(WorkbookStep__c = mapNewInsertedStepIdAndFormId.get(formId),
                                                                           Response__c = responseId));
                }
             }
-            AH_UDC_LogHelper.Debug('CopyStepResponses : lstStepResponses - Shared & Central Forms: ' + lstStepResponses);
+            AH_UDC_LogHelper.Debug('CopyStepResponses : lstStepResponses.size() - Shared & Central Forms: ' + lstStepResponses.size());
          }
 
-         if (IsCopyWorkbook) {
+         if (IsCopyWorkbook && formIdsWithProductTypeWithoutCopyData.size() > 0) {
             //For copy workbook option get responses of product forms
-            List<AH_UDC_WorkbookStepResponse__c> lstProductFormResponses = [SELECT WorkbookStep__c, WorkbookStep__r.SortOrder__c, Response__c
+            List<AH_UDC_WorkbookStepResponse__c> lstProductFormResponses = [SELECT WorkbookStep__c, WorkbookStep__r.SortOrder__c, Response__c, WorkbookStep__r.Form__c
                                                                             FROM AH_UDC_WorkbookStepResponse__c
-                                                                            WHERE WorkbookStep__c IN :lstOriginalWorkbookSteps
-                                                                            AND WorkbookStep__r.Form__c NOT IN :lstIdOfFormWithStepResponsesBeingCopied
+                                                                            WHERE WorkbookStep__r.Form__c IN :formIdsWithProductTypeWithoutCopyData
+                                                                            AND WorkbookStep__r.Workbook__r.RelatedTo__c = :SelectedNIDocIdCopy
                                                                             AND IsMostRecentResponse__c = true
                                                                             AND WorkbookStep__r.Form__r.FormType__c = :AH_UDC_Constants.FORM_TYPE_PRODUCT];
 
-            AH_UDC_LogHelper.Debug('CopyStepResponses : lstProductFormResponses: ' + lstProductFormResponses);
+            AH_UDC_LogHelper.Debug('CopyStepResponses : lstProductFormResponses.size(): ' + lstProductFormResponses.size());
             for (AH_UDC_WorkbookStepResponse__c objStepResp : lstProductFormResponses) {
-               if (mapNewInsertedStepIdAndSortOrder.containsKey(objStepResp.WorkbookStep__r.SortOrder__c)) {
-                  lstStepResponses.add(new AH_UDC_WorkbookStepResponse__c(WorkbookStep__c = mapNewInsertedStepIdAndSortOrder.get(objStepResp.WorkbookStep__r.SortOrder__c),
+               if (mapNewInsertedStepIdAndFormId.containsKey(objStepResp.WorkbookStep__r.Form__c)) {
+                  lstIdOfFormWithStepResponsesBeingCopied.add(objStepResp.WorkbookStep__r.Form__c);
+                  lstStepResponses.add(new AH_UDC_WorkbookStepResponse__c(WorkbookStep__c = mapNewInsertedStepIdAndFormId.get(objStepResp.WorkbookStep__r.Form__c),
                                                                           Response__c = objStepResp.Response__c));
                }
             }
-            AH_UDC_LogHelper.Debug('CopyStepResponses : lstStepResponses - Copy Workbook Option: ' + lstStepResponses);
+            AH_UDC_LogHelper.Debug('CopyStepResponses : lstStepResponses.size() - After adding product form responses: ' + lstStepResponses.size());
+         }
+
+         //This will copy the default responses
+         if (lstStepResponses.size() != lstOriginalWorkbookSteps.size())
+         {
+            List<AH_UDC_WorkbookStepResponse__c> lstDefaultResponses = [SELECT WorkbookStep__c, WorkbookStep__r.SortOrder__c, Response__c, WorkbookStep__r.Form__c
+                                                                        FROM AH_UDC_WorkbookStepResponse__c
+                                                                        WHERE WorkbookStep__c IN :lstOriginalWorkbookSteps
+                                                                        AND WorkbookStep__r.Form__c NOT IN :lstIdOfFormWithStepResponsesBeingCopied
+                                                                        AND IsMostRecentResponse__c = true
+                                                                        AND(WorkbookStep__r.Form__r.FormType__c = :AH_UDC_Constants.FORM_TYPE_PRODUCT OR
+                                                                            WorkbookStep__r.Form__r.FormType__c = :AH_UDC_Constants.FORM_TYPE_SHARED)];
+
+            AH_UDC_LogHelper.Debug('DefaultStepResponses : lstDefaultResponses.size(): ' + lstDefaultResponses.size());
+            for (AH_UDC_WorkbookStepResponse__c objStepResp : lstDefaultResponses) {
+               if (mapNewInsertedStepIdAndFormId.containsKey(objStepResp.WorkbookStep__r.Form__c)) {
+                  lstStepResponses.add(new AH_UDC_WorkbookStepResponse__c(WorkbookStep__c = mapNewInsertedStepIdAndFormId.get(objStepResp.WorkbookStep__r.Form__c),
+                                                                          Response__c = objStepResp.Response__c));
+               }
+            }
+            AH_UDC_LogHelper.Debug('CopyStepResponses : lstStepResponses.size() - After adding default responses: ' + lstStepResponses.size());
          }
 
          if (lstStepResponses.size() > 0) {
@@ -752,7 +848,7 @@ public with sharing class AH_UDC_SendWorkbook {
       }
    }
 
-   //Create a Follow for the current user on the NI Document
+   //Create AH_UDC_Contact records
    private void CreateUDCContacts(Savepoint objSavepoint) {
       try {
          List<AH_UDC_Contact__c> lstUDCContact = new List<AH_UDC_Contact__c> ();
@@ -790,28 +886,27 @@ public with sharing class AH_UDC_SendWorkbook {
          if (Test.isRunningTest() && LogFunctionalArea == 'TestException') Integer a = 1 / 0;
 
          if (SelectedContact != null && String.isNotBlank(SelectedContact.Email) && String.isNotBlank(String.valueOf(NewNIDocId))) {
-            List<string> lstToAddresses = new List<string> ();
-            lstToAddresses.add(SelectedContact.Email); //Prepare to email addresses list            
+            List<Contact> sendContacts = new List<Contact> ();
+            sendContacts.add(SelectedContact); //Prepare to email addresses list            
 
             if (ContactLookupList != null && ContactLookupList.size() > 0) {
-               List<Contact> lstContacts = new List<Contact> ();
+               List<Contact> lstContactIds = new List<Contact> ();
                for (ContactLookupWrapper objUDCContact : ContactLookupList) {
                   if (String.isNotBlank(String.valueOf(objUDCContact.Id)) && String.isBlank(objUDCContact.ErrorMessage)) {
                      //Prepare Contact id list to pass in query for getting contact email addresses
-                     lstContacts.add(new Contact(Id = objUDCContact.Id));
+                     lstContactIds.add(new Contact(Id = objUDCContact.Id));
                   }
                }
-
-               if (lstContacts != null && lstContacts.size() > 0) {
-                  for (Contact objContact :[SELECT Email FROM Contact WHERE Id IN :lstContacts]) {
+               if (lstContactIds.size() > 0) {
+                  for (Contact objContact :[SELECT Email FROM Contact WHERE Id IN :lstContactIds]) {
                      if (String.isNotBlank(objContact.Email)) {
-                        lstToAddresses.add(objContact.Email); //Add additional contact's email in to email addresses list
+                        sendContacts.add(objContact); //Add additional contact's email in to email addresses list
                      }
                   }
                }
             }
 
-            Boolean IsEmailSent = AH_UDC_SharedWithoutSharing.SendEmailToContacts(LogFunctionalArea, lstToAddresses, SelectedEmailTemplateId, SelectedContact.Id, NewNIDocId);
+            Boolean IsEmailSent = AH_UDC_SharedWithoutSharing.SendEmailToContacts(LogFunctionalArea, sendContacts, SelectedEmailTemplateId, NewNIDocId, null);
             if (IsEmailSent) {
                AH_UDC_LogHelper.Debug('Email has been sent successfully.');
             }
@@ -835,6 +930,9 @@ public with sharing class AH_UDC_SendWorkbook {
 
       ContactLookupWrapper objContact = null;
       try {
+         //Generate error for test class execution to cover catch block
+         if (Test.isRunningTest() && LogFunctionalArea == 'TestException') Integer a = 1 / 0;
+
          objContact = new ContactLookupWrapper();
          objContact.ErrorMessage = '';
          objContact.Index = ContactLookupList != null && ContactLookupList.size() > 0 ? ContactLookupList.size() : 0;
@@ -855,6 +953,8 @@ public with sharing class AH_UDC_SendWorkbook {
       try {
          AH_UDC_LogHelper.Debug('ValidateContact : SelectedContactId: ' + SelectedContactId);
          AH_UDC_LogHelper.Debug('ValidateContact : ContactLookupList: ' + ContactLookupList);
+         //Generate error for test class execution to cover catch block
+         if (Test.isRunningTest() && LogFunctionalArea == 'TestException') Integer a = 1 / 0;
 
          contactIDList = new Set<Id> ();
          for (ContactLookupWrapper CLW : ContactLookupList) {
@@ -932,19 +1032,19 @@ public with sharing class AH_UDC_SendWorkbook {
          }
 
          if (String.isNotBlank(String.valueOf(NIDocIDForWorkbook))) {
-            lstCopyWorkbookSent = [SELECT Id, Name, Product__c, RelatedTo__r.Account__c, RelatedTo__r.AH_UDC_WorkbookDueDate__c, ParentWorkbookSent__r.Name,
+            lstCopyWorkbookSent = [SELECT Id, Name, OriginalWorkbook__c, OriginalWorkbook__r.Name, OriginalWorkbook__r.Product__c, RelatedTo__r.Account__c, RelatedTo__r.AH_UDC_WorkbookDueDate__c, ParentWorkbookSent__r.Name,
                                    RelatedTo__r.AH_UDC_ChatterWorkbookAccessed__c, RelatedTo__r.AH_UDC_ChatterWorkbookCompleted__c, RelatedTo__r.AH_UDC_ChatterWorkbookStepCompleted__c
                                    FROM AH_UDC_Workbook__c
                                    WHERE RelatedTo__c = :NIDocIDForWorkbook];
-
+            AH_UDC_LogHelper.Debug('GetWorkbookSentDetails => lstCopyWorkbookSent: ' + lstCopyWorkbookSent);
             if (lstCopyWorkbookSent != null && lstCopyWorkbookSent.size() > 0) {
                ParentWorkbookName = lstCopyWorkbookSent[0].ParentWorkbookSent__r.Name;
                m_niDoc.AH_UDC_WorkbookDueDate__c = lstCopyWorkbookSent[0].RelatedTo__r.AH_UDC_WorkbookDueDate__c;
-               SelectedProduct = lstCopyWorkbookSent[0].Product__c;
-               SelectedWorkbook = lstCopyWorkbookSent[0].Id;
+               SelectedProduct = lstCopyWorkbookSent[0].OriginalWorkbook__r.Product__c;
+               SelectedWorkbook = lstCopyWorkbookSent[0].OriginalWorkbook__c;
                IsUDCWorkbookCompleted = true;
                EnabledProductWorkbooks = new List<SelectOption> ();
-               EnabledProductWorkbooks.add(new SelectOption(lstCopyWorkbookSent[0].Id, lstCopyWorkbookSent[0].Name));
+               EnabledProductWorkbooks.add(new SelectOption(lstCopyWorkbookSent[0].OriginalWorkbook__c, lstCopyWorkbookSent[0].OriginalWorkbook__r.Name));
             }
          }
          else {
@@ -956,6 +1056,7 @@ public with sharing class AH_UDC_SendWorkbook {
          }
       }
       catch(Exception ex) {
+         AH_UDC_LogHelper.Debug('Error occurred in the method GetWorkbookSentDetails. ' + ex.getMessage() + ' at line number ' + ex.getLineNumber());
          String strErrorMessage = 'An exception occurred Get Workbook Sent Details - send workbook page for the user (' + System.UserInfo.getUserId() + ' : ' + System.UserInfo.getUserName() + ') : ' + ex.getMessage() + ' at Line Number ' + ex.getLineNumber();
          LogException('GetWorkbookSentDetails', strErrorMessage, ex, null);
       }

@@ -35,7 +35,7 @@ public without sharing class AH_UDC_ViewHelp {
          AH_UDC_LogHelper.QueueLogs = true;
 
          //Unit Test Force Exception
-         if(AH_UDC_ConfigHelper.GetBoolean('AH_UDC_UnitTestForceViewHelpError',FALSE)) throw(new AH_UDC_Shared.UDCException(AH_UDC_Constants.UNIT_TEST_EXCEPTION_PREFIX + 'View Help Load'));
+         if(AH_UDC_ConfigHelper.GetBoolean('AH_UDC_UnitTestForceViewHelpError',FALSE, true)) throw(new AH_UDC_Shared.UDCException(AH_UDC_Constants.UNIT_TEST_EXCEPTION_PREFIX + 'View Help Load'));
 
          //Get the required Step ID from the URL
          if (String.isBlank(ApexPages.currentPage().getparameters().get('id'))) {

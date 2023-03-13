@@ -38,6 +38,9 @@
         <label>CreateStatusTrackingRecord</label>
         <locationX>478</locationX>
         <locationY>219</locationY>
+        <faultConnector>
+            <targetReference>RecordUpdateErrorScreen</targetReference>
+        </faultConnector>
         <inputAssignments>
             <field>Design_Time_Spent__c</field>
             <value>
@@ -87,6 +90,22 @@
         <object>Request__c</object>
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordLookups>
+    <screens>
+        <name>RecordUpdateErrorScreen</name>
+        <label>RecordUpdateErrorScreen</label>
+        <locationX>751</locationX>
+        <locationY>129</locationY>
+        <allowBack>false</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>false</allowPause>
+        <fields>
+            <name>RecordUpdateErrorScreenDisplayText</name>
+            <fieldText>&lt;p&gt;We are unable to complete the update at this time. Please address the issue listed below then try your change again.&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;color: rgb(244, 8, 8);&quot;&gt;{!$Flow.FaultMessage}&lt;/span&gt;&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+        </fields>
+        <showFooter>true</showFooter>
+        <showHeader>false</showHeader>
+    </screens>
     <screens>
         <name>TimeEntryRequestRecordUpdateScreen</name>
         <label>Time Entry and Request Record Update</label>

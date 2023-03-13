@@ -45,27 +45,12 @@ private class AH_UDC_REST_AmadeusFormResponse_TEST {
       oCurrentUser.ContactId = null;
 
       System.runAs(oCurrentUser) {
-         AH_UDC_TestData.InsertWithRetries(listUsers);
+         //AH_UDC_TestData.InsertWithRetries(listUsers);
+         insert listUsers;
 
          AH_UDC_TestData.AddPermissionSetToUser(AH_UDC_Constants.PERMISSIONSET_DEFAULT_NAME_UDC_SERVICE, listUsers[0].Id);
          AH_UDC_TestData.AddPermissionSetToUser(AH_UDC_Constants.PERMISSIONSET_DEFAULT_NAME_UDC_COMMUNITY_USER, listUsers[1].Id);
       }
-   }
-
-   private static string GetToken(string SecurityCode, string UserId, string FormId)
-   {
-      //Generate Token
-      string token = SecurityCode + '_' + UserId + '_' + FormId;
-      //Encrypt token
-      string sEncryptionKey = AH_UDC_ConfigHelper.GetString('AH_UDC_ViewWorkbookTokenEncryptionKey', '');
-      if (!String.isEmpty(sEncryptionKey) && AH_UDC_ConfigHelper.GetBoolean('AH_UDC_ViewWorkbookTokenEncryption', true)) {
-         Blob key = EncodingUtil.base64Decode(sEncryptionKey);
-         Blob data = Blob.valueOf(token);
-         Blob encryptedData = Crypto.encryptWithManagedIV('AES256', key, data);
-         token = EncodingUtil.base64Encode(encryptedData).replace('/', '_2f_').replace('+', '_2b_'); //Base64 has 2 special characters / + that are not compatible with a URL Id
-      }
-      token = AH_UDC_Constants.FORM_TOKEN_PREFIX + token;
-      return token;
    }
 
    private static void testData1()
@@ -254,7 +239,7 @@ private class AH_UDC_REST_AmadeusFormResponse_TEST {
    @isTest
    private static void TestGetForDymnamicFields() { //Test for dynamic radio/picklist
       testData4();
-      string token = GetToken(m_oWB1.SecurityCode__c, m_oUser.id, m_oForm.id);
+      string token = AH_UDC_Shared.CreateStepToken(m_oWB1.SecurityCode__c, m_oForm.id, m_oWBS1.id);
 
       AH_UDC_TestData.ClearLogs();
       User UDCServiceUser1 = [SELECT Id FROM user WHERE LastName = 'AFR_ServiceUser1'];
@@ -287,7 +272,7 @@ private class AH_UDC_REST_AmadeusFormResponse_TEST {
    private static void TestPostBulkData() {
       testData3();
       String strJSON = '';
-      string token = GetToken(m_oWB1.SecurityCode__c, m_oUser.id, m_oForm.id);
+      string token = AH_UDC_Shared.CreateStepToken(m_oWB3.SecurityCode__c, m_oForm3.id, m_oWBS3.id);
 
       AH_UDC_TestData.ClearLogs();
       User UDCServiceUser1 = [SELECT Id FROM user WHERE LastName = 'AFR_ServiceUser1'];
@@ -342,7 +327,7 @@ private class AH_UDC_REST_AmadeusFormResponse_TEST {
    private static void TestPost() {
       testData1();
 
-      string token = GetToken(m_oWB1.SecurityCode__c, m_oUser.id, m_oForm.id);
+      string token = AH_UDC_Shared.CreateStepToken(m_oWB1.SecurityCode__c, m_oForm.id, m_oWBS1.id);
 
       AH_UDC_TestData.ClearLogs();
       User UDCServiceUser1 = [SELECT Id FROM user WHERE LastName = 'AFR_ServiceUser1'];
@@ -383,7 +368,7 @@ private class AH_UDC_REST_AmadeusFormResponse_TEST {
    private static void TestPostComplete() {
       testData1();
 
-      string token = GetToken(m_oWB1.SecurityCode__c, m_oUser.id, m_oForm.id);
+      string token = AH_UDC_Shared.CreateStepToken(m_oWB1.SecurityCode__c, m_oForm.id, m_oWBS1.id);
 
       AH_UDC_TestData.ClearLogs();
       User UDCServiceUser1 = [SELECT Id FROM user WHERE LastName = 'AFR_ServiceUser1'];
@@ -443,7 +428,7 @@ private class AH_UDC_REST_AmadeusFormResponse_TEST {
    private static void TestPostSharedResponse() {
       testData2(); //This sets up 2 Workbooks with steps for a shared form
 
-      string token = GetToken(m_oWB1.SecurityCode__c, m_oUser.id, m_oForm.id);
+      string token = AH_UDC_Shared.CreateStepToken(m_oWB2.SecurityCode__c, m_oForm.id, m_oWBS2.id);
 
       AH_UDC_TestData.ClearLogs();
       User UDCServiceUser1 = [SELECT Id FROM user WHERE LastName = 'AFR_ServiceUser1'];
@@ -484,7 +469,7 @@ private class AH_UDC_REST_AmadeusFormResponse_TEST {
    private static void TestPostFailedWriteLog() {
       testData1();
 
-      string token = GetToken(m_oWB1.SecurityCode__c, m_oUser.Id, m_oForm.Id);
+      string token = AH_UDC_Shared.CreateStepToken(m_oWB1.SecurityCode__c, m_oForm.id, m_oWBS1.id);
 
       AH_UDC_TestData.ClearLogs();
       User UDCServiceUser1 = [SELECT Id FROM user WHERE LastName = 'AFR_ServiceUser1'];
@@ -516,49 +501,11 @@ private class AH_UDC_REST_AmadeusFormResponse_TEST {
    }
 
    @isTest
-   private static void TestPostInvalidUser() {
-      testData1();
-
-      string token = GetToken(m_oWB1.SecurityCode__c, m_oForm.Id, m_oForm.Id);
-
-      AH_UDC_TestData.ClearLogs();
-      User UDCServiceUser1 = [SELECT Id FROM user WHERE LastName = 'AFR_ServiceUser1'];
-      System.runAs(UDCServiceUser1)
-      {
-         Test.startTest();
-
-         RestRequest req = new RestRequest();
-         RestResponse res = new RestResponse();
-         req.requestURI = '/services/apexrest/AH_UDC_AmadeusFormResponse'; //Request URL
-         req.httpMethod = 'POST'; //HTTP Request Type
-         string reqJson = '{"token" : "' + token + '","ResponseQAs":[{' +
-         '"QAJson":"{\\"SO\\":\\"1\\",\\"QF\\":\\"UDC2\\",\\"Q\\":\\"Use Buildings?\\",\\"A\\":\\"No\\",\\"AF\\":\\"UDC2-0\\"},' +
-         '{\\"SO\\":\\"2\\",\\"QF\\":\\"UDC3\\",\\"Q\\":\\"Will you be interfacing your phone system to APMS?\\",\\"A\\":\\"Yes\\",\\"AF\\":\\"UDC3-0\\"}"}],"isComplete":"false"}';
-         req.requestBody = Blob.valueof(reqJson);
-         RestContext.request = req;
-         RestContext.response = res;
-
-         AH_UDC_REST_AmadeusFormResponse.post();
-
-         AH_UDC_REST_AmadeusFormResponse.AmadeusFormResponsePostResponse resp =
-         (AH_UDC_REST_AmadeusFormResponse.AmadeusFormResponsePostResponse)
-         JSON.deserialize(RestContext.response.responseBody.toString(), AH_UDC_REST_AmadeusFormResponse.AmadeusFormResponsePostResponse.class);
-
-         Test.stopTest();
-
-         System.assertEquals('404', resp.statusCode, 'Expected 404 Response');
-
-         List<AH_UDC_Log__c> logMessages = [SELECT Id FROM AH_UDC_Log__c];
-         System.assertEquals(0, logMessages.size(), 'Log Messages exist and were not expected');
-      }
-   }
-
-   @isTest
    private static void TestPostBadToken() {
       testData1();
 
       string unknownSecurityCode = AH_UDC_Shared.GetSecurityCode();
-      string token = GetToken(unknownSecurityCode, m_oUser.id, m_oForm.id);
+      string token = AH_UDC_Shared.CreateStepToken(unknownSecurityCode, m_oForm.id, m_oWBS1.id);
 
       AH_UDC_TestData.ClearLogs();
       User UDCServiceUser1 = [SELECT Id FROM user WHERE LastName = 'AFR_ServiceUser1'];
@@ -596,7 +543,7 @@ private class AH_UDC_REST_AmadeusFormResponse_TEST {
    private static void TestPostException() {
       testData1();
 
-      string token = GetToken(m_oWB1.SecurityCode__c, m_oUser.id, m_oForm.id);
+      string token = AH_UDC_Shared.CreateStepToken(m_oWB1.SecurityCode__c, m_oForm.id, m_oWBS1.id);
 
       AH_UDC_TestData.ClearLogs();
       User UDCServiceUser1 = [SELECT Id FROM user WHERE LastName = 'AFR_ServiceUser1'];
@@ -630,7 +577,7 @@ private class AH_UDC_REST_AmadeusFormResponse_TEST {
    private static void TestGet() {
       testData1();
 
-      string token = GetToken(m_oWB1.SecurityCode__c, m_oUser.id, m_oForm.id);
+      string token = AH_UDC_Shared.CreateStepToken(m_oWB1.SecurityCode__c, m_oForm.id, m_oWBS1.id);
 
       AH_UDC_TestData.ClearLogs();
       User UDCServiceUser1 = [SELECT Id FROM user WHERE LastName = 'AFR_ServiceUser1'];
@@ -677,7 +624,7 @@ private class AH_UDC_REST_AmadeusFormResponse_TEST {
    private static void TestGetWithRequestId() {
       testData3();
       String strJSON = '';
-      string token = GetToken(m_oWB1.SecurityCode__c, m_oUser.id, m_oForm.id);
+      string token = AH_UDC_Shared.CreateStepToken(m_oWB3.SecurityCode__c, m_oForm3.id, m_oWBS3.id);
 
       AH_UDC_TestData.ClearLogs();
       User UDCServiceUser1 = [SELECT Id FROM user WHERE LastName = 'AFR_ServiceUser1'];
@@ -779,7 +726,7 @@ private class AH_UDC_REST_AmadeusFormResponse_TEST {
    private static void TestGetNoPrior() {
       testData1();
 
-      string token = GetToken(m_oWB1.SecurityCode__c, m_oUser.id, m_oForm.id);
+      string token = AH_UDC_Shared.CreateStepToken(m_oWB1.SecurityCode__c, m_oForm.id, m_oWBS1.id);
 
       AH_UDC_TestData.ClearLogs();
       User UDCServiceUser1 = [SELECT Id FROM user WHERE LastName = 'AFR_ServiceUser1'];
@@ -814,7 +761,7 @@ private class AH_UDC_REST_AmadeusFormResponse_TEST {
    private static void TestGetNoPriorButNoQA() {
       testData1();
 
-      string token = GetToken(m_oWB1.SecurityCode__c, m_oUser.id, m_oForm.id);
+      string token = AH_UDC_Shared.CreateStepToken(m_oWB1.SecurityCode__c, m_oForm.id, m_oWBS1.id);
 
       AH_UDC_TestData.ClearLogs();
 
@@ -935,7 +882,7 @@ private class AH_UDC_REST_AmadeusFormResponse_TEST {
    private static void TestGetBadToken() {
       testData1();
       string unknownSecurityCode = AH_UDC_Shared.GetSecurityCode();
-      string token = GetToken(unknownSecurityCode, m_oUser.id, m_oForm.id);
+      string token = AH_UDC_Shared.CreateStepToken(unknownSecurityCode, m_oForm.id, m_oWBS1.id);
 
       AH_UDC_TestData.ClearLogs();
       User UDCServiceUser1 = [SELECT Id FROM user WHERE LastName = 'AFR_ServiceUser1'];
@@ -968,7 +915,7 @@ private class AH_UDC_REST_AmadeusFormResponse_TEST {
    @isTest
    private static void TestGetBadTokenWithoutSecurityCode() {
       testData1();
-      string token = GetToken('', m_oUser.id, m_oForm.id);
+      string token = AH_UDC_Shared.CreateStepToken('', m_oForm.id, m_oWBS1.id);
 
       AH_UDC_TestData.ClearLogs();
       User UDCServiceUser1 = [SELECT Id FROM user WHERE LastName = 'AFR_ServiceUser1'];

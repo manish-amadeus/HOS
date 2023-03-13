@@ -28,6 +28,11 @@
         <operation>notEqual</operation>
         <value>RPA</value>
     </filters>
+    <filters>
+        <field>Created_by_Intake_Wizard__c</field>
+        <operation>equals</operation>
+        <value>1</value>
+    </filters>
     <label>New Projects to be Sized</label>
     <sharedTo>
         <role>ServicesSupport</role>

@@ -49,8 +49,19 @@ public without sharing class AH_UDC_EmailHelper
       if (emailEnabled) {
          if (Test.isRunningTest()) {
             // This is the only way to create a SendMailResult instance to simulate success in sending an email
-            Messaging.SendEmailResult ser = (Messaging.SendEmailResult)JSON.deserialize('{"success":true}', Messaging.SendEmailResult.class);
-            results.add(ser);
+            for(Integer i = 0; i < mail.size(); i++) {
+               String strResult = '{"success":true}';
+               if(i == 1) {
+                  //Fail second email
+                  strResult = '{"success":false}';
+                  Messaging.SendEmailResult failedResult = (Messaging.SendEmailResult)JSON.deserialize(strResult, Messaging.SendEmailResult.class);
+                  Messaging.SendEmailError emailError = (Messaging.SendEmailError)JSON.deserialize('{"message":"Test error in sending email"}', Messaging.SendEmailError.class);
+                  failedResult.errors.add(emailError);
+                  results.add(failedResult);
+               }
+               else
+                  results.add((Messaging.SendEmailResult)JSON.deserialize(strResult, Messaging.SendEmailResult.class));
+            }
          } else {
             results = Messaging.sendEmail(mail);
          }

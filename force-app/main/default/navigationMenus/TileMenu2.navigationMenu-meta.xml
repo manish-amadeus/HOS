@@ -4,9 +4,9 @@
     <containerType>Network</containerType>
     <label>TileMenu</label>
     <navigationMenuItem>
-        <label>Customer Experience</label>
+        <label>Customer Support</label>
         <menuItemBranding>
-            <tileImage>CustomerSupport</tileImage>
+            <tileImage>Title_Menu_Customer_Support_Image</tileImage>
         </menuItemBranding>
         <position>1</position>
         <publiclyAvailable>false</publiclyAvailable>
@@ -16,7 +16,7 @@
     <navigationMenuItem>
         <label>Finance</label>
         <menuItemBranding>
-            <tileImage>FinanceHome</tileImage>
+            <tileImage>Title_Menu_Billing_Collections_Ima</tileImage>
         </menuItemBranding>
         <position>2</position>
         <publiclyAvailable>false</publiclyAvailable>
@@ -26,7 +26,7 @@
     <navigationMenuItem>
         <label>Customer Delivery</label>
         <menuItemBranding>
-            <tileImage>ServicesHome</tileImage>
+            <tileImage>Title_Menu_Customer_Delivery_Image</tileImage>
         </menuItemBranding>
         <position>3</position>
         <publiclyAvailable>false</publiclyAvailable>
@@ -34,13 +34,13 @@
         <type>InternalLink</type>
     </navigationMenuItem>
     <navigationMenuItem>
-        <label>Collaboration</label>
+        <label>System Status</label>
         <menuItemBranding>
-            <tileImage>SalesHome</tileImage>
+            <tileImage>Title_Menu_System_Status_Image</tileImage>
         </menuItemBranding>
         <position>4</position>
         <publiclyAvailable>false</publiclyAvailable>
-        <target>CollaborationGroup</target>
-        <type>SalesforceObject</type>
+        <target>/SystemStatus</target>
+        <type>InternalLink</type>
     </navigationMenuItem>
 </NavigationMenu>
