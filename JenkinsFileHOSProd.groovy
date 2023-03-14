@@ -26,7 +26,7 @@ node {
             if ( ("${env.BITBUCKET_SOURCE_BRANCH}".contains("release/") || "${env.BITBUCKET_SOURCE_BRANCH}".contains("bugfix/") ) && ("${env.BITBUCKET_TARGET_BRANCH}".contains("master"))) {
                 SF_USERNAME = "ENV_HOS_SF_PROD_USERNAME"
                 SF_CONSUMER_KEY = "ENV_HOS_SF_PROD_CONSUMERKEY"
-                SF_CONSUMER_SERVER_KEY = "ENV_HOS_SF_SECRETKEY"
+                SF_CONSUMER_SERVER_KEY = "HOS_PROD_SF_SERVER_KEY"
             } else {
               error 'Please check the branches on your PR. (source branch should be: release/*or bugfix/*) (target branch should be: master)'
             }
