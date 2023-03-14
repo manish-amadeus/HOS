@@ -131,8 +131,8 @@ node {
 		            echo "JOB: ${JOB}"
                     //String JOB = commandOutput "sfdx force:source:deploy -u ${SF_TARGET_ENV} -l RunLocalTests -w 40 -c -x manifest/package.xml"
                     //String JOB = commandOutput "sfdx force:source:deploy -u ${SF_TARGET_ENV} -l RunSpecifiedTests -r DevOpsClass_Test -w 40 -c -x manifest/package.xml"
-                    String JOB = commandOutput "sfdx force:source:deploy -u ${SF_TARGET_ENV} -l ${RunTesttype} -w 40 -c -x manifest/${SDWORK_ID}/package.xml"
-                      echo "JOB: ${JOB}"
+                    //String JOB = commandOutput "sfdx force:source:deploy -u ${SF_TARGET_ENV} -l ${RunTesttype} -w 40 -c -x manifest/${SDWORK_ID}/package.xml"
+                    //echo "JOB: ${JOB}"
                     def idPosition = JOB.indexOf("Job ID") + 9
                     JOBIDDEPLOY =  JOB.substring(idPosition,idPosition+15).trim()
                     echo "JOBIDDEPLOY: ${idPosition}  :  ${JOBIDDEPLOY}"
