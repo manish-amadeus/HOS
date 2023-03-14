@@ -183,10 +183,10 @@ node {
 			}
 			
 		}
-		env.BUILD_NUMBER.result="SUCCESS"
+		env.BUILD_NUMBER.result='SUCCESS'
     
 	} catch (e) {
-	 env.BUILD_NUMBER.result="FAILURE"
+	 env.BUILD_NUMBER.result='FAILURE'
         throw e
     } finally {
         // Send email. Uses the configs from Manage Jenkins > Configure System > Extended E-mail Notification
