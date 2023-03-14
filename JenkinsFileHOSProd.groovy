@@ -182,6 +182,7 @@ node {
 			
 		}
 		env.BUILD_NUMBER.result="SUCCESS"
+      }
 	} catch (e) {
 	 env.BUILD_NUMBER.result="FAILURE"
         throw e
