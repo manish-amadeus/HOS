@@ -46,7 +46,7 @@ node {
                 // ----------------------------------------------------------------------------------
                 stage('Prepare (current build, target org, instance url)') {
 					// Define target org/env and instance URL
-                    if ( ("${env.BITBUCKET_SOURCE_BRANCH}".contains("develop/")) && "${env.BITBUCKET_TARGET_BRANCH}".contains("master")) {
+                    if ( ("${env.BITBUCKET_SOURCE_BRANCH}".contains("release/")) && "${env.BITBUCKET_TARGET_BRANCH}".contains("master")) {
                         SF_TARGET_ENV = "PROD"
                         currentBuild.description = "Deployment to PROD - ${SDWORK_ID}"
                     } 
