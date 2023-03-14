@@ -159,6 +159,8 @@ node {
 					if (rc != 0) {
                         error 'Salesforce deployment failed.'
                     }
+                 }  
+                }  
 				// ----------------------------------------------------------------------------------
                 // Merging Source branch into the Target branch
                 // ----------------------------------------------------------------------------------
@@ -182,7 +184,7 @@ node {
 			
 		}
 		env.BUILD_NUMBER.result="SUCCESS"
-      }
+    
 	} catch (e) {
 	 env.BUILD_NUMBER.result="FAILURE"
         throw e
