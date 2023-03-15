@@ -16,6 +16,7 @@ node {
     def START_TIME = new Date().format("yyyy-MM-dd'T'HH:mm:ss.SSSZ")
     def INSTANCEURL = "https://login.salesforce.com/"
     env.LANG    = "en_US.UTF-8"
+    def toolbelt = tool 'toolbelt'
     try {
          // ----------------------------------------------------------------------------------
         // Run all the enclosed stages with access to the Salesforce
@@ -70,7 +71,7 @@ node {
                     commandOutput "git config user.email \"$SCMVARS.GIT_AUTHOR_EMAIL\""
                     commandOutput "git config user.name \"$SCMVARS.GIT_AUTHOR_NAME\""
                     // Authorize connections through sfdx to Salesforce org
-					rc = commandStatus "sfdx auth:jwt:grant --instanceurl ${INSTANCEURL} --clientid ${CONSUMER_KEY} -f ${CONSUMER_SERVER_KEY} --username ${USERNAME} --setalias ${SF_TARGET_ENV}"
+					rc = commandStatus "${toolbelt}/sfdx auth:jwt:grant --instanceurl ${INSTANCEURL} --clientid ${CONSUMER_KEY} -f ${CONSUMER_SERVER_KEY} --username ${USERNAME} --setalias ${SF_TARGET_ENV}"
                     if (rc != 0) {
                         error 'Salesforce org authorization failed.'
                     }
@@ -191,7 +192,7 @@ node {
     } finally {
         // Send email. Uses the configs from Manage Jenkins > Configure System > Extended E-mail Notification
         //emailext recipientProviders: [developers()], subject: "Job '${JOB_NAME}' (${BUILD_NUMBER}) finished with result: ${currentBuild.result}" , body: "The build #${BUILD_NUMBER} finished with status ${currentBuild.currentResult} and contains the logs attached.", attachLog: true
-	emailext recipientProviders: [developers()], subject: "Job '${JOB_NAME}' (${BUILD_NUMBER}) finished with result: ${currentBuild.result}" , to:'manish.kumar7@amadeus.com,geetha.amalraj@amadeus.com,sean.harris@amadeus.com',body: "The build #${BUILD_NUMBER} finished with status ${currentBuild.result} and contains the logs attached.", attachLog: true
+	emailext recipientProviders: [developers()], subject: "Job '${JOB_NAME}' (${BUILD_NUMBER}) finished with result: ${currentBuild.result}" , to:'manish.kumar7@amadeus.com',body: "The build #${BUILD_NUMBER} finished with status ${currentBuild.result} and contains the logs attached.", attachLog: true
         // TODO MS Teams
         //office365ConnectorSend message: "<Your message>", status:"${RESULT}", webhookUrl:'<The connector webhook url>'
         // Clean workspace (remove files used for this build)
