@@ -56,6 +56,7 @@ node {
                     echo "Bitbucket target branch: ${env.BITBUCKET_TARGET_BRANCH}"
                     String SFDX_CLI_VERSION = commandOutput "sfdx --version"
                     echo "SFDX CLI version: ${SFDX_CLI_VERSION}"
+                    rc = commandStatus "sfdx update"
                     // Clone repo and checkout to desired 
 					SCMVARS = checkout([
                         $class: 'GitSCM', 
