@@ -149,7 +149,7 @@ node {
                 // Deploy the package previously validated on stage "Run Test (RunLocalTests, jest)"
                 // ----------------------------------------------------------------------------------
                 stage('Promote to PROD (deploy package + validation)') {
-				 if (RunTesttype == "NoTestRun"){
+				 if (RUNTYPETEST == "NoTestRun"){
 					rc = commandStatus "sfdx force:source:deploy -u ${SF_TARGET_ENV} -w 10 -x manifest/${SDWORK_ID}/package.xml"
 					if (rc != 0) {
                         error 'Salesforce deployment failed.'
