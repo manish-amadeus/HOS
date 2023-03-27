@@ -30,8 +30,8 @@
         
     </style>
     
-    <script type="text/javascript" src="/soap/ajax/25.0/connection.js"></script>
-    <script type="text/javascript" src="/soap/ajax/25.0/apex.js"></script>
+    <script type="text/javascript" src="/soap/ajax/55.0/connection.js"></script>
+    <script type="text/javascript" src="/soap/ajax/55.0/apex.js"></script>
     <apex:include pageName="Apttus_Config2__ConfigJSLibInclude" />
     
     <!-- 
@@ -40,8 +40,8 @@
      -->
     <script type="text/javascript">
         //set the title and progress bar icon
-        var aptLoadingPageHeader = "{!$Label.apttus_config2__loadingpage}";
-        var aptRuleAlertHeader = "{!$Label.apttus_config2__constraintrulealert}";
+        var aptLoadingPageHeader = "{!$Label.Apttus_Config2__LoadingPage}";
+        var aptRuleAlertHeader = "{!$Label.Apttus_Config2__ConstraintRuleAlert}";
         var aptDialogBody = '<center><img src="{!URLFOR($Resource.Apttus_Config2__Image_LoadingPage)}" /></center>';
         
         YAHOO.namespace("force.com");
@@ -158,7 +158,7 @@
                                     <apex:panelGroup >
 
                                         <apex:outputText escape="false" 
-                                                         value="{!$Label.apttus_config2__step}"
+                                                         value="{!$Label.Apttus_Config2__STEP}"
                                                          style="font-weight:bold;font-size:90%" />
 
                                         &nbsp;&nbsp;
@@ -193,7 +193,7 @@
                                                          styleClass="aptsConfigStage"  />
             
                                         <b><apex:actionStatus id="idStatusSelect" 
-                                                              startText="{!$Label.apttus_config2__statusmessageupdatingpage}..." /></b>
+                                                              startText="{!$Label.Apttus_Config2__StatusMessageUpdatingPage}..." /></b>
                                                               
                                     </apex:panelGroup>
 
@@ -206,16 +206,16 @@
                             <apex:outputPanel id="idTopNavActions" 
                                               style="text-align: right;"
                                               layout="block" >
-                                <apex:commandButton value="{!$Label.apttus_config2__abandon}"
+                                <apex:commandButton value="{!$Label.Apttus_Config2__Abandon}"
                                                     action="{!doAbandon}" 
                                                     immediate="true"
                                                     style="background-color:#657383;background-image:none;color:white;"/>
                                 &nbsp;
                                 &nbsp;
                                 <apex:image url="{!$Resource.Apttus_Config2__Cart}" 
-                                            title="{!$Label.apttus_config2__cart}"
-                                            alt="{!$Label.apttus_config2__cart}" />
-                                <apex:commandLink value="{!$Label.apttus_config2__myselections}"
+                                            title="{!$Label.Apttus_Config2__Cart}"
+                                            alt="{!$Label.Apttus_Config2__Cart}" />
+                                <apex:commandLink value="{!$Label.Apttus_Config2__MySelections}"
                                                   action="{!doViewCart}" 
                                                   style="color:blue;font-weight:bold" 
                                                   reRender="idErrorMsg, idRulesBlock"
@@ -241,25 +241,25 @@
             </apex:outputPanel>
             
             <apex:pageBlockButtons location="top">
-                <apex:commandButton value="{!$Label.apttus_config2__removeitem}" 
+                <apex:commandButton value="{!$Label.Apttus_Config2__RemoveItem}" 
                                     onclick="YAHOO.force.com.showRemoveConfirmation('{!LineItemSO.Apttus_Config2__LineNumber__c}');return false;"/>
-                <apex:commandButton value="{!$Label.apttus_config2__addmoreproducts}" 
+                <apex:commandButton value="{!$Label.Apttus_Config2__AddMoreProducts}" 
                                     action="{!doProductSelection}" 
                                     rendered="true" />
                                     <!-- rendered="{!isCallerSelectionPage}" /> -->
-                <apex:commandButton value="{!$Label.apttus_config2__backtopricing}" 
+                <apex:commandButton value="{!$Label.Apttus_Config2__BackToPricing}" 
                                     action="{!doViewCart}"
                                     onclick="onActionClick();" 
                                     oncomplete="onActionComplete();"
                                     reRender="idErrorMsg, idRulesBlock, idSelectedProductsBlock" 
                                     rendered="{!isCallerViewCartPage && hasOptionGroups}" />
-                <apex:commandButton value="{!$Label.apttus_config2__next}" 
+                <apex:commandButton value="{!$Label.Apttus_Config2__Next}" 
                                     action="{!doConfigureOptions}" 
                                     onclick="onActionClick();" 
                                     oncomplete="onActionComplete();"
                                     reRender="idErrorMsg, idRulesBlock, idSelectedProductsBlock" 
                                     rendered="{!hasOptionGroups}" />
-                <apex:commandButton value="{!$Label.apttus_config2__gotopricing}" 
+                <apex:commandButton value="{!$Label.Apttus_Config2__GoToPricing}" 
                                     action="{!doUpdateCart}" 
                                     onclick="onActionClick();" 
                                     oncomplete="onActionComplete();"
@@ -270,7 +270,7 @@
             <apex:outputPanel >
                 <apex:panelGrid columns="3">    
                     <apex:outputText style="font-weight:bold;color:#5487B9;text-transform:uppercase"
-                                     value="{!$Label.apttus_config2__specifydetailsfor}" />
+                                     value="{!$Label.Apttus_Config2__SpecifyDetailsFor}" />
                     &nbsp;               
                     <apex:outputText style="font-weight:bold;color:#5487B9;" 
                                      value="{!Apttus_Config2__LineItem__c.Apttus_Config2__ProductId__r.Name}" />
@@ -278,7 +278,7 @@
             </apex:outputPanel>    
             <apex:outputPanel >
                 <apex:pageBlockSection id="idProductAttributeDetailSection" 
-                                       title="{!$Label.apttus_config2__detail}"  
+                                       title="{!$Label.Apttus_Config2__Detail}"  
                                        columns="1" 
                                        collapsible="false" >
                     
@@ -291,7 +291,7 @@
                                                  (LineItem__c.PriceType__c == PriceTypeUsage)}" /> -->
                     
                     <apex:pageBlockSectionItem >
-                        <apex:outputLabel value="{!$Label.apttus_config2__term}" 
+                        <apex:outputLabel value="{!$Label.Apttus_Config2__Term}" 
                                           for="idSellingTerm" />
                         <apex:inputField styleClass="aptQuantity" id="idSellingTerm" value="{!Apttus_Config2__LineItem__c.Apttus_Config2__SellingTerm__c}" />
                     </apex:pageBlockSectionItem>
@@ -1450,7 +1450,7 @@
                             <apex:pageBlockSection id="idSelectedProductsBlock"
                                                     columns="1" 
                                                     collapsible="false"
-                                                    title="{!$Label.apttus_config2__selectedproducts}">
+                                                    title="{!$Label.Apttus_Config2__SelectedProducts}">
                                                    
                                 <apex:outputPanel id="idPaginationPanel" 
                                                   styleClass="bNext"
@@ -1468,7 +1468,7 @@
                                                               rendered="{!lineItemPaging.hasPreviousPage}" 
                                                               reRender="idSelectedProductsBlock">&lt;{!$Label.Apttus_Config2__IteratorPrevious}</apex:commandLink>
                                             <span> | </span>
-                                            <apex:outputText value="{!$Label.apttus_config2__page}: {!lineItemPaging.currentPageNumber} {!$Label.apttus_config2__outof} {!lineItemPaging.totalPages}" />
+                                            <apex:outputText value="{!$Label.Apttus_Config2__Page}: {!lineItemPaging.currentPageNumber} {!$Label.Apttus_Config2__OutOf} {!lineItemPaging.totalPages}" />
                                             <span> | </span>
                                             <apex:outputPanel rendered="{!NOT(lineItemPaging.hasNextPage)}"
                                                               styleClass="greyedLink">{!$Label.Apttus_Config2__IteratorNext}&gt;</apex:outputPanel>
@@ -1488,7 +1488,7 @@
                                     <!-- Start Group By Search Attribute Value -->               
                                     <apex:column style="width: 50px; max-width: 100px; white-space: nowrap;" rendered="{!lineItem.isSearchItem}">
                                         <apex:outputPanel rendered="{!(lineItem.searchAttrSO.Apttus_Config2__ValueType__c == ValueTypeDefault)}"> 
-                                            <apex:commandLink value="{!$Label.apttus_config2__guideme}"
+                                            <apex:commandLink value="{!$Label.Apttus_Config2__GuideMe}"
                                                               action="{!gotoSearchDefault}"
                                                               onclick="onActionClick();" 
                                                               oncomplete="onActionComplete();"
@@ -1497,7 +1497,7 @@
                                             </apex:commandLink>
                                         </apex:outputPanel>
                                         <apex:outputPanel rendered="{!(lineItem.searchAttrSO.Apttus_Config2__ValueType__c == ValueTypeProduct)}"> 
-                                            <apex:commandLink value="{!$Label.apttus_config2__guideme}"
+                                            <apex:commandLink value="{!$Label.Apttus_Config2__GuideMe}"
                                                                 action="{!gotoSearchProduct}"
                                                                 onclick="onActionClick();" 
                                                                 oncomplete="onActionComplete();"
@@ -1511,7 +1511,7 @@
                                     </apex:column>               
                                     <apex:column rendered="{!lineItem.isSearchItem}"> 
                                         <apex:outputPanel rendered="{!(lineItem.searchAttrSO.Apttus_Config2__ValueType__c == ValueTypeDefault)}"> 
-                                            <apex:outputText value="{!$Label.apttus_config2__searchdefault}"/>
+                                            <apex:outputText value="{!$Label.Apttus_Config2__SearchDefault}"/>
                                         </apex:outputPanel>
                                         <apex:outputPanel rendered="{!(lineItem.searchAttrSO.Apttus_Config2__ValueType__c == ValueTypeProduct)}">
                                             <apex:outputField value="{!lineItem.searchAttrSO.Apttus_Config2__BaseProductId__c}"></apex:outputField> 
@@ -1522,8 +1522,8 @@
                                     <apex:column style="width: 28px; max-width: 36px; text-align: center;" rendered="{!lineItem.isLineItem}">
                                         <apex:commandLink rerender="dummy">
                                             <apex:image url="{!$Resource.Apttus_Config2__Image_Remove}" 
-                                                        alt="{!$Label.apttus_config2__remove}"
-                                                        title="{!$Label.apttus_config2__remove}"
+                                                        alt="{!$Label.Apttus_Config2__Remove}"
+                                                        title="{!$Label.Apttus_Config2__Remove}"
                                                         onclick="YAHOO.force.com.showRemoveConfirmation('{!lineItem.lineItemSO.Apttus_Config2__LineNumber__c}');return false;"/>
                                         </apex:commandLink> 
                                     </apex:column>
@@ -1574,20 +1574,20 @@
         <apex:outputPanel >
             <div id="confirmationPanel" style="display: none">
                 <div class="hd">
-                    <apex:outputText value="{!$Label.apttus_config2__removeconfirmation}" />
+                    <apex:outputText value="{!$Label.Apttus_Config2__RemoveConfirmation}" />
                 </div> 
                 <div class="bd">
-                    <apex:outputText value="{!$Label.apttus_config2__removeproductmessage}" />
+                    <apex:outputText value="{!$Label.Apttus_Config2__RemoveProductMessage}" />
                 </div>
                 <div class="bd">
                     <apex:actionRegion >
                         <div style="text-align: center; padding-left: 4px;" >
-                            <apex:commandButton value="{!$Label.apttus_config2__yes}"
+                            <apex:commandButton value="{!$Label.Apttus_Config2__Yes}"
                                                 onclick="YAHOO.force.com.remove();"
                                                 style="width: 50px;"   
                                                 immediate="true" 
                                                 oncomplete="YAHOO.force.com.confirmationPanel.hide();" />
-                            <apex:commandButton value="{!$Label.apttus_config2__no}" 
+                            <apex:commandButton value="{!$Label.Apttus_Config2__No}" 
                                                 style="width: 50px;"   
                                                 onclick="YAHOO.force.com.confirmationPanel.hide();return false;" />
                         </div>
@@ -1628,7 +1628,7 @@
                                                                      columns="3"> 
                                                                      
                                                     <apex:column width="20%" >
-                                                        <apex:commandButton value="{!$Label.apttus_config2__select}"
+                                                        <apex:commandButton value="{!$Label.Apttus_Config2__Select}"
                                                                         action="{!doSelectProduct}" 
                                                                         onclick="onActionClick();" 
                                                                         oncomplete="onActionComplete();"
@@ -1641,7 +1641,7 @@
                                                                             assignTo="{!ruleActionId}"
                                                                             value="{!ruleResult.ruleActionId}" />
                                                         </apex:commandButton>
-                                                        <apex:commandButton value="{!$Label.apttus_config2__remove}" 
+                                                        <apex:commandButton value="{!$Label.Apttus_Config2__Remove}" 
                                                                         action="{!doRemoveProduct}" 
                                                                         onclick="onActionClick();" 
                                                                         oncomplete="onActionComplete();"
@@ -1673,9 +1673,9 @@
                         <div style="text-align: center;" >
                         <apex:outputPanel >
                             <!-- 
-                            <input type="button" value="{!$Label.apttus_config2__cancel}" style="width: 60px;" onclick="YAHOO.force.com.choicePanel.hide();"/>
+                            <input type="button" value="{!$Label.Apttus_Config2__Cancel}" style="width: 60px;" onclick="YAHOO.force.com.choicePanel.hide();"/>
                             -->     
-                            <apex:commandButton value="{!$Label.apttus_config2__cancel}"
+                            <apex:commandButton value="{!$Label.Apttus_Config2__Cancel}"
                                                 action="{!doIgnoreAction}" 
                                                 onclick="onActionClick();" 
                                                 oncomplete="onActionComplete();"

@@ -42,7 +42,7 @@ public class AH_CreateServiceOrder_Test
             soSettings.Embedded_Plus_Partner_Admin__c = 'NMKT-EMD-PLS-HRM-ADM-PART';
             soSettings.Default_Contract__c = 'Apex Test Term';
             soSettings.EDA_Customer_Admin__C = 'DELF-USD-EMD-PLS-OBJ-EDA';
-			soSettings.EDA_Partner_Admin__C = 'DELF-USD-EMD-PLS-OBJ-EDA1';
+            soSettings.EDA_Partner_Admin__C = 'DELF-USD-EMD-PLS-OBJ-EDA1';
             Database.insert(soSettings);
         }
 
@@ -135,7 +135,7 @@ public class AH_CreateServiceOrder_Test
         insert pg;
 
         // CREATE A TEST PRODUCT
-       	Product2 p2 = NI_TestClassData.createProduct2(1, pg.Id, 'APEX-HRM-TEST-01', 'HRM');     
+        Product2 p2 = NI_TestClassData.createProduct2(1, pg.Id, 'APEX-HRM-TEST-01', 'HRM');     
         p2.Product_Group__c = pg.Id;
         p2.Product_Line__c = 'HRM Test';
         p2.Revenue_Category__c = 'Services';
@@ -215,7 +215,7 @@ public class AH_CreateServiceOrder_Test
         
         database.insert(lstOLIInserts);        
 
-		// CREATE TEST OPPORTUNITY CONTACT ROLE RECORDS
+        // CREATE TEST OPPORTUNITY CONTACT ROLE RECORDS
         List<OpportunityContactRole> lstOpportunityContactRoles = new List<OpportunityContactRole>();
         
         OpportunityContactRole ocr3 = NI_TestClassData.createTestOpportunityContactRole(opp1.Id, con.Id, 'Customer Project Contact');
@@ -224,7 +224,7 @@ public class AH_CreateServiceOrder_Test
         OpportunityContactRole ocr4 = NI_TestClassData.createTestOpportunityContactRole(opp3.Id, con.Id, 'Customer Project Contact');
         lstOpportunityContactRoles.add(ocr4);
         
-		database.insert(lstOpportunityContactRoles);
+        database.insert(lstOpportunityContactRoles);
         
         system.debug(' *** END AH_CreateServiceOrder_Test.createTestData() - QUERIES ISSUED = ' + Limits.getQueries());
         
@@ -334,15 +334,15 @@ public class AH_CreateServiceOrder_Test
         // CLICK "Create Service Order" BUTTON ON FORM 
         ctrl.CreateServiceOrder(); 
         
-        Test.StopTest(); 
+        
         
         List<Subscription_Activation__c> lstSAAsserts2 = new List<Subscription_Activation__c>([SELECT Id, Contracted_Quantity__c, Backlog_Quantity__c, Activated_Quantity__c, Canceled_Quantity__c FROM Subscription_Activation__c]);
         system.assertEquals(1, lstSAAsserts2.size(), 'error.');        
-        system.debug(lstSAAsserts2);
+        //system.debug(lstSAAsserts2);
         
         // ASSERT THAT SERVICE ORDER WAS CREATED
         List<CHANNEL_ORDERS__Service_Order__c> lstSOAsserts1 = new List<CHANNEL_ORDERS__Service_Order__c>(
-            [SELECT Id FROM CHANNEL_ORDERS__Service_Order__c WHERE CHANNEL_ORDERS__Related_Opportunity__c =: opp1.Id]);
+            [SELECT Id,CHANNEL_ORDERS__Service_Order_Status__c,CHANNEL_ORDERS__Service_Start_Date__c FROM CHANNEL_ORDERS__Service_Order__c WHERE CHANNEL_ORDERS__Related_Opportunity__c =: opp1.Id]);
         system.assertEquals(1, lstSOAsserts1.size(), 'Service Order was not created.');
         
         // ASSERT THAT THE SERVICE ORDER NOTE WAS CREATED
@@ -361,7 +361,30 @@ public class AH_CreateServiceOrder_Test
         List<Subscription_Activation_Transaction__c> lstSATAsserts1 = new List<Subscription_Activation_Transaction__c>(
             [SELECT Id FROM Subscription_Activation_Transaction__c WHERE Subscription_Activation_No__c =: SA1.Id AND Related_Account__c =: a2.Id]);
         system.assertEquals(1, lstSATAsserts1.size(), 'Subscription Activation Transaction was not created.');
-                
+        
+        CHANNEL_ORDERS__Service_Order__c sotest = NI_TestClassData.createTestCO_ServiceOrder();
+        sotest.CHANNEL_ORDERS__Service_Order_Status__c = 'Provisioned';
+        sotest.CHANNEL_ORDERS__Order_Type__c = 'Upgrade - Partner App';
+        
+        CHANNEL_ORDERS__Service_Order__c sotest1 = NI_TestClassData.createTestCO_ServiceOrder();
+        sotest1.CHANNEL_ORDERS__Service_Order_Status__c = 'Provisioned';
+        sotest1.CHANNEL_ORDERS__Order_Type__c = 'Initial';  
+        
+        CHANNEL_ORDERS__Service_Order__c sotest2 = NI_TestClassData.createTestCO_ServiceOrder();
+        sotest2.CHANNEL_ORDERS__Service_Order_Status__c = 'Provisioned';
+        sotest2.CHANNEL_ORDERS__Order_Type__c = 'Cancellation Order';  
+        
+        CHANNEL_ORDERS__Service_Order__c sotest3 = NI_TestClassData.createTestCO_ServiceOrder();
+        sotest3.CHANNEL_ORDERS__Service_Order_Status__c = 'Error';
+        sotest3.CHANNEL_ORDERS__Order_Type__c = 'Error';   
+        lstSOAsserts1.add(sotest);
+        lstSOAsserts1.add(sotest1);
+        //lstSOAsserts1.add(sotest2);
+        lstSOAsserts1.add(sotest3);
+        
+        NI_ServiceOrderTriggerHandler.handleServiceOrderProvision(lstSOAsserts1,lstSOAsserts1);
+        
+        Test.StopTest();  
     }
     
     // =======================================================================================================================================

@@ -19,8 +19,8 @@ private class NI_Psa_RegForecastUpdateCtlr_Test
         Opportunity o = new Opportunity();
         
         //PAGE REFERENCE
-        PageReference pageRef = Page.NI_SoftraxAssetsOpportunityVF;
-        Test.setCurrentPage(pageRef);
+        //PageReference pageRef = Page.NI_SoftraxAssetsOpportunityVF;
+        //Test.setCurrentPage(pageRef);
         
         //CREATE A TEST TIME PERIOD RECORD
         List<pse__Time_Period__c> lstTimePeriodsToInsert = new List<pse__Time_Period__c>();  

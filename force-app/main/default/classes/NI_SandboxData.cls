@@ -276,7 +276,7 @@ system.debug('lstDIIndexIdMaps===='+lstDIIndexIdMaps.size());
         {
             
             hReq = new HttpRequest();
-            hReq.setEndpoint('https://' + LOGIN_DOMAIN + '.salesforce.com/services/Soap/u/22.0');
+            hReq.setEndpoint('https://' + LOGIN_DOMAIN + '.salesforce.com/services/Soap/u/55.0');
             hReq.setMethod('POST');
             hReq.setHeader('Content-Type', 'text/xml;charset=UTF-8');
             hReq.setHeader('SOAPAction', '""');
@@ -313,7 +313,7 @@ system.debug('lstDIIndexIdMaps===='+lstDIIndexIdMaps.size());
             
             lstNI_DeploymentInstanceIndexes = new List<NI_DeploymentInstanceIndex__c>();
             
-            PageReference theUrl = new PageReference(SERVER_URL + '/services/data/v22.0/query/');
+            PageReference theUrl = new PageReference(SERVER_URL + '/services/data/v55.0/query/');
             theUrl.getParameters().put('q', 'SELECT Id, Name FROM NI_DeploymentInstanceIndex__c');
             
             hReq = new HttpRequest(); 
@@ -360,7 +360,7 @@ system.debug('lstDIIndexIdMaps===='+lstDIIndexIdMaps.size());
             
             lstProductGroups = new List<Product_Group__c>();
             
-            PageReference theUrl = new PageReference(SERVER_URL + '/services/data/v22.0/query/');
+            PageReference theUrl = new PageReference(SERVER_URL + '/services/data/v55.0/query/');
             theUrl.getParameters().put('q', 'SELECT Id, Name FROM Product_Group__c');
             
             hReq = new HttpRequest(); 

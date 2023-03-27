@@ -43,11 +43,11 @@ public class AH_CreateRemoteSites {
     // LOGIN TO REMOTE ORG 
     public void login() 
     {   
-        string sEndPoint = 'https://login.salesforce.com/services/Soap/u/26.0'; 
+        string sEndPoint = 'https://login.salesforce.com/services/Soap/u/55.0'; 
         
         if (pollingResult.AccountId__r.Org_Type__c.Contains('Salesforce Sandbox'))
         {   
-            sEndPoint = 'https://test.salesforce.com/services/Soap/u/26.0'; 
+            sEndPoint = 'https://test.salesforce.com/services/Soap/u/55.0'; 
         }
 
         PartnerRemote.Soap soap = new PartnerRemote.Soap();

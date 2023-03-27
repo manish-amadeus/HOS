@@ -99,11 +99,11 @@ public class AH_JobScheduler_Ctlr extends AH_JobScheduler_Ctlr_Base
             String sEndPoint = '';
             if(settingsObj.Environment__c == 'Production')
             {
-            	sEndPoint = 'https://login.salesforce.com/services/Soap/u/26.0'; 
+            	sEndPoint = 'https://login.salesforce.com/services/Soap/u/55.0'; 
             }
             else if(settingsObj.Environment__c == 'Sandbox')
             {
-                sEndPoint = 'https://test.salesforce.com/services/Soap/u/26.0';
+                sEndPoint = 'https://test.salesforce.com/services/Soap/u/55.0';
             }
 
             PartnerRemote.Soap soap = new PartnerRemote.Soap();

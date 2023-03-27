@@ -596,7 +596,7 @@ public class AH_RecordReferenceSearch_Cntlr
 	{
 		String salesforceHost = System.Url.getSalesforceBaseURL().toExternalForm();
 
-		String url =  salesforceHost + '/services/data/v30.0/tooling/query/?q=Select+fullname+,metadata+from+ValidationRule';
+		String url =  salesforceHost + '/services/data/v55.0/tooling/query/?q=Select+fullname+,metadata+from+ValidationRule';
 
 		HttpRequest req = new HttpRequest();
 		req.setMethod('GET');

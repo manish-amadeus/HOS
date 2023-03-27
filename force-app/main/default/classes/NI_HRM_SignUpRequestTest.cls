@@ -84,8 +84,8 @@ public class NI_HRM_SignUpRequestTest
             hrmSettings.Org_Details_Record_Type__c = 'LOD Support Admin';
             hrmSettings.SignUp_Request_Case_Owner__c = 'Q-Subscription Management';
             hrmSettings.SignUp_Request_Email__c = 'sleduc@newmarketinc.com';
-            hrmSettings.SignUp_Request_Get_URL__c = '/services/data/v27.0/sobjects/SignupRequest/Id/';
-            hrmSettings.SignUp_Request_URL__c = '/services/data/v27.0/sobjects/SignupRequest/';
+            hrmSettings.SignUp_Request_Get_URL__c = '/services/data/v55.0/sobjects/SignupRequest/Id/';
+            hrmSettings.SignUp_Request_URL__c = '/services/data/v55.0/sobjects/SignupRequest/';
             //hrmSettings.TSO_Auth_Endpoint__c = 'https://na15.salesforce.com/services/oauth2/token';
             hrmSettings.TSO_Auth_Endpoint__c = baseURL + '/services/oauth2/token';
             hrmSettings.TSO_ClientId__c = '3MVG9A2kN3Bn17hvDn2BxxKxE65ay9FYQN6yXlry_Lt_Us2_bg8DS.VdNEPBXrrOAfGHv7tIPkkb0hZ4C.EpB';

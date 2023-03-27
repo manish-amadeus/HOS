@@ -28,6 +28,8 @@ private class NI_PFyre_AgentEvents_TrigHndlr_Test
 		NonACDDuration__c = 25, NonACDHoldDuration__c = 25, OutCount__c = 25, OutDuration__c = 25, OutHoldDuration__c = 25, 
 		Position__c = '5654', RequeueCount__c = 25, RingingCount__c = 25, RingingDuration__c = 25, ShiftDuration__c = 25, 
 		ShortACD__c = 25, WrapUpDuration__c = 25, Snapshot_Day__c = System.today(), Saleforce_User__c = u1.Id); 
+        
+        insert p1;
 
         Map<Id, NI_PFyre_AgentEvents__c> mapOldMap = new Map<Id,NI_PFyre_AgentEvents__c>(
             [SELECT Id, Name FROM NI_PFyre_AgentEvents__c WHERE Id IN :lstAEs]);

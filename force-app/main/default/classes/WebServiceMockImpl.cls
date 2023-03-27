@@ -23,10 +23,8 @@ global class WebServiceMockImpl implements WebServiceMock
         String responseName,
         String responseType) 
     {
-        
-        //system.debug('request : '+request);
-        
-        if(request instanceof MetadataService.listMetadata_element)
+
+        if (request instanceof MetadataService.listMetadata_element)
         {
             system.debug('listMetadata_element request : ');
             MetadataService.listMetadataResponse_element respElement = new  MetadataService.listMetadataResponse_element();
@@ -42,9 +40,9 @@ global class WebServiceMockImpl implements WebServiceMock
             
             response.put('response_x', respElement);
         }
-        else if(request instanceof MetadataService.createMetadata_element)
+        else if (request instanceof MetadataService.createMetadata_element)
         {
-            MetadataService.createMetadataResponse_element respElement = new  MetadataService.createMetadataResponse_element();
+            MetadataService.createMetadataResponse_element respElement = new MetadataService.createMetadataResponse_element();
             
             List<MetadataService.SaveResult> saveList = new List<MetadataService.SaveResult>();
             MetadataService.SaveResult s = new MetadataService.SaveResult();
@@ -57,12 +55,24 @@ global class WebServiceMockImpl implements WebServiceMock
         }
         else if (request instanceof PartnerRemote.login_element)
         {
-            PartnerRemote.loginResponse_element  respElement =  new PartnerRemote.loginResponse_element();
+            PartnerRemote.loginResponse_element respElement = new PartnerRemote.loginResponse_element();
             
             respElement.result = new PartnerRemote.LoginResult();
             respElement.result.serverUrl = 'd/services/d';
             respElement.result.sessionId = '';
             respElement.result.userInfo = new PartnerRemote.GetUserInfoResult();
+            respElement.result.userInfo.organizationId = '';
+            respElement.result.userInfo.organizationName = '';
+            response.put('response_x', respElement); 
+        }
+        else if (request instanceof OrgSearchRemote.login_element)
+        {
+            OrgSearchRemote.loginResponse_element respElement = new OrgSearchRemote.loginResponse_element();
+            
+            respElement.result = new OrgSearchRemote.LoginResult();
+            respElement.result.serverUrl = 'd/services/d';
+            respElement.result.sessionId = '';
+            respElement.result.userInfo = new OrgSearchRemote.GetUserInfoResult();
             respElement.result.userInfo.organizationId = '';
             respElement.result.userInfo.organizationName = '';
             response.put('response_x', respElement); 

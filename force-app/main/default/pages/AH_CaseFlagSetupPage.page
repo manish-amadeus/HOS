@@ -48,7 +48,7 @@
         box-shadow: 4px 4px 4px #999;
         }
     </style>
-    <apex:includeScript value="/soap/ajax/22.0/connection.js"/>
+    <apex:includeScript value="/soap/ajax/55.0/connection.js"/>
     <apex:stylesheet value="{!URLFOR($Resource.AH_Case_Flags_Resources,'/jquery/jquery-ui-1-11-4.css')}"/>
     <apex:includeScript value="{!URLFOR($Resource.AH_Case_Flags_Resources, '/jquery/jquery-1-12-0.js')}"/>
     <apex:includeScript value="{!URLFOR($Resource.AH_Case_Flags_Resources, '/jquery/jquery-ui-1-11-4.js')}"/>
@@ -58,11 +58,8 @@
     <apex:sectionHeader title="Case Flags" subtitle="Setup Wizard" />
     <apex:pageMessages showDetail="false" />
     <apex:form >
-        
         <apex:actionFunction action="{!radioChange}" name="radioChange" reRender="SFDCSetup"/>
-        
         <apex:pageblock >
-            
             <apex:pageblockSection title="Introduction">
                 Case Flags helps you monitor your organization’s response times with cases, at a glance, via color coded flags. Case Flags allows you to quickly view cases requiring responses to customers.
                 <ul>

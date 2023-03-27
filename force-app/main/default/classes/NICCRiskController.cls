@@ -209,7 +209,7 @@ public class NICCRiskController
         
         return ApexPages.CurrentPage(); 
         
-        return pr;         
+        //return pr;         
   
     }
     
@@ -225,7 +225,7 @@ public class NICCRiskController
 
         return ApexPages.CurrentPage(); 
         
-        return pr;         
+        //return pr;         
   
     }
 
