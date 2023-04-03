@@ -422,7 +422,17 @@ public with sharing class OrgSearchCls {
             HttpResponse queryResults = getQueryResponse(orgPropertyQuery, SOQL_ENDPOINT);
             OrgSearchDataStructuresCls.OrgPropertyInfo propertyInfo = (OrgSearchDataStructuresCls.OrgPropertyInfo)Json.Deserialize(removeSFCharacters(queryResults.getBody()), OrgSearchDataStructuresCls.OrgPropertyInfo.class);
             if (propertyInfo != null && propertyInfo.records != null) {
-                for (OrgSearchDataStructuresCls.OrgPropertyRecord record :propertyInfo.records) {
+                List<OrgSearchDataStructuresCls.OrgPropertyRecord> propRecords = new List<OrgSearchDataStructuresCls.OrgPropertyRecord>(propertyInfo.records);                
+                Boolean propertiesDone = propertyInfo.done;
+                String nextPropsUrl = propertyInfo.nextRecordsUrl;
+                while (propertiesDone == false && nextPropsUrl != null) {
+                    HttpResponse nextRecordsResults = getQueryResponse('', nextPropsUrl);
+                    OrgSearchDataStructuresCls.OrgPropertyInfo nextRecordsInfo = (OrgSearchDataStructuresCls.OrgPropertyInfo)Json.Deserialize(removeSFCharacters(nextRecordsResults.getBody()), OrgSearchDataStructuresCls.OrgPropertyInfo.class);
+                    propertiesDone = nextRecordsInfo.done;
+                    nextPropsUrl = nextRecordsInfo.nextRecordsUrl;
+                    propRecords.addAll(nextRecordsInfo.records);
+                }
+                for (OrgSearchDataStructuresCls.OrgPropertyRecord record :propRecords) {
                         OrgProperty__c orgProperty = record.createSFObject();
                         orgPropertyMap.put(orgProperty.PropertyId__c, orgProperty);
                 }
@@ -437,7 +447,17 @@ public with sharing class OrgSearchCls {
                 HttpResponse niPublicQueryResults = getQueryResponse(niPublicQuery, SOQL_ENDPOINT);
                 OrgSearchDataStructuresCls.DefaultLocInfo defaultLocInfo = (OrgSearchDataStructuresCls.DefaultLocInfo)Json.Deserialize(removeSFCharacters(niPublicQueryResults.getBody()), OrgSearchDataStructuresCls.DefaultLocInfo.class);
                 if (defaultLocInfo != null && defaultLocInfo.records != null) {
-                    for (OrgSearchDataStructuresCls.DefaultLocRecord record :defaultLocInfo.records) {
+                    List<OrgSearchDataStructuresCls.DefaultLocRecord> defaultLocRecords = new List<OrgSearchDataStructuresCls.DefaultLocRecord>(defaultLocInfo.records);                
+                    Boolean defaultLocsDone = defaultLocInfo.done;
+                    String nextDefaultsUrl = defaultLocInfo.nextRecordsUrl;
+                    while (defaultLocsDone == false && nextDefaultsUrl != null) {
+                        HttpResponse nextRecordsResults = getQueryResponse('', nextDefaultsUrl);
+                        OrgSearchDataStructuresCls.defaultLocInfo nextRecordsInfo = (OrgSearchDataStructuresCls.defaultLocInfo)Json.Deserialize(removeSFCharacters(nextRecordsResults.getBody()), OrgSearchDataStructuresCls.defaultLocInfo.class);
+                        defaultLocsDone = nextRecordsInfo.done;
+                        nextDefaultsUrl = nextRecordsInfo.nextRecordsUrl;
+                        defaultLocRecords.addAll(nextRecordsInfo.records);
+                    }
+                    for (OrgSearchDataStructuresCls.DefaultLocRecord record :defaultLocRecords) {
                     if (orgPropertyMap.get(record.DefaultLocationId) != null) {
                             OrgProperty__c prop = orgPropertyMap.get(record.DefaultLocationId);
                             prop.NumberOfUsers__c = record.expr0;
@@ -454,7 +474,17 @@ public with sharing class OrgSearchCls {
                 HttpResponse locHistoryQueryResults = getQueryResponse(locHistoryQuery, SOQL_ENDPOINT);
                 OrgSearchDataStructuresCls.LocHistoryInfo locHistoryInfo = (OrgSearchDataStructuresCls.LocHistoryInfo)Json.Deserialize(locHistoryQueryResults.getBody(), OrgSearchDataStructuresCls.LocHistoryInfo.class);
                 if (locHistoryInfo != null && locHistoryInfo.records != null) {
-                    for (OrgSearchDataStructuresCls.LocHistoryRecord record :locHistoryInfo.records) {
+                    List<OrgSearchDataStructuresCls.LocHistoryRecord> locHistoryRecords = new List<OrgSearchDataStructuresCls.LocHistoryRecord>(locHistoryInfo.records);                
+                    Boolean locHistoryDone = locHistoryInfo.done;
+                    String nextHistoryUrl = locHistoryInfo.nextRecordsUrl;
+                    while (locHistoryDone == false && nextHistoryUrl != null) {
+                        HttpResponse nextRecordsResults = getQueryResponse('', nextHistoryUrl);
+                        OrgSearchDataStructuresCls.LocHistoryInfo nextRecordsInfo = (OrgSearchDataStructuresCls.LocHistoryInfo)Json.Deserialize(removeSFCharacters(nextRecordsResults.getBody()), OrgSearchDataStructuresCls.LocHistoryInfo.class);
+                        locHistoryDone = nextRecordsInfo.done;
+                        nextHistoryUrl = nextRecordsInfo.nextRecordsUrl;
+                        locHistoryRecords.addAll(nextRecordsInfo.records);
+                    }
+                    for (OrgSearchDataStructuresCls.LocHistoryRecord record :locHistoryRecords) {
                     if (orgPropertyMap.get(record.ParentId) != null) {
                             OrgProperty__c prop = orgPropertyMap.get(record.ParentId);
                             prop.HistoryCreatedDate__c = record.CreatedDate;
@@ -468,7 +498,17 @@ public with sharing class OrgSearchCls {
                 HttpResponse systemLocQueryResults = getQueryResponse(systemLocQuery, SOQL_ENDPOINT);
                 OrgSearchDataStructuresCls.SystemLocInfo systemLocInfo = (OrgSearchDataStructuresCls.SystemLocInfo)Json.Deserialize(removeSFCharacters(systemLocQueryResults.getBody()), OrgSearchDataStructuresCls.SystemLocInfo.class);
                 if (systemLocInfo != null && systemLocInfo.records != null) {
-                    for (OrgSearchDataStructuresCls.SystemLocRecord record :systemLocInfo.records) {
+                    List<OrgSearchDataStructuresCls.SystemLocRecord> systemLocRecords = new List<OrgSearchDataStructuresCls.SystemLocRecord>(systemLocInfo.records);                
+                    Boolean systemLocsDone = systemLocInfo.done;
+                    String nextSystemLocsUrl = systemLocInfo.nextRecordsUrl;
+                    while (systemLocsDone == false && nextSystemLocsUrl != null) {
+                        HttpResponse nextRecordsResults = getQueryResponse('', nextSystemLocsUrl);
+                        OrgSearchDataStructuresCls.SystemLocInfo nextRecordsInfo = (OrgSearchDataStructuresCls.SystemLocInfo)Json.Deserialize(removeSFCharacters(nextRecordsResults.getBody()), OrgSearchDataStructuresCls.SystemLocInfo.class);
+                        systemLocsDone = nextRecordsInfo.done;
+                        nextSystemLocsUrl = nextRecordsInfo.nextRecordsUrl;
+                        systemLocRecords.addAll(nextRecordsInfo.records);
+                    }
+                    for (OrgSearchDataStructuresCls.SystemLocRecord record :systemLocRecords) {
                     if (orgPropertyMap.get(record.Location) != null) {
                             OrgProperty__c prop = orgPropertyMap.get(record.Location);
                             prop.AHWSEnabled__c = record.IsEnabled;
@@ -566,7 +606,17 @@ public with sharing class OrgSearchCls {
             HttpResponse queryResults = getQueryResponse(propertyIntegrationQuery, SOQL_ENDPOINT);
             OrgSearchDataStructuresCls.OrgPropertyIntegrationInfo propertyIntegrationInfo = (OrgSearchDataStructuresCls.OrgPropertyIntegrationInfo)Json.Deserialize(removeSFCharacters(queryResults.getBody()), OrgSearchDataStructuresCls.OrgPropertyIntegrationInfo.class);
             if (propertyIntegrationInfo != null && propertyIntegrationInfo.records != null) {
-                for (OrgSearchDataStructuresCls.OrgPropertyIntegrationRecord record :propertyIntegrationInfo.records) {
+                List<OrgSearchDataStructuresCls.OrgPropertyIntegrationRecord> propIntegrationRecords = new List<OrgSearchDataStructuresCls.OrgPropertyIntegrationRecord>(propertyIntegrationInfo.records);                
+                Boolean isDone = propertyIntegrationInfo.done;
+                String nextRecordsUrl = propertyIntegrationInfo.nextRecordsUrl;
+                while (isDone == false && nextRecordsUrl != null) {
+                    HttpResponse nextRecordsResults = getQueryResponse('', nextRecordsUrl);
+                    OrgSearchDataStructuresCls.OrgPropertyIntegrationInfo nextRecordsInfo = (OrgSearchDataStructuresCls.OrgPropertyIntegrationInfo)Json.Deserialize(removeSFCharacters(nextRecordsResults.getBody()), OrgSearchDataStructuresCls.OrgPropertyIntegrationInfo.class);
+                    isDone = nextRecordsInfo.done;
+                    nextRecordsUrl = nextRecordsInfo.nextRecordsUrl;
+                    propIntegrationRecords.addAll(nextRecordsInfo.records);
+                }
+                for (OrgSearchDataStructuresCls.OrgPropertyIntegrationRecord record :propIntegrationRecords) {
                     OrgPropertyIntegrationSetting__c orgPropertyIntegration = record.createSFObject();
                     propertyIntegrationList.add(orgPropertyIntegration);
                 }
@@ -704,7 +754,17 @@ public with sharing class OrgSearchCls {
             HttpResponse queryResults = getQueryResponse(orgUserQuery, SOQL_ENDPOINT);
             OrgSearchDataStructuresCls.OrgUserInfo userInfo = (OrgSearchDataStructuresCls.OrgUserInfo)Json.Deserialize(queryResults.getBody(), OrgSearchDataStructuresCls.OrgUserInfo.class);
             if (userInfo != null && userInfo.records != null) {
-                for (OrgSearchDataStructuresCls.OrgUserRecord record :userInfo.records) {
+                List<OrgSearchDataStructuresCls.OrgUserRecord> userRecords = new List<OrgSearchDataStructuresCls.OrgUserRecord>(userInfo.records);                
+                Boolean isDone = userInfo.done;
+                String nextRecordsUrl = userInfo.nextRecordsUrl;
+                while (isDone == false && nextRecordsUrl != null) {
+                    HttpResponse nextRecordsResults = getQueryResponse('', nextRecordsUrl);
+                    OrgSearchDataStructuresCls.OrgUserInfo nextRecordsInfo = (OrgSearchDataStructuresCls.OrgUserInfo)Json.Deserialize(removeSFCharacters(nextRecordsResults.getBody()), OrgSearchDataStructuresCls.OrgUserInfo.class);
+                    isDone = nextRecordsInfo.done;
+                    nextRecordsUrl = nextRecordsInfo.nextRecordsUrl;
+                    userRecords.addAll(nextRecordsInfo.records);
+                }
+                for (OrgSearchDataStructuresCls.OrgUserRecord record :userRecords) {
                         OrgUser__c orgUser = record.createSFObject();
                         orgUserMap.put(record.Id, orgUser);
                 }
@@ -714,7 +774,17 @@ public with sharing class OrgSearchCls {
                 HttpResponse frozenQueryResult = getQueryResponse(frozenQuery, SOQL_ENDPOINT);
                 OrgSearchDataStructuresCls.OrgUserFrozenInfo userFrozenInfo = (OrgSearchDataStructuresCls.OrgUserFrozenInfo)Json.Deserialize(frozenQueryResult.getBody(), OrgSearchDataStructuresCls.OrgUserFrozenInfo.class);
                 if (userFrozenInfo != null && userFrozenInfo.records != null) {
-                    for (OrgSearchDataStructuresCls.OrgUserFrozenRecord record :userFrozenInfo.records) {
+                    List<OrgSearchDataStructuresCls.OrgUserFrozenRecord> userFrozenRecords = new List<OrgSearchDataStructuresCls.OrgUserFrozenRecord>(userFrozenInfo.records);                
+                    Boolean frozenUsersDone = userFrozenInfo.done;
+                    String nextFrozenUsersUrl = userFrozenInfo.nextRecordsUrl;
+                    while (frozenUsersDone == false && nextFrozenUsersUrl != null) {
+                        HttpResponse nextRecordsResults = getQueryResponse('', nextFrozenUsersUrl);
+                        OrgSearchDataStructuresCls.OrgUserFrozenInfo nextRecordsInfo = (OrgSearchDataStructuresCls.OrgUserFrozenInfo)Json.Deserialize(removeSFCharacters(nextRecordsResults.getBody()), OrgSearchDataStructuresCls.OrgUserFrozenInfo.class);
+                        frozenUsersDone = nextRecordsInfo.done;
+                        nextFrozenUsersUrl = nextRecordsInfo.nextRecordsUrl;
+                        userFrozenRecords.addAll(nextRecordsInfo.records);
+                    }
+                    for (OrgSearchDataStructuresCls.OrgUserFrozenRecord record :userFrozenRecords) {
                     if (orgUserMap.get(record.UserId) != null) {
                             OrgUser__c u = orgUserMap.get(record.UserId);
                             u.UserFrozen__c = record.IsFrozen;
@@ -728,7 +798,17 @@ public with sharing class OrgSearchCls {
                     HttpResponse defaultPropResult = getQueryResponse(defaultPropQuery, SOQL_ENDPOINT);
                     OrgSearchDataStructuresCls.OrgPublicUserInfo defaultPropInfo = (OrgSearchDataStructuresCls.OrgPublicUserInfo)Json.Deserialize(removeSFCharacters(defaultPropResult.getBody()), OrgSearchDataStructuresCls.OrgPublicUserInfo.class);
                     if (defaultPropInfo != null && defaultPropInfo.records != null) {
-                        for (OrgSearchDataStructuresCls.OrgPublicUserRecord record :defaultPropInfo.records) {
+                        List<OrgSearchDataStructuresCls.OrgPublicUserRecord> pubUserRecords = new List<OrgSearchDataStructuresCls.OrgPublicUserRecord>(defaultPropInfo.records);                
+                        Boolean pubUsersDone = defaultPropInfo.done;
+                        String nextpubUsersUrl = defaultPropInfo.nextRecordsUrl;
+                        while (pubUsersDone == false && nextpubUsersUrl != null) {
+                            HttpResponse nextRecordsResults = getQueryResponse('', nextpubUsersUrl);
+                            OrgSearchDataStructuresCls.OrgPublicUserInfo nextRecordsInfo = (OrgSearchDataStructuresCls.OrgPublicUserInfo)Json.Deserialize(removeSFCharacters(nextRecordsResults.getBody()), OrgSearchDataStructuresCls.OrgPublicUserInfo.class);
+                            pubUsersDone = nextRecordsInfo.done;
+                            nextpubUsersUrl = nextRecordsInfo.nextRecordsUrl;
+                            pubUserRecords.addAll(nextRecordsInfo.records);
+                        }
+                        for (OrgSearchDataStructuresCls.OrgPublicUserRecord record :pubUserRecords) {
                         if (orgUserMap.get(record.SetupOwnerId) != null) {
                                 OrgUser__c u = orgUserMap.get(record.SetupOwnerId);
                                 u = record.updateUserRecord(u);
@@ -757,7 +837,17 @@ public with sharing class OrgSearchCls {
             HttpResponse queryResults = getQueryResponse(orgProfileQuery, SOQL_ENDPOINT);
             OrgSearchDataStructuresCls.OrgProfileInfo profileInfo = (OrgSearchDataStructuresCls.OrgProfileInfo)Json.Deserialize(queryResults.getBody(), OrgSearchDataStructuresCls.OrgProfileInfo.class);
             if (profileInfo != null && profileInfo.records != null) {
-                for (OrgSearchDataStructuresCls.OrgProfileRecord record :profileInfo.records) {
+                List<OrgSearchDataStructuresCls.OrgProfileRecord> profileRecords = new List<OrgSearchDataStructuresCls.OrgProfileRecord>(profileInfo.records);                
+                Boolean isDone = profileInfo.done;
+                String nextRecordsUrl = profileInfo.nextRecordsUrl;
+                while (isDone == false && nextRecordsUrl != null) {
+                    HttpResponse nextRecordsResults = getQueryResponse('', nextRecordsUrl);
+                    OrgSearchDataStructuresCls.OrgProfileInfo nextRecordsInfo = (OrgSearchDataStructuresCls.OrgProfileInfo)Json.Deserialize(removeSFCharacters(nextRecordsResults.getBody()), OrgSearchDataStructuresCls.OrgProfileInfo.class);
+                    isDone = nextRecordsInfo.done;
+                    nextRecordsUrl = nextRecordsInfo.nextRecordsUrl;
+                    profileRecords.addAll(nextRecordsInfo.records);
+                }
+                for (OrgSearchDataStructuresCls.OrgProfileRecord record :profileRecords) {
                     OrgProfile__c orgProfile = record.createSFObject();
                     orgProfileList.add(orgProfile);
                 }
@@ -829,7 +919,17 @@ public with sharing class OrgSearchCls {
             HttpResponse queryResults = getQueryResponse(setupValueQuery, SOQL_ENDPOINT);
             OrgSearchDataStructuresCls.SetupValueInfo setupValueInfo = (OrgSearchDataStructuresCls.SetupValueInfo)Json.Deserialize(removeSFCharacters(queryResults.getBody()), OrgSearchDataStructuresCls.SetupValueInfo.class);
             if (setupValueInfo != null && setupValueInfo.records != null) {
-                for (OrgSearchDataStructuresCls.SetupValueRecord record :setupValueInfo.records) {
+                List<OrgSearchDataStructuresCls.SetupValueRecord> svRecords = new List<OrgSearchDataStructuresCls.SetupValueRecord>(setupValueInfo.records);                
+                Boolean isDone = setupValueInfo.done;
+                String nextRecordsUrl = setupValueInfo.nextRecordsUrl;
+                while (isDone == false && nextRecordsUrl != null) {
+                    HttpResponse nextRecordsResults = getQueryResponse('', nextRecordsUrl);
+                    OrgSearchDataStructuresCls.SetupValueInfo nextRecordsInfo = (OrgSearchDataStructuresCls.SetupValueInfo)Json.Deserialize(removeSFCharacters(nextRecordsResults.getBody()), OrgSearchDataStructuresCls.SetupValueInfo.class);
+                    isDone = nextRecordsInfo.done;
+                    nextRecordsUrl = nextRecordsInfo.nextRecordsUrl;
+                    svRecords.addAll(nextRecordsInfo.records);
+                }
+                for (OrgSearchDataStructuresCls.SetupValueRecord record :svRecords) {
                     OrgSetupValue__c setupValue = record.createSFObject();
                     setupValueList.add(setupValue);
                 }
@@ -849,7 +949,17 @@ public with sharing class OrgSearchCls {
             HttpResponse queryResults = getQueryResponse(systemQuery, SOQL_ENDPOINT);
             OrgSearchDataStructuresCls.SystemInfo systemInfo = (OrgSearchDataStructuresCls.SystemInfo)Json.Deserialize(removeSFCharacters(queryResults.getBody()), OrgSearchDataStructuresCls.SystemInfo.class);
             if (systemInfo != null && systemInfo.records != null) {
-                for (OrgSearchDataStructuresCls.SystemRecord record :systemInfo.records) {
+                List<OrgSearchDataStructuresCls.SystemRecord> systemRecords = new List<OrgSearchDataStructuresCls.SystemRecord>(systemInfo.records);                
+                Boolean isDone = systemInfo.done;
+                String nextRecordsUrl = systemInfo.nextRecordsUrl;
+                while (isDone == false && nextRecordsUrl != null) {
+                    HttpResponse nextRecordsResults = getQueryResponse('', nextRecordsUrl);
+                    OrgSearchDataStructuresCls.SystemInfo nextRecordsInfo = (OrgSearchDataStructuresCls.SystemInfo)Json.Deserialize(removeSFCharacters(nextRecordsResults.getBody()), OrgSearchDataStructuresCls.SystemInfo.class);
+                    isDone = nextRecordsInfo.done;
+                    nextRecordsUrl = nextRecordsInfo.nextRecordsUrl;
+                    systemRecords.addAll(nextRecordsInfo.records);
+                }
+                for (OrgSearchDataStructuresCls.SystemRecord record :systemRecords) {
                     OrgSystem__c syst = record.createSFObject();
                     systemList.add(syst);
                 }

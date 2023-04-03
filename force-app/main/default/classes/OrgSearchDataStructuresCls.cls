@@ -22,6 +22,7 @@ public with sharing class OrgSearchDataStructuresCls {
     public class OrganizationInfo {
         public Integer totalSize;
         public Boolean done;
+        public string nextRecordsUrl;
         public List<OrgInfoRecord> records;
     }
 
@@ -50,6 +51,7 @@ public with sharing class OrgSearchDataStructuresCls {
     public class ByPassRuleInfo {
         public Integer totalSize;
         public Boolean done;
+        public string nextRecordsUrl;
         public List<ByPassRecord> records;
     }
 
@@ -61,6 +63,7 @@ public with sharing class OrgSearchDataStructuresCls {
     public class PermCountInfo {
         public Integer totalSize;
         public Boolean done;
+        public string nextRecordsUrl;
         public List<PermCountRecord> records;
     }
 
@@ -72,6 +75,7 @@ public with sharing class OrgSearchDataStructuresCls {
     public class LogCountInfo {
         public Integer totalSize;
         public Boolean done;
+        public string nextRecordsUrl;
         public List<LogCountRecord> records;
     }
 
@@ -83,6 +87,7 @@ public with sharing class OrgSearchDataStructuresCls {
     public class NIPublicInfo {
         public Integer totalSize;
         public Boolean done;
+        public string nextRecordsUrl;
         public List<NIPublicRecord> records;
     }
 
@@ -97,6 +102,7 @@ public with sharing class OrgSearchDataStructuresCls {
     public class DefaultLocInfo {
         public Integer totalSize;
         public Boolean done;
+        public string nextRecordsUrl;
         public List<DefaultLocRecord> records;
     }
 
@@ -109,6 +115,7 @@ public with sharing class OrgSearchDataStructuresCls {
     public class LocHistoryInfo {
         public Integer totalSize;
         public Boolean done;
+        public string nextRecordsUrl;
         public List<LocHistoryRecord> records;
     }
 
@@ -121,6 +128,7 @@ public with sharing class OrgSearchDataStructuresCls {
     public class SystemLocInfo {
         public Integer totalSize;
         public Boolean done;
+        public string nextRecordsUrl;
         public List<SystemLocRecord> records;
     }
 
@@ -133,6 +141,7 @@ public with sharing class OrgSearchDataStructuresCls {
     public class OrgRelatedInfo {
         public Integer totalSize;
         public Boolean done;
+        public string nextRecordsUrl;
         public List<OrgRelatedRecord> records;
     }
 
@@ -147,6 +156,7 @@ public with sharing class OrgSearchDataStructuresCls {
     public class OrgLogInInfo {
         public Integer totalSize;
         public Boolean done;
+        public string nextRecordsUrl;
         public List<OrgLoginRecord> records;
     }
 
@@ -170,6 +180,7 @@ public with sharing class OrgSearchDataStructuresCls {
     public class OrgProcessorInfo {
         public Integer totalSize;
         public Boolean done;
+        public string nextRecordsUrl;
         public List<OrgProcessorRecord> records;
     }
 
@@ -192,6 +203,7 @@ public with sharing class OrgSearchDataStructuresCls {
     public class OrgProcessorJobInfo {
         public Integer totalSize;
         public Boolean done;
+        public string nextRecordsUrl;
         public List<OrgProcessorJobRecord> records;
     }
 
@@ -284,6 +296,7 @@ public with sharing class OrgSearchDataStructuresCls {
     public class OrgPublicUserInfo {
         public Integer totalSize;
         public Boolean done;
+        public string nextRecordsUrl;
         public List<OrgPublicUserRecord> records;   
     }
     
@@ -301,6 +314,7 @@ public with sharing class OrgSearchDataStructuresCls {
 
     public class OrgPropertyInfo {
         public Integer totalSize;
+        public string nextRecordsUrl;
         public Boolean done;
         public List<OrgPropertyRecord> records;
     }
@@ -366,6 +380,7 @@ public with sharing class OrgSearchDataStructuresCls {
     public class OrgLicenseInfo {
         public Integer totalSize;
         public Boolean done;
+        public string nextRecordsUrl;
         public List<OrgLicenseRecord> records;
     }
 
@@ -390,6 +405,7 @@ public with sharing class OrgSearchDataStructuresCls {
     public class OrgUserFrozenInfo {
         public Integer totalSize;
         public Boolean done;
+        public string nextRecordsUrl;
         public List<OrgUserFrozenRecord> records;
     }
 
@@ -402,6 +418,7 @@ public with sharing class OrgSearchDataStructuresCls {
     public class OrgUserInfo {
         public Integer totalSize;
         public Boolean done;
+        public string nextRecordsUrl;
         public List<OrgUserRecord> records;
        
     }
@@ -455,6 +472,7 @@ public with sharing class OrgSearchDataStructuresCls {
     public class OrgProfileInfo {
         public Integer totalSize;
         public Boolean done;
+        public string nextRecordsUrl;
         public List<OrgProfileRecord> records;
     }
 
@@ -487,6 +505,7 @@ public with sharing class OrgSearchDataStructuresCls {
     public class OrgPropertyIntegrationInfo {
         public Integer totalSize;
         public Boolean done;
+        public string nextRecordsUrl;
         public List<OrgPropertyIntegrationRecord> records;
     }
 
@@ -1043,6 +1062,7 @@ public with sharing class OrgSearchDataStructuresCls {
     public class ReportInfo {
         public Integer totalSize;
         public Boolean done;
+        public string nextRecordsUrl;
         public List<ReportRecord> records;      
     }
          
@@ -1062,6 +1082,7 @@ public with sharing class OrgSearchDataStructuresCls {
     public class SetupValueInfo {
         public Integer totalSize;
         public Boolean done;
+        public string nextRecordsUrl;
         public List<SetupValueRecord> records;
     }
 
@@ -1100,6 +1121,7 @@ public with sharing class OrgSearchDataStructuresCls {
     public class SystemInfo {
         public Integer totalSize;
         public Boolean done;
+        public string nextRecordsUrl;
         public List<SystemRecord> records;
     }
 

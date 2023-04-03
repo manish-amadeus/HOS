@@ -8,13 +8,18 @@ Description     : mock http callout for org search tests
 
 @isTest
 global class OrgSearch_Mock implements HttpCalloutMock {
+  public static string nextRecordsUrl = 'https://domain.my.salesforce.com/services/data/v54.0/nexRecords/';
 
     global HTTPResponse respond(HTTPRequest req) {
         string objectType;
+        boolean nextRecords = false;
         System.assertEquals('GET', req.getMethod());
         System.assert(req.getEndpoint().contains('https://domain.my.salesforce.com/services/data/v54.0/'));
         if (req.getEndpoint().contains('https://domain.my.salesforce.com/services/data/v54.0/limits')) {
             objectType = 'Limit';
+        } else if (req.getEndpoint().contains(nextRecordsUrl)) {
+          nextRecords = true;
+          objectType = req.getEndpoint().substringAfter('nexRecords/');
         } else {
             objectType = req.getEndpoint().substringAfter('FROM+');
             objectType = objectType.substringBefore('+');
@@ -81,16 +86,20 @@ global class OrgSearch_Mock implements HttpCalloutMock {
                     '} ]'+
                   '}';
             }
-            when 'nihrm__Location__c' {
+            when 'nihrm__Location__c','Location' {
+                string done = nextRecords ? 'true' : 'false';
+                string nextUrl = nextRecords ? 'null' : '"'+nextRecordsUrl+'nihrm__Location__c"';
+                string id = nextRecords ? 'locId2' : 'locId1';
                 body = '{'+
                     '"totalSize" : 1,'+
-                    '"done" : true,'+
+                    '"done" : '+done+','+ 
+                    '"nextRecordsUrl" : '+nextUrl+','+
                     '"records" : [ {'+
                       '"attributes" : {'+
                         '"type" : "nihrm__Location__c",'+
                         '"url" : "/services/data/v54.0/sobjects/nihrm__Location__c/id"'+
                       '},'+
-                      '"Id" : "locId",'+
+                      '"Id" : "'+id+'",'+
                       '"Name" : "Test Property",'+
                       '"nihrm__IsActive__c" : true,'+
                       '"nihrm__Abbreviation__c" : null,'+
@@ -134,7 +143,7 @@ global class OrgSearch_Mock implements HttpCalloutMock {
                         '"type" : "AggregateResult"'+
                       '},'+
                       '"expr0" : 1,'+
-                      '"nihrm__DefaultLocationId__c" : "locId"'+
+                      '"nihrm__DefaultLocationId__c" : "locId1"'+
                     '} ]'+
                   '}';
                 } else {
@@ -153,31 +162,37 @@ global class OrgSearch_Mock implements HttpCalloutMock {
                   '}';
                 }
             }
-            when 'nihrm__Location__HISTORY' {
-                body = '{'+
-                    '"totalSize" : 1,'+
-                    '"done" : true,'+
+            when 'nihrm__Location__HISTORY','Location__HISTORY' {
+              string done = nextRecords ? 'true' : 'false';
+              string nextUrl = nextRecords ? 'null' : '"'+nextRecordsUrl+'nihrm__Location__HISTORY"';
+              body = '{'+
+                  '"totalSize" : 1,'+
+                  '"done" : '+done+','+ 
+                  '"nextRecordsUrl" : '+nextUrl+','+
                     '"records" : [ {'+
                       '"attributes" : {'+
                         '"type" : "nihrm__Location__History",'+
                         '"url" : "/services/data/v54.0/sobjects/nihrm__Location__History/0175f000070uqf9AAA"'+
                       '},'+
                       '"CreatedDate" : "2022-04-29T06:32:59.000+0000",'+
-                      '"ParentId" : "locId"'+
+                      '"ParentId" : "locId1"'+
                     '} ]'+
                   '}';
             }
-            when 'nihrm__SystemLocation__c' {
-                body = '{'+
-                    '"totalSize" : 1,'+
-                    '"done" : true,'+
+            when 'nihrm__SystemLocation__c','SystemLocation' {
+              string done = nextRecords ? 'true' : 'false';
+              string nextUrl = nextRecords ? 'null' : '"'+nextRecordsUrl+'nihrm__SystemLocation__c"';
+              body = '{'+
+                  '"totalSize" : 1,'+
+                  '"done" : '+done+','+ 
+                  '"nextRecordsUrl" : '+nextUrl+','+
                     '"records" : [ {'+
                       '"attributes" : {'+
                         '"type" : "nihrm__SystemLocation__c",'+
                         '"url" : "/services/data/v54.0/sobjects/nihrm__SystemLocation__c/id"'+
                       '},'+
                       '"nihrm__IsEnabled__c" : true,'+
-                      '"nihrm__Location__c" : "locId"'+
+                      '"nihrm__Location__c" : "locId1"'+
                     '} ]'+
                   '}';
             }
@@ -222,15 +237,19 @@ global class OrgSearch_Mock implements HttpCalloutMock {
                         '} ]'+
                       '}';
                 } else {
-                    body = '{'+
+                  string done = nextRecords ? 'true' : 'false';
+                  string nextUrl = nextRecords ? 'null' : '"'+nextRecordsUrl+'User"';
+                  string id = nextRecords ? 'userId2' : 'userId1';
+                  body = '{'+
                     '"totalSize" : 1,'+
-                    '"done" : true,'+
+                    '"done" : '+done+','+ 
+                    '"nextRecordsUrl" : '+nextUrl+','+
                     '"records" : [ {'+
                       '"attributes" : {'+
                         '"type" : "User",'+
                         '"url" : "/services/data/v54.0/sobjects/User/id"'+
                       '},'+
-                      '"Id" : "userId",'+
+                      '"Id" : "'+id+'",'+
                       '"IsActive" : true,'+
                       '"LastLoginDate" : null,'+
                       '"LanguageLocaleKey" : "English",'+
@@ -249,9 +268,12 @@ global class OrgSearch_Mock implements HttpCalloutMock {
                 }
             }
             when 'UserLogin' {
-                body = '{'+
-                    '"totalSize" : 1,'+
-                    '"done" : true,'+
+              string done = nextRecords ? 'true' : 'false';
+              string nextUrl = nextRecords ? 'null' : '"'+nextRecordsUrl+'UserLogin"';
+              body = '{'+
+                  '"totalSize" : 1,'+
+                  '"done" : '+done+','+ 
+                  '"nextRecordsUrl" : '+nextUrl+','+
                     '"records" : [ {'+
                       '"attributes" : {'+
                         '"type" : "UserLogin",'+
@@ -263,9 +285,12 @@ global class OrgSearch_Mock implements HttpCalloutMock {
                   '}';
             }
             when 'Profile' {
-                body = '{'+
-                    '"totalSize" : 1,'+
-                    '"done" : true,'+
+              string done = nextRecords ? 'true' : 'false';
+              string nextUrl = nextRecords ? 'null' : '"'+nextRecordsUrl+'Profile"';
+              body = '{'+
+                  '"totalSize" : 1,'+
+                  '"done" : '+done+','+ 
+                  '"nextRecordsUrl" : '+nextUrl+','+
                     '"records" : [ {'+
                       '"attributes" : {'+
                         '"type" : "Profile",'+
@@ -417,10 +442,13 @@ global class OrgSearch_Mock implements HttpCalloutMock {
                   '}';
                 }
             }
-            when 'nihrm__LocationIntegrationSettings__c' {
-                body = '{'+
-                    '"totalSize" : 1,'+
-                    '"done" : true,'+
+            when 'nihrm__LocationIntegrationSettings__c','LocationIntegrationSettings' {
+              string done = nextRecords ? 'true' : 'false';
+              string nextUrl = nextRecords ? 'null' : '"'+nextRecordsUrl+'nihrm__LocationIntegrationSettings__c"';
+              body = '{'+
+                  '"totalSize" : 1,'+
+                  '"done" : '+done+','+ 
+                  '"nextRecordsUrl" : '+nextUrl+','+
                     '"records" : [ {'+
                       '"attributes" : {'+
                         '"type" : "nihrm__LocationIntegrationSettings__c",'+
@@ -544,10 +572,13 @@ global class OrgSearch_Mock implements HttpCalloutMock {
                     '} ]'+
                   '}';
             }
-            when 'nihrm__SetupValue__c' {
-                body = '{'+
-                    '"totalSize" : 1,'+
-                    '"done" : true,'+
+            when 'nihrm__SetupValue__c','SetupValue' {
+              string done = nextRecords ? 'true' : 'false';
+              string nextUrl = nextRecords ? 'null' : '"'+nextRecordsUrl+'nihrm__SetupValue__c"';
+              body = '{'+
+                  '"totalSize" : 1,'+
+                  '"done" : '+done+','+ 
+                  '"nextRecordsUrl" : '+nextUrl+','+
                     '"records" : [ {'+
                       '"attributes" : {'+
                         '"type" : "nihrm__SetupValue__c",'+
