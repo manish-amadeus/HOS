@@ -10,6 +10,7 @@ Description     : Batch class for AH_Statement_Sched schedulable class.
                 :
                 :
 ******************************************************************************************/
+
 global class AH_Statement_Batch implements Database.Batchable<sObject> 
 {
     
@@ -26,7 +27,7 @@ global class AH_Statement_Batch implements Database.Batchable<sObject>
                 accQuery += 'AND c2g__LineType__c = \'Account\' ';
                 accQuery += 'AND c2g__MatchingStatus__c != \'Matched\' ';
                 accQuery += 'AND c2g__OwnerCompany__c = \'a6832000000M2CX\')  ';
-                //accQuery += 'AND Account.Exclude_from_Automated_Statement_Run__c = False  ' ; 
+                accQuery += 'AND Account.Exclude_from_Automated_Statement_Run__c = False  ' ; 
                 accQuery += 'AND Account.Statement_Sent__c = False ' ; 
                 accQuery += 'AND Account.c2g__CODAFinanceContact__c !=null ';                                         
                 accQuery += 'ORDER BY Account.Id ';

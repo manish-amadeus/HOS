@@ -1,10 +1,3 @@
-/************************************************************************************************
-Name            : OrgSearchRemote_Test
-Author          : Michael Pedro
-Last Mod Date   : 05/05/2022
-Last Mod By     : Michael Pedro
-Description     : test class for OrgSearchRemote
-*************************************************************************************************/
 @isTest
 public class OrgSearchRemote_Test {
   

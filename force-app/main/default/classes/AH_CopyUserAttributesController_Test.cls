@@ -6,8 +6,8 @@ Last Mod Date   : 10/16/2018
 Last Mod By     : Shashikant Nikam
 NICC Reference  : NICC-030898
 Description     : Test class for the AH_CopyUserAttributesController controller class.
-                : 
-                : 
+				: 
+				: 
 *****************************************************************************************/
 @isTest
 public class AH_CopyUserAttributesController_Test 
@@ -189,15 +189,10 @@ public class AH_CopyUserAttributesController_Test
         ApexPages.Message[] pageMessages = ApexPages.getMessages();
         system.debug('pageMessages : '+pageMessages);
         
-        system.debug('pageMessages01 : ' + pageMessages[0].getSummary());
-        system.debug('pageMessages02 : ' + pageMessages[1].getSummary());
-        system.debug('pageMessages03 : ' + pageMessages[2].getSummary());
-        system.debug('pageMessages04 : ' + pageMessages[3].getSummary());
-        
-        /*system.assertEquals('User Attributes assigned Succcessfully !!!', pageMessages[0].getSummary(), 'Error while copying User Attributes..');
+        system.assertEquals('User Attributes assigned Succcessfully !!!', pageMessages[0].getSummary(), 'Error while copying User Attributes..');
         system.assertEquals('Groups assigned Succcessfully !!!', pageMessages[1].getSummary(), 'Error while copying Groups..');
         system.assertEquals('Permission Sets assigned Succcessfully !!!', pageMessages[2].getSummary(), 'Error while copying Permission Sets..');
-        system.assertEquals('Queues assigned Succcessfully !!!', pageMessages[3].getSummary(), 'Error while copying Queues..');*/
+        system.assertEquals('Queues assigned Succcessfully !!!', pageMessages[3].getSummary(), 'Error while copying Queues..');
         
         User user_22 = [SELECT ID, NAME, DepartmentCode__c, CompanyName, Xactly_User__c, ProfileId, UserRoleId 
                         FROM USER WHERE Name = 'System Administrator2'];
@@ -205,8 +200,8 @@ public class AH_CopyUserAttributesController_Test
         UserRole ur = [select Id, Name from UserRole where Name = 'Services & Support'];
         Profile pr = [select ID, Name from Profile where Name = 'System Administrator'];
         
-        //system.assertEquals(user_22.UserRoleId, ur.Id, 'User Role mismatch...');
-        //system.assertEquals(user_22.ProfileId, pr.Id, 'User profile mismatch...');
+        system.assertEquals(user_22.UserRoleId, ur.Id, 'User Role mismatch...');
+        system.assertEquals(user_22.ProfileId, pr.Id, 'User profile mismatch...');
         
         Test.stopTest();
         

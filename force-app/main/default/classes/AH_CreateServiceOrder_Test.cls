@@ -362,7 +362,28 @@ public class AH_CreateServiceOrder_Test
             [SELECT Id FROM Subscription_Activation_Transaction__c WHERE Subscription_Activation_No__c =: SA1.Id AND Related_Account__c =: a2.Id]);
         system.assertEquals(1, lstSATAsserts1.size(), 'Subscription Activation Transaction was not created.');
         
-        	NI_ServiceOrderTriggerHandler.handleServiceOrderProvision(lstSOAsserts1,lstSOAsserts1);
+        CHANNEL_ORDERS__Service_Order__c sotest = NI_TestClassData.createTestCO_ServiceOrder();
+        sotest.CHANNEL_ORDERS__Service_Order_Status__c = 'Provisioned';
+        sotest.CHANNEL_ORDERS__Order_Type__c = 'Upgrade - Partner App';
+        
+        CHANNEL_ORDERS__Service_Order__c sotest1 = NI_TestClassData.createTestCO_ServiceOrder();
+        sotest1.CHANNEL_ORDERS__Service_Order_Status__c = 'Provisioned';
+        sotest1.CHANNEL_ORDERS__Order_Type__c = 'Initial';  
+        
+        CHANNEL_ORDERS__Service_Order__c sotest2 = NI_TestClassData.createTestCO_ServiceOrder();
+        sotest2.CHANNEL_ORDERS__Service_Order_Status__c = 'Provisioned';
+        sotest2.CHANNEL_ORDERS__Order_Type__c = 'Cancellation Order';  
+        
+        CHANNEL_ORDERS__Service_Order__c sotest3 = NI_TestClassData.createTestCO_ServiceOrder();
+        sotest3.CHANNEL_ORDERS__Service_Order_Status__c = 'Error';
+        sotest3.CHANNEL_ORDERS__Order_Type__c = 'Error';   
+        lstSOAsserts1.add(sotest);
+        lstSOAsserts1.add(sotest1);
+        //lstSOAsserts1.add(sotest2);
+        lstSOAsserts1.add(sotest3);
+        
+        NI_ServiceOrderTriggerHandler.handleServiceOrderProvision(lstSOAsserts1,lstSOAsserts1);
+        
         Test.StopTest();  
     }
     

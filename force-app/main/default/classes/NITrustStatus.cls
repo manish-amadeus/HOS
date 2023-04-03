@@ -797,18 +797,20 @@ public class NITrustStatus
         List<String> splitMonthList = selectedMonth.split('_');
         Integer year = Integer.valueOf(splitMonthList[1]);
         String month = splitMonthList[2];
-
+        
+        //Integer monthNumber = monthAndNumberMap.get(month);
+        
         Integer crntMonth = Date.Today().month();
         Integer crntYear = Date.Today().year();
         
         Integer monthNumber = monthAndNumberMap.get(month)-1;
-        System.debug('*** previousMonth monthNumber *** ' + monthNumber);
+        System.debug('*** previousMonth monthNumber *** '+monthNumber);
         Integer newMonth = ((monthNumber > 0 )?(monthNumber):12);
         year = ((monthNumber < crntMonth && newMonth == 12)?(year-1):(year));
         
-        String newMonthName = splitMonthList[0] + '_' + year + '_' + monthNumMonthNameMap.get(newMonth);
+        String newMonthName = splitMonthList[0]+'_'+year+'_'+monthNumMonthNameMap.get(newMonth);
         List<String> checkPreviousList = checkPrevious(newMonthName);
-        if (checkPreviousList[0].equalsIgnoreCase('true'))
+        If(checkPreviousList[0].equalsIgnoreCase('true'))
         {
             displayPrev = true;
         }
@@ -816,9 +818,8 @@ public class NITrustStatus
         {
             displayPrev = false;
         }
-        
         String prevMonthValue = checkPreviousList[1];
-        System.debug('*** next Month *** ' + prevMonthValue);
+        System.debug('*** next Month *** '+prevMonthValue );
         selectedMonth = prevMonthValue;
         
         // GET CALENDAR DATA FOR NEWLY SELECTED MONTH
@@ -882,12 +883,7 @@ public class NITrustStatus
         List<String> splitMonthList = selectedMonth.split('_');
         Integer year = Integer.valueOf(splitMonthList[1]);
         String month = splitMonthList[2];
-system.debug(' ^ selectedMonth = ' + selectedMonth); 
-system.debug(' ^ platformId = ' + platformId);   
-system.debug(' ^ splitMonthList = ' + splitMonthList);   
-system.debug(' ^ year = ' + year);   
-system.debug(' ^ month = ' + month);   
-system.debug(' ^ monthAndNumberMap = ' + monthAndNumberMap);   
+                
         // GET NUMBER OF DAYS IN SELECTED MONTH
         Integer days = Date.daysInMonth(year, monthAndNumberMap.get(month));
         

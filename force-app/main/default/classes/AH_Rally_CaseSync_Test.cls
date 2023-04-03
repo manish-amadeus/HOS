@@ -89,7 +89,7 @@ public class AH_Rally_CaseSync_Test
                 
         Test.startTest();
         
-        String CRON_EXP = '0 0 0 3 9 ? 2042';
+        String CRON_EXP = '0 0 0 3 9 ? 2022';
         String jobId = System.schedule('testBasicScheduledApex', CRON_EXP, new AH_Rally_BulkUpdateFetchSchedule());
         Database.executeBatch(new AH_Rally_CaseSyncBatch(1, 400), 200); 
         

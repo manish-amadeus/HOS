@@ -2,15 +2,15 @@
 Name            : AH_EmailAuthor Class
 Author          : Sean Harris
 Created Date    : 08/03/2017
-Last Mod Date   : 12/01/2022
+Last Mod Date   : 08/03/2017
 Last Mod By     : Sean Harris
 NICC Reference  : NICC-023217
 Description     : Controller for AH_EmailAuthor VF Page
-				: UPDATED THIS CLASS WITH ARBITRARY ADDITIONS FOR DEVOPS PROD DEPLOY TESTING
+				: 
 ******************************************************************************************/
 public class AH_EmailAuthor 
 {
-    public string strDummyVar = 'DEVOPS TESTING';
+    
     public String recordName { get; set; }
     // URL PARAMETERS
     public String recordID { get; set; }

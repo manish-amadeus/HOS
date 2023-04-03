@@ -9,10 +9,11 @@ Description     : Test class for AH_Statement_Schedule class
 				: 
 				:
 **************************************************************************************/
+
 @isTest
 public class AH_Statement_Schedule_Test 
 {
-    
+
     public static c2g__codaCompany__c testCompany1;
     public static c2g__codaDimension2__c testDimension2;
     public static c2g__codaDimension3__c testDimension3;
@@ -21,9 +22,9 @@ public class AH_Statement_Schedule_Test
     // ======================================================================================================================================= 
     // = CREATE TEST DATA
     // =======================================================================================================================================
-    @testSetup static void createTestData()
+    @testSetup 
+    static void createTestData()
     {
-        
         Test.StartTest();
         
         // CREATE TEST COMPANY & ACCOUNTING CURRENCY
@@ -32,15 +33,15 @@ public class AH_Statement_Schedule_Test
         system.debug('\n\n ***** ffaUtilities_TEST - setupTestData - testCompany1' + testCompany1);
         system.assertNotEquals(NULL, testCompany1.id, 'Company is not created.');
         system.assertNotEquals(NULL, testcurr.id, 'Accounting Currency is not created.');
-        
+
         // CREATE TEST DIMENSIONS 1 & 2
         testGLA = ffaTestUtilities.create_IS_GLA();
         testDimension2 = ffaTestUtilities.createTestDimension2();
         testDimension3 = ffaTestUtilities.createTestDimension3();
         system.assertNotEquals(NULL, testDimension2.id, 'Dimension 2 has not created.');
         system.assertNotEquals(NULL, testDimension3.id, 'Dimension 3 has not created.');
-        
-        c2g__codaGeneralLedgerAccount__c recAcc = new c2g__codaGeneralLedgerAccount__c();
+
+       	c2g__codaGeneralLedgerAccount__c recAcc = new c2g__codaGeneralLedgerAccount__c();
         recAcc.Name = 'Test Receivable Account 1';
         recAcc.c2g__ReportingCode__c = '200';
         recAcc.c2g__Type__c = 'Balance Sheet';
@@ -96,8 +97,8 @@ public class AH_Statement_Schedule_Test
         
         // CREATE TEST REMITTANCE INFO RECORD
         Remittance_Info__c r = ffaTestUtilities.create_Remittance_Info('Test Remittance');
-        system.assertNotEquals(NULL, r.id, 'Failed to create Remittacne Info record.');
-        
+		system.assertNotEquals(NULL, r.id, 'Failed to create Remittacne Info record.');
+               
         // CREATE TEST CONTACT
         Contact con = NI_TestClassData.createTestContact(1, a.id);
         insert con;
@@ -116,7 +117,7 @@ public class AH_Statement_Schedule_Test
         blgCnrct.Bill_To_Contact__c = con.id;
         
         insert blgCnrct;
-        
+
         List<Billing_Contract__c> lstBillingContractAsserts = new List<Billing_Contract__c>(
             [SELECT Id, Invoice_Due_Date__c, Invoice_Date__c,Next_Invoice_Date__c,Accounting_Currency__c, Remittance_Info__c 
              FROM Billing_Contract__c]);
@@ -158,7 +159,7 @@ public class AH_Statement_Schedule_Test
              Status__c, Account__r.Name, Account__c 
              FROM Activity_Line_Item__c]);
         
-        system.debug('lstALIAsserts : '+lstALIAsserts);
+		system.debug('lstALIAsserts : '+lstALIAsserts);
         system.assertEquals(1, lstALIAsserts.size(), 'Failed to create test Activity_Line_Item__c record.');   
         
         List<Billing_Contract_Line_Item__c> lstBCLIs = new List<Billing_Contract_Line_Item__c>();
@@ -171,7 +172,7 @@ public class AH_Statement_Schedule_Test
         blci1.Revenue_Category__c = 'Support';
         blci1.Ready_to_Invoice__c = true;
         blci1.Total_Amount__c = 500;
-        blci1.Exclude_Automated_Invoicing__c = false;  
+        blci1.Exclude_Automated_Invoicing__c = false; 
         blci1.Invoiced__c = false;
         blci1.Opportunity__c = o.id;
         blci1.Product__c = prd01.id;
@@ -185,21 +186,18 @@ public class AH_Statement_Schedule_Test
                     Opportunity__c, Billing_Contract__c, Payment_Terms__c, Activity_Line_Item__c, SKU__c, Dimension_2__c, Dimension_3__c, 
                     Ready_to_Invoice__c, Total_Amount__c, Invoiced__c 
                     from Billing_Contract_Line_Item__c ];
-        
         system.debug('bcliList : '+bcliList);
         system.assertEquals(1, bcliList.size(), 'Failed to create test Billing_Contract_Line_Item__c record.');   
         
         system.debug('Test Class Queries : '+ Limits.getQueries());
         
         Test.StopTest();
-        
     }
-    
-    // =======================================================================================================================================
-    //  TEST METHODS: 1 FOR SCHEDULABLE CLASS 
-    // =======================================================================================================================================
-    @isTest static void testSchedulableClass()
-    {
+
+     // ======================================================================================================================================= 
+    //  TEST METHODS 1 FOR SCHEDULABLE CLASS 
+    // ==========================================================================================================================
+    @isTest static void testSchedulableClass(){
         
         Test.startTest();
         
@@ -207,8 +205,7 @@ public class AH_Statement_Schedule_Test
         String sch = '0 0 23 * * ?'; //schedule interval time
         system.schedule('TEST Schedule Invoices', sch, sch2); //system method to schedule apex class
         
-        try 
-        {
+        try {
             CronJobDetail cronJob = new CronJobDetail();
             cronJob = [SELECT Id, Name FROM CronJobDetail WHERE Name = 'TEST Schedule Invoices'];
             system.debug('cronJob : ' +cronJob.Id);
@@ -218,31 +215,27 @@ public class AH_Statement_Schedule_Test
         {
             system.debug('Exception while scheduling job in test class : '+e);
         }
-        
         Test.StopTest();
-        
     }
-    
-    // =======================================================================================================================================
+   // ======================================================================================================================================= 
     // = TEST METHODS 2 FOR BATCH CLASS 
-    // =======================================================================================================================================
-    @isTest static void testBatchClass()
+    // ==========================================================================================================================
+   @isTest static void testBatchClass()
     {
         Test.startTest();
-        
         String  accQuery = 'SELECT Account.Id,Statement_Eligible__c ';       
-        accQuery += 'FROM Account ';
-        accQuery += 'WHERE Account.Id IN (SELECT c2g__Account__c ';
-        accQuery += 'FROM c2g__codaTransactionLineItem__c ';
-        accQuery += 'WHERE c2g__Account__c != null ';
-        accQuery += 'AND c2g__LineType__c = \'Account\' ';
-        accQuery += 'AND c2g__MatchingStatus__c != \'Matched\' ';
-        //accQuery += 'AND c2g__OwnerCompany__c = \'a6832000000M2CX\')  '; 
-        accQuery += 'AND c2g__OwnerCompany__c = '+testCompany1+') '; 
-        //accQuery += 'AND Account.Exclude_from_Automated_Statement_Run__c = False  ' ;   // MISSING FIELD
-        accQuery += 'AND Account.Statement_Sent__c = False ' ; 
-        accQuery += 'AND Account.c2g__CODAFinanceContact__c !=null ';                                         
-        accQuery += 'ORDER BY Account.Id ';
+                accQuery += 'FROM Account ';
+                accQuery += 'WHERE Account.Id IN (SELECT c2g__Account__c ';
+                accQuery += 'FROM c2g__codaTransactionLineItem__c ';
+                accQuery += 'WHERE c2g__Account__c != null ';
+                accQuery += 'AND c2g__LineType__c = \'Account\' ';
+                accQuery += 'AND c2g__MatchingStatus__c != \'Matched\' ';
+                //accQuery += 'AND c2g__OwnerCompany__c = \'a6832000000M2CX\')  '; 
+                accQuery += 'AND c2g__OwnerCompany__c = '+testCompany1+') '; 
+                accQuery += 'AND Account.Exclude_from_Automated_Statement_Run__c = False  ' ; 
+                accQuery += 'AND Account.Statement_Sent__c = False ' ; 
+                accQuery += 'AND Account.c2g__CODAFinanceContact__c !=null ';                                         
+                accQuery += 'ORDER BY Account.Id ';
         
         system.debug('accQuery : '+accQuery);
         
@@ -251,13 +244,10 @@ public class AH_Statement_Schedule_Test
         
         List<Account> acclist= Database.query(accQuery);
         System.debug('acclist==>'+acclist);
-        
         AH_Statement_Batch batchable = new AH_Statement_Batch();
         Database.executeBatch(batchable, 1);
         batchable.execute(null,acclist);
-        
+
         Test.StopTest();
-        
     }
-    
 }

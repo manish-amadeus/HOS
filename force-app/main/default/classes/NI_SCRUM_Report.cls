@@ -452,7 +452,10 @@ public class NI_SCRUM_Report
         }
 
         String strLastYearTP = 'FY-' + String.ValueOf(dLastYear.Year()) + '-' + strMonth;
-        
+        System.debug('strLastYearTP==>'+strLastYearTP);
+        System.debug('dLYMonthStart==>'+dLYMonthStart);
+        System.debug('dLYMonthEnd==>'+dLYMonthEnd);
+        System.debug('dCompare==>'+dCompare);
         List<aggregateResult> lym =           
             [SELECT Date_of_Pull__c, Service_Group__c, SUM(Scheduled_Amount__c)
             FROM Services_Scrum_Snapshot__c 
@@ -468,13 +471,13 @@ public class NI_SCRUM_Report
                 Service_Group__c = 'Systems Engineering' OR 
                 Service_Group__c = 'Training'
             ) 
-            AND Region_Name__c = 'US' 
-            AND Target_Period__c =: strLastYearTP 
-            AND Date_of_Pull__c >=: dLYMonthStart 
-            AND Date_of_Pull__c <: dLYMonthEnd 
+             AND Region_Name__c = 'US' 
+             AND Target_Period__c =: strLastYearTP 
+             AND Date_of_Pull__c >=: dLYMonthStart 
+             AND Date_of_Pull__c <: dLYMonthEnd
             GROUP BY Date_of_Pull__c, Service_Group__c 
             ORDER BY Date_of_Pull__c, Service_Group__c];           
-        
+        System.debug('lym==>'+lym);
         for (AggregateResult ds : lym)  
         {
             

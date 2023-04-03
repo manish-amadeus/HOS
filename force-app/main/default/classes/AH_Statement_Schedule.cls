@@ -9,8 +9,8 @@ Description     : Schedulable class to update the "Statement Eligible" checkbox 
                 :
                 :
 ******************************************************************************************/
-global class AH_Statement_Schedule implements Schedulable 
-{
+
+global class AH_Statement_Schedule implements Schedulable {
     global void execute(SchedulableContext sc)
     {
         // BATCH CLASS 

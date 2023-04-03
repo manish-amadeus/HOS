@@ -1,0 +1,459 @@
+<apex:page controller="AH_PLCM_MM_Function_Room" action="{!CheckTermsAndConditionStatus}" docType="html-5.0">
+    <head>
+        <!-- Include Style sheet -->
+        <apex:stylesheet value="{!$Resource.AH_PLCM_MM_Style}"/>
+        <apex:stylesheet value="{!$Resource.AH_PLCM_MM_Bubble_Style}" />
+
+        <!-- Include JS -->
+        <apex:includeScript value="{!$Resource.AH_PLCM_JQuery_341}" />
+
+        <style type="text/css">
+            .pbBody { min-height: 300px !important; }
+            .data-grid-wrapper {
+                width: 99%;
+                margin: 0px;
+                padding: 0px;
+                overflow: auto;
+                height: auto;
+                max-height:300px;
+            }
+
+            .tbl-add-room {
+                width:100%;
+                text-align:center;
+            }
+            .tbl-add-room td {
+                text-align:left;
+                font-weight:bold;
+                padding: 5px;
+                padding-right:0px;
+            }
+
+            .td-lbl {
+                text-align: right !important;
+                vertical-align:inherit !important;
+            }
+            .div-lbl {font-size: 1.3em; font-weight:bold; text-align:left; padding-bottom: 1%; width: 50%; float: left;}
+            .div-lbl-add{font-size: 1.3em; font-weight:bold; text-align:left; padding-bottom: 1%;}
+            .bubble-popup .chk-bubble:before {left: -1px;}
+            .action-link:nth-child(3) {margin-left: -3px;}
+            .width-5{width:5% }
+            .width-5-ws{width:5%; white-space: nowrap; } 
+            .width-10{width:10% }
+            .width-20{width:20% }
+            .width-15{width:15% }
+        </style>
+    </head>
+    <!-- Progressbar :: Start -->
+    <c:AH_PLCM_MM_Progress_Bar BaseUrl="{!BaseUrl}" IsFunctionRoomInfomationProvided="{!ProjectPortalStatus.IsFunctionRoomInfomationProvided }" IsRoomCapacityInformationProvided="{!ProjectPortalStatus.IsRoomCapacityInformationProvided}"
+    IsInventoryInformationProvided="{!ProjectPortalStatus.IsInventoryInformationProvided}" PerecentageCompleted="{!ProjectPortalStatus.PerecentageCompleted}" />
+    <!-- Progressbar :: End -->
+    <c:AH_PLCM_MM_Bubble_Help_Popup FlagShow="{!ProjectBubbleStatus.IsFunctionRoomBubbleSkipped == false}" StyleClass="popup-center" Index="1" TotalBubbles="11" HeaderText="Function Room Information"
+                   HelpText="This page will allow you to fill in information for property’s Function Rooms being used in AHD. Please list all Rooms, including cuts or combinations of larger spaces or meeting rooms. Function Rooms that are not included in this list will not be created/included in AHD Venue setup. For more information, please click the Help button." />
+
+    <c:AH_PLCM_MM_Bubble_Help_Popup StyleClass="popup-center" Index="9" TotalBubbles="11" HeaderText="Save Function Room Details"
+                    HelpText="Review the information entered for the Function Room. Once all necessary fields have been completed, select Save at the bottom of the screen. " />
+
+    <c:AH_PLCM_MM_Bubble_Help_Popup StyleClass="popup-center" Index="10" TotalBubbles="11" HeaderText="Continue for All Function Rooms"
+                    HelpText="Repeat this process by selecting “Add New Room” at the bottom of the page for each of the Function Rooms. As a reminder, be sure to complete an entry for all cuts or combinations of larger spaces/meeting rooms. " />
+
+    <c:AH_PLCM_MM_Bubble_Help_Popup StyleClass="popup-center" Index="11" TotalBubbles="11" HeaderText="Thank You"
+                    HelpText="Thank you for completing these steps. Once this table is complete, hit Next button to move to the next step of the tool." />
+
+    <apex:form id="frmFRGrid">     
+        <div style="width:100%; padding:0px;">
+            <div class="main-div">
+                <apex:pageBlock id="pbMainBody">
+                    <div class="page-header">
+                        <table class="tbl-header" border="0" cellpadding="0" cellspacing="0">
+                            <tbody>
+                                <tr>
+                                    <td class="td-title">
+                                        <h2 class="main-title">Function Room Information</h2>
+                                    </td>
+                                    <td style="text-align: right; padding-right: 10px !important;">
+                                        <input type="submit" value="Take Tutorial" onclick="javacsript: showBubble(1);return false;" class="btn-common" />
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <apex:pageMessages id="pgMessage" />
+                    <apex:actionFunction action="{!DeleteFunctionRoom}" name="DeleteFunctionRoom" reRender="pbMainBody" oncomplete="javascript: showHideLoader(false);">
+                        <apex:param name="funRoomId" assignTo="{!functionRoomId}" value="" />
+                    </apex:actionFunction>
+
+                    <div class="data-grid-wrapper">
+                        <apex:pageBlockTable value="{!lstFunctionRoom}" var="functioRoomValue" rendered="{!lstFunctionRoom.size > 0}" id="pbTable">
+                            <apex:column style="white-space: nowrap;" headerClass="width-10" headerValue="Action" rendered="{!!ProjectPortalStatus.IsInventoryInformationProvided}">
+                                <apex:commandLink value="Edit" action="{!EditFunctionRoom}" reRender="pbMainBody" onclick="javascript: showHideLoader(true);" oncomplete="javascript: editRoom();" styleClass="action-link">
+                                    <apex:param name="Id" assignTo="{!functionRoomId}" value="{!functioRoomValue.Id}" />
+                                </apex:commandLink>&nbsp;|&nbsp;
+                                <apex:commandLink value="Delete" onclick="javascript: if(confirm('Are you sure you want to delete?')) { showHideLoader(true); DeleteFunctionRoom('{!functioRoomValue.Id}'); } return false;" styleClass="action-link" />
+                            </apex:column>
+                            <apex:column headerClass="width-20" headerValue="Function Room Name">
+                                <apex:outputText value="{!functioRoomValue.Name}" />
+                            </apex:column>
+                            <apex:column headerClass="width-5" headerValue="Source Type">
+                                <apex:outputText value="{!functioRoomValue.MM_Source_Type__c}" />
+                            </apex:column>
+                            <apex:column headerClass="width-10" headerValue="Source Location">
+                                <apex:outputText value="{!functioRoomValue.MM_Source_Location__c}" />
+                            </apex:column>
+                            <apex:column headerClass="width-10" headerValue="Square Feet">
+                                <apex:outputText value="{!functioRoomValue.MM_Square_Feet__c}" />
+                            </apex:column>
+                            <apex:column headerClass="width-10" headerValue="Ceiling Height">
+                                <apex:outputText value="{!functioRoomValue.MM_Ceiling_Height__c}" />
+                            </apex:column>
+                            <apex:column headerClass="width-10" headerValue="Function Room Type">
+                                <apex:outputText value="{!functioRoomValue.MM_Function_Room_Type__c}" />
+                            </apex:column>
+                            <apex:column headerClass="width-5" headerValue="Reception Only">
+                                <apex:outputText value="{!IF(functioRoomValue.MM_Is_Reception_Only__c, 'Yes', 'No')}" />
+                            </apex:column>
+                            <apex:column headerClass="width-5" headerValue="Floor Plan Level">
+                                <apex:outputText value="{!functioRoomValue.MM_Floor_Plan_Level__c}" />
+                            </apex:column>
+                            <apex:column headerClass="width-15" headerValue="Seating Orientation?">
+                                <apex:outputText value="{!IF(functioRoomValue.MM_Is_Seating_Orientation_Non_Std__c, 'Non-Standard', 'Standard')}" />
+                            </apex:column>
+                        </apex:pageBlockTable>
+                    </div>
+                    <div class="box-main" style="{!IF(lstFunctionRoom.size > 0 && functionRoom.Name == '', 'display:none;', '')}">
+                        <div class="box-header">Add Function Room</div>
+                        <div class="box-content">
+                            <table border="0" cellpadding="0" cellspacing="0" class="tbl-add-room">
+                                <tr>
+                                    <td class="td-lbl">Function Room Name:</td>
+                                    <td>
+                                        <div class="requiredInput">
+                                            <div class="requiredBlock"></div>
+                                            <apex:inputText value="{!functionRoom.Name}" html-placeholder="Function Room Name" maxlength="80"/>
+                                        </div>  
+                                        <div class="error-msg">Please enter Function Room Name</div>
+                                        <c:AH_PLCM_MM_Bubble_Help_Popup StyleClass="popup-arrow" Index="2" TotalBubbles="11"  HeaderText="Function Room"
+                                            HelpText="Start by adding the function room name. This will be how it is displayed in AHD." />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="td-lbl">Source Type:</td>
+                                    <td>
+                                        <div>
+                                            <!-- <div class="requiredBlock"></div> -->
+                                            <apex:selectList id="sourceTypeDdl" size="1" value="{!functionRoom.MM_Source_Type__c}">
+                                                <apex:selectOption itemLabel="--NONE--" itemvalue="" />
+                                                <apex:selectOptions value="{!lstSourceType}"></apex:selectOptions>
+                                            </apex:selectList>
+                                            <!-- <div class="error-msg">Please select Source Type</div> -->
+                                        </div>
+                                        <c:AH_PLCM_MM_Bubble_Help_Popup StyleClass="popup-arrow" Index="3" TotalBubbles="11" HeaderText="Source Type & Source Location"
+                                            HelpText="Select which type of source file this room will created from – CAD, PDF, Onsite, DD or MM then indicate the location this room will come from. This should be the DWG File name or Room Diagram name in existing MM/DD." />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="td-lbl">Source Location:</td>
+                                    <td>
+                                        <div class="requiredInput">
+                                            <div class="requiredBlock"></div>
+                                            <apex:inputText value="{!functionRoom.MM_Source_Location__c}" id="txtSourceLocation" maxlength="255" html-placeholder="Source Location"/>
+                                        </div>
+                                        <div class="error-msg">Please enter Source Location</div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="td-lbl">Square Feet:</td>
+                                    <td>
+                                        <div>
+                                            <apex:inputText value="{!functionRoom.MM_Square_Feet__c}" id="txtSquareFeet" html-data-maxlength="6,2" styleClass="num-input" html-placeholder="Square Feet"/>
+                                        </div>
+                                        <c:AH_PLCM_MM_Bubble_Help_Popup StyleClass="popup-arrow" Index="4" TotalBubbles="11" HeaderText="Dimensions"
+                                            HelpText="Input the total square feet and the Ceiling Height for the Function Room. Note, only one ceiling height will be displayed per diagram, we recommend you display the lowest point." />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="td-lbl">Ceiling Height:</td>
+                                    <td>
+                                        <div class="requiredInput">
+                                            <div class="requiredBlock"></div>
+                                            <apex:inputText value="{!functionRoom.MM_Ceiling_Height__c}" id="txtCeiling" html-data-maxlength="3,2" styleClass="num-input" html-placeholder="Ceiling Height"/>
+                                        </div>
+                                        <div class="error-msg">Please enter Ceiling Height</div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="td-lbl">Function Room Type:</td>
+                                    <td>
+                                        <div class="requiredInput">
+                                            <div class="requiredBlock"></div>
+                                            <apex:selectList id="functionRoomTypeDdl" size="1" value="{!functionRoom.MM_Function_Room_Type__c}">
+                                                <apex:selectOption itemLabel="--NONE--" itemvalue="" />
+                                                <apex:selectOptions value="{!lstFunctionRoomType}"></apex:selectOptions>
+                                            </apex:selectList>
+                                        </div>
+                                        <div class="error-msg">Please select Function Room Type</div>
+
+                                        <c:AH_PLCM_MM_Bubble_Help_Popup StyleClass="popup-arrow" Index="5" TotalBubbles="11" HeaderText="Function Room Type"
+                                            HelpText=" Indicate the Function Room Type as Standalone, Indivisible or Combination. For further definitions of these room types, please click the Help button." />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="td-lbl">Reception Only?:</td>
+                                    <td>
+                                        <apex:inputCheckbox value="{!functionRoom.MM_Is_Reception_Only__c}" />
+                                 
+                                        <c:AH_PLCM_MM_Bubble_Help_Popup StyleClass="popup-arrow chk-bubble" Index="6" TotalBubbles="11" HeaderText="Reception Style"
+                                            HelpText="If the Function Room is a non-traditional space which should reflect standing room or Reception capacity only (i.e. outdoor space, pre-function, foyer, restaurant), mark the box here." />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="td-lbl">Floor Plan Level:</td>
+                                    <td>
+                                        <apex:inputText value="{!functionRoom.MM_Floor_Plan_Level__c}" html-placeholder="Floor Plan Level" maxlength="255"/>
+
+                                        <c:AH_PLCM_MM_Bubble_Help_Popup StyleClass="popup-arrow" Index="7" TotalBubbles="11" HeaderText="Floor Plan Level"
+                                            HelpText="Website Only: Indicate the floor level this room is located on at the property." />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="td-lbl">Seating Orientation is Non-Standard:</td>
+                                    <td>
+                                        <apex:inputCheckbox value="{!functionRoom.MM_Is_Seating_Orientation_Non_Std__c}"/>
+                                         
+                                        <c:AH_PLCM_MM_Bubble_Help_Popup StyleClass="popup-arrow chk-bubble" Index="8" TotalBubbles="11" HeaderText="Seating Orientation"
+                                            HelpText="Industry Standard Seating Orientation suggests orienting seats away from main entry point. If this Function Room will not follow standard seating orientation, please mark the box and fill out the details box below indicating what direction seats should be facing from the main entrance." />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="td-lbl">Seating Orientation Details:</td>
+                                    <td>
+                                        <apex:inputTextarea id="txtSeatingOrientationDetails" value="{!functionRoom.MM_Seating_Orientation_Details__c}" html-placeholder="Seating Orientation Details" html-maxlength="255"/>
+                                        <script type="text/javascript">
+                                            var txtSeatingOrientationDetails = document.getElementById('{!$Component.frmFRGrid.pbMainBody.txtSeatingOrientationDetails}');
+                                            if('{!functionRoom.MM_Seating_Orientation_Details__c}' == '') {
+                                                //Fixed issue of IE - TextArea filled with PlaceHolder text
+                                                $(txtSeatingOrientationDetails).val('');
+                                            }
+                                        </script>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2" class="text-right">
+                                        <apex:actionFunction action="{!AddFunctionRoom}" name="AddFunctionRoom" reRender="pbMainBody" oncomplete="javascript: showHideLoader(false);" />
+                                        <apex:actionFunction action="{!UpdateFunctionRoom}" name="UpdateFunctionRoom" reRender="pbMainBody" oncomplete="javascript: showHideLoader(false);" />
+                                        <input type="button" id="btnCancel" style="{!IF(lstFunctionRoom.size == 0, 'display:none;', '')}" value="Cancel" class="btn" />
+                                        <apex:commandButton value="Save" id="btnSave" onclick="javascript: if(validateForm()) { AddFunctionRoom(); } return false;" />
+                                        <apex:commandButton value="Update" id="btnUpdate" onclick="javascript: if(validateForm()) { UpdateFunctionRoom(); } return false;" style="display:none;" />
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+
+                    <apex:pageBlockButtons location="bottom" style="text-align: right;">
+                        <apex:commandButton action="{!BackToHomePage}" value="Back to Home" style="float: left;"/>
+                        <input type="button" id="btnAddRoom" value="Add New Room" class="btn" style="{!IF(lstFunctionRoom.size == 0 || ProjectPortalStatus.IsInventoryInformationProvided, 'display:none;', '')}" />
+                        <div class="export-menu" style="{!IF(lstFunctionRoom.size == 0, 'display:none;', '')}">
+                            <button onclick="$('.menu-options').toggle(); return false;" class="menu-btn btn-common">Export</button>
+                            <div class="menu-options">
+                                <a onclick="javascript:exportReport('{!ProjectId}', 'functionroom', 'xls'); return false;">Excel</a>
+                                <a onclick="javascript:exportReport('{!ProjectId}', 'functionroom', 'pdf'); return false;">PDF</a>
+                            </div>
+                        </div>
+                        <apex:commandButton action="{!GoToRoomCapacities}" value="Next" onclick="javascript: showHideLoader(true);" id="btnNext" rendered="{!lstFunctionRoom.size > 0}" />
+                    </apex:pageBlockButtons>
+                    <script type="text/javascript">
+                        var __sfdcSessionId = '{!GETSESSIONID()}'; //Use to execute SOQL query
+                    </script>
+                    <script src="/soap/ajax/28.0/connection.js" type="text/javascript"></script>
+                    <script type="text/javascript">
+                        var btnSave = document.getElementById('{!$Component.frmFRGrid.pbMainBody.btnSave}');
+                        var btnUpdate = document.getElementById('{!$Component.frmFRGrid.pbMainBody.btnUpdate}');
+                        var pgMessage = document.getElementById('{!$Component.frmFRGrid.pbMainBody.pgMessage}');
+                        $(document).ready(function() {                            
+                            //Change Page Title
+                            window.parent.document.title = "Function Room";
+                                                        
+                            //Set in line help text height
+                            setHelpHeight(0);
+                            
+                            //Bind text input events
+                            bindInputEvents();
+                            
+                            //Unbind the navigations rules
+                            unbindNavigationWarning();
+                
+                            $('#btnAddRoom').bind('click', function() {
+                                $('.box-header').html('Add Function Room');
+                                $(this).hide();
+                                $(btnSave).show();
+                                $(btnUpdate).hide();
+                                $(pgMessage).hide();
+                                resetRoomValues();
+                                showAddRoomSection();
+                            });
+                
+                            $('#btnCancel').bind('click', function() {
+                                $('.box-main').slideUp(1200);
+                                if('{!ProjectPortalStatus.IsInventoryInformationProvided}'.toLowerCase() == 'false') {
+                                    $('#btnAddRoom').show();
+                                }
+                                
+                                setHelpHeight(1300);
+                            });
+
+                            //If any error occurs while save/update then maintain function room details
+                            if('{!functionRoom.Id}' != '') {
+                                $(btnSave).hide();
+                                $(btnUpdate).show();
+                                $('.box-header').html('Edit Function Room');
+                            }
+                            
+                            if('{!ProjectPortalStatus.IsInventoryInformationProvided}'.toLowerCase() == 'true') {
+                                $("input[type=text], input[type=checkbox],textarea, select").prop('disabled', true);
+                                $(btnSave).hide();
+                            }
+                
+                            //Hide loader
+                            showHideLoader(false);                            
+                        });
+                
+                        //On click of edit button
+                        function editRoom() {
+                            $('.box-header').html('Edit Function Room');
+                            $(pgMessage).hide();
+                            $(btnSave).hide();
+                            $(btnUpdate).show();
+                            $('.error-msg').hide();
+                            showAddRoomSection();
+                            showHideLoader(false);
+                        }
+                
+                        function showAddRoomSection() {
+                            $('.box-main').slideDown(800);
+                            $('html, body').animate({
+                                scrollTop: $('.box-main').offset().top
+                            }, 900);
+                            
+                            //Set in line help text height
+                            setHelpHeight(900);
+                        }
+                
+                        function resetRoomValues() {
+                            $('input[type=text], select, textarea', $('.box-main')).val('');
+                            $('input[type=checkbox]', $('.box-main')).prop('checked', false);
+                            $('.error-msg').hide(); //Hide all error messages
+                        }
+                
+                        function validateForm() {
+                            var flagError = false;
+                            $('.error-msg').hide(); //Hide all error messages
+                            $(".requiredInput").each(function() {
+                                if($('input, select', this).val().trim() == '') {
+                                    flagError = true;
+                                    var parentElem = $(this).parent();
+                                    $('.error-msg', parentElem).show();
+                                }
+                            });
+                
+                            if(!flagError) {
+                                showHideLoader(true);
+                            }
+                            else {
+                                //Set help div hide
+                                setHelpHeight(0);
+
+                                $('html, body').animate({
+                                    scrollTop: $('.box-main').offset().top
+                                }, 600);
+                            }
+                            return !flagError;
+                        }
+                
+                        //Click on skip bubble button
+                        function skipBubble() {
+                            //  $('#btnCancel').trigger("click"); 
+                            if('{!ProjectBubbleStatus.IsFunctionRoomBubbleSkipped}'.toLowerCase() != 'true') {
+                                //Update bubble help popup flag in NI Doc record
+                                updateBubbleFlag('{!ProjectId}', 'functionroom');
+                            }
+                            $('.bubble-popup').hide(); //Hide Bubble Popup   
+                        }
+                
+                        //Display bubble help popup
+                        function showBubble(index) {           
+                            //Hide all bubble help popup
+                            $(".bubble-popup").hide();
+                            if($('.box-main:visible').length == 0) {
+                                if(index == 2) {
+                                    $('#btnAddRoom').trigger('click');
+                                    if('{!ProjectPortalStatus.IsInventoryInformationProvided}'.toLowerCase() == 'true') {
+                                        $(btnSave).hide();
+                                    }
+                                }
+                            }
+                           
+                            $("#divBubblePopup_" + index).show(); //Show next or prevous popup
+                            $('html, body').animate({ //Scroll to specific bubble
+                                scrollTop: $("#divBubblePopup_" + index).offset().top - 50
+                            }, 600);
+                        }
+                    
+                        function resetBubbleNumbers() {
+                            $('.lbl-bbl-numbers').each(function() {
+                                if($(this).parents('.box-main').length == 0 && $(this).text() != '12 of 14') { //Change bubble numbers of other than add room section
+                                    var oldText = $(this).text();
+                                    var newText = oldText.replace(' of 14', ' of 3');
+                                    //newText = newText.replace('12 of 3', '4 of 3');
+                                    newText = newText.replace('13 of 3', '2 of 3');
+                                    newText = newText.replace('14 of 3', '3 of 3');
+                                    if($('.box-main:visible').length > 0) {
+                                        newText = newText.replace(' of 3', ' of 14');
+                                        newText = newText.replace('3 of 14', '14 of 14');
+                                        newText = newText.replace('2 of 14', '13 of 14');
+                                        //newText = newText.replace('4 of 14', '12 of 14');
+                                    }
+                                    $(this).text(newText);
+                                }
+                            });
+                        }
+                    </script>
+                </apex:pageBlock>
+            </div>
+            <div class="help-wrapper" >
+                <div class="help-button">
+                    <a id="btnHelp">Hide Help</a>
+                </div>
+                <div class="help-box">
+                    <div class="help-box-inner">
+                        <div class="help-title">Function Room Information</div>
+                        <div class="help-text">
+                            This page allows you to enter information needed to create the Function Rooms in Amadeus Hospitality Diagrams (AHD). This should display an all-encompassing list of rooms, including combinations and cuts, that should be available for diagramming in the new product. Complete the information in each Function Room display as it should be set up in the new program. Refer to the below sections for additional information while completing.
+                            <br/><br/>
+                            Please note Function Rooms that are not included in this list will not be created/included in AHD Venue setup and a change request with the Amadeus Account Manager may be needed.
+                            <br/><br/>
+                            Function Room Name: This is the room name in CAD, PDF, DD or MM. It is also how it will be displayed in AHD. 
+                            <br/><br/>
+                            Source Type: The available values are listed for those converting from CAD, PDF, DD or MM. If you are not coming from a previous system, please indicate none and complete the rest of the set-up information.
+                            <br/><br/>
+                            Source Location: This is where in the source type the Amadeus Diagram team can locate the file for the function room you are completing the information for. 
+                            <br/><br/>
+                            Square Footage: Indicate the total square footage of the function space you are filling the page out for. This should be all-inclusive of the room that will be used for the diagram. 
+                            <br/><br/>
+                            Ceiling Height: Indicate the ceiling height in feet. We recommend putting the lowest point as AHD will display one ceiling height per diagram. 
+                            <br/><br/>
+                            Room Type: The three options for room type include Standalone, Indivisible or Combination. Standalone indicates the room can’t be divided by airwalls, nor is it a part of a larger room (Example: Executive Board Room). Indivisible rooms can’t be divided by airwalls but can be a part of a larger room (Example: Salon A, Salon B). Combination rooms are made up of two or more indivisible rooms (example Salons AB, Grand Ballroom). 
+                            <br/><br/>
+                            Reception Only: If the room is reception only, it will only display capacity as this space is used without diagram set up. Some examples include outdoor space, pre-function, foyer, restaurant. 
+                            <br/><br/>
+                            Seating Orientation: Industry Standard Seating Orientation suggests orienting seats away from main entry point. If this Function Room will not follow standard seating orientation, check the box and indicate the seating orientation, for example, seating faces screen, opposite window wall
+                            <br /> <br/ >
+                            This information will be reviewed and confirmed on your Diagramming Readiness Call. Feel free to create a report of your configurations by using the "Export to Excel" or "Export to PDF" button.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </apex:form>
+</apex:page>

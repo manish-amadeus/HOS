@@ -17,7 +17,7 @@
 		            <apex:inputText value="{!schedName}" />
 	        	</apex:pageBlockSectionItem>
 		    	<apex:pageBlockSectionItem >
-	            	<apex:outputLabel value="Run Every N Hours" for="times" style="font-size: 120%"/>
+	            	<apex:outputLabel value="Run every N hours" for="times" style="font-size: 120%"/>
 		            <apex:selectList value="{!times}" required="true" multiselect="false" size="1">
 		            	<apex:selectOptions value="{!timesOptions}"/>
 		            </apex:selectList>

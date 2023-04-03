@@ -17,7 +17,7 @@ public class AH_PCC_OpportunityDetails_Ctlr
     public User partnerUser {get; set;}
     public String currentUSDPriceBookName {get; set;} 
     
-    private List<OpportunityLineItem> oppLineItems;
+    private List<OpportunityLineItem> oppLineItems; 
     private DateTime orderDate; 
     private boolean isNotParterUser; 
     private string OppId; 
@@ -223,7 +223,6 @@ system.debug('usdpb price ' + usdpb.UnitPrice );
                     opp.CurrencyIsoCode + ' ' + String.valueOf(i.UnitPrice), 
                     opp.CurrencyIsoCode + ' ' + String.valueOf(i.TotalPrice));                
                 lstOppLineItemDetails.add(x);
-                system.debug('sagar::' + lstOppLineItemDetails);
             }
         }
     }
@@ -295,34 +294,34 @@ system.debug('usdpb price ' + usdpb.UnitPrice );
     
     public class oppDetails
     {    
-        public String OpportunityId {get; set;}         // Id
-        public String OpportunityNumber {get; set;}     // Opportunity_Number__c
-        public String Status {get; set;}                // StageName
-        public String SalesManager {get; set;}          // Owner.Name        
-        public String AccountName {get; set;}           // Account.Name
-        public String AccountNumber {get; set;}         // Account.AccountNumber
-        public String AccountStreet {get; set;}         // Account.BillingStreet
-        public String AccountState {get; set;}          // Account.BillingState
-        public String AccountCity {get; set;}           // Account.BillingCity
-        public String AccountCountry {get; set;}        // Account.BillingCountry
-        public String AccountPostal {get; set;}         // Account.BillingPostalCode
-        public String AccountPhone {get; set;}          // Account.Phone
-        public String AccountFax {get; set;}            // Account.Fax
-        public String ManagementCo {get; set;}          // Account.Parent.Name
-        public String Franchisor {get; set;}            // Account.Franchisor__c
-        public String Website {get; set;}               // Account.Website
-        public String GuestRooms {get; set;}            // Account.Guest_Rooms__c        
+        public String OpportunityId {get; set;}			// Id
+        public String OpportunityNumber {get; set;}		// Opportunity_Number__c
+        public String Status {get; set;}				// StageName
+        public String SalesManager {get; set;}			// Owner.Name        
+        public String AccountName {get; set;}			// Account.Name
+        public String AccountNumber {get; set;}			// Account.AccountNumber
+        public String AccountStreet {get; set;}			// Account.BillingStreet
+        public String AccountState {get; set;}			// Account.BillingState
+        public String AccountCity {get; set;}			// Account.BillingCity
+        public String AccountCountry {get; set;}		// Account.BillingCountry
+        public String AccountPostal {get; set;}			// Account.BillingPostalCode
+        public String AccountPhone {get; set;}			// Account.Phone
+        public String AccountFax {get; set;}			// Account.Fax
+        public String ManagementCo {get; set;}			// Account.Parent.Name
+        public String Franchisor {get; set;}			// Account.Franchisor__c
+        public String Website {get; set;}				// Account.Website
+        public String GuestRooms {get; set;}			// Account.Guest_Rooms__c        
         public String OrderDate {get; set;}
         public String ProjectManager {get; set;}
         public String InstallType {get; set;}        
-        public String ShipToName {get; set;}            // ShipTo.Contact.Name
-        public String ShipToTitle {get; set;}           // ShipTo.Contact.Title
-        public String ShipToEmail {get; set;}           // ShipTo.Contact.Email
-        public String ShipToPhone {get; set;}           // ShipTo.Contact.Phone        
-        public String ClientServicesContact {get; set;} // ProjectContact.Contact.Name
-        public String ClientServicesTitle {get; set;}   // ProjectContact.Contact.Title
-        public String ClientServicesEmail {get; set;}   // ProjectContact.Contact.Email
-        public String ClientServicesPhone {get; set;}   // ProjectContact.Contact.Phone
+        public String ShipToName {get; set;}			// ShipTo.Contact.Name
+        public String ShipToTitle {get; set;}			// ShipTo.Contact.Title
+        public String ShipToEmail {get; set;}			// ShipTo.Contact.Email
+        public String ShipToPhone {get; set;}			// ShipTo.Contact.Phone        
+        public String ClientServicesContact {get; set;}	// ProjectContact.Contact.Name
+        public String ClientServicesTitle {get; set;}	// ProjectContact.Contact.Title
+        public String ClientServicesEmail {get; set;}	// ProjectContact.Contact.Email
+        public String ClientServicesPhone {get; set;}	// ProjectContact.Contact.Phone
 
         public oppDetails (
             String OpportunityId, 
@@ -390,11 +389,11 @@ system.debug('usdpb price ' + usdpb.UnitPrice );
     public class oppLineItemDetails
     {    
         
-        public String Quantity {get; set;}      // Quantity
-        public String SKU {get; set;}           // PricebookEntry.ProductCode
-        public String Description {get; set;}   // Product2.Name
-        public String Rate {get; set;}          // UnitPrice
-        public String Price {get; set;}         // TotalPrice 
+        public String Quantity {get; set;}		// Quantity
+        public String SKU {get; set;}			// PricebookEntry.ProductCode
+        public String Description {get; set;}	// Product2.Name
+        public String Rate {get; set;}			// UnitPrice
+        public String Price {get; set;}			// TotalPrice 
         
         public oppLineItemDetails (
             String Quantity, 

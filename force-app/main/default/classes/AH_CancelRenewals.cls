@@ -8,7 +8,7 @@ NICC Reference  : NICC-025668
 Description     : Controller class for AH_CancelRenewals VF Page 
                 : 
                 : 
-                : 
+				: 
 *************************************************************************************************/
 public class AH_CancelRenewals 
 {
@@ -28,14 +28,14 @@ public class AH_CancelRenewals
     public List<SelectOption> lstGenReasons {get; set;} 
     public List<SelectOption> lstLateReasons {get; set;} 
     public Set<Id> setAccountIds {get; set;} 
-    // BOOLEANS 
+	// BOOLEANS 
     public Boolean displayEditCxl {get; set;}  
     public Boolean displayConfirm {get; set;} 
     public Boolean displayViewCxl {get; set;} 
     public Boolean isAccepted {get; set;} 
     public Boolean isInternalUser {get; set;} 
-    public Boolean showMainDetails {get; set;}  
-    public Boolean bHasChildAccts {get; set;} 
+    public Boolean showMainDetails {get; set;} 	
+	public Boolean bHasChildAccts {get; set;} 
     public Boolean cxlEditMode {get; set;} 
     public Boolean bShowCxlDialog {get; set;} 
     public Boolean hasRemainingQty {get; set;} 
@@ -56,7 +56,7 @@ public class AH_CancelRenewals
     public String accKeyword {get; set;}     
     public String strSearchMsg {get; set;}  
     public String msgColor {get; set;} 
-    public String saveError {get; set;}     
+  	public String saveError {get; set;}     
     public String selAccId {get; set;} 
     public String toastMsg {get; set;} 
     public String strQuery {get; set;} 
@@ -68,9 +68,9 @@ public class AH_CancelRenewals
     public String selLateReason {get; set;} 
     public String strSpecificUserNames {get; set;} 
     public String strRenewalCancellationNote {get; set;} 
-    public Id contactId {get; set;}
+	public Id contactId {get; set;}
     public String contactName {get; set;}     
-    // FILE UPLOAD VARIABLES
+	// FILE UPLOAD VARIABLES
     public transient Blob upFileBlob { get; set; }
     public String upFileName {get; set;} 
     public Integer upFileSize {get; set;}
@@ -86,7 +86,7 @@ public class AH_CancelRenewals
     // PRIVATE VARIABLES ====================================
     private String sortDirection = 'ASC'; 
     private String sortExp = 'Contract_End_Date__c'; 
-    private Integer iDefaultCutOffDays {get; set;} 
+	private Integer iDefaultCutOffDays {get; set;} 
     private String ipAddress {get; set;} 
     private Map<String, Decimal> mapCS {get; set;} 
     
@@ -94,7 +94,7 @@ public class AH_CancelRenewals
     public AH_CancelRenewals()
     {
 
-        initVariables();
+		initVariables();
         
         try 
         {
@@ -213,21 +213,21 @@ public class AH_CancelRenewals
     private void initVariables()
     {
         showMainDetails = true;
-        isInternalUser = false;     
+		isInternalUser = false;		
         iCxlIndex = 0;
         cxlEditMode = false;
         displayAttachFiles = false;   
         contactId = null;
         contactName = '';       
         Contact_lktp = '003';
-        Contact_mod = '0';
+    	Contact_mod = '0';
     }
     
     private void loadAccountIdSet()
     {
         
         // FILLS A SET OF ACCOUNT IDS 5 LEVELS "DOWN" FROM USER'S ACCOUNT
-        
+      	
         system.debug(' *** ENTERING AH_CancelRenewals.loadAccountIdSet() - QUERIES ISSUED = ' + Limits.getQueries());
         
         setAccountIds = new Set<Id>();        
@@ -270,14 +270,14 @@ public class AH_CancelRenewals
     
     private void loadProducts()
     {
-        
+		
         system.debug(' *** ENTERING AH_CancelRenewals.loadProducts() - QUERIES ISSUED = ' + Limits.getQueries());
         
         Integer iRow = 0;
         lstActivityLineItems = new List<activityLineItem>();
         iRow = 0;
         hasRenewableProducts = true;
-        Date d = Date.today().AddDays(-210);  // NICC-027710        
+		Date d = Date.today().AddDays(-210);  // NICC-027710        
         
         List<Activity_Line_Item__c> lstALISearchResults = new List<Activity_Line_Item__c>();        
 // NICC-TBD (START)       
@@ -311,8 +311,8 @@ public class AH_CancelRenewals
         sSOQL += 'Units__c, Units_Cancelled__c, Units_Remaining__c, '; 
         sSOQL += 'Product__r.Name, Product__r.Product_Line_Global__c, '; 
 // NICC-TBD (START) 
-        
-        // ADDED NEW FIELDS TO SELECT FOR CANCELLATION RESTRICTIONS
+		
+   		// ADDED NEW FIELDS TO SELECT FOR CANCELLATION RESTRICTIONS
         sSOQL += 'Product__r.Solution_Domain_Global__c, ';
         sSOQL += 'Billing_Contract__c, ';
         sSOQL += 'Order_of_Delivery__c, ';
@@ -339,9 +339,9 @@ public class AH_CancelRenewals
         sSOQL += 'AND Contract_Total_Amount__c >= 0 ';
 // NICC-TBD (END)          
         
-        sSOQL += 'ORDER BY ' + sortExpression  + ' ' + sortDirection + ', Order_of_Delivery__c'; 
+		sSOQL += 'ORDER BY ' + sortExpression  + ' ' + sortDirection + ', Order_of_Delivery__c'; 
         
-        system.debug(' **** sSOQL = ' + sSOQL);     
+		system.debug(' **** sSOQL = ' + sSOQL);     
         
         strQuery = sSOQL;
         
@@ -349,13 +349,13 @@ public class AH_CancelRenewals
         
         
 // NICC-TBD (START) 
-        
+		
         // FILL MAP WITH ALL MAX 'ORDER OF DELIVERY' VALUES (KEY IS COMPRISED OF Account Id + Opportunity Id + Product2 Id) 
         Map<String, Decimal> mapMaxOoDs = new Map<String, Decimal>();    
         // GET ORDER OF DELIVERY CEILINGS
         for (Activity_Line_Item__c alix : lstALISearchResults)
         {  
-            if (alix.Opportunity__r.AccountId != null && alix.Opportunity__c != null && alix.Product__c != null)    // && alix.Order_of_Delivery__c != null
+            if (alix.Opportunity__r.AccountId != null && alix.Opportunity__c != null && alix.Product__c != null)	// && alix.Order_of_Delivery__c != null
             {
                 // CREATE MAP KEY
                 string strMapKey = alix.Opportunity__r.AccountId + '-' + alix.Opportunity__c + '-' + alix.Product__c;
@@ -395,7 +395,7 @@ public class AH_CancelRenewals
             Date dToday = Date.today();
             String sInternalEditLabel = 'CHANGE/CANCEL RENEWAL';
             String sInternalEditLabelStyle = 'text-align:center;';
-            String strToolTip = 'This product recently automatically renewed per the terms of your agreement. If you would like additional details, please contact your sales manager.';
+			String strToolTip = 'This product recently automatically renewed per the terms of your agreement. If you would like additional details, please contact your sales manager.';
             
             // DETERMINE CANCELLATION DEADLINE
             if (mapCS.get(a.Product__r.Product_Line_Global__c) != null) 
@@ -415,13 +415,13 @@ public class AH_CancelRenewals
             {
                 isRecordLocked = true; 
             } 
-            
+			
             // IF USER IS INTERNAL UNLOCK IT
             if (isInternalUser) 
             { 
                 isRecordLocked = false; 
             } 
-            
+			
             // IF USER IS INTERNAL AND CANCELLATION DEADLINE HAS PASSED
             if ((dToday > dDeadlineDate) && isInternalUser) 
             { 
@@ -491,10 +491,10 @@ system.debug(' *%* a.SKU__c = ' + a.SKU__c + ',  a.Opportunity__r.Opportunity_Nu
                 a.Units_Cancelled__c, 
                 a.Units_Remaining__c, 
                 isRecordLocked,
-                sInternalEditLabel,         // NICC-027192
-                sInternalEditLabelStyle,    // NICC-027192
-                strToolTip,                 // NICC-TBD
-                a.Order_of_Delivery__c      // NICC-TBD
+                sInternalEditLabel,			// NICC-027192
+                sInternalEditLabelStyle,	// NICC-027192
+                strToolTip,					// NICC-TBD
+                a.Order_of_Delivery__c		// NICC-TBD
             );
            
             lstActivityLineItems.add(ali);
@@ -577,7 +577,7 @@ system.debug(' *%* a.SKU__c = ' + a.SKU__c + ',  a.Opportunity__r.Opportunity_Nu
                 dDeadlineDate = dDeadlineDate.addDays(-iDays);
             }
             
-            system.debug(' **** (loadCancellations) Product Line = ' + c.Activity_Line_Item__r.Product__r.Product_Line_Global__c + ', Contract End Date = ' + c.Activity_Line_Item__r.Contract_End_Date__c + ', iDays = ' + iDays + ', iDaysLeft = ' + iDaysLeft);            
+			system.debug(' **** (loadCancellations) Product Line = ' + c.Activity_Line_Item__r.Product__r.Product_Line_Global__c + ', Contract End Date = ' + c.Activity_Line_Item__r.Contract_End_Date__c + ', iDays = ' + iDays + ', iDaysLeft = ' + iDaysLeft);            
             
             if (iDaysLeft < 0)
             {
@@ -589,7 +589,7 @@ system.debug(' *%* a.SKU__c = ' + a.SKU__c + ',  a.Opportunity__r.Opportunity_Nu
                 isRecordLocked = true;
             }
             
-            system.debug(' **** (loadCancellations) isRecordLocked = ' + isRecordLocked); 
+			system.debug(' **** (loadCancellations) isRecordLocked = ' + isRecordLocked); 
             
             cancellationLineItem cli = new cancellationLineItem (
                 iRow, 
@@ -634,23 +634,23 @@ system.debug(' *%* a.SKU__c = ' + a.SKU__c + ',  a.Opportunity__r.Opportunity_Nu
         system.debug(' *** EXITING AH_CancelRenewals.loadCancellations() - QUERIES ISSUED = ' + Limits.getQueries());
                
     }
-    
+	
     public void openForm() 
     { 
                 
         system.debug(' *** ENTERING AH_CancelRenewals.openForm() - QUERIES ISSUED = ' + Limits.getQueries());
         
         // INITIALIZE VARIABLES
-        displayEditCxl = true;      // SWITCH THAT DISPLAYS POPUP     
-        saveError = null;           // STRING THAT HOLDS ERROR MESSAGES
+        displayEditCxl = true; 		// SWITCH THAT DISPLAYS POPUP     
+        saveError = null;			// STRING THAT HOLDS ERROR MESSAGES
         showSaveError = false;
-        strSearchMsg = '';          // STRING THAT HOLDS SEARCH MESSAGE DETAILS
-        bShowCxlDialog = false;     // SWITCH TO OPEN CANCELLATION FORM SECTION IN POPUP
-        isCxlForDiffAcct = false;   // SWITCH THAT TOGGLES THE VISIBLITY OF THE ACCOUNT SEARCH SECTION IN POPUP
-        hasRemainingQty = false;    // SWITCH TO LOCK DOWN EDITS WHEN THERE IS NOTHING TO CANCEL
-        bActiveSearch = false;       
-        accKeyword = '';            // ACCOUNT NAME KEYWORD
-        selAccId = '';              // SELECTED ACCOUNT ID            
+       	strSearchMsg = '';			// STRING THAT HOLDS SEARCH MESSAGE DETAILS
+        bShowCxlDialog = false;		// SWITCH TO OPEN CANCELLATION FORM SECTION IN POPUP
+        isCxlForDiffAcct = false;	// SWITCH THAT TOGGLES THE VISIBLITY OF THE ACCOUNT SEARCH SECTION IN POPUP
+        hasRemainingQty = false;	// SWITCH TO LOCK DOWN EDITS WHEN THERE IS NOTHING TO CANCEL
+		bActiveSearch = false;       
+        accKeyword = '';			// ACCOUNT NAME KEYWORD
+        selAccId = '';				// SELECTED ACCOUNT ID            
         iQuantityToCancel = 0;
         selGenReason = ''; 
         selLateReason = '';         
@@ -688,11 +688,11 @@ system.debug(' *%* a.SKU__c = ' + a.SKU__c + ',  a.Opportunity__r.Opportunity_Nu
         }
                 
         niCancellation.Account__c = aliEdit.Billing_Contract__r.Account__c;
-        niCancellation.Activity_Line_Item__c = aliEdit.Id;
+ 		niCancellation.Activity_Line_Item__c = aliEdit.Id;
         niCancellation.Product2__c = aliEdit.Product__c;
         niCancellation.Opportunity__c = aliEdit.Opportunity__c;
         niCancellation.Renewal_Cancellation_Quantity__c = 0; 
-        niCancellation.Status__c = 'Pending Retention';
+		niCancellation.Status__c = 'Pending Retention';
         niCancellation.DI_Not_Found__c = false;
         niCancellation.Effective_Date__c = aliEdit.Contract_End_Date__c;        
         
@@ -711,7 +711,7 @@ system.debug(' *%* a.SKU__c = ' + a.SKU__c + ',  a.Opportunity__r.Opportunity_Nu
         system.debug(' *** ENTERING AH_CancelRenewals.saveChanges() - QUERIES ISSUED = ' + Limits.getQueries());
         
         saveError = null;
-        showSaveError = true;
+		showSaveError = true;
 
         // USER INPUT VALIDATION (START) ===========================================================
 
@@ -755,7 +755,7 @@ system.debug(' *%* a.SKU__c = ' + a.SKU__c + ',  a.Opportunity__r.Opportunity_Nu
         }
 
         // BECAUSE THE SPEC STATES THAT ONLY ONE CANCELLATION CAN EXIST PER ACCOUNT/ACTIVITY LINE ITEM, RAISE ERROR IS ANY EXIST WITH POSITIVE QTY
-        // OR UPDATE THE ZERO QTY & STATUS
+		// OR UPDATE THE ZERO QTY & STATUS
         Id accIdTmp = a.Id;        
         if (selAccId != '')
         {   
@@ -817,7 +817,7 @@ system.debug(' *%* a.SKU__c = ' + a.SKU__c + ',  a.Opportunity__r.Opportunity_Nu
         }
         
         niCancellation.Specific_User_Names__c = strSpecificUserNames;
-        niCancellation.Renewal_Cancellation_Note__c = strRenewalCancellationNote;        
+    	niCancellation.Renewal_Cancellation_Note__c = strRenewalCancellationNote;        
         
         // PASS USER INFORMATION
         niCancellation.Renewal_Cancellation_Requested__c = true;
@@ -841,7 +841,7 @@ system.debug(' *%* a.SKU__c = ' + a.SKU__c + ',  a.Opportunity__r.Opportunity_Nu
             niCancellation.Management_Company__c = selAccount.ParentId;
             niCancellation.Franchisor__c = selAccount.Franchisor__c;
             niCancellation.Brand__c = selAccount.Brand__c;
-            
+			
         }    
         else
         {
@@ -1038,7 +1038,7 @@ system.debug(' *%* a.SKU__c = ' + a.SKU__c + ',  a.Opportunity__r.Opportunity_Nu
             parentID = newCxl.Id;
             
         }
-        
+		
         system.debug(' *** EXITING AH_CancelRenewals.getParentCxlId() - QUERIES ISSUED = ' + Limits.getQueries());
         
         return parentID;
@@ -1121,7 +1121,7 @@ system.debug(' *%* a.SKU__c = ' + a.SKU__c + ',  a.Opportunity__r.Opportunity_Nu
                 WHERE Account__c =: AccountId 
                 AND Activity_Line_Item__c =: ActivityLineItemId
                 AND Status__c NOT IN ('Successfully Retained', 'Reactivated', 'User Error')
-                AND Renewal_Cancellation_Quantity__c > 0]); 
+            	AND Renewal_Cancellation_Quantity__c > 0]); 
             
             if (lstCxl.size() > 0)
             {
@@ -1197,8 +1197,8 @@ system.debug(' *%* a.SKU__c = ' + a.SKU__c + ',  a.Opportunity__r.Opportunity_Nu
         
         // RESET KEYWORD
         accKeyword = '';
-        bActiveSearch = true;
-        
+		bActiveSearch = true;
+		
         system.debug(' *** EXITING AH_CancelRenewals.doSearch() - QUERIES ISSUED = ' + Limits.getQueries());
         
     }
@@ -1207,7 +1207,7 @@ system.debug(' *%* a.SKU__c = ' + a.SKU__c + ',  a.Opportunity__r.Opportunity_Nu
     {    
         accKeyword = '';
         strSearchMsg = '';
-        bActiveSearch = false;
+		bActiveSearch = false;
     }
     
     private String errorStringBuilder(NI_Cancellation__c cxl)
@@ -1233,7 +1233,7 @@ system.debug(' *%* a.SKU__c = ' + a.SKU__c + ',  a.Opportunity__r.Opportunity_Nu
     }
     
     
-    // MODAL DIALOG METHODS
+	// MODAL DIALOG METHODS
     public void showCxlDialog() 
     {    
         bShowCxlDialog = true;
@@ -1326,7 +1326,7 @@ system.debug(' *%* a.SKU__c = ' + a.SKU__c + ',  a.Opportunity__r.Opportunity_Nu
     }        
     
 
-    // FILE METHODS
+	// FILE METHODS
     private void loadFiles(Id cancellationID) 
     {
         
@@ -1386,7 +1386,7 @@ system.debug(' *%* a.SKU__c = ' + a.SKU__c + ',  a.Opportunity__r.Opportunity_Nu
                 system.debug('An Error occured when trying to delete ContentDocument records: LINE #' + ex.getLineNumber() + ' - ' + ex.getMessage());
             }
         }
-        
+		
         system.debug(' *** EXITING AH_CancelRenewals.saveFiles() - QUERIES ISSUED = ' + Limits.getQueries());
         
     }
@@ -1482,7 +1482,7 @@ system.debug(' *%* a.SKU__c = ' + a.SKU__c + ',  a.Opportunity__r.Opportunity_Nu
     }
 
 
-    // SORTING METHODS   
+	// SORTING METHODS   
     public String sortExpression
     {
         get
@@ -1547,10 +1547,10 @@ system.debug(' *%* a.SKU__c = ' + a.SKU__c + ',  a.Opportunity__r.Opportunity_Nu
         public Decimal QuantityCancelled {get; set;} 
         public Decimal QuantityRemaining {get; set;} 
         public Boolean bUserChangeAllowed {get; set;} 
-        public String strInternalEditLabel {get; set;}          // NICC-027192
-        public String strInternalEditLabelStyle {get; set;}     // NICC-027192
-        public String strToolTiptext {get; set;}                // NICC-TBD
-        public Decimal OrderOfDelivery {get; set;}              // NICC-TBD
+        public String strInternalEditLabel {get; set;} 			// NICC-027192
+        public String strInternalEditLabelStyle {get; set;}		// NICC-027192
+        public String strToolTiptext {get; set;}				// NICC-TBD
+        public Decimal OrderOfDelivery {get; set;} 				// NICC-TBD
         
         public activityLineItem (
             Integer iIndex, 
@@ -1566,10 +1566,10 @@ system.debug(' *%* a.SKU__c = ' + a.SKU__c + ',  a.Opportunity__r.Opportunity_Nu
             Decimal QuantityCancelled,
             Decimal QuantityRemaining, 
             Boolean bUserChangeAllowed,
-            String strInternalEditLabel,            // NICC-027192
-            String strInternalEditLabelStyle,       // NICC-027192
-            String strToolTiptext,                  // NICC-TBD
-            Decimal OrderOfDelivery                 // NICC-TBD
+            String strInternalEditLabel,			// NICC-027192
+            String strInternalEditLabelStyle,		// NICC-027192
+            String strToolTiptext, 					// NICC-TBD
+            Decimal OrderOfDelivery					// NICC-TBD
         )
         {
             this.iIndex = iIndex; 
@@ -1585,19 +1585,19 @@ system.debug(' *%* a.SKU__c = ' + a.SKU__c + ',  a.Opportunity__r.Opportunity_Nu
             this.QuantityCancelled = QuantityCancelled; 
             this.QuantityRemaining = QuantityRemaining; 
             this.bUserChangeAllowed = bUserChangeAllowed;   
-            this.strInternalEditLabel = strInternalEditLabel;           // NICC-027192
-            this.strInternalEditLabelStyle = strInternalEditLabelStyle; // NICC-027192
-            this.strToolTiptext = strToolTiptext;                       // NICC-TBD
-            this.OrderOfDelivery = OrderOfDelivery;                     // NICC-TBD
+            this.strInternalEditLabel = strInternalEditLabel;			// NICC-027192
+            this.strInternalEditLabelStyle = strInternalEditLabelStyle;	// NICC-027192
+            this.strToolTiptext = strToolTiptext;						// NICC-TBD
+            this.OrderOfDelivery = OrderOfDelivery;						// NICC-TBD
         }
         
-    }   
+    }  	
     
     public class cancellationLineItem 
     {
         public Integer iIndex {get; set;} 
         public Id CancellationId {get; set;} 
-        public Id ParentCancellationId {get; set;}  
+        public Id ParentCancellationId {get; set;}	
         public String CancellationName {get; set;} 
         public Id ActivityLineItemId {get; set;}
         public String ActivityLineItemName {get; set;}

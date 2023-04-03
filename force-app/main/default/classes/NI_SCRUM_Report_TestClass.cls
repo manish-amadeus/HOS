@@ -14,7 +14,66 @@ private class NI_SCRUM_Report_TestClass
         // PAGE REFERENCE
         PageReference pageRef = Page.SCRUMReport;
         Test.setCurrentPage(pageRef);
-        
+        Date dCurrent = date.today();
+        String strMonth = String.ValueOf(dCurrent.Month());
+        if (dCurrent.Month() < 10)
+        {
+            strMonth = '0' + strMonth;
+        }
+
+        String strLastYearTP = 'FY-' + String.ValueOf(Date.today().addYears(-1).Year()) + '-' + strMonth;
+        List<Services_Scrum_Snapshot__c> sn_list = new List<Services_Scrum_Snapshot__c>();
+        for (Integer i=0; i< 11; i++){
+            Services_Scrum_Snapshot__c sn = new Services_Scrum_Snapshot__c();
+            
+            sn.Actual_Amount__c 	= 100;
+            sn.Backlog_Amount__c 	= 20;
+            sn.Budget_Amount__c 	= 200;
+            sn.Comp_Amount__c 		= 150;
+            if(i==1)
+            sn.Date_of_Pull__c	 	= Date.today().addYears(-2);    
+            else
+            sn.Date_of_Pull__c	 	= Date.today().addYears(-1);
+            
+            sn.Downside_Amount__c 	= 12;
+            sn.Forecast_Amount__c	= 250;
+            sn.Group__c 			= 'Group_'+i;
+            if(i==0)
+            sn.Service_Group__c 	= 'CAD Services';//+i;
+            else if(i==1)
+            sn.Service_Group__c 	= 'Data Services';//+i;
+            else if(i==2)
+            sn.Service_Group__c 	= 'Integrations';//+i;
+            else if(i == 3)
+            sn.Service_Group__c 	= 'Project Management';//+i;
+            else if(i == 4)
+            sn.Service_Group__c 	= 'MeetingMatrix';//+i; 
+            else if(i == 5)
+            sn.Service_Group__c 	= 'Report Service';//+i;
+            else if(i == 6)
+            sn.Service_Group__c 	= 'Solutions Consulting';//+i;
+            else if(i == 7)
+            sn.Service_Group__c 	= 'Strategic Consulting';//+i;
+            else if(i == 8)
+            sn.Service_Group__c 	= 'Systems Engineering';//+i;
+            else
+            sn.Service_Group__c 	= 'Training';//+i;
+            
+            sn.Region_Name__c 		= 'US';//+i;
+            sn.Reimbursable_Expenses__c = 300;
+            sn.Scheduled_Amount__c 	= 240;
+            sn.Scheduled_Hours__c 	= 2;
+            sn.Target_Period__c 	= strLastYearTP;
+            sn.Tentative_Value__c 	= 150;
+            sn.Upside_Amount__c 	= 150;
+            System.debug('Date_of_Pull__c==>'+sn.Date_of_Pull__c);
+            sn_list.add(sn);
+        }
+       
+        Database.insert(sn_list);
+        // ASSERT STATEMENTS HERE
+        List<Services_Scrum_Snapshot__c> sn_list1 = [SELECT id, Name from Services_Scrum_Snapshot__c];
+        system.assertEquals(11, sn_list1.size(), 'Record count mismatch..');
         // CONTROLLER 
         NI_SCRUM_Report ctrl = new NI_SCRUM_Report(new ApexPages.StandardController(scrum));
         ctrl.getSCRUMPS();

@@ -9,6 +9,7 @@ Description     : Test class for AH_SAPCashEntryJournal_Schedule class
 				: 
 				:
 **************************************************************************************/
+
 @isTest
 public class AH_SAPCashEntryJournal_Schedule_Test 
 {

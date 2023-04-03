@@ -17,13 +17,7 @@ public class AH_CC_RegHandler_Test
     // =======================================================================================================================================    
     @testSetup static void createTestData()  
     {
-        User u1 = NI_TestClassData.createTestUser(1, 'System Administrator');
-        u1.Alias = 'APEXSYSU';
-        u1.UserRoleId = [SELECT Id FROM UserRole WHERE Name LIKE 'CEO%' LIMIT 1].Id;
-        insert u1; 
         
-        system.runAs(u1)
-        {
        // CREATE TEST PARENT ACCOUNT RECORD
         Account a = NI_TestClassData.createTestAccount(1);
         insert a;
@@ -35,8 +29,6 @@ public class AH_CC_RegHandler_Test
         cnt.Email = 'jack.tors@somecustomer.org';
         insert cnt;
         
-        //UserRole  ur = [select id from UserRole where DeveloperName = 'MCHCPHolidayInnManchesterCentralParkCustomerUser'];
-        
         // CREATE TEST CUSTOMER PORTAL USER 
         User u = NI_TestClassData.createTestUser(2, 'AH Customer Community Plus User'); 
         u.ContactId = cnt.Id;
@@ -44,11 +36,10 @@ public class AH_CC_RegHandler_Test
         u.LastName = 'Tors';
         u.Alias = 'jtors11';
         u.Email = 'jack.tors@somecustomer.org';
+        //u.Username = 'jtors@somecustomer.org.amp';
         u.Username = 'jsmith@someemail.com.ahcc';
         u.CommunityNickname = 'jtors11'; 
-        //u.UserRoleid = ur.id;
-        insert u;   
-    } 
+        insert u;        
         
     }
     
@@ -60,17 +51,17 @@ public class AH_CC_RegHandler_Test
         
         AH_CC_RegHandler handler = new AH_CC_RegHandler();
         
-        Auth.UserData sampleData = new Auth.UserData('ID00000001',                  // identifier
-                                                     'Jack',                        // firstName
-                                                     'Tors',                        // lastName
-                                                     'Jack Tors',                   // fullName
-                                                     'jack.tors@somecustomer.org',  // email
-                                                     null,                          // link
-                                                     'jtors@somecustomer.org',      // userName
-                                                     'en_US',                       // locale
-                                                     'Salesforce',                  // provider
-                                                     null,                          // siteLoginUrl
-                                                     new Map<String, String>{});    // attributeMap 
+        Auth.UserData sampleData = new Auth.UserData('ID00000001', 					// identifier
+                                                     'Jack', 						// firstName
+                                                     'Tors',						// lastName
+                                                     'Jack Tors', 					// fullName
+                                                     'jack.tors@somecustomer.org',	// email
+                                                     null, 							// link
+                                                     'jtors@somecustomer.org', 		// userName
+                                                     'en_US', 						// locale
+                                                     'Salesforce',					// provider
+                                                     null, 							// siteLoginUrl
+                                                     new Map<String, String>{});	// attributeMap 
           
         User u = handler.createUser(null, sampleData);
         
@@ -89,17 +80,17 @@ public class AH_CC_RegHandler_Test
         
         AH_CC_RegHandler handler = new AH_CC_RegHandler();
         
-        Auth.UserData sampleData = new Auth.UserData('ID00000001',                  // identifier
-                                                     'Jack',                        // firstName
-                                                     'Tors',                        // lastName
-                                                     'Jack Tors',                   // fullName
-                                                     'jack.tors@INVALIDMAIL.org',   // email
-                                                     null,                          // link
-                                                     'jtors@somecustomer.org',      // userName
-                                                     'en_US',                       // locale
-                                                     'Salesforce',                  // provider
-                                                     null,                          // siteLoginUrl
-                                                     new Map<String, String>{});    // attributeMap 
+        Auth.UserData sampleData = new Auth.UserData('ID00000001', 					// identifier
+                                                     'Jack', 						// firstName
+                                                     'Tors',						// lastName
+                                                     'Jack Tors', 					// fullName
+                                                     'jack.tors@INVALIDMAIL.org',	// email
+                                                     null, 							// link
+                                                     'jtors@somecustomer.org', 		// userName
+                                                     'en_US', 						// locale
+                                                     'Salesforce',					// provider
+                                                     null, 							// siteLoginUrl
+                                                     new Map<String, String>{});	// attributeMap 
         
         User u = handler.createUser(null, sampleData);
         

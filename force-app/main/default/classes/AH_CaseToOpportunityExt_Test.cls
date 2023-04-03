@@ -6,8 +6,8 @@ Last Mod Date   : 01/10/2018
 Last Mod By     : Sean Harris
 NICC Reference  : 
 Description     : Test Class for AH_CaseToOpportunityExt Controller class
-                : 
-                : 
+				: 
+				: 
 ******************************************************************************************/
 @isTest
 public class AH_CaseToOpportunityExt_Test 
@@ -55,7 +55,7 @@ public class AH_CaseToOpportunityExt_Test
         Product2 prd2 = NI_TestClassData.createProduct2(2, pgp.Id, 'APEX-TEST-02', 'Subscription');    
         prd2.Solution_Domain_Global__c = 'Sales & Catering';
         prd2.Edition__c = 'Enterprise';
-        prd2.Interface_Classification__c = 'PMS';        
+		prd2.Interface_Classification__c = 'PMS';        
         prd2.Classification__c = '2';          
         insert prd2;
         
@@ -81,7 +81,7 @@ Test.startTest();
         Case c2 = NI_TestClassData.createTestCase(2, a.Id); 
         c2.ContactId = cn.id;
         c2.Subject = 'AH_CaseToOpportunityExt_Test Test Case #2'; 
-        c2.AssetId = di2.Id;        
+		c2.AssetId = di2.Id;        
         lstCaseInsert.Add(c2); 
 
         Case c3 = NI_TestClassData.createTestCase(3, a.Id); 
@@ -120,7 +120,7 @@ Test.stopTest();
     {      
 
         Case c = [SELECT Id FROM Case WHERE Subject = 'AH_CaseToOpportunityExt_Test Test Case #1'];
-        Solution sol = [SELECT Id, SolutionNumber FROM Solution WHERE SolutionName = 'APEX TEST CLASS SOLUTION #1'];
+		Solution sol = [SELECT Id, SolutionNumber FROM Solution WHERE SolutionName = 'APEX TEST CLASS SOLUTION #1'];
         
         AH_Case_Solution__c cs = new AH_Case_Solution__c();
         cs.Name = 'Support to Sales';
@@ -150,8 +150,8 @@ Test.StopTest();
         Opportunity opp = [SELECT Id, Name, Opportunity_Source__c FROM Opportunity WHERE Name = 'AH_CaseToOpportunityExt_Test Account Enterprise PMS - 1'];
         system.assertEquals('Support', opp.Opportunity_Source__c);
         
-        List<CaseSolution> cSol = new List<CaseSolution>([SELECT Id FROM CaseSolution WHERE SolutionId =: sol.Id AND CaseId =: caseclosed.Id]);
-        system.assertEquals(1, cSol.size());
+		List<CaseSolution> cSol = new List<CaseSolution>([SELECT Id FROM CaseSolution WHERE SolutionId =: sol.Id AND CaseId =: caseclosed.Id]);
+		system.assertEquals(1, cSol.size());
 
     }
 
@@ -161,7 +161,7 @@ Test.StopTest();
         Case c = [SELECT Id FROM Case WHERE Subject = 'AH_CaseToOpportunityExt_Test Test Case #2'];
         Solution sol = [SELECT Id, SolutionNumber FROM Solution WHERE SolutionName = 'APEX TEST CLASS SOLUTION #1'];
         
-        AH_Case_Solution__c cs = new AH_Case_Solution__c();
+       	AH_Case_Solution__c cs = new AH_Case_Solution__c();
         cs.Name = 'Support to Sales';
         cs.Solution__c = sol.SolutionNumber;
         insert cs;        
@@ -189,8 +189,8 @@ Test.StopTest();
         Opportunity opp = [SELECT Id, Name, Opportunity_Source__c FROM Opportunity WHERE Name = 'AH_CaseToOpportunityExt_Test Account Enterprise PMS - 2'];
         system.assertEquals('Support', opp.Opportunity_Source__c);
 
-        List<CaseSolution> cSol = new List<CaseSolution>([SELECT Id FROM CaseSolution WHERE SolutionId =: sol.Id AND CaseId =: caseclosed.Id]);
-        system.assertEquals(1, cSol.size());
+		List<CaseSolution> cSol = new List<CaseSolution>([SELECT Id FROM CaseSolution WHERE SolutionId =: sol.Id AND CaseId =: caseclosed.Id]);
+		system.assertEquals(1, cSol.size());
         
     }
  
@@ -200,7 +200,7 @@ Test.StopTest();
         Case c = [SELECT Id FROM Case WHERE Subject = 'AH_CaseToOpportunityExt_Test Test Case #3'];
         Solution sol = [SELECT Id, SolutionNumber FROM Solution WHERE SolutionName = 'APEX TEST CLASS SOLUTION #1'];
         
-        AH_Case_Solution__c cs = new AH_Case_Solution__c();
+       	AH_Case_Solution__c cs = new AH_Case_Solution__c();
         cs.Name = 'Support to Sales';
         cs.Solution__c = sol.SolutionNumber;
         insert cs;        
@@ -229,8 +229,8 @@ Test.StopTest();
         Opportunity opp = [SELECT Id, Name, Opportunity_Source__c FROM Opportunity WHERE Name = 'AH_CaseToOpportunityExt_Test Account'];
         system.assertEquals('Support', opp.Opportunity_Source__c);
         
-        List<CaseSolution> cSol = new List<CaseSolution>([SELECT Id FROM CaseSolution WHERE SolutionId =: sol.Id AND CaseId =: caseclosed.Id]);
-        system.assertEquals(1, cSol.size());
+  		List<CaseSolution> cSol = new List<CaseSolution>([SELECT Id FROM CaseSolution WHERE SolutionId =: sol.Id AND CaseId =: caseclosed.Id]);
+		system.assertEquals(1, cSol.size());
 
     }
     

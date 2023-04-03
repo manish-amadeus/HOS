@@ -1,0 +1,77 @@
+<apex:page controller="AH_PLCM_MM_Thank_You" action="{!CheckTermsAndConditionStatus}">
+    <head>
+        <!-- Include CSS -->
+        <apex:stylesheet value="{!$Resource.AH_PLCM_MM_Style}"/>
+
+        <!-- Include JS -->
+        <apex:includeScript value="{!$Resource.AH_PLCM_JQuery_341}"/>
+    </head>
+    <!-- Progressbar :: Start -->
+     <c:AH_PLCM_MM_Progress_Bar BaseUrl="{!BaseUrl}" IsFunctionRoomInfomationProvided="{!ProjectPortalStatus.IsFunctionRoomInfomationProvided }" IsRoomCapacityInformationProvided="{!ProjectPortalStatus.IsRoomCapacityInformationProvided}"
+        IsInventoryInformationProvided="{!ProjectPortalStatus.IsInventoryInformationProvided}" PerecentageCompleted="{!ProjectPortalStatus.PerecentageCompleted}" />
+    <!-- Progressbar :: End -->
+    <apex:form id="frmThankYou">
+        <div class="SmileContent">
+                &#9786;
+        </div>        
+        <div class="HighlightedCenterContent" style="font-size:24px; ">Thank you</div>
+        <div class="HighlightedCenterContent" style="font-size:28px; font-weight:bold;">{!UserName}</div>
+        <div class="bodyContent">
+                You have successfully complete the conversion tool for {!ProjectName}. This information will be sent to the conversion team for your scheduled Diagram Readiness Call on {!MigrationDate}. Using the buttons below you can create a report for your records or go back to the home screen to complete the conversion tool for your other projects if needed.
+        </div>
+        <div style="text-align:center; padding-top:35px;">
+            <span class="divNowUCan">NOW YOU CAN...</span>
+        </div>
+        <div style="width:100%;margin-top:35px">
+            <div class="buttonAlignment">
+                <apex:commandButton value="Download Reports" styleClass="AttachmentButton" onclick="downloadReports(); return false;" style="background: url({!URLFOR($Resource.AH_PLCM_Attachment_Icon)}) no-repeat 10px center;"/>
+            </div>
+            <div style="float:left;text-align:center;width:10%">
+                <div class="orContentAlignment">OR</div>
+            </div>
+            <div class="buttonAlignment" style="text-align:left">
+                <apex:commandButton value="Back To Home" styleClass="BackButton" action="{!BackToWelcomePage}" style="background: url({!$Resource.AH_PLCM_Back_Icon}) no-repeat 10px center;"/>
+            </div>
+        </div>
+    </apex:form>
+    <script type="text/javascript">
+        document.addEventListener("DOMContentLoaded", function(event) { 
+        	//Change Page Title
+            window.parent.document.title = "Thank You";
+
+            //Remove navigation warning message
+            unbindNavigationWarning();
+            
+            //Split url to get query string parameters
+            // var arr = decodeURIComponent(window.location).split('?');
+            // if(arr.length >= 2) {
+            //  var frmThankYou = document.getElementById('{!$Component.frmThankYou}');
+
+                //Form action url
+            //  var strOldValue = frmThankYou.getAttribute('action');
+
+                //Update form action url by adding query string parameters
+            //  frmThankYou.setAttribute('action', strOldValue + '?' + arr[1]);
+            // }
+        });
+        
+        //Check if portal is opened with IE browser
+        function isIEBrowser() {
+            var userAgent = window.navigator.userAgent;
+            return userAgent.indexOf("MSIE ") > 0 || !!navigator.userAgent.match(/Trident.*rv\:11\./);
+        }
+
+        //download excel report
+        function downloadReports() {
+            var baseUrl = window.location.protocol + window.location.port + "//" + window.location.host 
+                                   
+            //download excel
+            var ifrm = document.createElement("IFRAME");
+            ifrm.setAttribute("src", baseUrl + "{!$Site.Prefix}/apex/AH_PLCM_MM_Export_Excel_All?ProjectId={!ProjectId}&RecordType=all&ReportType=xls");
+            ifrm.style.width = "0px";
+            ifrm.style.height = "0px";
+            ifrm.style.display = "none";
+            document.body.appendChild(ifrm);
+        }
+    </script>
+</apex:page>

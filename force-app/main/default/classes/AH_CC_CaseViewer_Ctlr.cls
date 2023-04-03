@@ -8,14 +8,13 @@ NICC Reference  :
 Description     : Controller for the AH_CC_CaseViewer Visualforce page.
                 :            
 ******************************************************************************************/
-public with sharing class AH_CC_CaseViewer_Ctlr 
+public class AH_CC_CaseViewer_Ctlr 
 {
 
     // LIMIT CONSTANTS =======================================  
-    private Integer PRIVATE_SOQL_LIMIT_CONST = 0;		// SETS OVERALL LIMIT TO SEARCH QUERY ISSUED
-    private Integer PRIVATE_RESULT_MAX_CONST = 0;		// SETS NUMBER OF RECORDS THAT WILL BE LOADED IN RESULTS
-    private Integer PRIVATE_INITIAL_MAX_CONST = 0;		// SETS NUMBER OF RECORDS THAT WILL BE LOADED IN FRESH PAGE
-    private Integer PRIVATE_DATE_RANGE_DAYS = 0;		// SETS NUMBER OF DAYS A USER CAN USE IN THEIR SPECIFIED DATE RANGE
+    private final Integer PRIVATE_SOQL_LIMIT_CONST = 10000;		// SETS OVERALL LIMIT TO SEARCH QUERY ISSUED
+    private final Integer PRIVATE_RESULT_MAX_CONST = 1000;		// SETS NUMBER OF RECORDS THAT WILL BE LOADED IN RESULTS
+    private final Integer PRIVATE_INITIAL_MAX_CONST = 25;		// SETS NUMBER OF RECORDS THAT WILL BE LOADED IN FRESH PAGE
     
     // PUBLIC VARIABLES ======================================
     // COLLECTIONS
@@ -34,15 +33,12 @@ public with sharing class AH_CC_CaseViewer_Ctlr
     public String strStartDateLabel {get; set;} 
     public String strEndDateLabel {get; set;} 
     public String strSOQL {get; set;} 
-    public String strDateMsg {get; set;}     
        
     // NUMERICS
     public Integer iRecCount {get; set;}
-    
     // BOOLEANS
     public Boolean bSearchCR {get; set;} 
     public Boolean bChatterEnabled {get; set;} 
-    public Boolean bShowSOQL {get; set;} 
     
     // PRIVATE VARIABLES ====================================
     private User runningUser {get; set;}
@@ -60,17 +56,7 @@ public with sharing class AH_CC_CaseViewer_Ctlr
     {
         
         system.debug(' *** ENTERING AH_CC_CaseViewer_Ctlr() - CONSTRUCTOR');        
-		
-        bShowSOQL = false;
-        if (ApexPages.CurrentPage().getParameters().containsKey('showSOQL')) 
-        {
-            String s = ApexPages.CurrentPage().getParameters().get('showSOQL');
-            if (s == '1' || s.toLowerCase() == 'true')
-            {
-                bShowSOQL = true;
-            }
-        }
-        
+
         // VARIABLE INITIALIZATIONS
 		initVariables();
         
@@ -90,19 +76,6 @@ public with sharing class AH_CC_CaseViewer_Ctlr
     private void initVariables()
     {
 
-        for (NI_Neighborhood_Case_Viewer_Thresholds__mdt cs : [SELECT MasterLabel, Date_Range_in_Days__c, Default_Record_Load__c, Maximum_Results__c, SOQL_Limit__c  
-                                                               FROM NI_Neighborhood_Case_Viewer_Thresholds__mdt])
-        {
-            if (cs.MasterLabel == 'Govenor Limits')
-            {
-                PRIVATE_SOQL_LIMIT_CONST = integer.valueOf(cs.SOQL_Limit__c);
-                PRIVATE_RESULT_MAX_CONST = integer.valueOf(cs.Maximum_Results__c);
-                PRIVATE_INITIAL_MAX_CONST = integer.valueOf(cs.Default_Record_Load__c);               
-                PRIVATE_DATE_RANGE_DAYS = integer.valueOf(cs.Date_Range_in_Days__c);  
-            }
-            
-        }            
-        
         searchText = ''; 
         sortByField = 'Case.CreatedDate'; 
         sortByDirection = 'ASC';
@@ -114,7 +87,6 @@ public with sharing class AH_CC_CaseViewer_Ctlr
         strSOQL = '';
         bSearchCR = false;
         bChatterEnabled = true;
-        strDateMsg = '';
         
         //runningUser = [SELECT Id, AccountId, IsActive, ContactId, UserType, FirstName, LastName FROM User WHERE Id = '0050d000003Zn8XAAS'];  
         runningUser = [SELECT Id, AccountId, IsActive, ContactId, UserType, FirstName, LastName FROM User WHERE Id =: UserInfo.getUserId()];  
@@ -193,90 +165,11 @@ public with sharing class AH_CC_CaseViewer_Ctlr
         lstSearchFields.add(new SelectOption('Cases with CRs', 'Cases with CRs'));
 
     }
-/*
-    public void forceDates()
-    {
-        
-        lstSearchResults = new List<searchResult>();
-        strDateMsg = '';
-		iRecCount = 0;  
-        searchResultMsg = '0 records found';
-        
-        if (dtStartDate == null || dtStartDate.trim() == '')
-        {
-            integer iDays = (PRIVATE_DATE_RANGE_DAYS - 1);
-            dtStartDate = system.today().addDays(-iDays).format();
-        }
-        
-        if (dtEndDate == null || dtEndDate.trim() == '')
-        {
-            dtEndDate = system.today().addDays(1).format();
-        }   
-        
-    }
-*/    
-    public void doSearch() 
-    {
-        
-        lstSearchResults = new List<searchResult>();
-        strDateMsg = '';
-		iRecCount = 0;  
-        searchResultMsg = '0 records found'; 
-/*        
-		// USER INPUT VALIDATION 
-        if (selField == 'Cases with CRs')
-        {
-            if (dtStartDate == null || dtStartDate.trim() == '')
-            {
-                strDateMsg = 'Created date range is required!';
-                return;
-            }
-            if (dtEndDate == null || dtEndDate.trim() == '')
-            {
-                strDateMsg = 'Created date range is required!';
-                return;
-            }
-            Date dt1;
-            Date dt2;
-            try
-            {
-                dt1 = Date.parse(dtStartDate);
-            }
-            catch (exception e)
-            {
-                strDateMsg = 'Created Start Date is invalid!';
-                return;
-            }
-            try
-            {
-                dt2 = Date.parse(dtEndDate);
-            }
-            catch (exception e)
-            {
-                strDateMsg = 'Created End Date is invalid!';
-                return;
-            }
-            if (dt1 > dt2)
-            {
-                strDateMsg = 'Created Start Date cannot greater than Created End Date';
-                return;
-            }
-            if (dt1.daysBetween(dt2) > PRIVATE_DATE_RANGE_DAYS) 
-            { 
-                strDateMsg = 'Date range is restricted to ' + string.valueOf(PRIVATE_DATE_RANGE_DAYS) + ' days maximum. (' + dt1.daysBetween(dt2) + ' days)';
-                return;                
-            }
-            
-        }       
-*/        
-        execSearch(sortByField + ' ' + sortByDirection, PRIVATE_RESULT_MAX_CONST);
-        
-    }
-    
+
     private void execSearch(String sortByExpression, Integer iLimit)
     {
         
-        // VARIABLE INITIALIZATIONS ===========================================================================================
+        // VARIABLE INITIALIZATIONS
         lstSearchResults = new List<searchResult>();
 		iRecCount = 0;  
         searchResultMsg = '0 records found'; 
@@ -284,115 +177,94 @@ public with sharing class AH_CC_CaseViewer_Ctlr
     	strEndDateLabel = 'Created End Date:'; 
         bSearchCR = false;
         
+        // BUILD DYNAMIC SOQL QUERY SEARCH STRING 
 
-        // ========================================
-        //  BUILD DYNAMIC SOQL QUERY SEARCH STRING 
-        // ========================================
-        
-        // DEFAULT SELECT FIELDS WITH TOP LEVEL WHERE CLAUSE ==================================================================
         string q = 'SELECT ';
-        q += 'Id, ';
-        q += 'CaseNumber, ';
-        q += 'Account.Name, ';
-        q += 'Contact.Name, ';
-        q += 'Subject, ';
-        q += 'Status, ';
-        q += 'Priority, ';
-        q += 'DI_Product_Group__c, ';
-        q += 'CreatedDate, ';
-        q += 'ClosedDate, ';
-        q += 'Change_Request__r.Name, ';
-        q += 'CR_Public_Status__c, ';
-        q += 'Change_Request__r.Public_Status_Description__c, ';
-        q += 'Change_Request__r.Title__c ';
-        q += 'FROM Case ';
-        q += 'WHERE '; //UserOrGroupId =: usrId ';   
-        q += 'RecordTypeId IN : setRTypes ';
-        q += 'AND Origin IN : setOrigins ';
-        q += 'AND Type IN : setCTypes ';
+        q += 'Case.Id, ';
+        q += 'Case.CaseNumber, ';
+        q += 'Case.Account.Name, ';
+        q += 'Case.Contact.Name, ';
+        q += 'Case.Subject, ';
+        q += 'Case.Status, ';
+        q += 'Case.Priority, ';
+        q += 'Case.DI_Product_Group__c, ';
+        q += 'Case.CreatedDate, ';
+        q += 'Case.ClosedDate, ';
+        q += 'Case.Change_Request__r.Name, ';
+        q += 'Case.CR_Public_Status__c, ';
+        q += 'Case.Change_Request__r.Public_Status_Description__c, ';
+        q += 'Case.Change_Request__r.Title__c ';
+        q += 'FROM CaseShare ';
+        q += 'WHERE UserOrGroupId =: usrId ';   
+        q += 'AND Case.RecordTypeId IN : setRTypes ';
+        q += 'AND Case.Origin IN : setOrigins ';
+        q += 'AND Case.Type IN : setCTypes ';
+         
         
-        
-        // ========================================
-        //  "Search By: " PICKLIST OPTIONS (START)
-        // ========================================
-        // APPLY 'My Open Cases' USER PICKLIST SELECTION FILTERING ============================================================          
+        // MY CASES CONDITIONS =============================================================          
         if (selField == 'My Open Cases')
         {   
-            q += 'AND Status != \'Closed\' ';
-            q += 'AND ContactId = : usrContactId ';
+            q += 'AND Case.Status != \'Closed\' ';
+            q += 'AND Case.ContactId = : usrContactId ';
         }
         
-        // APPLY 'My Closed Cases' USER PICKLIST SELECTION FILTERING ==========================================================   
         if (selField == 'My Closed Cases')
         {
             strStartDateLabel = 'Closed Start Date:'; 
             strEndDateLabel = 'Closed End Date:';             
-            q += 'AND Status = \'Closed\' ';
-            q += 'AND ContactId =: usrContactId ';
+            q += 'AND Case.Status = \'Closed\' ';
+            q += 'AND Case.ContactId =: usrContactId ';
         }
         
-        // APPLY 'All My Cases' USER PICKLIST SELECTION FILTERING =============================================================   
         if (selField == 'All My Cases')
         {       
-            q += 'AND ContactId =: usrContactId ';
+            q += 'AND Case.ContactId =: usrContactId ';
         }
         
-        // APPLY 'My Property\'s Open Cases' USER PICKLIST SELECTION FILTERING ================================================          
+        // MY PROPERY'S CONDITIONS ==========================================================          
         if (selField == 'My Property\'s Open Cases')
         {   
-            q += 'AND Status != \'Closed\' ';
-            q += 'AND AccountId = : usrAccountId ';                  
+            q += 'AND Case.Status != \'Closed\' ';
+            q += 'AND Case.AccountId = : usrAccountId ';                  
         }
         
-        // APPLY 'My Property\'s Closed Cases' USER PICKLIST SELECTION FILTERING ==============================================     
         if (selField == 'My Property\'s Closed Cases')
         { 
             strStartDateLabel = 'Closed Start Date:'; 
             strEndDateLabel = 'Closed End Date:';                  
-            q += 'AND Status = \'Closed\' ';
-            q += 'AND AccountId = : usrAccountId '; 
+            q += 'AND Case.Status = \'Closed\' ';
+            q += 'AND Case.AccountId = : usrAccountId '; 
         }
         
-        // APPLY 'All My Property\'s Cases' USER PICKLIST SELECTION FILTERING ================================================= 
         if (selField == 'All My Property\'s Cases')
         {      
-            q += 'AND AccountId = : usrAccountId '; 
+            q += 'AND Case.AccountId = : usrAccountId '; 
         }  
         
-        // APPLY 'All Properties\' Open Cases' USER PICKLIST SELECTION FILTERING ============================================== 
+        // ALL PROPERY'S CONDITIONS ==========================================================          
         if (selField == 'All Properties\' Open Cases')
         { 
-            q += 'AND Status != \'Closed\' ';
+            q += 'AND Case.Status != \'Closed\' ';
         }
         
-        // APPLY 'All Properties\' Closed Cases' USER PICKLIST SELECTION FILTERING ============================================ 
         if (selField == 'All Properties\' Closed Cases')
         {
             strStartDateLabel = 'Closed Start Date:'; 
             strEndDateLabel = 'Closed End Date:';                  
-            q += 'AND Status = \'Closed\' ';
+            q += 'AND Case.Status = \'Closed\' ';
         }
         
-        // APPLY 'Cases with CRs' USER PICKLIST SELECTION FILTERING ============================================================ 
+        // OTHER CONDITIONS ================================================================== 
         if (selField == 'Cases with CRs')
         {
-            //strStartDateLabel = 'Opened Start Date:'; 
-            //strEndDateLabel = 'Opened End Date:';    
-            q += 'AND Status IN (\'Closed\', \'Paused - Development Team Review\') ';
-            q += 'AND Change_Request__c != null '; 
+            strStartDateLabel = 'Closed Start Date:'; 
+            strEndDateLabel = 'Closed End Date:';    
+            q += 'AND Case.Status IN (\'Closed\', \'Paused - Development Team Review\') ';
+            q += 'AND Case.Change_Request__c != null ';
             bSearchCR = true;
-        }
-        
-		// ========================================
-        //  "Search By: " PICKLIST OPTIONS (END)
-        // ========================================
-        
-        
-		// ========================================
-        //  DATE RANGE FILTERING (START)
-        // ========================================      
-        
-        // PARSE "START" DATE ==================================================================================================
+        }        
+
+        // CLOSED DATE BETWEEN ===============================================================
         if (dtStartDate != '')
         {
             // SOQL INJECTION PROTECTION
@@ -400,69 +272,62 @@ public with sharing class AH_CC_CaseViewer_Ctlr
 
             try
             {
-                
                 Date d1 = Date.parse(strDate1);
-                
                 string d1Month = String.valueOf(d1.month());
                 if (d1Month.length() == 1)
                 {
                     d1Month = '0' + d1Month;
                 }
-                
                 string d1Day = String.valueOf(d1.day());
                 if (d1Day.length() == 1)
                 {
                     d1Day = '0' + d1Day;
-                }
-                
-                string strStart = string.valueOf(d1.year()) + '-' + d1Month + '-' + d1Day;
+                }               
+                String strStart = String.valueOf(d1.year()) + '-' + d1Month + '-' + d1Day;
+               
                 if (strStartDateLabel == 'Closed Start Date:')
                 {
-                    q += 'AND ClosedDate >= ' + strStart + 'T00:00:00.000Z ';
+                    q += 'AND Case.ClosedDate >= ' + strStart + 'T00:00:00.000Z ';
                 }
                 else
                 {
-                    q += 'AND CreatedDate >= ' + strStart + 'T00:00:00.000Z '; 
-                    q += 'AND LastModifiedDate >= ' + strStart + 'T00:00:00.000Z '; 
-                }				
+                    q += 'AND Case.CreatedDate >= ' + strStart + 'T00:00:00.000Z ';
+                }
+				
                  
             }
             catch (Exception ex) {}
                 
         }
         
-        // PARSE "END" DATE ====================================================================================================
         if (dtEndDate != '')
         {
-            
             // SOQL INJECTION PROTECTION
             String strDate2 = string.escapeSingleQuotes(dtEndDate);   
          
             try
             {
-                
                 Date d2 = Date.parse(strDate2);
                 d2 = d2.addDays(1);
-                string d2Month = string.valueOf(d2.month());
+                string d2Month = String.valueOf(d2.month());
                 if (d2Month.length() == 1)
                 {
                     d2Month = '0' + d2Month;
                 }
-                
-                string d2Day = string.valueOf(d2.day());
+                string d2Day = String.valueOf(d2.day());
                 if (d2Day.length() == 1)
                 {
                     d2Day = '0' + d2Day;
-                } 
-                
-                string strEnd = string.valueOf(d2.year()) + '-' + d2Month + '-' + d2Day; 
+                }               
+                String strEnd = String.valueOf(d2.year()) + '-' + d2Month + '-' + d2Day;
+                 
                 if (strEndDateLabel == 'Closed End Date:')
                 { 
-                    q += 'AND ClosedDate < ' + strEnd + 'T00:00:00.000Z ';
+                    q += 'AND Case.ClosedDate < ' + strEnd + 'T00:00:00.000Z ';
                 }
                 else
                 {
-                    q += 'AND CreatedDate < ' + strEnd + 'T00:00:00.000Z ';
+                    q += 'AND Case.CreatedDate < ' + strEnd + 'T00:00:00.000Z ';
                 }
 				
             }
@@ -473,16 +338,15 @@ public with sharing class AH_CC_CaseViewer_Ctlr
         {
             
             // SOQL INJECTION PROTECTION
-            string strKeyWord = string.escapeSingleQuotes(searchText);     
+            String strKeyWord = string.escapeSingleQuotes(searchText);     
             
-            q += 'AND (CaseNumber LIKE \'%' + strKeyWord + '%\' '; 
-            q += 'OR Account.Name LIKE \'%' + strKeyWord + '%\' '; 
-            q += 'OR Contact.Name LIKE \'%' + strKeyWord + '%\' '; 
-            q += 'OR Status LIKE \'%' + strKeyWord + '%\' '; 
-            q += 'OR Priority LIKE \'%' + strKeyWord + '%\' '; 
-            q += 'OR DI_Product_Group__c LIKE \'%' + strKeyWord + '%\' '; 
-            q += 'OR Subject LIKE \'%' + strKeyWord + '%\') '; 
-            
+            q += 'AND (Case.CaseNumber LIKE \'%' + strKeyWord + '%\' ';
+            q += 'OR Case.Account.Name LIKE \'%' + strKeyWord + '%\' ';
+            q += 'OR Case.Contact.Name LIKE \'%' + strKeyWord + '%\' ';
+            q += 'OR Case.Status LIKE \'%' + strKeyWord + '%\' ';  
+            q += 'OR Case.Priority LIKE \'%' + strKeyWord + '%\' ';  
+            q += 'OR Case.DI_Product_Group__c LIKE \'%' + strKeyWord + '%\' ';  
+            q += 'OR Case.Subject LIKE \'%' + strKeyWord + '%\') ';  
         }
         
 		// ORDER BY 
@@ -503,30 +367,30 @@ public with sharing class AH_CC_CaseViewer_Ctlr
         try 
         {
          
-            List<Case> lstResults = Database.query(q);
+            List<CaseShare> lstResults = Database.query(q);
             Integer iCounter = 0;
             
             if (!lstResults.isEmpty())
             {
-                for (Case rs : lstResults)
+                for (CaseShare rs : lstResults)
                 {                        
-                    if (!mapDupeChecker.containsKey(rs.Id))
+                    if (!mapDupeChecker.containsKey(rs.Case.Id))
                     {                        
                         searchResult x = new searchResult(
-                            rs.Id, 
-                            rs.CaseNumber,                         
-                            rs.Account.Name, 
-                            rs.Contact.Name, 
-                            rs.Subject, 
-                            rs.Status, 
-                            rs.Priority, 
-                            rs.DI_Product_Group__c, 
-                            rs.CreatedDate, 
-                            rs.ClosedDate,
-                            rs.Change_Request__r.Name, 
-                            rs.CR_Public_Status__c,
-                            rs.Change_Request__r.Public_Status_Description__c, 
-                            rs.Change_Request__r.Title__c                           
+                            rs.Case.Id, 
+                            rs.Case.CaseNumber,                         
+                            rs.Case.Account.Name, 
+                            rs.Case.Contact.Name, 
+                            rs.Case.Subject, 
+                            rs.Case.Status, 
+                            rs.Case.Priority, 
+                            rs.Case.DI_Product_Group__c, 
+                            rs.Case.CreatedDate, 
+                            rs.Case.ClosedDate,
+                            rs.Case.Change_Request__r.Name, 
+                            rs.Case.CR_Public_Status__c,
+                            rs.Case.Change_Request__r.Public_Status_Description__c, 
+                            rs.Case.Change_Request__r.Title__c                           
                         ); 
                         
                         iCounter += 1;
@@ -538,7 +402,7 @@ public with sharing class AH_CC_CaseViewer_Ctlr
                         
                         iRecCount++; 
                         
-                        mapDupeChecker.put(rs.Id, rs.CaseNumber); 
+                        mapDupeChecker.put(rs.Case.Id, rs.Case.CaseNumber); 
                     }                    
                 }
                 
@@ -561,10 +425,16 @@ public with sharing class AH_CC_CaseViewer_Ctlr
             lstSearchResults.clear();
             searchResultMsg = 'An error occurred while performing search. Please try again and report to Amadeus Hospitality CustomerCentral administration if error persists.'; 
 			String strDetails = 'Error occurred in execSearch() on Line#: ' + ex.getLineNumber() + ' - ' + ex.getMessage();
+//            NI_Error_Logger.WriteToLog(strDetails, 'CustomerCentral', 'AH_CC_CaseViewer_Ctlr', 'Insert'); 
         }       
      
     }
     
+    public void doSearch() 
+    {
+        execSearch(sortByField + ' ' + sortByDirection, PRIVATE_RESULT_MAX_CONST);
+    }    
+    	
     public void doSort() 
     {
         if (sortByDirection == 'ASC')

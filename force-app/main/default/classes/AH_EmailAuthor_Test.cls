@@ -6,7 +6,7 @@ Last Mod Date   : 08/03/2017
 Last Mod By     : Sean Harris
 NICC Reference  : NICC-023217
 Description     : Test Class for AH_EmailAuthor controller for AH_EmailAuthor VF Page
-				: UPDATED THIS CLASS WITH ARBITRARY ADDITIONS FOR DEVOPS PROD DEPLOY TESTING
+				: 
 ******************************************************************************************/
 @isTest
 public class AH_EmailAuthor_Test 
@@ -19,9 +19,7 @@ public class AH_EmailAuthor_Test
     {    
 
 		system.debug(' *** AH_EmailDocs_Ext_Test.createTestData() - START ***'); 
-		system.debug('Devops says...');
-        system.debug('HELLO WORLD!');
-        
+		        
 Test.startTest();
 /*        
         // BECAUSE THIS TEST CLASS CREATES ATTACHMENTS, WE NEED TO CREATE WIN@PROACH CUSTOMSETTINGS FOR NI_Attachment_TriggerHandler CLASS

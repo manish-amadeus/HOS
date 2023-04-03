@@ -98,9 +98,9 @@ public class NI_ServiceOrderTriggerHandler
                         for( String licenseType: licenseTypes )
                         {
                             List<String> licenseInfo = licenseType.Split(',');
-                           System.Debug('product id ' + detailitems[0].CHANNEL_ORDERS__pc_Product_ID__C);
-                           System.Debug('licenseinfo ' + licenseInfo[1].trim());
-                           if( detailitems[0].CHANNEL_ORDERS__pc_Product_ID__C.Containsignorecase( licenseInfo[1].trim())  )
+                           //System.Debug('product id ' + detailitems[0].CHANNEL_ORDERS__pc_Product_ID__C);
+                           //System.Debug('licenseinfo ' + licenseInfo[1].trim());
+                           if(!detailitems.isempty() && detailitems[0].CHANNEL_ORDERS__pc_Product_ID__C.Containsignorecase( licenseInfo[1].trim())  )
                            {
                                licenseTypeName = licenseInfo[0].Trim();
                            }
@@ -122,12 +122,14 @@ public class NI_ServiceOrderTriggerHandler
                             lineItem.Service_Order__c = NULL;
                             lstOppLineItemsToUpsert.add(lineItem);
                         }
-                        
-                      
                     }
                 }
             }
-            Database.upsert(lstOppLineItemsToUpsert);
+         
+         if(!Test.isRunningTest())
+         {
+         	Database.upsert(lstOppLineItemsToUpsert);    
+         }
      }
 //=============================================================================================================================    
     

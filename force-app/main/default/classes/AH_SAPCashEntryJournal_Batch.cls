@@ -186,14 +186,14 @@ global class AH_SAPCashEntryJournal_Batch implements Database.Batchable<sObject>
             // ADD A DAY TO CURRENT TIME MINUS 10 MINUTES 
             schedTime = getNextRun(DateTime.now().addDays(1).addMinutes(-8));
             // SCHEDULE JOB FOR NEXT FFA COMPANY
-            if (Test.isRunningTest()) { AH_SAPCashEntryJournal_Schedule.scheduleIt('Newmarket US APEX TEST', schedTime); } else { AH_SAPCashEntryJournal_Schedule.scheduleIt('Newmarket US', schedTime); }
+            AH_SAPCashEntryJournal_Schedule.scheduleIt('Newmarket US', schedTime);
         }
         else
         {
             // ADD 2 MINUTES TO CURRENT TIME 
             schedTime = getNextRun(DateTime.now().addMinutes(2));
             // SCHEDULE JOB FOR NEXT FFA COMPANY
-            if (Test.isRunningTest()) { AH_SAPCashEntryJournal_Schedule.scheduleIt('Newmarket US APEX TEST', schedTime); } else { AH_SAPCashEntryJournal_Schedule.scheduleIt(lstNextSAPTransaction[0].FFA_Company__c, schedTime); }
+            AH_SAPCashEntryJournal_Schedule.scheduleIt(lstNextSAPTransaction[0].FFA_Company__c, schedTime);
         }
         
     }    

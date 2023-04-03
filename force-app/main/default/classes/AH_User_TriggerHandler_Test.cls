@@ -6,11 +6,11 @@ Last Mod Date   : 04/18/2020
 Last Mod By     : Sean Harris
 NICC Reference  : 
 Description     : Class that handles all trigger code for the User Object
-                : Code migrated from NI_User_TriggerHandler_Test to meet naming convention standards
-                :
-                : IMPORTANT NOTE:
+				: Code migrated from NI_User_TriggerHandler_Test to meet naming convention standards
+				:
+				: IMPORTANT NOTE:
                 : THE API ON THIS CLASS NEEDS TO BE UNDER API 34 BECAUSE OF FOLLOWING ERROR:
-                :           System.SObjectException: Field is not writeable: User.ProfileId
+				:			System.SObjectException: Field is not writeable: User.ProfileId
 *************************************************************************************************/
 @isTest
 public class AH_User_TriggerHandler_Test 
@@ -55,7 +55,7 @@ public class AH_User_TriggerHandler_Test
             cnt.Fax = '603-555-0003';  
             insert cnt;            
             
-            // CREATE A PARTNER COMMUNITY USER            
+			// CREATE A PARTNER COMMUNITY USER            
             Account aPrtnr = NI_TestClassData.createTestAccount(1);
             aPrtnr.Name = 'AH_User_TriggerHandler_Test Partner Account';
             insert aPrtnr;
@@ -140,7 +140,7 @@ public class AH_User_TriggerHandler_Test
         test.stopTest();
         
     }
-        
+	    
     //======================================================================================================================
     //  TEST USER PROFILE SELECTION VALIDATION
     //======================================================================================================================
@@ -214,9 +214,7 @@ public class AH_User_TriggerHandler_Test
         
         Database.insert(lstContactInsert);  
         
-        test.stopTest();  
-        
-        system.debug('ssss222::' + lstContactInsert);      
+        test.stopTest();        
         
         User uSysAdm = [SELECT Id FROM User WHERE Alias = 'APEXSYSU'];
         User uSlsUsr = [SELECT Id FROM User WHERE Alias = 'APEXSLSU'];
@@ -338,31 +336,11 @@ public class AH_User_TriggerHandler_Test
         // ASSERT THAT SYSTEM ADMIN CAN CHANGE PROFILES
         system.runAs(uSysAdm)
         {
-        //system.debug('ssss111::' + cSptCnt.Id);
-            //User u4 = [SELECT Id FROM User WHERE ContactId =: cSptCnt.id];
-            
-            /*Profile testProfile = [SELECT Id 
-                           FROM profile
-                           WHERE Name = 'AH PartnerCentral Login User' 
-                           LIMIT 1];
-           
-            User u4 = new User(LastName = 'test user 1', 
-                             Username = 'test.user.1@example.ahcc', 
-                             Email = 'test.1@example.ahcc', 
-                             Alias = 'testu1', 
-                             TimeZoneSidKey = 'GMT', 
-                             LocaleSidKey = 'en_GB', 
-                             EmailEncodingKey = 'ISO-8859-1', 
-                             ProfileId = testProfile.Id, 
-                             ContactId = cSptCnt.id,
-                             LanguageLocaleKey = 'en_US'); 
-            insert u4;
-            
-            system.debug('ssss::' + u4);
+            User u4 = [SELECT Id FROM User WHERE ContactId =: cSptCnt.Id];
             u4.ProfileId = pInvSuptPrf.Id;
             update u4;
             List<User> lstUserAsserts = new List<User>([SELECT Id, ProfileId FROM User WHERE ContactId =: cSptCnt.Id AND ProfileId =: pInvSuptPrf.Id]);
-            system.assertEquals(1, lstUserAsserts.size());*/
+            system.assertEquals(1, lstUserAsserts.size());
         } 
         
         // ASSERT THAT A USER CAN CHANGE THEIR OWN USER RECORD
@@ -625,13 +603,13 @@ public class AH_User_TriggerHandler_Test
         system.assertEquals(cnt.Email, usr.Email); 
         
     }
-        
+	    
     //======================================================================================================================
     //  TEST CREATING PARTNER CHATTER GROUP ASSIGNMENTS
     //======================================================================================================================
     @isTest static void test7()
     {   
-        
+		
         User u = [SELECT Id FROM User WHERE Alias = 'X0XoXoX'];
         
         // ASSERT THAT THE ACCOUNT GETS CHANGED TO A PARTNER AFTER CONTACT IS ENABLED AS A PARTNER USER

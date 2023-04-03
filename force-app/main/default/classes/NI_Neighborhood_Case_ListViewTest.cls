@@ -48,16 +48,14 @@ private class NI_Neighborhood_Case_ListViewTest
         insert cnt;
        
         //CREATE TEST CUSTOMER PORTAL USER  
-        UserRole userrole = [Select Id, DeveloperName From UserRole Where DeveloperName = 'CEOCFO' Limit 1];
         User cu = NI_TestClassData.createTestUser(2, 'AH Customer Community Plus Login User');
         cu.ContactId = cnt.Id;
-        cu.UserRoleId = userRole.Id;
         cu.Username = 'XXXXtestzzz_00' + String.valueOf(2) + '@amadeushospitality.com.ahcc';
-        //insert cu;
+        insert cu;
         
         // VERIFY THAT A CUSTOMER PORTAL USER WAS CREATED
         List<User> lstTestUser = new List<User>([SELECT Id FROM User WHERE ProfileId =: profileIDTest AND ContactId =: cnt.Id AND AccountId =: a.Id]);
-        //system.AssertEquals(1, lstTestUser.Size());
+        system.AssertEquals(1, lstTestUser.Size());
         
         // CREATE TEST STANDARD USER  
         User su = NI_TestClassData.createTestUser(3, 'System Administrator');
@@ -92,10 +90,10 @@ private class NI_Neighborhood_Case_ListViewTest
 
         
         //RUN AS CUSTOMER PORTAL USER  
-        //System.runAs(cu) 
-        //{            
+        System.runAs(cu) 
+        {            
             
-            //system.assertEquals(cu.Id, UserInfo.getUserId());
+            system.assertEquals(cu.Id, UserInfo.getUserId());
             
             //CONTROLLER 
             NI_Neighborhood_Case_ListView ctrl = new NI_Neighborhood_Case_ListView();
@@ -224,7 +222,7 @@ private class NI_Neighborhood_Case_ListViewTest
             ctrl.endDate = null;
             ctrl.getCasesExcelExport();                                     
             
-        //} 
+        } 
 
         
         //RUN AS STANDARD USER  
@@ -232,7 +230,7 @@ private class NI_Neighborhood_Case_ListViewTest
         {            
             //CONTROLLER 
             NI_Neighborhood_Case_ListView ctrlStd = new NI_Neighborhood_Case_ListView();
-            ctrlStd.usrContactId = cnt.Id;//cu.Id;
+            ctrlStd.usrContactId = cu.Id;
             ctrlStd.callMethods2();            
             ctrlStd.internalUserMethod();
         }

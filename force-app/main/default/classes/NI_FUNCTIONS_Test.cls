@@ -782,14 +782,7 @@ boolean bIsEmail = NI_FUNCTIONS.isValidEmailAddress('sharris@newmarketinc.com');
     // =======================================================================================================================================     
     @isTest static void test5() 
     {     
-        UserRole ur = [SELECT Id FROM UserRole WHERE Name = 'Exterity Partner User' LIMIT 1];
-        Contact cont = [select Id  from Contact where LastName = 'Testuser' limit 1];
-        User u = NI_TestClassData.createTestUser(1, 'NI Administrator'); //AH PartnerCentral Login User'
-        //u.ContactId = cont.Id;
-        u.Alias = 'PARTTST1';
-		//u.UserRoleId = ur.Id;        
-        insert u;
-       
+        
         // GET RECORDTYPE INFO
         Schema.DescribeSObjectResult cfrSchema = Schema.SObjectType.Account; 
         Map<String, Schema.RecordTypeInfo> AccountRecordTypeInfo = cfrSchema.getRecordTypeInfosByName(); 
@@ -810,8 +803,12 @@ boolean bIsEmail = NI_FUNCTIONS.isValidEmailAddress('sharris@newmarketinc.com');
         insert pft2a;        
         
         Contact con = NI_TestClassData.createTestContact(1, a.Id);
-        insert con;
-     
+        insert con;  
+        
+        User u = NI_TestClassData.createTestUser(1, 'AH PartnerCentral Login User'); 
+        u.ContactId = con.Id;
+        u.Alias = 'PARTTST1'; 
+        insert u;
         
         //        system.runAs(u) {
         // statements to be executed by this test user.
@@ -835,8 +832,8 @@ boolean bIsEmail = NI_FUNCTIONS.isValidEmailAddress('sharris@newmarketinc.com');
         //        List<Contract> lstContractAsserts = new List<Contract>([SELECT Id FROM Contract WHERE AccountId =: a.Id AND ct_ContactIPAddress__c = '0.0.0.0']);
         //       system.assertEquals(1, lstContractAsserts.size());
         
-       /* User userAssert2 = [SELECT Id, Partner_Terms_Accepted__c FROM User WHERE Alias = 'PARTTST1'];
-        system.assertEquals('True', userAssert2.Partner_Terms_Accepted__c); */
+        User userAssert2 = [SELECT Id, Partner_Terms_Accepted__c FROM User WHERE Alias = 'PARTTST1'];
+        system.assertEquals('True', userAssert2.Partner_Terms_Accepted__c); 
         
     }
     

@@ -18,88 +18,80 @@ public class AH_PartnerForms_Test
     // ======================================================================================================================================= 
     @testSetup static void createTestData() 
     {
-        // CREATE A COMMUNITY USER
-        User u1 = NI_TestClassData.createTestUser(1, 'System Administrator');
-        u1.Alias = 'APEXSYSU';
-        u1.UserRoleId = [SELECT Id FROM UserRole WHERE Name LIKE 'CEO%' LIMIT 1].Id;
-        insert u1; 
+		
+        // CREATE TEST CUSTOM SETTINGS 
+        PartnerCentralTemplateTypes__c cs1 = new PartnerCentralTemplateTypes__c();
+        cs1.Name = 'Non-Perpetual';
+        cs1.TermLength__c = 1095;
+        insert cs1;
+
+        PartnerCentralTemplateTypes__c cs2 = new PartnerCentralTemplateTypes__c();
+        cs2.Name = 'Perpetual';
+        cs2.TermLength__c = 7305;
+        insert cs2;
         
-        system.runAs(u1)
-        {
+        // CREATE TEST ACCOUNT RECORD 
+        Schema.DescribeSObjectResult cfrSchema = Schema.SObjectType.Account; 
+        Map<String, Schema.RecordTypeInfo> AccountRecordTypeInfo = cfrSchema.getRecordTypeInfosByName();         
+        Id rtPartnerAccountId = AccountRecordTypeInfo.get('Partner Account').getRecordTypeId();    
         
-            // CREATE TEST CUSTOM SETTINGS 
-            PartnerCentralTemplateTypes__c cs1 = new PartnerCentralTemplateTypes__c();
-            cs1.Name = 'Non-Perpetual';
-            cs1.TermLength__c = 1095;
-            insert cs1;
-    
-            PartnerCentralTemplateTypes__c cs2 = new PartnerCentralTemplateTypes__c();
-            cs2.Name = 'Perpetual';
-            cs2.TermLength__c = 7305;
-            insert cs2;
+        Account a = NI_TestClassData.createTestAccount(1);
+        a.Name = 'APEX TEXT FOR AH_PartnerForms_Test Class #1';
+        a.RecordTypeId = rtPartnerAccountId;
+        insert a;
+
+        // CREATE TEST CONTACT RECORD
+        Contact cnt = NI_TestClassData.createTestContact(1, a.Id);
+        cnt.FirstName = 'Jackie';
+        cnt.LastName = 'Nauff';
+        cnt.Email = 'jnauff@somedomain.com';
+        insert cnt;
+        
+        List<Contact> lstContactAsserts = new List<Contact>([SELECT Id FROM Contact WHERE AccountId =: a.Id]);
+        system.AssertEquals(1, lstContactAsserts.size());      
             
-            // CREATE TEST ACCOUNT RECORD 
-            Schema.DescribeSObjectResult cfrSchema = Schema.SObjectType.Account; 
-            Map<String, Schema.RecordTypeInfo> AccountRecordTypeInfo = cfrSchema.getRecordTypeInfosByName();         
-            Id rtPartnerAccountId = AccountRecordTypeInfo.get('Partner Account').getRecordTypeId();    
-            
-            Account a = NI_TestClassData.createTestAccount(1);
-            a.Name = 'APEX TEXT FOR AH_PartnerForms_Test Class #1';
-            a.RecordTypeId = rtPartnerAccountId;
-            insert a;
-    
-            // CREATE TEST CONTACT RECORD
-            Contact cnt = NI_TestClassData.createTestContact(1, a.Id);
-            cnt.FirstName = 'Jackie';
-            cnt.LastName = 'Nauff';
-            cnt.Email = 'jnauff@somedomain.com';
-            insert cnt;
-            
-            List<Contact> lstContactAsserts = new List<Contact>([SELECT Id FROM Contact WHERE AccountId =: a.Id]);
-            system.AssertEquals(1, lstContactAsserts.size());      
-                
-            // CREATE TEST PARTNER USER
-            Profile pro = [SELECT Id, UserType FROM Profile WHERE Name = 'AH PartnerCentral Login User'];        
-            system.assertEquals('PowerPartner', pro.UserType);
-            
-            User pu = NI_TestClassData.createTestUser(2, 'AH PartnerCentral Login User');
-            pu.ContactId = cnt.Id;
-            pu.Partner_Permissions__c = 'Cendyn';
-            pu.Partner_Terms_Accepted__c = 'True';
-            insert pu;
-            
-            // VERIFY THAT A PARTNER PORTAL USER WAS CREATED
-            List<User> lstTestUser = new List<User>([SELECT Id, AccountId FROM User WHERE ProfileId =: pro.Id AND ContactId =: cnt.Id AND AccountId =: a.Id]);
-            system.AssertEquals(1, lstTestUser.Size());  
-            
-            // CREATE TEST PARTNER FORM RECORDS
-            Partners_Form_Template__c pt1 = new Partners_Form_Template__c();        
-            pt1.Start_Date__c = Date.today();
-            pt1.End_Date__c = Date.today() + 7;
-            pt1.Subject__c = 'APEX TEST Non-Perpetual FORM';
-            pt1.Template_Type__c = 'Non-Perpetual';
-            pt1.Terms__c = 'These are the terms.';
-            insert pt1;
-            
-            Partners_Form_Template__c pt2 = new Partners_Form_Template__c();        
-            pt2.Start_Date__c = Date.today();
-            pt2.End_Date__c = Date.today() + 7;
-            pt2.Subject__c = 'APEX TEST Perpetual FORM';
-            pt2.Template_Type__c = 'Perpetual';
-            pt2.Terms__c = 'These are the terms.';
-            insert pt2;
-            
-            // CREATE TEST PARTNER FORM TO ACCOUNT JUNCTION RECORDS
-            Partners_Form_Template_to_Account__c pft1 = new Partners_Form_Template_to_Account__c();
-            pft1.Partners_Form_Template__c = pt1.Id;
-            pft1.Account__c = a.Id;
-            insert pft1;
-            
-            Partners_Form_Template_to_Account__c pft2 = new Partners_Form_Template_to_Account__c();
-            pft2.Partners_Form_Template__c = pt2.Id;
-            pft2.Account__c = a.Id;
-            insert pft2;         
-        }
+        // CREATE TEST PARTNER USER
+        Profile pro = [SELECT Id, UserType FROM Profile WHERE Name = 'AH PartnerCentral Login User'];        
+        system.assertEquals('PowerPartner', pro.UserType);
+        
+        User pu = NI_TestClassData.createTestUser(2, 'AH PartnerCentral Login User');
+        pu.ContactId = cnt.Id;
+        pu.Partner_Permissions__c = 'Cendyn';
+        pu.Partner_Terms_Accepted__c = 'True';
+        insert pu;
+        
+        // VERIFY THAT A PARTNER PORTAL USER WAS CREATED
+        List<User> lstTestUser = new List<User>([SELECT Id, AccountId FROM User WHERE ProfileId =: pro.Id AND ContactId =: cnt.Id AND AccountId =: a.Id]);
+        system.AssertEquals(1, lstTestUser.Size());  
+        
+        // CREATE TEST PARTNER FORM RECORDS
+        Partners_Form_Template__c pt1 = new Partners_Form_Template__c();        
+        pt1.Start_Date__c = Date.today();
+        pt1.End_Date__c = Date.today() + 7;
+        pt1.Subject__c = 'APEX TEST Non-Perpetual FORM';
+        pt1.Template_Type__c = 'Non-Perpetual';
+        pt1.Terms__c = 'These are the terms.';
+		insert pt1;
+        
+        Partners_Form_Template__c pt2 = new Partners_Form_Template__c();        
+        pt2.Start_Date__c = Date.today();
+        pt2.End_Date__c = Date.today() + 7;
+        pt2.Subject__c = 'APEX TEST Perpetual FORM';
+        pt2.Template_Type__c = 'Perpetual';
+        pt2.Terms__c = 'These are the terms.';
+        insert pt2;
+        
+        // CREATE TEST PARTNER FORM TO ACCOUNT JUNCTION RECORDS
+        Partners_Form_Template_to_Account__c pft1 = new Partners_Form_Template_to_Account__c();
+        pft1.Partners_Form_Template__c = pt1.Id;
+        pft1.Account__c = a.Id;
+        insert pft1;
+        
+        Partners_Form_Template_to_Account__c pft2 = new Partners_Form_Template_to_Account__c();
+        pft2.Partners_Form_Template__c = pt2.Id;
+        pft2.Account__c = a.Id;
+        insert pft2;         
+
     }
     
     @isTest static void testPartnerForm1() 

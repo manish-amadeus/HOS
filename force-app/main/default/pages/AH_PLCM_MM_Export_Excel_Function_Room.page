@@ -1,0 +1,58 @@
+<apex:page controller="AH_PLCM_MM_Export_Report" standardstylesheets="false" contentType="{!ContentType}">
+    <apex:outputText value="{!xlsHeader}" />
+    <Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet" xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet" xmlns:html="http://www.w3.org/TR/REC-html40">
+        <Styles>
+            <Style ss:ID="Headers">
+                <Alignment />
+                <Borders/>
+                <Font ss:Bold="1"/>
+                <Interior/>
+                <NumberFormat/>
+                <Protection/>
+            </Style>
+            <Style ss:ID="SODetails">
+                <Alignment ss:Vertical="Bottom" ss:WrapText="1"/>
+            </Style>
+        </Styles>
+        <Worksheet ss:Name="Function Room">
+            <Table x:FullColumns="1" x:FullRows="1">
+                <Column ss:Width="160"/>
+                <Column ss:Width="160"/>
+                <Column ss:Width="160"/>
+                <Column ss:Width="100"/>
+                <Column ss:Width="100"/>
+                <Column ss:Width="120"/>
+                <Column ss:Width="100"/>
+                <Column ss:Width="160"/>
+                <Column ss:Width="160"/>
+                <Column ss:Width="160"/>
+                <Row>
+                    <Cell ss:StyleID="Headers"><Data ss:Type="String">Function Room Name</Data></Cell>
+                    <Cell ss:StyleID="Headers"><Data ss:Type="String">Source Type</Data></Cell>
+                    <Cell ss:StyleID="Headers"><Data ss:Type="String">Source Location</Data></Cell>
+                    <Cell ss:StyleID="Headers"><Data ss:Type="String">Square Feet</Data></Cell>
+                    <Cell ss:StyleID="Headers"><Data ss:Type="String">Ceiling Height</Data></Cell>
+                    <Cell ss:StyleID="Headers"><Data ss:Type="String">Function Room Type</Data></Cell>
+                    <Cell ss:StyleID="Headers"><Data ss:Type="String">Reception Only</Data></Cell>
+                    <Cell ss:StyleID="Headers"><Data ss:Type="String">Floor Plan Level</Data></Cell>
+                    <Cell ss:StyleID="Headers"><Data ss:Type="String">Seating Orientation?</Data></Cell>
+                    <Cell ss:StyleID="Headers"><Data ss:Type="String">Seating Orientation Details</Data></Cell>
+                </Row>
+                <apex:repeat value="{!lstExportFunctionRoom}" var="functionRoom">
+                    <Row>
+                        <Cell ss:StyleID="SODetails"><Data ss:Type="String">{!functionRoom.Name}</Data></Cell>
+                        <Cell><Data ss:Type="String">{!functionRoom.MM_Source_Type__c}</Data></Cell>
+                        <Cell ss:StyleID="SODetails"><Data ss:Type="String">{!functionRoom.MM_Source_Location__c}</Data></Cell>
+                        <Cell><Data ss:Type="Number">{!functionRoom.MM_Square_Feet__c}</Data></Cell>
+                        <Cell><Data ss:Type="Number">{!functionRoom.MM_Ceiling_Height__c}</Data></Cell>
+                        <Cell><Data ss:Type="String">{!functionRoom.MM_Function_Room_Type__c}</Data></Cell>
+                        <Cell><Data ss:Type="String">{!IF(functionRoom.MM_Is_Reception_Only__c, 'Yes', 'No')}</Data></Cell>
+                        <Cell ss:StyleID="SODetails"><Data ss:Type="String">{!functionRoom.MM_Floor_Plan_Level__c}</Data></Cell>
+                        <Cell><Data ss:Type="String">{!IF(functionRoom.MM_Is_Seating_Orientation_Non_Std__c, 'Non-Standard', 'Standard')}</Data></Cell>
+                        <Cell ss:StyleID="SODetails"><Data ss:Type="String">{!functionRoom.MM_Seating_Orientation_Details__c}</Data></Cell>
+                    </Row>
+                </apex:repeat>
+            </Table>
+        </Worksheet>
+    </Workbook>
+</apex:page>

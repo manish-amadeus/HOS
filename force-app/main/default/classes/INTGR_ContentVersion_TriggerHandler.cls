@@ -20,23 +20,36 @@ public class INTGR_ContentVersion_TriggerHandler
     }
     
     public void OnBeforeInsert(List<ContentVersion> newTrigger)  
-    {
+    {     
+        
+        system.debug(' *** ENTERING INTGR_ContentVersion_TriggerHandler.OnBeforeInsert() - QUERIES ISSUED = ' + Limits.getQueries());
+        
         // ONLY DO A DUPLICATE FILE NAME CHECK IN RUNNING USER'S PROFILE IS 'Case Integration Customers'
         if (INTGR_IntegrationHelper.uProfileName.containsIgnoreCase(INTGR_IntegrationHelper.INT_PROFILENAME))
         {        
             validateFileNames(newTrigger); 
         }
+        
+        system.debug(' *** EXITING INTGR_ContentVersion_TriggerHandler.OnBeforeInsert() - QUERIES ISSUED = ' + Limits.getQueries());
+        
     }
     
     public void OnAfterInsert(List<ContentVersion> newTrigger)  
     {        
+		
+        system.debug(' *** ENTERING INTGR_ContentVersion_TriggerHandler.OnAfterInsert() - QUERIES ISSUED = ' + Limits.getQueries());
+        
         createConDocLink(newTrigger);
-  		doSharing(newTrigger);
+
+        system.debug(' *** EXITING INTGR_ContentVersion_TriggerHandler.OnAfterInsert() - QUERIES ISSUED = ' + Limits.getQueries());
+        
     } 
     
     public void OnAfterUpdate(Map<Id, ContentVersion> newMap) 
     {
-
+        
+        system.debug(' *** ENTERING INTGR_ContentVersion_TriggerHandler.OnAfterUpdate() - QUERIES ISSUED = ' + Limits.getQueries());
+        
         Map<Id, Boolean> caseIdVsFlagMap = new Map<Id, Boolean>();
         for (ContentVersion cv : [SELECT CaseId__c, CaseId__r.Update_External_System__c FROM ContentVersion WHERE Id IN : newMap.keySet()])
         {
@@ -54,7 +67,9 @@ public class INTGR_ContentVersion_TriggerHandler
             // FOR OUTBOUND CALL TO INTEGRATION SYSTEM
             processAfterContentVersionUpdate(newMap.values());  
         }
-  
+        
+        system.debug(' *** EXITING INTGR_ContentVersion_TriggerHandler.OnAfterUpdate() - QUERIES ISSUED = ' + Limits.getQueries());
+        
     }
     
     
@@ -147,7 +162,7 @@ public class INTGR_ContentVersion_TriggerHandler
                 cdl.ContentDocumentId = cv.ContentDocumentId;
                 cdl.LinkedEntityId = cv.INTGR_Case__c;
                 cdl.ShareType = 'V';
-                
+// CYBAGE - SOQL IN FOR LOOP                 
                 // CREATE A DOCUMENT LINK TO RELATED STANDARD CASE
                 INTGR_Case__c obj = [SELECT Case__c FROM INTGR_Case__c WHERE Id =: cv.INTGR_Case__c AND Case__c != null LIMIT 1];
                 if (obj != null)
@@ -253,7 +268,7 @@ public class INTGR_ContentVersion_TriggerHandler
         system.debug(' *** EXITING INTGR_ContentVersion_TriggerHandler.copyContentVersion() - QUERIES ISSUED = ' + Limits.getQueries());
 
     }
-   
+    
     @testvisible  
     private void initiateIncidentFilesCreate(Id parentId, Id fileId) 
     {
@@ -289,23 +304,4 @@ public class INTGR_ContentVersion_TriggerHandler
         
     }
 
-    private void doSharing(List<ContentVersion> newTrigger)
-    {
-        
-        List<ContentDocumentLink> lstInserts = new List<ContentDocumentLink>();
-        
-        for (ContentVersion cv : newTrigger)
-        {
-            if (cv.ShareId__c != null)
-            {    
-                ContentDocumentLink cdl = new ContentDocumentLink();
-                cdl.ContentDocumentId = cv.ContentDocumentId;
-                cdl.LinkedEntityId = Id.valueOf(cv.ShareId__c);
-                cdl.ShareType = 'V';   
-                insert cdl;
-            }
-        }
-        
-    }
-    
 }

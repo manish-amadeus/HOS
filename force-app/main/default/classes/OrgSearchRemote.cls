@@ -5,6 +5,7 @@ Last Mod Date   : 01/17/2023
 Last Mod By     : Michael Pedro
 Description     : Apex class generated from wsdl - org search specific (only contains subset of methods)
 *************************************************************************************************/
+
 public class OrgSearchRemote {
     public class GetUserInfoResult {
         public Boolean accessibilityMode;
@@ -101,7 +102,7 @@ public class OrgSearchRemote {
         private String[] field_order_type_info = new String[]{'result'};
     }
     public class Soap {
-        public String endpoint_x = 'https://login.salesforce.com/services/Soap/u/55.0';
+        public String endpoint_x = 'https://login.salesforce.com/services/Soap/u/54.0';
         public Map<String,String> inputHttpHeaders_x;
         public Map<String,String> outputHttpHeaders_x;
         public String clientCertName_x;
@@ -137,17 +138,17 @@ public class OrgSearchRemote {
             response_x = response_map_x.get('response_x');
             return response_x.result;
         }
-        public OrgSearchRemote.LoginResult login(String username, String password, string endpoint) {
-            OrgSearchRemote.login_element request_x = new OrgSearchRemote.login_element(); 
-            endpoint_x = endpoint; 
-            request_x.username = username; 
-            request_x.password = password; 
-            OrgSearchRemote.loginResponse_element response_x; 
-            Map<String, OrgSearchRemote.loginResponse_element> response_map_x = new Map<String, OrgSearchRemote.loginResponse_element>(); 
-            response_map_x.put('response_x', response_x); 
-            WebServiceCallout.invoke(this, request_x, response_map_x, new String[]{endpoint_x,'','urn:partner.soap.sforce.com','login','urn:partner.soap.sforce.com','loginResponse','OrgSearchRemote.loginResponse_element'});
-            response_x = response_map_x.get('response_x'); 
-            return response_x.result; 
+        public OrgSearchRemote.LoginResult login(String username,String password, string endpoint) {
+            OrgSearchRemote.login_element request_x = new OrgSearchRemote.login_element();
+            endpoint_x = endpoint;
+            request_x.username = username;
+            request_x.password = password;
+            OrgSearchRemote.loginResponse_element response_x;
+            Map<String, OrgSearchRemote.loginResponse_element> response_map_x = new Map<String, OrgSearchRemote.loginResponse_element>();
+            response_map_x.put('response_x', response_x);
+            WebServiceCallout.invoke(this,request_x,response_map_x,new String[]{endpoint_x,'','urn:partner.soap.sforce.com','login','urn:partner.soap.sforce.com','loginResponse','OrgSearchRemote.loginResponse_element'});
+            response_x = response_map_x.get('response_x');
+            return response_x.result;
         }
     }
 }

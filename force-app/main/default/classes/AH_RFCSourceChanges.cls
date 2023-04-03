@@ -5,8 +5,8 @@ Created Date    : 06/04/2018
 Last Mod Date   : 06/04/2018
 Last Mod By     : Sean Harris
 NICC Reference  : 
-Description     : Controller for AH_RFCSourceChanges VF Page
-                : 
+Description		: Controller for AH_RFCSourceChanges VF Page
+     			: 
 *************************************************************************************************************************/
 public class AH_RFCSourceChanges 
 {
@@ -96,7 +96,7 @@ public class AH_RFCSourceChanges
         }
         if (bVFComponents)
         {
-            sql += '\'Visualforce Component\', ';
+			sql += '\'Visualforce Component\', ';
         }
         if (bProcessBuilders)
         {
@@ -144,14 +144,14 @@ system.debug('sql='+sql);
 
     public void syncSource()
     {
-        //AH_SF_SourceSync s = new AH_SF_SourceSync();
-        //s.invokeSync();
+        AH_SF_SourceSync s = new AH_SF_SourceSync();
+        s.invokeSync();
     }
     
     public PageReference saveRecord()
     {
 
-        PageReference pr = new PageReference('/' + nicc.Id);
+    	PageReference pr = new PageReference('/' + nicc.Id);
         
         List<AH_SFDC_Source_Change__c> lstExisting = new List<AH_SFDC_Source_Change__c>([SELECT Id FROM AH_SFDC_Source_Change__c WHERE NI_Change_Control__c =: nicc.Id]);
         if (lstExisting.size() > 0)

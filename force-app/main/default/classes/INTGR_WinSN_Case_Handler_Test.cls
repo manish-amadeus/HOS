@@ -1,5 +1,5 @@
 /************************************************************************************************
-        !!! INTEGRATION CLASS - DO NOT ALTER !!!                          
+				!!! INTEGRATION CLASS - DO NOT ALTER !!!                          
 *************************************************************************************************
 Name            : INTGR_WinSN_Case_Handler_Test Class
 Author          : Sean Harris
@@ -8,8 +8,8 @@ Last Mod Date   : 01/16/2019
 Last Mod By     : Sean Harris
 NICC Reference  : 
 Description     : Test class for INTGR_WinSN_Case_Handler
-        : 
-        : 
+				: 
+				: 
 *************************************************************************************************/
 @isTest
 public class INTGR_WinSN_Case_Handler_Test 
@@ -26,8 +26,8 @@ public class INTGR_WinSN_Case_Handler_Test
         acc.Name = 'INTGR_WinSN_Case_Handler_Test Account';
         insert acc;
         
-        Contact con = NI_TestClassData.createTestContact(1, acc.id);    
-        con.RecordTypeID = Schema.getGlobalDescribe().get('Contact').getDescribe().getRecordTypeInfosByName().get('Contact').getRecordTypeId();    
+        Contact con = NI_TestClassData.createTestContact(1, acc.id);		
+        con.RecordTypeID = Schema.getGlobalDescribe().get('Contact').getDescribe().getRecordTypeInfosByName().get('Contact').getRecordTypeId();		
         insert con;
         
         User waUser = NI_TestClassData.createTestUser(121, 'Winaproach Integration Only - Standard'); 
@@ -90,12 +90,12 @@ public class INTGR_WinSN_Case_Handler_Test
         cs.Assignment_Group__c = 'VN-GLBL-GRS Amadeus Level 3';
         cs.Hotel_Code__c = '123';
         cs.Origin = 'Win@proach Integration';
-        cs.System_Affected__c = 'Disaster Recovery';         
+        cs.System_Affected__c = 'Disaster Recovery';       	
         insert cs;
         
         system.debug('Case created...');
         
-        Attachment attach = new Attachment();     
+        Attachment attach = new Attachment();   	
         attach.Name = 'Unit Test Attachment';
         Blob bodyBlob = Blob.valueOf('Unit Test Attachment Body');
         attach.body = bodyBlob;
@@ -104,7 +104,7 @@ public class INTGR_WinSN_Case_Handler_Test
         system.debug('attachment created...');
                 
         Task t = new Task();
-        t.OwnerId = UserInfo.getUserId();    
+        t.OwnerId = UserInfo.getUserId();		
         t.RecordTypeID = Schema.getGlobalDescribe().get('Task').getDescribe().getRecordTypeInfosByName().get('Amadeus Parallel Investigation').getRecordTypeId();    
         t.Subject = 'Donni';
         t.Status = 'New';
@@ -136,7 +136,7 @@ public class INTGR_WinSN_Case_Handler_Test
     {
         
         Account a1 = [SELECT Id FROM Account WHERE Name = 'INTGR_WinSN_Case_Handler_Test Account'];
-    User cUser = [SELECT Id FROM User WHERE UserName = 'ihg_servicenowTEST@newmarketinc.com.nextdev3'];
+		User cUser = [SELECT Id FROM User WHERE UserName = 'ihg_servicenowTEST@newmarketinc.com.nextdev3'];
         
         //NI_ServicenowIntegration serviceNowIntegration = new NI_ServicenowIntegration();
         //serviceNowIntegration.isAttachment = false;
@@ -218,7 +218,7 @@ public class INTGR_WinSN_Case_Handler_Test
     // =======================================================================================================================================     
     static testMethod void testUpdateIncidentsSN1()
     {
-        Test.startTest();
+        
         Account acc = [SELECT Id FROM Account WHERE Name = 'INTGR_WinSN_Case_Handler_Test Account' ];
         User cUser = [SELECT Id FROM User WHERE UserName = 'ihg_servicenowTEST@newmarketinc.com.nextdev3' ];
         
@@ -246,7 +246,7 @@ public class INTGR_WinSN_Case_Handler_Test
         system.debug('mapRetriesID  :' + mapRetriesID);
         Test.setMock(HttpCalloutMock.class, new NI_ServicenowIntegrationTestMock());         
         system.debug('**********setMock METHOD CALL YES:--' );
-        
+        Test.startTest();
         
         system.runAs(cUser) 
         { 
@@ -300,7 +300,7 @@ public class INTGR_WinSN_Case_Handler_Test
             cs2.Resolution_Summary__c = '1';
             cs2.Resolution_Code__c = '1';
             
-            /*i++;
+            i++;
             cs3.Subject = 'Test_' + i;
             cs3.RecordTypeID = Schema.getGlobalDescribe().get('Case').getDescribe().getRecordTypeInfosByName().get('CRS Incident').getRecordTypeId();
             cs3.Priority = '3';
@@ -322,15 +322,14 @@ public class INTGR_WinSN_Case_Handler_Test
             cs3.Customer_Severity__c = '2';
             cs3.Resolution_Summary__c = '1';
             cs3.Resolution_Code__c = '1';
-            */
+            
             listOfCase.add(cs1);
             listOfCase.add(cs2);
-            //listOfCase.add(cs3);
-            
+            listOfCase.add(cs3);
             insert listOfCase; 
             
             //system.debug(' CASE ADDED LIST  listOfCase :--' + listOfCase );  
-          
+        	
         }
         system.debug('listOfCase.Size() :--' + listOfCase.Size());
         
@@ -343,7 +342,7 @@ public class INTGR_WinSN_Case_Handler_Test
             List<Case> case_list = [SELECT Id, Subject, Status FROM Case ORDER BY Subject];
             system.debug('*********case_list.size()  :' + case_list.size());
             system.debug('*********case_list  :--' + case_list);
-            system.assertEquals(2, case_list.size());
+            system.assertEquals(3, case_list.size());
             
             for (case c : case_list) 
             {
@@ -421,19 +420,19 @@ public class INTGR_WinSN_Case_Handler_Test
             
             Case cs_1 = new Case();
             cs_1.Id = (new List<Id>(case_ids))[0];
-            cs_1.Status = 'Closed';              // FORMERLY 'Rejected PCP'
+            cs_1.Status = 'Closed';							// FORMERLY 'Rejected PCP'
             //cs_1.Amadeus_External_System_Id__c = '110950';
             uptListSN.add(cs_1);
             
             Case cs_2 = new Case();
             cs_2.Id = (new List<Id>(case_ids))[1];
-            cs_2.Status = 'Recovered';             // FORMERLY 'Open'
+            cs_2.Status = 'Recovered'; 						// FORMERLY 'Open'
             //cs_2.Amadeus_External_System_Id__c = '110951';
             uptListSN.add(cs_2);
             
             Case cs_3 = new Case();
             cs_3.Id = (new List<Id>(case_ids))[2];
-            cs_3.Status = 'Closed';              // FORMERLY 'Recovered'
+            cs_3.Status = 'Closed';							// FORMERLY 'Recovered'
             //cs_3.Amadeus_External_System_Id__c = '110952';
             uptListSN.add(cs_3);
             
@@ -525,7 +524,7 @@ public class INTGR_WinSN_Case_Handler_Test
             insert listOfCase; 
             
             system.debug(' CASE ADDED LIST  listOfCase :--' + listOfCase );  
-          
+        	
         }
         system.debug('listOfCase.Size() :--' + listOfCase.Size());
         
@@ -590,7 +589,7 @@ public class INTGR_WinSN_Case_Handler_Test
          
             Case cs_2 = new Case();
             cs_2.Id = (new List<Id>(case_ids))[0];
-            cs_2.Status = 'Recovered';             // FORMERLY 'Open'
+            cs_2.Status = 'Recovered'; 						// FORMERLY 'Open'
             //cs_2.Amadeus_External_System_Id__c = '110951';
             uptListSN.add(cs_2);
            
@@ -751,7 +750,7 @@ public class INTGR_WinSN_Case_Handler_Test
           
             Case cs_3 = new Case();
             cs_3.Id = (new List<Id>(case_ids))[0];
-            cs_3.Status = 'Closed';              
+            cs_3.Status = 'Closed';							
             //cs_3.Amadeus_External_System_Id__c = '110952';
             uptListSN.add(cs_3);
             
@@ -851,7 +850,7 @@ public class INTGR_WinSN_Case_Handler_Test
             insert listOfCase; 
             
             //system.debug(' CASE ADDED LIST  listOfCase :--' + listOfCase );  
-          
+        	
         }
         system.debug('listOfCase.Size() :--' + listOfCase.Size());
         
@@ -916,7 +915,7 @@ public class INTGR_WinSN_Case_Handler_Test
             
             Case cs_1 = new Case();
             cs_1.Id = (new List<Id>(case_ids))[0];
-            cs_1.Status = 'Closed';              // FORMERLY 'Rejected PCP'
+            cs_1.Status = 'Closed';							// FORMERLY 'Rejected PCP'
             //cs_1.Amadeus_External_System_Id__c = '110950';
             uptListSN.add(cs_1);
           
@@ -1080,7 +1079,7 @@ public class INTGR_WinSN_Case_Handler_Test
         
         system.debug('********listOfCase :' + listOfCase);
 
-       /* i++;
+        i++;
         cs5.Subject = 'TestBK- ttest' + i;
         cs5.RecordTypeID = Schema.getGlobalDescribe().get('Case').getDescribe().getRecordTypeInfosByName().get('CRS Incident').getRecordTypeId();
         cs5.Priority = '1';
@@ -1100,7 +1099,7 @@ public class INTGR_WinSN_Case_Handler_Test
         cs5.Hotel_Code__c = '1231';
         cs5.Origin = 'Salesforce';
         cs5.System_Affected__c = 'Disaster Recovery';
-        listOfCase.add(cs5);*/
+        listOfCase.add(cs5);
         
         system.debug('********listOfCase :' + listOfCase);
 
@@ -1152,7 +1151,7 @@ public class INTGR_WinSN_Case_Handler_Test
         }
         
         //RUN AS INTEGRATION USER
-        //system.runAs(cUser) 
+        system.runAs(cUser) 
         { 
             List<Case> update_list = new List<Case>();
             
@@ -1169,9 +1168,9 @@ public class INTGR_WinSN_Case_Handler_Test
             cs4.Amadeus_External_System_Id__c = '1109501';
             update_list.add(cs4);
             
-            /*cs5.Status = 'Recovered';
+            cs5.Status = 'Recovered';
             cs5.Amadeus_External_System_Id__c = '110950';
-            update_list.add(cs5);*/
+            update_list.add(cs5);
             
             system.debug('update_list :' + update_list);
             update update_list;
@@ -1185,7 +1184,7 @@ public class INTGR_WinSN_Case_Handler_Test
     } 
     
      //========================================================================================================================================
-     // = TEST METHOD 8:
+   	// = TEST METHOD 8:
     //========================================================================================================================================
    
     static testMethod void testUpdateIncidentsSN6()
@@ -1347,7 +1346,7 @@ public class INTGR_WinSN_Case_Handler_Test
         cs5.Hotel_Code__c = '1231';
         cs5.Origin = 'Salesforce';
         cs5.System_Affected__c = 'Disaster Recovery';
-     
+		 
         listOfCase.add(cs5);
         
         system.debug('********listOfCase :' + listOfCase);
@@ -1494,7 +1493,7 @@ public class INTGR_WinSN_Case_Handler_Test
             //cs.INTGR_Customer_Ticket_System_Id__c = 'abc';
             //cs.Integration_Sync_Status__c = true;
             listOfCase.add(cs); 
-            //CASE INSERTED   
+            //CASE INSERTED 	
         }
 
         mapRetriesID.put(cs.Id, 1);
