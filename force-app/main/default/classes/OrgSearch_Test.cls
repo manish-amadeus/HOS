@@ -68,7 +68,7 @@ public class OrgSearch_Test {
         search.domain = 'https://domain.my.';
         search.getPropertyInfo();
         System.assertNotEquals(null, search.OrgPropertyResult);
-        System.assertEquals(1, search.OrgPropertyResult.size());
+        System.assertEquals(2, search.OrgPropertyResult.size());
         System.assertEquals('Test Property', search.OrgPropertyResult[0].PropertyName__c);
         System.assertEquals(1, search.OrgPropertyResult[0].NumberOfUsers__c);
         System.assertNotEquals(null, search.OrgPropertyResult[0].HistoryCreatedDate__c);
@@ -85,7 +85,7 @@ public class OrgSearch_Test {
         search.domain = 'https://domain.my.';
         search.getUserInfo();
         System.assertNotEquals(null, search.OrgUserResult);
-        System.assertEquals(1, search.OrgUserResult.size());
+        System.assertEquals(2, search.OrgUserResult.size());
         System.assertEquals('Test User', search.OrgUserResult[0].FirstName__c);
         System.assertNotEquals(null, search.OrgUserResult[0].UserFrozen__c);
     }
@@ -115,7 +115,7 @@ public class OrgSearch_Test {
         search.domain = 'https://domain.my.';
         search.getProfileInfo();
         System.assertNotEquals(null, search.OrgProfileResult);
-        System.assertEquals(1, search.OrgProfileResult.size());
+        System.assertEquals(2, search.OrgProfileResult.size());
         System.assertEquals('Test Profile', search.OrgProfileResult[0].ProfileName__c);
     }
 
@@ -261,7 +261,7 @@ public class OrgSearch_Test {
         search.domain = 'https://domain.my.';
         search.getPropertyIntegrationInfo();
         System.assertNotEquals(null, search.orgPropertyIntegrationSettingResult);
-        System.assertEquals(1, search.orgPropertyIntegrationSettingResult.size());
+        System.assertEquals(2, search.orgPropertyIntegrationSettingResult.size());
         System.assertEquals('PropertyIntegration', search.orgPropertyIntegrationSettingResult[0].IntegrationName__c);
     }
 
@@ -303,7 +303,7 @@ public class OrgSearch_Test {
         search.domain = 'https://domain.my.';
         search.getSetupValueInfo();
         System.assertNotEquals(null, search.OrgSetupValueResult);
-        System.assertEquals(1, search.OrgSetupValueResult.size());
+        System.assertEquals(2, search.OrgSetupValueResult.size());
         System.assertEquals('SV Name', search.OrgSetupValueResult[0].SetupValueName__c);
     }
 
