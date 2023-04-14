@@ -85,11 +85,30 @@ node {
                 // Perform static analisys on the code using Sonarqube-runner
                 // This assumes that there's a 'sonar-project.properties' file on git.
                 // ----------------------------------------------------------------------------------
-				// Deleted Block1
+                stage('Run Code Quality Analysis (SonarQube)') {
+				    // Run SonarQube Analysis
+					withSonarQubeEnv('Sonar') {
+						rc = commandStatus "sonar-scanner -X -D sonar.pullrequest.key=${env.BITBUCKET_PULL_REQUEST_ID} -D sonar.pullrequest.branch=${env.BITBUCKET_SOURCE_BRANCH} -Dsonar.pullrequest.base=${env.BITBUCKET_TARGET_BRANCH}"
+                        //rc = commandStatus "sonar-scanner -Dsonar.login=b549f1ea2911de1bd996c716879390ec3fcdb6af -D sonar.pullrequest.key=${env.BITBUCKET_PULL_REQUEST_ID} -D sonar.pullrequest.branch=${env.BITBUCKET_SOURCE_BRANCH} -D sonar.pullrequest.base=${env.BITBUCKET_TARGET_BRANCH}"
+                         if (rc != 0) {
+                            error 'Failed to start sonar-scanner'
+                        }
+					}
+				}
 				// ----------------------------------------------------------------------------------
                 // Wait and react to SonarQube results
                 // ----------------------------------------------------------------------------------
-				// Deleted Block2
+                stage('SonarQube: Quality Gate') {
+				    def qg
+                    timeout(time: 20 , unit: 'MINUTES') {
+                     qg = waitForQualityGate(abortPipeline: false)
+                     //sleep(60)
+                     qg = waitForQualityGate()
+                     if (qg.status != 'OK') {
+                          //error "Pipeline aborted due to quality gate failure: ${qg.status}"
+                      }
+					}
+				}
                 // Checkout to target branch and merge source into target. This helps making sure that we're validating/deploying the components without 
                 // overriding anything 
                 // E.g.: Deployed PR 790 and then 792. Both changes the same file but no conflicts were reported. During deployment, 792 overwrited the 
