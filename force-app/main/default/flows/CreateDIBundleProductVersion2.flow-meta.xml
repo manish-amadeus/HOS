@@ -201,7 +201,6 @@
             <targetReference>LoopTempNewDIRecord</targetReference>
         </connector>
         <sortOptions>
-            <doesPutEmptyStringAndNullFirst>true</doesPutEmptyStringAndNullFirst>
             <sortField>AccountId_DIIndexID__c</sortField>
             <sortOrder>Asc</sortOrder>
         </sortOptions>
@@ -339,7 +338,6 @@
     <description>NICC-053482; NICC-053773; NICC-053660; NICC-057398; NICC-058163
 
 Creates a Deployment Instance record for each product in a bundle that doesn&apos;t have a corresponding Opportunity Line Item. This is a subloop on the TCSubscriptionActivations flow.</description>
-    <environments>Default</environments>
     <formulas>
         <description>Stores the 18 digit ID of the Index</description>
         <name>DI_Index_18DigitID</name>

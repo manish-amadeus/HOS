@@ -11,9 +11,9 @@
     <authorizationRequiredPage>Unauthorized</authorizationRequiredPage>
     <bandwidthExceededPage>BandwidthExceeded</bandwidthExceededPage>
     <browserXssProtection>false</browserXssProtection>
-    <cachePublicVisualforcePagesInProxyServers>true</cachePublicVisualforcePagesInProxyServers>
     <clickjackProtectionLevel>External</clickjackProtectionLevel>
     <contentSniffingProtection>false</contentSniffingProtection>
+    <cspUpgradeInsecureRequests>true</cspUpgradeInsecureRequests>
     <description>Site for hosting anonymous public facing VF Pages</description>
     <enableAuraRequests>true</enableAuraRequests>
     <favoriteIcon>favicon</favoriteIcon>
@@ -23,8 +23,8 @@
     <inactiveIndexPage>InMaintenance</inactiveIndexPage>
     <indexPage>AH_FormsHome</indexPage>
     <masterLabel>Forms</masterLabel>
-    <redirectToCustomDomain>false</redirectToCustomDomain>
     <referrerPolicyOriginWhenCrossOrigin>false</referrerPolicyOriginWhenCrossOrigin>
+    <requireHttps>true</requireHttps>
     <siteAdmin>sharris@newmarketinc.com</siteAdmin>
     <siteIframeWhiteListUrls>
         <url>https://amadeus-hospitality.my.salesforce.com</url>

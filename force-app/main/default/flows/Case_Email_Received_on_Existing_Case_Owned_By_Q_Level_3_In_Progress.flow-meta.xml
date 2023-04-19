@@ -1,0 +1,504 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <actionCalls>
+        <description>Sends an email to the user who attached the Change Request to the case, notifying them that an email has been received and requires follow up.</description>
+        <name>Send_Email_to_user_who_attached_CR</name>
+        <label>Send Email to user who attached CR</label>
+        <locationX>492</locationX>
+        <locationY>1709</locationY>
+        <actionName>emailSimple</actionName>
+        <actionType>emailSimple</actionType>
+        <inputParameters>
+            <name>emailBody</name>
+            <value>
+                <elementReference>ttEmailToUser</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>emailAddresses</name>
+            <value>
+                <elementReference>varUsertoEmail.Email</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>emailSubject</name>
+            <value>
+                <stringValue>New email on case owned by Q-Level 3 In Progress</stringValue>
+            </value>
+        </inputParameters>
+    </actionCalls>
+    <actionCalls>
+        <description>Sends an email to the user who approved the Change Request being attached to the case, notifying them that an email has been received and requires follow up.</description>
+        <name>Send_Email_to_user_who_attached_CR_0</name>
+        <label>Send Email to user who Approved CR</label>
+        <locationX>666</locationX>
+        <locationY>1714</locationY>
+        <actionName>emailSimple</actionName>
+        <actionType>emailSimple</actionType>
+        <inputParameters>
+            <name>emailBody</name>
+            <value>
+                <elementReference>ttEmailtoApprover</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>emailAddresses</name>
+            <value>
+                <elementReference>varUsertoEmail.Email</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>emailSubject</name>
+            <value>
+                <stringValue>New email on case owned by Q-Level 3 In Progress</stringValue>
+            </value>
+        </inputParameters>
+    </actionCalls>
+    <apiVersion>57.0</apiVersion>
+    <assignments>
+        <description>Assigns the user who attached the CR to a variable. This will be used in the email action as the recipient.</description>
+        <name>assign_CR_User_to_variable</name>
+        <label>assign CR User to variable</label>
+        <locationX>378</locationX>
+        <locationY>1523</locationY>
+        <assignmentItems>
+            <assignToReference>varUsertoEmail</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>getUser</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Send_Email_to_user_who_attached_CR</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <description>Assigns the user who attached the CR to a variable. This will be used in the email action as the recipient.</description>
+        <name>assign_CR_User_to_variable_0</name>
+        <label>assign CR User to variable</label>
+        <locationX>766</locationX>
+        <locationY>1599</locationY>
+        <assignmentItems>
+            <assignToReference>varUsertoEmail</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>getUserApprover</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Send_Email_to_user_who_attached_CR_0</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <description>Assigns the Case History Record and the Date into the variable.</description>
+        <name>assignCaseHistoryRecordandDateintoVariable</name>
+        <label>assignCaseHistoryRecordandDateintoVariable</label>
+        <locationX>585</locationX>
+        <locationY>983</locationY>
+        <assignmentItems>
+            <assignToReference>varFinalCaseHistoryRecord</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>loopFindMostRecentCRRecord</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>varAssignDate</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>loopFindMostRecentCRRecord.CreatedDate</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>loopFindMostRecentCRRecord</targetReference>
+        </connector>
+    </assignments>
+    <collectionProcessors>
+        <description>Sorts the Case History records by Date.</description>
+        <name>sortCaseHistorybyDate</name>
+        <elementSubtype>SortCollectionProcessor</elementSubtype>
+        <label>sortCaseHistorybyDate</label>
+        <locationX>497</locationX>
+        <locationY>623</locationY>
+        <collectionProcessorType>SortCollectionProcessor</collectionProcessorType>
+        <collectionReference>getCaseHistory</collectionReference>
+        <connector>
+            <targetReference>loopFindMostRecentCRRecord</targetReference>
+        </connector>
+        <sortOptions>
+            <sortField>CreatedDate</sortField>
+            <sortOrder>Asc</sortOrder>
+        </sortOptions>
+    </collectionProcessors>
+    <decisions>
+        <description>Decide if the Approver user is active.</description>
+        <name>decIsApproverActive</name>
+        <label>decIsApproverActive</label>
+        <locationX>960</locationX>
+        <locationY>1519</locationY>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>Approver_is_Active</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>getApprover.LastActor.IsActive</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>assign_CR_User_to_variable_0</targetReference>
+            </connector>
+            <label>Approver is Active</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <description>Is this the date we want to use?</description>
+        <name>decIsThisTheDate</name>
+        <label>decIsThisTheDate</label>
+        <locationX>717</locationX>
+        <locationY>863</locationY>
+        <defaultConnector>
+            <targetReference>loopFindMostRecentCRRecord</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>Use</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>loopFindMostRecentCRRecord.CreatedDate</leftValueReference>
+                <operator>GreaterThan</operator>
+                <rightValue>
+                    <elementReference>varAssignDate</elementReference>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>assignCaseHistoryRecordandDateintoVariable</targetReference>
+            </connector>
+            <label>Use</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <description>Decide if the user is inactive. If not, send the email. If true, end the flow.</description>
+        <name>Is_User_Active</name>
+        <label>Is User Active</label>
+        <locationX>497</locationX>
+        <locationY>1415</locationY>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>Is_the_user_active</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>getUser.IsActive</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>assign_CR_User_to_variable</targetReference>
+            </connector>
+            <label>Is the user active</label>
+        </rules>
+        <rules>
+            <name>User_is_not_active</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>getUser.IsActive</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>getApprover</targetReference>
+            </connector>
+            <label>User is not active</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <description>Decides if the related case owner is Q-Level 3 In Progress and a Change Request is attached to the case. If the owner is not Q L3, no email alert is sent and the Flow ends. If the owner is the queue and a CR is attached, the Flow continues and sends an email alert.  If the owner is the queue and no CR is attached, the Flow ends.</description>
+        <name>OwnerQL3</name>
+        <label>OwnerQL3 Decision</label>
+        <locationX>629</locationX>
+        <locationY>383</locationY>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>Owner_QL3</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.Parent.Owner:Group.DeveloperName</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>QLevel3</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.Parent.Change_Request__c</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>getCaseHistory</targetReference>
+            </connector>
+            <label>Owner QL3</label>
+        </rules>
+    </decisions>
+    <description>NICC# When an email is received on a case that is owned by Q-Level 3 In Progress, send an email to the user that attached the CR to the case.</description>
+    <formulas>
+        <description>URL to the email message that triggered the flow. Used in the text template and Email Alert.</description>
+        <name>formCaseEmailLink</name>
+        <dataType>String</dataType>
+        <expression>LEFT({!$Api.Partner_Server_URL_550}, FIND( &apos;/services&apos;, {!$Api.Partner_Server_URL_550})) &amp; {!$Record.ParentId}</expression>
+    </formulas>
+    <interviewLabel>Case - Email Received on Existing Case Owned By Q-Level 3 In Progress or Inactive User {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Case - Email Received on Existing Case Owned By Q-Level 3 In Progress or Inactive User</label>
+    <loops>
+        <description>Finds the most recent CR record in the Case History.</description>
+        <name>loopFindMostRecentCRRecord</name>
+        <label>loopFindMostRecentCRRecord</label>
+        <locationX>497</locationX>
+        <locationY>743</locationY>
+        <collectionReference>getCaseHistory</collectionReference>
+        <iterationOrder>Asc</iterationOrder>
+        <nextValueConnector>
+            <targetReference>decIsThisTheDate</targetReference>
+        </nextValueConnector>
+        <noMoreValuesConnector>
+            <targetReference>getUser</targetReference>
+        </noMoreValuesConnector>
+    </loops>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>FREE_FORM_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <recordLookups>
+        <description>Gets the Approver user from the Case Approval History</description>
+        <name>getApprover</name>
+        <label>getApprover</label>
+        <locationX>715</locationX>
+        <locationY>1413</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>getUserApprover</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>TargetObjectId</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>$Record.Parent.Id</elementReference>
+            </value>
+        </filters>
+        <filters>
+            <field>Status</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Approved</stringValue>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>ProcessInstance</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
+        <description>Gets the user that attached the CR to the case.</description>
+        <name>getCaseHistory</name>
+        <label>getCaseHistory</label>
+        <locationX>497</locationX>
+        <locationY>503</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>sortCaseHistorybyDate</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Field</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Change_Request__c</stringValue>
+            </value>
+        </filters>
+        <filters>
+            <field>CaseId</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>$Record.Parent.Id</elementReference>
+            </value>
+        </filters>
+        <filters>
+            <field>DataType</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>EntityId</stringValue>
+            </value>
+        </filters>
+        <getFirstRecordOnly>false</getFirstRecordOnly>
+        <object>CaseHistory</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
+        <name>getUser</name>
+        <label>getUser</label>
+        <locationX>497</locationX>
+        <locationY>1295</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Is_User_Active</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>varFinalCaseHistoryRecord.CreatedById</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>User</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
+        <description>Get the User that is the Approver.</description>
+        <name>getUserApprover</name>
+        <label>getUserApprover</label>
+        <locationX>875</locationX>
+        <locationY>1421</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>decIsApproverActive</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>getApprover.LastActor.Id</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>User</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <start>
+        <locationX>503</locationX>
+        <locationY>48</locationY>
+        <connector>
+            <targetReference>OwnerQL3</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>ParentId</field>
+            <operator>IsNull</operator>
+            <value>
+                <booleanValue>false</booleanValue>
+            </value>
+        </filters>
+        <filters>
+            <field>Status</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>0</stringValue>
+            </value>
+        </filters>
+        <object>EmailMessage</object>
+        <recordTriggerType>Create</recordTriggerType>
+        <triggerType>RecordAfterSave</triggerType>
+    </start>
+    <status>Draft</status>
+    <textTemplates>
+        <description>Email template to send to the Approver.</description>
+        <name>ttEmailtoApprover</name>
+        <isViewedAsPlainText>true</isViewedAsPlainText>
+        <text>An email has been received for a case in Q-Level 3 In Progress: {!$Record.Parent.CaseNumber}: {!$Record.Parent.Subject}.
+You are receiving this email because you have been identified as the user that Approver the CR that is attached to the case. Please click the link below to review the new email and respond appropriately. Thank you!
+{!formCaseEmailLink}
+From: {!$Record.FromAddress} ({!$Record.FromName})
+Sent: {!$Record.MessageDate}
+To: {!$Record.ToAddress}
+Subject: {!$Record.Subject}
+{!$Record.TextBody}
+
+{!$Record.Parent.Email_Ref_Id__c}</text>
+    </textTemplates>
+    <textTemplates>
+        <description>Used by the Email Alert action to email the user that attached the CR to the case.</description>
+        <name>ttEmailToUser</name>
+        <isViewedAsPlainText>true</isViewedAsPlainText>
+        <text>An email has been received for a case in Q-Level 3 In Progress:  {!$Record.Parent.CaseNumber}: {!$Record.Parent.Subject}.
+You are receiving this email because you have been identified as the user that attached the CR to the case. Please click the link below to review the new email and respond appropriately. Thank you!
+{!formCaseEmailLink}
+
+_____________________________________________
+From: {!$Record.FromAddress} ({!$Record.FromName})
+Sent: {!$Record.MessageDate}
+To: {!$Record.ToAddress}
+Subject: {!$Record.Subject}
+
+{!$Record.TextBody}
+
+{!$Record.Parent.Email_Ref_Id__c}</text>
+    </textTemplates>
+    <variables>
+        <description>Assigns date from current record in the loop.</description>
+        <name>varAssignDate</name>
+        <dataType>DateTime</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <description>Counts the number of User Records</description>
+        <name>varCountofUserRecords</name>
+        <dataType>Number</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <scale>0</scale>
+    </variables>
+    <variables>
+        <description>This is the record that is actually going to be used for deciding who to send the email alert to.</description>
+        <name>varFinalCaseHistoryRecord</name>
+        <dataType>SObject</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <objectType>CaseHistory</objectType>
+    </variables>
+    <variables>
+        <description>Stores the User ID of the user who attached the Change Request to the Case.</description>
+        <name>varUserAttachedCR</name>
+        <dataType>SObject</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>true</isOutput>
+        <objectType>CaseHistory</objectType>
+    </variables>
+    <variables>
+        <description>Use this email address to send the email to.</description>
+        <name>varUsertoEmail</name>
+        <dataType>SObject</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <objectType>User</objectType>
+    </variables>
+</Flow>

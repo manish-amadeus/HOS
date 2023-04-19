@@ -11,7 +11,6 @@
         <connector>
             <targetReference>GetNewCaseRecord</targetReference>
         </connector>
-        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
         <inputParameters>
             <name>SObjectRowId</name>
             <value>
@@ -30,7 +29,6 @@
         <connector>
             <targetReference>GetNewCaseRecord</targetReference>
         </connector>
-        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
         <inputParameters>
             <name>SObjectRowId</name>
             <value>
@@ -49,7 +47,6 @@
         <connector>
             <targetReference>GetNewCaseRecord</targetReference>
         </connector>
-        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
         <inputParameters>
             <name>SObjectRowId</name>
             <value>
@@ -68,7 +65,6 @@
         <connector>
             <targetReference>GetNewCaseRecord</targetReference>
         </connector>
-        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
         <inputParameters>
             <name>SObjectRowId</name>
             <value>
@@ -87,7 +83,6 @@
         <connector>
             <targetReference>NewCaseScreen</targetReference>
         </connector>
-        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
         <inputParameters>
             <name>emailBody</name>
             <value>
@@ -124,7 +119,6 @@
         <connector>
             <targetReference>GetNewCaseRecord</targetReference>
         </connector>
-        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
         <inputParameters>
             <name>SObjectRowId</name>
             <value>
@@ -460,7 +454,6 @@ Screen Flow to create PS Escalations Cases</description>
         <picklistField>AH_PSCaseProduct__c</picklistField>
         <picklistObject>Case_Object_Picklist_Setup__mdt</picklistObject>
     </dynamicChoiceSets>
-    <environments>Default</environments>
     <formulas>
         <description>hyperlink to route users back to beginning of the Flow</description>
         <name>formulaCreateNewCaseLink</name>
@@ -868,7 +861,6 @@ Screen Flow to create PS Escalations Cases</description>
                     <elementReference>varAccountId</elementReference>
                 </value>
             </inputParameters>
-            <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
             <isRequired>true</isRequired>
             <storeOutputAutomatically>true</storeOutputAutomatically>
         </fields>
@@ -900,7 +892,6 @@ Screen Flow to create PS Escalations Cases</description>
                     <booleanValue>true</booleanValue>
                 </value>
             </inputParameters>
-            <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
             <isRequired>true</isRequired>
             <storeOutputAutomatically>true</storeOutputAutomatically>
         </fields>
@@ -939,7 +930,6 @@ Screen Flow to create PS Escalations Cases</description>
                     <elementReference>varProjectId</elementReference>
                 </value>
             </inputParameters>
-            <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
             <isRequired>true</isRequired>
             <storeOutputAutomatically>true</storeOutputAutomatically>
         </fields>
@@ -984,7 +974,6 @@ Screen Flow to create PS Escalations Cases</description>
                 <isRequired>false</isRequired>
             </fields>
             <isRequired>false</isRequired>
-            <regionContainerType>SectionWithoutHeader</regionContainerType>
         </fields>
         <fields>
             <name>IssueImpactingCustomerScreenInput</name>
@@ -1038,7 +1027,6 @@ Screen Flow to create PS Escalations Cases</description>
                     <booleanValue>true</booleanValue>
                 </value>
             </inputParameters>
-            <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
             <isRequired>true</isRequired>
             <storeOutputAutomatically>true</storeOutputAutomatically>
         </fields>
@@ -1057,7 +1045,6 @@ Screen Flow to create PS Escalations Cases</description>
                 <isRequired>false</isRequired>
             </fields>
             <isRequired>false</isRequired>
-            <regionContainerType>SectionWithoutHeader</regionContainerType>
         </fields>
         <fields>
             <name>NewCaseScreen_Section2</name>
@@ -1079,9 +1066,7 @@ Screen Flow to create PS Escalations Cases</description>
                 <isRequired>false</isRequired>
             </fields>
             <isRequired>false</isRequired>
-            <regionContainerType>SectionWithoutHeader</regionContainerType>
         </fields>
-        <nextOrFinishButtonLabel>Close Form</nextOrFinishButtonLabel>
         <showFooter>true</showFooter>
         <showHeader>false</showHeader>
     </screens>

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<SharingRules xmlns="http://soap.sforce.com/2006/04/metadata">
+    <sharingOwnerRules>
+        <fullName>PM_Client_Services</fullName>
+        <accessLevel>Edit</accessLevel>
+        <description>NICC-031208</description>
+        <label>PM - Client Services</label>
+        <sharedTo>
+            <role>ClientServices</role>
+        </sharedTo>
+        <sharedFrom>
+            <role>ClientServices</role>
+        </sharedFrom>
+    </sharingOwnerRules>
+    <sharingOwnerRules>
+        <fullName>Support_Projects</fullName>
+        <accessLevel>Edit</accessLevel>
+        <label>Support - Projects</label>
+        <sharedTo>
+            <role>SupportTeam</role>
+        </sharedTo>
+        <sharedFrom>
+            <role>ClientServices</role>
+        </sharedFrom>
+    </sharingOwnerRules>
+</SharingRules>

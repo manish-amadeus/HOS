@@ -765,6 +765,11 @@
             <field>Days_to_Complete__c</field>
             <table>Account.Contacts.Activities</table>
         </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>Product__c</field>
+            <table>Account.Contacts.Activities</table>
+        </columns>
         <masterLabel>Activities</masterLabel>
     </sections>
 </ReportType>

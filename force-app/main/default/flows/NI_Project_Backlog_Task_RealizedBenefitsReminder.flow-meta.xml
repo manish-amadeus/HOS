@@ -11,7 +11,6 @@
         <connector>
             <targetReference>SendEmailReminderAfterDueDate</targetReference>
         </connector>
-        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
         <inputParameters>
             <name>text</name>
             <value>
@@ -37,7 +36,6 @@
         <connector>
             <targetReference>SendEmailReminderBeforeDueDate</targetReference>
         </connector>
-        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
         <inputParameters>
             <name>text</name>
             <value>
@@ -60,7 +58,6 @@
         <locationY>403</locationY>
         <actionName>emailSimple</actionName>
         <actionType>emailSimple</actionType>
-        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
         <inputParameters>
             <name>emailBody</name>
             <value>
@@ -106,7 +103,6 @@
         <locationY>88</locationY>
         <actionName>emailSimple</actionName>
         <actionType>emailSimple</actionType>
-        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
         <inputParameters>
             <name>emailBody</name>
             <value>
@@ -260,7 +256,6 @@
         </rules>
     </decisions>
     <description>NICC-058179; updated via NICC-063342; Sends reminders to users to add Realized Benefits to Internal Projects</description>
-    <environments>Default</environments>
     <formulas>
         <description>Calculates the number of months since the AH Project Backlog Completion Date</description>
         <name>formulaMonthsSinceProjectClose</name>
@@ -386,32 +381,8 @@
     <start>
         <locationX>69</locationX>
         <locationY>23</locationY>
-        <filterFormula>{!$Record.RecordType.DeveloperName} = &quot;Commercial_Operation_Tasks&quot; &amp;&amp;
-CONTAINS({!$Record.Name}, &quot;Realized Benefits&quot;)</filterFormula>
         <object>NI_Project_Backlog_Tasks__c</object>
         <recordTriggerType>CreateAndUpdate</recordTriggerType>
-        <scheduledPaths>
-            <name>OneWeekBeforeDueDate</name>
-            <connector>
-                <targetReference>BeforeDueDateDecision</targetReference>
-            </connector>
-            <label>1WeekBeforeDueDate</label>
-            <offsetNumber>-7</offsetNumber>
-            <offsetUnit>Days</offsetUnit>
-            <recordField>Due_Date__c</recordField>
-            <timeSource>RecordField</timeSource>
-        </scheduledPaths>
-        <scheduledPaths>
-            <name>OneWeekAfterDueDate</name>
-            <connector>
-                <targetReference>AfterDueDateDecision</targetReference>
-            </connector>
-            <label>1WeekAfterDueDate</label>
-            <offsetNumber>7</offsetNumber>
-            <offsetUnit>Days</offsetUnit>
-            <recordField>Due_Date__c</recordField>
-            <timeSource>RecordField</timeSource>
-        </scheduledPaths>
         <triggerType>RecordAfterSave</triggerType>
     </start>
     <status>Active</status>

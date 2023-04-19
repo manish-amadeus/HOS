@@ -11,7 +11,6 @@
         <connector>
             <targetReference>EmailProjectContact_Project</targetReference>
         </connector>
-        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
         <inputParameters>
             <name>SObjectRowId</name>
             <value>
@@ -30,7 +29,6 @@
         <connector>
             <targetReference>EmailProjectContact_Project</targetReference>
         </connector>
-        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
         <inputParameters>
             <name>SObjectRowId</name>
             <value>
@@ -49,7 +47,6 @@
         <connector>
             <targetReference>EmailProjectContact_Project</targetReference>
         </connector>
-        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
         <inputParameters>
             <name>SObjectRowId</name>
             <value>
@@ -68,7 +65,6 @@
         <connector>
             <targetReference>EmailProjectContact_Project</targetReference>
         </connector>
-        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
         <inputParameters>
             <name>SObjectRowId</name>
             <value>
@@ -336,7 +332,6 @@
     </decisions>
     <description>NICC-061820; updated via NICC-063539; updated via NICC-063914
 Automation to send out Email Alerts for PLCM MM Migration projects</description>
-    <environments>Default</environments>
     <formulas>
         <name>formulaHTMLBody</name>
         <dataType>String</dataType>
@@ -402,33 +397,8 @@ IF({!MigrationScheduledFirstDate}, &quot;Moving Away from MeetingMatrix - Migrat
         <connector>
             <targetReference>MigrationScheduledOrMigrationCompleteDecision</targetReference>
         </connector>
-        <filterFormula>{!$Record.RecordType.DeveloperName} = &quot;PLCM_Migrations&quot; &amp;&amp;
-ISPICKVAL({!$Record.AH_PLCM_Product__c}, &quot;Meeting Matrix Conversion&quot;) &amp;&amp;
-{!$Record.Stop_Email_Notifications__c}= FALSE</filterFormula>
         <object>NI_Documentation__c</object>
         <recordTriggerType>CreateAndUpdate</recordTriggerType>
-        <scheduledPaths>
-            <name>DayBeforeMigration</name>
-            <connector>
-                <targetReference>ReminderOrFollowUpDecision</targetReference>
-            </connector>
-            <label>DayBeforeMigration</label>
-            <offsetNumber>0</offsetNumber>
-            <offsetUnit>Days</offsetUnit>
-            <recordField>AH_PLCM_Migration_Reminder_2_Date__c</recordField>
-            <timeSource>RecordField</timeSource>
-        </scheduledPaths>
-        <scheduledPaths>
-            <name>Migration_5Days</name>
-            <connector>
-                <targetReference>ReminderOrFollowUpDecision</targetReference>
-            </connector>
-            <label>Migration+5Days</label>
-            <offsetNumber>0</offsetNumber>
-            <offsetUnit>Days</offsetUnit>
-            <recordField>AH_PLCM_Migration_Reminder_3_Date__c</recordField>
-            <timeSource>RecordField</timeSource>
-        </scheduledPaths>
         <triggerType>RecordAfterSave</triggerType>
     </start>
     <status>Active</status>

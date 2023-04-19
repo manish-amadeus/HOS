@@ -21,7 +21,6 @@
                     <value>7</value>
                 </componentInstanceProperties>
                 <componentName>force:highlightsPanel</componentName>
-                <identifier>force_highlightsPanel</identifier>
             </componentInstance>
         </itemInstances>
         <mode>Replace</mode>
@@ -36,7 +35,6 @@
                     <value>required</value>
                 </fieldInstanceProperties>
                 <fieldItem>Record.agf__Subject__c</fieldItem>
-                <identifier>Recordagf_Subject_cField</identifier>
             </fieldInstance>
         </itemInstances>
         <itemInstances>
@@ -46,7 +44,6 @@
                     <value>none</value>
                 </fieldInstanceProperties>
                 <fieldItem>Record.agf__Details_and_Steps_to_Reproduce__c</fieldItem>
-                <identifier>Recordagf_Details_and_Steps_to_Reproduce_cField</identifier>
                 <visibilityRule>
                     <criteria>
                         <leftValue>{!Record.RecordType.DeveloperName}</leftValue>
@@ -63,7 +60,6 @@
                     <value>none</value>
                 </fieldInstanceProperties>
                 <fieldItem>Record.agf__Details__c</fieldItem>
-                <identifier>Recordagf_Details_cField</identifier>
                 <visibilityRule>
                     <criteria>
                         <leftValue>{!Record.RecordType.DeveloperName}</leftValue>
@@ -80,7 +76,6 @@
                     <value>none</value>
                 </fieldInstanceProperties>
                 <fieldItem>Record.agf__Additional_Details__c</fieldItem>
-                <identifier>Recordagf_Additional_Details_cField</identifier>
             </fieldInstance>
         </itemInstances>
         <name>Facet-78816577-8f09-4d66-9f6c-0ccb9547639b</name>
@@ -94,7 +89,6 @@
                     <value>Facet-78816577-8f09-4d66-9f6c-0ccb9547639b</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:column</componentName>
-                <identifier>flexipage_column</identifier>
             </componentInstance>
         </itemInstances>
         <name>Facet-b50e0104-0a10-41ae-afb5-48110482e887</name>
@@ -108,7 +102,6 @@
                     <value>required</value>
                 </fieldInstanceProperties>
                 <fieldItem>Record.AH_Team__c</fieldItem>
-                <identifier>RecordAH_Team_cField</identifier>
             </fieldInstance>
         </itemInstances>
         <itemInstances>
@@ -118,7 +111,6 @@
                     <value>required</value>
                 </fieldInstanceProperties>
                 <fieldItem>Record.agf__Status__c</fieldItem>
-                <identifier>Recordagf_Status_cField</identifier>
             </fieldInstance>
         </itemInstances>
         <itemInstances>
@@ -128,7 +120,6 @@
                     <value>required</value>
                 </fieldInstanceProperties>
                 <fieldItem>Record.agf__Product_Tag__c</fieldItem>
-                <identifier>Recordagf_Product_Tag_cField</identifier>
             </fieldInstance>
         </itemInstances>
         <itemInstances>
@@ -138,7 +129,6 @@
                     <value>none</value>
                 </fieldInstanceProperties>
                 <fieldItem>Record.agf__Priority__c</fieldItem>
-                <identifier>Recordagf_Priority_cField</identifier>
                 <visibilityRule>
                     <criteria>
                         <leftValue>{!Record.RecordType.DeveloperName}</leftValue>
@@ -155,7 +145,6 @@
                     <value>none</value>
                 </fieldInstanceProperties>
                 <fieldItem>Record.Level_of_Customization__c</fieldItem>
-                <identifier>RecordLevel_of_Customization_cField</identifier>
                 <visibilityRule>
                     <booleanFilter>1 OR 2</booleanFilter>
                     <criteria>
@@ -178,7 +167,6 @@
                     <value>none</value>
                 </fieldInstanceProperties>
                 <fieldItem>Record.Ops_ID__c</fieldItem>
-                <identifier>RecordOps_ID_cField</identifier>
                 <visibilityRule>
                     <criteria>
                         <leftValue>{!Record.AH_Team__c}</leftValue>
@@ -199,7 +187,22 @@
                     <value>none</value>
                 </fieldInstanceProperties>
                 <fieldItem>Record.Hours_Remaining__c</fieldItem>
-                <identifier>RecordHours_Remaining_cField</identifier>
+                <visibilityRule>
+                    <criteria>
+                        <leftValue>{!Record.AH_Team__c}</leftValue>
+                        <operator>EQUAL</operator>
+                        <rightValue>SLTC Data Migration</rightValue>
+                    </criteria>
+                </visibilityRule>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.agf__Attributes__c</fieldItem>
             </fieldInstance>
         </itemInstances>
         <name>Facet-7f1a96f5-e087-4d93-a7ea-c99991ea208f</name>
@@ -213,7 +216,6 @@
                     <value>Facet-cbfa05ca-b3a5-4410-a940-f7d70cc5d703</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:column</componentName>
-                <identifier>flexipage_column2</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
@@ -223,7 +225,6 @@
                     <value>Facet-7f1a96f5-e087-4d93-a7ea-c99991ea208f</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:column</componentName>
-                <identifier>flexipage_column3</identifier>
             </componentInstance>
         </itemInstances>
         <name>Facet-28cbc2a1-9b22-4eb2-adbb-b32bcd73d915</name>
@@ -237,7 +238,6 @@
                     <value>none</value>
                 </fieldInstanceProperties>
                 <fieldItem>Record.agf__Priority__c</fieldItem>
-                <identifier>Recordagf_Priority_cField2</identifier>
             </fieldInstance>
         </itemInstances>
         <itemInstances>
@@ -247,7 +247,6 @@
                     <value>none</value>
                 </fieldInstanceProperties>
                 <fieldItem>Record.AH_Category__c</fieldItem>
-                <identifier>RecordAH_Category_cField</identifier>
                 <visibilityRule>
                     <criteria>
                         <leftValue>{!Record.AH_Team__c}</leftValue>
@@ -264,7 +263,6 @@
                     <value>none</value>
                 </fieldInstanceProperties>
                 <fieldItem>Record.agf__Severity_Level__c</fieldItem>
-                <identifier>Recordagf_Severity_Level_cField</identifier>
                 <visibilityRule>
                     <criteria>
                         <leftValue>{!Record.AH_Team__c}</leftValue>
@@ -281,7 +279,6 @@
                     <value>none</value>
                 </fieldInstanceProperties>
                 <fieldItem>Record.AH_SystemWorkstream__c</fieldItem>
-                <identifier>RecordAH_SystemWorkstream_cField</identifier>
                 <visibilityRule>
                     <criteria>
                         <leftValue>{!Record.AH_Team__c}</leftValue>
@@ -302,9 +299,8 @@
                     <value>none</value>
                 </fieldInstanceProperties>
                 <fieldItem>Record.agf__Frequency__c</fieldItem>
-                <identifier>Recordagf_Frequency_cField</identifier>
                 <visibilityRule>
-                    <booleanFilter>1 AND 2</booleanFilter>
+                    <booleanFilter>1 AND 2 AND 3</booleanFilter>
                     <criteria>
                         <leftValue>{!Record.AH_Team__c}</leftValue>
                         <operator>NE</operator>
@@ -314,6 +310,11 @@
                         <leftValue>{!Record.AH_Team__c}</leftValue>
                         <operator>NE</operator>
                         <rightValue>SLTC Testing</rightValue>
+                    </criteria>
+                    <criteria>
+                        <leftValue>{!Record.AH_Team__c}</leftValue>
+                        <operator>NE</operator>
+                        <rightValue>SLTC Data Migration</rightValue>
                     </criteria>
                 </visibilityRule>
             </fieldInstance>
@@ -325,9 +326,8 @@
                     <value>none</value>
                 </fieldInstanceProperties>
                 <fieldItem>Record.agf__Impact__c</fieldItem>
-                <identifier>Recordagf_Impact_cField</identifier>
                 <visibilityRule>
-                    <booleanFilter>1 AND 2</booleanFilter>
+                    <booleanFilter>1 AND 2 AND 3</booleanFilter>
                     <criteria>
                         <leftValue>{!Record.AH_Team__c}</leftValue>
                         <operator>NE</operator>
@@ -337,6 +337,59 @@
                         <leftValue>{!Record.AH_Team__c}</leftValue>
                         <operator>NE</operator>
                         <rightValue>SLTC Testing</rightValue>
+                    </criteria>
+                    <criteria>
+                        <leftValue>{!Record.AH_Team__c}</leftValue>
+                        <operator>NE</operator>
+                        <rightValue>SLTC Data Migration</rightValue>
+                    </criteria>
+                </visibilityRule>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.AH_Object__c</fieldItem>
+                <visibilityRule>
+                    <criteria>
+                        <leftValue>{!Record.AH_Team__c}</leftValue>
+                        <operator>EQUAL</operator>
+                        <rightValue>SLTC Data Migration</rightValue>
+                    </criteria>
+                </visibilityRule>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.AH_ProductLine__c</fieldItem>
+                <visibilityRule>
+                    <criteria>
+                        <leftValue>{!Record.AH_Team__c}</leftValue>
+                        <operator>EQUAL</operator>
+                        <rightValue>SLTC Data Migration</rightValue>
+                    </criteria>
+                </visibilityRule>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.AH_Product__c</fieldItem>
+                <visibilityRule>
+                    <criteria>
+                        <leftValue>{!Record.AH_Team__c}</leftValue>
+                        <operator>EQUAL</operator>
+                        <rightValue>SLTC Data Migration</rightValue>
                     </criteria>
                 </visibilityRule>
             </fieldInstance>
@@ -352,7 +405,6 @@
                     <value>Facet-c3af88c4-ec94-4002-902b-e44fbba8b769</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:column</componentName>
-                <identifier>flexipage_column4</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
@@ -362,7 +414,6 @@
                     <value>Facet-6e6fcd27-ec24-4703-8e7c-c9b1b1595dcd</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:column</componentName>
-                <identifier>flexipage_column5</identifier>
             </componentInstance>
         </itemInstances>
         <name>Facet-6969ef78-808e-423d-80ee-a07a26fa3284</name>
@@ -375,8 +426,56 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
+                <fieldItem>Record.AH_LegacyAccountSubscriptions__c</fieldItem>
+                <visibilityRule>
+                    <criteria>
+                        <leftValue>{!Record.AH_Team__c}</leftValue>
+                        <operator>EQUAL</operator>
+                        <rightValue>SLTC Data Migration</rightValue>
+                    </criteria>
+                </visibilityRule>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.AH_ProgrammingChanges__c</fieldItem>
+                <visibilityRule>
+                    <criteria>
+                        <leftValue>{!Record.AH_Team__c}</leftValue>
+                        <operator>EQUAL</operator>
+                        <rightValue>SLTC Data Migration</rightValue>
+                    </criteria>
+                </visibilityRule>
+            </fieldInstance>
+        </itemInstances>
+        <name>Facet-441e6d41-24ca-4709-af1a-32709ab0b6f5</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>body</name>
+                    <value>Facet-441e6d41-24ca-4709-af1a-32709ab0b6f5</value>
+                </componentInstanceProperties>
+                <componentName>flexipage:column</componentName>
+            </componentInstance>
+        </itemInstances>
+        <name>Facet-5a7edf80-220c-43a4-adab-3426e4148724</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
                 <fieldItem>Record.agf__Assignee__c</fieldItem>
-                <identifier>Recordagf_Assignee_cField</identifier>
             </fieldInstance>
         </itemInstances>
         <itemInstances>
@@ -386,12 +485,17 @@
                     <value>none</value>
                 </fieldInstanceProperties>
                 <fieldItem>Record.agf__Product_Owner__c</fieldItem>
-                <identifier>Recordagf_Product_Owner_cField</identifier>
                 <visibilityRule>
+                    <booleanFilter>1 AND 2</booleanFilter>
                     <criteria>
                         <leftValue>{!Record.AH_Team__c}</leftValue>
                         <operator>NE</operator>
                         <rightValue>SLTC Testing</rightValue>
+                    </criteria>
+                    <criteria>
+                        <leftValue>{!Record.AH_Team__c}</leftValue>
+                        <operator>NE</operator>
+                        <rightValue>SLTC Data Migration</rightValue>
                     </criteria>
                 </visibilityRule>
             </fieldInstance>
@@ -403,7 +507,6 @@
                     <value>none</value>
                 </fieldInstanceProperties>
                 <fieldItem>Record.Department__c</fieldItem>
-                <identifier>RecordDepartment_cField</identifier>
                 <visibilityRule>
                     <criteria>
                         <leftValue>{!Record.AH_Team__c}</leftValue>
@@ -420,7 +523,6 @@
                     <value>none</value>
                 </fieldInstanceProperties>
                 <fieldItem>Record.agf__QA_Engineer__c</fieldItem>
-                <identifier>Recordagf_QA_Engineer_cField</identifier>
                 <visibilityRule>
                     <criteria>
                         <leftValue>{!Record.AH_Team__c}</leftValue>
@@ -437,12 +539,17 @@
                     <value>none</value>
                 </fieldInstanceProperties>
                 <fieldItem>Record.agf__UE_Engineer__c</fieldItem>
-                <identifier>Recordagf_UE_Engineer_cField</identifier>
                 <visibilityRule>
+                    <booleanFilter>1 AND 2</booleanFilter>
                     <criteria>
                         <leftValue>{!Record.AH_Team__c}</leftValue>
                         <operator>NE</operator>
                         <rightValue>SLTC Testing</rightValue>
+                    </criteria>
+                    <criteria>
+                        <leftValue>{!Record.AH_Team__c}</leftValue>
+                        <operator>NE</operator>
+                        <rightValue>SLTC Data Migration</rightValue>
                     </criteria>
                 </visibilityRule>
             </fieldInstance>
@@ -462,7 +569,6 @@
                     <value>Facet-7fcc97a7-238c-4601-a74c-e3374acee7e4</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:column</componentName>
-                <identifier>flexipage_column6</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
@@ -472,7 +578,6 @@
                     <value>Facet-eb3c2293-8f50-42fb-b8bf-8d07f1fad739</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:column</componentName>
-                <identifier>flexipage_column7</identifier>
             </componentInstance>
         </itemInstances>
         <name>Facet-5e56fd6e-8ded-4df6-9cd7-a56f62f29f17</name>
@@ -486,12 +591,17 @@
                     <value>none</value>
                 </fieldInstanceProperties>
                 <fieldItem>Record.agf__Sprint__c</fieldItem>
-                <identifier>Recordagf_Sprint_cField</identifier>
                 <visibilityRule>
+                    <booleanFilter>1 AND 2</booleanFilter>
                     <criteria>
                         <leftValue>{!Record.AH_Team__c}</leftValue>
                         <operator>NE</operator>
                         <rightValue>SLTC Testing</rightValue>
+                    </criteria>
+                    <criteria>
+                        <leftValue>{!Record.AH_Team__c}</leftValue>
+                        <operator>NE</operator>
+                        <rightValue>SLTC Data Migration</rightValue>
                     </criteria>
                 </visibilityRule>
             </fieldInstance>
@@ -503,12 +613,17 @@
                     <value>none</value>
                 </fieldInstanceProperties>
                 <fieldItem>Record.agf__Scheduled_Build__c</fieldItem>
-                <identifier>Recordagf_Scheduled_Build_cField</identifier>
                 <visibilityRule>
+                    <booleanFilter>1 AND 2</booleanFilter>
                     <criteria>
                         <leftValue>{!Record.AH_Team__c}</leftValue>
                         <operator>NE</operator>
                         <rightValue>SLTC Testing</rightValue>
+                    </criteria>
+                    <criteria>
+                        <leftValue>{!Record.AH_Team__c}</leftValue>
+                        <operator>NE</operator>
+                        <rightValue>SLTC Data Migration</rightValue>
                     </criteria>
                 </visibilityRule>
             </fieldInstance>
@@ -520,7 +635,6 @@
                     <value>required</value>
                 </fieldInstanceProperties>
                 <fieldItem>Record.agf__Found_in_Build__c</fieldItem>
-                <identifier>Recordagf_Found_in_Build_cField</identifier>
                 <visibilityRule>
                     <criteria>
                         <leftValue>{!Record.RecordType.DeveloperName}</leftValue>
@@ -537,7 +651,13 @@
                     <value>none</value>
                 </fieldInstanceProperties>
                 <fieldItem>Record.agf__Story_Points__c</fieldItem>
-                <identifier>Recordagf_Story_Points_cField</identifier>
+                <visibilityRule>
+                    <criteria>
+                        <leftValue>{!Record.AH_Team__c}</leftValue>
+                        <operator>NE</operator>
+                        <rightValue>SLTC Data Migration</rightValue>
+                    </criteria>
+                </visibilityRule>
             </fieldInstance>
         </itemInstances>
         <name>Facet-eab00948-bd06-43df-af48-fb64ea8de3a8</name>
@@ -551,12 +671,17 @@
                     <value>none</value>
                 </fieldInstanceProperties>
                 <fieldItem>Record.AH_Theme_One__c</fieldItem>
-                <identifier>RecordAH_Theme_One_cField</identifier>
                 <visibilityRule>
+                    <booleanFilter>1 AND 2</booleanFilter>
                     <criteria>
                         <leftValue>{!Record.AH_Team__c}</leftValue>
                         <operator>NE</operator>
                         <rightValue>SLTC Testing</rightValue>
+                    </criteria>
+                    <criteria>
+                        <leftValue>{!Record.AH_Team__c}</leftValue>
+                        <operator>NE</operator>
+                        <rightValue>SLTC Data Migration</rightValue>
                     </criteria>
                 </visibilityRule>
             </fieldInstance>
@@ -568,12 +693,17 @@
                     <value>none</value>
                 </fieldInstanceProperties>
                 <fieldItem>Record.AH_Theme_Two__c</fieldItem>
-                <identifier>RecordAH_Theme_Two_cField</identifier>
                 <visibilityRule>
+                    <booleanFilter>1 AND 2</booleanFilter>
                     <criteria>
                         <leftValue>{!Record.AH_Team__c}</leftValue>
                         <operator>NE</operator>
                         <rightValue>SLTC Testing</rightValue>
+                    </criteria>
+                    <criteria>
+                        <leftValue>{!Record.AH_Team__c}</leftValue>
+                        <operator>NE</operator>
+                        <rightValue>SLTC Data Migration</rightValue>
                     </criteria>
                 </visibilityRule>
             </fieldInstance>
@@ -589,7 +719,6 @@
                     <value>Facet-eab00948-bd06-43df-af48-fb64ea8de3a8</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:column</componentName>
-                <identifier>flexipage_column8</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
@@ -599,7 +728,6 @@
                     <value>Facet-b3534fd4-1ed6-4146-a662-1e51fbe7f096</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:column</componentName>
-                <identifier>flexipage_column9</identifier>
             </componentInstance>
         </itemInstances>
         <name>Facet-b9d62b23-6dc9-4498-9829-abea2f6bdff1</name>
@@ -613,7 +741,6 @@
                     <value>none</value>
                 </fieldInstanceProperties>
                 <fieldItem>Record.agf__Epic__c</fieldItem>
-                <identifier>Recordagf_Epic_cField</identifier>
                 <visibilityRule>
                     <criteria>
                         <leftValue>{!Record.AH_Team__c}</leftValue>
@@ -634,12 +761,17 @@
                     <value>none</value>
                 </fieldInstanceProperties>
                 <fieldItem>Record.agf__Column__c</fieldItem>
-                <identifier>Recordagf_Column_cField</identifier>
                 <visibilityRule>
+                    <booleanFilter>1 AND 2</booleanFilter>
                     <criteria>
                         <leftValue>{!Record.AH_Team__c}</leftValue>
                         <operator>NE</operator>
                         <rightValue>SLTC Testing</rightValue>
+                    </criteria>
+                    <criteria>
+                        <leftValue>{!Record.AH_Team__c}</leftValue>
+                        <operator>NE</operator>
+                        <rightValue>SLTC Data Migration</rightValue>
                     </criteria>
                 </visibilityRule>
             </fieldInstance>
@@ -651,12 +783,17 @@
                     <value>none</value>
                 </fieldInstanceProperties>
                 <fieldItem>Record.agf__Color__c</fieldItem>
-                <identifier>Recordagf_Color_cField</identifier>
                 <visibilityRule>
+                    <booleanFilter>1 AND 2</booleanFilter>
                     <criteria>
                         <leftValue>{!Record.AH_Team__c}</leftValue>
                         <operator>NE</operator>
                         <rightValue>SLTC Testing</rightValue>
+                    </criteria>
+                    <criteria>
+                        <leftValue>{!Record.AH_Team__c}</leftValue>
+                        <operator>NE</operator>
+                        <rightValue>SLTC Data Migration</rightValue>
                     </criteria>
                 </visibilityRule>
             </fieldInstance>
@@ -672,7 +809,6 @@
                     <value>Facet-1ede6609-eb70-42e4-b1fe-bade5d88124d</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:column</componentName>
-                <identifier>flexipage_column10</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
@@ -682,7 +818,6 @@
                     <value>Facet-a1e77612-e1e2-4d31-954a-560b52833247</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:column</componentName>
-                <identifier>flexipage_column11</identifier>
             </componentInstance>
         </itemInstances>
         <name>Facet-cd7f2bba-1bc6-4662-b01c-5661321c95d6</name>
@@ -696,7 +831,6 @@
                     <value>none</value>
                 </fieldInstanceProperties>
                 <fieldItem>Record.AHProjectBacklog__c</fieldItem>
-                <identifier>RecordAHProjectBacklog_cField</identifier>
                 <visibilityRule>
                     <booleanFilter>1 OR 2 OR 3</booleanFilter>
                     <criteria>
@@ -724,7 +858,136 @@
                     <value>none</value>
                 </fieldInstanceProperties>
                 <fieldItem>Record.agf__Product_Area__c</fieldItem>
-                <identifier>Recordagf_Product_Area_cField</identifier>
+                <visibilityRule>
+                    <booleanFilter>1 OR 2</booleanFilter>
+                    <criteria>
+                        <leftValue>{!Record.AH_Team__c}</leftValue>
+                        <operator>EQUAL</operator>
+                        <rightValue>DTS Team</rightValue>
+                    </criteria>
+                    <criteria>
+                        <leftValue>{!Record.AH_Team__c}</leftValue>
+                        <operator>EQUAL</operator>
+                        <rightValue>Technical Solutions</rightValue>
+                    </criteria>
+                </visibilityRule>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.AH_DeveloperSandboxName__c</fieldItem>
+                <visibilityRule>
+                    <booleanFilter>1 OR 2</booleanFilter>
+                    <criteria>
+                        <leftValue>{!Record.AH_Team__c}</leftValue>
+                        <operator>EQUAL</operator>
+                        <rightValue>DTS Team</rightValue>
+                    </criteria>
+                    <criteria>
+                        <leftValue>{!Record.AH_Team__c}</leftValue>
+                        <operator>EQUAL</operator>
+                        <rightValue>Technical Solutions</rightValue>
+                    </criteria>
+                </visibilityRule>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.AH_DeploymentScheduledDate__c</fieldItem>
+                <visibilityRule>
+                    <booleanFilter>1 OR 2</booleanFilter>
+                    <criteria>
+                        <leftValue>{!Record.AH_Team__c}</leftValue>
+                        <operator>EQUAL</operator>
+                        <rightValue>DTS Team</rightValue>
+                    </criteria>
+                    <criteria>
+                        <leftValue>{!Record.AH_Team__c}</leftValue>
+                        <operator>EQUAL</operator>
+                        <rightValue>DTS Team</rightValue>
+                    </criteria>
+                </visibilityRule>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.AH_DeployToEnvironment__c</fieldItem>
+                <visibilityRule>
+                    <booleanFilter>1 OR 2</booleanFilter>
+                    <criteria>
+                        <leftValue>{!Record.AH_Team__c}</leftValue>
+                        <operator>EQUAL</operator>
+                        <rightValue>DTS Team</rightValue>
+                    </criteria>
+                    <criteria>
+                        <leftValue>{!Record.AH_Team__c}</leftValue>
+                        <operator>EQUAL</operator>
+                        <rightValue>Technical Solutions</rightValue>
+                    </criteria>
+                </visibilityRule>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.AH_SystemAdminAccessGranted__c</fieldItem>
+                <visibilityRule>
+                    <booleanFilter>1 OR 2</booleanFilter>
+                    <criteria>
+                        <leftValue>{!Record.AH_Team__c}</leftValue>
+                        <operator>EQUAL</operator>
+                        <rightValue>DTS Team</rightValue>
+                    </criteria>
+                    <criteria>
+                        <leftValue>{!Record.AH_Team__c}</leftValue>
+                        <operator>EQUAL</operator>
+                        <rightValue>Technical Solutions</rightValue>
+                    </criteria>
+                </visibilityRule>
+            </fieldInstance>
+        </itemInstances>
+        <name>Facet-32452a74-41c1-471a-afb9-d48ff9c27f64</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.QA_Automation__c</fieldItem>
+                <visibilityRule>
+                    <criteria>
+                        <leftValue>{!Record.AH_Team__c}</leftValue>
+                        <operator>EQUAL</operator>
+                        <rightValue>DTS Team</rightValue>
+                    </criteria>
+                </visibilityRule>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.agf__Closed_On__c</fieldItem>
                 <visibilityRule>
                     <booleanFilter>1 OR 2</booleanFilter>
                     <criteria>
@@ -747,7 +1010,6 @@
                     <value>none</value>
                 </fieldInstanceProperties>
                 <fieldItem>Record.agf__System_Test_Engineer__c</fieldItem>
-                <identifier>Recordagf_System_Test_Engineer_cField</identifier>
                 <visibilityRule>
                     <criteria>
                         <leftValue>{!Record.AH_Team__c}</leftValue>
@@ -764,56 +1026,11 @@
                     <value>none</value>
                 </fieldInstanceProperties>
                 <fieldItem>Record.agf__Tech_Writer__c</fieldItem>
-                <identifier>Recordagf_Tech_Writer_cField</identifier>
                 <visibilityRule>
                     <criteria>
                         <leftValue>{!Record.AH_Team__c}</leftValue>
                         <operator>EQUAL</operator>
                         <rightValue>DTS Team</rightValue>
-                    </criteria>
-                </visibilityRule>
-            </fieldInstance>
-        </itemInstances>
-        <name>Facet-32452a74-41c1-471a-afb9-d48ff9c27f64</name>
-        <type>Facet</type>
-    </flexiPageRegions>
-    <flexiPageRegions>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
-                <fieldItem>Record.QA_Automation__c</fieldItem>
-                <identifier>RecordQA_Automation_cField</identifier>
-                <visibilityRule>
-                    <criteria>
-                        <leftValue>{!Record.AH_Team__c}</leftValue>
-                        <operator>EQUAL</operator>
-                        <rightValue>DTS Team</rightValue>
-                    </criteria>
-                </visibilityRule>
-            </fieldInstance>
-        </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
-                <fieldItem>Record.agf__Closed_On__c</fieldItem>
-                <identifier>Recordagf_Closed_On_cField</identifier>
-                <visibilityRule>
-                    <booleanFilter>1 OR 2</booleanFilter>
-                    <criteria>
-                        <leftValue>{!Record.AH_Team__c}</leftValue>
-                        <operator>EQUAL</operator>
-                        <rightValue>DTS Team</rightValue>
-                    </criteria>
-                    <criteria>
-                        <leftValue>{!Record.AH_Team__c}</leftValue>
-                        <operator>EQUAL</operator>
-                        <rightValue>Technical Solutions</rightValue>
                     </criteria>
                 </visibilityRule>
             </fieldInstance>
@@ -829,7 +1046,6 @@
                     <value>Facet-32452a74-41c1-471a-afb9-d48ff9c27f64</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:column</componentName>
-                <identifier>flexipage_column12</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
@@ -839,7 +1055,6 @@
                     <value>Facet-e930a86a-96df-453d-970a-93404d038110</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:column</componentName>
-                <identifier>flexipage_column13</identifier>
             </componentInstance>
         </itemInstances>
         <name>Facet-96cf3605-e60f-44af-9dfc-49bb8bcd1f14</name>
@@ -853,7 +1068,6 @@
                     <value>none</value>
                 </fieldInstanceProperties>
                 <fieldItem>Record.CreatedById</fieldItem>
-                <identifier>RecordCreatedByIdField</identifier>
             </fieldInstance>
         </itemInstances>
         <itemInstances>
@@ -863,7 +1077,6 @@
                     <value>none</value>
                 </fieldInstanceProperties>
                 <fieldItem>Record.agf__Scrum_Team__c</fieldItem>
-                <identifier>Recordagf_Scrum_Team_cField</identifier>
                 <visibilityRule>
                     <criteria>
                         <leftValue>{!Record.AH_Team__c}</leftValue>
@@ -880,9 +1093,8 @@
                     <value>none</value>
                 </fieldInstanceProperties>
                 <fieldItem>Record.AH_TestCase__c</fieldItem>
-                <identifier>RecordAH_TestCase_cField</identifier>
                 <visibilityRule>
-                    <booleanFilter>1 AND 2</booleanFilter>
+                    <booleanFilter>(1 or 3) and 2</booleanFilter>
                     <criteria>
                         <leftValue>{!Record.AH_Team__c}</leftValue>
                         <operator>EQUAL</operator>
@@ -892,6 +1104,11 @@
                         <leftValue>{!Record.RecordType.DeveloperName}</leftValue>
                         <operator>EQUAL</operator>
                         <rightValue>Bug</rightValue>
+                    </criteria>
+                    <criteria>
+                        <leftValue>{!Record.AH_Team__c}</leftValue>
+                        <operator>EQUAL</operator>
+                        <rightValue>SLTC Data Migration</rightValue>
                     </criteria>
                 </visibilityRule>
             </fieldInstance>
@@ -907,7 +1124,6 @@
                     <value>none</value>
                 </fieldInstanceProperties>
                 <fieldItem>Record.LastModifiedById</fieldItem>
-                <identifier>RecordLastModifiedByIdField</identifier>
             </fieldInstance>
         </itemInstances>
         <itemInstances>
@@ -917,7 +1133,6 @@
                     <value>none</value>
                 </fieldInstanceProperties>
                 <fieldItem>Record.CurrencyIsoCode</fieldItem>
-                <identifier>RecordCurrencyIsoCodeField</identifier>
                 <visibilityRule>
                     <criteria>
                         <leftValue>{!$User.Profile.Name}</leftValue>
@@ -938,7 +1153,6 @@
                     <value>Facet-6e629c79-47b7-45f3-9a90-d3d56fa561d8</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:column</componentName>
-                <identifier>flexipage_column14</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
@@ -948,7 +1162,6 @@
                     <value>Facet-1608a27e-82d9-4ae5-a2c1-680656a44fbe</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:column</componentName>
-                <identifier>flexipage_column15</identifier>
             </componentInstance>
         </itemInstances>
         <name>Facet-a9a4d85c-4b92-43f1-92bd-17bb139f1e56</name>
@@ -966,7 +1179,6 @@
                     <value>Subject</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:fieldSection</componentName>
-                <identifier>flexipage_fieldSection</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
@@ -980,7 +1192,6 @@
                     <value>Information</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:fieldSection</componentName>
-                <identifier>flexipage_fieldSection2</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
@@ -994,7 +1205,6 @@
                     <value>Bug Details</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:fieldSection</componentName>
-                <identifier>flexipage_fieldSection3</identifier>
                 <visibilityRule>
                     <criteria>
                         <leftValue>{!Record.RecordType.DeveloperName}</leftValue>
@@ -1008,6 +1218,19 @@
             <componentInstance>
                 <componentInstanceProperties>
                     <name>columns</name>
+                    <value>Facet-5a7edf80-220c-43a4-adab-3426e4148724</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>label</name>
+                    <value>SLTC Data Migration Information</value>
+                </componentInstanceProperties>
+                <componentName>flexipage:fieldSection</componentName>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>columns</name>
                     <value>Facet-5e56fd6e-8ded-4df6-9cd7-a56f62f29f17</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
@@ -1015,7 +1238,6 @@
                     <value>Assignments</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:fieldSection</componentName>
-                <identifier>flexipage_fieldSection4</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
@@ -1029,7 +1251,6 @@
                     <value>Sprint Details</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:fieldSection</componentName>
-                <identifier>flexipage_fieldSection5</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
@@ -1043,7 +1264,6 @@
                     <value>Other Information</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:fieldSection</componentName>
-                <identifier>flexipage_fieldSection6</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
@@ -1057,7 +1277,6 @@
                     <value>DTS Team Information</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:fieldSection</componentName>
-                <identifier>flexipage_fieldSection7</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
@@ -1071,7 +1290,6 @@
                     <value>System Information</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:fieldSection</componentName>
-                <identifier>flexipage_fieldSection8</identifier>
             </componentInstance>
         </itemInstances>
         <name>Facet-2e4690c8-a064-4cfa-98b4-bb553d4a4d9d</name>
@@ -1101,7 +1319,6 @@
                     <value>true</value>
                 </componentInstanceProperties>
                 <componentName>force:relatedListSingleContainer</componentName>
-                <identifier>force_relatedListSingleContainer6</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
@@ -1127,7 +1344,6 @@
                     <value>true</value>
                 </componentInstanceProperties>
                 <componentName>force:relatedListSingleContainer</componentName>
-                <identifier>force_relatedListSingleContainer7</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
@@ -1153,7 +1369,6 @@
                     <value>true</value>
                 </componentInstanceProperties>
                 <componentName>force:relatedListSingleContainer</componentName>
-                <identifier>force_relatedListSingleContainer8</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
@@ -1179,7 +1394,6 @@
                     <value>true</value>
                 </componentInstanceProperties>
                 <componentName>force:relatedListSingleContainer</componentName>
-                <identifier>force_relatedListSingleContainer9</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
@@ -1205,7 +1419,6 @@
                     <value>true</value>
                 </componentInstanceProperties>
                 <componentName>force:relatedListSingleContainer</componentName>
-                <identifier>force_relatedListSingleContainer10</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
@@ -1231,7 +1444,6 @@
                     <value>true</value>
                 </componentInstanceProperties>
                 <componentName>force:relatedListSingleContainer</componentName>
-                <identifier>force_relatedListSingleContainer11</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
@@ -1257,7 +1469,6 @@
                     <value>true</value>
                 </componentInstanceProperties>
                 <componentName>force:relatedListSingleContainer</componentName>
-                <identifier>force_relatedListSingleContainer12</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
@@ -1283,7 +1494,6 @@
                     <value>true</value>
                 </componentInstanceProperties>
                 <componentName>force:relatedListSingleContainer</componentName>
-                <identifier>force_relatedListSingleContainer13</identifier>
             </componentInstance>
         </itemInstances>
         <name>facet-3df41e23-d222-425b-a03a-e085314582bc</name>
@@ -1305,7 +1515,6 @@
                     <value>3</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:recentItems</componentName>
-                <identifier>flexipage_recentItems</identifier>
             </componentInstance>
         </itemInstances>
         <name>Facet-c6f5af21-fe09-4835-a9d1-8a5196abb03b</name>
@@ -1335,7 +1544,6 @@
                     <value>true</value>
                 </componentInstanceProperties>
                 <componentName>force:relatedListSingleContainer</componentName>
-                <identifier>force_relatedListSingleContainer</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
@@ -1361,7 +1569,6 @@
                     <value>true</value>
                 </componentInstanceProperties>
                 <componentName>force:relatedListSingleContainer</componentName>
-                <identifier>force_relatedListSingleContainer2</identifier>
             </componentInstance>
         </itemInstances>
         <name>Facet-f46rcno3s6m</name>
@@ -1391,7 +1598,6 @@
                     <value>true</value>
                 </componentInstanceProperties>
                 <componentName>force:relatedListSingleContainer</componentName>
-                <identifier>force_relatedListSingleContainer3</identifier>
             </componentInstance>
         </itemInstances>
         <name>Facet-tvqjwqe3afr</name>
@@ -1421,7 +1627,6 @@
                     <value>true</value>
                 </componentInstanceProperties>
                 <componentName>force:relatedListSingleContainer</componentName>
-                <identifier>force_relatedListSingleContainer4</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
@@ -1447,7 +1652,6 @@
                     <value>true</value>
                 </componentInstanceProperties>
                 <componentName>force:relatedListSingleContainer</componentName>
-                <identifier>force_relatedListSingleContainer5</identifier>
             </componentInstance>
         </itemInstances>
         <name>Facet-c4a1f428-4ee3-4aca-a29b-d5e09b637898</name>
@@ -1465,7 +1669,6 @@
                     <value>Standard.Tab.detail</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:tab</componentName>
-                <identifier>flexipage_tab7</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
@@ -1483,7 +1686,6 @@
                     <value>Standard.Tab.relatedLists</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:tab</componentName>
-                <identifier>relatedListsTab</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
@@ -1497,7 +1699,6 @@
                     <value>Recent Items</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:tab</componentName>
-                <identifier>flexipage_tab3</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
@@ -1511,7 +1712,6 @@
                     <value>Parent &amp; Child Work</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:tab</componentName>
-                <identifier>flexipage_tab4</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
@@ -1525,7 +1725,6 @@
                     <value>Standard.Tab.tasks</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:tab</componentName>
-                <identifier>flexipage_tab5</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
@@ -1539,7 +1738,6 @@
                     <value>Work History</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:tab</componentName>
-                <identifier>flexipage_tab6</identifier>
             </componentInstance>
         </itemInstances>
         <name>facet-d02b01a3-3091-4fe8-a06b-81a6968a8c45</name>
@@ -1553,7 +1751,6 @@
                     <value>facet-d02b01a3-3091-4fe8-a06b-81a6968a8c45</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:tabset</componentName>
-                <identifier>flexipage_tabset</identifier>
             </componentInstance>
         </itemInstances>
         <mode>Replace</mode>
@@ -1568,7 +1765,6 @@
                     <value>false</value>
                 </componentInstanceProperties>
                 <componentName>runtime_sales_activities:activityPanel</componentName>
-                <identifier>runtime_sales_activities_activityPanel</identifier>
             </componentInstance>
         </itemInstances>
         <name>Facet-a2c7f40a-e5b7-4046-bb7e-51b6d95296ea</name>
@@ -1578,7 +1774,6 @@
         <itemInstances>
             <componentInstance>
                 <componentName>forceChatter:recordFeedContainer</componentName>
-                <identifier>forceChatter_recordFeedContainer</identifier>
             </componentInstance>
         </itemInstances>
         <name>Facet-16974d9a-7794-4440-a822-84e0dd68cc0d</name>
@@ -1600,7 +1795,6 @@
                     <value>Standard.Tab.activity</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:tab</componentName>
-                <identifier>flexipage_tab</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
@@ -1614,7 +1808,6 @@
                     <value>Standard.Tab.collaborate</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:tab</componentName>
-                <identifier>flexipage_tab2</identifier>
             </componentInstance>
         </itemInstances>
         <name>Facet-29fe8f64-9e64-42f8-ada8-9a7ae5193839</name>
@@ -1628,7 +1821,6 @@
                     <value>Facet-29fe8f64-9e64-42f8-ada8-9a7ae5193839</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:tabset</componentName>
-                <identifier>flexipage_tabset2</identifier>
             </componentInstance>
         </itemInstances>
         <mode>Replace</mode>

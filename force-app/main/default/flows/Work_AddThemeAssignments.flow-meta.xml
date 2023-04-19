@@ -460,7 +460,6 @@
         </rules>
     </decisions>
     <description>NICC-063573; Creates Theme Assignment child records for the Work record using the Theme 1 and Theme 2 fields</description>
-    <environments>Default</environments>
     <formulas>
         <description>If a Work record has two Themes and Theme 1 is deleted, leaving only theme 2, this formula will assign Theme 2 to the Theme Assignment.</description>
         <name>formulaThemeName</name>
@@ -550,15 +549,6 @@
         <connector>
             <targetReference>GetExistingThemeAssignments</targetReference>
         </connector>
-        <filterFormula>AND(ISNEW() ,OR(NOT(ISBLANK({!$Record.AH_Theme_One__c})),NOT(ISBLANK({!$Record.AH_Theme_Two__c}))
-)
-)
-||
-AND(
-NOT(ISNEW()),
-OR(ISCHANGED({!$Record.AH_Theme_One__c}) ,ISCHANGED({!$Record.AH_Theme_Two__c})
-)
-)</filterFormula>
         <object>agf__ADM_Work__c</object>
         <recordTriggerType>CreateAndUpdate</recordTriggerType>
         <triggerType>RecordAfterSave</triggerType>

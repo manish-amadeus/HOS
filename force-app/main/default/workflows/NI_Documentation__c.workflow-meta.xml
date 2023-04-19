@@ -611,19 +611,6 @@
         <triggerType>onCreateOrTriggeringUpdate</triggerType>
         <workflowTimeTriggers>
             <actions>
-                <name>AH_PLCM_Migration_Reminder_Email</name>
-                <type>Alert</type>
-            </actions>
-            <actions>
-                <name>Email_Migration_Reminder</name>
-                <type>Task</type>
-            </actions>
-            <offsetFromField>NI_Documentation__c.AH_PLCM_Migration_Date__c</offsetFromField>
-            <timeLength>-7</timeLength>
-            <workflowTimeTriggerUnit>Days</workflowTimeTriggerUnit>
-        </workflowTimeTriggers>
-        <workflowTimeTriggers>
-            <actions>
                 <name>AH_PLCM_Migration_Reminder_2_Email</name>
                 <type>Alert</type>
             </actions>
@@ -633,6 +620,19 @@
             </actions>
             <offsetFromField>NI_Documentation__c.AH_PLCM_Migration_Reminder_2_Date__c</offsetFromField>
             <timeLength>0</timeLength>
+            <workflowTimeTriggerUnit>Days</workflowTimeTriggerUnit>
+        </workflowTimeTriggers>
+        <workflowTimeTriggers>
+            <actions>
+                <name>AH_PLCM_Migration_Reminder_Email</name>
+                <type>Alert</type>
+            </actions>
+            <actions>
+                <name>Email_Migration_Reminder</name>
+                <type>Task</type>
+            </actions>
+            <offsetFromField>NI_Documentation__c.AH_PLCM_Migration_Date__c</offsetFromField>
+            <timeLength>-7</timeLength>
             <workflowTimeTriggerUnit>Days</workflowTimeTriggerUnit>
         </workflowTimeTriggers>
         <workflowTimeTriggers>

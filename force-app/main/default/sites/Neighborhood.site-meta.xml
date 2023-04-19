@@ -11,10 +11,10 @@
     <authorizationRequiredPage>NeighborhoodLogin</authorizationRequiredPage>
     <bandwidthExceededPage>BandwidthExceeded</bandwidthExceededPage>
     <browserXssProtection>false</browserXssProtection>
-    <cachePublicVisualforcePagesInProxyServers>true</cachePublicVisualforcePagesInProxyServers>
     <changePasswordPage>ChatterAnswersChangePassword</changePasswordPage>
     <clickjackProtectionLevel>AllowAllFraming</clickjackProtectionLevel>
     <contentSniffingProtection>false</contentSniffingProtection>
+    <cspUpgradeInsecureRequests>true</cspUpgradeInsecureRequests>
     <enableAuraRequests>true</enableAuraRequests>
     <fileNotFoundPage>FileNotFound</fileNotFoundPage>
     <genericErrorPage>Exception</genericErrorPage>
@@ -22,21 +22,19 @@
     <inactiveIndexPage>CommunitiesLogin</inactiveIndexPage>
     <indexPage>CommunitiesLanding</indexPage>
     <masterLabel>Neighborhood</masterLabel>
-    <redirectToCustomDomain>false</redirectToCustomDomain>
     <referrerPolicyOriginWhenCrossOrigin>false</referrerPolicyOriginWhenCrossOrigin>
+    <requireHttps>true</requireHttps>
     <siteAdmin>semery@newmarketinc.com</siteAdmin>
     <siteGuestRecordDefaultOwner>semery@newmarketinc.com</siteGuestRecordDefaultOwner>
     <siteRedirectMappings>
         <action>Permanent</action>
         <isActive>true</isActive>
-        <isDynamic>false</isDynamic>
         <source>/SiteLogin</source>
         <target>/neighborhood/NeighborhoodLogin</target>
     </siteRedirectMappings>
     <siteRedirectMappings>
         <action>Permanent</action>
         <isActive>true</isActive>
-        <isDynamic>false</isDynamic>
         <source>/login</source>
         <target>/neighborhood/NeighborhoodLogin</target>
     </siteRedirectMappings>

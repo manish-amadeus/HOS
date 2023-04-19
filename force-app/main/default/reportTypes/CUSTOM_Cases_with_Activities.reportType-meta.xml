@@ -761,4 +761,12 @@ Has Account, Contact, Deployment Instance, Case Owner &amp; Case Creator fields.
         </columns>
         <masterLabel>Activity</masterLabel>
     </sections>
+    <sections>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>Product__c</field>
+            <table>Case.Activities</table>
+        </columns>
+        <masterLabel>Activities</masterLabel>
+    </sections>
 </ReportType>

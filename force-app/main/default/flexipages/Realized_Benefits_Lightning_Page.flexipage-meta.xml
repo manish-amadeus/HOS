@@ -25,7 +25,6 @@
                     <value>3</value>
                 </componentInstanceProperties>
                 <componentName>force:highlightsPanel</componentName>
-                <identifier>force_highlightsPanel</identifier>
             </componentInstance>
         </itemInstances>
         <mode>Replace</mode>
@@ -40,7 +39,6 @@
                     <value>none</value>
                 </fieldInstanceProperties>
                 <fieldItem>Record.Name</fieldItem>
-                <identifier>RecordNameField1</identifier>
             </fieldInstance>
         </itemInstances>
         <itemInstances>
@@ -50,7 +48,6 @@
                     <value>none</value>
                 </fieldInstanceProperties>
                 <fieldItem>Record.Project_Backlog_Record__c</fieldItem>
-                <identifier>RecordProject_Backlog_Record_cField1</identifier>
             </fieldInstance>
         </itemInstances>
         <itemInstances>
@@ -60,7 +57,6 @@
                     <value>none</value>
                 </fieldInstanceProperties>
                 <fieldItem>Record.Start_Date__c</fieldItem>
-                <identifier>RecordStart_Date_cField1</identifier>
             </fieldInstance>
         </itemInstances>
         <itemInstances>
@@ -70,7 +66,6 @@
                     <value>none</value>
                 </fieldInstanceProperties>
                 <fieldItem>Record.End_Date__c</fieldItem>
-                <identifier>RecordEnd_Date_cField1</identifier>
             </fieldInstance>
         </itemInstances>
         <name>Facet-1e1abae7-3b2c-4745-abf0-0b8a7380ba1c</name>
@@ -84,7 +79,6 @@
                     <value>none</value>
                 </fieldInstanceProperties>
                 <fieldItem>Record.Revenue_Increase_Amount__c</fieldItem>
-                <identifier>RecordRevenue_Increase_Amount_cField1</identifier>
             </fieldInstance>
         </itemInstances>
         <itemInstances>
@@ -94,7 +88,6 @@
                     <value>required</value>
                 </fieldInstanceProperties>
                 <fieldItem>Record.RevenueBenefitsExplanation__c</fieldItem>
-                <identifier>RecordRevenueBenefitsExplanation_cField1</identifier>
                 <visibilityRule>
                     <criteria>
                         <leftValue>{!Record.Revenue_Increase_Amount__c}</leftValue>
@@ -111,7 +104,6 @@
                     <value>none</value>
                 </fieldInstanceProperties>
                 <fieldItem>Record.Customer_Experience_Improvements_Realize__c</fieldItem>
-                <identifier>RecordCustomer_Experience_Improvements_Realize_cField</identifier>
             </fieldInstance>
         </itemInstances>
         <name>Facet-938ff090-6bc6-4b25-9fb9-5d4a1b90cf1e</name>
@@ -125,7 +117,6 @@
                     <value>Facet-1e1abae7-3b2c-4745-abf0-0b8a7380ba1c</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:column</componentName>
-                <identifier>flexipage_column1</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
@@ -135,7 +126,6 @@
                     <value>Facet-938ff090-6bc6-4b25-9fb9-5d4a1b90cf1e</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:column</componentName>
-                <identifier>flexipage_column2</identifier>
             </componentInstance>
         </itemInstances>
         <name>Facet-1999ab8a-2a20-4d02-ba36-02a60aca645b</name>
@@ -149,7 +139,6 @@
                     <value>none</value>
                 </fieldInstanceProperties>
                 <fieldItem>Record.Cost_Reducton_Amount__c</fieldItem>
-                <identifier>RecordCost_Reducton_Amount_cField1</identifier>
             </fieldInstance>
         </itemInstances>
         <itemInstances>
@@ -159,7 +148,6 @@
                     <value>required</value>
                 </fieldInstanceProperties>
                 <fieldItem>Record.CostReductionExplanation__c</fieldItem>
-                <identifier>RecordCostReductionExplanation_cField1</identifier>
                 <visibilityRule>
                     <criteria>
                         <leftValue>{!Record.Cost_Reducton_Amount__c}</leftValue>
@@ -176,7 +164,6 @@
                     <value>none</value>
                 </fieldInstanceProperties>
                 <fieldItem>Record.Efficiencies_Savings_hrs__c</fieldItem>
-                <identifier>RecordEfficiencies_Savings_hrs_cField1</identifier>
             </fieldInstance>
         </itemInstances>
         <itemInstances>
@@ -186,7 +173,6 @@
                     <value>required</value>
                 </fieldInstanceProperties>
                 <fieldItem>Record.EffeciencySavingsExplanation__c</fieldItem>
-                <identifier>RecordEffeciencySavingsExplanation_cField1</identifier>
                 <visibilityRule>
                     <criteria>
                         <leftValue>{!Record.Efficiencies_Savings_hrs__c}</leftValue>
@@ -207,7 +193,6 @@
                     <value>required</value>
                 </fieldInstanceProperties>
                 <fieldItem>Record.Workstream_Name__c</fieldItem>
-                <identifier>RecordWorkstream_Name_cField1</identifier>
                 <visibilityRule>
                     <booleanFilter>1 OR 2</booleanFilter>
                     <criteria>
@@ -230,7 +215,6 @@
                     <value>none</value>
                 </fieldInstanceProperties>
                 <fieldItem>Record.Efficiencies_Cost_Saved__c</fieldItem>
-                <identifier>RecordEfficiencies_Cost_Saved_cField</identifier>
                 <visibilityRule>
                     <criteria>
                         <leftValue>{!Record.Efficiencies_Savings_hrs__c}</leftValue>
@@ -251,7 +235,6 @@
                     <value>Facet-2915fcfd-7fe3-47bc-9d3b-58069e0236b3</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:column</componentName>
-                <identifier>flexipage_column5</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
@@ -261,7 +244,6 @@
                     <value>Facet-4b32bc30-027e-4b86-83d2-7c51bbd24275</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:column</componentName>
-                <identifier>flexipage_column6</identifier>
             </componentInstance>
         </itemInstances>
         <name>Facet-2b069d4a-b566-4530-a939-0b8f8a756f46</name>
@@ -275,7 +257,6 @@
                     <value>none</value>
                 </fieldInstanceProperties>
                 <fieldItem>Record.CreatedById</fieldItem>
-                <identifier>RecordCreatedByIdField1</identifier>
             </fieldInstance>
         </itemInstances>
         <name>Facet-0837e17c-d1df-410d-b084-fd43d33d60e0</name>
@@ -289,7 +270,6 @@
                     <value>none</value>
                 </fieldInstanceProperties>
                 <fieldItem>Record.LastModifiedById</fieldItem>
-                <identifier>RecordLastModifiedByIdField1</identifier>
             </fieldInstance>
         </itemInstances>
         <itemInstances>
@@ -299,7 +279,6 @@
                     <value>none</value>
                 </fieldInstanceProperties>
                 <fieldItem>Record.CurrencyIsoCode</fieldItem>
-                <identifier>RecordCurrencyIsoCodeField1</identifier>
                 <visibilityRule>
                     <criteria>
                         <leftValue>{!$User.Profile.Name}</leftValue>
@@ -320,7 +299,6 @@
                     <value>Facet-0837e17c-d1df-410d-b084-fd43d33d60e0</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:column</componentName>
-                <identifier>flexipage_column3</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
@@ -330,7 +308,6 @@
                     <value>Facet-3fe3f440-a1aa-44ea-867f-aa076ff9e6af</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:column</componentName>
-                <identifier>flexipage_column4</identifier>
             </componentInstance>
         </itemInstances>
         <name>Facet-d44ba714-6ce3-480d-94cc-bf8b26c04263</name>
@@ -360,7 +337,6 @@
                     <value>true</value>
                 </componentInstanceProperties>
                 <componentName>force:relatedListSingleContainer</componentName>
-                <identifier>force_relatedListSingleContainer1</identifier>
             </componentInstance>
         </itemInstances>
         <name>Facet-483c8de6-1b29-4715-9ace-49a9b2d6b141</name>
@@ -390,7 +366,6 @@
                     <value>true</value>
                 </componentInstanceProperties>
                 <componentName>force:relatedListSingleContainer</componentName>
-                <identifier>force_relatedListSingleContainer2</identifier>
             </componentInstance>
         </itemInstances>
         <name>Facet-3e0d7fb1-3493-41a5-b68a-caed939e74d8</name>
@@ -412,7 +387,6 @@
                     <value>Realized Benefits History</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:tab</componentName>
-                <identifier>flexipage_tab1</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
@@ -426,7 +400,6 @@
                     <value>Files</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:tab</componentName>
-                <identifier>flexipage_tab2</identifier>
             </componentInstance>
         </itemInstances>
         <name>Facet-b1e0d8ea-59bd-4d34-bdf6-64db23968f6f</name>
@@ -444,7 +417,6 @@
                     <value>Details</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:fieldSection</componentName>
-                <identifier>flexipage_fieldSection1</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
@@ -458,7 +430,6 @@
                     <value>Workstream Benefits - Results must be attached in the Files section</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:fieldSection</componentName>
-                <identifier>flexipage_fieldSection3</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
@@ -472,7 +443,6 @@
                     <value>System Information</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:fieldSection</componentName>
-                <identifier>flexipage_fieldSection2</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
@@ -482,7 +452,6 @@
                     <value>Facet-b1e0d8ea-59bd-4d34-bdf6-64db23968f6f</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:tabset</componentName>
-                <identifier>flexipage_tabset1</identifier>
             </componentInstance>
         </itemInstances>
         <mode>Replace</mode>

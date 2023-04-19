@@ -8,7 +8,6 @@
         <locationY>187</locationY>
         <actionName>emailSimple</actionName>
         <actionType>emailSimple</actionType>
-        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
         <inputParameters>
             <name>emailBody</name>
             <value>
@@ -301,7 +300,6 @@
         </connector>
     </assignments>
     <description>NICC-058179; updated via NICC-063342; Auto-creates 4 NI Project Backlog Task records for Internal Projects to remind users to add Realized Benefits to the Project</description>
-    <environments>Default</environments>
     <formulas>
         <description>Creates a Subject Line for the email notification</description>
         <name>formulaSubjectForEmail</name>
@@ -419,9 +417,6 @@
         <connector>
             <targetReference>GetRecordType</targetReference>
         </connector>
-        <filterFormula>{!$Record.RecordType.DeveloperName} = &quot;Commercial_Operation_Projects&quot; &amp;&amp;
-ISCHANGED({!$Record.Request_Status__c}) &amp;&amp;
-ISPICKVAL({!$Record.Request_Status__c}, &quot;Completed&quot;)</filterFormula>
         <object>NI_Project_Backlog__c</object>
         <recordTriggerType>Update</recordTriggerType>
         <triggerType>RecordAfterSave</triggerType>

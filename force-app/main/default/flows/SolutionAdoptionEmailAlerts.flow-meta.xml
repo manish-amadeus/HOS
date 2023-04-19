@@ -10,7 +10,6 @@
         <connector>
             <targetReference>closingReminderEmailAssignment</targetReference>
         </connector>
-        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
         <inputParameters>
             <name>SObjectRowId</name>
             <value>
@@ -28,7 +27,6 @@
         <connector>
             <targetReference>ReminderEmailAssignment</targetReference>
         </connector>
-        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
         <inputParameters>
             <name>SObjectRowId</name>
             <value>
@@ -46,7 +44,6 @@
         <connector>
             <targetReference>followUp1EmailAssignment</targetReference>
         </connector>
-        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
         <inputParameters>
             <name>SObjectRowId</name>
             <value>
@@ -64,7 +61,6 @@
         <connector>
             <targetReference>followUp2EmailAssignment</targetReference>
         </connector>
-        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
         <inputParameters>
             <name>SObjectRowId</name>
             <value>
@@ -82,7 +78,6 @@
         <connector>
             <targetReference>supportHandoverEmailAssignment</targetReference>
         </connector>
-        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
         <inputParameters>
             <name>SObjectRowId</name>
             <value>
@@ -100,7 +95,6 @@
         <connector>
             <targetReference>welcomeEmailAssignment</targetReference>
         </connector>
-        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
         <inputParameters>
             <name>SObjectRowId</name>
             <value>
@@ -118,7 +112,6 @@
         <connector>
             <targetReference>closingReminderEmailAssignment</targetReference>
         </connector>
-        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
         <inputParameters>
             <name>SObjectRowId</name>
             <value>
@@ -136,7 +129,6 @@
         <connector>
             <targetReference>ReminderEmailAssignment</targetReference>
         </connector>
-        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
         <inputParameters>
             <name>SObjectRowId</name>
             <value>
@@ -154,7 +146,6 @@
         <connector>
             <targetReference>followUp1EmailAssignment</targetReference>
         </connector>
-        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
         <inputParameters>
             <name>SObjectRowId</name>
             <value>
@@ -172,7 +163,6 @@
         <connector>
             <targetReference>followUp2EmailAssignment</targetReference>
         </connector>
-        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
         <inputParameters>
             <name>SObjectRowId</name>
             <value>
@@ -190,7 +180,6 @@
         <connector>
             <targetReference>supportHandoverEmailAssignment</targetReference>
         </connector>
-        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
         <inputParameters>
             <name>SObjectRowId</name>
             <value>
@@ -208,7 +197,6 @@
         <connector>
             <targetReference>welcomeEmailAssignment</targetReference>
         </connector>
-        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
         <inputParameters>
             <name>SObjectRowId</name>
             <value>
@@ -226,7 +214,6 @@
         <connector>
             <targetReference>closingReminderEmailAssignment</targetReference>
         </connector>
-        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
         <inputParameters>
             <name>SObjectRowId</name>
             <value>
@@ -244,7 +231,6 @@
         <connector>
             <targetReference>ReminderEmailAssignment</targetReference>
         </connector>
-        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
         <inputParameters>
             <name>SObjectRowId</name>
             <value>
@@ -262,7 +248,6 @@
         <connector>
             <targetReference>followUp1EmailAssignment</targetReference>
         </connector>
-        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
         <inputParameters>
             <name>SObjectRowId</name>
             <value>
@@ -280,7 +265,6 @@
         <connector>
             <targetReference>followUp2EmailAssignment</targetReference>
         </connector>
-        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
         <inputParameters>
             <name>SObjectRowId</name>
             <value>
@@ -298,7 +282,6 @@
         <connector>
             <targetReference>supportHandoverEmailAssignment</targetReference>
         </connector>
-        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
         <inputParameters>
             <name>SObjectRowId</name>
             <value>
@@ -316,7 +299,6 @@
         <connector>
             <targetReference>welcomeEmailAssignment</targetReference>
         </connector>
-        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
         <inputParameters>
             <name>SObjectRowId</name>
             <value>
@@ -425,7 +407,7 @@
         <name>nullSendEmailType</name>
         <dataType>String</dataType>
         <value>
-            <stringValue></stringValue>
+            <stringValue/>
         </value>
     </constants>
     <decisions>
@@ -1133,7 +1115,6 @@
         </rules>
     </decisions>
     <description>Flow to send out Solution Adoption Email Alerts</description>
-    <environments>Default</environments>
     <interviewLabel>Case - Solution Adoption Email Alerts {!$Flow.CurrentDateTime}</interviewLabel>
     <label>Case - Solution Adoption Email Alerts</label>
     <processMetadataValues>

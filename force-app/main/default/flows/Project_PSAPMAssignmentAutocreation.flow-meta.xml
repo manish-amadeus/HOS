@@ -286,7 +286,6 @@
         </rules>
     </decisions>
     <description>NICC-062687; updated via NICC-064062; updated via NICC-064140; Replaces the process Builder and Flow that used to auto-create PM TT assignments.</description>
-    <environments>Default</environments>
     <formulas>
         <description>Formula to populate the End Date on the &quot;End Date&quot; field on the Schedule record when creating a new Assignment</description>
         <name>formulaScheduleEndDate</name>
@@ -530,9 +529,6 @@ DATE(1900,01,01)
         <connector>
             <targetReference>GetMilestone</targetReference>
         </connector>
-        <filterFormula>ISNEW() ||
-ISPICKVAL({!$Record.pse__Project_Type__c}, &quot;Customer Project&quot;) &amp;&amp;
-OR(ISCHANGED({!$Record.pse__Project_Manager__c}),ISCHANGED({!$Record.pse__Start_Date__c}),ISCHANGED({!$Record.pse__End_Date__c}))</filterFormula>
         <object>pse__Proj__c</object>
         <recordTriggerType>CreateAndUpdate</recordTriggerType>
         <triggerType>RecordAfterSave</triggerType>

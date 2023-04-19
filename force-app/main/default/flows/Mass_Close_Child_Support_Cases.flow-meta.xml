@@ -68,7 +68,6 @@
     </assignments>
     <description>This flow copies the Knowledge Articles from the Parent Case to Child Cases and updates the Child Cases Status to close when the Parent Case is closed, only when Child Case status equals Resolved - Pending Customer Confirmation
 NICC-064077</description>
-    <environments>Default</environments>
     <interviewLabel>Mass Close Child Support Cases {!$Flow.CurrentDateTime}</interviewLabel>
     <label>Case - Mass Close Child Support Cases</label>
     <loops>

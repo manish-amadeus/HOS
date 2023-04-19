@@ -7,7 +7,6 @@
         <locationY>509</locationY>
         <actionName>Request__c.Global_Ops_Queue_Email_Alert</actionName>
         <actionType>emailAlert</actionType>
-        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
         <inputParameters>
             <name>SObjectRowId</name>
             <value>
@@ -26,7 +25,6 @@
         <connector>
             <targetReference>SendEmailToCreator</targetReference>
         </connector>
-        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
         <inputParameters>
             <name>SObjectRowId</name>
             <value>
@@ -41,7 +39,6 @@
         <locationY>164</locationY>
         <actionName>Request__c.SharedServicesGlobalOpsPasswordReset</actionName>
         <actionType>emailAlert</actionType>
-        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
         <inputParameters>
             <name>SObjectRowId</name>
             <value>
@@ -60,7 +57,6 @@
         <connector>
             <targetReference>PasswordResetTypeDecision</targetReference>
         </connector>
-        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
         <inputParameters>
             <name>SObjectRowId</name>
             <value>
@@ -75,7 +71,6 @@
         <locationY>356</locationY>
         <actionName>Request__c.Shared_Services_Queue_Email_Alert</actionName>
         <actionType>emailAlert</actionType>
-        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
         <inputParameters>
             <name>SObjectRowId</name>
             <value>
@@ -94,7 +89,6 @@
         <connector>
             <targetReference>SendEmailToCreator</targetReference>
         </connector>
-        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
         <inputParameters>
             <name>SObjectRowId</name>
             <value>

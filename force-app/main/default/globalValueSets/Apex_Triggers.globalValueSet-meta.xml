@@ -996,16 +996,34 @@
         <label>UpdateOpportunityProduct</label>
     </customValue>
     <customValue>
-        <fullName>FixRevisionChangeRequestToSolution</fullName>
+        <fullName>addArtifactTemplates</fullName>
         <default>false</default>
         <isActive>false</isActive>
-        <label>FixRevisionChangeRequestToSolution</label>
+        <label>addArtifactTemplates</label>
     </customValue>
     <customValue>
         <fullName>ValidateArtifacts</fullName>
         <default>false</default>
         <isActive>false</isActive>
         <label>ValidateArtifacts</label>
+    </customValue>
+    <customValue>
+        <fullName>addCustomerSignOffArtifact</fullName>
+        <default>false</default>
+        <isActive>false</isActive>
+        <label>addCustomerSignOffArtifact</label>
+    </customValue>
+    <customValue>
+        <fullName>FixRevisionChangeRequestToSolution</fullName>
+        <default>false</default>
+        <isActive>false</isActive>
+        <label>FixRevisionChangeRequestToSolution</label>
+    </customValue>
+    <customValue>
+        <fullName>GroupLineUpdateCaseSharing</fullName>
+        <default>false</default>
+        <isActive>false</isActive>
+        <label>GroupLineUpdateCaseSharing</label>
     </customValue>
     <customValue>
         <fullName>NI_Change_Control_Change_Owner_Share</fullName>
@@ -1024,42 +1042,6 @@
         <default>false</default>
         <isActive>false</isActive>
         <label>NI_CustomDetailToService_AfterInsert</label>
-    </customValue>
-    <customValue>
-        <fullName>NI_Opportunity_ClosedWon_Verify_ContactRole</fullName>
-        <default>false</default>
-        <isActive>false</isActive>
-        <label>NI_Opportunity_ClosedWon_Verify_ContactRole</label>
-    </customValue>
-    <customValue>
-        <fullName>NI_PartnerProdCatalogTrigger_BeforeInsert</fullName>
-        <default>false</default>
-        <isActive>false</isActive>
-        <label>NI_PartnerProdCatalogTrigger_BeforeInsert</label>
-    </customValue>
-    <customValue>
-        <fullName>NI_PartnerProdCatalogTrigger_BeforeUpdate</fullName>
-        <default>false</default>
-        <isActive>false</isActive>
-        <label>NI_PartnerProdCatalogTrigger_BeforeUpdate</label>
-    </customValue>
-    <customValue>
-        <fullName>addArtifactTemplates</fullName>
-        <default>false</default>
-        <isActive>false</isActive>
-        <label>addArtifactTemplates</label>
-    </customValue>
-    <customValue>
-        <fullName>AddCase_To_NICCRequestCaseJunction</fullName>
-        <default>false</default>
-        <isActive>false</isActive>
-        <label>AddCase_To_NICCRequestCaseJunction</label>
-    </customValue>
-    <customValue>
-        <fullName>addCustomerSignOffArtifact</fullName>
-        <default>false</default>
-        <isActive>false</isActive>
-        <label>addCustomerSignOffArtifact</label>
     </customValue>
     <customValue>
         <fullName>NI_CustomDetailToService_AfterUpdate</fullName>
@@ -1090,6 +1072,24 @@
         <default>false</default>
         <isActive>false</isActive>
         <label>NI_Customization_Service_BeforeUpdate</label>
+    </customValue>
+    <customValue>
+        <fullName>NI_Opportunity_ClosedWon_Verify_ContactRole</fullName>
+        <default>false</default>
+        <isActive>false</isActive>
+        <label>NI_Opportunity_ClosedWon_Verify_ContactRole</label>
+    </customValue>
+    <customValue>
+        <fullName>NI_PartnerProdCatalogTrigger_BeforeInsert</fullName>
+        <default>false</default>
+        <isActive>false</isActive>
+        <label>NI_PartnerProdCatalogTrigger_BeforeInsert</label>
+    </customValue>
+    <customValue>
+        <fullName>NI_PartnerProdCatalogTrigger_BeforeUpdate</fullName>
+        <default>false</default>
+        <isActive>false</isActive>
+        <label>NI_PartnerProdCatalogTrigger_BeforeUpdate</label>
     </customValue>
     <customValue>
         <fullName>NI_Softrax_Asset_AfterDelete</fullName>
@@ -1182,10 +1182,10 @@
         <label>tgrNIOrgDetailsToAccounts</label>
     </customValue>
     <customValue>
-        <fullName>GroupLineUpdateCaseSharing</fullName>
+        <fullName>AddCase_To_NICCRequestCaseJunction</fullName>
         <default>false</default>
         <isActive>false</isActive>
-        <label>GroupLineUpdateCaseSharing</label>
+        <label>AddCase_To_NICCRequestCaseJunction</label>
     </customValue>
     <description>NICC-023424 
 

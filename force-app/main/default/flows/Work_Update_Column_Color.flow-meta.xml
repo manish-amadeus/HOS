@@ -265,7 +265,6 @@
         </rules>
     </decisions>
     <description>NICC-054649; updated via NICC-063573; Updates the Column &amp; Color fields on Work records for DTS Team and SLTC teams; updates the Column for the Educational Team</description>
-    <environments>Default</environments>
     <interviewLabel>Work - Update Column &amp; Color {!$Flow.CurrentDateTime}</interviewLabel>
     <label>Work - Update Column &amp; Color</label>
     <loops>
@@ -347,8 +346,6 @@
         <connector>
             <targetReference>GetColumns</targetReference>
         </connector>
-        <filterFormula>AND(OR({!$Record.agf__Scrum_Team__r.Name} = &quot;DTS Team&quot;,{!$Record.agf__Scrum_Team__r.Name} = &quot;SLTC Hospitality Transformation&quot;),ISCHANGED({!$Record.agf__Product_Area__c})) ||
-AND({!$Record.agf__Scrum_Team__r.Name} = &quot;Educational Development&quot;,ISCHANGED({!$Record.agf__Status__c}))</filterFormula>
         <object>agf__ADM_Work__c</object>
         <recordTriggerType>Update</recordTriggerType>
         <triggerType>RecordAfterSave</triggerType>

@@ -177,7 +177,6 @@
         </rules>
     </decisions>
     <description>Updates the Designer, Owner and Closed Date/Time fields for Creative Request record type</description>
-    <environments>Default</environments>
     <interviewLabel>Request - Update Creative Request Fields {!$Flow.CurrentDateTime}</interviewLabel>
     <label>Request - Update Creative Request Fields</label>
     <processMetadataValues>
@@ -333,8 +332,6 @@
         <connector>
             <targetReference>FieldChangeDecision</targetReference>
         </connector>
-        <filterFormula>ISCHANGED({!$Record.Request_Status__c}) &amp;&amp;
-{!$Record.RecordType.DeveloperName} = &quot;Creative_Request&quot;</filterFormula>
         <object>Request__c</object>
         <recordTriggerType>Update</recordTriggerType>
         <triggerType>RecordAfterSave</triggerType>

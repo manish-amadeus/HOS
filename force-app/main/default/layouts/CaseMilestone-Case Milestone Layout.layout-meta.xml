@@ -6,10 +6,6 @@
         <editHeading>false</editHeading>
         <layoutColumns>
             <layoutItems>
-                <behavior>Readonly</behavior>
-                <field>BusinessHoursId</field>
-            </layoutItems>
-            <layoutItems>
                 <behavior>Required</behavior>
                 <field>CaseId</field>
             </layoutItems>
@@ -18,40 +14,15 @@
                 <field>MilestoneId</field>
             </layoutItems>
             <layoutItems>
-                <behavior>Edit</behavior>
-                <field>CompletionDate</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Readonly</behavior>
-                <field>IsViolated</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Readonly</behavior>
-                <field>IsCompleted</field>
-            </layoutItems>
-        </layoutColumns>
-        <layoutColumns>
-            <layoutItems>
-                <behavior>Readonly</behavior>
-                <field>StartDate</field>
-            </layoutItems>
-            <layoutItems>
                 <behavior>Readonly</behavior>
                 <field>TargetDate</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Readonly</behavior>
-                <field>TargetResponseInMins</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Readonly</behavior>
-                <field>TimeRemainingInMins</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Readonly</behavior>
-                <field>ElapsedTimeInMins</field>
+                <field>BusinessHoursId</field>
             </layoutItems>
         </layoutColumns>
+        <layoutColumns/>
         <style>TwoColumnsLeftToRight</style>
     </layoutSections>
     <layoutSections>
@@ -62,6 +33,9 @@
         <style>CustomLinks</style>
     </layoutSections>
     <miniLayout>
+        <fields>CaseId</fields>
+        <fields>MilestoneId</fields>
+        <fields>TargetDate</fields>
         <fields>BusinessHoursId</fields>
     </miniLayout>
     <showEmailCheckbox>false</showEmailCheckbox>

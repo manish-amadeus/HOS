@@ -91,11 +91,6 @@
         <label>Other</label>
     </customValue>
     <customValue>
-        <fullName>Pending - Legal</fullName>
-        <default>false</default>
-        <label>Pending - Legal</label>
-    </customValue>
-    <customValue>
         <fullName>Pending assistance from OM</fullName>
         <default>false</default>
         <label>Pending assistance from OM</label>
@@ -111,19 +106,14 @@
         <label>Pending Assistance  from Specialists</label>
     </customValue>
     <customValue>
-        <fullName>Pending - Tech</fullName>
-        <default>false</default>
-        <label>Pending - Tech</label>
-    </customValue>
-    <customValue>
         <fullName>Pending countersignature</fullName>
         <default>false</default>
         <label>Pending countersignature</label>
     </customValue>
     <customValue>
-        <fullName>Pending GTM/Product/PM</fullName>
+        <fullName>Pending Defined Date Confirmation</fullName>
         <default>false</default>
-        <label>Pending GTM/Product/PM</label>
+        <label>Pending Defined Date Confirmation</label>
     </customValue>
     <customValue>
         <fullName>Pending - Finance</fullName>
@@ -131,9 +121,9 @@
         <label>Pending - Finance</label>
     </customValue>
     <customValue>
-        <fullName>Pending - Sales / Specialists</fullName>
+        <fullName>Pending GTM/Product/PM</fullName>
         <default>false</default>
-        <label>Pending - Sales / Specialists</label>
+        <label>Pending GTM/Product/PM</label>
     </customValue>
     <customValue>
         <fullName>Pending Internal Alignment</fullName>
@@ -146,9 +136,24 @@
         <label>Pending Internal assistance</label>
     </customValue>
     <customValue>
+        <fullName>Pending - Legal</fullName>
+        <default>false</default>
+        <label>Pending - Legal</label>
+    </customValue>
+    <customValue>
         <fullName>Pending Pricing/Discount Approval</fullName>
         <default>false</default>
         <label>Pending Pricing/Discount Approval</label>
+    </customValue>
+    <customValue>
+        <fullName>Pending - Sales / Specialists</fullName>
+        <default>false</default>
+        <label>Pending - Sales / Specialists</label>
+    </customValue>
+    <customValue>
+        <fullName>Pending - Tech</fullName>
+        <default>false</default>
+        <label>Pending - Tech</label>
     </customValue>
     <customValue>
         <fullName>PO# Missing</fullName>
@@ -294,16 +299,16 @@
         <label>Incorrect Customer Address</label>
     </customValue>
     <customValue>
-        <fullName>Incorrect Customer Legal Entity</fullName>
-        <default>false</default>
-        <isActive>false</isActive>
-        <label>Incorrect Customer Legal Entity</label>
-    </customValue>
-    <customValue>
         <fullName>Incorrect Pricing</fullName>
         <default>false</default>
         <isActive>false</isActive>
         <label>Incorrect Pricing</label>
+    </customValue>
+    <customValue>
+        <fullName>Incorrect Customer Legal Entity</fullName>
+        <default>false</default>
+        <isActive>false</isActive>
+        <label>Incorrect Customer Legal Entity</label>
     </customValue>
     <customValue>
         <fullName>Missing Change Order Approval</fullName>
@@ -402,6 +407,12 @@
         <label>Pending information from L3_Insite/L3_EBSSupport</label>
     </customValue>
     <customValue>
+        <fullName>Physical Address Missing from SF</fullName>
+        <default>false</default>
+        <isActive>false</isActive>
+        <label>Physical Address Missing from SF</label>
+    </customValue>
+    <customValue>
         <fullName>Pending information from Media Planning</fullName>
         <default>false</default>
         <isActive>false</isActive>
@@ -418,12 +429,6 @@
         <default>false</default>
         <isActive>false</isActive>
         <label>Pending Team Lead clarification</label>
-    </customValue>
-    <customValue>
-        <fullName>Physical Address Missing from SF</fullName>
-        <default>false</default>
-        <isActive>false</isActive>
-        <label>Physical Address Missing from SF</label>
     </customValue>
     <customValue>
         <fullName>Related Accounts not updated for Consolidated Orders</fullName>
@@ -444,16 +449,16 @@
         <label>Signature Block not Legible</label>
     </customValue>
     <customValue>
-        <fullName>Signed Contract/Order</fullName>
-        <default>false</default>
-        <isActive>false</isActive>
-        <label>Signed Contract/Order</label>
-    </customValue>
-    <customValue>
         <fullName>Signer Not setup in Sertifi</fullName>
         <default>false</default>
         <isActive>false</isActive>
         <label>Signer Not setup in Sertifi</label>
+    </customValue>
+    <customValue>
+        <fullName>Signed Contract/Order</fullName>
+        <default>false</default>
+        <isActive>false</isActive>
+        <label>Signed Contract/Order</label>
     </customValue>
     <customValue>
         <fullName>Unclear Finance Notes</fullName>

@@ -2,7 +2,6 @@
 <Flow xmlns="http://soap.sforce.com/2006/04/metadata">
     <apiVersion>55.0</apiVersion>
     <description>NICC-061167; Checks the “IsOverridden__c” checkbox when any manual updates are made and the checkbox is not already checked.</description>
-    <environments>Default</environments>
     <interviewLabel>AH Case Report Detail - Case Report Detail Overridden {!$Flow.CurrentDateTime}</interviewLabel>
     <label>AH Case Report Detail - Case Report Detail Overridden</label>
     <processMetadataValues>
@@ -44,7 +43,6 @@
         <connector>
             <targetReference>UpdateFieldValue</targetReference>
         </connector>
-        <filterFormula>{!$Record.IsOverridden__c} = FALSE</filterFormula>
         <object>AH_Case_Report_Detail__c</object>
         <recordTriggerType>Update</recordTriggerType>
         <triggerType>RecordAfterSave</triggerType>

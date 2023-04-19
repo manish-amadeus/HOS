@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Flow xmlns="http://soap.sforce.com/2006/04/metadata">
     <apiVersion>57.0</apiVersion>
-    <description>NICC-060980; updated vis NICC-061775; update via NICC-064171; When a user creates a Defect (Bug) through the custom button called “Create a Defect” on the AH Test Cases object, this Flow associates the newly-created Defect (Bug) record to the Parent User Story that the Test Case originated with.</description>
-    <environments>Default</environments>
+    <description>NICC-060980; updated vis NICC-061775; update via NICC-064171; updated via NICC-065678; When a user creates a Defect (Bug) through the custom button called “Create a Defect” on the AH Test Cases object, this Flow associates the newly-created Defect (Bug) record to the Parent User Story that the Test Case originated with.</description>
     <interviewLabel>Work - Create Parent/Child Relationship for SLTC Bugs {!$Flow.CurrentDateTime}</interviewLabel>
-    <label>Work - Create Parent/Child Relationship for SLTC Bugs</label>
+    <label>Work - Create Parent/Child Relationship for Bugs</label>
     <processMetadataValues>
         <name>BuilderType</name>
         <value>
@@ -51,14 +50,6 @@
         <connector>
             <targetReference>CreateParentChildAssociation</targetReference>
         </connector>
-        <filterFormula>{!$Record.agf__Scrum_Team__r.Name} &lt;&gt; &quot;SLTC Operations&quot; &amp;&amp;
-NOT(ISBLANK({!$Record.AH_TestCase__c})) &amp;&amp;
-OR(
-{!$Record.agf__Scrum_Team__r.Name} = &quot;SLTC Hospitality Transformation&quot;,
-{!$Record.agf__Scrum_Team__r.Name} = &quot;SLTC Testing&quot;,
-{!$Record.agf__Scrum_Team__r.Name} = &quot;SLTC- Integrations team&quot;,
-CONTAINS({!$Record.agf__Product_Tag__r.Name}, &quot;SLTC&quot;)
-)</filterFormula>
         <object>agf__ADM_Work__c</object>
         <recordTriggerType>Create</recordTriggerType>
         <triggerType>RecordAfterSave</triggerType>

@@ -8,7 +8,6 @@
         <locationY>429</locationY>
         <actionName>Case.Rally_Status_Update_Notification</actionName>
         <actionType>emailAlert</actionType>
-        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
         <inputParameters>
             <name>SObjectRowId</name>
             <value>
@@ -180,7 +179,6 @@
         </rules>
     </decisions>
     <description>NICC-060084; Updates the Rally Status Prior Value field on Cases when the Rally Status field is updated and sends an email alert to the Case Owner to notify them of the change.</description>
-    <environments>Default</environments>
     <interviewLabel>Case - Rally Status Change Update {!$Flow.CurrentDateTime}</interviewLabel>
     <label>Case - Rally Status Change Update</label>
     <processMetadataValues>
@@ -264,14 +262,11 @@
         <connector>
             <targetReference>UpdateRallyStatusPriorValue</targetReference>
         </connector>
-        <filterFormula>{!$Record.RecordType.DeveloperName} = &quot;Rally_Support&quot; &amp;&amp;
-ISCHANGED({!$Record.UserStory_Rally_Status__c})</filterFormula>
         <object>Case</object>
         <recordTriggerType>Update</recordTriggerType>
         <triggerType>RecordAfterSave</triggerType>
     </start>
     <status>Active</status>
-    <triggerOrder>3</triggerOrder>
     <variables>
         <description>Record used to record an error log if an element of the Flow fails</description>
         <name>varErrorLogRecord</name>

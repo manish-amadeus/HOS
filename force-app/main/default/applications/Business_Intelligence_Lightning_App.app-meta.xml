@@ -17,68 +17,340 @@
     <formFactors>Large</formFactors>
     <isNavAutoTempTabsDisabled>false</isNavAutoTempTabsDisabled>
     <isNavPersonalizationDisabled>false</isNavPersonalizationDisabled>
-    <isNavTabPersistenceDisabled>false</isNavTabPersistenceDisabled>
     <label>Business Intelligence Lightning App</label>
     <navType>Standard</navType>
     <profileActionOverrides>
         <actionName>View</actionName>
-        <content>Shared_Services_Lightning_Record_Page</content>
+        <content>Solution_Adoption_LEx</content>
         <formFactor>Small</formFactor>
-        <pageOrSobjectType>Request__c</pageOrSobjectType>
-        <recordType>Request__c.Shared_Services_Request</recordType>
+        <pageOrSobjectType>Case</pageOrSobjectType>
+        <recordType>Case.Solution_Adoption</recordType>
         <type>Flexipage</type>
-        <profile>NI Finance</profile>
+        <profile>AH PSA Management - Lightning</profile>
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
-        <content>Shared_Services_Lightning_Record_Page</content>
+        <content>Solution_Adoption_LEx</content>
         <formFactor>Large</formFactor>
-        <pageOrSobjectType>Request__c</pageOrSobjectType>
-        <recordType>Request__c.Shared_Services_Request</recordType>
+        <pageOrSobjectType>Case</pageOrSobjectType>
+        <recordType>Case.Solution_Adoption</recordType>
         <type>Flexipage</type>
-        <profile>NI Finance</profile>
+        <profile>AH PSA Management - Lightning</profile>
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
-        <content>Support_Global_Ops_Record_Page</content>
+        <content>Solution_Adoption_LEx</content>
         <formFactor>Small</formFactor>
-        <pageOrSobjectType>Request__c</pageOrSobjectType>
-        <recordType>Request__c.Support_Global_Ops_Request</recordType>
+        <pageOrSobjectType>Case</pageOrSobjectType>
+        <recordType>Case.Solution_Adoption</recordType>
         <type>Flexipage</type>
-        <profile>NI Finance</profile>
+        <profile>NI PSA Administrator</profile>
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
-        <content>Support_Global_Ops_Record_Page</content>
+        <content>Solution_Adoption_LEx</content>
         <formFactor>Large</formFactor>
-        <pageOrSobjectType>Request__c</pageOrSobjectType>
-        <recordType>Request__c.Support_Global_Ops_Request</recordType>
+        <pageOrSobjectType>Case</pageOrSobjectType>
+        <recordType>Case.Solution_Adoption</recordType>
         <type>Flexipage</type>
-        <profile>NI Finance</profile>
+        <profile>NI PSA Administrator</profile>
     </profileActionOverrides>
     <profileActionOverrides>
-        <actionName>Tab</actionName>
-        <content>Business_Intelligence_Home_Page</content>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>standard-home</pageOrSobjectType>
-        <type>Flexipage</type>
-        <profile>AH External - Platform</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>Tab</actionName>
-        <content>Business_Intelligence_Home_Page</content>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>standard-home</pageOrSobjectType>
+        <actionName>View</actionName>
+        <content>Solution_Adoption_LEx</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>Case</pageOrSobjectType>
+        <recordType>Case.Solution_Adoption</recordType>
         <type>Flexipage</type>
         <profile>Admin</profile>
     </profileActionOverrides>
     <profileActionOverrides>
-        <actionName>Tab</actionName>
-        <content>Business_Intelligence_Home_Page</content>
+        <actionName>View</actionName>
+        <content>Solution_Adoption_LEx</content>
         <formFactor>Large</formFactor>
-        <pageOrSobjectType>standard-home</pageOrSobjectType>
+        <pageOrSobjectType>Case</pageOrSobjectType>
+        <recordType>Case.Solution_Adoption</recordType>
+        <type>Flexipage</type>
+        <profile>Admin</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Shared_Services_Lightning_Record_Page</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>Request__c</pageOrSobjectType>
+        <recordType>Request__c.Shared_Services_Request</recordType>
+        <type>Flexipage</type>
+        <profile>AH PSA Administrator - Lightning</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Shared_Services_Lightning_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Request__c</pageOrSobjectType>
+        <recordType>Request__c.Shared_Services_Request</recordType>
+        <type>Flexipage</type>
+        <profile>AH PSA Administrator - Lightning</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Shared_Services_Lightning_Record_Page</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>Request__c</pageOrSobjectType>
+        <recordType>Request__c.Shared_Services_Request</recordType>
+        <type>Flexipage</type>
+        <profile>AH PSA T&amp;E - SF - Lightning</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Shared_Services_Lightning_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Request__c</pageOrSobjectType>
+        <recordType>Request__c.Shared_Services_Request</recordType>
+        <type>Flexipage</type>
+        <profile>AH PSA T&amp;E - SF - Lightning</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Shared_Services_Lightning_Record_Page</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>Request__c</pageOrSobjectType>
+        <recordType>Request__c.Shared_Services_Request</recordType>
+        <type>Flexipage</type>
+        <profile>AH Support CSR - Lightning</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Shared_Services_Lightning_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Request__c</pageOrSobjectType>
+        <recordType>Request__c.Shared_Services_Request</recordType>
+        <type>Flexipage</type>
+        <profile>AH Support CSR - Lightning</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Shared_Services_Lightning_Record_Page</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>Request__c</pageOrSobjectType>
+        <recordType>Request__c.Shared_Services_Request</recordType>
+        <type>Flexipage</type>
+        <profile>AH Support Managers - Lightning</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Shared_Services_Lightning_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Request__c</pageOrSobjectType>
+        <recordType>Request__c.Shared_Services_Request</recordType>
+        <type>Flexipage</type>
+        <profile>AH Support Managers - Lightning</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Shared_Services_Lightning_Record_Page</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>Request__c</pageOrSobjectType>
+        <recordType>Request__c.Shared_Services_Request</recordType>
+        <type>Flexipage</type>
+        <profile>NI PSA Administrator</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Support_Global_Ops_Record_Page</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>Request__c</pageOrSobjectType>
+        <recordType>Request__c.Support_Global_Ops_Request</recordType>
+        <type>Flexipage</type>
+        <profile>AH PSA T&amp;E - SF - Lightning</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Support_Global_Ops_Record_Page</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>Request__c</pageOrSobjectType>
+        <recordType>Request__c.Support_Global_Ops_Request</recordType>
+        <type>Flexipage</type>
+        <profile>AH PSA Administrator - Lightning</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Support_Global_Ops_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Request__c</pageOrSobjectType>
+        <recordType>Request__c.Support_Global_Ops_Request</recordType>
+        <type>Flexipage</type>
+        <profile>AH PSA Administrator - Lightning</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Support_Global_Ops_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Request__c</pageOrSobjectType>
+        <recordType>Request__c.Support_Global_Ops_Request</recordType>
+        <type>Flexipage</type>
+        <profile>AH PSA T&amp;E - SF - Lightning</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Support_Global_Ops_Record_Page</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>Request__c</pageOrSobjectType>
+        <recordType>Request__c.Support_Global_Ops_Request</recordType>
+        <type>Flexipage</type>
+        <profile>AH Support CSR - Lightning</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Support_Global_Ops_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Request__c</pageOrSobjectType>
+        <recordType>Request__c.Support_Global_Ops_Request</recordType>
+        <type>Flexipage</type>
+        <profile>AH Support CSR - Lightning</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Support_Global_Ops_Record_Page</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>Request__c</pageOrSobjectType>
+        <recordType>Request__c.Support_Global_Ops_Request</recordType>
+        <type>Flexipage</type>
+        <profile>AH Support Managers - Lightning</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Support_Global_Ops_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Request__c</pageOrSobjectType>
+        <recordType>Request__c.Support_Global_Ops_Request</recordType>
+        <type>Flexipage</type>
+        <profile>AH Support Managers - Lightning</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Support_Global_Ops_Record_Page</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>Request__c</pageOrSobjectType>
+        <recordType>Request__c.Support_Global_Ops_Request</recordType>
+        <type>Flexipage</type>
+        <profile>NI PSA Administrator</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Support_Global_Ops_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Request__c</pageOrSobjectType>
+        <recordType>Request__c.Support_Global_Ops_Request</recordType>
+        <type>Flexipage</type>
+        <profile>NI PSA Administrator</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Support_Global_Ops_Record_Page</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>Request__c</pageOrSobjectType>
+        <recordType>Request__c.Support_Global_Ops_Request</recordType>
+        <type>Flexipage</type>
+        <profile>NI Support Managers</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Support_Global_Ops_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Request__c</pageOrSobjectType>
+        <recordType>Request__c.Support_Global_Ops_Request</recordType>
+        <type>Flexipage</type>
+        <profile>NI Support Managers</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Support_Global_Ops_Record_Page</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>Request__c</pageOrSobjectType>
+        <recordType>Request__c.Support_Global_Ops_Request</recordType>
+        <type>Flexipage</type>
+        <profile>Admin</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Support_Global_Ops_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Request__c</pageOrSobjectType>
+        <recordType>Request__c.Support_Global_Ops_Request</recordType>
+        <type>Flexipage</type>
+        <profile>Admin</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Shared_Services_Lightning_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Request__c</pageOrSobjectType>
+        <recordType>Request__c.Shared_Services_Request</recordType>
+        <type>Flexipage</type>
+        <profile>NI PSA Administrator</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Shared_Services_Lightning_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Request__c</pageOrSobjectType>
+        <recordType>Request__c.Shared_Services_Request</recordType>
+        <type>Flexipage</type>
+        <profile>Admin</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Shared_Services_Lightning_Record_Page</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>Request__c</pageOrSobjectType>
+        <recordType>Request__c.Shared_Services_Request</recordType>
+        <type>Flexipage</type>
+        <profile>NI Support Managers</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Shared_Services_Lightning_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Request__c</pageOrSobjectType>
+        <recordType>Request__c.Shared_Services_Request</recordType>
+        <type>Flexipage</type>
+        <profile>NI Support Managers</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Shared_Services_Lightning_Record_Page</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>Request__c</pageOrSobjectType>
+        <recordType>Request__c.Shared_Services_Request</recordType>
+        <type>Flexipage</type>
+        <profile>Admin</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Commerical_Operations_Record_Type_Lightning</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>NI_Project_Backlog__c</pageOrSobjectType>
+        <recordType>NI_Project_Backlog__c.Commercial_Operation_Projects</recordType>
         <type>Flexipage</type>
         <profile>AH Business Systems</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Commerical_Operations_Record_Type_Lightning</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>NI_Project_Backlog__c</pageOrSobjectType>
+        <recordType>NI_Project_Backlog__c.Commercial_Operation_Projects</recordType>
+        <type>Flexipage</type>
+        <profile>AH Business Systems</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Commerical_Operations_Record_Type_Lightning</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>NI_Project_Backlog__c</pageOrSobjectType>
+        <recordType>NI_Project_Backlog__c.Commercial_Operation_Projects</recordType>
+        <type>Flexipage</type>
+        <profile>AH Corporate Business Systems - Platform</profile>
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
@@ -97,114 +369,6 @@
         <recordType>NI_Project_Backlog__c.Commercial_Operation_Projects</recordType>
         <type>Flexipage</type>
         <profile>AH External - Platform</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Commerical_Operations_Record_Type_Lightning</content>
-        <formFactor>Small</formFactor>
-        <pageOrSobjectType>NI_Project_Backlog__c</pageOrSobjectType>
-        <recordType>NI_Project_Backlog__c.Commercial_Operation_Projects</recordType>
-        <type>Flexipage</type>
-        <profile>AH Business Systems</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Commerical_Operations_Record_Type_Lightning</content>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>NI_Project_Backlog__c</pageOrSobjectType>
-        <recordType>NI_Project_Backlog__c.Commercial_Operation_Projects</recordType>
-        <type>Flexipage</type>
-        <profile>AH Business Systems</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Commerical_Operations_Record_Type_Lightning</content>
-        <formFactor>Small</formFactor>
-        <pageOrSobjectType>NI_Project_Backlog__c</pageOrSobjectType>
-        <recordType>NI_Project_Backlog__c.Commercial_Operation_Projects</recordType>
-        <type>Flexipage</type>
-        <profile>AH Corporate Business Systems - Platform</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Commerical_Operations_Record_Type_Lightning</content>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>NI_Project_Backlog__c</pageOrSobjectType>
-        <recordType>NI_Project_Backlog__c.Commercial_Operation_Projects</recordType>
-        <type>Flexipage</type>
-        <profile>NI Platform User</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Commerical_Operations_Record_Type_Lightning</content>
-        <formFactor>Small</formFactor>
-        <pageOrSobjectType>NI_Project_Backlog__c</pageOrSobjectType>
-        <recordType>NI_Project_Backlog__c.Commercial_Operation_Projects</recordType>
-        <type>Flexipage</type>
-        <profile>NI Sales</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Commerical_Operations_Record_Type_Lightning</content>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>NI_Project_Backlog__c</pageOrSobjectType>
-        <recordType>NI_Project_Backlog__c.Commercial_Operation_Projects</recordType>
-        <type>Flexipage</type>
-        <profile>NI Sales</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Commerical_Operations_Record_Type_Lightning</content>
-        <formFactor>Small</formFactor>
-        <pageOrSobjectType>NI_Project_Backlog__c</pageOrSobjectType>
-        <recordType>NI_Project_Backlog__c.Commercial_Operation_Projects</recordType>
-        <type>Flexipage</type>
-        <profile>NI Subscription Management</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Commerical_Operations_Record_Type_Lightning</content>
-        <formFactor>Small</formFactor>
-        <pageOrSobjectType>NI_Project_Backlog__c</pageOrSobjectType>
-        <recordType>NI_Project_Backlog__c.Commercial_Operation_Projects</recordType>
-        <type>Flexipage</type>
-        <profile>NI Support CSR</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Commerical_Operations_Record_Type_Lightning</content>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>NI_Project_Backlog__c</pageOrSobjectType>
-        <recordType>NI_Project_Backlog__c.Commercial_Operation_Projects</recordType>
-        <type>Flexipage</type>
-        <profile>NI Subscription Management</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Commerical_Operations_Record_Type_Lightning</content>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>NI_Project_Backlog__c</pageOrSobjectType>
-        <recordType>NI_Project_Backlog__c.Commercial_Operation_Projects</recordType>
-        <type>Flexipage</type>
-        <profile>NI Support CSR</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Commerical_Operations_Record_Type_Lightning</content>
-        <formFactor>Small</formFactor>
-        <pageOrSobjectType>NI_Project_Backlog__c</pageOrSobjectType>
-        <recordType>NI_Project_Backlog__c.Commercial_Operation_Projects</recordType>
-        <type>Flexipage</type>
-        <profile>NI Support Managers</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Commerical_Operations_Record_Type_Lightning</content>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>NI_Project_Backlog__c</pageOrSobjectType>
-        <recordType>NI_Project_Backlog__c.Commercial_Operation_Projects</recordType>
-        <type>Flexipage</type>
-        <profile>NI Support Managers</profile>
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
@@ -272,25 +436,7 @@
     <profileActionOverrides>
         <actionName>View</actionName>
         <content>Commerical_Operations_Record_Type_Lightning</content>
-        <formFactor>Small</formFactor>
-        <pageOrSobjectType>NI_Project_Backlog__c</pageOrSobjectType>
-        <recordType>NI_Project_Backlog__c.Commercial_Operation_Projects</recordType>
-        <type>Flexipage</type>
-        <profile>AH Operations - Lightning</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Commerical_Operations_Record_Type_Lightning</content>
         <formFactor>Large</formFactor>
-        <pageOrSobjectType>NI_Project_Backlog__c</pageOrSobjectType>
-        <recordType>NI_Project_Backlog__c.Commercial_Operation_Projects</recordType>
-        <type>Flexipage</type>
-        <profile>AH Operations - Lightning</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Commerical_Operations_Record_Type_Lightning</content>
-        <formFactor>Small</formFactor>
         <pageOrSobjectType>NI_Project_Backlog__c</pageOrSobjectType>
         <recordType>NI_Project_Backlog__c.Commercial_Operation_Projects</recordType>
         <type>Flexipage</type>
@@ -299,7 +445,25 @@
     <profileActionOverrides>
         <actionName>View</actionName>
         <content>Commerical_Operations_Record_Type_Lightning</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>NI_Project_Backlog__c</pageOrSobjectType>
+        <recordType>NI_Project_Backlog__c.Commercial_Operation_Projects</recordType>
+        <type>Flexipage</type>
+        <profile>AH Operations - Lightning</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Commerical_Operations_Record_Type_Lightning</content>
         <formFactor>Large</formFactor>
+        <pageOrSobjectType>NI_Project_Backlog__c</pageOrSobjectType>
+        <recordType>NI_Project_Backlog__c.Commercial_Operation_Projects</recordType>
+        <type>Flexipage</type>
+        <profile>AH Operations - Lightning</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Commerical_Operations_Record_Type_Lightning</content>
+        <formFactor>Small</formFactor>
         <pageOrSobjectType>NI_Project_Backlog__c</pageOrSobjectType>
         <recordType>NI_Project_Backlog__c.Commercial_Operation_Projects</recordType>
         <type>Flexipage</type>
@@ -452,25 +616,7 @@
     <profileActionOverrides>
         <actionName>View</actionName>
         <content>Commerical_Operations_Record_Type_Lightning</content>
-        <formFactor>Small</formFactor>
-        <pageOrSobjectType>NI_Project_Backlog__c</pageOrSobjectType>
-        <recordType>NI_Project_Backlog__c.Commercial_Operation_Projects</recordType>
-        <type>Flexipage</type>
-        <profile>AH Salesforce Admin - Level 1</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Commerical_Operations_Record_Type_Lightning</content>
         <formFactor>Large</formFactor>
-        <pageOrSobjectType>NI_Project_Backlog__c</pageOrSobjectType>
-        <recordType>NI_Project_Backlog__c.Commercial_Operation_Projects</recordType>
-        <type>Flexipage</type>
-        <profile>AH Salesforce Admin - Level 1</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Commerical_Operations_Record_Type_Lightning</content>
-        <formFactor>Small</formFactor>
         <pageOrSobjectType>NI_Project_Backlog__c</pageOrSobjectType>
         <recordType>NI_Project_Backlog__c.Commercial_Operation_Projects</recordType>
         <type>Flexipage</type>
@@ -479,7 +625,25 @@
     <profileActionOverrides>
         <actionName>View</actionName>
         <content>Commerical_Operations_Record_Type_Lightning</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>NI_Project_Backlog__c</pageOrSobjectType>
+        <recordType>NI_Project_Backlog__c.Commercial_Operation_Projects</recordType>
+        <type>Flexipage</type>
+        <profile>AH Salesforce Admin - Level 1</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Commerical_Operations_Record_Type_Lightning</content>
         <formFactor>Large</formFactor>
+        <pageOrSobjectType>NI_Project_Backlog__c</pageOrSobjectType>
+        <recordType>NI_Project_Backlog__c.Commercial_Operation_Projects</recordType>
+        <type>Flexipage</type>
+        <profile>AH Salesforce Admin - Level 1</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Commerical_Operations_Record_Type_Lightning</content>
+        <formFactor>Small</formFactor>
         <pageOrSobjectType>NI_Project_Backlog__c</pageOrSobjectType>
         <recordType>NI_Project_Backlog__c.Commercial_Operation_Projects</recordType>
         <type>Flexipage</type>
@@ -550,129 +714,126 @@
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
-        <content>Shared_Services_Lightning_Record_Page</content>
+        <content>Commerical_Operations_Record_Type_Lightning</content>
         <formFactor>Small</formFactor>
-        <pageOrSobjectType>Request__c</pageOrSobjectType>
-        <recordType>Request__c.Shared_Services_Request</recordType>
+        <pageOrSobjectType>NI_Project_Backlog__c</pageOrSobjectType>
+        <recordType>NI_Project_Backlog__c.Commercial_Operation_Projects</recordType>
         <type>Flexipage</type>
-        <profile>AH PSA Administrator - Lightning</profile>
+        <profile>NI Subscription Management</profile>
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
-        <content>Shared_Services_Lightning_Record_Page</content>
+        <content>Commerical_Operations_Record_Type_Lightning</content>
         <formFactor>Large</formFactor>
-        <pageOrSobjectType>Request__c</pageOrSobjectType>
-        <recordType>Request__c.Shared_Services_Request</recordType>
+        <pageOrSobjectType>NI_Project_Backlog__c</pageOrSobjectType>
+        <recordType>NI_Project_Backlog__c.Commercial_Operation_Projects</recordType>
         <type>Flexipage</type>
-        <profile>AH PSA Administrator - Lightning</profile>
+        <profile>NI Platform User</profile>
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
-        <content>Shared_Services_Lightning_Record_Page</content>
+        <content>Commerical_Operations_Record_Type_Lightning</content>
         <formFactor>Small</formFactor>
-        <pageOrSobjectType>Request__c</pageOrSobjectType>
-        <recordType>Request__c.Shared_Services_Request</recordType>
+        <pageOrSobjectType>NI_Project_Backlog__c</pageOrSobjectType>
+        <recordType>NI_Project_Backlog__c.Commercial_Operation_Projects</recordType>
         <type>Flexipage</type>
-        <profile>AH PSA T&amp;E - SF - Lightning</profile>
+        <profile>NI Sales</profile>
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
-        <content>Shared_Services_Lightning_Record_Page</content>
+        <content>Commerical_Operations_Record_Type_Lightning</content>
         <formFactor>Large</formFactor>
-        <pageOrSobjectType>Request__c</pageOrSobjectType>
-        <recordType>Request__c.Shared_Services_Request</recordType>
+        <pageOrSobjectType>NI_Project_Backlog__c</pageOrSobjectType>
+        <recordType>NI_Project_Backlog__c.Commercial_Operation_Projects</recordType>
         <type>Flexipage</type>
-        <profile>AH PSA T&amp;E - SF - Lightning</profile>
+        <profile>NI Sales</profile>
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
-        <content>Shared_Services_Lightning_Record_Page</content>
-        <formFactor>Small</formFactor>
-        <pageOrSobjectType>Request__c</pageOrSobjectType>
-        <recordType>Request__c.Shared_Services_Request</recordType>
-        <type>Flexipage</type>
-        <profile>AH Support CSR - Lightning</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Shared_Services_Lightning_Record_Page</content>
+        <content>Commerical_Operations_Record_Type_Lightning</content>
         <formFactor>Large</formFactor>
-        <pageOrSobjectType>Request__c</pageOrSobjectType>
-        <recordType>Request__c.Shared_Services_Request</recordType>
+        <pageOrSobjectType>NI_Project_Backlog__c</pageOrSobjectType>
+        <recordType>NI_Project_Backlog__c.Commercial_Operation_Projects</recordType>
         <type>Flexipage</type>
-        <profile>AH Support CSR - Lightning</profile>
+        <profile>NI Subscription Management</profile>
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
-        <content>Shared_Services_Lightning_Record_Page</content>
+        <content>Commerical_Operations_Record_Type_Lightning</content>
         <formFactor>Small</formFactor>
-        <pageOrSobjectType>Request__c</pageOrSobjectType>
-        <recordType>Request__c.Shared_Services_Request</recordType>
+        <pageOrSobjectType>NI_Project_Backlog__c</pageOrSobjectType>
+        <recordType>NI_Project_Backlog__c.Commercial_Operation_Projects</recordType>
         <type>Flexipage</type>
-        <profile>AH Support Managers - Lightning</profile>
+        <profile>NI Support CSR</profile>
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
-        <content>Shared_Services_Lightning_Record_Page</content>
+        <content>Commerical_Operations_Record_Type_Lightning</content>
         <formFactor>Large</formFactor>
-        <pageOrSobjectType>Request__c</pageOrSobjectType>
-        <recordType>Request__c.Shared_Services_Request</recordType>
+        <pageOrSobjectType>NI_Project_Backlog__c</pageOrSobjectType>
+        <recordType>NI_Project_Backlog__c.Commercial_Operation_Projects</recordType>
         <type>Flexipage</type>
-        <profile>AH Support Managers - Lightning</profile>
+        <profile>NI Support CSR</profile>
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
-        <content>Shared_Services_Lightning_Record_Page</content>
+        <content>Commerical_Operations_Record_Type_Lightning</content>
         <formFactor>Small</formFactor>
-        <pageOrSobjectType>Request__c</pageOrSobjectType>
-        <recordType>Request__c.Shared_Services_Request</recordType>
-        <type>Flexipage</type>
-        <profile>NI PSA Administrator</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Shared_Services_Lightning_Record_Page</content>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>Request__c</pageOrSobjectType>
-        <recordType>Request__c.Shared_Services_Request</recordType>
-        <type>Flexipage</type>
-        <profile>NI PSA Administrator</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Shared_Services_Lightning_Record_Page</content>
-        <formFactor>Small</formFactor>
-        <pageOrSobjectType>Request__c</pageOrSobjectType>
-        <recordType>Request__c.Shared_Services_Request</recordType>
+        <pageOrSobjectType>NI_Project_Backlog__c</pageOrSobjectType>
+        <recordType>NI_Project_Backlog__c.Commercial_Operation_Projects</recordType>
         <type>Flexipage</type>
         <profile>NI Support Managers</profile>
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
+        <content>Commerical_Operations_Record_Type_Lightning</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>NI_Project_Backlog__c</pageOrSobjectType>
+        <recordType>NI_Project_Backlog__c.Commercial_Operation_Projects</recordType>
+        <type>Flexipage</type>
+        <profile>NI Support Managers</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>Tab</actionName>
+        <content>Business_Intelligence_Home_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>standard-home</pageOrSobjectType>
+        <type>Flexipage</type>
+        <profile>AH Business Systems</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>Tab</actionName>
+        <content>Business_Intelligence_Home_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>standard-home</pageOrSobjectType>
+        <type>Flexipage</type>
+        <profile>AH External - Platform</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>Tab</actionName>
+        <content>Business_Intelligence_Home_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>standard-home</pageOrSobjectType>
+        <type>Flexipage</type>
+        <profile>Admin</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Shared_Services_Lightning_Record_Page</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>Request__c</pageOrSobjectType>
+        <recordType>Request__c.Shared_Services_Request</recordType>
+        <type>Flexipage</type>
+        <profile>NI Finance</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
         <content>Shared_Services_Lightning_Record_Page</content>
         <formFactor>Large</formFactor>
         <pageOrSobjectType>Request__c</pageOrSobjectType>
         <recordType>Request__c.Shared_Services_Request</recordType>
         <type>Flexipage</type>
-        <profile>NI Support Managers</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Shared_Services_Lightning_Record_Page</content>
-        <formFactor>Small</formFactor>
-        <pageOrSobjectType>Request__c</pageOrSobjectType>
-        <recordType>Request__c.Shared_Services_Request</recordType>
-        <type>Flexipage</type>
-        <profile>Admin</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Shared_Services_Lightning_Record_Page</content>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>Request__c</pageOrSobjectType>
-        <recordType>Request__c.Shared_Services_Request</recordType>
-        <type>Flexipage</type>
-        <profile>Admin</profile>
+        <profile>NI Finance</profile>
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
@@ -681,7 +842,7 @@
         <pageOrSobjectType>Request__c</pageOrSobjectType>
         <recordType>Request__c.Support_Global_Ops_Request</recordType>
         <type>Flexipage</type>
-        <profile>AH PSA Administrator - Lightning</profile>
+        <profile>NI Finance</profile>
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
@@ -690,173 +851,12 @@
         <pageOrSobjectType>Request__c</pageOrSobjectType>
         <recordType>Request__c.Support_Global_Ops_Request</recordType>
         <type>Flexipage</type>
-        <profile>AH PSA Administrator - Lightning</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Support_Global_Ops_Record_Page</content>
-        <formFactor>Small</formFactor>
-        <pageOrSobjectType>Request__c</pageOrSobjectType>
-        <recordType>Request__c.Support_Global_Ops_Request</recordType>
-        <type>Flexipage</type>
-        <profile>AH PSA T&amp;E - SF - Lightning</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Support_Global_Ops_Record_Page</content>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>Request__c</pageOrSobjectType>
-        <recordType>Request__c.Support_Global_Ops_Request</recordType>
-        <type>Flexipage</type>
-        <profile>AH PSA T&amp;E - SF - Lightning</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Support_Global_Ops_Record_Page</content>
-        <formFactor>Small</formFactor>
-        <pageOrSobjectType>Request__c</pageOrSobjectType>
-        <recordType>Request__c.Support_Global_Ops_Request</recordType>
-        <type>Flexipage</type>
-        <profile>AH Support CSR - Lightning</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Support_Global_Ops_Record_Page</content>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>Request__c</pageOrSobjectType>
-        <recordType>Request__c.Support_Global_Ops_Request</recordType>
-        <type>Flexipage</type>
-        <profile>AH Support CSR - Lightning</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Support_Global_Ops_Record_Page</content>
-        <formFactor>Small</formFactor>
-        <pageOrSobjectType>Request__c</pageOrSobjectType>
-        <recordType>Request__c.Support_Global_Ops_Request</recordType>
-        <type>Flexipage</type>
-        <profile>AH Support Managers - Lightning</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Support_Global_Ops_Record_Page</content>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>Request__c</pageOrSobjectType>
-        <recordType>Request__c.Support_Global_Ops_Request</recordType>
-        <type>Flexipage</type>
-        <profile>AH Support Managers - Lightning</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Support_Global_Ops_Record_Page</content>
-        <formFactor>Small</formFactor>
-        <pageOrSobjectType>Request__c</pageOrSobjectType>
-        <recordType>Request__c.Support_Global_Ops_Request</recordType>
-        <type>Flexipage</type>
-        <profile>NI PSA Administrator</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Support_Global_Ops_Record_Page</content>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>Request__c</pageOrSobjectType>
-        <recordType>Request__c.Support_Global_Ops_Request</recordType>
-        <type>Flexipage</type>
-        <profile>NI PSA Administrator</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Support_Global_Ops_Record_Page</content>
-        <formFactor>Small</formFactor>
-        <pageOrSobjectType>Request__c</pageOrSobjectType>
-        <recordType>Request__c.Support_Global_Ops_Request</recordType>
-        <type>Flexipage</type>
-        <profile>NI Support Managers</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Support_Global_Ops_Record_Page</content>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>Request__c</pageOrSobjectType>
-        <recordType>Request__c.Support_Global_Ops_Request</recordType>
-        <type>Flexipage</type>
-        <profile>NI Support Managers</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Support_Global_Ops_Record_Page</content>
-        <formFactor>Small</formFactor>
-        <pageOrSobjectType>Request__c</pageOrSobjectType>
-        <recordType>Request__c.Support_Global_Ops_Request</recordType>
-        <type>Flexipage</type>
-        <profile>Admin</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Support_Global_Ops_Record_Page</content>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>Request__c</pageOrSobjectType>
-        <recordType>Request__c.Support_Global_Ops_Request</recordType>
-        <type>Flexipage</type>
-        <profile>Admin</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Solution_Adoption_LEx</content>
-        <formFactor>Small</formFactor>
-        <pageOrSobjectType>Case</pageOrSobjectType>
-        <recordType>Case.Solution_Adoption</recordType>
-        <type>Flexipage</type>
-        <profile>Admin</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Solution_Adoption_LEx</content>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>Case</pageOrSobjectType>
-        <recordType>Case.Solution_Adoption</recordType>
-        <type>Flexipage</type>
-        <profile>Admin</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Solution_Adoption_LEx</content>
-        <formFactor>Small</formFactor>
-        <pageOrSobjectType>Case</pageOrSobjectType>
-        <recordType>Case.Solution_Adoption</recordType>
-        <type>Flexipage</type>
-        <profile>AH PSA Management - Lightning</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Solution_Adoption_LEx</content>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>Case</pageOrSobjectType>
-        <recordType>Case.Solution_Adoption</recordType>
-        <type>Flexipage</type>
-        <profile>AH PSA Management - Lightning</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Solution_Adoption_LEx</content>
-        <formFactor>Small</formFactor>
-        <pageOrSobjectType>Case</pageOrSobjectType>
-        <recordType>Case.Solution_Adoption</recordType>
-        <type>Flexipage</type>
-        <profile>NI PSA Administrator</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Solution_Adoption_LEx</content>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>Case</pageOrSobjectType>
-        <recordType>Case.Solution_Adoption</recordType>
-        <type>Flexipage</type>
-        <profile>NI PSA Administrator</profile>
+        <profile>NI Finance</profile>
     </profileActionOverrides>
     <tabs>standard-home</tabs>
     <tabs>standard-Account</tabs>
     <tabs>standard-Contact</tabs>
+    <tabs>standard-WaveHomeLightning</tabs>
     <tabs>NI_Project_Backlog__c</tabs>
     <uiType>Lightning</uiType>
     <utilityBar>Business_Intelligence_Lightning_App_UtilityBar</utilityBar>

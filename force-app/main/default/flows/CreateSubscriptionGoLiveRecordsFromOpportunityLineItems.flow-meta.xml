@@ -576,7 +576,6 @@
         </rules>
     </decisions>
     <description>Flow to create Subscription Activation records based on opportunity line items and then update the opportunity line items in order to prevent duplicate records; updated via NICC-053482</description>
-    <environments>Default</environments>
     <formulas>
         <description>Populates the &quot;Product ID&quot; field on the new Subscription Activation record if Activity Line Item Total Amount &gt; 0. Leave it blank if the amount is = 0.</description>
         <name>AssignSubActProductID</name>

@@ -14,7 +14,7 @@
                 <leftValueReference>$Record.RecordTypeId</leftValueReference>
                 <operator>NotEqualTo</operator>
                 <rightValue>
-                    <stringValue></stringValue>
+                    <stringValue/>
                 </rightValue>
             </conditions>
             <conditions>
@@ -80,7 +80,6 @@
         </rules>
     </decisions>
     <description>Used for Medallia Survey integration</description>
-    <environments>Default</environments>
     <interviewLabel>Response (Medallia) - Update RecordTypeId {!$Flow.CurrentDateTime}</interviewLabel>
     <label>Response (Medallia) - Update RecordTypeId</label>
     <processMetadataValues>

@@ -1,0 +1,14 @@
+<script>
+gtag('event', 'purchase', {
+'send_to': ['AW-799290391/NxHQCLvpuIoBEJfokP0C','HA-24'],
+'transaction_id': '{{BookedConfirmID}}' ,
+'currency': '{{Currency}}' ,
+'value': '{{Amount}}' ,
+'items': [{
+  'id': '{{HotelID}}',
+  'start_date': '{{Date}}' ,
+  'end_date': '{{DateOut}}'
+}]
+});
+</script>
+

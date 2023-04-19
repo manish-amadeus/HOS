@@ -27,6 +27,7 @@
     </alerts>
     <alerts>
         <fullName>Alertcaseownerthatacasehasbeenclosed</fullName>
+        <ccEmails>emailtracker@35x03xzse0a3j6op9t43byehutuscf1o81wlkuqlbhd228u29w.dy-8anc2ai.cs258.apex.sandbox.salesforce.com</ccEmails>
         <description>Alert case owner that a case has been closed.</description>
         <protected>false</protected>
         <recipients>
@@ -41,7 +42,7 @@
         <description>CRS Case Set Recovery Plan</description>
         <protected>false</protected>
         <recipients>
-            <recipient>integration@00d300000006ctneae.com</recipient>
+            <recipient>integration@00ddy0000008anc2ai.com</recipient>
             <type>user</type>
         </recipients>
         <senderType>CurrentUser</senderType>
@@ -1574,10 +1575,12 @@ Sets the logger and the logger TEL when the created by is the IHG ServiceNow Use
             <name>Alertcaseownerthatacasehasbeenclosed</name>
             <type>Alert</type>
         </actions>
-        <active>true</active>
+        <active>false</active>
         <description>Case Status equals &quot;Closed&quot; - Alert the case owner when a case has been closed.
 
-NICC-049365 - Case owner should not receive email notification when closing their own case.</description>
+NICC-049365 - Case owner should not receive email notification when closing their own case.
+
+NICC-064190 Migrated to flow.</description>
         <formula>AND(
 OwnerId &lt;&gt; LastModifiedById,
 ISPICKVAL (Status, &quot;Closed&quot;)

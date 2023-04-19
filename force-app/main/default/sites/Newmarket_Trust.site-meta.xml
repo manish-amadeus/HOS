@@ -11,9 +11,9 @@
     <authorizationRequiredPage>Unauthorized</authorizationRequiredPage>
     <bandwidthExceededPage>BandwidthExceeded</bandwidthExceededPage>
     <browserXssProtection>false</browserXssProtection>
-    <cachePublicVisualforcePagesInProxyServers>false</cachePublicVisualforcePagesInProxyServers>
     <clickjackProtectionLevel>NoFraming</clickjackProtectionLevel>
     <contentSniffingProtection>false</contentSniffingProtection>
+    <cspUpgradeInsecureRequests>true</cspUpgradeInsecureRequests>
     <customWebAddresses>
         <domainName>ntrust.newmarketinc.com</domainName>
         <primary>true</primary>
@@ -27,8 +27,8 @@ NI Trust System Overview Page.  This is public-facing</description>
     <inMaintenancePage>InMaintenance</inMaintenancePage>
     <indexPage>FileNotFound</indexPage>
     <masterLabel>Newmarket Trust</masterLabel>
-    <redirectToCustomDomain>false</redirectToCustomDomain>
     <referrerPolicyOriginWhenCrossOrigin>false</referrerPolicyOriginWhenCrossOrigin>
+    <requireHttps>true</requireHttps>
     <siteAdmin>semery@newmarketinc.com</siteAdmin>
     <siteGuestRecordDefaultOwner>semery@newmarketinc.com</siteGuestRecordDefaultOwner>
     <siteType>Visualforce</siteType>

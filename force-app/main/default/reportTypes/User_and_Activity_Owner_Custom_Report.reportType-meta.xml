@@ -620,4 +620,12 @@
         </columns>
         <masterLabel>Activities (Assigned To)</masterLabel>
     </sections>
+    <sections>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>Product__c</field>
+            <table>User.Activity$OwnerId</table>
+        </columns>
+        <masterLabel>Activities</masterLabel>
+    </sections>
 </ReportType>

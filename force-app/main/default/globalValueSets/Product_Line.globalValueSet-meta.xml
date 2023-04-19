@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <GlobalValueSet xmlns="http://soap.sforce.com/2006/04/metadata">
     <customValue>
+        <fullName>ACRS</fullName>
+        <default>false</default>
+        <label>ACRS</label>
+    </customValue>
+    <customValue>
         <fullName>Advanced</fullName>
         <default>false</default>
         <label>Advanced</label>
@@ -16,14 +21,34 @@
         <label>AIP</label>
     </customValue>
     <customValue>
+        <fullName>Amadeus Hotel Metasearch</fullName>
+        <default>false</default>
+        <label>Amadeus Hotel Metasearch</label>
+    </customValue>
+    <customValue>
         <fullName>Amadeus RMS</fullName>
         <default>false</default>
         <label>Amadeus RMS</label>
     </customValue>
     <customValue>
+        <fullName>APMA</fullName>
+        <default>false</default>
+        <label>APMA</label>
+    </customValue>
+    <customValue>
+        <fullName>APMS</fullName>
+        <default>false</default>
+        <label>APMS</label>
+    </customValue>
+    <customValue>
         <fullName>Brilliant</fullName>
         <default>false</default>
         <label>Brilliant</label>
+    </customValue>
+    <customValue>
+        <fullName>Bundled Solutions</fullName>
+        <default>false</default>
+        <label>Bundled Solutions</label>
     </customValue>
     <customValue>
         <fullName>Car Rental</fullName>
@@ -49,6 +74,11 @@
         <fullName>Connex</fullName>
         <default>false</default>
         <label>Connex</label>
+    </customValue>
+    <customValue>
+        <fullName>Consortia</fullName>
+        <default>false</default>
+        <label>Consortia</label>
     </customValue>
     <customValue>
         <fullName>CRS</fullName>
@@ -91,6 +121,11 @@
         <label>Demand Position</label>
     </customValue>
     <customValue>
+        <fullName>Demand Services - Meta</fullName>
+        <default>false</default>
+        <label>Demand Services - Meta</label>
+    </customValue>
+    <customValue>
         <fullName>Destination Insights</fullName>
         <default>false</default>
         <label>Destination Insights</label>
@@ -116,6 +151,11 @@
         <label>Discount</label>
     </customValue>
     <customValue>
+        <fullName>DRM</fullName>
+        <default>false</default>
+        <label>DRM</label>
+    </customValue>
+    <customValue>
         <fullName>eBrochure</fullName>
         <default>false</default>
         <label>eBrochure</label>
@@ -134,6 +174,11 @@
         <fullName>ELS</fullName>
         <default>false</default>
         <label>ELS</label>
+    </customValue>
+    <customValue>
+        <fullName>EMA</fullName>
+        <default>false</default>
+        <label>EMA</label>
     </customValue>
     <customValue>
         <fullName>eMenus</fullName>
@@ -161,9 +206,29 @@
         <label>Expenses</label>
     </customValue>
     <customValue>
+        <fullName>Featured Property</fullName>
+        <default>false</default>
+        <label>Featured Property</label>
+    </customValue>
+    <customValue>
+        <fullName>Financial Services</fullName>
+        <default>false</default>
+        <label>Financial Services</label>
+    </customValue>
+    <customValue>
+        <fullName>GDS Media</fullName>
+        <default>false</default>
+        <label>GDS Media</label>
+    </customValue>
+    <customValue>
         <fullName>Guest Management Solutions</fullName>
         <default>false</default>
         <label>Guest Management Solutions</label>
+    </customValue>
+    <customValue>
+        <fullName>GuestView360</fullName>
+        <default>false</default>
+        <label>GuestView360</label>
     </customValue>
     <customValue>
         <fullName>H2GO</fullName>
@@ -291,6 +356,11 @@
         <label>PowerSearch</label>
     </customValue>
     <customValue>
+        <fullName>PPC</fullName>
+        <default>false</default>
+        <label>PPC</label>
+    </customValue>
+    <customValue>
         <fullName>PremiumView</fullName>
         <default>false</default>
         <label>PremiumView</label>
@@ -336,6 +406,16 @@
         <label>Services</label>
     </customValue>
     <customValue>
+        <fullName>Single Media Agency</fullName>
+        <default>false</default>
+        <label>Single Media Agency</label>
+    </customValue>
+    <customValue>
+        <fullName>Single Media Solution</fullName>
+        <default>false</default>
+        <label>Single Media Solution</label>
+    </customValue>
+    <customValue>
         <fullName>Standard</fullName>
         <default>false</default>
         <label>Standard</label>
@@ -349,6 +429,11 @@
         <fullName>TVS</fullName>
         <default>false</default>
         <label>TVS</label>
+    </customValue>
+    <customValue>
+        <fullName>VoicePro</fullName>
+        <default>false</default>
+        <label>VoicePro</label>
     </customValue>
     <customValue>
         <fullName>Web</fullName>
@@ -381,22 +466,6 @@
         <label>Zingle</label>
     </customValue>
     <customValue>
-        <fullName>APMA</fullName>
-        <default>false</default>
-        <label>APMA</label>
-    </customValue>
-    <customValue>
-        <fullName>APMS</fullName>
-        <default>false</default>
-        <label>APMS</label>
-    </customValue>
-    <customValue>
-        <fullName>N/A</fullName>
-        <default>false</default>
-        <isActive>false</isActive>
-        <label>N/A</label>
-    </customValue>
-    <customValue>
         <fullName>Connex for D&amp;B</fullName>
         <default>false</default>
         <isActive>false</isActive>
@@ -414,6 +483,12 @@
         <isActive>false</isActive>
         <label>eContract</label>
     </customValue>
+    <customValue>
+        <fullName>N/A</fullName>
+        <default>false</default>
+        <isActive>false</isActive>
+        <label>N/A</label>
+    </customValue>
     <masterLabel>Product Line</masterLabel>
-    <sorted>false</sorted>
+    <sorted>true</sorted>
 </GlobalValueSet>

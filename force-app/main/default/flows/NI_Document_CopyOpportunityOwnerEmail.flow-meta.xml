@@ -2,7 +2,6 @@
 <Flow xmlns="http://soap.sforce.com/2006/04/metadata">
     <apiVersion>56.0</apiVersion>
     <description>NICC-061820; for PLCM Migrations NI Documents, copies the Opportunity Owner Email to the NI Doc to send email alerts</description>
-    <environments>Default</environments>
     <interviewLabel>NI Document - Copy Opportunity Owner Email {!$Flow.CurrentDateTime}</interviewLabel>
     <label>NI Document - Copy Opportunity Owner Email</label>
     <processMetadataValues>
@@ -44,7 +43,6 @@
         <connector>
             <targetReference>UpdateOppOwnerEmail</targetReference>
         </connector>
-        <filterFormula>{!$Record.RecordType.DeveloperName} = &quot;PLCM_Migrations&quot;</filterFormula>
         <object>NI_Documentation__c</object>
         <recordTriggerType>Create</recordTriggerType>
         <triggerType>RecordAfterSave</triggerType>

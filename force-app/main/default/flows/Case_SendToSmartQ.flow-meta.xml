@@ -11,7 +11,6 @@
         <connector>
             <targetReference>UpdateCaseStatus</targetReference>
         </connector>
-        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
         <inputParameters>
             <name>SObjectRowId</name>
             <value>
@@ -21,7 +20,6 @@
     </actionCalls>
     <apiVersion>55.0</apiVersion>
     <description>NICC-061068; Sends an email to the SmartQ ticketing system when a Case for either Demand360 or Agency360 has a Data Discrepancy.</description>
-    <environments>Default</environments>
     <interviewLabel>Case - Send to SmartQ {!$Flow.CurrentDateTime}</interviewLabel>
     <label>Case - Send to SmartQ</label>
     <processMetadataValues>
@@ -63,12 +61,6 @@
         <connector>
             <targetReference>Case_Send_to_SmartQ</targetReference>
         </connector>
-        <filterFormula>{!$Record.RecordType.DeveloperName} = &quot;Case&quot; &amp;&amp;
-ISCHANGED({!$Record.L3_Team__c}) &amp;&amp;
-ISPICKVAL({!$Record.L3_Team__c}, &quot;Sent to SmartQ&quot;) &amp;&amp;
-OR(ISPICKVAL({!$Record.Case_Product_Line__c}, &quot;Demand360&quot;),ISPICKVAL({!$Record.Case_Product_Line__c}, &quot;Agency360&quot;)) &amp;&amp;
-ISPICKVAL({!$Record.Module__c}, &quot;Data Quality&quot;) &amp;&amp;
-ISPICKVAL({!$Record.Component__c}, &quot;Data Discrepancy&quot;)</filterFormula>
         <object>Case</object>
         <recordTriggerType>Update</recordTriggerType>
         <triggerType>RecordAfterSave</triggerType>

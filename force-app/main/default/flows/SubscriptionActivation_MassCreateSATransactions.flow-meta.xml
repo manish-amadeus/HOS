@@ -299,7 +299,6 @@
         <object>Subscription_Activation__c</object>
         <valueField>Id</valueField>
     </dynamicChoiceSets>
-    <environments>Default</environments>
     <formulas>
         <description>Used to Display &quot;Cancel&quot; or &quot;Activate&quot; on the Quantity input screen</description>
         <name>formulaActionTypeScreenDisplay</name>
@@ -400,13 +399,6 @@
         <queriedFields>Canceled_Quantity__c</queriedFields>
         <queriedFields>Group__c</queriedFields>
     </recordLookups>
-    <recordRollbacks>
-        <description>Rolls back the creation of Transaction records. Only here for debugging/testing purposes.</description>
-        <name>RollbackCreateRecord</name>
-        <label>RollbackCreateRecord</label>
-        <locationX>838</locationX>
-        <locationY>628</locationY>
-    </recordRollbacks>
     <screens>
         <description>This screen allows a user to input a Quantity for the new Transaction and a Cancellation reason if applicable.</description>
         <name>CreateNewTransactionScreen</name>
@@ -470,7 +462,6 @@
                 <isRequired>false</isRequired>
             </fields>
             <isRequired>false</isRequired>
-            <regionContainerType>SectionWithoutHeader</regionContainerType>
         </fields>
         <fields>
             <name>CreateNewTransactionScreen_Section2</name>
@@ -560,7 +551,6 @@
                 <isRequired>false</isRequired>
             </fields>
             <isRequired>false</isRequired>
-            <regionContainerType>SectionWithoutHeader</regionContainerType>
         </fields>
         <showFooter>true</showFooter>
         <showHeader>false</showHeader>

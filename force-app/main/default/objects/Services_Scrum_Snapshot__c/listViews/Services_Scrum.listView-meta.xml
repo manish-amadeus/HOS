@@ -9,8 +9,13 @@
     <columns>Service_Group__c</columns>
     <columns>CREATED_DATE</columns>
     <filterScope>Everything</filterScope>
+    <filters>
+        <field>Target_Period__c</field>
+        <operation>contains</operation>
+        <value>2020-09,2020-08</value>
+    </filters>
     <label>Services Scrum</label>
     <sharedTo>
-        <allInternalUsers></allInternalUsers>
+        <allInternalUsers/>
     </sharedTo>
 </ListView>

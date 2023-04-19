@@ -455,7 +455,6 @@
         </rules>
     </decisions>
     <description>NICC-055948; updated via NICC-056780; updated via NICC-058176; updated via NICC-059264; Shares an AH Project Backlog record as Read/Edit access to the Implementation Owner on the record. This is needed to allow users to add/update child records with rollups to the parent.</description>
-    <environments>Default</environments>
     <interviewLabel>AH Project Backlog - Sharing {!$Flow.CurrentDateTime}</interviewLabel>
     <label>AH Project Backlog - Sharing</label>
     <processMetadataValues>
@@ -563,7 +562,6 @@
         <connector>
             <targetReference>NewOrUpdatedRecord</targetReference>
         </connector>
-        <filterFormula>{!$Record.RecordType.DeveloperName}= &quot;Commercial_Operation_Projects&quot;</filterFormula>
         <object>NI_Project_Backlog__c</object>
         <recordTriggerType>CreateAndUpdate</recordTriggerType>
         <triggerType>RecordAfterSave</triggerType>

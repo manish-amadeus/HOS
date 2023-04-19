@@ -1,0 +1,289 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EscalationRules xmlns="http://soap.sforce.com/2006/04/metadata">
+    <escalationRule>
+        <fullName>New Support Escalations</fullName>
+        <active>true</active>
+        <ruleEntry>
+            <businessHoursSource>None</businessHoursSource>
+            <escalationStartTime>CaseLastModified</escalationStartTime>
+            <formula>ISPICKVAL(Support_Tier_Designation__r.Team__c,&quot;Integrations&quot;)</formula>
+        </ruleEntry>
+        <ruleEntry>
+            <businessHoursSource>None</businessHoursSource>
+            <criteriaItems>
+                <field>Case.OwnerId</field>
+                <operation>contains</operation>
+                <value>Q-Integration</value>
+            </criteriaItems>
+            <escalationStartTime>CaseLastModified</escalationStartTime>
+        </ruleEntry>
+        <ruleEntry>
+            <booleanFilter>(1 AND 2) OR (3 AND 4) OR (5 AND 6)</booleanFilter>
+            <businessHoursSource>None</businessHoursSource>
+            <criteriaItems>
+                <field>Case.E2CP_Email_and_BH_Calculation__c</field>
+                <operation>contains</operation>
+                <value>Sales &amp; Catering</value>
+            </criteriaItems>
+            <criteriaItems>
+                <field>Case.E2CP_Email_and_BH_Calculation__c</field>
+                <operation>contains</operation>
+                <value>Platinum</value>
+            </criteriaItems>
+            <criteriaItems>
+                <field>Case.E2CP_Email_and_BH_Calculation__c</field>
+                <operation>notContain</operation>
+                <value>Sales &amp; Catering,Service Optimization,PMS</value>
+            </criteriaItems>
+            <criteriaItems>
+                <field>Case.E2CP_Email_and_BH_Calculation__c</field>
+                <operation>contains</operation>
+                <value>US Support - Platinum</value>
+            </criteriaItems>
+            <criteriaItems>
+                <field>Case.E2CP_Email_and_BH_Calculation__c</field>
+                <operation>startsWith</operation>
+                <value>Sales &amp; Catering - US Support - Platinum</value>
+            </criteriaItems>
+            <criteriaItems>
+                <field>Case.E2CP_Email_and_BH_Calculation__c</field>
+                <operation>notContain</operation>
+                <value>SalesPro</value>
+            </criteriaItems>
+            <escalationStartTime>CaseLastModified</escalationStartTime>
+        </ruleEntry>
+        <ruleEntry>
+            <booleanFilter>(1 AND 2) OR (3 AND 4)</booleanFilter>
+            <businessHoursSource>None</businessHoursSource>
+            <criteriaItems>
+                <field>Case.E2CP_Email_and_BH_Calculation__c</field>
+                <operation>notContain</operation>
+                <value>Sales &amp; Catering,Service Optimization,PMS</value>
+            </criteriaItems>
+            <criteriaItems>
+                <field>Case.E2CP_Email_and_BH_Calculation__c</field>
+                <operation>contains</operation>
+                <value>EMEA Support - Platinum</value>
+            </criteriaItems>
+            <criteriaItems>
+                <field>Case.E2CP_Email_and_BH_Calculation__c</field>
+                <operation>contains</operation>
+                <value>Sales &amp; Catering - EMEA Support - Platinum</value>
+            </criteriaItems>
+            <criteriaItems>
+                <field>Case.E2CP_Email_and_BH_Calculation__c</field>
+                <operation>notContain</operation>
+                <value>SalesPro</value>
+            </criteriaItems>
+            <escalationStartTime>CaseLastModified</escalationStartTime>
+        </ruleEntry>
+        <ruleEntry>
+            <booleanFilter>(1 AND 2) OR (3 AND 4) OR (5 AND 6)</booleanFilter>
+            <businessHoursSource>None</businessHoursSource>
+            <criteriaItems>
+                <field>Case.E2CP_Email_and_BH_Calculation__c</field>
+                <operation>contains</operation>
+                <value>Sales &amp; Catering</value>
+            </criteriaItems>
+            <criteriaItems>
+                <field>Case.E2CP_Email_and_BH_Calculation__c</field>
+                <operation>notContain</operation>
+                <value>Platinum,US,EMEA,APAC</value>
+            </criteriaItems>
+            <criteriaItems>
+                <field>Case.E2CP_Email_and_BH_Calculation__c</field>
+                <operation>notContain</operation>
+                <value>Sales &amp; Catering,Service Optimization,PMS</value>
+            </criteriaItems>
+            <criteriaItems>
+                <field>Case.E2CP_Email_and_BH_Calculation__c</field>
+                <operation>contains</operation>
+                <value>US Support</value>
+            </criteriaItems>
+            <criteriaItems>
+                <field>Case.E2CP_Email_and_BH_Calculation__c</field>
+                <operation>startsWith</operation>
+                <value>Sales &amp; Catering - US Support</value>
+            </criteriaItems>
+            <criteriaItems>
+                <field>Case.E2CP_Email_and_BH_Calculation__c</field>
+                <operation>notContain</operation>
+                <value>SalesPro</value>
+            </criteriaItems>
+            <escalationStartTime>CaseLastModified</escalationStartTime>
+        </ruleEntry>
+        <ruleEntry>
+            <booleanFilter>(1 AND 2) OR (3 AND 4)</booleanFilter>
+            <businessHoursSource>None</businessHoursSource>
+            <criteriaItems>
+                <field>Case.E2CP_Email_and_BH_Calculation__c</field>
+                <operation>notContain</operation>
+                <value>Sales &amp; Catering,Service Optimization,PMS</value>
+            </criteriaItems>
+            <criteriaItems>
+                <field>Case.E2CP_Email_and_BH_Calculation__c</field>
+                <operation>contains</operation>
+                <value>EMEA Support</value>
+            </criteriaItems>
+            <criteriaItems>
+                <field>Case.E2CP_Email_and_BH_Calculation__c</field>
+                <operation>startsWith</operation>
+                <value>Sales &amp; Catering - EMEA Support</value>
+            </criteriaItems>
+            <criteriaItems>
+                <field>Case.E2CP_Email_and_BH_Calculation__c</field>
+                <operation>notContain</operation>
+                <value>SalesPro</value>
+            </criteriaItems>
+            <escalationStartTime>CaseLastModified</escalationStartTime>
+        </ruleEntry>
+        <ruleEntry>
+            <booleanFilter>(1 AND 2) OR (3 AND 4)</booleanFilter>
+            <businessHoursSource>None</businessHoursSource>
+            <criteriaItems>
+                <field>Case.E2CP_Email_and_BH_Calculation__c</field>
+                <operation>notContain</operation>
+                <value>Sales &amp; Catering,Service Optimization,PMS</value>
+            </criteriaItems>
+            <criteriaItems>
+                <field>Case.E2CP_Email_and_BH_Calculation__c</field>
+                <operation>contains</operation>
+                <value>APAC Support</value>
+            </criteriaItems>
+            <criteriaItems>
+                <field>Case.E2CP_Email_and_BH_Calculation__c</field>
+                <operation>startsWith</operation>
+                <value>Sales &amp; Catering - APAC Support</value>
+            </criteriaItems>
+            <criteriaItems>
+                <field>Case.E2CP_Email_and_BH_Calculation__c</field>
+                <operation>notContain</operation>
+                <value>SalesPro</value>
+            </criteriaItems>
+            <escalationStartTime>CaseLastModified</escalationStartTime>
+        </ruleEntry>
+        <ruleEntry>
+            <businessHoursSource>None</businessHoursSource>
+            <criteriaItems>
+                <field>Case.Origin</field>
+                <operation>equals</operation>
+                <value>Email</value>
+            </criteriaItems>
+            <criteriaItems>
+                <field>Case.Solution_Domain__c</field>
+                <operation>equals</operation>
+                <value>Sales &amp; Catering</value>
+            </criteriaItems>
+            <criteriaItems>
+                <field>Case.SupportRegion__c</field>
+                <operation>equals</operation>
+                <value>US Suppport</value>
+            </criteriaItems>
+            <escalationStartTime>CaseCreation</escalationStartTime>
+        </ruleEntry>
+        <ruleEntry>
+            <businessHoursSource>None</businessHoursSource>
+            <criteriaItems>
+                <field>Case.Origin</field>
+                <operation>equals</operation>
+                <value>Email</value>
+            </criteriaItems>
+            <criteriaItems>
+                <field>Case.Solution_Domain__c</field>
+                <operation>equals</operation>
+                <value>PMS</value>
+            </criteriaItems>
+            <escalationStartTime>CaseCreation</escalationStartTime>
+        </ruleEntry>
+        <ruleEntry>
+            <businessHoursSource>None</businessHoursSource>
+            <criteriaItems>
+                <field>Case.Origin</field>
+                <operation>equals</operation>
+                <value>Email_PSS (S&amp;C)</value>
+            </criteriaItems>
+            <escalationStartTime>CaseCreation</escalationStartTime>
+        </ruleEntry>
+        <ruleEntry>
+            <businessHoursSource>None</businessHoursSource>
+            <criteriaItems>
+                <field>Case.Origin</field>
+                <operation>equals</operation>
+                <value>Email</value>
+            </criteriaItems>
+            <criteriaItems>
+                <field>Case.Solution_Domain__c</field>
+                <operation>equals</operation>
+                <value>Sales &amp; Catering</value>
+            </criteriaItems>
+            <criteriaItems>
+                <field>Case.SupportRegion__c</field>
+                <operation>equals</operation>
+                <value>APAC Support</value>
+            </criteriaItems>
+            <escalationStartTime>CaseCreation</escalationStartTime>
+        </ruleEntry>
+        <ruleEntry>
+            <businessHoursSource>None</businessHoursSource>
+            <criteriaItems>
+                <field>Case.Origin</field>
+                <operation>equals</operation>
+                <value>Email</value>
+            </criteriaItems>
+            <criteriaItems>
+                <field>Case.Solution_Domain__c</field>
+                <operation>equals</operation>
+                <value>Sales &amp; Catering</value>
+            </criteriaItems>
+            <criteriaItems>
+                <field>Case.SupportRegion__c</field>
+                <operation>equals</operation>
+                <value>EMEA Support</value>
+            </criteriaItems>
+            <escalationStartTime>CaseCreation</escalationStartTime>
+        </ruleEntry>
+        <ruleEntry>
+            <businessHoursSource>None</businessHoursSource>
+            <criteriaItems>
+                <field>Case.Origin</field>
+                <operation>equals</operation>
+                <value>Email</value>
+            </criteriaItems>
+            <criteriaItems>
+                <field>Case.Solution_Domain__c</field>
+                <operation>equals</operation>
+                <value>Service Optimization</value>
+            </criteriaItems>
+            <escalationStartTime>CaseCreation</escalationStartTime>
+        </ruleEntry>
+    </escalationRule>
+    <escalationRule>
+        <fullName>Service Optimization</fullName>
+        <active>false</active>
+        <ruleEntry>
+            <booleanFilter>1 OR 2</booleanFilter>
+            <businessHoursSource>None</businessHoursSource>
+            <criteriaItems>
+                <field>Case.Solution_Domain__c</field>
+                <operation>contains</operation>
+                <value>Optimization</value>
+            </criteriaItems>
+            <criteriaItems>
+                <field>Case.Origin</field>
+                <operation>equals</operation>
+                <value>Email (SO)</value>
+            </criteriaItems>
+            <escalationStartTime>CaseCreation</escalationStartTime>
+        </ruleEntry>
+        <ruleEntry>
+            <businessHours>SO - PMW/HSVP</businessHours>
+            <businessHoursSource>Static</businessHoursSource>
+            <criteriaItems>
+                <field>Case.DI_Product_Group__c</field>
+                <operation>contains</operation>
+                <value>PMWorks</value>
+            </criteriaItems>
+            <escalationStartTime>CaseCreation</escalationStartTime>
+        </ruleEntry>
+    </escalationRule>
+</EscalationRules>

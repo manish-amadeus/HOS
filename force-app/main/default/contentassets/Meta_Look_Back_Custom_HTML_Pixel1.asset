@@ -1,0 +1,73 @@
+<script>
+//Tag to drop cookie at the time of landing if site has valid meta subchan URL query parameter
+//This tag should be triggred at the time of landing page so that subchan parametere is captured and look //back cookie is dropped. so even if guest dropped from the site we can track returning guest for 7 days.
+  var tagSubCh  = {{urlSubChan}}; //incoming subchan URL query parameter value.
+  var hotelID = {{HotelID}}; //unique property identifire. Set by host app in data layer and mapped to GTM  //var, In this case value is iHotelier id
+  var clkid   = ""; //incoming clickid URL query parameter value.
+  //var meta = "";
+  var cookieName = "MetaSearchPixelCookie_"+hotelID; //uniquly identified meta cookie name. Name can be changed as required
+  var utmCookieName = "MetaSearchUTMCookie_"+hotelID; //uniquly identified meta cookie name. Name can be changed as required
+  var utmQueryString = "";
+  
+  var utmSource = {{utm_source}};
+  var utmMedium = {{utm_medium}};
+  var utmContent = {{utm_content}};
+  var utmCampaign = {{utm_campaign}};
+  
+  if (utmSource != undefined && utmSource != "") {
+    utmQueryString = utmQueryString + "&utm_source="+utmSource;
+  }
+  
+  if (utmMedium != undefined && utmMedium != "") {
+    utmQueryString = utmQueryString + "&utm_medium="+utmMedium;
+  }
+  
+  if (utmContent != undefined && utmContent != "") {
+    utmQueryString = utmQueryString + "&utm_content="+utmContent;
+  }
+  
+  if (utmCampaign != undefined && utmCampaign != "") {
+    utmQueryString = utmQueryString + "&utm_campaign="+utmCampaign;
+  }
+  
+  /*if (tagSubCh != undefined){
+    var arrSubchan = tagSubCh.split("_");
+    
+    if (arrSubchan.length > 0) {
+      meta = arrSubchan[0];
+    } else {
+      meta = tagSubCh;
+    }
+  }  */
+  
+  //if valid meta from URL then set cookie with 7 day lookback
+  //if (meta != "" && metaList.includes(meta.toUpperCase()))   {
+  
+  if(hotelID != undefined && hotelID != "" && tagSubCh != undefined && tagSubCh != "") {  
+    var cookieContent = tagSubCh;
+    //var cookieName = "MetaSearchPixelCookie_"+hotelID;  
+    clkid = {{clickId}};
+
+    if (clkid != undefined)  //if clickid is present append it to the cookie value so that it can be tracked at the time of look back attribution
+      cookieContent = cookieContent +":"+ clkid; 
+
+    var expDays = "7";
+    var d = new Date();
+    d.setTime(d.getTime() + (expDays  * 24 * 60 * 60 * 1000));   
+    var expiration = d.toUTCString();
+
+    document.cookie = cookieName + "=" + cookieContent + ";expires=" + expiration +';path=/;secure;';
+  
+    if (utmQueryString != undefined && utmQueryString != "") {
+       document.cookie = utmCookieName + "=" + utmQueryString.trim() + ";expires=" + expiration +';path=/;secure;';
+    }
+  
+    var meta_cookiename = "MetaSearchPixelCookieTime_"+hotelID;
+    var meta_start_ts = new Date().toISOString();
+  
+    document.cookie = meta_cookiename + "=" + meta_start_ts + ";expires=" + expiration +';path=/;secure;'; 
+
+  }
+  
+ //}
+</script>

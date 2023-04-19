@@ -1,0 +1,157 @@
+<script>
+  // tag will check if valid meta partner in subchan url query parameter is present.
+  // if yes, then booking will be sent to attribution api with that meta partner
+  // otherwise it will look into look back cookie and booking will be sent to attribution api with that meta partner value in the cookie with _BK
+  // This tag should be triggerd at the end of the booking cycle when we have confirmed booking so that APi will have all booking data including booking id
+  var tagSubCh  = {{urlSubChan}}; //incomin subchan URL query param value.
+  var hotelID = {{HotelID}}; //unique property identifire. Set by host app in data layer and mapped to GTM var. In this case value is iHotelier id
+  var clkid   = ""; //incoming clickid URL query param value.
+  //var meta = "";
+  
+  var utmSource = {{utm_source}}; //incoming utm_source URL query param value.
+  var utmMedium = {{utm_medium}}; //incoming utm_medium URL query param value.
+  var utmContent = {{utm_content}}; //incoming utm_content URL query param value.
+  var utmCampaign = {{utm_campaign}}; //incoming utm_campaign URL query param value.
+  
+  var cookieName = "MetaSearchPixelCookie_"+hotelID; //meta cookie name dropped at the time of landing with 7 day exp.. It can be changed as reuired.
+  var utmCookieName = "MetaSearchUTMCookie_"+hotelID; //cookie with utm params dropped at the time of landing with 7 day exp.. It can be changed as reuired.
+   
+ //if url does not have subchan query parameter present then read from cokie   
+  if (tagSubCh == undefined || tagSubCh == "")   { 
+    var cookie = document.cookie;
+    
+    if(cookie) {
+      cookie = cookie.split(";");
+      //process meta pixel cookie
+      for(var i = 0; i < cookie.length; i++ ){
+        
+        if(cookie[i] != undefined && cookie[i].trim().startsWith(cookieName)) { //if meta cookie is present
+          var idx = cookie[i].indexOf("=");
+          var key = cookie[i].substring(0, idx);
+          var value = cookie[i].substring(idx+1, cookie[i].length);          
+          value = value.trim();
+          
+          if(value.indexOf(":") > 0) {               
+            var index = value.indexOf(":");
+            tagSubCh = value.substring(0, index)+ "_BK"; // set subchan values as look back
+            clkid   = value.substring(index+1, value.length); 
+          } else {
+            tagSubCh = value + "_BK"; 
+          }
+          break;           
+        }
+      }// end meta pixel cookie
+      
+      //process meta utm cookie
+      for(var j = 0; j < cookie.length; j++ ){
+        
+        if(cookie[j] != undefined && cookie[j].trim().startsWith(utmCookieName)) { //if meta utm cookie is present
+          var idx = cookie[j].indexOf("=");
+          var key = cookie[j].substring(0, idx);
+          var value = cookie[j].substring(idx+1, cookie[j].length);          
+          value = value.trim();
+          
+          var arrUTMs = value.split("&");
+
+	      for(var j = 0; j < arrUTMs.length; j++ ){		
+
+		      if(arrUTMs[j] != undefined && arrUTMs[j].trim().startsWith("utm_source")) {
+			    var idx = arrUTMs[j].indexOf("=");
+			    utmSource = arrUTMs[j].substring(idx+1, arrUTMs[j].length); 
+		      }
+
+		      if(arrUTMs[j] != undefined && arrUTMs[j].trim().startsWith("utm_medium")) {
+			    var idx = arrUTMs[j].indexOf("=");
+			    utmMedium = arrUTMs[j].substring(idx+1, arrUTMs[j].length); 
+		      }
+
+		      if(arrUTMs[j] != undefined && arrUTMs[j].trim().startsWith("utm_content")) {
+			     var idx = arrUTMs[j].indexOf("=");
+			     utmContent = arrUTMs[j].substring(idx+1, arrUTMs[j].length); 
+		       }
+
+		       if(arrUTMs[j] != undefined && arrUTMs[j].trim().startsWith("utm_campaign")) {
+			      var idx = arrUTMs[j].indexOf("=");
+			      utmCampaign = arrUTMs[j].substring(idx+1, arrUTMs[j].length); 
+		       }
+	      } 
+          break;           
+        }
+      }// end utm cookie
+    }
+  }
+  
+  //Start capturing cookie timestamp
+  var meta_cookiename = "MetaSearchPixelCookieTime_"+hotelID;
+  var cookie = document.cookie;
+  var optionalFields = '';
+  if(cookie) {
+      cookie = cookie.split(";");
+      
+      for (var i = 0; i < cookie.length; i++) {
+        if (cookie[i] != undefined && cookie[i].trim().startsWith(meta_cookiename)) {
+              var idx = cookie[i].indexOf("=");
+              //var key = cookie[i].substring(0, idx).trim();
+              var value = cookie[i].substring(idx + 1, cookie[i].length).trim();
+              optionalFields = JSON.stringify({"interaction_ts": value});
+          }
+      }
+  }
+  //End capturing cookie timestamp
+  
+ 
+ //call meta attribution api if there is subchan value 
+ if(hotelID != undefined && hotelID != "" && tagSubCh != undefined && tagSubCh != "") {  
+   
+   var getOauth = new XMLHttpRequest();
+   var oauthUrl = "https://api.travelclick.com/oauth/token-referer?grant_type=client_credentials&domain_type=meta";
+   getOauth.open("POST", oauthUrl, true);
+   //getOauth.setRequestHeader("Content-Type", "application/json");
+   getOauth.onreadystatechange = function () {
+     if (this.readyState === 4 && this.status === 200) {
+       var res = JSON.parse(getOauth.responseText);
+       var token = res.access_token;
+       postData(token); //call method once get access token
+     }
+   };
+   getOauth.send(); 
+ }
+ //Method to post meta data 
+ function postData(token){
+     token = "Bearer "+token;
+     var bookDate = new Date().toISOString();  
+     var data = JSON.stringify({"adults": "{{Adults}}",
+                              "amountWithTax": "{{AmountAfterTaxes}}",
+                              "amountWithoutTax": "{{Amount}}",
+                              "bookDate": bookDate,
+                              "checkInDate": "{{Date}}",
+                              "checkOutDate": "{{DateOut}}",
+                              "childrens": "{{Children}}",
+                             "clickId": clkid,
+                             "confirmId": "{{BookedConfirmID}}",
+                             "crsType": "BE Provider",
+                             "currency": "{{Currency}}",
+                             "hotelId": hotelID,
+                             "managedURL": "{{Page URL}}",
+                             "optionalFields": optionalFields,
+                             "rooms": "{{Rooms}}",
+                             "subchan": tagSubCh,
+                             "utmCampaign": utmCampaign,
+                             "utmContent": utmContent,
+                             "utmMedium": utmMedium,
+                             "utmSource": utmSource
+                             });
+     var xhr = new XMLHttpRequest();
+     var url = "https://api.travelclick.com/meta-collection/v1/storeMetaData";
+     xhr.open("POST", url, true);
+     xhr.setRequestHeader("Content-Type", "application/json");
+     xhr.setRequestHeader("Authorization", token);
+     xhr.onreadystatechange = function () {
+       if (this.readyState === 4 && this.status === 201) {
+         var res = JSON.parse(xhr.responseText);
+         console.log("***Meta Collection API Response**** "+res);
+       }
+     };
+    xhr.send(data);
+ }  
+</script>

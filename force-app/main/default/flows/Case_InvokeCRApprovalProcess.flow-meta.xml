@@ -8,7 +8,6 @@
         <locationY>265</locationY>
         <actionName>submit</actionName>
         <actionType>submit</actionType>
-        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
         <inputParameters>
             <name>processDefinitionNameOrId</name>
             <value>
@@ -79,7 +78,6 @@
     <description>NICC-061167; updated via NICC-061427; updated via NICC-061427; updated via NICC-063571
 
 Moved from process builder with the same name. Invokes the Case CR Approval Process</description>
-    <environments>Default</environments>
     <interviewLabel>Case - Invoke CR Approval Process {!$Flow.CurrentDateTime}</interviewLabel>
     <label>Case - Invoke CR Approval Process</label>
     <processMetadataValues>
@@ -137,12 +135,6 @@ Moved from process builder with the same name. Invokes the Case CR Approval Proc
         <connector>
             <targetReference>GetCaseApprovalHistory</targetReference>
         </connector>
-        <filterFormula>{!$Record.RecordType.DeveloperName} = &quot;Case&quot; &amp;&amp;
-TEXT({!$Record.Status}) &lt;&gt; &quot;Closed&quot; &amp;&amp;
-TEXT({!$Record.Approval_Status__c}) &lt;&gt; &quot;Submitted&quot; &amp;&amp;
-TEXT({!$Record.Approval_Status__c}) &lt;&gt; &quot;Approved&quot; &amp;&amp;
-ISCHANGED({!$Record.Change_Request__c}) &amp;&amp;
-NOT(ISBLANK({!$Record.Change_Request__c}))</filterFormula>
         <object>Case</object>
         <recordTriggerType>Update</recordTriggerType>
         <triggerType>RecordAfterSave</triggerType>

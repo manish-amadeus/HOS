@@ -1,0 +1,78 @@
+<!-- iHotelier BOOKING MASK CODE
+
+This code is for placing an iHotelier booking mask interface onto the hotel website. Some knowledge of HTML is required to implement this code. The HotelID and LanguageID values need to be populated by the webmaster. (Appropriate values will be provided by Amadeus.) The formatting of the booking mask also needs to be completed by the webmaster.
+
+Two additional files are included - booking mask calendar.gif. These files need to be placed in the same directory level as the page on which this booking mask code is placed. Otherwise the webmaster will need to alter the file paths for this code to function correctly. -->
+
+<!-- Booking mask code starts here -->
+
+<!-- This javascript function opens the calendar pop-up. If you want to change the position where the pop-up appears on the screen, alter the values for top and left below. Note that position is based on the top left edge of the computer screen, not the browser window. -->
+<script language="javascript" type="text/javascript">
+function openCalendar(FormElement){
+	var calendarwindow;
+	url = "calendar.html?formname=resform&formelement=" + FormElement;
+	calendarwindow = window.open(url,"calendar","toolbar=no,width=200,height=144,top=50,left=50,status=no,scrollbars=no,resize=no,menubar=no");
+	calendarwindow.focus();
+}
+</script>
+
+<!-- Populate the values for HotelID and LanguageID below. -->
+<form action="https://reservations.travelclick.com/12953" method="get" name="resform" id="resform" target="_blank">
+<input type="hidden" name="HotelID" value="#####" />
+<input type="hidden" name="LanguageID" value="1" />
+<input type="hidden" name="Rooms" value="1" /> 
+
+Check-In Date:
+<input name="DateIn" type="text" />
+<a href="javascript:openCalendar('DateIn')"><img src="calendar.gif" width="20" height="20" border="0" /></a>
+
+Nights:
+<select name="Length">
+<option value="1" selected="selected">1</option>
+<option value="2">2</option>
+<option value="3">3</option>
+<option value="4">4</option>
+<option value="5">5</option>
+<option value="6">6</option>
+<option value="7">7</option>
+<option value="8">8</option>
+<option value="9">9</option>
+<option value="10">10</option>
+<option value="10">11</option>
+<option value="10">12</option>
+<option value="10">13</option>
+<option value="10">14</option>
+</select>
+
+Adults:
+<select name="Adults">
+<option value="1" selected="selected">1</option>
+<option value="2">2</option>
+<option value="3">3</option>
+<option value="4">4</option>
+</select>
+
+Children:
+<select name="Children">
+<option value="0" selected="selected">0</option>
+<option value="1">1</option>
+<option value="2">2</option>
+<option value="3">3</option>
+<option value="4">4</option>
+</select>
+
+<input type="submit" value="Submit" />
+</form>
+
+<!-- This javascript code populates the Check-In Date field with today's date. It must be located after the form close tag. -->
+
+<script type="text/javascript" language="javascript">
+function getDateStr() {
+	var today = new Date();
+	var todayStr = (today.getMonth()+1) + "/" + today.getDate() + "/" + today.getFullYear();;
+	document.resform.DateIn.value = todayStr;
+}
+getDateStr();
+</script>
+
+<!-- Booking mask code ends here -->

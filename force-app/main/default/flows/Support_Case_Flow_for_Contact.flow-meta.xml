@@ -940,9 +940,6 @@ IF({!vDI_Status} = &quot;Purchased&quot;,&quot;Purchased&quot;,
         </fields>
         <fields>
             <name>Description</name>
-            <defaultValue>
-                <stringValue>{!DescriptionTemplate}</stringValue>
-            </defaultValue>
             <fieldText>Description</fieldText>
             <fieldType>LargeTextArea</fieldType>
             <isRequired>true</isRequired>

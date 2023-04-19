@@ -4,6 +4,7 @@
     <columns>NAME</columns>
     <columns>FirstName__c</columns>
     <columns>LastName__c</columns>
+    <columns>Group_Name__c</columns>
     <columns>SurveyType__c</columns>
     <columns>SurveySubType__c</columns>
     <columns>Email__c</columns>
@@ -14,9 +15,14 @@
     <columns>Assignment_Number__c</columns>
     <filterScope>Everything</filterScope>
     <filters>
-        <field>SurveySubType__c</field>
+        <field>Group_Name__c</field>
         <operation>equals</operation>
-        <value>W/Training</value>
+        <value>BI,GMS,RES,web solutions</value>
+    </filters>
+    <filters>
+        <field>CREATED_DATE</field>
+        <operation>greaterThan</operation>
+        <value>3/8/2023 12:00 AM</value>
     </filters>
     <label>All</label>
 </ListView>

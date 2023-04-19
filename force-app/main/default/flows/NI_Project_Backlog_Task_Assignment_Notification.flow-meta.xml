@@ -7,7 +7,6 @@
         <locationY>251</locationY>
         <actionName>chatterPost</actionName>
         <actionType>chatterPost</actionType>
-        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
         <inputParameters>
             <name>text</name>
             <value>
@@ -32,7 +31,6 @@
         <connector>
             <targetReference>ChatterNotification</targetReference>
         </connector>
-        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
         <inputParameters>
             <name>emailBody</name>
             <value>
@@ -60,7 +58,6 @@
     </actionCalls>
     <apiVersion>55.0</apiVersion>
     <description>NICC-#059390; Sends an email and Chatter notification to the &quot;Assigned To&quot; user on an NI Project Backlog Task record. Task notifications do NOT include notifications for new &quot;Realized Benefits Audit #&quot; Task records created, as those Task have separate notifications via another Flow.</description>
-    <environments>Default</environments>
     <formulas>
         <name>formulaTaskRecordURL</name>
         <dataType>String</dataType>
@@ -93,8 +90,6 @@
         <connector>
             <targetReference>NewTaskEmailNotification</targetReference>
         </connector>
-        <filterFormula>{!$Record.RecordType.DeveloperName}=&quot;Commercial_Operation_Tasks&quot; &amp;&amp;
- NOT(CONTAINS({!$Record.Name}, &quot;Realized Benefits Audit&quot;))</filterFormula>
         <object>NI_Project_Backlog_Tasks__c</object>
         <recordTriggerType>Create</recordTriggerType>
         <triggerType>RecordAfterSave</triggerType>

@@ -8,7 +8,6 @@
         <locationY>364</locationY>
         <actionName>Request__c.Order_Management_New_Request_Record</actionName>
         <actionType>emailAlert</actionType>
-        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
         <inputParameters>
             <name>SObjectRowId</name>
             <value>
@@ -24,7 +23,6 @@
         <locationY>590</locationY>
         <actionName>emailSimple</actionName>
         <actionType>emailSimple</actionType>
-        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
         <inputParameters>
             <name>emailBody</name>
             <value>
@@ -284,7 +282,6 @@
     </decisions>
     <description>NICC-051009; NICC-057573; NICC-061648
 Creates a Contract Request record for the Order Management team. Used in a custom button called &quot;Contract Request&quot; on the Opportunity object. Adding the ability to create a Request directly from the Account record.</description>
-    <environments>Default</environments>
     <interviewLabel>Opportunity - Create Contract Request {!$Flow.CurrentDateTime}</interviewLabel>
     <label>Opportunity - Create Contract Request</label>
     <processMetadataValues>
@@ -484,7 +481,6 @@ Creates a Contract Request record for the Order Management team. Used in a custo
                 <isRequired>false</isRequired>
             </fields>
             <isRequired>false</isRequired>
-            <regionContainerType>SectionWithoutHeader</regionContainerType>
         </fields>
         <fields>
             <name>commentsContractRequestScreen</name>

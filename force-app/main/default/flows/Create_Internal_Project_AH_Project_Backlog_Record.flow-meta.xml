@@ -10,7 +10,6 @@
         <connector>
             <targetReference>getWorkstreams</targetReference>
         </connector>
-        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
         <inputParameters>
             <name>workstreamsImpactedChkboxGroup</name>
             <value>
@@ -30,7 +29,6 @@
         <locationY>592</locationY>
         <actionName>submit</actionName>
         <actionType>submit</actionType>
-        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
         <inputParameters>
             <name>objectId</name>
             <value>
@@ -403,7 +401,7 @@
         <choiceText>---None---</choiceText>
         <dataType>String</dataType>
         <value>
-            <stringValue></stringValue>
+            <stringValue/>
         </value>
     </choices>
     <choices>
@@ -1877,7 +1875,6 @@ IF({!Solution_Domain} = &quot;Media Solutions&quot; ,49,
                     <booleanValue>true</booleanValue>
                 </value>
             </inputParameters>
-            <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
             <isRequired>true</isRequired>
             <outputParameters>
                 <assignToReference>vSponsor</assignToReference>

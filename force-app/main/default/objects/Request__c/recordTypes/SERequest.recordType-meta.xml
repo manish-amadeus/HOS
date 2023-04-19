@@ -5,6 +5,36 @@
     <description>Systems Engineering Request</description>
     <label>SE Request</label>
     <picklistValues>
+        <picklist>AH_DefinedDateRequestStatus__c</picklist>
+        <values>
+            <fullName>Approved</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>N%2FA</fullName>
+            <default>true</default>
+        </values>
+        <values>
+            <fullName>Rejected</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>AH_DeliveryRejectionReason__c</picklist>
+        <values>
+            <fullName>Not Possible Technically</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Other Product Dependencies</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Resource Bandwidth</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
         <picklist>AH_GMSRequestType__c</picklist>
         <values>
             <fullName>New Campaign Email%28s%29</fullName>
@@ -357,6 +387,25 @@
         </values>
         <values>
             <fullName>9</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>PS_Request_Type__c</picklist>
+        <values>
+            <fullName>Change Order</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Custom Services Quote</fullName>
+            <default>true</default>
+        </values>
+        <values>
+            <fullName>Customer Engagement</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Project Office Requests</fullName>
             <default>false</default>
         </values>
     </picklistValues>
@@ -1334,6 +1383,73 @@
         </values>
         <values>
             <fullName>Wrong%2Fincomplete contract attached to opty</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Sub_Type__c</picklist>
+        <values>
+            <fullName>Configuration</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Consulting</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Consulting and Training</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Consulting%2C Configuration and Training</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Consulting%2C Configuration%2C Training and Data Services</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Custom</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Data Services</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Diagrams</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>New%2FChange PSA User%2FMDM</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Other</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>PSA Q%26A%2FTroubleshooting</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Report Services</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Reporting Assistance</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Schedule Assistance</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Training</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Travel Day Request</fullName>
             <default>false</default>
         </values>
     </picklistValues>

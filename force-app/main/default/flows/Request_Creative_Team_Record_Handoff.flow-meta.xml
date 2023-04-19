@@ -10,7 +10,6 @@
         <picklistField>Status_for_Design_Time__c</picklistField>
         <picklistObject>Request_Object_Picklist_Setup__mdt</picklistObject>
     </dynamicChoiceSets>
-    <environments>Default</environments>
     <interviewLabel>Request - Creative Team Record Handoff {!$Flow.CurrentDateTime}</interviewLabel>
     <label>Request - Creative Team Record Handoff</label>
     <processMetadataValues>
@@ -164,9 +163,7 @@
                 <isRequired>false</isRequired>
             </fields>
             <isRequired>false</isRequired>
-            <regionContainerType>SectionWithoutHeader</regionContainerType>
         </fields>
-        <nextOrFinishButtonLabel>Submit Status Design Time</nextOrFinishButtonLabel>
         <showFooter>true</showFooter>
         <showHeader>false</showHeader>
     </screens>

@@ -878,5 +878,19 @@
                 <value>Case</value>
             </criteriaItems>
         </ruleEntry>
+        <ruleEntry>
+            <assignedTo>NORAM_Customer_Success_GMS</assignedTo>
+            <assignedToType>Queue</assignedToType>
+            <criteriaItems>
+                <field>Case.Origin</field>
+                <operation>equals</operation>
+                <value>CSGMS</value>
+            </criteriaItems>
+            <criteriaItems>
+                <field>Case.Status</field>
+                <operation>equals</operation>
+                <value>New</value>
+            </criteriaItems>
+        </ruleEntry>
     </assignmentRule>
 </AssignmentRules>

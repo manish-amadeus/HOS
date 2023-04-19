@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>AH_ProductFamilyRequiredForDelivery</fullName>
+    <active>true</active>
+    <description>NICC-064483; A Product Family is required prior to sending this Request to the Delivery team for review</description>
+    <errorConditionFormula>RecordType.DeveloperName = &quot;Contract_Request&quot; &amp;&amp;
+OR(
+ISPICKVAL( Reason_for_Delay__c , &quot;Pending Defined Date Confirmation&quot;),
+ISPICKVAL( Secondary_Reason__c , &quot;Pending Defined Date Confirmation&quot;),
+ISPICKVAL( Tertiary_Reason__c , &quot;Pending Defined Date Confirmation&quot;)) &amp;&amp;
+ISPICKVAL( Product_Family__c , &quot;&quot;)</errorConditionFormula>
+    <errorDisplayField>Product_Family__c</errorDisplayField>
+    <errorMessage>Product Family is required for Delivery Team.</errorMessage>
+</ValidationRule>
