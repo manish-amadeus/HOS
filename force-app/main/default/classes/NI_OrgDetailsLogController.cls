@@ -538,11 +538,11 @@ public class NI_OrgDetailsLogController
             
             if(od.Org_Type__c == 'Salesforce Production')
             {
-              strSoapEndPoint = 'https://login.salesforce.com/services/Soap/u/26.0'; 
+              strSoapEndPoint = 'https://login.salesforce.com/services/Soap/u/55.0'; 
             }
             else if(od.Org_Type__c.contains('Salesforce Sandbox'))
             {
-                strSoapEndPoint = 'https://test.salesforce.com/services/Soap/u/26.0';
+                strSoapEndPoint = 'https://test.salesforce.com/services/Soap/u/55.0';
             }
       
             PartnerRemote.Soap soap = new PartnerRemote.Soap();
