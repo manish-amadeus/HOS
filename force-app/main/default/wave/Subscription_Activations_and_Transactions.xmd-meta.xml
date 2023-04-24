@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<WaveXmd xmlns="http://soap.sforce.com/2006/04/metadata">
+    <dataset>Subscription_Activations_and_Transactions</dataset>
+    <dimensions>
+        <field>Group.Name</field>
+        <isDerived>false</isDerived>
+        <label>Group</label>
+        <sortIndex>0</sortIndex>
+    </dimensions>
+    <dimensions>
+        <field>Project.Name</field>
+        <isDerived>false</isDerived>
+        <label>Project</label>
+        <sortIndex>1</sortIndex>
+    </dimensions>
+    <dimensions>
+        <field>Region.Name</field>
+        <isDerived>false</isDerived>
+        <label>Region</label>
+        <sortIndex>2</sortIndex>
+    </dimensions>
+    <dimensions>
+        <field>SubscriptionActivation.Account_Name_Formula__c</field>
+        <isDerived>false</isDerived>
+        <label>Account</label>
+        <sortIndex>3</sortIndex>
+    </dimensions>
+    <dimensions>
+        <field>SubscriptionActivation.Product_Name__c</field>
+        <isDerived>false</isDerived>
+        <label>Product</label>
+        <sortIndex>4</sortIndex>
+    </dimensions>
+</WaveXmd>

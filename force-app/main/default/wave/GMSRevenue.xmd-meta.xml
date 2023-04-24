@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<WaveXmd xmlns="http://soap.sforce.com/2006/04/metadata">
+    <dataset>GMSRevenue</dataset>
+    <dimensions>
+        <field>TCOppty.Name</field>
+        <isDerived>false</isDerived>
+        <linkTemplateEnabled>true</linkTemplateEnabled>
+        <recordDisplayFields>
+            <recordDisplayField>TCAccount.BID__c</recordDisplayField>
+            <sortIndex>0</sortIndex>
+        </recordDisplayFields>
+        <recordDisplayFields>
+            <recordDisplayField>TCOppty.Name</recordDisplayField>
+            <sortIndex>1</sortIndex>
+        </recordDisplayFields>
+        <recordIdField>TCOppty.Id</recordIdField>
+        <salesforceActionsEnabled>false</salesforceActionsEnabled>
+        <sortIndex>0</sortIndex>
+    </dimensions>
+    <dimensions>
+        <field>Name</field>
+        <isDerived>false</isDerived>
+        <linkTemplateEnabled>true</linkTemplateEnabled>
+        <recordDisplayFields>
+            <recordDisplayField>Name</recordDisplayField>
+            <sortIndex>0</sortIndex>
+        </recordDisplayFields>
+        <recordDisplayFields>
+            <recordDisplayField>Project.Name</recordDisplayField>
+            <sortIndex>1</sortIndex>
+        </recordDisplayFields>
+        <recordIdField>Id</recordIdField>
+        <salesforceActionsEnabled>false</salesforceActionsEnabled>
+        <sortIndex>1</sortIndex>
+    </dimensions>
+</WaveXmd>

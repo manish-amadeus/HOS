@@ -1,0 +1,721 @@
+{
+  "version" : "57.0",
+  "nodes" : {
+    "LOAD_DATASET0_copy1_copy0_copy0" : {
+      "action" : "load",
+      "sources" : [ ],
+      "parameters" : {
+        "fields" : [ "Id", "CreatedById", "AmadeusOrg__c", "IsActive__c", "OrgName__c", "UserCreatedDateOnly__c", "UserID__c", "UserLastLoginDateOnly__c", "UserLicense__c" ],
+        "dataset" : {
+          "type" : "connectedDataset",
+          "label" : "DTS_Amadeus_Users__c",
+          "connectionName" : "SFDC_LOCAL",
+          "sourceObjectName" : "DTS_Amadeus_Users__c"
+        },
+        "sampleDetails" : {
+          "type" : "TopN",
+          "sortBy" : [ ]
+        }
+      }
+    },
+    "LOAD_DATASET2_copy0_copy0" : {
+      "action" : "load",
+      "sources" : [ ],
+      "parameters" : {
+        "fields" : [ "Name", "LicenseType__c" ],
+        "dataset" : {
+          "type" : "connectedDataset",
+          "label" : "DTS_Amadeus_Licenses__c",
+          "connectionName" : "SFDC_LOCAL",
+          "sourceObjectName" : "DTS_Amadeus_Licenses__c"
+        },
+        "sampleDetails" : {
+          "type" : "TopN",
+          "sortBy" : [ ]
+        }
+      }
+    },
+    "JOIN2" : {
+      "action" : "join",
+      "sources" : [ "LOAD_DATASET0_copy1_copy0_copy0", "LOAD_DATASET2_copy0_copy0" ],
+      "schema" : {
+        "fields" : [ ],
+        "slice" : {
+          "mode" : "DROP",
+          "ignoreMissingFields" : true,
+          "fields" : [ ]
+        }
+      },
+      "parameters" : {
+        "joinType" : "LOOKUP",
+        "leftKeys" : [ "UserLicense__c" ],
+        "rightQualifier" : "L",
+        "rightKeys" : [ "Name" ]
+      }
+    },
+    "LOAD_DATASET2_copy0_copy1" : {
+      "action" : "load",
+      "sources" : [ ],
+      "parameters" : {
+        "fields" : [ "Id", "Name", "AmadeusOrg__c", "LicenseType__c", "OrgName__c", "RemainingLicenses__c", "TotalLicenses__c", "Status__c" ],
+        "dataset" : {
+          "type" : "connectedDataset",
+          "label" : "DTS_Amadeus_Licenses__c",
+          "connectionName" : "SFDC_LOCAL",
+          "sourceObjectName" : "DTS_Amadeus_Licenses__c"
+        },
+        "sampleDetails" : {
+          "type" : "TopN",
+          "sortBy" : [ ]
+        }
+      }
+    },
+    "JOIN1_copy0" : {
+      "action" : "join",
+      "sources" : [ "AGGREGATE3_copy0", "AGGREGATE5_copy0" ],
+      "schema" : {
+        "fields" : [ ],
+        "slice" : {
+          "mode" : "DROP",
+          "ignoreMissingFields" : true,
+          "fields" : [ ]
+        }
+      },
+      "parameters" : {
+        "joinType" : "RIGHT_OUTER",
+        "leftKeys" : [ "OrgName__c", "L.LicenseType__c" ],
+        "rightQualifier" : "Aggregate0",
+        "rightKeys" : [ "OrgName__c", "LicenseType__c" ]
+      }
+    },
+    "FORMULA0_copy0_copy0" : {
+      "action" : "formula",
+      "sources" : [ "JOIN2" ],
+      "parameters" : {
+        "expressionType" : "SQL",
+        "fields" : [ {
+          "type" : "DATETIME",
+          "name" : "Current_Date",
+          "label" : "Current_Date",
+          "formulaExpression" : "now()",
+          "format" : "yyyy-MM-dd HH:mm:ss",
+          "defaultValue" : ""
+        } ]
+      }
+    },
+    "FORMULA1_copy0_copy0" : {
+      "action" : "formula",
+      "sources" : [ "FORMULA0_copy0_copy0" ],
+      "parameters" : {
+        "expressionType" : "SQL",
+        "fields" : [ {
+          "type" : "NUMBER",
+          "name" : "Days_Diff_created_Date",
+          "label" : "Days Diff with created date",
+          "formulaExpression" : "datediff(current_date(), UserCreatedDateOnly__c)",
+          "precision" : 10,
+          "scale" : 0,
+          "defaultValue" : ""
+        } ]
+      }
+    },
+    "FORMULA2_copy0_copy0" : {
+      "action" : "formula",
+      "sources" : [ "FORMULA3_copy0_copy0" ],
+      "parameters" : {
+        "expressionType" : "SQL",
+        "fields" : [ {
+          "type" : "NUMBER",
+          "name" : "CreatedWithinLast90Days",
+          "label" : "Created Within Last 90 Days",
+          "formulaExpression" : "case \r\n    when Days_Diff_created_Date<=90\r\n    then 1\r\n    else 0\r\nend",
+          "precision" : 10,
+          "scale" : 0,
+          "defaultValue" : ""
+        } ]
+      }
+    },
+    "FORMULA3_copy0_copy0" : {
+      "action" : "formula",
+      "sources" : [ "FORMULA1_copy0_copy0" ],
+      "parameters" : {
+        "expressionType" : "SQL",
+        "fields" : [ {
+          "type" : "NUMBER",
+          "name" : "DaysDifferencewithLoginDate",
+          "label" : "Days Difference with Login Date",
+          "formulaExpression" : "datediff(current_date(), UserLastLoginDateOnly__c)",
+          "precision" : 10,
+          "scale" : 0,
+          "defaultValue" : ""
+        } ]
+      }
+    },
+    "FORMULA4_copy0_copy0" : {
+      "action" : "formula",
+      "sources" : [ "FORMULA2_copy0_copy0" ],
+      "parameters" : {
+        "expressionType" : "SQL",
+        "fields" : [ {
+          "type" : "NUMBER",
+          "name" : "Inactive_within_the_last_60_days",
+          "label" : "Inactive within the last 60 days",
+          "formulaExpression" : "case \r\n    when (DaysDifferencewithLoginDate<=60)\r\n    AND (IsActive__c = 'true')\r\n    then 1\r\n    else 0\r\nend",
+          "precision" : 10,
+          "scale" : 0,
+          "defaultValue" : ""
+        } ]
+      }
+    },
+    "FORMULA5_copy0_copy0" : {
+      "action" : "formula",
+      "sources" : [ "FORMULA4_copy0_copy0" ],
+      "parameters" : {
+        "expressionType" : "SQL",
+        "fields" : [ {
+          "type" : "NUMBER",
+          "name" : "AllocatedLicenses",
+          "label" : "Allocated Licenses",
+          "formulaExpression" : "case \r\n    when IsActive__c='true'\r\n    then 1\r\n    else 0\r\nend",
+          "precision" : 10,
+          "scale" : 0,
+          "defaultValue" : ""
+        } ]
+      }
+    },
+    "FORMULA6_copy0_copy0" : {
+      "action" : "formula",
+      "sources" : [ "FORMULA5_copy0_copy0" ],
+      "parameters" : {
+        "expressionType" : "SQL",
+        "fields" : [ {
+          "type" : "NUMBER",
+          "name" : "No_Log_on_in_the_last_90_days",
+          "label" : "No Log on in the last 90 days",
+          "formulaExpression" : "case \r\n    when(DaysDifferencewithLoginDate <=90)\r\n    AND (IsActive__c = 'true') \r\n    then 1\r\n    else 0 \r\nend",
+          "precision" : 10,
+          "scale" : 0,
+          "defaultValue" : ""
+        } ]
+      }
+    },
+    "FORMULA7_copy0_copy0" : {
+      "action" : "formula",
+      "sources" : [ "FORMULA6_copy0_copy0" ],
+      "parameters" : {
+        "expressionType" : "SQL",
+        "fields" : [ {
+          "type" : "NUMBER",
+          "name" : "Never_logged_on_but_created_30days_ago",
+          "label" : "Never logged on but created >30days ago",
+          "formulaExpression" : "case \r\n    when (UserLastLoginDateOnly__c is null)\r\n    AND (Days_Diff_created_Date > 30)\r\n    AND (IsActive__c = 'true') \r\n    then 1\r\n    else 0 \r\nend",
+          "precision" : 10,
+          "scale" : 0,
+          "defaultValue" : ""
+        } ]
+      }
+    },
+    "EXTRACT1_copy0" : {
+      "action" : "extractGrains",
+      "sources" : [ "FORMULA7_copy0_copy0" ],
+      "parameters" : {
+        "grainExtractions" : [ ]
+      }
+    },
+    "AGGREGATE3_copy0" : {
+      "action" : "aggregate",
+      "sources" : [ "EXTRACT1_copy0" ],
+      "parameters" : {
+        "aggregations" : [ {
+          "action" : "SUM",
+          "source" : "AllocatedLicenses",
+          "name" : "SUM_AllocatedLicenses",
+          "label" : "Sum of Allocated Licenses"
+        }, {
+          "action" : "SUM",
+          "source" : "CreatedWithinLast90Days",
+          "name" : "SUM_CreatedWithinLast90Days",
+          "label" : "Sum of Created Within Last 90 Days"
+        }, {
+          "action" : "SUM",
+          "source" : "Inactive_within_the_last_60_days",
+          "name" : "SUM_Inactive_within_the_last_60_days",
+          "label" : "Sum of Inactive within the last 60 days"
+        }, {
+          "action" : "SUM",
+          "source" : "Never_logged_on_but_created_30days_ago",
+          "name" : "SUM_Never_logged_on_but_created_30days_ago",
+          "label" : "Sum of Never logged on but created >30days ago"
+        }, {
+          "action" : "SUM",
+          "source" : "No_Log_on_in_the_last_90_days",
+          "name" : "SUM_No_Log_on_in_the_last_90_days",
+          "label" : "Sum of No Log on in the last 90 days"
+        } ],
+        "groupings" : [ "OrgName__c", "L.LicenseType__c" ],
+        "pivots" : [ ],
+        "nodeType" : "STANDARD"
+      }
+    },
+    "FILTER0_copy0" : {
+      "action" : "filter",
+      "sources" : [ "LOAD_DATASET2_copy0_copy1" ],
+      "parameters" : {
+        "filterExpressions" : [ {
+          "type" : "TEXT",
+          "field" : "Status__c",
+          "operator" : "EQUAL",
+          "operands" : [ "Active" ]
+        } ]
+      }
+    },
+    "EXTRACT2_copy0" : {
+      "action" : "extractGrains",
+      "sources" : [ "FILTER0_copy0" ],
+      "parameters" : {
+        "grainExtractions" : [ ]
+      }
+    },
+    "AGGREGATE5_copy0" : {
+      "action" : "aggregate",
+      "sources" : [ "EXTRACT2_copy0" ],
+      "parameters" : {
+        "aggregations" : [ {
+          "action" : "SUM",
+          "source" : "TotalLicenses__c",
+          "name" : "SUM_TotalLicenses__c",
+          "label" : "Sum of Total Licenses"
+        }, {
+          "action" : "SUM",
+          "source" : "RemainingLicenses__c",
+          "name" : "SUM_RemainingLicenses__c",
+          "label" : "Sum of Remaining Licenses"
+        } ],
+        "groupings" : [ "OrgName__c", "LicenseType__c" ],
+        "pivots" : [ ],
+        "nodeType" : "STANDARD"
+      }
+    },
+    "EDIT_ATTRIBUTES1" : {
+      "action" : "schema",
+      "sources" : [ "JOIN1_copy0" ],
+      "parameters" : {
+        "fields" : [ {
+          "name" : "SUM_AllocatedLicenses",
+          "newProperties" : {
+            "label" : "Allocated Licenses ",
+            "name" : "SUM_AllocatedLicenses"
+          }
+        } ]
+      }
+    },
+    "EDIT_ATTRIBUTES2" : {
+      "action" : "schema",
+      "sources" : [ "EDIT_ATTRIBUTES1" ],
+      "parameters" : {
+        "fields" : [ {
+          "name" : "SUM_CreatedWithinLast90Days",
+          "newProperties" : {
+            "label" : "Total Users Created within the last 90 days",
+            "name" : "SUM_CreatedWithinLast90Days"
+          }
+        } ]
+      }
+    },
+    "EDIT_ATTRIBUTES3" : {
+      "action" : "schema",
+      "sources" : [ "EDIT_ATTRIBUTES2" ],
+      "parameters" : {
+        "fields" : [ {
+          "name" : "SUM_Inactive_within_the_last_60_days",
+          "newProperties" : {
+            "label" : "Total Users Inactive within the last 60 days",
+            "name" : "SUM_Inactive_within_the_last_60_days"
+          }
+        } ]
+      }
+    },
+    "EDIT_ATTRIBUTES4" : {
+      "action" : "schema",
+      "sources" : [ "EDIT_ATTRIBUTES3" ],
+      "parameters" : {
+        "fields" : [ {
+          "name" : "SUM_Never_logged_on_but_created_30days_ago",
+          "newProperties" : {
+            "label" : "Total Users Never logged on but created >30days ago",
+            "name" : "SUM_Never_logged_on_but_created_30days_ago"
+          }
+        } ]
+      }
+    },
+    "EDIT_ATTRIBUTES5" : {
+      "action" : "schema",
+      "sources" : [ "EDIT_ATTRIBUTES4" ],
+      "parameters" : {
+        "fields" : [ {
+          "name" : "SUM_No_Log_on_in_the_last_90_days",
+          "newProperties" : {
+            "label" : "Total Users No Log on in the last 90 days",
+            "name" : "SUM_No_Log_on_in_the_last_90_days"
+          }
+        } ]
+      }
+    },
+    "EDIT_ATTRIBUTES6" : {
+      "action" : "schema",
+      "sources" : [ "EDIT_ATTRIBUTES5" ],
+      "parameters" : {
+        "fields" : [ {
+          "name" : "Aggregate0.SUM_TotalLicenses__c",
+          "newProperties" : {
+            "label" : "Total Licenses",
+            "name" : "Aggregate0.SUM_TotalLicenses__c"
+          }
+        } ]
+      }
+    },
+    "EDIT_ATTRIBUTES7" : {
+      "action" : "schema",
+      "sources" : [ "EDIT_ATTRIBUTES6" ],
+      "parameters" : {
+        "fields" : [ {
+          "name" : "Aggregate0.SUM_RemainingLicenses__c",
+          "newProperties" : {
+            "label" : "Remaining Licenses",
+            "name" : "Aggregate0.SUM_RemainingLicenses__c"
+          }
+        } ]
+      }
+    },
+    "FORMULA8" : {
+      "action" : "formula",
+      "sources" : [ "EDIT_ATTRIBUTES7" ],
+      "parameters" : {
+        "expressionType" : "SQL",
+        "fields" : [ {
+          "type" : "NUMBER",
+          "name" : "Stock",
+          "label" : "Allowed Local Stock ",
+          "formulaExpression" : "3",
+          "precision" : 10,
+          "scale" : 0,
+          "defaultValue" : ""
+        } ]
+      }
+    },
+    "FORMULA9" : {
+      "action" : "formula",
+      "sources" : [ "FORMULA8" ],
+      "parameters" : {
+        "expressionType" : "SQL",
+        "fields" : [ {
+          "type" : "NUMBER",
+          "name" : "Total_unused_licenses",
+          "label" : "Total Unused Licenses",
+          "formulaExpression" : "\"Aggregate0.SUM_RemainingLicenses__c\"-Stock+SUM_No_Log_on_in_the_last_90_days+SUM_Never_logged_on_but_created_30days_ago",
+          "precision" : 10,
+          "scale" : 0,
+          "defaultValue" : ""
+        } ]
+      }
+    },
+    "FORMULA10" : {
+      "action" : "formula",
+      "sources" : [ "FORMULA9" ],
+      "parameters" : {
+        "expressionType" : "SQL",
+        "fields" : [ {
+          "type" : "NUMBER",
+          "name" : "Remaining_Licensessula",
+          "label" : "Remaining Licensess",
+          "formulaExpression" : "\"Aggregate0.SUM_TotalLicenses__c\"-SUM_AllocatedLicenses",
+          "precision" : 10,
+          "scale" : 0,
+          "defaultValue" : ""
+        } ]
+      }
+    },
+    "OUTPUT2" : {
+      "action" : "save",
+      "sources" : [ "FORMULA10" ],
+      "parameters" : {
+        "fields" : [ ],
+        "dataset" : {
+          "type" : "analyticsDataset",
+          "label" : "Total Unused Licenses",
+          "name" : "Total_Unused_Licenses"
+        },
+        "measuresToCurrencies" : [ ]
+      }
+    }
+  },
+  "ui" : {
+    "nodes" : {
+      "LOAD_DATASET0_copy1_copy0_copy0" : {
+        "label" : "DTS_Amadeus_Users__c Copy",
+        "type" : "LOAD_DATASET",
+        "top" : 252.60000000000002,
+        "left" : 391.2,
+        "parameters" : {
+          "sampleSize" : 10000
+        }
+      },
+      "LOAD_DATASET2_copy0_copy0" : {
+        "label" : "DTS_Amadeus_Licenses__c",
+        "type" : "LOAD_DATASET",
+        "top" : 392.6,
+        "left" : 391.2,
+        "parameters" : {
+          "sampleSize" : 10000
+        }
+      },
+      "JOIN2" : {
+        "label" : "Join 2",
+        "type" : "JOIN",
+        "top" : 252.60000000000002,
+        "left" : 531.2
+      },
+      "LOAD_DATASET2_copy0_copy1" : {
+        "label" : "DTS_Amadeus_Licenses__c Copy",
+        "type" : "LOAD_DATASET",
+        "top" : 112.6,
+        "left" : 391.2,
+        "parameters" : {
+          "sampleSize" : 10000
+        }
+      },
+      "JOIN1_copy0" : {
+        "label" : "Join 1 Copy",
+        "type" : "JOIN",
+        "top" : 112.6,
+        "left" : 951.2
+      },
+      "TRANSFORM0_copy0_copy0" : {
+        "label" : "Transform 0 Copy Copy",
+        "type" : "TRANSFORM",
+        "top" : 252.60000000000002,
+        "left" : 671.2,
+        "graph" : {
+          "FORMULA0_copy0_copy0" : {
+            "parameters" : {
+              "type" : "DATE_NOW_UI"
+            },
+            "label" : "Current Date"
+          },
+          "FORMULA1_copy0_copy0" : {
+            "parameters" : {
+              "type" : "BASE_FORMULA_UI"
+            },
+            "label" : "Days Difference with Created Date"
+          },
+          "FORMULA2_copy0_copy0" : {
+            "parameters" : {
+              "type" : "BASE_FORMULA_UI"
+            },
+            "label" : "Created Within Last 90 Days"
+          },
+          "FORMULA3_copy0_copy0" : {
+            "parameters" : {
+              "type" : "BASE_FORMULA_UI"
+            },
+            "label" : "Days Difference with Login Date"
+          },
+          "FORMULA4_copy0_copy0" : {
+            "parameters" : {
+              "type" : "BASE_FORMULA_UI"
+            },
+            "label" : "Inactive within the last 60 days"
+          },
+          "FORMULA5_copy0_copy0" : {
+            "parameters" : {
+              "type" : "BASE_FORMULA_UI"
+            },
+            "label" : "Allocated Licenses"
+          },
+          "FORMULA6_copy0_copy0" : {
+            "parameters" : {
+              "type" : "BASE_FORMULA_UI"
+            },
+            "label" : "No Log on in the last 90 days"
+          },
+          "FORMULA7_copy0_copy0" : {
+            "parameters" : {
+              "type" : "BASE_FORMULA_UI"
+            },
+            "label" : "Never logged on but created >30days ago"
+          }
+        },
+        "connectors" : [ {
+          "source" : "FORMULA0_copy0_copy0",
+          "target" : "FORMULA1_copy0_copy0"
+        }, {
+          "source" : "FORMULA3_copy0_copy0",
+          "target" : "FORMULA2_copy0_copy0"
+        }, {
+          "source" : "FORMULA1_copy0_copy0",
+          "target" : "FORMULA3_copy0_copy0"
+        }, {
+          "source" : "FORMULA2_copy0_copy0",
+          "target" : "FORMULA4_copy0_copy0"
+        }, {
+          "source" : "FORMULA4_copy0_copy0",
+          "target" : "FORMULA5_copy0_copy0"
+        }, {
+          "source" : "FORMULA5_copy0_copy0",
+          "target" : "FORMULA6_copy0_copy0"
+        }, {
+          "source" : "FORMULA6_copy0_copy0",
+          "target" : "FORMULA7_copy0_copy0"
+        } ]
+      },
+      "AGGREGATE2_copy0" : {
+        "label" : "Users",
+        "type" : "AGGREGATE",
+        "top" : 252.60000000000002,
+        "left" : 811.2,
+        "graph" : {
+          "EXTRACT1_copy0" : null,
+          "AGGREGATE3_copy0" : null
+        },
+        "connectors" : [ {
+          "source" : "EXTRACT1_copy0",
+          "target" : "AGGREGATE3_copy0"
+        } ]
+      },
+      "FILTER0_copy0" : {
+        "label" : "Active Status Copy",
+        "type" : "FILTER",
+        "top" : 112.6,
+        "left" : 671.2
+      },
+      "AGGREGATE4_copy0" : {
+        "label" : "License",
+        "type" : "AGGREGATE",
+        "top" : 112.6,
+        "left" : 811.2,
+        "graph" : {
+          "EXTRACT2_copy0" : null,
+          "AGGREGATE5_copy0" : null
+        },
+        "connectors" : [ {
+          "source" : "EXTRACT2_copy0",
+          "target" : "AGGREGATE5_copy0"
+        } ]
+      },
+      "TRANSFORM2" : {
+        "label" : "Transform 2",
+        "type" : "TRANSFORM",
+        "top" : 252.60000000000002,
+        "left" : 1091.2,
+        "graph" : {
+          "EDIT_ATTRIBUTES1" : {
+            "label" : "Edit Attributes"
+          },
+          "EDIT_ATTRIBUTES2" : {
+            "label" : "Edit Attributes"
+          },
+          "EDIT_ATTRIBUTES3" : {
+            "label" : "Edit Attributes"
+          },
+          "EDIT_ATTRIBUTES4" : {
+            "label" : "Edit Attributes"
+          },
+          "EDIT_ATTRIBUTES5" : {
+            "label" : "Edit Attributes"
+          },
+          "EDIT_ATTRIBUTES6" : {
+            "label" : "Edit Attributes"
+          },
+          "EDIT_ATTRIBUTES7" : {
+            "label" : "Edit Attributes"
+          },
+          "FORMULA8" : {
+            "parameters" : {
+              "type" : "BASE_FORMULA_UI"
+            },
+            "label" : "Allowed Local Stock 3%"
+          },
+          "FORMULA9" : {
+            "parameters" : {
+              "type" : "BASE_FORMULA_UI"
+            },
+            "label" : "Total Unused Licenses"
+          },
+          "FORMULA10" : {
+            "parameters" : {
+              "type" : "BASE_FORMULA_UI"
+            },
+            "label" : "Remaining Licensess"
+          }
+        },
+        "connectors" : [ {
+          "source" : "EDIT_ATTRIBUTES1",
+          "target" : "EDIT_ATTRIBUTES2"
+        }, {
+          "source" : "EDIT_ATTRIBUTES2",
+          "target" : "EDIT_ATTRIBUTES3"
+        }, {
+          "source" : "EDIT_ATTRIBUTES3",
+          "target" : "EDIT_ATTRIBUTES4"
+        }, {
+          "source" : "EDIT_ATTRIBUTES4",
+          "target" : "EDIT_ATTRIBUTES5"
+        }, {
+          "source" : "EDIT_ATTRIBUTES5",
+          "target" : "EDIT_ATTRIBUTES6"
+        }, {
+          "source" : "EDIT_ATTRIBUTES6",
+          "target" : "EDIT_ATTRIBUTES7"
+        }, {
+          "source" : "EDIT_ATTRIBUTES7",
+          "target" : "FORMULA8"
+        }, {
+          "source" : "FORMULA8",
+          "target" : "FORMULA9"
+        }, {
+          "source" : "FORMULA9",
+          "target" : "FORMULA10"
+        } ]
+      },
+      "OUTPUT2" : {
+        "label" : "Output 2",
+        "type" : "OUTPUT",
+        "top" : 252.60000000000002,
+        "left" : 1231.2
+      }
+    },
+    "connectors" : [ {
+      "source" : "AGGREGATE2_copy0",
+      "target" : "JOIN1_copy0"
+    }, {
+      "source" : "LOAD_DATASET0_copy1_copy0_copy0",
+      "target" : "JOIN2"
+    }, {
+      "source" : "LOAD_DATASET2_copy0_copy0",
+      "target" : "JOIN2"
+    }, {
+      "source" : "TRANSFORM0_copy0_copy0",
+      "target" : "AGGREGATE2_copy0"
+    }, {
+      "source" : "LOAD_DATASET2_copy0_copy1",
+      "target" : "FILTER0_copy0"
+    }, {
+      "source" : "FILTER0_copy0",
+      "target" : "AGGREGATE4_copy0"
+    }, {
+      "source" : "JOIN2",
+      "target" : "TRANSFORM0_copy0_copy0"
+    }, {
+      "source" : "JOIN1_copy0",
+      "target" : "TRANSFORM2"
+    }, {
+      "source" : "AGGREGATE4_copy0",
+      "target" : "JOIN1_copy0"
+    }, {
+      "source" : "TRANSFORM2",
+      "target" : "OUTPUT2"
+    } ],
+    "hiddenColumns" : [ ]
+  },
+  "runMode" : "full"
+}

@@ -1,0 +1,112 @@
+{
+  "version" : "57.0",
+  "nodes" : {
+    "LOAD_DATASET1" : {
+      "action" : "load",
+      "sources" : [ ],
+      "parameters" : {
+        "fields" : [ "Id", "IsDeleted", "Name", "CurrencyIsoCode", "CreatedDate", "CreatedById", "LastModifiedDate", "LastModifiedById", "SystemModstamp", "LastViewedDate", "LastReferencedDate", "UserID__c" ],
+        "dataset" : {
+          "type" : "connectedDataset",
+          "label" : "DTS_Amadeus_Logins__c",
+          "connectionName" : "SFDC_LOCAL",
+          "sourceObjectName" : "DTS_Amadeus_Logins__c"
+        },
+        "sampleDetails" : {
+          "type" : "TopN"
+        }
+      }
+    },
+    "LOAD_DATASET2" : {
+      "action" : "load",
+      "sources" : [ ],
+      "parameters" : {
+        "fields" : [ "Id", "IsDeleted", "Name", "CurrencyIsoCode", "CreatedDate", "CreatedById", "LastModifiedDate", "LastModifiedById", "SystemModstamp", "LastViewedDate", "LastReferencedDate", "AmadeusOrg__c", "Email__c", "FederationID__c", "FirstName__c", "FreezeDateOnly__c", "FreezeDate__c", "IsActive__c", "LastName__c", "OrgID__c", "OrgName__c", "Profile__c", "UserCreatedDateOnly__c", "UserCreatedDate__c", "UserExtID__c", "UserID__c", "UserLastLoginDateOnly__c", "UserLastLoginDate__c", "UserLastModifiedDate__c", "UserLicense__c", "UserName__c", "isFrozen__c" ],
+        "dataset" : {
+          "type" : "connectedDataset",
+          "label" : "DTS_Amadeus_Users__c",
+          "connectionName" : "SFDC_LOCAL",
+          "sourceObjectName" : "DTS_Amadeus_Users__c"
+        },
+        "sampleDetails" : {
+          "type" : "TopN"
+        }
+      }
+    },
+    "JOIN0" : {
+      "action" : "join",
+      "sources" : [ "LOAD_DATASET1", "LOAD_DATASET2" ],
+      "schema" : {
+        "slice" : {
+          "mode" : "DROP",
+          "ignoreMissingFields" : true,
+          "fields" : [ ]
+        }
+      },
+      "parameters" : {
+        "joinType" : "LOOKUP",
+        "leftKeys" : [ "UserID__c" ],
+        "rightQualifier" : "DTS_Amadeus_Users__c",
+        "rightKeys" : [ "Id" ]
+      }
+    },
+    "OUTPUT0" : {
+      "action" : "save",
+      "sources" : [ "JOIN0" ],
+      "parameters" : {
+        "fields" : [ ],
+        "dataset" : {
+          "type" : "analyticsDataset",
+          "label" : "Login History",
+          "name" : "login_history"
+        }
+      }
+    }
+  },
+  "ui" : {
+    "nodes" : {
+      "LOAD_DATASET1" : {
+        "label" : "DTS_Amadeus_Logins__c",
+        "type" : "LOAD_DATASET",
+        "top" : 112,
+        "left" : 112,
+        "parameters" : {
+          "sampleSize" : 10000
+        }
+      },
+      "LOAD_DATASET2" : {
+        "label" : "DTS_Amadeus_Users__c",
+        "type" : "LOAD_DATASET",
+        "top" : 252,
+        "left" : 112,
+        "parameters" : {
+          "sampleSize" : 10000
+        }
+      },
+      "JOIN0" : {
+        "label" : "Join 0",
+        "type" : "JOIN",
+        "top" : 112,
+        "left" : 252
+      },
+      "OUTPUT0" : {
+        "label" : "Output 0",
+        "type" : "OUTPUT",
+        "top" : 112,
+        "left" : 392
+      }
+    },
+    "connectors" : [ {
+      "source" : "LOAD_DATASET1",
+      "target" : "JOIN0"
+    }, {
+      "source" : "LOAD_DATASET2",
+      "target" : "JOIN0"
+    }, {
+      "source" : "JOIN0",
+      "target" : "OUTPUT0"
+    } ],
+    "hiddenColumns" : [ ]
+  },
+  "runMode" : "full"
+}

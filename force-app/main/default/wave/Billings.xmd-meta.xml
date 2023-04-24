@@ -1,0 +1,765 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<WaveXmd xmlns="http://soap.sforce.com/2006/04/metadata">
+    <dataset>Billings</dataset>
+    <dimensions>
+        <field>BillingDate</field>
+        <isDerived>false</isDerived>
+        <label>Billing Date</label>
+        <showDetailsDefaultFieldIndex>0</showDetailsDefaultFieldIndex>
+        <sortIndex>0</sortIndex>
+    </dimensions>
+    <dimensions>
+        <field>RecordId</field>
+        <isDerived>false</isDerived>
+        <label>Record ID</label>
+        <sortIndex>1</sortIndex>
+    </dimensions>
+    <dimensions>
+        <field>Type</field>
+        <isDerived>false</isDerived>
+        <label>Time Type</label>
+        <showDetailsDefaultFieldIndex>1</showDetailsDefaultFieldIndex>
+        <sortIndex>2</sortIndex>
+    </dimensions>
+    <dimensions>
+        <field>ProjectId</field>
+        <isDerived>false</isDerived>
+        <label>Project ID</label>
+        <sortIndex>3</sortIndex>
+    </dimensions>
+    <dimensions>
+        <field>ProjectName</field>
+        <isDerived>false</isDerived>
+        <label>Project Name</label>
+        <linkTemplateEnabled>true</linkTemplateEnabled>
+        <recordDisplayFields>
+            <recordDisplayField>ProjectId</recordDisplayField>
+            <sortIndex>0</sortIndex>
+        </recordDisplayFields>
+        <recordDisplayFields>
+            <recordDisplayField>ProjectName</recordDisplayField>
+            <sortIndex>1</sortIndex>
+        </recordDisplayFields>
+        <recordDisplayFields>
+            <recordDisplayField>BillingDate</recordDisplayField>
+            <sortIndex>2</sortIndex>
+        </recordDisplayFields>
+        <recordDisplayFields>
+            <recordDisplayField>ProjectAccountName</recordDisplayField>
+            <sortIndex>3</sortIndex>
+        </recordDisplayFields>
+        <recordDisplayFields>
+            <recordDisplayField>ProjectRegionNameChain</recordDisplayField>
+            <sortIndex>4</sortIndex>
+        </recordDisplayFields>
+        <recordIdField>ProjectId</recordIdField>
+        <salesforceActionsEnabled>false</salesforceActionsEnabled>
+        <showDetailsDefaultFieldIndex>6</showDetailsDefaultFieldIndex>
+        <sortIndex>4</sortIndex>
+    </dimensions>
+    <dimensions>
+        <field>ProjectAccountId</field>
+        <isDerived>false</isDerived>
+        <label>Project Account ID</label>
+        <sortIndex>5</sortIndex>
+    </dimensions>
+    <dimensions>
+        <field>ProjectAccountName</field>
+        <isDerived>false</isDerived>
+        <label>Project Account Name</label>
+        <linkTemplateEnabled>true</linkTemplateEnabled>
+        <recordDisplayFields>
+            <recordDisplayField>ProjectAccountId</recordDisplayField>
+            <sortIndex>0</sortIndex>
+        </recordDisplayFields>
+        <recordDisplayFields>
+            <recordDisplayField>ProjectAccountName</recordDisplayField>
+            <sortIndex>1</sortIndex>
+        </recordDisplayFields>
+        <recordDisplayFields>
+            <recordDisplayField>ProjectName</recordDisplayField>
+            <sortIndex>2</sortIndex>
+        </recordDisplayFields>
+        <recordDisplayFields>
+            <recordDisplayField>BillingDate</recordDisplayField>
+            <sortIndex>3</sortIndex>
+        </recordDisplayFields>
+        <recordDisplayFields>
+            <recordDisplayField>ProjectRegionNameChain</recordDisplayField>
+            <sortIndex>4</sortIndex>
+        </recordDisplayFields>
+        <recordIdField>ProjectAccountId</recordIdField>
+        <salesforceActionsEnabled>false</salesforceActionsEnabled>
+        <showDetailsDefaultFieldIndex>8</showDetailsDefaultFieldIndex>
+        <sortIndex>6</sortIndex>
+    </dimensions>
+    <dimensions>
+        <field>ResourceId</field>
+        <isDerived>false</isDerived>
+        <label>Resource ID</label>
+        <sortIndex>7</sortIndex>
+    </dimensions>
+    <dimensions>
+        <field>ResourceSalesforceUserId</field>
+        <isDerived>false</isDerived>
+        <label>Salesforce Resource User ID</label>
+        <sortIndex>8</sortIndex>
+    </dimensions>
+    <dimensions>
+        <field>ResourceSalesforceUserName</field>
+        <isDerived>false</isDerived>
+        <label>Salesforce Resource User Name</label>
+        <linkTemplateEnabled>true</linkTemplateEnabled>
+        <recordDisplayFields>
+            <recordDisplayField>ResourceSalesforceUserId</recordDisplayField>
+            <sortIndex>0</sortIndex>
+        </recordDisplayFields>
+        <recordDisplayFields>
+            <recordDisplayField>ResourceSalesforceUserName</recordDisplayField>
+            <sortIndex>1</sortIndex>
+        </recordDisplayFields>
+        <recordDisplayFields>
+            <recordDisplayField>ProjectName</recordDisplayField>
+            <sortIndex>2</sortIndex>
+        </recordDisplayFields>
+        <recordDisplayFields>
+            <recordDisplayField>ResourceRegionNameChain</recordDisplayField>
+            <sortIndex>3</sortIndex>
+        </recordDisplayFields>
+        <recordIdField>ResourceSalesforceUserId</recordIdField>
+        <salesforceActionsEnabled>false</salesforceActionsEnabled>
+        <showDetailsDefaultFieldIndex>13</showDetailsDefaultFieldIndex>
+        <sortIndex>9</sortIndex>
+    </dimensions>
+    <dimensions>
+        <field>ProjectGroupId</field>
+        <isDerived>false</isDerived>
+        <label>Project Group ID</label>
+        <sortIndex>10</sortIndex>
+    </dimensions>
+    <dimensions>
+        <field>ProjectGroupName00</field>
+        <isDerived>false</isDerived>
+        <label>Project Group Level 00</label>
+        <sortIndex>11</sortIndex>
+    </dimensions>
+    <dimensions>
+        <field>ProjectGroupName01</field>
+        <isDerived>false</isDerived>
+        <label>Project Group Level 01</label>
+        <sortIndex>12</sortIndex>
+    </dimensions>
+    <dimensions>
+        <field>ProjectGroupName02</field>
+        <isDerived>false</isDerived>
+        <label>Project Group Level 02</label>
+        <sortIndex>13</sortIndex>
+    </dimensions>
+    <dimensions>
+        <field>ProjectGroupName03</field>
+        <isDerived>false</isDerived>
+        <label>Project Group Level 03</label>
+        <sortIndex>14</sortIndex>
+    </dimensions>
+    <dimensions>
+        <field>ProjectGroupName04</field>
+        <isDerived>false</isDerived>
+        <label>Project Group Level 04</label>
+        <sortIndex>15</sortIndex>
+    </dimensions>
+    <dimensions>
+        <field>ProjectGroupName05</field>
+        <isDerived>false</isDerived>
+        <label>Project Group Level 05</label>
+        <sortIndex>16</sortIndex>
+    </dimensions>
+    <dimensions>
+        <field>ProjectGroupName06</field>
+        <isDerived>false</isDerived>
+        <label>Project Group Level 06</label>
+        <sortIndex>17</sortIndex>
+    </dimensions>
+    <dimensions>
+        <field>ProjectGroupName07</field>
+        <isDerived>false</isDerived>
+        <label>Project Group Level 07</label>
+        <sortIndex>18</sortIndex>
+    </dimensions>
+    <dimensions>
+        <field>ProjectGroupName08</field>
+        <isDerived>false</isDerived>
+        <label>Project Group Level 08</label>
+        <sortIndex>19</sortIndex>
+    </dimensions>
+    <dimensions>
+        <field>ProjectGroupName09</field>
+        <isDerived>false</isDerived>
+        <label>Project Group Level 09</label>
+        <sortIndex>20</sortIndex>
+    </dimensions>
+    <dimensions>
+        <field>ProjectGroupName10</field>
+        <isDerived>false</isDerived>
+        <label>Project Group Level 10</label>
+        <sortIndex>21</sortIndex>
+    </dimensions>
+    <dimensions>
+        <field>ProjectGroupName11</field>
+        <isDerived>false</isDerived>
+        <label>Project Group Level 11</label>
+        <sortIndex>22</sortIndex>
+    </dimensions>
+    <dimensions>
+        <field>ProjectGroupName12</field>
+        <isDerived>false</isDerived>
+        <label>Project Group Level 12</label>
+        <sortIndex>23</sortIndex>
+    </dimensions>
+    <dimensions>
+        <field>ProjectGroupNameChain</field>
+        <isDerived>false</isDerived>
+        <label>Project Group Name</label>
+        <showDetailsDefaultFieldIndex>11</showDetailsDefaultFieldIndex>
+        <sortIndex>24</sortIndex>
+    </dimensions>
+    <dimensions>
+        <field>ProjectPracticeId</field>
+        <isDerived>false</isDerived>
+        <label>Project Practice ID</label>
+        <sortIndex>25</sortIndex>
+    </dimensions>
+    <dimensions>
+        <field>ProjectPracticeName00</field>
+        <isDerived>false</isDerived>
+        <label>Project Practice Level 00</label>
+        <sortIndex>26</sortIndex>
+    </dimensions>
+    <dimensions>
+        <field>ProjectPracticeName01</field>
+        <isDerived>false</isDerived>
+        <label>Project Practice Level 01</label>
+        <sortIndex>27</sortIndex>
+    </dimensions>
+    <dimensions>
+        <field>ProjectPracticeName02</field>
+        <isDerived>false</isDerived>
+        <label>Project Practice Level 02</label>
+        <sortIndex>28</sortIndex>
+    </dimensions>
+    <dimensions>
+        <field>ProjectPracticeName03</field>
+        <isDerived>false</isDerived>
+        <label>Project Practice Level 03</label>
+        <sortIndex>29</sortIndex>
+    </dimensions>
+    <dimensions>
+        <field>ProjectPracticeName04</field>
+        <isDerived>false</isDerived>
+        <label>Project Practice Level 04</label>
+        <sortIndex>30</sortIndex>
+    </dimensions>
+    <dimensions>
+        <field>ProjectPracticeName05</field>
+        <isDerived>false</isDerived>
+        <label>Project Practice Level 05</label>
+        <sortIndex>31</sortIndex>
+    </dimensions>
+    <dimensions>
+        <field>ProjectPracticeName06</field>
+        <isDerived>false</isDerived>
+        <label>Project Practice Level 06</label>
+        <sortIndex>32</sortIndex>
+    </dimensions>
+    <dimensions>
+        <field>ProjectPracticeName07</field>
+        <isDerived>false</isDerived>
+        <label>Project Practice Level 07</label>
+        <sortIndex>33</sortIndex>
+    </dimensions>
+    <dimensions>
+        <field>ProjectPracticeName08</field>
+        <isDerived>false</isDerived>
+        <label>Project Practice Level 08</label>
+        <sortIndex>34</sortIndex>
+    </dimensions>
+    <dimensions>
+        <field>ProjectPracticeName09</field>
+        <isDerived>false</isDerived>
+        <label>Project Practice Level 09</label>
+        <sortIndex>35</sortIndex>
+    </dimensions>
+    <dimensions>
+        <field>ProjectPracticeName10</field>
+        <isDerived>false</isDerived>
+        <label>Project Practice Level 10</label>
+        <sortIndex>36</sortIndex>
+    </dimensions>
+    <dimensions>
+        <field>ProjectPracticeName11</field>
+        <isDerived>false</isDerived>
+        <label>Project Practice Level 11</label>
+        <sortIndex>37</sortIndex>
+    </dimensions>
+    <dimensions>
+        <field>ProjectPracticeName12</field>
+        <isDerived>false</isDerived>
+        <label>Project Practice Level 12</label>
+        <sortIndex>38</sortIndex>
+    </dimensions>
+    <dimensions>
+        <field>ProjectPracticeNameChain</field>
+        <isDerived>false</isDerived>
+        <label>Project Practice Name</label>
+        <showDetailsDefaultFieldIndex>10</showDetailsDefaultFieldIndex>
+        <sortIndex>39</sortIndex>
+    </dimensions>
+    <dimensions>
+        <field>ProjectRegionId</field>
+        <isDerived>false</isDerived>
+        <label>Project Region ID</label>
+        <sortIndex>40</sortIndex>
+    </dimensions>
+    <dimensions>
+        <field>ProjectRegionName00</field>
+        <isDerived>false</isDerived>
+        <label>Project Region Level 00</label>
+        <sortIndex>41</sortIndex>
+    </dimensions>
+    <dimensions>
+        <field>ProjectRegionName01</field>
+        <isDerived>false</isDerived>
+        <label>Project Region Level 01</label>
+        <sortIndex>42</sortIndex>
+    </dimensions>
+    <dimensions>
+        <field>ProjectRegionName02</field>
+        <isDerived>false</isDerived>
+        <label>Project Region Level 02</label>
+        <sortIndex>43</sortIndex>
+    </dimensions>
+    <dimensions>
+        <field>ProjectRegionName03</field>
+        <isDerived>false</isDerived>
+        <label>Project Region Level 03</label>
+        <sortIndex>44</sortIndex>
+    </dimensions>
+    <dimensions>
+        <field>ProjectRegionName04</field>
+        <isDerived>false</isDerived>
+        <label>Project Region Level 04</label>
+        <sortIndex>45</sortIndex>
+    </dimensions>
+    <dimensions>
+        <field>ProjectRegionName05</field>
+        <isDerived>false</isDerived>
+        <label>Project Region Level 05</label>
+        <sortIndex>46</sortIndex>
+    </dimensions>
+    <dimensions>
+        <field>ProjectRegionName06</field>
+        <isDerived>false</isDerived>
+        <label>Project Region Level 06</label>
+        <sortIndex>47</sortIndex>
+    </dimensions>
+    <dimensions>
+        <field>ProjectRegionName07</field>
+        <isDerived>false</isDerived>
+        <label>Project Region Level 07</label>
+        <sortIndex>48</sortIndex>
+    </dimensions>
+    <dimensions>
+        <field>ProjectRegionName08</field>
+        <isDerived>false</isDerived>
+        <label>Project Region Level 08</label>
+        <sortIndex>49</sortIndex>
+    </dimensions>
+    <dimensions>
+        <field>ProjectRegionName09</field>
+        <isDerived>false</isDerived>
+        <label>Project Region Level 09</label>
+        <sortIndex>50</sortIndex>
+    </dimensions>
+    <dimensions>
+        <field>ProjectRegionName10</field>
+        <isDerived>false</isDerived>
+        <label>Project Region Level 10</label>
+        <sortIndex>51</sortIndex>
+    </dimensions>
+    <dimensions>
+        <field>ProjectRegionName11</field>
+        <isDerived>false</isDerived>
+        <label>Project Region Level 11</label>
+        <sortIndex>52</sortIndex>
+    </dimensions>
+    <dimensions>
+        <field>ProjectRegionName12</field>
+        <isDerived>false</isDerived>
+        <label>Project Region Level 12</label>
+        <sortIndex>53</sortIndex>
+    </dimensions>
+    <dimensions>
+        <field>ProjectRegionNameChain</field>
+        <isDerived>false</isDerived>
+        <label>Project Region Name</label>
+        <showDetailsDefaultFieldIndex>9</showDetailsDefaultFieldIndex>
+        <sortIndex>54</sortIndex>
+    </dimensions>
+    <dimensions>
+        <field>ResourceGroupId</field>
+        <isDerived>false</isDerived>
+        <label>Resource Group ID</label>
+        <sortIndex>55</sortIndex>
+    </dimensions>
+    <dimensions>
+        <field>ResourceGroupName00</field>
+        <isDerived>false</isDerived>
+        <label>Resource Group Level 00</label>
+        <sortIndex>56</sortIndex>
+    </dimensions>
+    <dimensions>
+        <field>ResourceGroupName01</field>
+        <isDerived>false</isDerived>
+        <label>Resource Group Level 01</label>
+        <sortIndex>57</sortIndex>
+    </dimensions>
+    <dimensions>
+        <field>ResourceGroupName02</field>
+        <isDerived>false</isDerived>
+        <label>Resource Group Level 02</label>
+        <sortIndex>58</sortIndex>
+    </dimensions>
+    <dimensions>
+        <field>ResourceGroupName03</field>
+        <isDerived>false</isDerived>
+        <label>Resource Group Level 03</label>
+        <sortIndex>59</sortIndex>
+    </dimensions>
+    <dimensions>
+        <field>ResourceGroupName04</field>
+        <isDerived>false</isDerived>
+        <label>Resource Group Level 04</label>
+        <sortIndex>60</sortIndex>
+    </dimensions>
+    <dimensions>
+        <field>ResourceGroupName05</field>
+        <isDerived>false</isDerived>
+        <label>Resource Group Level 05</label>
+        <sortIndex>61</sortIndex>
+    </dimensions>
+    <dimensions>
+        <field>ResourceGroupName06</field>
+        <isDerived>false</isDerived>
+        <label>Resource Group Level 06</label>
+        <sortIndex>62</sortIndex>
+    </dimensions>
+    <dimensions>
+        <field>ResourceGroupName07</field>
+        <isDerived>false</isDerived>
+        <label>Resource Group Level 07</label>
+        <sortIndex>63</sortIndex>
+    </dimensions>
+    <dimensions>
+        <field>ResourceGroupName08</field>
+        <isDerived>false</isDerived>
+        <label>Resource Group Level 08</label>
+        <sortIndex>64</sortIndex>
+    </dimensions>
+    <dimensions>
+        <field>ResourceGroupName09</field>
+        <isDerived>false</isDerived>
+        <label>Resource Group Level 09</label>
+        <sortIndex>65</sortIndex>
+    </dimensions>
+    <dimensions>
+        <field>ResourceGroupName10</field>
+        <isDerived>false</isDerived>
+        <label>Resource Group Level 10</label>
+        <sortIndex>66</sortIndex>
+    </dimensions>
+    <dimensions>
+        <field>ResourceGroupName11</field>
+        <isDerived>false</isDerived>
+        <label>Resource Group Level 11</label>
+        <sortIndex>67</sortIndex>
+    </dimensions>
+    <dimensions>
+        <field>ResourceGroupName12</field>
+        <isDerived>false</isDerived>
+        <label>Resource Group Level 12</label>
+        <sortIndex>68</sortIndex>
+    </dimensions>
+    <dimensions>
+        <field>ResourceGroupNameChain</field>
+        <isDerived>false</isDerived>
+        <label>Resource Group Name</label>
+        <sortIndex>69</sortIndex>
+    </dimensions>
+    <dimensions>
+        <field>ResourcePracticeId</field>
+        <isDerived>false</isDerived>
+        <label>Resource Practice ID</label>
+        <sortIndex>70</sortIndex>
+    </dimensions>
+    <dimensions>
+        <field>ResourcePracticeName00</field>
+        <isDerived>false</isDerived>
+        <label>Resource Practice Level 00</label>
+        <sortIndex>71</sortIndex>
+    </dimensions>
+    <dimensions>
+        <field>ResourcePracticeName01</field>
+        <isDerived>false</isDerived>
+        <label>Resource Practice Level 01</label>
+        <sortIndex>72</sortIndex>
+    </dimensions>
+    <dimensions>
+        <field>ResourcePracticeName02</field>
+        <isDerived>false</isDerived>
+        <label>Resource Practice Level 02</label>
+        <sortIndex>73</sortIndex>
+    </dimensions>
+    <dimensions>
+        <field>ResourcePracticeName03</field>
+        <isDerived>false</isDerived>
+        <label>Resource Practice Level 03</label>
+        <sortIndex>74</sortIndex>
+    </dimensions>
+    <dimensions>
+        <field>ResourcePracticeName04</field>
+        <isDerived>false</isDerived>
+        <label>Resource Practice Level 04</label>
+        <sortIndex>75</sortIndex>
+    </dimensions>
+    <dimensions>
+        <field>ResourcePracticeName05</field>
+        <isDerived>false</isDerived>
+        <label>Resource Practice Level 05</label>
+        <sortIndex>76</sortIndex>
+    </dimensions>
+    <dimensions>
+        <field>ResourcePracticeName06</field>
+        <isDerived>false</isDerived>
+        <label>Resource Practice Level 06</label>
+        <sortIndex>77</sortIndex>
+    </dimensions>
+    <dimensions>
+        <field>ResourcePracticeName07</field>
+        <isDerived>false</isDerived>
+        <label>Resource Practice Level 07</label>
+        <sortIndex>78</sortIndex>
+    </dimensions>
+    <dimensions>
+        <field>ResourcePracticeName08</field>
+        <isDerived>false</isDerived>
+        <label>Resource Practice Level 08</label>
+        <sortIndex>79</sortIndex>
+    </dimensions>
+    <dimensions>
+        <field>ResourcePracticeName09</field>
+        <isDerived>false</isDerived>
+        <label>Resource Practice Level 09</label>
+        <sortIndex>80</sortIndex>
+    </dimensions>
+    <dimensions>
+        <field>ResourcePracticeName10</field>
+        <isDerived>false</isDerived>
+        <label>Resource Practice Level 10</label>
+        <sortIndex>81</sortIndex>
+    </dimensions>
+    <dimensions>
+        <field>ResourcePracticeName11</field>
+        <isDerived>false</isDerived>
+        <label>Resource Practice Level 11</label>
+        <sortIndex>82</sortIndex>
+    </dimensions>
+    <dimensions>
+        <field>ResourcePracticeName12</field>
+        <isDerived>false</isDerived>
+        <label>Resource Practice Level 12</label>
+        <sortIndex>83</sortIndex>
+    </dimensions>
+    <dimensions>
+        <field>ResourcePracticeNameChain</field>
+        <isDerived>false</isDerived>
+        <label>Resource Practice Name</label>
+        <sortIndex>84</sortIndex>
+    </dimensions>
+    <dimensions>
+        <field>ResourceRegionId</field>
+        <isDerived>false</isDerived>
+        <label>Resource Region ID</label>
+        <sortIndex>85</sortIndex>
+    </dimensions>
+    <dimensions>
+        <field>ResourceRegionName00</field>
+        <isDerived>false</isDerived>
+        <label>Resource Region Level 00</label>
+        <sortIndex>86</sortIndex>
+    </dimensions>
+    <dimensions>
+        <field>ResourceRegionName01</field>
+        <isDerived>false</isDerived>
+        <label>Resource Region Level 01</label>
+        <sortIndex>87</sortIndex>
+    </dimensions>
+    <dimensions>
+        <field>ResourceRegionName02</field>
+        <isDerived>false</isDerived>
+        <label>Resource Region Level 02</label>
+        <sortIndex>88</sortIndex>
+    </dimensions>
+    <dimensions>
+        <field>ResourceRegionName03</field>
+        <isDerived>false</isDerived>
+        <label>Resource Region Level 03</label>
+        <sortIndex>89</sortIndex>
+    </dimensions>
+    <dimensions>
+        <field>ResourceRegionName04</field>
+        <isDerived>false</isDerived>
+        <label>Resource Region Level 04</label>
+        <sortIndex>90</sortIndex>
+    </dimensions>
+    <dimensions>
+        <field>ResourceRegionName05</field>
+        <isDerived>false</isDerived>
+        <label>Resource Region Level 05</label>
+        <sortIndex>91</sortIndex>
+    </dimensions>
+    <dimensions>
+        <field>ResourceRegionName06</field>
+        <isDerived>false</isDerived>
+        <label>Resource Region Level 06</label>
+        <sortIndex>92</sortIndex>
+    </dimensions>
+    <dimensions>
+        <field>ResourceRegionName07</field>
+        <isDerived>false</isDerived>
+        <label>Resource Region Level 07</label>
+        <sortIndex>93</sortIndex>
+    </dimensions>
+    <dimensions>
+        <field>ResourceRegionName08</field>
+        <isDerived>false</isDerived>
+        <label>Resource Region Level 08</label>
+        <sortIndex>94</sortIndex>
+    </dimensions>
+    <dimensions>
+        <field>ResourceRegionName09</field>
+        <isDerived>false</isDerived>
+        <label>Resource Region Level 09</label>
+        <sortIndex>95</sortIndex>
+    </dimensions>
+    <dimensions>
+        <field>ResourceRegionName10</field>
+        <isDerived>false</isDerived>
+        <label>Resource Region Level 10</label>
+        <sortIndex>96</sortIndex>
+    </dimensions>
+    <dimensions>
+        <field>ResourceRegionName11</field>
+        <isDerived>false</isDerived>
+        <label>Resource Region Level 11</label>
+        <sortIndex>97</sortIndex>
+    </dimensions>
+    <dimensions>
+        <field>ResourceRegionName12</field>
+        <isDerived>false</isDerived>
+        <label>Resource Region Level 12</label>
+        <sortIndex>98</sortIndex>
+    </dimensions>
+    <dimensions>
+        <field>ResourceRegionNameChain</field>
+        <isDerived>false</isDerived>
+        <label>Resource Region Name</label>
+        <sortIndex>99</sortIndex>
+    </dimensions>
+    <dimensions>
+        <field>ResourceSalesforceUserPhotoUrl</field>
+        <isDerived>false</isDerived>
+        <label>Salesforce Resource User Photo URL</label>
+        <sortIndex>100</sortIndex>
+    </dimensions>
+    <dimensions>
+        <field>ProjectManagerId</field>
+        <isDerived>false</isDerived>
+        <label>Project Manager ID</label>
+        <sortIndex>101</sortIndex>
+    </dimensions>
+    <dimensions>
+        <field>ProjectManagerName</field>
+        <isDerived>false</isDerived>
+        <label>Project Manager Name</label>
+        <linkTemplateEnabled>true</linkTemplateEnabled>
+        <recordDisplayFields>
+            <recordDisplayField>ProjectManagerId</recordDisplayField>
+            <sortIndex>0</sortIndex>
+        </recordDisplayFields>
+        <recordDisplayFields>
+            <recordDisplayField>ProjectManagerName</recordDisplayField>
+            <sortIndex>1</sortIndex>
+        </recordDisplayFields>
+        <recordDisplayFields>
+            <recordDisplayField>ProjectId</recordDisplayField>
+            <sortIndex>2</sortIndex>
+        </recordDisplayFields>
+        <recordDisplayFields>
+            <recordDisplayField>ProjectName</recordDisplayField>
+            <sortIndex>3</sortIndex>
+        </recordDisplayFields>
+        <recordIdField>ProjectManagerId</recordIdField>
+        <salesforceActionsEnabled>false</salesforceActionsEnabled>
+        <showDetailsDefaultFieldIndex>7</showDetailsDefaultFieldIndex>
+        <sortIndex>102</sortIndex>
+    </dimensions>
+    <dimensions>
+        <field>ProjectStatus</field>
+        <isDerived>false</isDerived>
+        <label>Project Status</label>
+        <members>
+            <color>rgb(139, 213, 158)</color>
+            <member>Green</member>
+            <sortIndex>0</sortIndex>
+        </members>
+        <members>
+            <color>rgb(245, 111, 60)</color>
+            <member>Red</member>
+            <sortIndex>1</sortIndex>
+        </members>
+        <members>
+            <color>rgb(248, 207, 64)</color>
+            <member>Yellow</member>
+            <sortIndex>2</sortIndex>
+        </members>
+        <showDetailsDefaultFieldIndex>12</showDetailsDefaultFieldIndex>
+        <sortIndex>103</sortIndex>
+    </dimensions>
+    <measures>
+        <field>ValueActualBillings</field>
+        <isDerived>false</isDerived>
+        <label>Actual Billings</label>
+        <showDetailsDefaultFieldIndex>2</showDetailsDefaultFieldIndex>
+        <sortIndex>0</sortIndex>
+    </measures>
+    <measures>
+        <field>ValueScheduledBillings</field>
+        <isDerived>false</isDerived>
+        <label>Scheduled Billings</label>
+        <showDetailsDefaultFieldIndex>4</showDetailsDefaultFieldIndex>
+        <sortIndex>1</sortIndex>
+    </measures>
+    <measures>
+        <field>ValueActualHours</field>
+        <isDerived>false</isDerived>
+        <label>Actual Hours</label>
+        <showDetailsDefaultFieldIndex>3</showDetailsDefaultFieldIndex>
+        <sortIndex>2</sortIndex>
+    </measures>
+    <measures>
+        <field>ValueScheduledHours</field>
+        <isDerived>false</isDerived>
+        <label>Scheduled Hours</label>
+        <showDetailsDefaultFieldIndex>5</showDetailsDefaultFieldIndex>
+        <sortIndex>3</sortIndex>
+    </measures>
+</WaveXmd>

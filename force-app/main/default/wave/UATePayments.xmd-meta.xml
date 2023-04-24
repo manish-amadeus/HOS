@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<WaveXmd xmlns="http://soap.sforce.com/2006/04/metadata">
+    <dataset>UATePayments</dataset>
+    <dimensions>
+        <field>Opportunity.Name</field>
+        <isDerived>false</isDerived>
+        <linkTemplateEnabled>true</linkTemplateEnabled>
+        <recordDisplayFields>
+            <recordDisplayField>Opportunity.Name</recordDisplayField>
+            <sortIndex>0</sortIndex>
+        </recordDisplayFields>
+        <recordDisplayFields>
+            <recordDisplayField>OrgId</recordDisplayField>
+            <sortIndex>1</sortIndex>
+        </recordDisplayFields>
+        <recordIdField>Opportunity.Id</recordIdField>
+        <recordOrganizationIdField>OrgId</recordOrganizationIdField>
+        <salesforceActionsEnabled>false</salesforceActionsEnabled>
+        <sortIndex>0</sortIndex>
+    </dimensions>
+    <organizations>
+        <instanceUrl>https://travelclick--uat.sandbox.my.salesforce.com</instanceUrl>
+        <label>TravelClick UAT</label>
+        <organizationIdentifier>00D790000008aQQ</organizationIdentifier>
+        <sortIndex>0</sortIndex>
+    </organizations>
+    <organizations>
+        <instanceUrl>https://amadeus-hospitality.my.salesforce.com</instanceUrl>
+        <label>Amadeus Hospitality</label>
+        <organizationIdentifier>00DDY0000008aNc</organizationIdentifier>
+        <sortIndex>1</sortIndex>
+    </organizations>
+</WaveXmd>

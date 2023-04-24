@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<WaveXmd xmlns="http://soap.sforce.com/2006/04/metadata">
+    <dataset>RevRec</dataset>
+    <dimensions>
+        <field>Name</field>
+        <isDerived>false</isDerived>
+        <linkTemplateEnabled>true</linkTemplateEnabled>
+        <recordDisplayFields>
+            <recordDisplayField>Name</recordDisplayField>
+            <sortIndex>0</sortIndex>
+        </recordDisplayFields>
+        <recordIdField>Id</recordIdField>
+        <salesforceActionsEnabled>false</salesforceActionsEnabled>
+        <sortIndex>0</sortIndex>
+    </dimensions>
+    <dimensions>
+        <field>SCN_RT.ALI_RTL.AugRT.Name</field>
+        <isDerived>false</isDerived>
+        <linkTemplateEnabled>true</linkTemplateEnabled>
+        <recordDisplayFields>
+            <recordDisplayField>SCN_RT.ALI_RTL.AugRT.Name</recordDisplayField>
+            <sortIndex>0</sortIndex>
+        </recordDisplayFields>
+        <recordIdField>SCN_RT.ALI_RTL.AugRT.Id</recordIdField>
+        <salesforceActionsEnabled>false</salesforceActionsEnabled>
+        <sortIndex>1</sortIndex>
+    </dimensions>
+    <dimensions>
+        <field>SCN_RT.ALI_RTL.Name</field>
+        <isDerived>false</isDerived>
+        <linkTemplateEnabled>true</linkTemplateEnabled>
+        <recordDisplayFields>
+            <recordDisplayField>SCN_RT.ALI_RTL.Name</recordDisplayField>
+            <sortIndex>0</sortIndex>
+        </recordDisplayFields>
+        <recordIdField>SCN_RT.ALI_RTL.Id</recordIdField>
+        <salesforceActionsEnabled>false</salesforceActionsEnabled>
+        <sortIndex>2</sortIndex>
+    </dimensions>
+    <dimensions>
+        <field>SCN_RT.Name</field>
+        <isDerived>false</isDerived>
+        <label>ALI Name</label>
+        <linkTemplateEnabled>true</linkTemplateEnabled>
+        <recordDisplayFields>
+            <recordDisplayField>SCN_RT.Name</recordDisplayField>
+            <sortIndex>0</sortIndex>
+        </recordDisplayFields>
+        <recordIdField>Activity_Line_Item__c</recordIdField>
+        <salesforceActionsEnabled>false</salesforceActionsEnabled>
+        <sortIndex>3</sortIndex>
+    </dimensions>
+    <dimensions>
+        <field>AugSCN.Billing_Contract__c</field>
+        <isDerived>false</isDerived>
+        <label>SCN Billing Contract</label>
+        <sortIndex>4</sortIndex>
+    </dimensions>
+    <dimensions>
+        <field>AugSCN.c2g__CreditNoteReason__c</field>
+        <isDerived>false</isDerived>
+        <label>SCN Credit Note Reason</label>
+        <sortIndex>5</sortIndex>
+    </dimensions>
+    <dimensions>
+        <field>AugSCN.Name</field>
+        <isDerived>false</isDerived>
+        <label>SCN Name</label>
+        <sortIndex>6</sortIndex>
+    </dimensions>
+    <dimensions>
+        <field>SCN_RT.Account.AccountNumber</field>
+        <isDerived>false</isDerived>
+        <label>ALI Account Number</label>
+        <sortIndex>7</sortIndex>
+    </dimensions>
+    <dimensions>
+        <field>SCN_RT.Account.Brand__c</field>
+        <isDerived>false</isDerived>
+        <label>ALI Account Brand</label>
+        <sortIndex>8</sortIndex>
+    </dimensions>
+    <dimensions>
+        <field>SCN_RT.Account.Franchisor__c</field>
+        <isDerived>false</isDerived>
+        <label>ALI Account Franchisor</label>
+        <sortIndex>9</sortIndex>
+    </dimensions>
+    <dimensions>
+        <field>SCN_RT.Account.Name</field>
+        <isDerived>false</isDerived>
+        <label>ALI Account Name</label>
+        <sortIndex>10</sortIndex>
+    </dimensions>
+    <dimensions>
+        <field>SCN_RT.ManagementCompany.Name</field>
+        <isDerived>false</isDerived>
+        <label>ALI Account Mgmnt Company</label>
+        <sortIndex>11</sortIndex>
+    </dimensions>
+    <dimensions>
+        <field>SCN_RT.Product.Name</field>
+        <isDerived>false</isDerived>
+        <label>ALI Product Name</label>
+        <sortIndex>12</sortIndex>
+    </dimensions>
+    <dimensions>
+        <field>SCN_RT.Product__c</field>
+        <isDerived>false</isDerived>
+        <label>ALI Product</label>
+        <sortIndex>13</sortIndex>
+    </dimensions>
+    <dimensions>
+        <field>SCN_RT.Product.Family</field>
+        <isDerived>false</isDerived>
+        <label>ALI Product Family</label>
+        <sortIndex>14</sortIndex>
+    </dimensions>
+</WaveXmd>
