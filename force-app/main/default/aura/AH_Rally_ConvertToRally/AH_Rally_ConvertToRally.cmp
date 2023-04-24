@@ -1,0 +1,15 @@
+<aura:component controller="AH_Rally_LEXMethods" implements="force:lightningQuickActionWithoutHeader,force:hasRecordId" >
+	<aura:handler name="init" value="{!this}" action="{!c.assignToQueue}"/>
+    <aura:attribute name="smsg" type="Boolean" default="false"/>
+    <aura:attribute name="emsg" type="Boolean" default="false"/>
+    <aura:if isTrue="{!v.emsg}">
+        <ui:message title="Error" severity="error" closable="false">
+           Error converting to Rally Support Case. Please try again later or contact your System Admin.
+        </ui:message>
+    </aura:if>
+    <aura:if isTrue="{!v.smsg}">
+        <ui:message title="Confirmation" severity="confirm" closable="false">
+           The Case Successfully converted to Rally Support.
+        </ui:message>
+    </aura:if>
+</aura:component>

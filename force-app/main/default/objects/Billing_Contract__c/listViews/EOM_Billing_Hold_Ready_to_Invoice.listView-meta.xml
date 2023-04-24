@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>EOM_Billing_Hold_Ready_to_Invoice</fullName>
+    <columns>NAME</columns>
+    <columns>Ready_to_Invoice__c</columns>
+    <columns>Ready_to_Invoice_Numeric__c</columns>
+    <columns>Invoice_Date__c</columns>
+    <columns>Account__c</columns>
+    <columns>Billing_Hold_Reason__c</columns>
+    <columns>Company__c</columns>
+    <columns>Exclude_Automated_Invoicing__c</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>Billing_Hold__c</field>
+        <operation>equals</operation>
+        <value>1</value>
+    </filters>
+    <label>EOM: Billing Hold - Items Ready</label>
+    <language>en_US</language>
+    <sharedTo>
+        <group>Finance_Billing_Team</group>
+    </sharedTo>
+</ListView>

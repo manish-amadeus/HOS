@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Withdrawn__c</fullName>
+    <description>When checked this workbook will no longer be visible to the Community User.</description>
+    <externalId>false</externalId>
+    <formula>RelatedTo__r.AH_UDC_WorkbookWithdrawn__c</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <inlineHelpText>When checked this workbook will no longer be visible to the Community User.</inlineHelpText>
+    <label>Withdrawn</label>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Change_Request__c</fullName>
+    <businessOwnerUser>kcilley@newmarketinc.com.sbfull</businessOwnerUser>
+    <businessStatus>Active</businessStatus>
+    <description>Lightning Knowledge project.
+Updated in NICC-042299</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Lookup to Change Request for Lightning Knowledge.</inlineHelpText>
+    <label>Change Request</label>
+    <referenceTo>SFDC_CSP_Development_Request__c</referenceTo>
+    <relationshipLabel>Lightning Knowledge</relationshipLabel>
+    <relationshipName>CR_to_Lightning_Knowledges</relationshipName>
+    <relationshipOrder>1</relationshipOrder>
+    <reparentableMasterDetail>false</reparentableMasterDetail>
+    <securityClassification>Internal</securityClassification>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>MasterDetail</type>
+    <writeRequiresMasterRead>false</writeRequiresMasterRead>
+</CustomField>

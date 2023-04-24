@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Process_Builder_Errors</fullName>
+    <columns>NAME</columns>
+    <columns>API_Name__c</columns>
+    <columns>Happened_At__c</columns>
+    <columns>User__c</columns>
+    <columns>Description__c</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>Salesforce_Source_Type__c</field>
+        <operation>equals</operation>
+        <value>Process Builder</value>
+    </filters>
+    <filters>
+        <field>IsFixed__c</field>
+        <operation>equals</operation>
+        <value>0</value>
+    </filters>
+    <label>Process Builder Errors</label>
+    <language>en_US</language>
+    <sharedTo>
+        <group>Administrators</group>
+    </sharedTo>
+</ListView>

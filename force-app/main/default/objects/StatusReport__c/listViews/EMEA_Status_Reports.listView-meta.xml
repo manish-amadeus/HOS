@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>EMEA_Status_Reports</fullName>
+    <columns>NAME</columns>
+    <columns>Associate__c</columns>
+    <columns>CREATED_DATE</columns>
+    <columns>CREATEDBY_USER</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>RECORDTYPE</field>
+        <operation>equals</operation>
+        <value>StatusReport__c.EMEA_TAC_A_v2,StatusReport__c.EMEA_TAC_S_v1,StatusReport__c.EMEA_TAC_A_v1</value>
+    </filters>
+    <label>EMEA Status Reports</label>
+</ListView>

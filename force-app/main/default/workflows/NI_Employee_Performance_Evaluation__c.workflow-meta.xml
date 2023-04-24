@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Workflow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <alerts>
+        <fullName>Alert_Employee_Eval_Ready_for_Review</fullName>
+        <description>Alert Employee Eval Ready for Review</description>
+        <protected>false</protected>
+        <recipients>
+            <field>Collaborating_Manager__c</field>
+            <type>userLookup</type>
+        </recipients>
+        <recipients>
+            <field>Employee_Name__c</field>
+            <type>userLookup</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>NI_Performance_Evaluation/Manager_Approval_Notification</template>
+    </alerts>
+    <alerts>
+        <fullName>Alert_Employee_Eval_Rejected</fullName>
+        <description>Alert Employee Eval Rejected</description>
+        <protected>false</protected>
+        <recipients>
+            <field>Collaborating_Manager__c</field>
+            <type>userLookup</type>
+        </recipients>
+        <recipients>
+            <field>Employee_Name__c</field>
+            <type>userLookup</type>
+        </recipients>
+        <recipients>
+            <field>Manager__c</field>
+            <type>userLookup</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>NI_Performance_Evaluation/Employee_Approval_Notification_Rejected</template>
+    </alerts>
+    <alerts>
+        <fullName>Alert_Manager_Employee_Completed</fullName>
+        <description>Alert Manager Employee Completed</description>
+        <protected>false</protected>
+        <recipients>
+            <field>Collaborating_Manager__c</field>
+            <type>userLookup</type>
+        </recipients>
+        <recipients>
+            <field>Manager__c</field>
+            <type>userLookup</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>NI_Performance_Evaluation/Ready_for_Manager_Review</template>
+    </alerts>
+    <alerts>
+        <fullName>Employee_Approval_Rejected_Notification</fullName>
+        <description>Employee Approval Rejected Notification</description>
+        <protected>false</protected>
+        <recipients>
+            <field>Employee_Name__c</field>
+            <type>userLookup</type>
+        </recipients>
+        <recipients>
+            <field>Manager__c</field>
+            <type>userLookup</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>NI_Performance_Evaluation/Employee_Approval_Notification_Rejected</template>
+    </alerts>
+    <alerts>
+        <fullName>Manager_Approval_Approved_Notification</fullName>
+        <description>Manager Approval Approved Notification</description>
+        <protected>false</protected>
+        <recipients>
+            <field>Employee_Name__c</field>
+            <type>userLookup</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>NI_Performance_Evaluation/Manager_Approval_Notification_Approved</template>
+    </alerts>
+    <alerts>
+        <fullName>Manager_Pending_Approval_Notification</fullName>
+        <description>Manager Pending Approval Notification</description>
+        <protected>false</protected>
+        <recipients>
+            <field>Manager__c</field>
+            <type>userLookup</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>NI_Performance_Evaluation/Manager_Approval_Notification</template>
+    </alerts>
+    <fieldUpdates>
+        <fullName>Change_RecordType_to_Employee_Stage</fullName>
+        <field>RecordTypeId</field>
+        <lookupValue>Employee_Stage</lookupValue>
+        <lookupValueType>RecordType</lookupValueType>
+        <name>Change RecordType to Employee Stage</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>LookupValue</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>Change_RecordType_to_Final_Stage</fullName>
+        <field>RecordTypeId</field>
+        <lookupValue>Final_Stage</lookupValue>
+        <lookupValueType>RecordType</lookupValueType>
+        <name>Change RecordType to Final Stage</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>LookupValue</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>Change_RecordType_to_Manager_Stage</fullName>
+        <field>RecordTypeId</field>
+        <lookupValue>Manager_Stage</lookupValue>
+        <lookupValueType>RecordType</lookupValueType>
+        <name>Change RecordType to Manager Stage</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>LookupValue</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>Change_Status_to_Employee_Draft</fullName>
+        <field>Status__c</field>
+        <literalValue>Employee Draft</literalValue>
+        <name>Change Status to Employee Draft</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Literal</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>Change_Status_to_Evaluation_Complete</fullName>
+        <field>Status__c</field>
+        <literalValue>Evaluation Complete</literalValue>
+        <name>Change Status to Evaluation Complete</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Literal</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>Change_Status_to_In_Review</fullName>
+        <field>Status__c</field>
+        <literalValue>In Review</literalValue>
+        <name>Change Status to In Review</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Literal</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>Change_Status_to_Manager_Draft</fullName>
+        <field>Status__c</field>
+        <literalValue>Manager Draft</literalValue>
+        <name>Change Status to Manager Draft</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Literal</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>Set_Status_to_Final</fullName>
+        <field>Status__c</field>
+        <literalValue>Evaluation Complete</literalValue>
+        <name>Set Status to Final</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Literal</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>Status_Completed</fullName>
+        <field>Status__c</field>
+        <literalValue>Completed</literalValue>
+        <name>Status - Completed</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Literal</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>Status_Pending_Approval</fullName>
+        <description>Set Status to Pending Approval</description>
+        <field>Status__c</field>
+        <literalValue>Pending Approval</literalValue>
+        <name>Status: Pending Approval</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Literal</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <rules>
+        <fullName>Employee Complete - Change Record Type</fullName>
+        <actions>
+            <name>Alert_Manager_Employee_Completed</name>
+            <type>Alert</type>
+        </actions>
+        <actions>
+            <name>Change_RecordType_to_Manager_Stage</name>
+            <type>FieldUpdate</type>
+        </actions>
+        <actions>
+            <name>Change_Status_to_Manager_Draft</name>
+            <type>FieldUpdate</type>
+        </actions>
+        <active>true</active>
+        <criteriaItems>
+            <field>NI_Employee_Performance_Evaluation__c.Status__c</field>
+            <operation>equals</operation>
+            <value>Employee Completed</value>
+        </criteriaItems>
+        <triggerType>onCreateOrTriggeringUpdate</triggerType>
+    </rules>
+    <rules>
+        <fullName>Manager Completed - Change Record Type</fullName>
+        <actions>
+            <name>Alert_Employee_Eval_Ready_for_Review</name>
+            <type>Alert</type>
+        </actions>
+        <actions>
+            <name>Change_RecordType_to_Final_Stage</name>
+            <type>FieldUpdate</type>
+        </actions>
+        <actions>
+            <name>Change_Status_to_In_Review</name>
+            <type>FieldUpdate</type>
+        </actions>
+        <active>true</active>
+        <criteriaItems>
+            <field>NI_Employee_Performance_Evaluation__c.Status__c</field>
+            <operation>equals</operation>
+            <value>Manager Completed</value>
+        </criteriaItems>
+        <triggerType>onCreateOrTriggeringUpdate</triggerType>
+    </rules>
+    <rules>
+        <fullName>Manager Rejected - Change to Employee Draft</fullName>
+        <actions>
+            <name>Alert_Employee_Eval_Rejected</name>
+            <type>Alert</type>
+        </actions>
+        <actions>
+            <name>Change_RecordType_to_Employee_Stage</name>
+            <type>FieldUpdate</type>
+        </actions>
+        <actions>
+            <name>Change_Status_to_Employee_Draft</name>
+            <type>FieldUpdate</type>
+        </actions>
+        <active>true</active>
+        <criteriaItems>
+            <field>NI_Employee_Performance_Evaluation__c.Status__c</field>
+            <operation>equals</operation>
+            <value>Manager Rejected</value>
+        </criteriaItems>
+        <triggerType>onCreateOrTriggeringUpdate</triggerType>
+    </rules>
+</Workflow>

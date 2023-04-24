@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Newmarket_Web_Services_NWS</fullName>
+    <booleanFilter>1 OR 2 OR 3 OR 4 OR 5</booleanFilter>
+    <columns>NAME</columns>
+    <columns>Market_Problem_Details__c</columns>
+    <columns>Status__c</columns>
+    <columns>Impacted_Products__c</columns>
+    <columns>CREATEDBY_USER</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>Impacted_Products__c</field>
+        <operation>includes</operation>
+        <value>Newmarket Web Services (NWS)</value>
+    </filters>
+    <filters>
+        <field>Impacted_Products__c</field>
+        <operation>includes</operation>
+        <value>Cendyn</value>
+    </filters>
+    <filters>
+        <field>Impacted_Products__c</field>
+        <operation>includes</operation>
+        <value>I-Server (Base)</value>
+    </filters>
+    <filters>
+        <field>Impacted_Products__c</field>
+        <operation>includes</operation>
+        <value>MB Direct Book</value>
+    </filters>
+    <filters>
+        <field>Impacted_Products__c</field>
+        <operation>includes</operation>
+        <value>Third Party</value>
+    </filters>
+    <label>Newmarket Web Services (NWS)</label>
+    <sharedTo>
+        <allInternalUsers></allInternalUsers>
+    </sharedTo>
+</ListView>

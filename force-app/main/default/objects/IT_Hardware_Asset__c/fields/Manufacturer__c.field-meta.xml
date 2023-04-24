@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Manufacturer__c</fullName>
+    <description>The manufacturer of the hardware model.</description>
+    <externalId>false</externalId>
+    <formula>TEXT(Product_ID__r.Manufacturer__c)</formula>
+    <inlineHelpText>The manufacturer of the hardware model.</inlineHelpText>
+    <label>Manufacturer</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>All_Active_with_Assigned_Product_Group</fullName>
+    <columns>Inactive__c</columns>
+    <columns>NAME</columns>
+    <columns>Support_Rep__c</columns>
+    <columns>Manager__c</columns>
+    <columns>Support_Rep_Role__c</columns>
+    <columns>Tier__c</columns>
+    <columns>Location__c</columns>
+    <columns>Team__c</columns>
+    <columns>Region__c</columns>
+    <columns>Unique_Support_Rep__c</columns>
+    <columns>Trained_Products__c</columns>
+    <columns>Assigned_Product_Group__c</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>Inactive__c</field>
+        <operation>equals</operation>
+        <value>0</value>
+    </filters>
+    <filters>
+        <field>Support_Rep_Role__c</field>
+        <operation>equals</operation>
+        <value>Level 1 Support</value>
+    </filters>
+    <filters>
+        <field>Tier__c</field>
+        <operation>notEqual</operation>
+    </filters>
+    <label>Level 1 with Assigned Product Group</label>
+</ListView>

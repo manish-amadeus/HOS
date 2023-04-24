@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Benefits_Check_Box_Checked_Missing_Info</fullName>
+    <active>true</active>
+    <description>NICC-047851
+
+You must add a benefit greater than zero if you check the Will Reduce Costs or Annual Efficiencies Savings check boxes.</description>
+    <errorConditionFormula>(
+This_Project_Will_Reduce_Costs__c = true
+&amp;&amp;
+ISBLANK(Estimated_Annual_Cost_Reduction__c)
+)
+||
+(
+This_Project_Will_Increase_Efficiences__c = true
+&amp;&amp;
+ISBLANK(Annual_Efficiencies_Savings_hrs__c)
+)</errorConditionFormula>
+    <errorMessage>You must add a benefit greater than zero if you check the Will Reduce Costs or Annual Efficiencies Savings check boxes.</errorMessage>
+</ValidationRule>

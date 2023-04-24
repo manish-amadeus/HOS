@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>SEO_Reporting_Schedule_c__c</fullName>
+    <externalDeveloperName>SEO_Reporting_Schedule__c</externalDeveloperName>
+    <externalId>false</externalId>
+    <isFilteringDisabled>false</isFilteringDisabled>
+    <isNameField>false</isNameField>
+    <isSortingDisabled>false</isSortingDisabled>
+    <label>Optimization Schedule</label>
+    <readOnlyProxy>true</readOnlyProxy>
+    <required>false</required>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Annual</fullName>
+                <default>false</default>
+                <label>Annual</label>
+            </value>
+            <value>
+                <fullName>Bi Annual</fullName>
+                <default>false</default>
+                <label>Bi Annual</label>
+            </value>
+            <value>
+                <fullName>Initial</fullName>
+                <default>false</default>
+                <label>Initial</label>
+            </value>
+            <value>
+                <fullName>Monthly</fullName>
+                <default>false</default>
+                <label>Monthly</label>
+            </value>
+            <value>
+                <fullName>Quarterly</fullName>
+                <default>false</default>
+                <label>Quarterly</label>
+            </value>
+            <value>
+                <fullName>WPP</fullName>
+                <default>false</default>
+                <label>WPP</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

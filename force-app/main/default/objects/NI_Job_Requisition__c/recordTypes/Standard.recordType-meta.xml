@@ -1,0 +1,882 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<RecordType xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Standard</fullName>
+    <active>true</active>
+    <label>Standard</label>
+    <picklistValues>
+        <picklist>Add_to_Leadership_US_e_mail_Group__c</picklist>
+        <values>
+            <fullName>No</fullName>
+            <default>true</default>
+        </values>
+        <values>
+            <fullName>Yes</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Add_to_Leadership_e_mail_Group__c</picklist>
+        <values>
+            <fullName>No</fullName>
+            <default>true</default>
+        </values>
+        <values>
+            <fullName>Yes</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Budgeted_Hire__c</picklist>
+        <values>
+            <fullName>No</fullName>
+            <default>true</default>
+        </values>
+        <values>
+            <fullName>Yes</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Business_Systems_Status__c</picklist>
+        <values>
+            <fullName>Cancelled</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Completed</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Submitted</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Change_Request_Type__c</picklist>
+        <values>
+            <fullName>Department Change</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Job Title Change</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Management Change</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Name Change</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>New User</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Office Location Change</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Company__c</picklist>
+        <values>
+            <fullName>Cambria</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Cybage</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Footbridge</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Independent</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Other</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Sapient</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>iGate</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Conference_Calling_Account__c</picklist>
+        <values>
+            <fullName>No</fullName>
+            <default>true</default>
+        </values>
+        <values>
+            <fullName>Yes</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Development_Group__c</picklist>
+        <values>
+            <fullName>Labs</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>MTech</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Portsmouth Dev</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Employment_Type__c</picklist>
+        <values>
+            <fullName>Contractor</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Full Time</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Intern</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Offshore Contractor</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Part Time</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Temporary</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Transfer</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>FFA_Company__c</picklist>
+        <values>
+            <fullName>Itesso BV</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Newmarket AP</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Newmarket AUS</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Newmarket China</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Newmarket UK</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Newmarket US</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>FFA_Dimension_2__c</picklist>
+        <values>
+            <fullName>AIP</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Amadeus</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>CRS - IHG</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>CRS - Other</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Corporate Support</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Itesso - Global Support</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Itesso - Revenue</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Premier Inn</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Sales and Catering</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Service Optimization</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Unity</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>FFA_Dimension_3__c</picklist>
+        <values>
+            <fullName>000 - BALANCE SHEET</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>103 - BILLING</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>104 - COLLECTIONS</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>105 - CLOSE TO REPORT</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>107 - REVENUE RECOGNITION</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>108 %E2%80%93 COMMERCIAL FINANCE</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>109 - REVENUE MANAGEMENT</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>110 - HUMAN RESOURCES</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>120 - LEGAL</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>131 - SECURITY AND COMPLIANCE</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>132 - BUSINESS SYSTEMS</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>133 - HELP DESK</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>150 - EXECUTIVE</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>190 - FINANCE - CONTROLLING</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>200 - FACILITIES</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>300 - SALES</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>310 - SOFTWARE REVENUE</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>320 - ACCOUNT MANAGEMENT</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>330 - SALES ENGINEERING</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>350 - MARKETING</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>360 - HARDWARE</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>370 - PRE SALES</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>371 - ORDER MANAGEMENT</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>380 - MANAGEMENT ADMIN</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>390 - PARTNER SUCCESS</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>400 - SUPPORT</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>450 - EDUCATION and CONTENT</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>499 - CAPITALIZATION - SUPPORT</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>500 - PROFESSIONAL SERVICES</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>590 - PROGRAMS AND IMPLEMENTATION</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>599 - CAPITALIZATION - PROFESSIONAL SERVICES</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>601 - ONDEMAND SERVICES</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>602 - ONDEMAND SUBSCRIPTIONS</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>603 - ONDEMAND OPERATIONS</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>700 - RESEARCH AND DEVELOPMENT</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>750 - PRODUCT MANAGEMENT</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>799 - CAPITALIZATION - RD</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>800 - NON EBITDA</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>999 - ACQUISITION COSTS</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Financialforce_PSA_License_Type__c</picklist>
+        <values>
+            <fullName>360%C2%B0 PSA Account View for CRM User</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Full PSA User</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Time %26 Expense User</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Gender__c</picklist>
+        <values>
+            <fullName>Female</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Male</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Hardware_Required__c</picklist>
+        <values>
+            <fullName>No</fullName>
+            <default>true</default>
+        </values>
+        <values>
+            <fullName>Yes</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Has_Direct_Reports__c</picklist>
+        <values>
+            <fullName>No</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Yes</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>IT_Status__c</picklist>
+        <values>
+            <fullName>Completed</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Submitted to IT</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Job_Type__c</picklist>
+        <values>
+            <fullName>Add</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Addition to Staff</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Change</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Remove</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Replacement</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>MSDN_License_Options__c</picklist>
+        <values>
+            <fullName>Purchase new MSDN License</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Visual Studio Premium w%2FMSDN</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Visual Studio Professional w%2FMSDN</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Visual Studio Test Pro w%2FMSDN</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Visual Studio Ultimate w%2FMSDN</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>MTech_Salesforce_Org_Access__c</picklist>
+        <values>
+            <fullName>No</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Yes</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>MTech_Sandbox_Environments__c</picklist>
+        <values>
+            <fullName>Business Intelligence</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Gateways</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>HotSOS</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Housekeeping</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Infrastructure</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Interfaces</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>MTech</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>PM</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Services</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Main_Hardware__c</picklist>
+        <values>
+            <fullName>Mac Desktop</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Mac Laptop</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>No Hardware Needed</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Windows Desktop</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Windows Laptop</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Need_Access_To__c</picklist>
+        <values>
+            <fullName>Accurev license</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Data Center</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>EA %28full access%29</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>EA %28read only access%29</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>MeetingBroker QA DMZ Servers</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>MeetingBroker QA DMZ Servers %28Admin%29</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Other %28specify below%29</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>PWA</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>SOS license %28limited number available%29</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>SharePoint</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>VPN</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>VSS %28VSS_DOC%29</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>VSS %28other %E2%80%93 specify below%29</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Newmarket_Salesforce_Org_Required__c</picklist>
+        <values>
+            <fullName>No</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Yes</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Primary_Hardware_MS_Office_Version__c</picklist>
+        <values>
+            <fullName>Office 2007</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Office 2010</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Office 2013</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Primary_Hardware_OS__c</picklist>
+        <values>
+            <fullName>Windows 7</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Windows 8%2E1</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Primary_Hardware__c</picklist>
+        <values>
+            <fullName>Laptop</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Workstation</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Product__c</picklist>
+        <values>
+            <fullName>Connex</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Data Center</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Daylight</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Delphi</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Delphi BI</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Delphi%2ENet</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Diagrams</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>HIS</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>I-Server</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>MeetingBroker</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Newmarket Services</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Other</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Role__c</picklist>
+        <values>
+            <fullName>Analyst</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Dev</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Management</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Other</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Project Manager</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>QA</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Release Engineer</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Salesforce_Standard_License_Options__c</picklist>
+        <values>
+            <fullName>Purchase new Standard License</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Use existing Standard License</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Salesforce_com_License_Type__c</picklist>
+        <values>
+            <fullName>Platform</fullName>
+            <default>true</default>
+        </values>
+        <values>
+            <fullName>Standard</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Secondary_Hardware_MS_Office_Version__c</picklist>
+        <values>
+            <fullName>Office 2007</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Office 2010</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Office 2013</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Secondary_Hardware_OS__c</picklist>
+        <values>
+            <fullName>Windows 7</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Windows 8%2E1</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Secondary_Hardware_Required__c</picklist>
+        <values>
+            <fullName>No</fullName>
+            <default>true</default>
+        </values>
+        <values>
+            <fullName>Yes</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Secondary_Hardware__c</picklist>
+        <values>
+            <fullName>Mac Desktop</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Mac Laptop</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>No Secondary Hardware Needed</fullName>
+            <default>true</default>
+        </values>
+        <values>
+            <fullName>Windows Desktop</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Windows Laptop</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Status__c</picklist>
+        <values>
+            <fullName>Cancelled</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Closed</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Declined</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>HR Working</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>In Process</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>New</fullName>
+            <default>true</default>
+        </values>
+        <values>
+            <fullName>Pending CEO Approval</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Pending Exec Approval</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+</RecordType>

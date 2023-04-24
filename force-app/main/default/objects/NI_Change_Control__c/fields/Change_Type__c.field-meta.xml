@@ -1,0 +1,982 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Change_Type__c</fullName>
+    <externalId>false</externalId>
+    <label>Change Type</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>MultiselectPicklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>true</sorted>
+            <value>
+                <fullName>ACPMS</fullName>
+                <default>false</default>
+                <label>ACPMS</label>
+            </value>
+            <value>
+                <fullName>Add Field History Tracking</fullName>
+                <default>false</default>
+                <label>Add Field History Tracking</label>
+            </value>
+            <value>
+                <fullName>Add New Approval Process</fullName>
+                <default>false</default>
+                <label>Add New Approval Process</label>
+            </value>
+            <value>
+                <fullName>Add New Case Escalation Rule</fullName>
+                <default>false</default>
+                <label>Add New Case Escalation Rule</label>
+            </value>
+            <value>
+                <fullName>Add New Custom Button</fullName>
+                <default>false</default>
+                <label>Add New Custom Button</label>
+            </value>
+            <value>
+                <fullName>Add New Custom Link</fullName>
+                <default>false</default>
+                <label>Add New Custom Link</label>
+            </value>
+            <value>
+                <fullName>Add New Custom Metadata Type</fullName>
+                <default>false</default>
+                <label>Add New Custom Metadata Type</label>
+            </value>
+            <value>
+                <fullName>Add New Custom Permission</fullName>
+                <default>false</default>
+                <label>Add New Custom Permission</label>
+            </value>
+            <value>
+                <fullName>Add New Custom Setting</fullName>
+                <default>false</default>
+                <label>Add New Custom Setting</label>
+            </value>
+            <value>
+                <fullName>Add New Email Template</fullName>
+                <default>false</default>
+                <label>Add New Email Template</label>
+            </value>
+            <value>
+                <fullName>Add New Field</fullName>
+                <default>false</default>
+                <label>Add New Field</label>
+            </value>
+            <value>
+                <fullName>Add New Flow</fullName>
+                <default>false</default>
+                <label>Add New Flow</label>
+            </value>
+            <value>
+                <fullName>Add New Global Action</fullName>
+                <default>false</default>
+                <label>Add New Global Action</label>
+            </value>
+            <value>
+                <fullName>Add New Global Picklist Value Set</fullName>
+                <default>false</default>
+                <label>Add New Global Picklist Value Set</label>
+            </value>
+            <value>
+                <fullName>Add New KPI Report</fullName>
+                <default>false</default>
+                <label>Add New KPI Report</label>
+            </value>
+            <value>
+                <fullName>Add New Lightning App</fullName>
+                <default>false</default>
+                <label>Add New Lightning App</label>
+            </value>
+            <value>
+                <fullName>Add New Lightning Record Page</fullName>
+                <default>false</default>
+                <label>Add New Lightning Record Page</label>
+            </value>
+            <value>
+                <fullName>Add New Lightning Record Page Assignments</fullName>
+                <default>false</default>
+                <label>Add New Lightning Record Page Assignments</label>
+            </value>
+            <value>
+                <fullName>Add New Object</fullName>
+                <default>false</default>
+                <label>Add New Object</label>
+            </value>
+            <value>
+                <fullName>Add New Permission Set</fullName>
+                <default>false</default>
+                <label>Add New Permission Set</label>
+            </value>
+            <value>
+                <fullName>Add New Profile</fullName>
+                <default>false</default>
+                <label>Add New Profile</label>
+            </value>
+            <value>
+                <fullName>Add New Public Group</fullName>
+                <default>false</default>
+                <label>Add New Public Group</label>
+            </value>
+            <value>
+                <fullName>Add New Public Group or Queue Membership</fullName>
+                <default>false</default>
+                <label>Add New Public Group or Queue Membership</label>
+            </value>
+            <value>
+                <fullName>Add_New_Record_Type</fullName>
+                <default>false</default>
+                <label>Add New Record Type</label>
+            </value>
+            <value>
+                <fullName>Add new report type</fullName>
+                <default>false</default>
+                <label>Add New Report Type</label>
+            </value>
+            <value>
+                <fullName>Add New Sharing Rule</fullName>
+                <default>false</default>
+                <label>Add New Sharing Rule</label>
+            </value>
+            <value>
+                <fullName>Add New Validation Rule</fullName>
+                <default>false</default>
+                <label>Add New Validation Rule</label>
+            </value>
+            <value>
+                <fullName>Add New Visualforce Page</fullName>
+                <default>false</default>
+                <label>Add New Visualforce Page</label>
+            </value>
+            <value>
+                <fullName>Add New Workflow Rule</fullName>
+                <default>false</default>
+                <label>Add New Workflow Rule</label>
+            </value>
+            <value>
+                <fullName>Add Permission to Profile</fullName>
+                <default>false</default>
+                <label>Add Permission to Profile</label>
+            </value>
+            <value>
+                <fullName>Add Users Permission</fullName>
+                <default>false</default>
+                <label>Add Users Permission</label>
+            </value>
+            <value>
+                <fullName>Administrating Users</fullName>
+                <default>false</default>
+                <label>Administrating Users</label>
+            </value>
+            <value>
+                <fullName>Administrative Task</fullName>
+                <default>false</default>
+                <label>Administrative Task</label>
+            </value>
+            <value>
+                <fullName>Apex &amp; Visualforce</fullName>
+                <default>false</default>
+                <label>Apex &amp; Visualforce</label>
+            </value>
+            <value>
+                <fullName>APMA</fullName>
+                <default>false</default>
+                <label>APMA</label>
+            </value>
+            <value>
+                <fullName>Assignment Rules Change</fullName>
+                <default>false</default>
+                <label>Assignment Rules Change</label>
+            </value>
+            <value>
+                <fullName>Automation</fullName>
+                <default>false</default>
+                <label>Automation</label>
+            </value>
+            <value>
+                <fullName>Change Existing Apex Class</fullName>
+                <default>false</default>
+                <label>Change Existing Apex Class</label>
+            </value>
+            <value>
+                <fullName>Change Existing Apex Trigger</fullName>
+                <default>false</default>
+                <label>Change Existing Apex Trigger</label>
+            </value>
+            <value>
+                <fullName>Change Existing Application</fullName>
+                <default>false</default>
+                <label>Change Existing Application</label>
+            </value>
+            <value>
+                <fullName>Change Existing Case Escalation Rule</fullName>
+                <default>false</default>
+                <label>Change Existing Case Escalation Rule</label>
+            </value>
+            <value>
+                <fullName>Change Existing Custom Button</fullName>
+                <default>false</default>
+                <label>Change Existing Custom Button</label>
+            </value>
+            <value>
+                <fullName>Change Existing Custom Link</fullName>
+                <default>false</default>
+                <label>Change Existing Custom Link</label>
+            </value>
+            <value>
+                <fullName>Change Existing Custom Metadata Type</fullName>
+                <default>false</default>
+                <label>Change Existing Custom Metadata Type</label>
+            </value>
+            <value>
+                <fullName>Change Existing Custom Permission</fullName>
+                <default>false</default>
+                <label>Change Existing Custom Permission</label>
+            </value>
+            <value>
+                <fullName>Change Existing Custom Setting</fullName>
+                <default>false</default>
+                <label>Change Existing Custom Setting</label>
+            </value>
+            <value>
+                <fullName>Change Existing Email Template</fullName>
+                <default>false</default>
+                <label>Change Existing Email Template</label>
+            </value>
+            <value>
+                <fullName>Change Existing Field</fullName>
+                <default>false</default>
+                <label>Change Existing Field</label>
+            </value>
+            <value>
+                <fullName>Change Existing Flow</fullName>
+                <default>false</default>
+                <label>Change Existing Flow</label>
+            </value>
+            <value>
+                <fullName>Change Existing Global Action</fullName>
+                <default>false</default>
+                <label>Change Existing Global Action</label>
+            </value>
+            <value>
+                <fullName>Change Existing Global Picklist Value Set</fullName>
+                <default>false</default>
+                <label>Change Existing Global Picklist Value Set</label>
+            </value>
+            <value>
+                <fullName>Change Existing KPI Report</fullName>
+                <default>false</default>
+                <label>Change Existing KPI Report</label>
+            </value>
+            <value>
+                <fullName>Change Existing Lightning App</fullName>
+                <default>false</default>
+                <label>Change Existing Lightning App</label>
+            </value>
+            <value>
+                <fullName>Change Existing Lightning Record Page</fullName>
+                <default>false</default>
+                <label>Change Existing Lightning Record Page</label>
+            </value>
+            <value>
+                <fullName>Change Existing Lightning Record Page Assignments</fullName>
+                <default>false</default>
+                <label>Change Existing Lightning Record Page Assignments</label>
+            </value>
+            <value>
+                <fullName>Change Existing Object</fullName>
+                <default>false</default>
+                <label>Change Existing Object</label>
+            </value>
+            <value>
+                <fullName>Change Existing Password Policy</fullName>
+                <default>false</default>
+                <label>Change Existing Password Policy</label>
+            </value>
+            <value>
+                <fullName>Change Existing Permission Set</fullName>
+                <default>false</default>
+                <label>Change Existing Permission Set</label>
+            </value>
+            <value>
+                <fullName>Change Existing Process</fullName>
+                <default>false</default>
+                <label>Change Existing Process</label>
+            </value>
+            <value>
+                <fullName>Change Existing Public Group</fullName>
+                <default>false</default>
+                <label>Change Existing Public Group</label>
+            </value>
+            <value>
+                <fullName>Change Existing Public Group or Queue Membership</fullName>
+                <default>false</default>
+                <label>Change Existing Public Group or Queue Membership</label>
+            </value>
+            <value>
+                <fullName>Change Existing Report Type</fullName>
+                <default>false</default>
+                <label>Change Existing Report Type</label>
+            </value>
+            <value>
+                <fullName>Change Existing Role/Profile</fullName>
+                <default>false</default>
+                <label>Change Existing Role/Profile</label>
+            </value>
+            <value>
+                <fullName>Change Existing Validation Rule</fullName>
+                <default>false</default>
+                <label>Change Existing Validation Rule</label>
+            </value>
+            <value>
+                <fullName>Change Existing Visualforce Page</fullName>
+                <default>false</default>
+                <label>Change Existing Visualforce Page</label>
+            </value>
+            <value>
+                <fullName>Change Existing Workflow Rule</fullName>
+                <default>false</default>
+                <label>Change Existing Workflow Rule</label>
+            </value>
+            <value>
+                <fullName>Change Manager</fullName>
+                <default>false</default>
+                <label>Change Manager</label>
+            </value>
+            <value>
+                <fullName>Changes Under Admin Setup Setting category</fullName>
+                <default>false</default>
+                <label>Changes Under Admin Setup Setting category</label>
+            </value>
+            <value>
+                <fullName>Change to Existing Approval Process</fullName>
+                <default>false</default>
+                <label>Change to Existing Approval Process</label>
+            </value>
+            <value>
+                <fullName>Change to Existing Scheduled Report</fullName>
+                <default>false</default>
+                <label>Change to Existing Scheduled Report</label>
+            </value>
+            <value>
+                <fullName>Corporate Website</fullName>
+                <default>false</default>
+                <label>Corporate Website</label>
+            </value>
+            <value>
+                <fullName>Create New Sandbox</fullName>
+                <default>false</default>
+                <label>Create New Sandbox</label>
+            </value>
+            <value>
+                <fullName>Data Migration</fullName>
+                <default>false</default>
+                <label>Data Migration</label>
+            </value>
+            <value>
+                <fullName>Data Modification</fullName>
+                <default>false</default>
+                <label>Data Modification</label>
+            </value>
+            <value>
+                <fullName>Data Validation Change</fullName>
+                <default>false</default>
+                <label>Data Validation Change</label>
+            </value>
+            <value>
+                <fullName>dbAmp Job - create new job</fullName>
+                <default>false</default>
+                <label>dbAmp Job - create new job</label>
+            </value>
+            <value>
+                <fullName>dbAmp Job - disable existing job</fullName>
+                <default>false</default>
+                <label>dbAmp Job - disable existing job</label>
+            </value>
+            <value>
+                <fullName>dbAmp Job - modify existing job</fullName>
+                <default>false</default>
+                <label>dbAmp Job - modify existing job</label>
+            </value>
+            <value>
+                <fullName>Delete Existing Custom Button</fullName>
+                <default>false</default>
+                <label>Delete Existing Custom Button</label>
+            </value>
+            <value>
+                <fullName>Delete Existing Custom Link</fullName>
+                <default>false</default>
+                <label>Delete Existing Custom Link</label>
+            </value>
+            <value>
+                <fullName>Delete Existing Field</fullName>
+                <default>false</default>
+                <label>Delete Existing Field</label>
+            </value>
+            <value>
+                <fullName>Delete Existing Object</fullName>
+                <default>false</default>
+                <label>Delete Existing Object</label>
+            </value>
+            <value>
+                <fullName>Delete Existing Public Group</fullName>
+                <default>false</default>
+                <label>Delete Existing Public Group</label>
+            </value>
+            <value>
+                <fullName>Delete Existing Sandbox</fullName>
+                <default>false</default>
+                <label>Delete Existing Sandbox</label>
+            </value>
+            <value>
+                <fullName>Delete Sandbox</fullName>
+                <default>false</default>
+                <label>Delete Sandbox</label>
+            </value>
+            <value>
+                <fullName>Delete Workflow Action</fullName>
+                <default>false</default>
+                <label>Delete Workflow Action</label>
+            </value>
+            <value>
+                <fullName>Disable Existing Case Escalation Rule</fullName>
+                <default>false</default>
+                <label>Disable Existing Case Escalation Rule</label>
+            </value>
+            <value>
+                <fullName>Disable Scheduled Report</fullName>
+                <default>false</default>
+                <label>Disable Scheduled Report</label>
+            </value>
+            <value>
+                <fullName>Disable User Account</fullName>
+                <default>false</default>
+                <label>Disable User Account</label>
+            </value>
+            <value>
+                <fullName>Documentation</fullName>
+                <default>false</default>
+                <label>Documentation</label>
+            </value>
+            <value>
+                <fullName>Einstein Dashboard Permission</fullName>
+                <default>false</default>
+                <label>Einstein Dashboard Permission</label>
+            </value>
+            <value>
+                <fullName>Enable New Feature</fullName>
+                <default>false</default>
+                <label>Enable New Feature</label>
+            </value>
+            <value>
+                <fullName>ExternalFDCProcessor - Opera</fullName>
+                <default>false</default>
+                <label>ExternalFDCProcessor - Opera</label>
+            </value>
+            <value>
+                <fullName>ExternalFDCProcessor - ResV5</fullName>
+                <default>false</default>
+                <label>ExternalFDCProcessor - ResV5</label>
+            </value>
+            <value>
+                <fullName>Financial Systems Change</fullName>
+                <default>false</default>
+                <label>Financial Systems Change</label>
+            </value>
+            <value>
+                <fullName>Grant Login Access - Managed Package Support</fullName>
+                <default>false</default>
+                <label>Grant Login Access - Managed Package Support</label>
+            </value>
+            <value>
+                <fullName>Hosted IDPMS</fullName>
+                <default>false</default>
+                <label>Hosted IDPMS</label>
+            </value>
+            <value>
+                <fullName>Implementation:  Data Cleansing</fullName>
+                <default>false</default>
+                <label>Implementation:  Data Cleansing</label>
+            </value>
+            <value>
+                <fullName>Implementation:  Data Migration</fullName>
+                <default>false</default>
+                <label>Implementation:  Data Migration</label>
+            </value>
+            <value>
+                <fullName>Implementation:  New Install</fullName>
+                <default>false</default>
+                <label>Implementation:  New Install</label>
+            </value>
+            <value>
+                <fullName>Implementation:  Upgrade</fullName>
+                <default>false</default>
+                <label>Implementation:  Upgrade</label>
+            </value>
+            <value>
+                <fullName>Increase Platform Limits</fullName>
+                <default>false</default>
+                <label>Increase Platform Limits</label>
+            </value>
+            <value>
+                <fullName>Infrastructure:  Active Directory</fullName>
+                <default>false</default>
+                <label>Infrastructure:  Active Directory</label>
+            </value>
+            <value>
+                <fullName>Infrastructure : Azure</fullName>
+                <default>false</default>
+                <label>Infrastructure : Azure</label>
+            </value>
+            <value>
+                <fullName>Infrastructure : Database</fullName>
+                <default>false</default>
+                <label>Infrastructure : Database</label>
+            </value>
+            <value>
+                <fullName>Infrastructure:  Firewall</fullName>
+                <default>false</default>
+                <label>Infrastructure:  Firewall</label>
+            </value>
+            <value>
+                <fullName>Infrastructure : Interface</fullName>
+                <default>false</default>
+                <label>Infrastructure : Interface</label>
+            </value>
+            <value>
+                <fullName>Infrastructure:  Network</fullName>
+                <default>false</default>
+                <label>Infrastructure:  Network</label>
+            </value>
+            <value>
+                <fullName>Infrastructure : Processes</fullName>
+                <default>false</default>
+                <label>Infrastructure : Processes</label>
+            </value>
+            <value>
+                <fullName>Infrastructure : Security</fullName>
+                <default>false</default>
+                <label>Infrastructure : Security</label>
+            </value>
+            <value>
+                <fullName>Infrastructure:  Server</fullName>
+                <default>false</default>
+                <label>Infrastructure:  Server</label>
+            </value>
+            <value>
+                <fullName>Infrastructure : Software Updates</fullName>
+                <default>false</default>
+                <label>Infrastructure : Software Updates</label>
+            </value>
+            <value>
+                <fullName>Infrastructure:  Storage</fullName>
+                <default>false</default>
+                <label>Infrastructure:  Storage</label>
+            </value>
+            <value>
+                <fullName>Infrastructure:  System Center</fullName>
+                <default>false</default>
+                <label>Infrastructure:  System Center</label>
+            </value>
+            <value>
+                <fullName>Infrastructure : Webservice</fullName>
+                <default>false</default>
+                <label>Infrastructure : Webservice</label>
+            </value>
+            <value>
+                <fullName>Install New Application</fullName>
+                <default>false</default>
+                <label>Install New Application</label>
+            </value>
+            <value>
+                <fullName>License Transfer</fullName>
+                <default>false</default>
+                <label>License Transfer</label>
+            </value>
+            <value>
+                <fullName>Medallia Integration</fullName>
+                <default>false</default>
+                <label>Medallia Integration</label>
+            </value>
+            <value>
+                <fullName>New Apex Class</fullName>
+                <default>false</default>
+                <label>New Apex Class</label>
+            </value>
+            <value>
+                <fullName>New Apex Trigger</fullName>
+                <default>false</default>
+                <label>New Apex Trigger</label>
+            </value>
+            <value>
+                <fullName>New Scheduled Report</fullName>
+                <default>false</default>
+                <label>New Scheduled Report</label>
+            </value>
+            <value>
+                <fullName>Operations:  DC 2.0</fullName>
+                <default>false</default>
+                <label>Operations:  DC 2.0</label>
+            </value>
+            <value>
+                <fullName>Operations:  Dhosted</fullName>
+                <default>false</default>
+                <label>Operations:  Dhosted</label>
+            </value>
+            <value>
+                <fullName>Operations:  Nhosted</fullName>
+                <default>false</default>
+                <label>Operations:  Nhosted</label>
+            </value>
+            <value>
+                <fullName>Page Layout Change</fullName>
+                <default>false</default>
+                <label>Page Layout Change</label>
+            </value>
+            <value>
+                <fullName>Portal Change</fullName>
+                <default>false</default>
+                <label>Portal Change</label>
+            </value>
+            <value>
+                <fullName>Product:  Cendyn</fullName>
+                <default>false</default>
+                <label>Product:  Cendyn</label>
+            </value>
+            <value>
+                <fullName>Product:  Connex</fullName>
+                <default>false</default>
+                <label>Product:  Connex</label>
+            </value>
+            <value>
+                <fullName>Product: Crystal Reports</fullName>
+                <default>false</default>
+                <label>Product: Crystal Reports</label>
+            </value>
+            <value>
+                <fullName>Product:  Daylight ASP</fullName>
+                <default>false</default>
+                <label>Product:  Daylight ASP</label>
+            </value>
+            <value>
+                <fullName>Product:  Daylight Hyatt</fullName>
+                <default>false</default>
+                <label>Product:  Daylight Hyatt</label>
+            </value>
+            <value>
+                <fullName>Product:  Delphi.Net</fullName>
+                <default>false</default>
+                <label>Product:  Delphi.Net</label>
+            </value>
+            <value>
+                <fullName>Product:  Delphi ASP (DaaS)</fullName>
+                <default>false</default>
+                <label>Product:  Delphi ASP (DaaS)</label>
+            </value>
+            <value>
+                <fullName>Product: Diagrams</fullName>
+                <default>false</default>
+                <label>Product: Diagrams</label>
+            </value>
+            <value>
+                <fullName>Product: eLearning</fullName>
+                <default>false</default>
+                <label>Product: eLearning</label>
+            </value>
+            <value>
+                <fullName>Product:  Help Files</fullName>
+                <default>false</default>
+                <label>Product:  Help Files</label>
+            </value>
+            <value>
+                <fullName>Product: HIDP</fullName>
+                <default>false</default>
+                <label>Product: HIDP</label>
+            </value>
+            <value>
+                <fullName>Product:  HIS</fullName>
+                <default>false</default>
+                <label>Product:  HIS</label>
+            </value>
+            <value>
+                <fullName>Product: HRM</fullName>
+                <default>false</default>
+                <label>Product: HRM</label>
+            </value>
+            <value>
+                <fullName>Product:  Iserver</fullName>
+                <default>false</default>
+                <label>Product:  Iserver</label>
+            </value>
+            <value>
+                <fullName>Product: iServer connector</fullName>
+                <default>false</default>
+                <label>Product: iServer connector</label>
+            </value>
+            <value>
+                <fullName>Product:  MeetingBroker</fullName>
+                <default>false</default>
+                <label>Product:  MeetingBroker</label>
+            </value>
+            <value>
+                <fullName>Product:  MTech API</fullName>
+                <default>false</default>
+                <label>Product:  MTech API</label>
+            </value>
+            <value>
+                <fullName>Product:  MTech Asset Management Console</fullName>
+                <default>false</default>
+                <label>Product:  MTech Asset Management Console</label>
+            </value>
+            <value>
+                <fullName>Product:  MTech Asset Management Mobile</fullName>
+                <default>false</default>
+                <label>Product:  MTech Asset Management Mobile</label>
+            </value>
+            <value>
+                <fullName>Product:  MTech Device</fullName>
+                <default>false</default>
+                <label>Product:  MTech Device</label>
+            </value>
+            <value>
+                <fullName>Product:  MTech HIP</fullName>
+                <default>false</default>
+                <label>Product:  MTech HIP</label>
+            </value>
+            <value>
+                <fullName>Product:  MTech HotSOS</fullName>
+                <default>false</default>
+                <label>Product:  MTech HotSOS</label>
+            </value>
+            <value>
+                <fullName>Product:  MTech HotSOS Custom Reports</fullName>
+                <default>false</default>
+                <label>Product:  MTech HotSOS Custom Reports</label>
+            </value>
+            <value>
+                <fullName>Product:  MTech HotSOS Mobile</fullName>
+                <default>false</default>
+                <label>Product:  MTech HotSOS Mobile</label>
+            </value>
+            <value>
+                <fullName>Product:  MTech HotSOS Reports</fullName>
+                <default>false</default>
+                <label>Product:  MTech HotSOS Reports</label>
+            </value>
+            <value>
+                <fullName>Product:  MTech HotSOS Web</fullName>
+                <default>false</default>
+                <label>Product:  MTech HotSOS Web</label>
+            </value>
+            <value>
+                <fullName>Product:  MTech Housekeeping Manager</fullName>
+                <default>false</default>
+                <label>Product:  MTech Housekeeping Manager</label>
+            </value>
+            <value>
+                <fullName>Product:  MTech InRoom_ELV</fullName>
+                <default>false</default>
+                <label>Product:  MTech InRoom_ELV</label>
+            </value>
+            <value>
+                <fullName>Product:  MTech LIbra</fullName>
+                <default>false</default>
+                <label>Product:  MTech LIbra</label>
+            </value>
+            <value>
+                <fullName>Product:  MTech PMS</fullName>
+                <default>false</default>
+                <label>Product:  MTech PMS</label>
+            </value>
+            <value>
+                <fullName>Product:  MTech PM Works</fullName>
+                <default>false</default>
+                <label>Product:  MTech PM Works</label>
+            </value>
+            <value>
+                <fullName>Product:  MTech QIC</fullName>
+                <default>false</default>
+                <label>Product:  MTech QIC</label>
+            </value>
+            <value>
+                <fullName>Product:  MTech REX</fullName>
+                <default>false</default>
+                <label>Product:  MTech REX</label>
+            </value>
+            <value>
+                <fullName>Product:  MTech REX Custom Reports</fullName>
+                <default>false</default>
+                <label>Product:  MTech REX Custom Reports</label>
+            </value>
+            <value>
+                <fullName>Product:  MTech REX Mobile</fullName>
+                <default>false</default>
+                <label>Product:  MTech REX Mobile</label>
+            </value>
+            <value>
+                <fullName>Product:  MTech REX Reports</fullName>
+                <default>false</default>
+                <label>Product:  MTech REX Reports</label>
+            </value>
+            <value>
+                <fullName>Product:  MTech SOSuite</fullName>
+                <default>false</default>
+                <label>Product:  MTech SOSuite</label>
+            </value>
+            <value>
+                <fullName>Product:  MTech TACT</fullName>
+                <default>false</default>
+                <label>Product:  MTech TACT</label>
+            </value>
+            <value>
+                <fullName>Product:  MTech WebLog</fullName>
+                <default>false</default>
+                <label>Product:  MTech WebLog</label>
+            </value>
+            <value>
+                <fullName>Product:  Newmarket Services</fullName>
+                <default>false</default>
+                <label>Product:  Newmarket Services</label>
+            </value>
+            <value>
+                <fullName>Product: Passkey</fullName>
+                <default>false</default>
+                <label>Product: Passkey</label>
+            </value>
+            <value>
+                <fullName>Product: PMS</fullName>
+                <default>false</default>
+                <label>Product: PMS</label>
+            </value>
+            <value>
+                <fullName>Product:  Remington Reports</fullName>
+                <default>false</default>
+                <label>Product:  Remington Reports</label>
+            </value>
+            <value>
+                <fullName>Product:  RFP Toolkit</fullName>
+                <default>false</default>
+                <label>Product:  RFP Toolkit</label>
+            </value>
+            <value>
+                <fullName>Product:  Siebel</fullName>
+                <default>false</default>
+                <label>Product:  Siebel</label>
+            </value>
+            <value>
+                <fullName>Remove Users Permission</fullName>
+                <default>false</default>
+                <label>Remove Users Permission</label>
+            </value>
+            <value>
+                <fullName>Reporting</fullName>
+                <default>false</default>
+                <label>Reporting</label>
+            </value>
+            <value>
+                <fullName>RezExchange: REZEXCHANGE_BILLING</fullName>
+                <default>false</default>
+                <label>RezExchange: REZEXCHANGE_BILLING</label>
+            </value>
+            <value>
+                <fullName>RezExchange: REZEXCHANGE_MANAGEMENT</fullName>
+                <default>false</default>
+                <label>RezExchange: REZEXCHANGE_MANAGEMENT</label>
+            </value>
+            <value>
+                <fullName>RezExchange: RX01</fullName>
+                <default>false</default>
+                <label>RezExchange: RX01</label>
+            </value>
+            <value>
+                <fullName>RezExchange: RX02</fullName>
+                <default>false</default>
+                <label>RezExchange: RX02</label>
+            </value>
+            <value>
+                <fullName>RezExchange: RX03</fullName>
+                <default>false</default>
+                <label>RezExchange: RX03</label>
+            </value>
+            <value>
+                <fullName>RezExchange: RX04</fullName>
+                <default>false</default>
+                <label>RezExchange: RX04</label>
+            </value>
+            <value>
+                <fullName>RezExchange: RX05</fullName>
+                <default>false</default>
+                <label>RezExchange: RX05</label>
+            </value>
+            <value>
+                <fullName>RezExchange: RX06</fullName>
+                <default>false</default>
+                <label>RezExchange: RX06</label>
+            </value>
+            <value>
+                <fullName>RezExchange: RX07</fullName>
+                <default>false</default>
+                <label>RezExchange: RX07</label>
+            </value>
+            <value>
+                <fullName>RezExchange: RX08</fullName>
+                <default>false</default>
+                <label>RezExchange: RX08</label>
+            </value>
+            <value>
+                <fullName>RezExchange: RX09</fullName>
+                <default>false</default>
+                <label>RezExchange: RX09</label>
+            </value>
+            <value>
+                <fullName>RezExchange: RX10</fullName>
+                <default>false</default>
+                <label>RezExchange: RX10</label>
+            </value>
+            <value>
+                <fullName>RezExchange: RX11</fullName>
+                <default>false</default>
+                <label>RezExchange: RX11</label>
+            </value>
+            <value>
+                <fullName>RezExchange: RX12</fullName>
+                <default>false</default>
+                <label>RezExchange: RX12</label>
+            </value>
+            <value>
+                <fullName>RezExchange: RX99</fullName>
+                <default>false</default>
+                <label>RezExchange: RX99</label>
+            </value>
+            <value>
+                <fullName>RezExchange: RXPCI</fullName>
+                <default>false</default>
+                <label>RezExchange: RXPCI</label>
+            </value>
+            <value>
+                <fullName>Sandbox Refresh</fullName>
+                <default>false</default>
+                <label>Sandbox Refresh</label>
+            </value>
+            <value>
+                <fullName>Sharing &amp; Security</fullName>
+                <default>false</default>
+                <label>Sharing &amp; Security</label>
+            </value>
+            <value>
+                <fullName>Uninstall Existing Application</fullName>
+                <default>false</default>
+                <label>Uninstall Existing Application</label>
+            </value>
+            <value>
+                <fullName>Upgrade Existing Application</fullName>
+                <default>false</default>
+                <label>Upgrade Existing Application</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+    <visibleLines>5</visibleLines>
+</CustomField>

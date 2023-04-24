@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Change_Request_Change_Date</fullName>
+    <active>true</active>
+    <description>Prevents this field from being updated if the Request has not been approved</description>
+    <errorConditionFormula>RecordTypeId = &quot;01260000000166y&quot; &amp;&amp; NOT(ISPICKVAL(  Approval_Status__c , &quot;Approved&quot;)) &amp;&amp; NOT( ISBLANK(   Date_Changed__c   ) )</errorConditionFormula>
+    <errorDisplayField>Date_Changed__c</errorDisplayField>
+    <errorMessage>You cannot set the Date Changed field for Requisitions that have not been approved.</errorMessage>
+</ValidationRule>

@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>AH_GMSRequestType__c</fullName>
+    <businessOwnerUser>lorie.park@amadeus.com.sbfull</businessOwnerUser>
+    <businessStatus>Active</businessStatus>
+    <description>NICC-057703; This field is used to populate a picklist choice set in the Flow called &quot;Request - Creative Team Intake Form&quot;. DO NOT add values to this list without confirmation from Creative Team first.</description>
+    <externalId>false</externalId>
+    <label>GMS Request Type</label>
+    <required>false</required>
+    <securityClassification>Internal</securityClassification>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>MultiselectPicklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>New Transactional Email(s)</fullName>
+                <default>false</default>
+                <label>New Transactional Email(s)</label>
+            </value>
+            <value>
+                <fullName>New Transactional Template(s)</fullName>
+                <default>false</default>
+                <label>New Transactional Template(s)</label>
+            </value>
+            <value>
+                <fullName>New Campaign Email(s)</fullName>
+                <default>false</default>
+                <label>New Campaign Email(s)</label>
+            </value>
+            <value>
+                <fullName>New Campaign Template(s)</fullName>
+                <default>false</default>
+                <label>New Campaign Template(s)</label>
+            </value>
+            <value>
+                <fullName>New Form(s)</fullName>
+                <default>false</default>
+                <label>New Form(s)</label>
+            </value>
+            <value>
+                <fullName>New Dynamic Variable(s)</fullName>
+                <default>false</default>
+                <label>New Dynamic Variable(s)</label>
+            </value>
+            <value>
+                <fullName>Update Transactional Email(s)</fullName>
+                <default>false</default>
+                <label>Update Transactional Email(s)</label>
+            </value>
+            <value>
+                <fullName>Update Transactional Template(s)</fullName>
+                <default>false</default>
+                <label>Update Transactional Template(s)</label>
+            </value>
+            <value>
+                <fullName>Update Campaign Email(s)</fullName>
+                <default>false</default>
+                <label>Update Campaign Email(s)</label>
+            </value>
+            <value>
+                <fullName>Update Campaign Template(s)</fullName>
+                <default>false</default>
+                <label>Update Campaign Template(s)</label>
+            </value>
+            <value>
+                <fullName>Update Form(s)</fullName>
+                <default>false</default>
+                <label>Update Form(s)</label>
+            </value>
+            <value>
+                <fullName>Update Dynamic Variable(s)</fullName>
+                <default>false</default>
+                <label>Update Dynamic Variable(s)</label>
+            </value>
+            <value>
+                <fullName>Loyalty</fullName>
+                <default>false</default>
+                <label>Loyalty</label>
+            </value>
+            <value>
+                <fullName>Guest Portal</fullName>
+                <default>false</default>
+                <label>Guest Portal</label>
+            </value>
+            <value>
+                <fullName>Reporting</fullName>
+                <default>false</default>
+                <label>Reporting</label>
+            </value>
+            <value>
+                <fullName>Troubleshooting</fullName>
+                <default>false</default>
+                <label>Troubleshooting</label>
+            </value>
+            <value>
+                <fullName>Other</fullName>
+                <default>false</default>
+                <label>Other</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+    <visibleLines>4</visibleLines>
+</CustomField>

@@ -1,0 +1,257 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Vulnerabilities__c</fullName>
+    <businessOwnerUser>ssavage@newmarketinc.com.sbfull</businessOwnerUser>
+    <businessStatus>Active</businessStatus>
+    <description>Risk Register field</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Applicable Vulnerabilities (source: CS1.3 Annex F)</inlineHelpText>
+    <label>Vulnerabilities</label>
+    <required>false</required>
+    <securityClassification>Restricted</securityClassification>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>MultiselectPicklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>V1. Defective Hardware/software</fullName>
+                <default>false</default>
+                <label>V1. Defective Hardware/software</label>
+            </value>
+            <value>
+                <fullName>V2. Bad configuration</fullName>
+                <default>false</default>
+                <label>V2. Bad configuration</label>
+            </value>
+            <value>
+                <fullName>V3. Inadequate compliance enforcement</fullName>
+                <default>false</default>
+                <label>V3. Inadequate compliance enforcement</label>
+            </value>
+            <value>
+                <fullName>V4. Poor (network) design</fullName>
+                <default>false</default>
+                <label>V4. Poor (network) design</label>
+            </value>
+            <value>
+                <fullName>V5. Defective process</fullName>
+                <default>false</default>
+                <label>V5. Defective process</label>
+            </value>
+            <value>
+                <fullName>V6. Inadequate governance or management</fullName>
+                <default>false</default>
+                <label>V6. Inadequate governance or management</label>
+            </value>
+            <value>
+                <fullName>V7. Insufficient staff</fullName>
+                <default>false</default>
+                <label>V7. Insufficient staff</label>
+            </value>
+            <value>
+                <fullName>V8. Lack of knowledge of support users or operations</fullName>
+                <default>false</default>
+                <label>V8. Lack of knowledge of support users or operations</label>
+            </value>
+            <value>
+                <fullName>V9. Lack of security functionalities</fullName>
+                <default>false</default>
+                <label>V9. Lack of security functionalities</label>
+            </value>
+            <value>
+                <fullName>V10. Lack of proper maintenance</fullName>
+                <default>false</default>
+                <label>V10. Lack of proper maintenance</label>
+            </value>
+            <value>
+                <fullName>V11. Bad passwords</fullName>
+                <default>false</default>
+                <label>V11. Bad passwords</label>
+            </value>
+            <value>
+                <fullName>V12. Unprotected communications</fullName>
+                <default>false</default>
+                <label>V12. Unprotected communications</label>
+            </value>
+            <value>
+                <fullName>V13. Lack of redundancy</fullName>
+                <default>false</default>
+                <label>V13. Lack of redundancy</label>
+            </value>
+            <value>
+                <fullName>V14. Poor management of communications</fullName>
+                <default>false</default>
+                <label>V14. Poor management of communications</label>
+            </value>
+            <value>
+                <fullName>V15. Unprotected assets</fullName>
+                <default>false</default>
+                <label>V15. Unprotected assets</label>
+            </value>
+            <value>
+                <fullName>V16. Complicated user interface</fullName>
+                <default>false</default>
+                <label>V16. Complicated user interface</label>
+            </value>
+            <value>
+                <fullName>V17. Default passwords not changed</fullName>
+                <default>false</default>
+                <label>V17. Default passwords not changed</label>
+            </value>
+            <value>
+                <fullName>V18. Disposal of storage media without deleting data</fullName>
+                <default>false</default>
+                <label>V18. Disposal of storage media without deleting data</label>
+            </value>
+            <value>
+                <fullName>V19. Inadequate capacity management</fullName>
+                <default>false</default>
+                <label>V19. Inadequate capacity management</label>
+            </value>
+            <value>
+                <fullName>V20. Inadequate change management</fullName>
+                <default>false</default>
+                <label>V20. Inadequate change management</label>
+            </value>
+            <value>
+                <fullName>V21. Inadequate classification of information</fullName>
+                <default>false</default>
+                <label>V21. Inadequate classification of information</label>
+            </value>
+            <value>
+                <fullName>V22. Inadequate control of physical access</fullName>
+                <default>false</default>
+                <label>V22. Inadequate control of physical access</label>
+            </value>
+            <value>
+                <fullName>V23. Inadequate network management</fullName>
+                <default>false</default>
+                <label>V23. Inadequate network management</label>
+            </value>
+            <value>
+                <fullName>V24. Inadequate or irregular backup</fullName>
+                <default>false</default>
+                <label>V24. Inadequate or irregular backup</label>
+            </value>
+            <value>
+                <fullName>V25. Inadequate password management</fullName>
+                <default>false</default>
+                <label>V25. Inadequate password management</label>
+            </value>
+            <value>
+                <fullName>V26. Inadequate protection of cryptographic keys</fullName>
+                <default>false</default>
+                <label>V26. Inadequate protection of cryptographic keys</label>
+            </value>
+            <value>
+                <fullName>V27. Inadequate security awareness</fullName>
+                <default>false</default>
+                <label>V27. Inadequate security awareness</label>
+            </value>
+            <value>
+                <fullName>V28. Inadequate segregation of duties</fullName>
+                <default>false</default>
+                <label>V28. Inadequate segregation of duties</label>
+            </value>
+            <value>
+                <fullName>V29. Inadequate segregation of operational and testing facilities</fullName>
+                <default>false</default>
+                <label>V29. Inadequate segregation of operational and testing facilities</label>
+            </value>
+            <value>
+                <fullName>V30. Inadequate supervision of employees</fullName>
+                <default>false</default>
+                <label>V30. Inadequate supervision of employees</label>
+            </value>
+            <value>
+                <fullName>V31. Inadequate supervision of vendors</fullName>
+                <default>false</default>
+                <label>V31. Inadequate supervision of vendors</label>
+            </value>
+            <value>
+                <fullName>V32. Inadequate training of employees</fullName>
+                <default>false</default>
+                <label>V32. Inadequate training of employees</label>
+            </value>
+            <value>
+                <fullName>V33. Incomplete specification for software development</fullName>
+                <default>false</default>
+                <label>V33. Incomplete specification for software development</label>
+            </value>
+            <value>
+                <fullName>V34. Insufficient software testing</fullName>
+                <default>false</default>
+                <label>V34. Insufficient software testing</label>
+            </value>
+            <value>
+                <fullName>V35. Lack of internal documentation</fullName>
+                <default>false</default>
+                <label>V35. Lack of internal documentation</label>
+            </value>
+            <value>
+                <fullName>V36. Lack of or poor implementation of internal audit</fullName>
+                <default>false</default>
+                <label>V36. Lack of or poor implementation of internal audit</label>
+            </value>
+            <value>
+                <fullName>V37. Lack of policy for the use of cryptography</fullName>
+                <default>false</default>
+                <label>V37. Lack of policy for the use of cryptography</label>
+            </value>
+            <value>
+                <fullName>V38. Lack of procedure for removing access rights upon termination of employment</fullName>
+                <default>false</default>
+                <label>V38. Lack of procedure for removing access rights upon termination of employment</label>
+            </value>
+            <value>
+                <fullName>V39. Lack of protection for mobile equipment</fullName>
+                <default>false</default>
+                <label>V39. Lack of protection for mobile equipment</label>
+            </value>
+            <value>
+                <fullName>V40. User rights are not reviewed regularly</fullName>
+                <default>false</default>
+                <label>V40. User rights are not reviewed regularly</label>
+            </value>
+            <value>
+                <fullName>V41. Inadequate client due diligence and financial vetting</fullName>
+                <default>false</default>
+                <label>V41. Inadequate client due diligence and financial vetting</label>
+            </value>
+            <value>
+                <fullName>V42. Inadequate set levels of risk tolerance in project plans</fullName>
+                <default>false</default>
+                <label>V42. Inadequate set levels of risk tolerance in project plans</label>
+            </value>
+            <value>
+                <fullName>V43. Lack of defined business process</fullName>
+                <default>false</default>
+                <label>V43. Lack of defined business process</label>
+            </value>
+            <value>
+                <fullName>V44. Inadequate disaster recovery and business continuity planning or exercise</fullName>
+                <default>false</default>
+                <label>V44. Inadequate disaster recovery and business continuity planning or exercise</label>
+            </value>
+            <value>
+                <fullName>V45. Inadequate tools and applications</fullName>
+                <default>false</default>
+                <label>V45. Inadequate tools and applications</label>
+            </value>
+            <value>
+                <fullName>V46. Inadequate service provider due diligence and risk assessment</fullName>
+                <default>false</default>
+                <label>V46. Inadequate service provider due diligence and risk assessment</label>
+            </value>
+            <value>
+                <fullName>V47. Inadequate control of logical access</fullName>
+                <default>false</default>
+                <label>V47. Inadequate control of logical access</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+    <visibleLines>4</visibleLines>
+</CustomField>

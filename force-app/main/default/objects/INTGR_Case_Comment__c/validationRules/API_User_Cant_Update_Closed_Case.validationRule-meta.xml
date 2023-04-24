@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>API_User_Cant_Update_Closed_Case</fullName>
+    <active>true</active>
+    <description>NICC-032393</description>
+    <errorConditionFormula>AND( 
+	CONTAINS ($Profile.Name, &quot;Case Integration Customers&quot;), 
+	$User.IsActive, 
+	INTGR_Case__r.Case__r.INTGR_ClosedBy__c &lt;&gt; &quot;PB&quot;,
+	OR( 
+	ISPICKVAL( INTGR_Case__r.Status__c, &quot;Closed as recovered&quot;), 
+	ISPICKVAL( INTGR_Case__r.Status__c, &quot;Closed as rejected&quot;), 
+	ISPICKVAL( INTGR_Case__r.Status__c, &quot;Closed as withdrawn&quot;) 
+	) 
+)</errorConditionFormula>
+    <errorMessage>API user can not add comments to closed case.</errorMessage>
+</ValidationRule>

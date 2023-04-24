@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>My_Incomplete_Tasks</fullName>
+    <columns>Priority__c</columns>
+    <columns>NI_Project_Backlog_Item__c</columns>
+    <columns>NAME</columns>
+    <columns>Status__c</columns>
+    <columns>Committed__c</columns>
+    <columns>Task_Estimate_hrs__c</columns>
+    <columns>Hours__c</columns>
+    <columns>Hours_Remaining__c</columns>
+    <columns>Sprint__c</columns>
+    <columns>LOE_Override__c</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>Status__c</field>
+        <operation>notEqual</operation>
+        <value>Completed,Deferred,Neglected,No Longer Applicable</value>
+    </filters>
+    <filters>
+        <field>Assigned_To_Current_User__c</field>
+        <operation>equals</operation>
+        <value>Yes</value>
+    </filters>
+    <filters>
+        <field>RECORDTYPE</field>
+        <operation>equals</operation>
+        <value>NI_Project_Backlog_Tasks__c.Business_Systems_Task</value>
+    </filters>
+    <label>My Open Tasks</label>
+    <sharedTo>
+        <allInternalUsers></allInternalUsers>
+    </sharedTo>
+</ListView>

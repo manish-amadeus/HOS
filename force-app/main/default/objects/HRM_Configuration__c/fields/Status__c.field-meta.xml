@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Status__c</fullName>
+    <externalId>false</externalId>
+    <label>Status</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>true</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Client to Complete</fullName>
+                <default>false</default>
+                <label>Client to Complete</label>
+            </value>
+            <value>
+                <fullName>Completed</fullName>
+                <default>false</default>
+                <label>Completed</label>
+            </value>
+            <value>
+                <fullName>Created in Trialforce</fullName>
+                <default>false</default>
+                <label>Created in Trialforce</label>
+            </value>
+            <value>
+                <fullName>On Hold</fullName>
+                <default>false</default>
+                <label>On Hold</label>
+            </value>
+            <value>
+                <fullName>Out of Scope</fullName>
+                <default>false</default>
+                <label>Out of Scope</label>
+            </value>
+            <value>
+                <fullName>Planned for Configuration Days</fullName>
+                <default>true</default>
+                <label>Planned for Configuration Days</label>
+            </value>
+            <value>
+                <fullName>QA Completed</fullName>
+                <default>false</default>
+                <label>QA Completed</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

@@ -1,0 +1,30 @@
+<aura:component implements = "force:lightningQuickActionWithoutHeader,force:hasRecordId" >
+    
+    <aura:html tag="style">
+        .cuf-content {
+        	padding: 0 0rem !important;
+        }
+		.slds-p-around--medium {
+            padding: 0rem !important;
+        }       
+        .slds-modal__container {
+        	min-width: 55vw;
+        }
+        .modal-body{ 
+            height : 58vh !important; 
+            max-height: 65vh !important; 
+            background-color:rgba(236, 235, 234) !important;
+
+        } 
+        .slds-card{
+            background-color:rgba(236, 235, 234) !important;
+        }
+        
+    </aura:html> 
+    <!--Modal Header-->  
+    <div class="modal-header slds-modal__header slds-size_1-of-1">
+        <h3 class="title slds-text-heading--medium">Select NI Documentation Record Type</h3>
+    </div>
+    
+    <c:aH_CreateNewNIDocumentation_LWC_Cmp onclosemodalwindow="{!c.handleCloseWindow}" recordId="{!v.recordId}" />
+</aura:component>

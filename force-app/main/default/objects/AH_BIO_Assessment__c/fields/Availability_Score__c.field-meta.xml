@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Availability_Score__c</fullName>
+    <externalId>false</externalId>
+    <formula>CASE(Availability__c, 
+&quot;4. High Critical&quot;, 4, 
+&quot;3. Critical&quot;, 3,
+&quot;2. Important&quot;, 2,
+&quot;1. Basic&quot;, 1,
+-1)</formula>
+    <inlineHelpText>Numeric score of the selected Availability assessment</inlineHelpText>
+    <label>Availability Score</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>0</scale>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Number</type>
+    <unique>false</unique>
+</CustomField>

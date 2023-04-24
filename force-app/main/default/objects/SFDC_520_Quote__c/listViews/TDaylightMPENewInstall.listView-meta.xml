@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>TDaylightMPENewInstall</fullName>
+    <booleanFilter>1 or 2 or 3</booleanFilter>
+    <columns>NAME</columns>
+    <columns>Template_Name__c</columns>
+    <columns>Opportunity__c</columns>
+    <columns>CURRENCY_ISO_CODE</columns>
+    <columns>Quote_Amount__c</columns>
+    <columns>LAST_UPDATE</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>NAME</field>
+        <operation>equals</operation>
+        <value>Q-00220,Q-00219,Q-00217,Q-00218,Q-00216,Q-00230,Q-00229,Q-00227,Q-00228</value>
+    </filters>
+    <filters>
+        <field>NAME</field>
+        <operation>equals</operation>
+        <value>Q-00226,Q-00235,Q-00234,Q-00232,Q-00233,Q-00231,Q-00225,Q-00224,Q-00222</value>
+    </filters>
+    <filters>
+        <field>NAME</field>
+        <operation>equals</operation>
+        <value>Q-00223,Q-00221</value>
+    </filters>
+    <label>T-Daylight MPE New Install</label>
+    <sharedTo>
+        <group>Operations</group>
+    </sharedTo>
+</ListView>

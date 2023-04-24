@@ -1,0 +1,14 @@
+<aura:component controller="AH_Rally_DataPull" access="global" implements="flexipage:availableForRecordHome,force:hasRecordId,force:lightningQuickAction" >
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    <aura:attribute name="pBar" type="boolean" default="True"/>
+    <aura:attribute name="exp" type="integer" default="0"/>
+    <aura:attribute name="cou" type="integer" default="0"/>
+    <div aura:id="div1"></div>
+    <!-- used to show error-->
+    <c:AH_Rally_Error aura:id = "msgs" />
+    <aura:if isTrue="{!v.pBar}"> 
+        <div class="exampleHolder slds-spinner" >
+            <lightning:spinner aura:id="mySpinner"  variant="brand" size="medium"/>
+        </div>
+    </aura:if>
+</aura:component>

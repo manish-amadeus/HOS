@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>HRM_Configuration</fullName>
+    <columns>NAME</columns>
+    <columns>Account__c</columns>
+    <columns>Project__c</columns>
+    <columns>Document_Name__c</columns>
+    <columns>HRM_Product__c</columns>
+    <columns>Stage__c</columns>
+    <columns>CREATEDBY_USER</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>RECORDTYPE</field>
+        <operation>equals</operation>
+        <value>NI_Documentation__c.HRM_Configuration</value>
+    </filters>
+    <label>HRM Configuration</label>
+    <sharedTo>
+        <allInternalUsers></allInternalUsers>
+    </sharedTo>
+</ListView>

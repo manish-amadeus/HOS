@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Audit</fullName>
+    <columns>NAME</columns>
+    <columns>LogDate__c</columns>
+    <columns>Level__c</columns>
+    <columns>Source__c</columns>
+    <columns>Code__c</columns>
+    <columns>LogText__c</columns>
+    <columns>IsProcessed__c</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>Level__c</field>
+        <operation>equals</operation>
+        <value>Audit</value>
+    </filters>
+    <label>All Audit</label>
+    <language>en_US</language>
+</ListView>

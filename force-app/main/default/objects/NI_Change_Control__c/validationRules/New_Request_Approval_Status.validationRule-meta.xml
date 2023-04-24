@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>New_Request_Approval_Status</fullName>
+    <active>true</active>
+    <description>The Approval Status must be set to &quot;Not Submitted&quot; for New Requests</description>
+    <errorConditionFormula>RecordTypeId = &quot;01260000000166y&quot; &amp;&amp; (AND (ISNEW(),NOT(ISPICKVAL( Approval_Status__c ,&quot;Not Submitted&quot; ) ), NOT( $Profile.Name = &quot;System Administrator&quot;)))</errorConditionFormula>
+    <errorDisplayField>Approval_Status__c</errorDisplayField>
+    <errorMessage>The Approval Status must be set to &quot;Not Submitted&quot; when a change control request is created.</errorMessage>
+</ValidationRule>

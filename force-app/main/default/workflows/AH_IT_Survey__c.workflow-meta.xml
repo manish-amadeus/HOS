@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Workflow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fieldUpdates>
+        <fullName>Update_Survey_Completed_Checkbox</fullName>
+        <description>Sets the Survey Completed Checkbox on the Internal IT Request record to &quot;true&quot;</description>
+        <field>Survey_Completed__c</field>
+        <literalValue>1</literalValue>
+        <name>Update Survey Completed Checkbox</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Literal</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+        <targetObject>Internal_IT_Request__c</targetObject>
+    </fieldUpdates>
+    <rules>
+        <fullName>Survey Created</fullName>
+        <actions>
+            <name>Update_Survey_Completed_Checkbox</name>
+            <type>FieldUpdate</type>
+        </actions>
+        <active>true</active>
+        <formula>ISNEW()</formula>
+        <triggerType>onAllChanges</triggerType>
+    </rules>
+</Workflow>

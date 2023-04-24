@@ -1,0 +1,14 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access="global" >
+    
+    <aura:handler name="init" value="{!this}" action="{!c.init}" />
+    <aura:attribute name="myRecordId" type="String" description="Record to which the files should be attached" />
+    <aura:attribute name="accept" type="List" default=""/>    
+    <aura:registerEvent name="appEvent" type="c:AH_Rally_Event"/>
+    
+    <lightning:fileUpload label="Attach Files"
+                          name="fileUploader"
+                          multiple="true"
+                          accept="{!v.accept}"
+                          recordId="{!v.recordId}"
+                          onuploadfinished="{!c.handleUploadFinished}" />    
+</aura:component>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>New_Yesterday</fullName>
+    <columns>NAME</columns>
+    <columns>Salesforce_Source_Type__c</columns>
+    <columns>API_Name__c</columns>
+    <columns>Happened_At__c</columns>
+    <columns>User__c</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>CREATED_DATE</field>
+        <operation>equals</operation>
+        <value>YESTERDAY</value>
+    </filters>
+    <filters>
+        <field>IsFixed__c</field>
+        <operation>equals</operation>
+        <value>0</value>
+    </filters>
+    <label>New Yesterday</label>
+    <sharedTo>
+        <group>Administrators</group>
+    </sharedTo>
+</ListView>

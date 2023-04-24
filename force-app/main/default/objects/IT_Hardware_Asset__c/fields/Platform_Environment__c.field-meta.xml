@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Platform_Environment__c</fullName>
+    <description>Locations for the Platform Environment.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>can be managed by Lisa Ertle or Ron Sevigny.</inlineHelpText>
+    <label>Platform Environment</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>DC2</fullName>
+                <default>false</default>
+                <label>DC2</label>
+            </value>
+            <value>
+                <fullName>DCC</fullName>
+                <default>false</default>
+                <label>DCC</label>
+            </value>
+            <value>
+                <fullName>DR</fullName>
+                <default>false</default>
+                <label>DR</label>
+            </value>
+            <value>
+                <fullName>Enterprise</fullName>
+                <default>false</default>
+                <label>Enterprise</label>
+            </value>
+            <value>
+                <fullName>Lab</fullName>
+                <default>false</default>
+                <label>Lab</label>
+            </value>
+            <value>
+                <fullName>M-Tech.Dev</fullName>
+                <default>false</default>
+                <label>M-Tech.Dev</label>
+            </value>
+            <value>
+                <fullName>NHosted</fullName>
+                <default>false</default>
+                <label>NHosted</label>
+            </value>
+            <value>
+                <fullName>Shared</fullName>
+                <default>false</default>
+                <label>Shared</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

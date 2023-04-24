@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ConnectedApp xmlns="http://soap.sforce.com/2006/04/metadata">
+    <contactEmail>stu.emery@amadeus.com</contactEmail>
+    <contactPhone>6034367500</contactPhone>
+    <description>NICC-056256 - Used for Connecting Hospitality Org to myTrailhead</description>
+    <label>myTrailhead Authentication</label>
+    <oauthConfig>
+        <callbackUrl>https://amadeus-hospitality.my.trailhead.com/auth/mytrailhead/callback</callbackUrl>
+        <consumerKey>3MVG9igNVW5mZVnXrVx_V11V80bNasrAp0UhuUT25oNvQZH6yleDj0AMXUa6xX_p7LIpFV1RiHk5cLdPDzfFX</consumerKey>
+        <isAdminApproved>true</isAdminApproved>
+        <isClientCredentialEnabled>false</isClientCredentialEnabled>
+        <isCodeCredentialEnabled>false</isCodeCredentialEnabled>
+        <isCodeCredentialPostOnly>false</isCodeCredentialPostOnly>
+        <isConsumerSecretOptional>false</isConsumerSecretOptional>
+        <isIntrospectAllTokens>false</isIntrospectAllTokens>
+        <isSecretRequiredForRefreshToken>false</isSecretRequiredForRefreshToken>
+        <scopes>Basic</scopes>
+        <scopes>RefreshToken</scopes>
+        <scopes>OpenID</scopes>
+    </oauthConfig>
+    <oauthPolicy>
+        <ipRelaxation>ENFORCE</ipRelaxation>
+        <refreshTokenPolicy>infinite</refreshTokenPolicy>
+    </oauthPolicy>
+    <profileName>AH External - Platform</profileName>
+    <profileName>AH Support CSR - Lightning</profileName>
+    <profileName>AH Support Managers - Lightning</profileName>
+    <profileName>AH Order Management - Lightning</profileName>
+    <profileName>AH PSA Project Management - Contractor - Lightning</profileName>
+    <profileName>AH Sales - Lightning</profileName>
+    <profileName>AH PSA T&amp;E - Platform Lightning</profileName>
+    <profileName>AH Platform User - Lightning</profileName>
+    <profileName>AH PSA Administrator - Lightning</profileName>
+    <profileName>AH PSA Management - Lightning</profileName>
+    <profileName>AH PSA Project Management - Lightning</profileName>
+    <profileName>AH PSA T&amp;E - SF - Lightning</profileName>
+    <profileName>AH Sales Lead To Cash PWC - Platform</profileName>
+    <profileName>AH Product Management - Lightning</profileName>
+    <profileName>System Administrator</profileName>
+    <profileName>NI Executive Management</profileName>
+    <profileName>NI Sales</profileName>
+    <profileName>NI Marketing</profileName>
+    <profileName>NI Contracts</profileName>
+    <profileName>NI Finance</profileName>
+    <profileName>NI Platform User</profileName>
+    <profileName>NI IT - Standard</profileName>
+</ConnectedApp>

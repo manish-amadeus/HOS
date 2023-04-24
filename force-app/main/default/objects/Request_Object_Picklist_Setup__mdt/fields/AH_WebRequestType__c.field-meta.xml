@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>AH_WebRequestType__c</fullName>
+    <businessStatus>Active</businessStatus>
+    <description>NICC-057703; Used to populate Product choices in the Flow called &quot;Request - Creative Request Intake Form&quot;. Used on the screen called &quot;WebInputScreen&quot;, field &quot;Request Type&quot;</description>
+    <externalId>false</externalId>
+    <fieldManageability>DeveloperControlled</fieldManageability>
+    <label>Web Request Type</label>
+    <required>false</required>
+    <securityClassification>Internal</securityClassification>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Quote</fullName>
+                <default>false</default>
+                <label>Quote</label>
+            </value>
+            <value>
+                <fullName>Work to be done</fullName>
+                <default>false</default>
+                <label>Work to be done</label>
+            </value>
+            <value>
+                <fullName>Other</fullName>
+                <default>false</default>
+                <label>Other</label>
+            </value>
+            <value>
+                <fullName>BE4 to BE5 Migration</fullName>
+                <default>false</default>
+                <label>BE4 to BE5 Migration</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

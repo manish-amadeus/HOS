@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>COVID_Payment_Plans_Complete</fullName>
+    <columns>NAME</columns>
+    <columns>Account__c</columns>
+    <columns>Relief_Request_Type__c</columns>
+    <columns>Relief_Status__c</columns>
+    <columns>CREATED_DATE</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>RECORDTYPE</field>
+        <operation>equals</operation>
+        <value>AH_Finance_Request__c.COVID_19</value>
+    </filters>
+    <filters>
+        <field>Relief_Request_Type__c</field>
+        <operation>equals</operation>
+        <value>Payment Plan</value>
+    </filters>
+    <filters>
+        <field>Relief_Status__c</field>
+        <operation>equals</operation>
+        <value>Payment Plan Approved</value>
+    </filters>
+    <label>COVID - Payment Plans Approved</label>
+    <language>en_US</language>
+    <sharedTo>
+        <allInternalUsers></allInternalUsers>
+    </sharedTo>
+</ListView>

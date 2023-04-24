@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Visualforce_Pages_To_Change__c</fullName>
+    <description>NICC-023424 
+The Visualforce Pages that will be changed as part of this Change Request</description>
+    <externalId>false</externalId>
+    <inlineHelpText>The Visualforce Pages that will be changed as part of this Change Request. This field must be updated if the Change Type contains &quot;Change Existing Visualforce Page&quot;</inlineHelpText>
+    <label>Visualforce Pages To Change</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>MultiselectPicklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetName>Visualforce_Pages</valueSetName>
+    </valueSet>
+    <visibleLines>8</visibleLines>
+</CustomField>

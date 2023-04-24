@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>UDC_Form__c</fullName>
+    <deleteConstraint>Restrict</deleteConstraint>
+    <description>The form to which this translation specifically applies.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>The form to which this translation specifically applies.</inlineHelpText>
+    <label>UDC Form</label>
+    <referenceTo>AH_UDC_Form__c</referenceTo>
+    <relationshipName>AH_UDC_Translations</relationshipName>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

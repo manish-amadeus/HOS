@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Approval_Status_Manual_Change</fullName>
+    <active>true</active>
+    <description>Prevents anyone other than a system administrator from changing the Approval Status</description>
+    <errorConditionFormula>RecordTypeId = &quot;01260000000166y&quot; &amp;&amp; (AND(ISCHANGED( Approval_Status__c ) , NOT( $Profile.Name = &quot;System Administrator&quot;)))</errorConditionFormula>
+    <errorMessage>You cannot change the Approval Status</errorMessage>
+</ValidationRule>

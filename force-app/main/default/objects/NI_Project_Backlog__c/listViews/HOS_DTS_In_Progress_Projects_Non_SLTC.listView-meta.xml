@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>HOS_DTS_In_Progress_Projects_Non_SLTC</fullName>
+    <columns>NAME</columns>
+    <columns>OWNER.FIRST_NAME</columns>
+    <columns>Sponsor__c</columns>
+    <columns>Project_Start_Date__c</columns>
+    <columns>Request_Status__c</columns>
+    <columns>Phase__c</columns>
+    <columns>Project_Completion_Date__c</columns>
+    <columns>Weekly_Update__c</columns>
+    <columns>Sprint__c</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>RECORDTYPE</field>
+        <operation>equals</operation>
+        <value>NI_Project_Backlog__c.Business_Systems</value>
+    </filters>
+    <filters>
+        <field>Request_Status__c</field>
+        <operation>equals</operation>
+        <value>In Progress</value>
+    </filters>
+    <filters>
+        <field>NAME</field>
+        <operation>notContain</operation>
+        <value>SLTC</value>
+    </filters>
+    <label>HOS DTS In Progress Projects - Non SLTC</label>
+    <sharedTo>
+        <group>Business_Systems_Internal</group>
+    </sharedTo>
+</ListView>

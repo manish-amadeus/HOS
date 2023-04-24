@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Sandbox_Implementation_Status__c</fullName>
+    <externalId>false</externalId>
+    <label>Sandbox Implementation Status</label>
+    <required>false</required>
+    <trackFeedHistory>true</trackFeedHistory>
+    <trackHistory>true</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <controllingField>Approval_Status__c</controllingField>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Open</fullName>
+                <default>true</default>
+                <label>Open</label>
+            </value>
+            <value>
+                <fullName>Closed - Failed</fullName>
+                <default>false</default>
+                <label>Closed - Failed</label>
+            </value>
+            <value>
+                <fullName>Closed - Passed</fullName>
+                <default>false</default>
+                <label>Closed - Passed</label>
+            </value>
+        </valueSetDefinition>
+        <valueSettings>
+            <controllingFieldValue>Not Submitted</controllingFieldValue>
+            <controllingFieldValue>Approved</controllingFieldValue>
+            <controllingFieldValue>Rejected</controllingFieldValue>
+            <controllingFieldValue>Submitted</controllingFieldValue>
+            <valueName>Open</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Approved</controllingFieldValue>
+            <valueName>Closed - Failed</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Approved</controllingFieldValue>
+            <valueName>Closed - Passed</valueName>
+        </valueSettings>
+    </valueSet>
+</CustomField>

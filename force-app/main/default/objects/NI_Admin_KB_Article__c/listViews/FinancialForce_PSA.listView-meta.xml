@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>FinancialForce_PSA</fullName>
+    <columns>Salesforce_App__c</columns>
+    <columns>NAME</columns>
+    <columns>Subject__c</columns>
+    <columns>Category__c</columns>
+    <columns>RECORDTYPE</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>Salesforce_App__c</field>
+        <operation>equals</operation>
+        <value>FinancialForce - PSA</value>
+    </filters>
+    <label>FinancialForce - PSA</label>
+    <sharedTo>
+        <allInternalUsers></allInternalUsers>
+    </sharedTo>
+</ListView>

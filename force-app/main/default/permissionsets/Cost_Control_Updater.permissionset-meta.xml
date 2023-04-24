@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PermissionSet xmlns="http://soap.sforce.com/2006/04/metadata">
+    <classAccesses>
+        <apexClass>AH_CostControlUpdate_Ext</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <description>Users with this permission set can access and use the custom VF page AH_CostControlUpdate_Ext that allows them to update dim fields on ther User object.</description>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>User.Controlling_Verified__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>User.Cost_Ctr__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>User.FFA_Company__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>User.FFA_Dimension_2__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>User.FFA_Dimension_3__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <hasActivationRequired>false</hasActivationRequired>
+    <label>Cost Control Updater</label>
+    <license>Salesforce</license>
+    <pageAccesses>
+        <apexPage>AH_CostControlUpdate</apexPage>
+        <enabled>true</enabled>
+    </pageAccesses>
+</PermissionSet>

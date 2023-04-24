@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>System_of_Record_c__c</fullName>
+    <externalDeveloperName>System_of_Record__c</externalDeveloperName>
+    <externalId>false</externalId>
+    <isFilteringDisabled>false</isFilteringDisabled>
+    <isNameField>false</isNameField>
+    <isSortingDisabled>false</isSortingDisabled>
+    <label>System of Record</label>
+    <required>false</required>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Oracle</fullName>
+                <default>false</default>
+                <label>Oracle</label>
+            </value>
+            <value>
+                <fullName>InSite</fullName>
+                <default>false</default>
+                <label>InSite</label>
+            </value>
+            <value>
+                <fullName>RNS</fullName>
+                <default>false</default>
+                <label>RNS</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>AH_PLCM_Project_Contact__c</fullName>
+    <businessOwnerGroup>DEPT_Platform_Life_Cycle_Management</businessOwnerGroup>
+    <businessStatus>Active</businessStatus>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <description>NICC-036103</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Person who will get Portal access</inlineHelpText>
+    <label>Project Contact</label>
+    <referenceTo>Contact</referenceTo>
+    <relationshipLabel>NI Documentation (Project Contact)</relationshipLabel>
+    <relationshipName>NI_Documentation2</relationshipName>
+    <required>false</required>
+    <securityClassification>Internal</securityClassification>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

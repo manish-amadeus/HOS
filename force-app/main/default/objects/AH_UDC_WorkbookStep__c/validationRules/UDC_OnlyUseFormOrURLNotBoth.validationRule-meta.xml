@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>UDC_OnlyUseFormOrURLNotBoth</fullName>
+    <active>true</active>
+    <description>Created to ensure UDC Workbook Administrators select Form or set URL but not both.</description>
+    <errorConditionFormula>OR(
+   AND(
+      RecordType.DeveloperName  = &quot;AH_UDC_WorkbookStep&quot;,
+      NOT ISBLANK(Form__c),
+      NOT ISBLANK(URL__c)
+   ),
+   AND(
+      ISBLANK(Form__c), 
+      ISBLANK(URL__c)
+   )
+)</errorConditionFormula>
+    <errorMessage>A UDC Workbook Step must be associated either with a Form or a URL and can not have both.</errorMessage>
+</ValidationRule>

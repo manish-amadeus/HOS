@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Marketing_Demand_Generation</fullName>
+    <columns>Release_Vision_Statement__c</columns>
+    <columns>NAME</columns>
+    <columns>Status__c</columns>
+    <columns>Product_Line__c</columns>
+    <columns>CREATEDBY_USER</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>Product_Line__c</field>
+        <operation>equals</operation>
+        <value>HRM</value>
+    </filters>
+    <label>Marketing &amp; Demand Generation</label>
+    <sharedTo>
+        <allInternalUsers></allInternalUsers>
+    </sharedTo>
+</ListView>

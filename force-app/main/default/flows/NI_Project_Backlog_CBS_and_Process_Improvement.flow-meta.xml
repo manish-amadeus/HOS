@@ -1,0 +1,1467 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <actionCalls>
+        <processMetadataValues>
+            <name>ActionCallType</name>
+            <value>
+                <stringValue>process</stringValue>
+            </value>
+        </processMetadataValues>
+        <processMetadataValues>
+            <name>flowSelection</name>
+            <value>
+                <stringValue>AH Project Backlog - Priority Recalculation</stringValue>
+            </value>
+        </processMetadataValues>
+        <name>myRule_17_A1</name>
+        <label>Recalculate Priority</label>
+        <locationX>1700</locationX>
+        <locationY>200</locationY>
+        <actionName>AH_Project_Backlog_Priority_Recalculation</actionName>
+        <actionType>flow</actionType>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <inputParameters>
+            <processMetadataValues>
+                <name>dataType</name>
+                <value>
+                    <stringValue>SObject</stringValue>
+                </value>
+            </processMetadataValues>
+            <processMetadataValues>
+                <name>isRequired</name>
+                <value>
+                    <booleanValue>true</booleanValue>
+                </value>
+            </processMetadataValues>
+            <processMetadataValues>
+                <name>leftHandSideLabel</name>
+                <value>
+                    <stringValue>SObject</stringValue>
+                </value>
+            </processMetadataValues>
+            <processMetadataValues>
+                <name>maxOccurs</name>
+                <value>
+                    <numberValue>0.0</numberValue>
+                </value>
+            </processMetadataValues>
+            <processMetadataValues>
+                <name>objectType</name>
+                <value>
+                    <stringValue>NI_Project_Backlog__c</stringValue>
+                </value>
+            </processMetadataValues>
+            <processMetadataValues>
+                <name>rightHandSideType</name>
+                <value>
+                    <stringValue>SObject</stringValue>
+                </value>
+            </processMetadataValues>
+            <name>SObject</name>
+            <value>
+                <elementReference>myVariable_current</elementReference>
+            </value>
+        </inputParameters>
+    </actionCalls>
+    <actionCalls>
+        <processMetadataValues>
+            <name>ActionCallType</name>
+            <value>
+                <stringValue>process</stringValue>
+            </value>
+        </processMetadataValues>
+        <processMetadataValues>
+            <name>flowSelection</name>
+            <value>
+                <stringValue>AH Project Backlog - Priority Recalculation</stringValue>
+            </value>
+        </processMetadataValues>
+        <name>myRule_19_A2</name>
+        <label>Recalculate Priorities</label>
+        <locationX>1900</locationX>
+        <locationY>300</locationY>
+        <actionName>AH_Project_Backlog_Priority_Recalculation</actionName>
+        <actionType>flow</actionType>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <inputParameters>
+            <processMetadataValues>
+                <name>dataType</name>
+                <value>
+                    <stringValue>SObject</stringValue>
+                </value>
+            </processMetadataValues>
+            <processMetadataValues>
+                <name>isRequired</name>
+                <value>
+                    <booleanValue>true</booleanValue>
+                </value>
+            </processMetadataValues>
+            <processMetadataValues>
+                <name>leftHandSideLabel</name>
+                <value>
+                    <stringValue>SObject</stringValue>
+                </value>
+            </processMetadataValues>
+            <processMetadataValues>
+                <name>maxOccurs</name>
+                <value>
+                    <numberValue>0.0</numberValue>
+                </value>
+            </processMetadataValues>
+            <processMetadataValues>
+                <name>objectType</name>
+                <value>
+                    <stringValue>NI_Project_Backlog__c</stringValue>
+                </value>
+            </processMetadataValues>
+            <processMetadataValues>
+                <name>rightHandSideType</name>
+                <value>
+                    <stringValue>SObject</stringValue>
+                </value>
+            </processMetadataValues>
+            <name>SObject</name>
+            <value>
+                <elementReference>myVariable_current</elementReference>
+            </value>
+        </inputParameters>
+    </actionCalls>
+    <apiVersion>49.0</apiVersion>
+    <decisions>
+        <processMetadataValues>
+            <name>index</name>
+            <value>
+                <numberValue>0.0</numberValue>
+            </value>
+        </processMetadataValues>
+        <name>myDecision</name>
+        <label>myDecision</label>
+        <locationX>50</locationX>
+        <locationY>0</locationY>
+        <defaultConnector>
+            <targetReference>myDecision3</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>default</defaultConnectorLabel>
+        <rules>
+            <name>myRule_1</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>formula_myRule_1</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>myRule_1_A1</targetReference>
+            </connector>
+            <label>Record Created</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <processMetadataValues>
+            <name>index</name>
+            <value>
+                <numberValue>4.0</numberValue>
+            </value>
+        </processMetadataValues>
+        <name>myDecision10</name>
+        <label>myDecision10</label>
+        <locationX>50</locationX>
+        <locationY>0</locationY>
+        <defaultConnector>
+            <targetReference>myDecision12</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>default</defaultConnectorLabel>
+        <rules>
+            <name>myRule_11</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>formula_myRule_11</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>myRule_11_A1</targetReference>
+            </connector>
+            <label>Workstream Cost Reduction un-check</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <processMetadataValues>
+            <name>index</name>
+            <value>
+                <numberValue>5.0</numberValue>
+            </value>
+        </processMetadataValues>
+        <name>myDecision12</name>
+        <label>myDecision12</label>
+        <locationX>50</locationX>
+        <locationY>0</locationY>
+        <defaultConnector>
+            <targetReference>myDecision14</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>default</defaultConnectorLabel>
+        <rules>
+            <name>myRule_13</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>formula_myRule_13</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>myRule_13_A1</targetReference>
+            </connector>
+            <label>Workstream Eddifiencies Savings un-check</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <processMetadataValues>
+            <name>index</name>
+            <value>
+                <numberValue>6.0</numberValue>
+            </value>
+        </processMetadataValues>
+        <name>myDecision14</name>
+        <label>myDecision14</label>
+        <locationX>50</locationX>
+        <locationY>0</locationY>
+        <defaultConnector>
+            <targetReference>myDecision16</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>default</defaultConnectorLabel>
+        <rules>
+            <name>myRule_15</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>formula_myRule_15</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>myRule_15_A1</targetReference>
+            </connector>
+            <label>Status Completed</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <processMetadataValues>
+            <name>index</name>
+            <value>
+                <numberValue>7.0</numberValue>
+            </value>
+        </processMetadataValues>
+        <name>myDecision16</name>
+        <label>myDecision16</label>
+        <locationX>50</locationX>
+        <locationY>0</locationY>
+        <defaultConnector>
+            <targetReference>myDecision18</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>default</defaultConnectorLabel>
+        <rules>
+            <name>myRule_17</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>formula_myRule_17</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>myRule_17_A1</targetReference>
+            </connector>
+            <label>Status Pending Scheduling</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <processMetadataValues>
+            <name>index</name>
+            <value>
+                <numberValue>8.0</numberValue>
+            </value>
+        </processMetadataValues>
+        <name>myDecision18</name>
+        <label>myDecision18</label>
+        <locationX>50</locationX>
+        <locationY>0</locationY>
+        <defaultConnectorLabel>default</defaultConnectorLabel>
+        <rules>
+            <name>myRule_19</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>formula_myRule_19</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>myRule_19_A1</targetReference>
+            </connector>
+            <label>Status Change Clear Priority</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <processMetadataValues>
+            <name>index</name>
+            <value>
+                <numberValue>1.0</numberValue>
+            </value>
+        </processMetadataValues>
+        <name>myDecision3</name>
+        <label>myDecision3</label>
+        <locationX>50</locationX>
+        <locationY>0</locationY>
+        <defaultConnector>
+            <targetReference>myDecision6</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>default</defaultConnectorLabel>
+        <rules>
+            <name>myRule_4</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>formula_myRule_4</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>myRule_4_A1</targetReference>
+            </connector>
+            <label>Benefits Changes</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <processMetadataValues>
+            <name>index</name>
+            <value>
+                <numberValue>2.0</numberValue>
+            </value>
+        </processMetadataValues>
+        <name>myDecision6</name>
+        <label>myDecision6</label>
+        <locationX>50</locationX>
+        <locationY>0</locationY>
+        <defaultConnector>
+            <targetReference>myDecision8</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>default</defaultConnectorLabel>
+        <rules>
+            <name>myRule_7</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>formula_myRule_7</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>myRule_7_A1</targetReference>
+            </connector>
+            <label>Workstream Cost Reduction check</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <processMetadataValues>
+            <name>index</name>
+            <value>
+                <numberValue>3.0</numberValue>
+            </value>
+        </processMetadataValues>
+        <name>myDecision8</name>
+        <label>myDecision8</label>
+        <locationX>50</locationX>
+        <locationY>0</locationY>
+        <defaultConnector>
+            <targetReference>myDecision10</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>default</defaultConnectorLabel>
+        <rules>
+            <name>myRule_9</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>formula_myRule_9</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>myRule_9_A1</targetReference>
+            </connector>
+            <label>Workstream Efficiencies Savings check</label>
+        </rules>
+    </decisions>
+    <description>NICC-046278 - Automation for the Business Systems and Internal Project Record Types</description>
+    <formulas>
+        <processMetadataValues>
+            <name>originalFormula</name>
+            <value>
+                <stringValue>IF(NOT(ISBLANK([NI_Project_Backlog__c].Estimated_Annual_Revenue_Increase__c))
+&amp;&amp; NOT(ISBLANK([NI_Project_Backlog__c].Annual_Revenue_Increase_Confidence__c))
+&amp;&amp; NOT(ISBLANK([NI_Project_Backlog__c].Margin__c)) 
+&amp;&amp; [NI_Project_Backlog__c].Annual_Revenue_Increase_Confidence__c &gt; 0
+&amp;&amp; [NI_Project_Backlog__c].Margin__c &gt; 0
+&amp;&amp; [NI_Project_Backlog__c].Estimated_Annual_Revenue_Increase__c &gt; 0, 
+([NI_Project_Backlog__c].Estimated_Annual_Revenue_Increase__c * [NI_Project_Backlog__c].Annual_Revenue_Increase_Confidence__c * [NI_Project_Backlog__c].Margin__c),
+
+IF(NOT(ISBLANK([NI_Project_Backlog__c].Estimated_Annual_Revenue_Increase__c))
+&amp;&amp; NOT(ISBLANK([NI_Project_Backlog__c].Annual_Revenue_Increase_Confidence__c))
+&amp;&amp; (ISBLANK([NI_Project_Backlog__c].Margin__c) || [NI_Project_Backlog__c].Margin__c = 0)
+&amp;&amp; [NI_Project_Backlog__c].Annual_Revenue_Increase_Confidence__c &gt; 0
+&amp;&amp; [NI_Project_Backlog__c].Estimated_Annual_Revenue_Increase__c &gt; 0, 
+([NI_Project_Backlog__c].Estimated_Annual_Revenue_Increase__c * [NI_Project_Backlog__c].Annual_Revenue_Increase_Confidence__c),
+0
+)
+)</stringValue>
+            </value>
+        </processMetadataValues>
+        <name>formula_2_myRule_1_A1_8792798832</name>
+        <dataType>Currency</dataType>
+        <expression>IF(NOT(ISBLANK({!myVariable_current.Estimated_Annual_Revenue_Increase__c}))
+&amp;&amp; NOT(ISBLANK({!myVariable_current.Annual_Revenue_Increase_Confidence__c}))
+&amp;&amp; NOT(ISBLANK({!myVariable_current.Margin__c})) 
+&amp;&amp; {!myVariable_current.Annual_Revenue_Increase_Confidence__c} &gt; 0
+&amp;&amp; {!myVariable_current.Margin__c} &gt; 0
+&amp;&amp; {!myVariable_current.Estimated_Annual_Revenue_Increase__c} &gt; 0, 
+({!myVariable_current.Estimated_Annual_Revenue_Increase__c} * {!myVariable_current.Annual_Revenue_Increase_Confidence__c} * {!myVariable_current.Margin__c}),
+
+IF(NOT(ISBLANK({!myVariable_current.Estimated_Annual_Revenue_Increase__c}))
+&amp;&amp; NOT(ISBLANK({!myVariable_current.Annual_Revenue_Increase_Confidence__c}))
+&amp;&amp; (ISBLANK({!myVariable_current.Margin__c}) || {!myVariable_current.Margin__c} = 0)
+&amp;&amp; {!myVariable_current.Annual_Revenue_Increase_Confidence__c} &gt; 0
+&amp;&amp; {!myVariable_current.Estimated_Annual_Revenue_Increase__c} &gt; 0, 
+({!myVariable_current.Estimated_Annual_Revenue_Increase__c} * {!myVariable_current.Annual_Revenue_Increase_Confidence__c}),
+0
+)
+)</expression>
+        <scale>18</scale>
+    </formulas>
+    <formulas>
+        <processMetadataValues>
+            <name>originalFormula</name>
+            <value>
+                <stringValue>IF(NOT(ISBLANK([NI_Project_Backlog__c].Estimated_Annual_Revenue_Increase__c))
+&amp;&amp; NOT(ISBLANK([NI_Project_Backlog__c].Annual_Revenue_Increase_Confidence__c))
+&amp;&amp; NOT(ISBLANK([NI_Project_Backlog__c].Margin__c)) 
+&amp;&amp; [NI_Project_Backlog__c].Annual_Revenue_Increase_Confidence__c &gt; 0
+&amp;&amp; [NI_Project_Backlog__c].Margin__c &gt; 0
+&amp;&amp; [NI_Project_Backlog__c].Estimated_Annual_Revenue_Increase__c &gt; 0, 
+([NI_Project_Backlog__c].Estimated_Annual_Revenue_Increase__c * [NI_Project_Backlog__c].Annual_Revenue_Increase_Confidence__c * [NI_Project_Backlog__c].Margin__c),
+
+IF(NOT(ISBLANK([NI_Project_Backlog__c].Estimated_Annual_Revenue_Increase__c))
+&amp;&amp; NOT(ISBLANK([NI_Project_Backlog__c].Annual_Revenue_Increase_Confidence__c))
+&amp;&amp; (ISBLANK([NI_Project_Backlog__c].Margin__c) || [NI_Project_Backlog__c].Margin__c = 0)
+&amp;&amp; [NI_Project_Backlog__c].Annual_Revenue_Increase_Confidence__c &gt; 0
+&amp;&amp; [NI_Project_Backlog__c].Estimated_Annual_Revenue_Increase__c &gt; 0, 
+([NI_Project_Backlog__c].Estimated_Annual_Revenue_Increase__c * [NI_Project_Backlog__c].Annual_Revenue_Increase_Confidence__c),
+0
+)
+)</stringValue>
+            </value>
+        </processMetadataValues>
+        <name>formula_5_myRule_4_A1_7770974014</name>
+        <dataType>Currency</dataType>
+        <expression>IF(NOT(ISBLANK({!myVariable_current.Estimated_Annual_Revenue_Increase__c}))
+&amp;&amp; NOT(ISBLANK({!myVariable_current.Annual_Revenue_Increase_Confidence__c}))
+&amp;&amp; NOT(ISBLANK({!myVariable_current.Margin__c})) 
+&amp;&amp; {!myVariable_current.Annual_Revenue_Increase_Confidence__c} &gt; 0
+&amp;&amp; {!myVariable_current.Margin__c} &gt; 0
+&amp;&amp; {!myVariable_current.Estimated_Annual_Revenue_Increase__c} &gt; 0, 
+({!myVariable_current.Estimated_Annual_Revenue_Increase__c} * {!myVariable_current.Annual_Revenue_Increase_Confidence__c} * {!myVariable_current.Margin__c}),
+
+IF(NOT(ISBLANK({!myVariable_current.Estimated_Annual_Revenue_Increase__c}))
+&amp;&amp; NOT(ISBLANK({!myVariable_current.Annual_Revenue_Increase_Confidence__c}))
+&amp;&amp; (ISBLANK({!myVariable_current.Margin__c}) || {!myVariable_current.Margin__c} = 0)
+&amp;&amp; {!myVariable_current.Annual_Revenue_Increase_Confidence__c} &gt; 0
+&amp;&amp; {!myVariable_current.Estimated_Annual_Revenue_Increase__c} &gt; 0, 
+({!myVariable_current.Estimated_Annual_Revenue_Increase__c} * {!myVariable_current.Annual_Revenue_Increase_Confidence__c}),
+0
+)
+)</expression>
+        <scale>18</scale>
+    </formulas>
+    <formulas>
+        <processMetadataValues>
+            <name>originalFormula</name>
+            <value>
+                <stringValue>([NI_Project_Backlog__c].RecordType.Name = &quot;Business Systems&quot;
+||
+[NI_Project_Backlog__c].RecordType.Name = &quot;Internal Project&quot;)
+&amp;&amp;
+ISNew()
+</stringValue>
+            </value>
+        </processMetadataValues>
+        <name>formula_myRule_1</name>
+        <dataType>Boolean</dataType>
+        <expression>({!myVariable_current.RecordType.Name} = &quot;Business Systems&quot;
+||
+{!myVariable_current.RecordType.Name} = &quot;Internal Project&quot;)
+&amp;&amp;
+ISNew()</expression>
+    </formulas>
+    <formulas>
+        <processMetadataValues>
+            <name>originalFormula</name>
+            <value>
+                <stringValue>([NI_Project_Backlog__c].RecordType.Name = &quot;Business Systems&quot;
+||
+[NI_Project_Backlog__c].RecordType.Name = &quot;Internal Project&quot;)
+&amp;&amp;
+NOT(ISNew())
+&amp;&amp;
+ISCHANGED([NI_Project_Backlog__c].Workstream_1st_Yr_Cost_Reduction__c) 
+&amp;&amp;
+[NI_Project_Backlog__c].Workstream_1st_Yr_Cost_Reduction__c &lt; 1</stringValue>
+            </value>
+        </processMetadataValues>
+        <name>formula_myRule_11</name>
+        <dataType>Boolean</dataType>
+        <expression>({!myVariable_current.RecordType.Name} = &quot;Business Systems&quot;
+||
+{!myVariable_current.RecordType.Name} = &quot;Internal Project&quot;)
+&amp;&amp;
+NOT(ISNew())
+&amp;&amp;
+ISCHANGED({!myVariable_current.Workstream_1st_Yr_Cost_Reduction__c}) 
+&amp;&amp;
+{!myVariable_current.Workstream_1st_Yr_Cost_Reduction__c} &lt; 1</expression>
+    </formulas>
+    <formulas>
+        <processMetadataValues>
+            <name>originalFormula</name>
+            <value>
+                <stringValue>([NI_Project_Backlog__c].RecordType.Name = &quot;Business Systems&quot;
+||
+[NI_Project_Backlog__c].RecordType.Name = &quot;Internal Project&quot;)
+&amp;&amp;
+NOT(ISNew())
+&amp;&amp;
+ISCHANGED([NI_Project_Backlog__c].Workstream_1st_Yr_Effcy_Savings_hrs__c) 
+&amp;&amp;
+[NI_Project_Backlog__c].Workstream_1st_Yr_Effcy_Savings_hrs__c &lt; 1</stringValue>
+            </value>
+        </processMetadataValues>
+        <name>formula_myRule_13</name>
+        <dataType>Boolean</dataType>
+        <expression>({!myVariable_current.RecordType.Name} = &quot;Business Systems&quot;
+||
+{!myVariable_current.RecordType.Name} = &quot;Internal Project&quot;)
+&amp;&amp;
+NOT(ISNew())
+&amp;&amp;
+ISCHANGED({!myVariable_current.Workstream_1st_Yr_Effcy_Savings_hrs__c}) 
+&amp;&amp;
+{!myVariable_current.Workstream_1st_Yr_Effcy_Savings_hrs__c} &lt; 1</expression>
+    </formulas>
+    <formulas>
+        <processMetadataValues>
+            <name>originalFormula</name>
+            <value>
+                <stringValue>[NI_Project_Backlog__c].RecordType.Name = &quot;Internal Project&quot;
+&amp;&amp;
+ISCHANGED([NI_Project_Backlog__c].Request_Status__c) 
+&amp;&amp;
+ISPICKVAL([NI_Project_Backlog__c].Request_Status__c,&quot;Completed&quot;) </stringValue>
+            </value>
+        </processMetadataValues>
+        <name>formula_myRule_15</name>
+        <dataType>Boolean</dataType>
+        <expression>{!myVariable_current.RecordType.Name} = &quot;Internal Project&quot;
+&amp;&amp;
+ISCHANGED({!myVariable_current.Request_Status__c}) 
+&amp;&amp;
+ISPICKVAL({!myVariable_current.Request_Status__c},&quot;Completed&quot;)</expression>
+    </formulas>
+    <formulas>
+        <processMetadataValues>
+            <name>originalFormula</name>
+            <value>
+                <stringValue>[NI_Project_Backlog__c].RecordType.Name = &quot;Internal Project&quot;
+&amp;&amp;
+ISCHANGED([NI_Project_Backlog__c].Request_Status__c) 
+&amp;&amp;
+ISPICKVAL([NI_Project_Backlog__c].Request_Status__c,&quot;Pending Scheduling&quot;) </stringValue>
+            </value>
+        </processMetadataValues>
+        <name>formula_myRule_17</name>
+        <dataType>Boolean</dataType>
+        <expression>{!myVariable_current.RecordType.Name} = &quot;Internal Project&quot;
+&amp;&amp;
+ISCHANGED({!myVariable_current.Request_Status__c}) 
+&amp;&amp;
+ISPICKVAL({!myVariable_current.Request_Status__c},&quot;Pending Scheduling&quot;)</expression>
+    </formulas>
+    <formulas>
+        <processMetadataValues>
+            <name>originalFormula</name>
+            <value>
+                <stringValue>[NI_Project_Backlog__c].RecordType.Name = &quot;Internal Project&quot;
+&amp;&amp;
+ISCHANGED([NI_Project_Backlog__c].Request_Status__c) 
+&amp;&amp;
+NOT(ISBLANK([NI_Project_Backlog__c].Priority__c))
+&amp;&amp; 
+(
+ISPICKVAL([NI_Project_Backlog__c].Request_Status__c,&quot;New&quot;) 
+||
+ISPICKVAL([NI_Project_Backlog__c].Request_Status__c,&quot;Cancelled&quot;) 
+||
+ISPICKVAL([NI_Project_Backlog__c].Request_Status__c,&quot;Redirected&quot;) 
+||
+ISPICKVAL([NI_Project_Backlog__c].Request_Status__c,&quot;Backlog Item&quot;) 
+||
+ISPICKVAL([NI_Project_Backlog__c].Request_Status__c,&quot;Rejected&quot;) 
+
+)</stringValue>
+            </value>
+        </processMetadataValues>
+        <name>formula_myRule_19</name>
+        <dataType>Boolean</dataType>
+        <expression>{!myVariable_current.RecordType.Name} = &quot;Internal Project&quot;
+&amp;&amp;
+ISCHANGED({!myVariable_current.Request_Status__c}) 
+&amp;&amp;
+NOT(ISBLANK({!myVariable_current.Priority__c}))
+&amp;&amp; 
+(
+ISPICKVAL({!myVariable_current.Request_Status__c},&quot;New&quot;) 
+||
+ISPICKVAL({!myVariable_current.Request_Status__c},&quot;Cancelled&quot;) 
+||
+ISPICKVAL({!myVariable_current.Request_Status__c},&quot;Redirected&quot;) 
+||
+ISPICKVAL({!myVariable_current.Request_Status__c},&quot;Backlog Item&quot;) 
+||
+ISPICKVAL({!myVariable_current.Request_Status__c},&quot;Rejected&quot;) 
+
+)</expression>
+    </formulas>
+    <formulas>
+        <processMetadataValues>
+            <name>originalFormula</name>
+            <value>
+                <stringValue>([NI_Project_Backlog__c].RecordType.Name = &quot;Business Systems&quot;
+||
+[NI_Project_Backlog__c].RecordType.Name = &quot;Internal Project&quot;)
+&amp;&amp;
+NOT(ISNew())
+&amp;&amp;
+NOT(ISCHANGED([NI_Project_Backlog__c].Priority__c)) 
+&amp;&amp;
+NOT(ISPICKVAL([NI_Project_Backlog__c].Request_Status__c,&quot;Pending Scheduling&quot;))
+&amp;&amp; 
+(
+ISCHANGED([NI_Project_Backlog__c].Annual_Revenue_Increase_Confidence__c) 
+||
+ISCHANGED([NI_Project_Backlog__c].Estimated_Annual_Revenue_Increase__c)
+||
+ISCHANGED([NI_Project_Backlog__c].Solution_Domain__c ) 
+||
+ISCHANGED([NI_Project_Backlog__c].Workstream_1st_Yr_Cost_Reduction__c) 
+||
+ISCHANGED([NI_Project_Backlog__c].Workstream_1st_Yr_Effcy_Savings_hrs__c) 
+) 
+
+</stringValue>
+            </value>
+        </processMetadataValues>
+        <name>formula_myRule_4</name>
+        <dataType>Boolean</dataType>
+        <expression>({!myVariable_current.RecordType.Name} = &quot;Business Systems&quot;
+||
+{!myVariable_current.RecordType.Name} = &quot;Internal Project&quot;)
+&amp;&amp;
+NOT(ISNew())
+&amp;&amp;
+NOT(ISCHANGED({!myVariable_current.Priority__c})) 
+&amp;&amp;
+NOT(ISPICKVAL({!myVariable_current.Request_Status__c},&quot;Pending Scheduling&quot;))
+&amp;&amp; 
+(
+ISCHANGED({!myVariable_current.Annual_Revenue_Increase_Confidence__c}) 
+||
+ISCHANGED({!myVariable_current.Estimated_Annual_Revenue_Increase__c})
+||
+ISCHANGED({!myVariable_current.Solution_Domain__c} ) 
+||
+ISCHANGED({!myVariable_current.Workstream_1st_Yr_Cost_Reduction__c}) 
+||
+ISCHANGED({!myVariable_current.Workstream_1st_Yr_Effcy_Savings_hrs__c}) 
+)</expression>
+    </formulas>
+    <formulas>
+        <processMetadataValues>
+            <name>originalFormula</name>
+            <value>
+                <stringValue>([NI_Project_Backlog__c].RecordType.Name = &quot;Business Systems&quot;
+||
+[NI_Project_Backlog__c].RecordType.Name = &quot;Internal Project&quot;)
+&amp;&amp;
+NOT(ISNew())
+&amp;&amp;
+ISCHANGED([NI_Project_Backlog__c].Workstream_1st_Yr_Cost_Reduction__c) 
+&amp;&amp;
+[NI_Project_Backlog__c].Workstream_1st_Yr_Cost_Reduction__c &gt; 0</stringValue>
+            </value>
+        </processMetadataValues>
+        <name>formula_myRule_7</name>
+        <dataType>Boolean</dataType>
+        <expression>({!myVariable_current.RecordType.Name} = &quot;Business Systems&quot;
+||
+{!myVariable_current.RecordType.Name} = &quot;Internal Project&quot;)
+&amp;&amp;
+NOT(ISNew())
+&amp;&amp;
+ISCHANGED({!myVariable_current.Workstream_1st_Yr_Cost_Reduction__c}) 
+&amp;&amp;
+{!myVariable_current.Workstream_1st_Yr_Cost_Reduction__c} &gt; 0</expression>
+    </formulas>
+    <formulas>
+        <processMetadataValues>
+            <name>originalFormula</name>
+            <value>
+                <stringValue>([NI_Project_Backlog__c].RecordType.Name = &quot;Business Systems&quot;
+||
+[NI_Project_Backlog__c].RecordType.Name = &quot;Internal Project&quot;)
+&amp;&amp;
+NOT(ISNew())
+&amp;&amp;
+ISCHANGED([NI_Project_Backlog__c].Workstream_1st_Yr_Effcy_Savings_hrs__c) 
+&amp;&amp;
+[NI_Project_Backlog__c].Workstream_1st_Yr_Effcy_Savings_hrs__c&gt; 0</stringValue>
+            </value>
+        </processMetadataValues>
+        <name>formula_myRule_9</name>
+        <dataType>Boolean</dataType>
+        <expression>({!myVariable_current.RecordType.Name} = &quot;Business Systems&quot;
+||
+{!myVariable_current.RecordType.Name} = &quot;Internal Project&quot;)
+&amp;&amp;
+NOT(ISNew())
+&amp;&amp;
+ISCHANGED({!myVariable_current.Workstream_1st_Yr_Effcy_Savings_hrs__c}) 
+&amp;&amp;
+{!myVariable_current.Workstream_1st_Yr_Effcy_Savings_hrs__c}&gt; 0</expression>
+    </formulas>
+    <interviewLabel>NI_Project_Backlog_CBS_and_Process_Improvement-35_InterviewLabel</interviewLabel>
+    <label>NI Project Backlog - CBS and Process Improvement</label>
+    <processMetadataValues>
+        <name>ObjectType</name>
+        <value>
+            <stringValue>NI_Project_Backlog__c</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>ObjectVariable</name>
+        <value>
+            <elementReference>myVariable_current</elementReference>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OldObjectVariable</name>
+        <value>
+            <elementReference>myVariable_old</elementReference>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>TriggerType</name>
+        <value>
+            <stringValue>onAllChanges</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>Workflow</processType>
+    <recordUpdates>
+        <processMetadataValues>
+            <name>evaluationType</name>
+            <value>
+                <stringValue>always</stringValue>
+            </value>
+        </processMetadataValues>
+        <processMetadataValues>
+            <name>extraTypeInfo</name>
+        </processMetadataValues>
+        <processMetadataValues>
+            <name>isChildRelationship</name>
+            <value>
+                <booleanValue>false</booleanValue>
+            </value>
+        </processMetadataValues>
+        <processMetadataValues>
+            <name>reference</name>
+            <value>
+                <stringValue>[NI_Project_Backlog__c]</stringValue>
+            </value>
+        </processMetadataValues>
+        <processMetadataValues>
+            <name>referenceTargetField</name>
+        </processMetadataValues>
+        <name>myRule_11_A1</name>
+        <label>Uncheck Cost Reduction</label>
+        <locationX>1100</locationX>
+        <locationY>200</locationY>
+        <connector>
+            <targetReference>myDecision12</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <processMetadataValues>
+                <name>implicit</name>
+                <value>
+                    <booleanValue>true</booleanValue>
+                </value>
+            </processMetadataValues>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>myVariable_current.Id</elementReference>
+            </value>
+        </filters>
+        <inputAssignments>
+            <processMetadataValues>
+                <name>dataType</name>
+                <value>
+                    <stringValue>Boolean</stringValue>
+                </value>
+            </processMetadataValues>
+            <processMetadataValues>
+                <name>isRequired</name>
+                <value>
+                    <booleanValue>false</booleanValue>
+                </value>
+            </processMetadataValues>
+            <processMetadataValues>
+                <name>leftHandSideLabel</name>
+                <value>
+                    <stringValue>This Project Will Reduce Costs</stringValue>
+                </value>
+            </processMetadataValues>
+            <processMetadataValues>
+                <name>leftHandSideReferenceTo</name>
+                <value>
+                    <stringValue></stringValue>
+                </value>
+            </processMetadataValues>
+            <processMetadataValues>
+                <name>rightHandSideType</name>
+                <value>
+                    <stringValue>Boolean</stringValue>
+                </value>
+            </processMetadataValues>
+            <field>This_Project_Will_Reduce_Costs__c</field>
+            <value>
+                <booleanValue>false</booleanValue>
+            </value>
+        </inputAssignments>
+        <object>NI_Project_Backlog__c</object>
+    </recordUpdates>
+    <recordUpdates>
+        <processMetadataValues>
+            <name>evaluationType</name>
+            <value>
+                <stringValue>always</stringValue>
+            </value>
+        </processMetadataValues>
+        <processMetadataValues>
+            <name>extraTypeInfo</name>
+        </processMetadataValues>
+        <processMetadataValues>
+            <name>isChildRelationship</name>
+            <value>
+                <booleanValue>false</booleanValue>
+            </value>
+        </processMetadataValues>
+        <processMetadataValues>
+            <name>reference</name>
+            <value>
+                <stringValue>[NI_Project_Backlog__c]</stringValue>
+            </value>
+        </processMetadataValues>
+        <processMetadataValues>
+            <name>referenceTargetField</name>
+        </processMetadataValues>
+        <name>myRule_13_A1</name>
+        <label>Uncheck Increase Efficiencies</label>
+        <locationX>1300</locationX>
+        <locationY>200</locationY>
+        <connector>
+            <targetReference>myDecision14</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <processMetadataValues>
+                <name>implicit</name>
+                <value>
+                    <booleanValue>true</booleanValue>
+                </value>
+            </processMetadataValues>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>myVariable_current.Id</elementReference>
+            </value>
+        </filters>
+        <inputAssignments>
+            <processMetadataValues>
+                <name>dataType</name>
+                <value>
+                    <stringValue>Boolean</stringValue>
+                </value>
+            </processMetadataValues>
+            <processMetadataValues>
+                <name>isRequired</name>
+                <value>
+                    <booleanValue>false</booleanValue>
+                </value>
+            </processMetadataValues>
+            <processMetadataValues>
+                <name>leftHandSideLabel</name>
+                <value>
+                    <stringValue>This Project Will Reduce Manual Steps</stringValue>
+                </value>
+            </processMetadataValues>
+            <processMetadataValues>
+                <name>leftHandSideReferenceTo</name>
+                <value>
+                    <stringValue></stringValue>
+                </value>
+            </processMetadataValues>
+            <processMetadataValues>
+                <name>rightHandSideType</name>
+                <value>
+                    <stringValue>Boolean</stringValue>
+                </value>
+            </processMetadataValues>
+            <field>This_Project_Will_Reduce_Manual_Steps__c</field>
+            <value>
+                <booleanValue>false</booleanValue>
+            </value>
+        </inputAssignments>
+        <object>NI_Project_Backlog__c</object>
+    </recordUpdates>
+    <recordUpdates>
+        <processMetadataValues>
+            <name>evaluationType</name>
+            <value>
+                <stringValue>always</stringValue>
+            </value>
+        </processMetadataValues>
+        <processMetadataValues>
+            <name>extraTypeInfo</name>
+        </processMetadataValues>
+        <processMetadataValues>
+            <name>isChildRelationship</name>
+            <value>
+                <booleanValue>false</booleanValue>
+            </value>
+        </processMetadataValues>
+        <processMetadataValues>
+            <name>reference</name>
+            <value>
+                <stringValue>[NI_Project_Backlog__c]</stringValue>
+            </value>
+        </processMetadataValues>
+        <processMetadataValues>
+            <name>referenceTargetField</name>
+        </processMetadataValues>
+        <name>myRule_15_A1</name>
+        <label>Phase - Measuring Impact</label>
+        <locationX>1500</locationX>
+        <locationY>200</locationY>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <processMetadataValues>
+                <name>implicit</name>
+                <value>
+                    <booleanValue>true</booleanValue>
+                </value>
+            </processMetadataValues>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>myVariable_current.Id</elementReference>
+            </value>
+        </filters>
+        <inputAssignments>
+            <processMetadataValues>
+                <name>dataType</name>
+                <value>
+                    <stringValue>Picklist</stringValue>
+                </value>
+            </processMetadataValues>
+            <processMetadataValues>
+                <name>isRequired</name>
+                <value>
+                    <booleanValue>false</booleanValue>
+                </value>
+            </processMetadataValues>
+            <processMetadataValues>
+                <name>leftHandSideLabel</name>
+                <value>
+                    <stringValue>Phase</stringValue>
+                </value>
+            </processMetadataValues>
+            <processMetadataValues>
+                <name>leftHandSideReferenceTo</name>
+                <value>
+                    <stringValue></stringValue>
+                </value>
+            </processMetadataValues>
+            <processMetadataValues>
+                <name>rightHandSideType</name>
+                <value>
+                    <stringValue>Picklist</stringValue>
+                </value>
+            </processMetadataValues>
+            <field>Phase__c</field>
+            <value>
+                <stringValue>Measuring Impact</stringValue>
+            </value>
+        </inputAssignments>
+        <object>NI_Project_Backlog__c</object>
+    </recordUpdates>
+    <recordUpdates>
+        <processMetadataValues>
+            <name>evaluationType</name>
+            <value>
+                <stringValue>always</stringValue>
+            </value>
+        </processMetadataValues>
+        <processMetadataValues>
+            <name>extraTypeInfo</name>
+        </processMetadataValues>
+        <processMetadataValues>
+            <name>isChildRelationship</name>
+            <value>
+                <booleanValue>false</booleanValue>
+            </value>
+        </processMetadataValues>
+        <processMetadataValues>
+            <name>reference</name>
+            <value>
+                <stringValue>[NI_Project_Backlog__c]</stringValue>
+            </value>
+        </processMetadataValues>
+        <processMetadataValues>
+            <name>referenceTargetField</name>
+        </processMetadataValues>
+        <name>myRule_19_A1</name>
+        <label>Clear Priority</label>
+        <locationX>1900</locationX>
+        <locationY>200</locationY>
+        <connector>
+            <targetReference>myRule_19_A2</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <processMetadataValues>
+                <name>implicit</name>
+                <value>
+                    <booleanValue>true</booleanValue>
+                </value>
+            </processMetadataValues>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>myVariable_current.Id</elementReference>
+            </value>
+        </filters>
+        <inputAssignments>
+            <processMetadataValues>
+                <name>dataType</name>
+                <value>
+                    <stringValue>Number</stringValue>
+                </value>
+            </processMetadataValues>
+            <processMetadataValues>
+                <name>isRequired</name>
+                <value>
+                    <booleanValue>false</booleanValue>
+                </value>
+            </processMetadataValues>
+            <processMetadataValues>
+                <name>leftHandSideLabel</name>
+                <value>
+                    <stringValue>Priority</stringValue>
+                </value>
+            </processMetadataValues>
+            <processMetadataValues>
+                <name>leftHandSideReferenceTo</name>
+                <value>
+                    <stringValue></stringValue>
+                </value>
+            </processMetadataValues>
+            <processMetadataValues>
+                <name>rightHandSideType</name>
+                <value>
+                    <stringValue>GlobalConstant</stringValue>
+                </value>
+            </processMetadataValues>
+            <field>Priority__c</field>
+        </inputAssignments>
+        <object>NI_Project_Backlog__c</object>
+    </recordUpdates>
+    <recordUpdates>
+        <processMetadataValues>
+            <name>evaluationType</name>
+            <value>
+                <stringValue>always</stringValue>
+            </value>
+        </processMetadataValues>
+        <processMetadataValues>
+            <name>extraTypeInfo</name>
+        </processMetadataValues>
+        <processMetadataValues>
+            <name>isChildRelationship</name>
+            <value>
+                <booleanValue>false</booleanValue>
+            </value>
+        </processMetadataValues>
+        <processMetadataValues>
+            <name>reference</name>
+            <value>
+                <stringValue>[NI_Project_Backlog__c]</stringValue>
+            </value>
+        </processMetadataValues>
+        <processMetadataValues>
+            <name>referenceTargetField</name>
+        </processMetadataValues>
+        <name>myRule_1_A1</name>
+        <label>First Year Revenue</label>
+        <locationX>100</locationX>
+        <locationY>200</locationY>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <processMetadataValues>
+                <name>implicit</name>
+                <value>
+                    <booleanValue>true</booleanValue>
+                </value>
+            </processMetadataValues>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>myVariable_current.Id</elementReference>
+            </value>
+        </filters>
+        <inputAssignments>
+            <processMetadataValues>
+                <name>dataType</name>
+                <value>
+                    <stringValue>Currency</stringValue>
+                </value>
+            </processMetadataValues>
+            <processMetadataValues>
+                <name>isRequired</name>
+                <value>
+                    <booleanValue>false</booleanValue>
+                </value>
+            </processMetadataValues>
+            <processMetadataValues>
+                <name>leftHandSideLabel</name>
+                <value>
+                    <stringValue>First Year Annual Revenue Increase</stringValue>
+                </value>
+            </processMetadataValues>
+            <processMetadataValues>
+                <name>leftHandSideReferenceTo</name>
+                <value>
+                    <stringValue></stringValue>
+                </value>
+            </processMetadataValues>
+            <processMetadataValues>
+                <name>rightHandSideType</name>
+                <value>
+                    <stringValue>Formula</stringValue>
+                </value>
+            </processMetadataValues>
+            <field>First_Year_Revenue_Increase__c</field>
+            <value>
+                <elementReference>formula_2_myRule_1_A1_8792798832</elementReference>
+            </value>
+        </inputAssignments>
+        <object>NI_Project_Backlog__c</object>
+    </recordUpdates>
+    <recordUpdates>
+        <processMetadataValues>
+            <name>evaluationType</name>
+            <value>
+                <stringValue>always</stringValue>
+            </value>
+        </processMetadataValues>
+        <processMetadataValues>
+            <name>extraTypeInfo</name>
+        </processMetadataValues>
+        <processMetadataValues>
+            <name>isChildRelationship</name>
+            <value>
+                <booleanValue>false</booleanValue>
+            </value>
+        </processMetadataValues>
+        <processMetadataValues>
+            <name>reference</name>
+            <value>
+                <stringValue>[NI_Project_Backlog__c]</stringValue>
+            </value>
+        </processMetadataValues>
+        <processMetadataValues>
+            <name>referenceTargetField</name>
+        </processMetadataValues>
+        <name>myRule_4_A1</name>
+        <label>Changes to Revenue</label>
+        <locationX>400</locationX>
+        <locationY>200</locationY>
+        <connector>
+            <targetReference>myDecision6</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <processMetadataValues>
+                <name>implicit</name>
+                <value>
+                    <booleanValue>true</booleanValue>
+                </value>
+            </processMetadataValues>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>myVariable_current.Id</elementReference>
+            </value>
+        </filters>
+        <inputAssignments>
+            <processMetadataValues>
+                <name>dataType</name>
+                <value>
+                    <stringValue>Currency</stringValue>
+                </value>
+            </processMetadataValues>
+            <processMetadataValues>
+                <name>isRequired</name>
+                <value>
+                    <booleanValue>false</booleanValue>
+                </value>
+            </processMetadataValues>
+            <processMetadataValues>
+                <name>leftHandSideLabel</name>
+                <value>
+                    <stringValue>First Year Annual Revenue Increase</stringValue>
+                </value>
+            </processMetadataValues>
+            <processMetadataValues>
+                <name>leftHandSideReferenceTo</name>
+                <value>
+                    <stringValue></stringValue>
+                </value>
+            </processMetadataValues>
+            <processMetadataValues>
+                <name>rightHandSideType</name>
+                <value>
+                    <stringValue>Formula</stringValue>
+                </value>
+            </processMetadataValues>
+            <field>First_Year_Revenue_Increase__c</field>
+            <value>
+                <elementReference>formula_5_myRule_4_A1_7770974014</elementReference>
+            </value>
+        </inputAssignments>
+        <object>NI_Project_Backlog__c</object>
+    </recordUpdates>
+    <recordUpdates>
+        <processMetadataValues>
+            <name>evaluationType</name>
+            <value>
+                <stringValue>always</stringValue>
+            </value>
+        </processMetadataValues>
+        <processMetadataValues>
+            <name>extraTypeInfo</name>
+        </processMetadataValues>
+        <processMetadataValues>
+            <name>isChildRelationship</name>
+            <value>
+                <booleanValue>false</booleanValue>
+            </value>
+        </processMetadataValues>
+        <processMetadataValues>
+            <name>reference</name>
+            <value>
+                <stringValue>[NI_Project_Backlog__c]</stringValue>
+            </value>
+        </processMetadataValues>
+        <processMetadataValues>
+            <name>referenceTargetField</name>
+        </processMetadataValues>
+        <name>myRule_7_A1</name>
+        <label>Update Cost Reduction Checkbox</label>
+        <locationX>700</locationX>
+        <locationY>200</locationY>
+        <connector>
+            <targetReference>myDecision8</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <processMetadataValues>
+                <name>implicit</name>
+                <value>
+                    <booleanValue>true</booleanValue>
+                </value>
+            </processMetadataValues>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>myVariable_current.Id</elementReference>
+            </value>
+        </filters>
+        <inputAssignments>
+            <processMetadataValues>
+                <name>dataType</name>
+                <value>
+                    <stringValue>Boolean</stringValue>
+                </value>
+            </processMetadataValues>
+            <processMetadataValues>
+                <name>isRequired</name>
+                <value>
+                    <booleanValue>false</booleanValue>
+                </value>
+            </processMetadataValues>
+            <processMetadataValues>
+                <name>leftHandSideLabel</name>
+                <value>
+                    <stringValue>This Project Will Reduce Costs</stringValue>
+                </value>
+            </processMetadataValues>
+            <processMetadataValues>
+                <name>leftHandSideReferenceTo</name>
+                <value>
+                    <stringValue></stringValue>
+                </value>
+            </processMetadataValues>
+            <processMetadataValues>
+                <name>rightHandSideType</name>
+                <value>
+                    <stringValue>Boolean</stringValue>
+                </value>
+            </processMetadataValues>
+            <field>This_Project_Will_Reduce_Costs__c</field>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </inputAssignments>
+        <object>NI_Project_Backlog__c</object>
+    </recordUpdates>
+    <recordUpdates>
+        <processMetadataValues>
+            <name>evaluationType</name>
+            <value>
+                <stringValue>always</stringValue>
+            </value>
+        </processMetadataValues>
+        <processMetadataValues>
+            <name>extraTypeInfo</name>
+        </processMetadataValues>
+        <processMetadataValues>
+            <name>isChildRelationship</name>
+            <value>
+                <booleanValue>false</booleanValue>
+            </value>
+        </processMetadataValues>
+        <processMetadataValues>
+            <name>reference</name>
+            <value>
+                <stringValue>[NI_Project_Backlog__c]</stringValue>
+            </value>
+        </processMetadataValues>
+        <processMetadataValues>
+            <name>referenceTargetField</name>
+        </processMetadataValues>
+        <name>myRule_9_A1</name>
+        <label>Update Efficiencies Savings Checkbox</label>
+        <locationX>900</locationX>
+        <locationY>200</locationY>
+        <connector>
+            <targetReference>myDecision10</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <processMetadataValues>
+                <name>implicit</name>
+                <value>
+                    <booleanValue>true</booleanValue>
+                </value>
+            </processMetadataValues>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>myVariable_current.Id</elementReference>
+            </value>
+        </filters>
+        <inputAssignments>
+            <processMetadataValues>
+                <name>dataType</name>
+                <value>
+                    <stringValue>Boolean</stringValue>
+                </value>
+            </processMetadataValues>
+            <processMetadataValues>
+                <name>isRequired</name>
+                <value>
+                    <booleanValue>false</booleanValue>
+                </value>
+            </processMetadataValues>
+            <processMetadataValues>
+                <name>leftHandSideLabel</name>
+                <value>
+                    <stringValue>This Project Will Reduce Manual Steps</stringValue>
+                </value>
+            </processMetadataValues>
+            <processMetadataValues>
+                <name>leftHandSideReferenceTo</name>
+                <value>
+                    <stringValue></stringValue>
+                </value>
+            </processMetadataValues>
+            <processMetadataValues>
+                <name>rightHandSideType</name>
+                <value>
+                    <stringValue>Boolean</stringValue>
+                </value>
+            </processMetadataValues>
+            <field>This_Project_Will_Reduce_Manual_Steps__c</field>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </inputAssignments>
+        <object>NI_Project_Backlog__c</object>
+    </recordUpdates>
+    <startElementReference>myDecision</startElementReference>
+    <status>Active</status>
+    <variables>
+        <name>myVariable_current</name>
+        <dataType>SObject</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>true</isOutput>
+        <objectType>NI_Project_Backlog__c</objectType>
+    </variables>
+    <variables>
+        <name>myVariable_old</name>
+        <dataType>SObject</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>false</isOutput>
+        <objectType>NI_Project_Backlog__c</objectType>
+    </variables>
+</Flow>

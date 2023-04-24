@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Contact__c</fullName>
+    <complianceGroup>PII:GDPR</complianceGroup>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <description>Salesforce.com Change Request: NICC-006916</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Main contact for Renewal Letters</inlineHelpText>
+    <label>Contact</label>
+    <referenceTo>Contact</referenceTo>
+    <relationshipLabel>Org Details</relationshipLabel>
+    <relationshipName>Org_Details</relationshipName>
+    <required>false</required>
+    <securityClassification>Internal</securityClassification>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Offset_Days__c</fullName>
+    <description>Determines the Target Date of the generated milestone as number of days following the &quot;First Milestone Date&quot; provided when generating Milestones from a Product Package</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Determines the Target Date of the generated milestone. Specify as the number of days following the &quot;First Milestone Date&quot; provided when generating Milestones from a Product Package. Can be 0 to match the First Milestone Date.</inlineHelpText>
+    <label>Offset Days</label>
+    <precision>3</precision>
+    <required>true</required>
+    <scale>0</scale>
+    <trackTrending>false</trackTrending>
+    <type>Number</type>
+    <unique>false</unique>
+</CustomField>

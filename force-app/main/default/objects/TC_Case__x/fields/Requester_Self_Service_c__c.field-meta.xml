@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Requester_Self_Service_c__c</fullName>
+    <externalDeveloperName>Requester_Self_Service__c</externalDeveloperName>
+    <externalId>false</externalId>
+    <isFilteringDisabled>false</isFilteringDisabled>
+    <isNameField>false</isNameField>
+    <isSortingDisabled>false</isSortingDisabled>
+    <label>Requester Self-Service</label>
+    <readOnlyProxy>true</readOnlyProxy>
+    <required>false</required>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Requester Actionable, User Error</fullName>
+                <default>false</default>
+                <label>Requester Actionable, User Error</label>
+            </value>
+            <value>
+                <fullName>Requester Actionable, No User Error</fullName>
+                <default>false</default>
+                <label>Requester Actionable, No User Error</label>
+            </value>
+            <value>
+                <fullName>Tech Assistance Required, User Error</fullName>
+                <default>false</default>
+                <label>Tech Assistance Required, User Error</label>
+            </value>
+            <value>
+                <fullName>Tech Assistance Required, No User Error</fullName>
+                <default>false</default>
+                <label>Tech Assistance Required, No User Error</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

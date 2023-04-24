@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Internal_Record_Type_Update</fullName>
+    <columns>NAME</columns>
+    <columns>Stakeholder_Department__c</columns>
+    <columns>Stakeholder_Sub_Department__c</columns>
+    <columns>Stakeholder__c</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>RECORDTYPE</field>
+        <operation>equals</operation>
+        <value>NI_Project_Backlog__c.Commercial_Operation_Projects</value>
+    </filters>
+    <label>Internal Record Type Update</label>
+    <sharedTo>
+        <role>ClientServices</role>
+    </sharedTo>
+</ListView>

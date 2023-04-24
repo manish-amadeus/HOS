@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PermissionSet xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>NICC-056256
+
+Members of this permission set have the following permissions
+myTrailhead Branding Management
+myTrailhead Manage Content Collection
+myTrailhead View All Content</description>
+    <hasActivationRequired>false</hasActivationRequired>
+    <label>AH MyTrailhead Admin</label>
+    <license>MyTrailheadPSL</license>
+    <userPermissions>
+        <enabled>true</enabled>
+        <name>MyTrailheadBranding</name>
+    </userPermissions>
+    <userPermissions>
+        <enabled>true</enabled>
+        <name>MyTrailheadContentAccess</name>
+    </userPermissions>
+    <userPermissions>
+        <enabled>true</enabled>
+        <name>MyTrailheadManageCollections</name>
+    </userPermissions>
+</PermissionSet>

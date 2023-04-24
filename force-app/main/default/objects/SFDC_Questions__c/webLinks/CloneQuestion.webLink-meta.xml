@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<WebLink xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>CloneQuestion</fullName>
+    <availability>online</availability>
+    <displayType>link</displayType>
+    <encodingKey>UTF-8</encodingKey>
+    <height>600</height>
+    <linkType>url</linkType>
+    <masterLabel>Clone Question</masterLabel>
+    <openType>sidebar</openType>
+    <protected>false</protected>
+    <url>/appex/cscript/call.htm?page=clone&amp;call_sid={!API_Session_ID}&amp;call_url={!API_Partner_Server_URL_70}&amp;eid={!SFDC_Questions_ID}&amp;SFDC_Questions_ID={!SFDC_Questions_ID}</url>
+</WebLink>

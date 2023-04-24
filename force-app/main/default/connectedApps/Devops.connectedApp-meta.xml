@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ConnectedApp xmlns="http://soap.sforce.com/2006/04/metadata">
+    <contactEmail>manish.kumar7@amadeus.com</contactEmail>
+    <description>Connected app for Devops connectivity</description>
+    <label>Devops</label>
+    <oauthConfig>
+        <callbackUrl>https://ncecvsmad03.iis.amadeus.net:8080//OauthRedirect</callbackUrl>
+        <certificate>MIIDoDCCAogCCQDafbNDshmKVzANBgkqhkiG9w0BAQsFADCBkTELMAkGA1UEBhMCVVMxCzAJBgNVBAgTAkdBMRMwEQYDVQQHEwpBbHBoYXJldHRhMRMwEQYDVQQKEwpTYWxlc2ZvcmNlMQwwCgYDVQQLEwNERVYxEzARBgNVBAMTClNhbGVzZm9yY2UxKDAmBgkqhkiG9w0BCQEWGW1hbmlzaC5rdW1hcjdAYW1hZGV1cy5jb20wHhcNMjIwNzI5MDkyOTM4WhcNMjMwNzI5MDkyOTM4WjCBkTELMAkGA1UEBhMCVVMxCzAJBgNVBAgTAkdBMRMwEQYDVQQHEwpBbHBoYXJldHRhMRMwEQYDVQQKEwpTYWxlc2ZvcmNlMQwwCgYDVQQLEwNERVYxEzARBgNVBAMTClNhbGVzZm9yY2UxKDAmBgkqhkiG9w0BCQEWGW1hbmlzaC5rdW1hcjdAYW1hZGV1cy5jb20wggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQDKTUev89gaGgh+yU0vEsl4dzewADMvOXMKTVsyRA6i/kR6eSMsVAkf4ArRkyExKbsjFRarbVqI5vQe0+qVawiZTcW5+sj2/bM1QudSyMLo5METGBy0s1bZMG6IFs9+aGEZplbT0CmY4LB08jLq5MoS3KgjDrbU+3wzKRdsQP43dYxpK0oY+oiuNIlcIB6EPcU0+aDPU8yBq3F8YTC1l7rrsj06P9q2pkzO1C7siMjdmtabQ/x0gfZWfMa1b9k3vOVTpS6ITOLa6p9zCZon3Hcpyhe+LKgavFVdxy3NTP7M/EpkBXRWUtMdJ/xRsPvfmSuW87AqVAiIG2ukiB7JvQiLAgMBAAEwDQYJKoZIhvcNAQELBQADggEBABAeH6V0dnUWpsUToX/seKiDigB8NMmEFQ06tNdOE0Pin2/cguNzCi8FCFP2k/OnbcZb3Po+AEXFjH3Z05Qc2q9fKnquUXBJ6GqhAc1mgkABWNqRKB3Z400IE6luO7BiHk+rlzn/pmVoRGTNMPNa1BaBSYUau7nkkHrJLAMIJXXoCAtOBXTwqpZh23UaC5Jgt8nt7G2Iw5NDyI+vElGqEnmr1ChX4DT8J10v0fYoFw1KEqj4ywS7WTtjrnKzOEhFfsK+GSHnsH7vUOgjzjO/x5bJ4ejqf2pAjaYKrCVRvbfYQrkfNbwR4TFZf5h2rsVC9k0C9quTzXGeUPrMDny+jdE=</certificate>
+        <consumerKey>3MVG9igNVW5mZVnXrVx_V11V80ahE9jTUUPJ5NOJFft30etyqKsVGKB9fWftSGP2LCOgaJvck0otI7qwCiRyn</consumerKey>
+        <isAdminApproved>true</isAdminApproved>
+        <isClientCredentialEnabled>false</isClientCredentialEnabled>
+        <isCodeCredentialEnabled>false</isCodeCredentialEnabled>
+        <isCodeCredentialPostOnly>false</isCodeCredentialPostOnly>
+        <isConsumerSecretOptional>false</isConsumerSecretOptional>
+        <isIntrospectAllTokens>false</isIntrospectAllTokens>
+        <isSecretRequiredForRefreshToken>false</isSecretRequiredForRefreshToken>
+        <scopes>Basic</scopes>
+        <scopes>Api</scopes>
+        <scopes>Web</scopes>
+        <scopes>RefreshToken</scopes>
+    </oauthConfig>
+    <oauthPolicy>
+        <ipRelaxation>ENFORCE</ipRelaxation>
+        <refreshTokenPolicy>infinite</refreshTokenPolicy>
+    </oauthPolicy>
+    <permissionSetName>Devops</permissionSetName>
+</ConnectedApp>

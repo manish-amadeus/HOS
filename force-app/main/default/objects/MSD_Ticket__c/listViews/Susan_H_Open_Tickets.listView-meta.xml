@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Susan_H_Open_Tickets</fullName>
+    <columns>NAME</columns>
+    <columns>Request_Number__c</columns>
+    <columns>Close_Date__c</columns>
+    <columns>Complete_Date__c</columns>
+    <columns>Assigned_Date__c</columns>
+    <columns>Status__c</columns>
+    <columns>Assigned_admin__c</columns>
+    <columns>Affected_user__c</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>Affected_user__c</field>
+        <operation>contains</operation>
+        <value>Hammond</value>
+    </filters>
+    <filters>
+        <field>Status__c</field>
+        <operation>notEqual</operation>
+        <value>Cancelled,Closed,Closed in 1st contact,Completed,Solved,Solved in 1st Contact</value>
+    </filters>
+    <filters>
+        <field>Assigned_admin__c</field>
+        <operation>equals</operation>
+        <value>Srinivasa</value>
+    </filters>
+    <label>Susan H. - Open Tickets</label>
+    <sharedTo>
+        <group>Business_Systems_Internal</group>
+    </sharedTo>
+</ListView>

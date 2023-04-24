@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>On_Hold_Status_Change</fullName>
+    <active>true</active>
+    <description>Cannot switch from Blocked to Redirected or Vice Versa.  Status must go to an active status so that all of the &quot;On Hold&quot; work flow actions can be completed for the first on hold status and then refreshed for the second on hold status.</description>
+    <errorConditionFormula>OR(
+ AND(
+ ISPICKVAL(Request_Status__c,&quot;Redirected&quot;), 
+ On_Hold_Status__c = &quot;Blocked&quot; ),
+ AND(
+ ISPICKVAL(Request_Status__c,&quot;Blocked&quot;), 
+ On_Hold_Status__c = &quot;Redirected&quot; )
+)</errorConditionFormula>
+    <errorDisplayField>Request_Status__c</errorDisplayField>
+    <errorMessage>You cannot switch from one On Hold status to another On Hold status.  Please set the Request Status to an active status (i.e. &quot;In Progress&quot;) before selecting a new On Hold status.</errorMessage>
+</ValidationRule>

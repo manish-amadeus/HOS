@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Type_Purpose__c</fullName>
+    <externalId>false</externalId>
+    <label>Type/Purpose</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Loss Analysis</fullName>
+                <default>false</default>
+                <label>Loss Analysis</label>
+            </value>
+            <value>
+                <fullName>General Roadmap</fullName>
+                <default>false</default>
+                <label>General Roadmap</label>
+            </value>
+            <value>
+                <fullName>Market Problem Validation</fullName>
+                <default>false</default>
+                <label>Market Problem Validation</label>
+            </value>
+            <value>
+                <fullName>Discovery</fullName>
+                <default>false</default>
+                <label>Discovery</label>
+            </value>
+            <value>
+                <fullName>Escalation Follow Up</fullName>
+                <default>false</default>
+                <label>Escalation Follow Up</label>
+            </value>
+            <value>
+                <fullName>Market Research</fullName>
+                <default>false</default>
+                <label>Market Research</label>
+            </value>
+            <value>
+                <fullName>Product Satisfaction Check Up</fullName>
+                <default>false</default>
+                <label>Product Satisfaction Check Up</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

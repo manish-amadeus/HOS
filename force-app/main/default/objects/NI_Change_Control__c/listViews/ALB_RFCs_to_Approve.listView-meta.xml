@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>ALB_RFCs_to_Approve</fullName>
+    <columns>NAME</columns>
+    <columns>Request_Summary__c</columns>
+    <columns>Functional_Area__c</columns>
+    <columns>CREATED_DATE</columns>
+    <columns>Date_Required__c</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>Approval_Status__c</field>
+        <operation>equals</operation>
+        <value>Submitted</value>
+    </filters>
+    <filters>
+        <field>RECORDTYPE</field>
+        <operation>equals</operation>
+        <value>NI_Change_Control__c.Salesforce_com_Change_Request</value>
+    </filters>
+    <filters>
+        <field>Functional_Area__c</field>
+        <operation>includes</operation>
+        <value>Support</value>
+    </filters>
+    <filters>
+        <field>Change_Status__c</field>
+        <operation>notEqual</operation>
+        <value>Cancelled,Closed,Closed – Escalated,Closed - Failed,Closed - Implemented,Closed - Not Implemented</value>
+    </filters>
+    <label>Support RFCs to Review</label>
+</ListView>

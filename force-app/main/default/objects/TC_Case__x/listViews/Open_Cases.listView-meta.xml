@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Open_Cases</fullName>
+    <columns>CaseNumber__c</columns>
+    <columns>AccountId__c</columns>
+    <columns>Status__c</columns>
+    <columns>Subject__c</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>AccountId__c</field>
+        <operation>contains</operation>
+        <value>Towers Hotel Stabiae Sorrento Coast</value>
+    </filters>
+    <label>Open Cases</label>
+</ListView>

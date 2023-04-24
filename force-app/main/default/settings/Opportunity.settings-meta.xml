@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<OpportunitySettings xmlns="http://soap.sforce.com/2006/04/metadata">
+    <autoActivateNewReminders>true</autoActivateNewReminders>
+    <customizableProductSchedulesEnabled>false</customizableProductSchedulesEnabled>
+    <doesEnforceStandardOpportunitySaveLogic>true</doesEnforceStandardOpportunitySaveLogic>
+    <enableExpandedPipelineInspectionSetup>false</enableExpandedPipelineInspectionSetup>
+    <enableFindSimilarOpportunities>true</enableFindSimilarOpportunities>
+    <enableOpportunityFieldHistoryTracking>true</enableOpportunityFieldHistoryTracking>
+    <enableOpportunityTeam>true</enableOpportunityTeam>
+    <enablePipelineInspection>false</enablePipelineInspection>
+    <enablePipelineInspectionSingleCategoryRollup>false</enablePipelineInspectionSingleCategoryRollup>
+    <enableServiceCaseInsights>false</enableServiceCaseInsights>
+    <enableUpdateReminders>true</enableUpdateReminders>
+    <findSimilarOppFilter>
+        <similarOpportunitiesDisplayColumns>OPPORTUNITY.NAME</similarOpportunitiesDisplayColumns>
+        <similarOpportunitiesDisplayColumns>ACCOUNT.NAME</similarOpportunitiesDisplayColumns>
+        <similarOpportunitiesDisplayColumns>CORE.USERS.FULL_NAME</similarOpportunitiesDisplayColumns>
+        <similarOpportunitiesDisplayColumns>OPPORTUNITY.AMOUNT</similarOpportunitiesDisplayColumns>
+        <similarOpportunitiesMatchFields>OPPORTUNITY.ACCOUNT</similarOpportunitiesMatchFields>
+        <similarOpportunitiesMatchFields>Opportunity.OpportunityLineItems</similarOpportunitiesMatchFields>
+        <similarOpportunitiesMatchFields>Type_Custom__c</similarOpportunitiesMatchFields>
+        <similarOpportunitiesMatchFields>Sub_Type__c</similarOpportunitiesMatchFields>
+        <similarOpportunitiesMatchFields>Primary_Competitor__c</similarOpportunitiesMatchFields>
+        <similarOpportunitiesMatchFields>OPPORTUNITY.OWNER</similarOpportunitiesMatchFields>
+    </findSimilarOppFilter>
+    <oppAmountDealMotionEnabled>true</oppAmountDealMotionEnabled>
+    <oppCloseDateDealMotionEnabled>true</oppCloseDateDealMotionEnabled>
+    <promptToAddProducts>false</promptToAddProducts>
+    <pushCountEnabled>true</pushCountEnabled>
+    <simpleOppCreateFromContact>false</simpleOppCreateFromContact>
+    <simpleOppCreateFromEvent>false</simpleOppCreateFromEvent>
+</OpportunitySettings>

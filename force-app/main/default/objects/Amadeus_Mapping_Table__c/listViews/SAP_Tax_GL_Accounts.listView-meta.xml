@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>SAP_Tax_GL_Accounts</fullName>
+    <booleanFilter>1 AND (2 OR 3 OR 4 OR 5)</booleanFilter>
+    <columns>NAME</columns>
+    <columns>General_Ledger_Account__c</columns>
+    <columns>SAP_GL_Account_Name__c</columns>
+    <columns>SAP_GL_Account_Number__c</columns>
+    <columns>SAP_Billing_Product__c</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>SAP_GL_Account_Number__c</field>
+        <operation>notEqual</operation>
+    </filters>
+    <filters>
+        <field>General_Ledger_Account__c</field>
+        <operation>contains</operation>
+        <value>TAX</value>
+    </filters>
+    <filters>
+        <field>General_Ledger_Account__c</field>
+        <operation>contains</operation>
+        <value>VAT</value>
+    </filters>
+    <filters>
+        <field>General_Ledger_Account__c</field>
+        <operation>contains</operation>
+        <value>SUT</value>
+    </filters>
+    <filters>
+        <field>General_Ledger_Account__c</field>
+        <operation>contains</operation>
+        <value>GST</value>
+    </filters>
+    <label>SAP Tax GL Mapping</label>
+    <language>en_US</language>
+</ListView>

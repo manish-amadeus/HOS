@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Workflow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <alerts>
+        <fullName>Send_Subscription_Renewal_Notification_90_Days_NI_Standard_1</fullName>
+        <description>Send Subscription Renewal Notification - 90 Days - NI Standard 1</description>
+        <protected>false</protected>
+        <recipients>
+            <field>Bill_to_Contact__c</field>
+            <type>contactLookup</type>
+        </recipients>
+        <senderAddress>hospitality.no-reply@amadeus.com</senderAddress>
+        <senderType>OrgWideEmailAddress</senderType>
+        <template>NIFinanceWorkflowEmails/Subscription_Renewal_Reminder_New</template>
+    </alerts>
+    <fieldUpdates>
+        <fullName>Billing_Contract_Set_Default_Collector</fullName>
+        <description>NICC-046936; set default collector to Finance Integration User</description>
+        <field>Collector__c</field>
+        <lookupValue>financeintegrationuser@newmarketinc.com</lookupValue>
+        <lookupValueType>User</lookupValueType>
+        <name>Billing Contract - Set Default Collector</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>LookupValue</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>Billing_Stage_Active</fullName>
+        <field>Billing_Hold__c</field>
+        <literalValue>0</literalValue>
+        <name>Billing Stage Active</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Literal</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>Billing_Stage_Hold</fullName>
+        <field>Billing_Hold__c</field>
+        <literalValue>1</literalValue>
+        <name>Billing Stage Hold</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Literal</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>Update_Billing_Terms_30</fullName>
+        <field>Due_Date_Terms__c</field>
+        <literalValue>Thirty (30)</literalValue>
+        <name>Update Billing Terms 30</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Literal</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>Update_Billing_Terms_45</fullName>
+        <field>Due_Date_Terms__c</field>
+        <literalValue>Forty-Five (45)</literalValue>
+        <name>Update Billing Terms 45</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Literal</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>Update_Send_Email_checkbox_to_false</fullName>
+        <field>Send_Email__c</field>
+        <literalValue>0</literalValue>
+        <name>Update Send Email checkbox to false</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Literal</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <rules>
+        <fullName>Billing Stage Active</fullName>
+        <actions>
+            <name>Billing_Stage_Active</name>
+            <type>FieldUpdate</type>
+        </actions>
+        <active>true</active>
+        <criteriaItems>
+            <field>Billing_Contract__c.Billing_Contract_Stage__c</field>
+            <operation>equals</operation>
+            <value>Active</value>
+        </criteriaItems>
+        <triggerType>onCreateOrTriggeringUpdate</triggerType>
+    </rules>
+    <rules>
+        <fullName>Billing Stage Hold</fullName>
+        <actions>
+            <name>Billing_Stage_Hold</name>
+            <type>FieldUpdate</type>
+        </actions>
+        <active>true</active>
+        <criteriaItems>
+            <field>Billing_Contract__c.Billing_Contract_Stage__c</field>
+            <operation>equals</operation>
+            <value>Hold</value>
+        </criteriaItems>
+        <triggerType>onCreateOrTriggeringUpdate</triggerType>
+    </rules>
+    <rules>
+        <fullName>Copy Terms From Apptus 30 Days</fullName>
+        <actions>
+            <name>Update_Billing_Terms_30</name>
+            <type>FieldUpdate</type>
+        </actions>
+        <active>true</active>
+        <formula>TEXT( Agreement__r.APTS_Invoice_Terms__c )=&apos;thirty (30)&apos;</formula>
+        <triggerType>onCreateOnly</triggerType>
+    </rules>
+    <rules>
+        <fullName>Copy Terms From Apptus 45 Days</fullName>
+        <actions>
+            <name>Update_Billing_Terms_45</name>
+            <type>FieldUpdate</type>
+        </actions>
+        <active>true</active>
+        <formula>TEXT( Agreement__r.APTS_Invoice_Terms__c )=&apos;forty five (45)&apos;</formula>
+        <triggerType>onCreateOnly</triggerType>
+    </rules>
+    <rules>
+        <fullName>Send Renewal Notification - 90 Days</fullName>
+        <actions>
+            <name>Send_Subscription_Renewal_Notification_90_Days_NI_Standard_1</name>
+            <type>Alert</type>
+        </actions>
+        <actions>
+            <name>Update_Send_Email_checkbox_to_false</name>
+            <type>FieldUpdate</type>
+        </actions>
+        <actions>
+            <name>X90day_Product_Renewal_Email_Sent</name>
+            <type>Task</type>
+        </actions>
+        <active>true</active>
+        <criteriaItems>
+            <field>Billing_Contract__c.Send_Email__c</field>
+            <operation>equals</operation>
+            <value>True</value>
+        </criteriaItems>
+        <triggerType>onCreateOrTriggeringUpdate</triggerType>
+    </rules>
+    <rules>
+        <fullName>Set default collector for billing contract</fullName>
+        <actions>
+            <name>Billing_Contract_Set_Default_Collector</name>
+            <type>FieldUpdate</type>
+        </actions>
+        <active>true</active>
+        <criteriaItems>
+            <field>Billing_Contract__c.CreatedDate</field>
+            <operation>greaterThan</operation>
+            <value>1/1/2020</value>
+        </criteriaItems>
+        <description>NICC-046936; set collector field = &apos;Finance Integration User&apos; for newly created records</description>
+        <triggerType>onCreateOnly</triggerType>
+    </rules>
+    <tasks>
+        <fullName>X90day_Product_Renewal_Email_Sent</fullName>
+        <assignedTo>integration_user@newmarketinc.com</assignedTo>
+        <assignedToType>user</assignedToType>
+        <dueDateOffset>0</dueDateOffset>
+        <notifyAssignee>false</notifyAssignee>
+        <offsetFromField>Billing_Contract__c.Contract_End_Date__c</offsetFromField>
+        <priority>Normal</priority>
+        <protected>false</protected>
+        <status>Completed</status>
+        <subject>90day Product Renewal Email Sent</subject>
+    </tasks>
+</Workflow>

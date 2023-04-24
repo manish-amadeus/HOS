@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Amadeus_PMS_Connection_Software__c</fullName>
+    <complianceGroup>Normal</complianceGroup>
+    <description>Salesforce.com Change Request: NICC-019092
+
+What Remote connection software to use for direct customer access.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>What Remote connection software to use for direct customer access.</inlineHelpText>
+    <label>Amadeus PMS Connection Software</label>
+    <required>false</required>
+    <securityClassification>Internal</securityClassification>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Citrix</fullName>
+                <default>false</default>
+                <label>Citrix</label>
+            </value>
+            <value>
+                <fullName>DeskShare</fullName>
+                <default>false</default>
+                <label>DeskShare</label>
+            </value>
+            <value>
+                <fullName>GoToMyPC</fullName>
+                <default>false</default>
+                <label>GoToMyPC</label>
+            </value>
+            <value>
+                <fullName>Modem Analog</fullName>
+                <default>false</default>
+                <label>Modem Analog</label>
+            </value>
+            <value>
+                <fullName>Modem ISDN</fullName>
+                <default>false</default>
+                <label>Modem ISDN</label>
+            </value>
+            <value>
+                <fullName>PC Anywhere</fullName>
+                <default>false</default>
+                <label>PC Anywhere</label>
+            </value>
+            <value>
+                <fullName>Remote Desktop</fullName>
+                <default>false</default>
+                <label>Remote Desktop</label>
+            </value>
+            <value>
+                <fullName>RSA SecurID Token</fullName>
+                <default>false</default>
+                <label>RSA SecurID Token</label>
+            </value>
+            <value>
+                <fullName>VNC</fullName>
+                <default>false</default>
+                <label>VNC</label>
+            </value>
+            <value>
+                <fullName>Webbrowser</fullName>
+                <default>false</default>
+                <label>Webbrowser</label>
+            </value>
+            <value>
+                <fullName>Fastviewer Remote</fullName>
+                <default>false</default>
+                <label>Fastviewer Remote</label>
+            </value>
+            <value>
+                <fullName>Fastviewer Support</fullName>
+                <default>false</default>
+                <label>Fastviewer Support</label>
+            </value>
+            <value>
+                <fullName>Bomgar</fullName>
+                <default>false</default>
+                <label>Bomgar</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

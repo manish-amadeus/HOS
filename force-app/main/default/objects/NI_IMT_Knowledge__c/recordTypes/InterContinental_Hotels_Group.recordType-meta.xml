@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<RecordType xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>InterContinental_Hotels_Group</fullName>
+    <active>true</active>
+    <label>InterContinental Hotels Group</label>
+    <picklistValues>
+        <picklist>Article_Type__c</picklist>
+        <values>
+            <fullName>How Do I</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Technical</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Workflow</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Status__c</picklist>
+        <values>
+            <fullName>Approved</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Draft</fullName>
+            <default>true</default>
+        </values>
+        <values>
+            <fullName>Rejected</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Retired</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Submitted</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>User Entry Error</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+</RecordType>

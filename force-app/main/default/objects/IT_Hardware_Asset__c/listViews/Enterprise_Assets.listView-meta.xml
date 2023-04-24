@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Enterprise_Assets</fullName>
+    <columns>NAME</columns>
+    <columns>Model_Description__c</columns>
+    <columns>Asset_Location__c</columns>
+    <columns>Deployment_Type__c</columns>
+    <columns>Hardware_Type__c</columns>
+    <columns>Product_ID__c</columns>
+    <columns>Machine_Name__c</columns>
+    <columns>NI_Department__c</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>Hardware_Type__c</field>
+        <operation>equals</operation>
+        <value>Laptop,Workstation</value>
+    </filters>
+    <filters>
+        <field>Model_Description__c</field>
+        <operation>notEqual</operation>
+    </filters>
+    <label>Hardware Details</label>
+</ListView>

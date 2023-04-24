@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Hosted_RFC_Implementation_Status</fullName>
+    <active>true</active>
+    <description>If the Actual Production Date is filled in, you must also complete the Implementation Status Field</description>
+    <errorConditionFormula>AND(OR(RecordType.Name = &apos;Hosted RFC&apos;,RecordType.Name = &apos;HRM RFC&apos;),NOT(ISBLANK( Date_Changed__c )),
+ISBLANK(TEXT( Implementation_Status__c  )))
+
+/* ORIGINAL CODE
+RecordTypeId = &quot;0126000000016TJ&quot; &amp;&amp; NOT(ISBLANK( Date_Changed__c )) &amp;&amp;
+ISBLANK(TEXT( Implementation_Status__c  ))
+*/</errorConditionFormula>
+    <errorDisplayField>Implementation_Status__c</errorDisplayField>
+    <errorMessage>When you set the Actual Production Date you must also update the Implementation Status field</errorMessage>
+</ValidationRule>

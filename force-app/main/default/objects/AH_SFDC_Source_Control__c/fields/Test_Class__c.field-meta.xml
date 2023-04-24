@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Test_Class__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <externalId>false</externalId>
+    <label>Test Class</label>
+    <lookupFilter>
+        <active>true</active>
+        <filterItems>
+            <field>AH_SFDC_Source_Control__c.IsTestClass__c</field>
+            <operation>equals</operation>
+            <value>True</value>
+        </filterItems>
+        <filterItems>
+            <field>AH_SFDC_Source_Control__c.Salesforce_Source_Type__c</field>
+            <operation>equals</operation>
+            <value>Apex Class</value>
+        </filterItems>
+        <isOptional>false</isOptional>
+    </lookupFilter>
+    <referenceTo>AH_SFDC_Source_Control__c</referenceTo>
+    <relationshipLabel>Classes Tested by this Class</relationshipLabel>
+    <relationshipName>Test_Class</relationshipName>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

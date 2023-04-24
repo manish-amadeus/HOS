@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>StatusChangeNotAllowedUnapprovedProject</fullName>
+    <active>true</active>
+    <description>NICC-056090;NICC-056595
+A user is not allowed to manually change the Status of an Internal Project if the &quot;Approved&quot; checkbox is unchecked.</description>
+    <errorConditionFormula>AND(
+RecordType.DeveloperName = &quot;Commercial_Operation_Projects&quot;,
+Approved__c = FALSE,
+$Profile.Name &lt;&gt; &quot;System Administrator&quot;,
+ISCHANGED(Request_Status__c),
+ISPICKVAL(Request_Status__c, &quot;In Progress&quot;)
+)</errorConditionFormula>
+    <errorMessage>This project has not been approved. “In Progress” is not a valid Status for this project. Please see your project sponsor to get the project approved.</errorMessage>
+</ValidationRule>

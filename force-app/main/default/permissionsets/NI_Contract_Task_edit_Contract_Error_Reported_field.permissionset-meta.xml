@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PermissionSet xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>NICC-045504</description>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Event.Contract_Error_Reported__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Task.Contract_Error_Reported__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <hasActivationRequired>false</hasActivationRequired>
+    <label>NI Contract Task - edit Contract Error Reported field</label>
+    <license>Salesforce</license>
+    <recordTypeVisibilities>
+        <recordType>Task.NIContractsTask</recordType>
+        <visible>true</visible>
+    </recordTypeVisibilities>
+</PermissionSet>

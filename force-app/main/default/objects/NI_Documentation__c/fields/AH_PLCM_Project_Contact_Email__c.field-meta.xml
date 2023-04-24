@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>AH_PLCM_Project_Contact_Email__c</fullName>
+    <businessOwnerGroup>DEPT_Platform_Life_Cycle_Management</businessOwnerGroup>
+    <businessStatus>Active</businessStatus>
+    <description>NICC-036103</description>
+    <externalId>false</externalId>
+    <formula>AH_PLCM_Project_Contact__r.Email</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <inlineHelpText>Person Email Address of who will get Portal access</inlineHelpText>
+    <label>Project Contact Email</label>
+    <required>false</required>
+    <securityClassification>Internal</securityClassification>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

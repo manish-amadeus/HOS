@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Lightning_Knowledge__c</fullName>
+    <businessOwnerUser>kcilley@newmarketinc.com.sbfull</businessOwnerUser>
+    <businessStatus>Active</businessStatus>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <description>lookup up junction for Lightning Knowledge articles related to Change Request.  NICC-042299</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Lookup of Lightning Knowledge Articles between Change Request object</inlineHelpText>
+    <label>Lightning Knowledge</label>
+    <referenceTo>Lightning_Knowledge__kav</referenceTo>
+    <relationshipLabel>Change Request</relationshipLabel>
+    <relationshipName>CR_to_Lightning_Knowledges1</relationshipName>
+    <required>false</required>
+    <securityClassification>Internal</securityClassification>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<FlowDefinition xmlns="http://soap.sforce.com/2006/04/metadata">
+    <activeVersionNumber>8</activeVersionNumber>
+    <description>Creates a Deployment Instance record for each product in a bundle that doesn&apos;t have a corresponding Opportunity Line Item. This is a subloop on the TCSubscriptionActivations flow. Replaces an old version of this Flow to fix issues with the Flow.
+
+NICC-053660</description>
+    <masterLabel>CreateDIBundleProductV2</masterLabel>
+</FlowDefinition>

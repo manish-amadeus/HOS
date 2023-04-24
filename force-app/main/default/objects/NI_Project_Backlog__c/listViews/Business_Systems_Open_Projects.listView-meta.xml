@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Business_Systems_Open_Projects</fullName>
+    <columns>RECORDTYPE</columns>
+    <columns>NAME</columns>
+    <columns>Corporate_Initiative_Lookup__c</columns>
+    <columns>Legal_Compliance__c</columns>
+    <columns>Required_for_Security_Compliance__c</columns>
+    <columns>T_shirt_Size__c</columns>
+    <columns>Priority__c</columns>
+    <columns>This_Project_Will_Increase_Revenue__c</columns>
+    <columns>This_Project_Will_Reduce_Costs__c</columns>
+    <columns>This_Project_Will_Reduce_Manual_Steps__c</columns>
+    <columns>Annual_Savings__c</columns>
+    <columns>Will_Improve_Customer_Experience__c</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>Request_Status__c</field>
+        <operation>notEqual</operation>
+        <value>Redirected,Completed,Rejected,Canceled</value>
+    </filters>
+    <filters>
+        <field>RECORDTYPE</field>
+        <operation>equals</operation>
+        <value>NI_Project_Backlog__c.Business_Systems</value>
+    </filters>
+    <label>Business Systems - Open</label>
+    <sharedTo>
+        <group>Business_Systems_Internal</group>
+    </sharedTo>
+</ListView>

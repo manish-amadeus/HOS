@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Contract_Type__c</fullName>
+    <businessOwnerUser>adavid.robinson@amadeus.com.sbfull</businessOwnerUser>
+    <businessStatus>Active</businessStatus>
+    <description>NICC-051009</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Designates whether the Contract is a New or Renewed Contract</inlineHelpText>
+    <label>Contract Type</label>
+    <required>false</required>
+    <securityClassification>Internal</securityClassification>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>New</fullName>
+                <default>false</default>
+                <label>New</label>
+            </value>
+            <value>
+                <fullName>Renew</fullName>
+                <default>false</default>
+                <label>Renew</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

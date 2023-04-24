@@ -1,0 +1,79 @@
+<template >
+    
+    <div class="bg-card">
+        <lightning-card>
+
+            <lightning-layout  horizontal-align="space" multiple-rows="true" >
+                <lightning-layout-item flexibility="auto" >
+                        
+                    <lightning-combobox name="recordTypes"
+                                        label=""
+                                        value={selectedValue}
+                                        placeholder="-Select-"
+                                        options={options}
+                                        onchange={handleChange} class="combo-box" ></lightning-combobox>
+    
+                </lightning-layout-item>
+                <lightning-layout-item flexibility="auto" >
+                    <lightning-button onclick={navigateToNewRecordPage} label="Select Record Type" variant="brand"></lightning-button>
+                    <lightning-button onclick={handleCloseWindow} label="Cancel" class="cancel-btn"></lightning-button>
+                </lightning-layout-item>
+            </lightning-layout>
+            <br/><br/>
+            
+            <div style="margin-left:70px;">
+                <b>Available NI Documentation Record Types</b>  <br/><br/>
+                <table >
+                    <tbody>
+                        <tr>
+                            <th>
+                                Record Type Name
+                            </th>
+                            <th>
+                                Description
+                            </th>
+                        </tr>
+                        <tr>
+                            <td class="recordTypeCol">HRM Configuration</td>
+                            <td>Used to document HRM customer configurations</td>
+                        </tr>
+                        <tr>
+                            <td class="recordTypeCol">HRM Documentation</td>
+                            <td>Used for HRM Documentation</td>
+                        </tr>
+                        <tr>
+                            <td class="recordTypeCol">HRM Solutions Database</td>
+                            <td>Used by the HRM team to track solutions</td>
+                        </tr>
+                        <tr>
+                            <td class="recordTypeCol">Integration Services Documentation</td>
+                            <td>Used for PMS and RMS Integration Documentation</td>
+                        </tr>
+                        <tr>
+                            <td class="recordTypeCol">PLCM Migrations</td>
+                            <td>Used by Platform Life Cycle Management team to manage migration projects.</td>
+                        </tr>
+                        <tr>
+                            <td class="recordTypeCol">Pre-Sales Documentation</td>
+                            <td>Used for Pre-Sales Documentation</td>
+                        </tr>
+                        <tr>
+                            <td class="recordTypeCol">Professional Services Documentation</td>
+                            <td>Used for Professional Services Documentation</td>
+                        </tr>
+                        <tr>
+                            <td class="recordTypeCol">Property Management Documentation</td>
+                            <td>Used for Property Management Documentation</td>
+                        </tr>
+                        <tr>
+                            <td class="recordTypeCol">Systems Engineering Documentation</td>
+                            <td>Used for System Engineering Documentation</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </lightning-card>
+    
+    </div>
+    
+</template>

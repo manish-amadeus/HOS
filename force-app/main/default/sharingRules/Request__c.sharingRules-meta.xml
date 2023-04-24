@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<SharingRules xmlns="http://soap.sforce.com/2006/04/metadata">
+    <sharingCriteriaRules>
+        <fullName>Contract_Mgt_Contract_Administrators</fullName>
+        <accessLevel>Edit</accessLevel>
+        <description>Shares Contract Request and Contract Validation Request record types with Users who have the Contract Administrator Role</description>
+        <label>Contract Mgt - Contract Administrators</label>
+        <sharedTo>
+            <role>ContractsAdministrator</role>
+        </sharedTo>
+        <booleanFilter>1 or 2</booleanFilter>
+        <criteriaItems>
+            <field>RecordTypeId</field>
+            <operation>equals</operation>
+            <value>Contract Request</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>RecordTypeId</field>
+            <operation>equals</operation>
+            <value>Contract Validation Request</value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>false</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
+    <sharingCriteriaRules>
+        <fullName>Contract_Mgt_Sales_Group</fullName>
+        <accessLevel>Edit</accessLevel>
+        <description>Shares Contract Request and Contract Validation Request records with members of the Public Group listed below</description>
+        <label>Contract Mgt - Sales Group</label>
+        <sharedTo>
+            <group>AH_Sales_NI_Org_Primary_Account_RE</group>
+        </sharedTo>
+        <booleanFilter>1 or 2</booleanFilter>
+        <criteriaItems>
+            <field>RecordTypeId</field>
+            <operation>equals</operation>
+            <value>Contract Request</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>RecordTypeId</field>
+            <operation>equals</operation>
+            <value>Contract Validation Request</value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>false</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
+    <sharingCriteriaRules>
+        <fullName>Creative_Requests</fullName>
+        <accessLevel>Edit</accessLevel>
+        <description>Shares records with a record type of &quot;Creative Requests&quot; with members of the &quot;Creative Requests&quot; public group</description>
+        <label>Creative Requests</label>
+        <sharedTo>
+            <group>Creative_Requests</group>
+        </sharedTo>
+        <criteriaItems>
+            <field>RecordTypeId</field>
+            <operation>equals</operation>
+            <value>Creative Request</value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
+    <sharingCriteriaRules>
+        <fullName>Professional_Services_Delivery_Request_Client_Services</fullName>
+        <accessLevel>Edit</accessLevel>
+        <label>Professional Services - Delivery Request - Client Services</label>
+        <sharedTo>
+            <roleAndSubordinatesInternal>ClientServices</roleAndSubordinatesInternal>
+        </sharedTo>
+        <criteriaItems>
+            <field>RecordTypeId</field>
+            <operation>equals</operation>
+            <value>Delivery Request</value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
+    <sharingCriteriaRules>
+        <fullName>Professional_Services_Delivery_Request_Sales</fullName>
+        <accessLevel>Edit</accessLevel>
+        <label>Professional Services - Delivery Request - Sales</label>
+        <sharedTo>
+            <roleAndSubordinatesInternal>WWSales</roleAndSubordinatesInternal>
+        </sharedTo>
+        <criteriaItems>
+            <field>RecordTypeId</field>
+            <operation>equals</operation>
+            <value>Delivery Request</value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
+    <sharingCriteriaRules>
+        <fullName>Shared_Services_Global_Ops</fullName>
+        <accessLevel>Edit</accessLevel>
+        <label>Shared Services &amp; Global Ops</label>
+        <sharedTo>
+            <roleAndSubordinatesInternal>SupportManagers</roleAndSubordinatesInternal>
+        </sharedTo>
+        <criteriaItems>
+            <field>RecordTypeId</field>
+            <operation>equals</operation>
+            <value>Shared Services Request,Global Ops Request - Support</value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>false</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
+    <sharingCriteriaRules>
+        <fullName>Shared_Services_Global_Ops_All_Internal_Users</fullName>
+        <accessLevel>Read</accessLevel>
+        <label>Shared Services Global Ops</label>
+        <sharedTo>
+            <group>All_NI_Internal_Standard_Users</group>
+        </sharedTo>
+        <criteriaItems>
+            <field>RecordTypeId</field>
+            <operation>equals</operation>
+            <value>Shared Services Request,Global Ops Request - Support</value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>false</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
+</SharingRules>

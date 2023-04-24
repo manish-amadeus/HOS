@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Change_User_Cancelled_BS_Queue</fullName>
+    <columns>Change_Request_Type__c</columns>
+    <columns>Effective_Date__c</columns>
+    <columns>NAME</columns>
+    <columns>Business_Systems_Status__c</columns>
+    <columns>Employee_First_Name__c</columns>
+    <columns>Employee_Last_Name__c</columns>
+    <columns>Employee_Name__c</columns>
+    <columns>UPDATEDBY_USER</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>RECORDTYPE</field>
+        <operation>equals</operation>
+        <value>NI_Job_Requisition__c.Change_User_Request</value>
+    </filters>
+    <filters>
+        <field>Business_Systems_Status__c</field>
+        <operation>equals</operation>
+        <value>Cancelled</value>
+    </filters>
+    <label>Change User - Cancelled BS Queue</label>
+    <sharedTo>
+        <allInternalUsers></allInternalUsers>
+    </sharedTo>
+</ListView>

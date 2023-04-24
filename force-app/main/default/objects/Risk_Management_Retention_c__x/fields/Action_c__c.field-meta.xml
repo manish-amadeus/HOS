@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Action_c__c</fullName>
+    <externalDeveloperName>Action__c</externalDeveloperName>
+    <externalId>false</externalId>
+    <inlineHelpText>What did the TC agent do for the customer?)</inlineHelpText>
+    <isFilteringDisabled>false</isFilteringDisabled>
+    <isNameField>false</isNameField>
+    <isSortingDisabled>false</isSortingDisabled>
+    <label>Action</label>
+    <required>false</required>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Adjusted Product/settings</fullName>
+                <default>false</default>
+                <label>Adjusted Product/settings</label>
+            </value>
+            <value>
+                <fullName>Setup additional training</fullName>
+                <default>false</default>
+                <label>Setup additional training</label>
+            </value>
+            <value>
+                <fullName>Renegotiated Pricing/Terms</fullName>
+                <default>false</default>
+                <label>Renegotiated Pricing/Terms</label>
+            </value>
+            <value>
+                <fullName>Provided Customer with Information</fullName>
+                <default>false</default>
+                <label>Provided Customer with Information</label>
+            </value>
+            <value>
+                <fullName>Provided Customer with training</fullName>
+                <default>false</default>
+                <label>Provided Customer with training</label>
+            </value>
+            <value>
+                <fullName>No specific action taken</fullName>
+                <default>false</default>
+                <label>No specific action taken</label>
+            </value>
+            <value>
+                <fullName>Requested Product Enhancement</fullName>
+                <default>false</default>
+                <label>Requested Product Enhancement</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

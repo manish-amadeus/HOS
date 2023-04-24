@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Campaign_review_c__c</fullName>
+    <externalDeveloperName>Campaign_review__c</externalDeveloperName>
+    <externalId>false</externalId>
+    <inlineHelpText>Has this campaign been reviewed? select the action taken.</inlineHelpText>
+    <isFilteringDisabled>false</isFilteringDisabled>
+    <isNameField>false</isNameField>
+    <isSortingDisabled>false</isSortingDisabled>
+    <label>Campaign review</label>
+    <required>false</required>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Analysis</fullName>
+                <default>false</default>
+                <label>Analysis</label>
+            </value>
+            <value>
+                <fullName>Optimization</fullName>
+                <default>false</default>
+                <label>Optimization</label>
+            </value>
+            <value>
+                <fullName>Analysis &amp; Optimization</fullName>
+                <default>false</default>
+                <label>Analysis &amp; Optimization</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

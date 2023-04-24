@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Time_Elapsed_Hours_24_hr_Day__c</fullName>
+    <businessStatus>Active</businessStatus>
+    <description>NICC-051009</description>
+    <externalId>false</externalId>
+    <formula>ROUND(24*( 
+(5*FLOOR((DATEVALUE(Exit_Time__c)-DATE(1996,01,01))/7) + 
+MIN(5, 
+MOD(DATEVALUE(Exit_Time__c) -DATE(1996,01,01), 7) + 
+MIN(1, (MOD(Exit_Time__c -DATETIMEVALUE(&apos;1996-01-01 05:00:00&apos;), 1))) 
+)) 
+- 
+(5*FLOOR((DATEVALUE(NULLVALUE(Enter_Time__c, CreatedDate))-DATE(1996,01,01))/7) + 
+MIN(5, 
+MOD(DATEVALUE(NULLVALUE(Enter_Time__c, CreatedDate))-DATE(1996,01,01), 7) + 
+MIN(1, (MOD(NULLVALUE(Enter_Time__c, CreatedDate)-DATETIMEVALUE(&apos;1996-01-01 05:00:00&apos;), 1))) 
+)) 
+), 2)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <inlineHelpText>Show the number of hours elapsed between the Enter Time and Start Time, excluding weekends, based on a 24 hr workday. Used for testing to confirm the time to update the formula in a lightning process called Status Tracking Time Elapsed.</inlineHelpText>
+    <label>Time Elapsed Hours (24 hr Day) (formula)</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>2</scale>
+    <securityClassification>Internal</securityClassification>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Number</type>
+    <unique>false</unique>
+</CustomField>

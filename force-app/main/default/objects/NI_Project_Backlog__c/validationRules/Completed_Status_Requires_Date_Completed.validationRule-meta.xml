@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Completed_Status_Requires_Date_Completed</fullName>
+    <active>true</active>
+    <description>NICC-047197; NICC-056090; update via NICC-058272
+If the status of an Internal Project is set to &quot;Completed&quot;, the Completion Date and Solution Description fields must not be blank</description>
+    <errorConditionFormula>AND
+(RecordType.DeveloperName = &quot;Commercial_Operation_Projects&quot;,
+ISPICKVAL(Request_Status__c,&quot;Completed&quot;),
+OR(ISBLANK(Project_Completion_Date__c),ISBLANK( Solution_Description__c))
+)</errorConditionFormula>
+    <errorMessage>The Completion Date and Solution Description cannot be blank when the Status is set to “Completed”</errorMessage>
+</ValidationRule>

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Open_Contract_Requests</fullName>
+    <columns>NAME</columns>
+    <columns>Open_Time__c</columns>
+    <columns>OWNER.FIRST_NAME</columns>
+    <columns>Request_Type__c</columns>
+    <columns>Request_Status__c</columns>
+    <columns>Request_Contact__c</columns>
+    <columns>Product_Family__c</columns>
+    <columns>Related_Opportunity__c</columns>
+    <columns>AH_Opportunity_Number__c</columns>
+    <columns>Reason_for_Delay__c</columns>
+    <columns>Request_Contact_Role__c</columns>
+    <columns>Number_of_Follow_Ups__c</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>RECORDTYPE</field>
+        <operation>equals</operation>
+        <value>Request__c.Contract_Request</value>
+    </filters>
+    <filters>
+        <field>Request_Status__c</field>
+        <operation>notContain</operation>
+        <value>Closed,Closed - Contract Processed,Closed - Incorrect Mailbox,Closed - Info/Admin Opty Processed,Closed - Unresolved,Rejected,SPAM,Duplicate</value>
+    </filters>
+    <label>NMI OM  - All Open Contract Requests</label>
+    <sharedTo>
+        <roleAndSubordinatesInternal>ContractsAdministrator</roleAndSubordinatesInternal>
+        <roleAndSubordinatesInternal>DirectorofContracts</roleAndSubordinatesInternal>
+    </sharedTo>
+</ListView>

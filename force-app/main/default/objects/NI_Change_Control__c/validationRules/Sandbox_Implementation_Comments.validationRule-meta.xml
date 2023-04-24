@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Sandbox_Implementation_Comments</fullName>
+    <active>true</active>
+    <description>Prevents comments from being saved if the Approval Status != &quot;Approved&quot;</description>
+    <errorConditionFormula>RecordTypeId = &quot;01260000000166y&quot; &amp;&amp; (NOT(ISPICKVAL(  Approval_Status__c , &quot;Approved&quot;)) &amp;&amp; NOT( ISBLANK(    Sandbox_Implementation_Comments__c    ) ))</errorConditionFormula>
+    <errorDisplayField>Sandbox_Implementation_Comments__c</errorDisplayField>
+    <errorMessage>You cannot update this field for requests that have not been approved</errorMessage>
+</ValidationRule>

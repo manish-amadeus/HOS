@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Jeff_Test</fullName>
+    <columns>NAME</columns>
+    <columns>FFA_Company__c</columns>
+    <columns>Bank_Account_Number__c</columns>
+    <columns>Invoice_Number__c</columns>
+    <columns>Document_Amount__c</columns>
+    <columns>Posting_Date__c</columns>
+    <columns>Customer_Number__c</columns>
+    <columns>Remitter__c</columns>
+    <columns>FFA_Processing_Status__c</columns>
+    <columns>FFA_Cash_Entry__c</columns>
+    <columns>FFA_Journal__c</columns>
+    <columns>Exempt_From_Processing__c</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>FFA_Processing_Status__c</field>
+        <operation>equals</operation>
+        <value>Processed Successfully</value>
+    </filters>
+    <filters>
+        <field>CREATED_DATE</field>
+        <operation>equals</operation>
+        <value>11/10/2022 12:00 AM</value>
+    </filters>
+    <label>Jeff Test</label>
+    <language>en_US</language>
+</ListView>

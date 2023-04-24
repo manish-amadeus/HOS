@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>56.0</apiVersion>
+    <decisions>
+        <description>Decides if the Request needs to have a Creative Brief attached. If not, the Request bypasses the file upload screen and goes to the last screen. If yes, the Request will be taken to the file upload screen.</description>
+        <name>CreativeBriefNeededDecision</name>
+        <label>CreativeBriefNeededDecision</label>
+        <locationX>1296</locationX>
+        <locationY>368</locationY>
+        <defaultConnectorLabel>Yes</defaultConnectorLabel>
+    </decisions>
+    <decisions>
+        <description>Decides if the Creative Brief was attached to the Request record. If it, the user will be re-directed back to the file upload screen</description>
+        <name>CreativeBriefUploaded</name>
+        <label>CreativeBriefUploaded</label>
+        <locationX>1266</locationX>
+        <locationY>81</locationY>
+        <defaultConnectorLabel>No</defaultConnectorLabel>
+    </decisions>
+    <decisions>
+        <description>Decides which product the Requestor chose to determine which screen to go to next</description>
+        <name>ProductDecision</name>
+        <label>ProductDecision</label>
+        <locationX>146</locationX>
+        <locationY>638</locationY>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+    </decisions>
+    <decisions>
+        <description>Decides if a Creative team member needs to be notified of a large request</description>
+        <name>SendLargeRequestEmail</name>
+        <label>SendLargeRequestEmail</label>
+        <locationX>870</locationX>
+        <locationY>190</locationY>
+        <defaultConnector>
+            <targetReference>CreativeBriefNeededDecision</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+    </decisions>
+    <description>NICC-057703; updated via NICC-062907; updated viaNICC-064110; update via NICC-064361; update via NICC-065010; Screen flow for the Global Creative team to create new Request records</description>
+    <environments>Default</environments>
+    <interviewLabel>Request - Creative Team Intake Form {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Request - Creative Team Intake Form</label>
+    <processType>Flow</processType>
+    <status>Active</status>
+</Flow>

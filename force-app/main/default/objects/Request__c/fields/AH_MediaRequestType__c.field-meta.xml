@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>AH_MediaRequestType__c</fullName>
+    <businessOwnerUser>lorie.park@amadeus.com.sbfull</businessOwnerUser>
+    <businessStatus>Active</businessStatus>
+    <description>NICC-057703; This field is used to populate a picklist choice set in the Flow called &quot;Request - Creative Team Intake Form&quot;. DO NOT add values to this list without confirmation from Creative Team first.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Media request type options for GDS, Travel Audience and Travel Advertising</inlineHelpText>
+    <label>Media Request Type</label>
+    <required>false</required>
+    <securityClassification>Internal</securityClassification>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Custom (Tier 1)</fullName>
+                <default>false</default>
+                <label>Custom (Tier 1)</label>
+            </value>
+            <value>
+                <fullName>Template (Tiers 2, 3 &amp; 4)</fullName>
+                <default>false</default>
+                <label>Template (Tiers 2, 3 &amp; 4)</label>
+            </value>
+            <value>
+                <fullName>Client Provided Banner</fullName>
+                <default>false</default>
+                <label>Client Provided Banner</label>
+            </value>
+            <value>
+                <fullName>Dynamic Banner (iHotelier Clients ONLY)</fullName>
+                <default>false</default>
+                <label>Dynamic Banner (iHotelier Clients ONLY)</label>
+            </value>
+            <value>
+                <fullName>Add-On Banner</fullName>
+                <default>false</default>
+                <label>Add-On Banner</label>
+            </value>
+            <value>
+                <fullName>Video for Social Media</fullName>
+                <default>false</default>
+                <label>Video for Social Media</label>
+            </value>
+            <value>
+                <fullName>Image Resize/Graphic Overlays</fullName>
+                <default>false</default>
+                <label>Image Resize/Graphic Overlays</label>
+            </value>
+            <value>
+                <fullName>AGB</fullName>
+                <default>false</default>
+                <label>AGB</label>
+            </value>
+            <value>
+                <fullName>AGB Landing Page</fullName>
+                <default>false</default>
+                <label>AGB Landing Page</label>
+            </value>
+            <value>
+                <fullName>TPG</fullName>
+                <default>false</default>
+                <label>TPG</label>
+            </value>
+            <value>
+                <fullName>SABRE - Normal</fullName>
+                <default>false</default>
+                <label>SABRE - Normal</label>
+            </value>
+            <value>
+                <fullName>SABRE - Full Width</fullName>
+                <default>false</default>
+                <label>SABRE - Full Width</label>
+            </value>
+            <value>
+                <fullName>SABRE - Carousel</fullName>
+                <default>false</default>
+                <label>SABRE - Carousel</label>
+            </value>
+            <value>
+                <fullName>Resize Images</fullName>
+                <default>false</default>
+                <label>Resize Images</label>
+            </value>
+            <value>
+                <fullName>Update</fullName>
+                <default>false</default>
+                <label>Update</label>
+            </value>
+            <value>
+                <fullName>Standard Banner</fullName>
+                <default>false</default>
+                <label>Standard Banner</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

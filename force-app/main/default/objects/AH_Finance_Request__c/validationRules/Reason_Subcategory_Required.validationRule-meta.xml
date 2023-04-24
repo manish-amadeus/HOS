@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Reason_Subcategory_Required</fullName>
+    <active>true</active>
+    <description>NICC-042151
+NICC-058517</description>
+    <errorConditionFormula>AND(
+NOT(ISBLANK(TEXT(Credit_Note_Reason__c ))),
+ISPICKVAL(Reason_Subcategory__c , &quot;&quot;),
+RecordType.Name = &quot;Sales Credit Note Request&quot;,
+NOT(ISPICKVAL(Credit_Note_Reason__c, &quot;Bad Debt&quot;)),
+NOT(ISPICKVAL(Credit_Note_Reason__c, &quot;RVP Discretionary Credit&quot;))
+)</errorConditionFormula>
+    <errorMessage>Reason Subcategory is required for this Credit Note Reason.</errorMessage>
+</ValidationRule>

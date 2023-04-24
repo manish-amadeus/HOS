@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ApprovalProcess xmlns="http://soap.sforce.com/2006/04/metadata">
+    <active>false</active>
+    <allowRecall>true</allowRecall>
+    <allowedSubmitters>
+        <type>owner</type>
+    </allowedSubmitters>
+    <approvalPageFields>
+        <field>Name</field>
+        <field>Owner</field>
+    </approvalPageFields>
+    <approvalStep>
+        <allowDelegate>false</allowDelegate>
+        <approvalActions>
+            <action>
+                <name>StatusUpdatetoApproved2</name>
+                <type>FieldUpdate</type>
+            </action>
+        </approvalActions>
+        <assignedApprover>
+            <approver>
+                <name>tonianne.piscitello@newmarketinc.com</name>
+                <type>user</type>
+            </approver>
+            <whenMultipleApprovers>FirstResponse</whenMultipleApprovers>
+        </assignedApprover>
+        <description>Send to Tonianne for accuracy check</description>
+        <label>Approval to Tonianne for accuracy check</label>
+        <name>Approval_to_Tonianne_for_accuracy_check</name>
+    </approvalStep>
+    <approvalStep>
+        <allowDelegate>false</allowDelegate>
+        <approvalActions>
+            <action>
+                <name>Statusupdatedtoapproved</name>
+                <type>FieldUpdate</type>
+            </action>
+        </approvalActions>
+        <assignedApprover>
+            <approver>
+                <name>Final_Approver__c</name>
+                <type>relatedUserField</type>
+            </approver>
+            <whenMultipleApprovers>FirstResponse</whenMultipleApprovers>
+        </assignedApprover>
+        <description>Send to Final Approver</description>
+        <label>Send to Final Approver</label>
+        <name>Send_to_Final_Approver</name>
+        <rejectBehavior>
+            <type>RejectRequest</type>
+        </rejectBehavior>
+    </approvalStep>
+    <description>LB NICC-033091
+Update in NICC-031154. 
+Joel Pyser and/or Joseph Flynn is the Sales Expense Report Owner, or Final Approver, Christi S will be accuracy check.
+NICC-034108 - change accuracy check to Tonianne P; NICC-037912 - change reviewer to Myriah K &amp; back to Tonianne</description>
+    <emailTemplate>SalesMarketing/Expense_Report_Approval_Email</emailTemplate>
+    <enableMobileDeviceAccess>false</enableMobileDeviceAccess>
+    <entryCriteria>
+        <criteriaItems>
+            <field>Expense_Report__c.Final_Approver__c</field>
+            <operation>equals</operation>
+            <value>Joel Pyser</value>
+        </criteriaItems>
+    </entryCriteria>
+    <finalApprovalActions>
+        <action>
+            <name>ExpenseReporthasbeenApprovedToOwner</name>
+            <type>Alert</type>
+        </action>
+        <action>
+            <name>Statusupdatedtoapproved</name>
+            <type>FieldUpdate</type>
+        </action>
+    </finalApprovalActions>
+    <finalApprovalRecordLock>true</finalApprovalRecordLock>
+    <finalRejectionActions>
+        <action>
+            <name>ExpenseReporthasbeenrejected</name>
+            <type>Task</type>
+        </action>
+        <action>
+            <name>Statuschangetorejected</name>
+            <type>FieldUpdate</type>
+        </action>
+    </finalRejectionActions>
+    <finalRejectionRecordLock>false</finalRejectionRecordLock>
+    <initialSubmissionActions>
+        <action>
+            <name>ChangeStatustoSubmitted</name>
+            <type>FieldUpdate</type>
+        </action>
+    </initialSubmissionActions>
+    <label>Joel Pyser Process</label>
+    <processOrder>2</processOrder>
+    <recallActions>
+        <action>
+            <name>ChangeStatustoNotSubmitted</name>
+            <type>FieldUpdate</type>
+        </action>
+        <action>
+            <name>ExpenseReportRecalled</name>
+            <type>Alert</type>
+        </action>
+    </recallActions>
+    <recordEditability>AdminOnly</recordEditability>
+    <showApprovalHistory>true</showApprovalHistory>
+</ApprovalProcess>

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Out_of_Compliance_Orgs_D_Net_Storage</fullName>
+    <columns>NAME</columns>
+    <columns>Primary_Account_Owner__c</columns>
+    <columns>Org_Name__c</columns>
+    <columns>Data_Storage_Percent_Used__c</columns>
+    <columns>Data_Storage__c</columns>
+    <columns>Data_Storage_Limit__c</columns>
+    <columns>PackageVersion__c</columns>
+    <columns>CREATED_DATE</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>Data_Storage_Compliant__c</field>
+        <operation>equals</operation>
+        <value>0</value>
+    </filters>
+    <filters>
+        <field>Org_Status__c</field>
+        <operation>equals</operation>
+        <value>Provisioned</value>
+    </filters>
+    <filters>
+        <field>Data_Storage_Limit__c</field>
+        <operation>notEqual</operation>
+    </filters>
+    <filters>
+        <field>Delphi_Net_Upgrade_Customer__c</field>
+        <operation>equals</operation>
+        <value>1</value>
+    </filters>
+    <label>Out of Compliance Orgs - D.Net Storage</label>
+    <sharedTo>
+        <allInternalUsers></allInternalUsers>
+    </sharedTo>
+</ListView>

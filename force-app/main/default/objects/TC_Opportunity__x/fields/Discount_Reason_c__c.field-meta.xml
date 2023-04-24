@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Discount_Reason_c__c</fullName>
+    <externalDeveloperName>Discount_Reason__c</externalDeveloperName>
+    <externalId>false</externalId>
+    <inlineHelpText>Please enter the reason this deal has been discounted.</inlineHelpText>
+    <isFilteringDisabled>false</isFilteringDisabled>
+    <isNameField>false</isNameField>
+    <isSortingDisabled>false</isSortingDisabled>
+    <label>Discount Reason</label>
+    <readOnlyProxy>true</readOnlyProxy>
+    <required>false</required>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>CPP</fullName>
+                <default>false</default>
+                <label>CPP</label>
+            </value>
+            <value>
+                <fullName>CPP plus discretionary</fullName>
+                <default>false</default>
+                <label>CPP plus discretionary</label>
+            </value>
+            <value>
+                <fullName>No Discount</fullName>
+                <default>false</default>
+                <label>No Discount</label>
+            </value>
+            <value>
+                <fullName>Price Adjustment for Upgrade</fullName>
+                <default>false</default>
+                <label>Price Adjustment for Upgrade</label>
+            </value>
+            <value>
+                <fullName>Product/Pricing Approval</fullName>
+                <default>false</default>
+                <label>Product/Pricing Approval</label>
+            </value>
+            <value>
+                <fullName>Pro-rated Pricing</fullName>
+                <default>false</default>
+                <label>Pro-rated Pricing</label>
+            </value>
+            <value>
+                <fullName>Russia &amp; Ukraine Special Discount</fullName>
+                <default>false</default>
+                <label>Russia &amp; Ukraine Special Discount</label>
+            </value>
+            <value>
+                <fullName>Special Promotional Pricing</fullName>
+                <default>false</default>
+                <label>Special Promotional Pricing</label>
+            </value>
+            <value>
+                <fullName>Standard DOS/RVP/EVP discount</fullName>
+                <default>false</default>
+                <label>Standard DOS/RVP/EVP discount</label>
+            </value>
+            <value>
+                <fullName>Volume Discount</fullName>
+                <default>false</default>
+                <label>Volume Discount</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

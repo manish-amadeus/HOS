@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>All_Open_Finance_Requests</fullName>
+    <columns>RECORDTYPE</columns>
+    <columns>NAME</columns>
+    <columns>Approval_Status__c</columns>
+    <columns>Account__c</columns>
+    <columns>Net_Credit_Amount__c</columns>
+    <columns>Sales_Invoice__c</columns>
+    <columns>Status__c</columns>
+    <columns>CREATEDBY_USER</columns>
+    <columns>CREATED_DATE</columns>
+    <columns>Credit_Note_Reason__c</columns>
+    <columns>Reason_Subcategory__c</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>Approval_Status__c</field>
+        <operation>equals</operation>
+        <value>Not Submitted</value>
+    </filters>
+    <filters>
+        <field>Status__c</field>
+        <operation>notEqual</operation>
+        <value>Completed,Cancelled</value>
+    </filters>
+    <label>Finance Requests - Not Submitted</label>
+    <language>en_US</language>
+    <sharedTo>
+        <allInternalUsers></allInternalUsers>
+    </sharedTo>
+</ListView>

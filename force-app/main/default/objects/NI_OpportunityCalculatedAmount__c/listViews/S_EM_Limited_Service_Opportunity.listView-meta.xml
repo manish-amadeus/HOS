@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>S_EM_Limited_Service_Opportunity</fullName>
+    <columns>NAME</columns>
+    <columns>Opportunity_Record_Type_Name__c</columns>
+    <columns>Product_Family__c</columns>
+    <columns>Multiplier__c</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>NAME</field>
+        <operation>startsWith</operation>
+        <value>S&amp;EM Limited Service</value>
+    </filters>
+    <label>S&amp;EM Limited Service Opportunity</label>
+    <language>en_US</language>
+    <sharedTo>
+        <allInternalUsers></allInternalUsers>
+    </sharedTo>
+</ListView>

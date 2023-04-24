@@ -1,0 +1,112 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title></title>
+<script src="http://www.salesforce.com/services/lib/ajax/beta3.3/sforceclient.js" 
+	type="text/javascript"></script>
+<script language="javascript" type="text/javascript"> 
+/* just run a total, clear out total if no lines
+ * now checking for mis-matched currencies 2.26.06
+ * 3.3.06 don't calc if currency mis match exists 
+ * 3.8 dont' use for in when running loops on arrays if we overload for map(), breaks in IE 
+*/ 
+var has_multicurrency = true;
+var opp_currency = "";
+
+function jumpbackQuote() { jumpback("/{!SFDC_520_Quote__c.Id}") }
+function setup_multicurrency() { // see if we have > 1 currency
+	var qr = sforceClient.Query("select id, ConversionRate,IsActive,IsCorporate,IsoCode from CurrencyType where IsCorporate = true ") ; 
+	if (qr.className == 'Fault') { 
+		if (/INVALID_TYPE/.test(qr.faultcode) ) { return false; }
+	}
+	var fields = "id,CurrencyIsoCode ";
+	var oppRes = sforceClient.Query("select " + fields + " from opportunity where id = '{!SFDC_520_Quote__c.OpportunityId__c}' ");
+	if ( oppRes.size < 1 || oppRes.className != 'QueryResult') { 
+		alert ( 'no opportunity found?' + oppRes.toString() ) ;
+		jumpbackQuote(); 
+		return;
+	}
+	// check all lines against this
+	opp_currency = oppRes.records[0].get("CurrencyIsoCode");
+	return true;
+}
+function check_currency(qlines) { 
+	if (! has_multicurrency) { return true;}
+	var currency_mis = 0;
+	for (var key =0; key < qlines.length ; key++) {	var q = qlines[key];
+		if ( q.get("CurrencyIsoCode") != opp_currency) currency_mis++ 
+	}
+	if (currency_mis>0) { 
+		alert("Error: One or more Quote Detail lines contain an invalid Currency\n"+
+			"Please correct all lines to match the Opportunity\nCurrency -> " + opp_currency);
+		jumpbackQuote(); 
+		return false;
+	}
+	return true;
+}
+function initPage() {
+	sforceClient.useCookies = true;
+	//sforceClient.registerInitCallback(setup);
+	sforceClient.init("{!API.Session_ID}", "{!API.Partner_Server_URL_70}",false); 
+	setTimeout("setup()",300);
+}
+var quoteLineTotal = 0; 
+function totalQuote(q) { quoteLineTotal += q.get("Ext_Net_Price__c"); }
+function setup() { 
+	has_multicurrency = setup_multicurrency();
+	if ( has_multicurrency) { fields = "id,Ext_Net_Price__c ,CurrencyIsoCode ";} 
+	else {  fields = "id,Ext_Net_Price__c  "; } 
+	var QuoteLineQ = sforceClient.query(
+		"select " + fields + " from SFDC_520_QuoteLine__c where Quote__c = '{!SFDC_520_Quote__c.Id}'");
+	if ( QuoteLineQ.className != 'QueryResult') { 
+		alert ( "Query failed for quote lines") ;
+		if (QuoteLineQ.className == 'Fault' ) alert('fault: '+QuoteLineQ.toString());
+		jumpbackQuote(); 
+	}
+	if ( QuoteLineQ.size < 1 ) { 
+		alert("No Line Items in this Quote, settting total set to 0"); 
+		var upd = new Sforce.Dynabean("SFDC_520_Quote__c");
+		upd.set("Id","{!SFDC_520_Quote__c.Id}");
+		upd.fieldsToNull.push("Quote_Amount__c");
+		upd.save();
+	} else {
+		if ( check_currency(QuoteLineQ.records) )  { 
+			QuoteLineQ.records.map(totalQuote);  // alert("total is "+quoteLineTotal);
+			
+			// write Quote_Amount__c
+			var upd = new Sforce.Dynabean("SFDC_520_Quote__c");
+			upd.set("Id","{!SFDC_520_Quote__c.Id}");
+			upd.set("Quote_Amount__c",quoteLineTotal);
+			upd.save();
+		} else { // clear out total , since it's a mixup of different currencies...
+			var upd = new Sforce.Dynabean("SFDC_520_Quote__c");
+			upd.set("Id","{!SFDC_520_Quote__c.Id}");
+			upd.set("Quote_Amount__c","0.00");
+			upd.save();
+		} 
+	}
+	jumpbackQuote() ;
+}
+
+// util functions
+function jumpback(retUrl) { 
+	window.opener.location.href = retUrl; 
+	window.close();
+	//window.parent.parent.location.href = retUrl; // works when in a frame of sfdc
+}
+Array.prototype.map = function(func)  { // function called on each element of the array
+	var ret = [];
+	for(var x=0;x<this.length;x++)  {
+		func(this[x]);
+		ret.push(this[x]); // return the entire list
+	}
+	return ret.length>0?ret:null;
+}
+</script>
+<body onload="javascript:initPage();" >
+<center>
+<br><br><br>
+<SPAN STYLE=" font-size: 75%; font-family: 'Arial', 'Helvetica', sans-serif;"> 
+Please wait, updating quote amount : {!SFDC_520_Quote__c.Name} </span><br><br>
+<img src="/img/waiting_dots.gif" alt="Please wait..." title="Please wait..." height="20" width="196">
+</center>
+</body>
+</html>

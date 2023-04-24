@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>All</fullName>
+    <columns>NAME</columns>
+    <columns>FirstName__c</columns>
+    <columns>LastName__c</columns>
+    <columns>Group_Name__c</columns>
+    <columns>SurveyType__c</columns>
+    <columns>SurveySubType__c</columns>
+    <columns>Email__c</columns>
+    <columns>ProjectName__c</columns>
+    <columns>CREATED_DATE</columns>
+    <columns>Process_Status__c</columns>
+    <columns>Project_ID__c</columns>
+    <columns>Assignment_Number__c</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>Group_Name__c</field>
+        <operation>equals</operation>
+        <value>BI,GMS,RES,web solutions</value>
+    </filters>
+    <filters>
+        <field>CREATED_DATE</field>
+        <operation>greaterThan</operation>
+        <value>3/8/2023 12:00 AM</value>
+    </filters>
+    <label>All</label>
+</ListView>

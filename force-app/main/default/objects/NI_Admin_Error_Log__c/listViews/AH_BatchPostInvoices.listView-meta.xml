@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>AH_BatchPostInvoices</fullName>
+    <columns>NAME</columns>
+    <columns>Message__c</columns>
+    <columns>Type__c</columns>
+    <columns>CREATED_DATE</columns>
+    <columns>Apex_Class_Name__c</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>CREATEDBY_USER</field>
+        <operation>contains</operation>
+        <value>Finance</value>
+    </filters>
+    <filters>
+        <field>CREATED_DATE</field>
+        <operation>equals</operation>
+        <value>12/23/2022 12:00 AM</value>
+    </filters>
+    <label>Finance Automation Errors</label>
+    <language>en_US</language>
+</ListView>

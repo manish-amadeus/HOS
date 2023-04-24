@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>APMA_Integrations3</fullName>
+    <columns>RECORDTYPE</columns>
+    <columns>NAME</columns>
+    <columns>Active__c</columns>
+    <columns>Integration_Product_Type__c</columns>
+    <columns>Vendor_Name__c</columns>
+    <columns>Amadeus_Product__c</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>Amadeus_Product__c</field>
+        <operation>equals</operation>
+        <value>APMA</value>
+    </filters>
+    <label>APMA Integrations</label>
+</ListView>

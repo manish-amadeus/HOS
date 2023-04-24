@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PermissionSet xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>Members of this permission set have &quot;View All&quot; permission to the Duplicate Record Set and Duplicate Record Items objects</description>
+    <hasActivationRequired>false</hasActivationRequired>
+    <label>Duplicate Record Set - View All</label>
+    <license>Salesforce</license>
+    <objectPermissions>
+        <allowCreate>false</allowCreate>
+        <allowDelete>false</allowDelete>
+        <allowEdit>false</allowEdit>
+        <allowRead>true</allowRead>
+        <modifyAllRecords>false</modifyAllRecords>
+        <object>DuplicateRecordSet</object>
+        <viewAllRecords>true</viewAllRecords>
+    </objectPermissions>
+    <tabSettings>
+        <tab>standard-DuplicateRecordSet</tab>
+        <visibility>Visible</visibility>
+    </tabSettings>
+</PermissionSet>

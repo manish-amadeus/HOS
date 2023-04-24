@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CallCenter xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <adapterUrl>http://localhost:11000</adapterUrl>
+    <displayName>Mitel Contact Center Integration v4.0</displayName>
+    <displayNameLabel>Display Name</displayNameLabel>
+    <internalNameLabel>Internal Name</internalNameLabel>
+    <sections>
+        <items>
+            <label>Description</label>
+            <name>reqDescription</name>
+            <value>Mitel Contact Center Integration v4.0 (developed by prairieFyre Software)</value>
+        </items>
+        <items>
+            <label>CTI Connector ProgId</label>
+            <name>reqProgId</name>
+            <value>Mitel3300Adapter.Mitel3300Adapter.1</value>
+        </items>
+        <items>
+            <label>CTI Connector ProgId</label>
+            <name>reqVersion</name>
+            <value>4.0</value>
+        </items>
+        <items>
+            <label>CTI Adapter URL</label>
+            <name>reqAdapterUrl</name>
+            <value>http://localhost:11000</value>
+        </items>
+        <label>General Information</label>
+        <name>reqGeneralInfo</name>
+    </sections>
+    <sections>
+        <items>
+            <label>IP/Name</label>
+            <name>IP</name>
+            <value>vas19.newmarketinc.org</value>
+        </items>
+        <items>
+            <label>Use SSL</label>
+            <name>SSL</name>
+            <value>No</value>
+        </items>
+        <label>CTI Server Info</label>
+        <name>ServerInfo</name>
+    </sections>
+    <sections>
+        <items>
+            <label>Search by Collected Information</label>
+            <name>CollectedDigits</name>
+            <value>Case.CaseNumber</value>
+        </items>
+        <items>
+            <label>Search Cases by ANI (via related Contact or Account)</label>
+            <name>SearchCasesByANI</name>
+            <value>Yes</value>
+        </items>
+        <label>Advanced Queries</label>
+        <name>AdvQueries</name>
+    </sections>
+    <sections>
+        <items>
+            <label>Open the ANI Records</label>
+            <name>OpenANI</name>
+            <value>Yes</value>
+        </items>
+        <items>
+            <label>Open the DNIS Records</label>
+            <name>OpenDNIS</name>
+            <value>Yes</value>
+        </items>
+        <label>If Records are Found for both ANI and DNIS</label>
+        <name>ANIDNISFound</name>
+    </sections>
+    <sections>
+        <items>
+            <label>Open the ANI and/or DNIS Records</label>
+            <name>OpenANIDNIS</name>
+            <value>Yes</value>
+        </items>
+        <items>
+            <label>Open the Advanced Queries Records</label>
+            <name>OpenAdvQ</name>
+            <value>Yes</value>
+        </items>
+        <label>If Records are Found for both ANI and/or DNIS and Advanced Queries</label>
+        <name>ANIDNISAdvQ</name>
+    </sections>
+    <sections>
+        <items>
+            <label>Enable</label>
+            <name>EnableNewLeadButton</name>
+            <value>No</value>
+        </items>
+        <items>
+            <label>DNIS (custom field ID)</label>
+            <name>NewLeadDNIS</name>
+            <value xsi:nil="true"/>
+        </items>
+        <label>New Lead Button</label>
+        <name>NewLead</name>
+    </sections>
+    <sections>
+        <items>
+            <label>Outside Prefix</label>
+            <name>reqOutsidePrefix</name>
+            <value>91</value>
+        </items>
+        <items>
+            <label>Long Distance Prefix</label>
+            <name>reqLongDistPrefix</name>
+            <value xsi:nil="true"/>
+        </items>
+        <items>
+            <label>International Prefix</label>
+            <name>reqInternationalPrefix</name>
+            <value>011</value>
+        </items>
+        <items>
+            <label>Local Area Codes (comma-separated)</label>
+            <name>reqLocalAreaCodes</name>
+            <value>603</value>
+        </items>
+        <label>Dialing Options</label>
+        <name>reqDialingOptions</name>
+    </sections>
+    <sections>
+        <items>
+            <label>Save Extra Information To CallLog</label>
+            <name>saveExtraInformationToCallLog</name>
+            <value>Yes</value>
+        </items>
+        <items>
+            <label>Create CallLogs For All Outbound Calls</label>
+            <name>logAllOutboundCalls</name>
+            <value>Yes</value>
+        </items>
+        <label>Call Log Options</label>
+        <name>callLogOptions</name>
+    </sections>
+    <version>4</version>
+</CallCenter>

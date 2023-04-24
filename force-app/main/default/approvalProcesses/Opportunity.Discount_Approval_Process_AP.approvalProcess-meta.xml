@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ApprovalProcess xmlns="http://soap.sforce.com/2006/04/metadata">
+    <active>false</active>
+    <allowRecall>false</allowRecall>
+    <allowedSubmitters>
+        <type>owner</type>
+    </allowedSubmitters>
+    <allowedSubmitters>
+        <submitter>ContractsAdministrator</submitter>
+        <type>role</type>
+    </allowedSubmitters>
+    <approvalPageFields>
+        <field>Name</field>
+        <field>Owner</field>
+    </approvalPageFields>
+    <approvalStep>
+        <allowDelegate>false</allowDelegate>
+        <approvalActions>
+            <action>
+                <name>Opportunity_Discount_Approval_Manager_Approved</name>
+                <type>Alert</type>
+            </action>
+        </approvalActions>
+        <assignedApprover>
+            <approver>
+                <type>userHierarchyField</type>
+            </approver>
+        </assignedApprover>
+        <description>Discount needs to be approved by Manager</description>
+        <label>Approval by Manager</label>
+        <name>Approval_by_Manager</name>
+        <rejectionActions>
+            <action>
+                <name>Discount_Approval_Denied_by_Manager</name>
+                <type>Alert</type>
+            </action>
+        </rejectionActions>
+    </approvalStep>
+    <approvalStep>
+        <allowDelegate>false</allowDelegate>
+        <approvalActions>
+            <action>
+                <name>Opportunity_Discount_Approval_Approved_by_Tim_Guo</name>
+                <type>Alert</type>
+            </action>
+        </approvalActions>
+        <assignedApprover>
+            <approver>
+                <name>tguo@newmarketinc.com</name>
+                <type>user</type>
+            </approver>
+            <whenMultipleApprovers>FirstResponse</whenMultipleApprovers>
+        </assignedApprover>
+        <label>All Approvals Need Tim&apos;s Approval</label>
+        <name>All_Approvals_Need_Tim_s_Approval</name>
+        <rejectBehavior>
+            <type>RejectRequest</type>
+        </rejectBehavior>
+        <rejectionActions>
+            <action>
+                <name>Opportunity_Discount_Approval_Denied_by_Tim</name>
+                <type>Alert</type>
+            </action>
+        </rejectionActions>
+    </approvalStep>
+    <approvalStep>
+        <allowDelegate>false</allowDelegate>
+        <assignedApprover>
+            <approver>
+                <name>jhiscox@newmarketinc.com</name>
+                <type>user</type>
+            </approver>
+            <whenMultipleApprovers>FirstResponse</whenMultipleApprovers>
+        </assignedApprover>
+        <description>Only opportunity with &quot;CEO Approval&quot; Checkbox will go into this step</description>
+        <entryCriteria>
+            <criteriaItems>
+                <field>Opportunity.Needs_CEO_Approval__c</field>
+                <operation>equals</operation>
+                <value>True</value>
+            </criteriaItems>
+        </entryCriteria>
+        <label>CEO&apos;s approval IF Box is checked</label>
+        <name>CEO_s_approval_IF_Box_is_checked</name>
+        <rejectBehavior>
+            <type>RejectRequest</type>
+        </rejectBehavior>
+        <rejectionActions>
+            <action>
+                <name>Discount_Denied_by_Jeff</name>
+                <type>Alert</type>
+            </action>
+        </rejectionActions>
+    </approvalStep>
+    <description>Discount Approval Process for the AP Office</description>
+    <emailTemplate>SalesMarketing/Discount_has_been_Submitted</emailTemplate>
+    <enableMobileDeviceAccess>true</enableMobileDeviceAccess>
+    <entryCriteria>
+        <formula>OR(Owner.Alias = &apos;jye&apos;,Owner.Alias = &apos;czhan&apos;,Owner.Alias = &apos;cng2&apos;,Owner.Alias = &apos;eng&apos;,Owner.Alias = &apos;ayap&apos;,Owner.Alias = &apos;schen&apos;,Owner.Alias = &apos;smart&apos;, Owner.Alias = &apos;mpei&apos;,Owner.Alias = &apos;sstearns&apos;,Owner.Alias = &quot;ctang&quot;, Owner.Alias = &quot;mfan&quot;,Owner.Alias = &apos;kliu&apos;,Owner.Alias = &apos;jsoh&apos;)</formula>
+    </entryCriteria>
+    <finalApprovalActions>
+        <action>
+            <name>Discount_has_Been_Approved_by_All_Parties</name>
+            <type>Alert</type>
+        </action>
+    </finalApprovalActions>
+    <finalApprovalRecordLock>false</finalApprovalRecordLock>
+    <finalRejectionRecordLock>false</finalRejectionRecordLock>
+    <label>Discount Approval Process - AP</label>
+    <nextAutomatedApprover>
+        <useApproverFieldOfRecordOwner>true</useApproverFieldOfRecordOwner>
+        <userHierarchyField>Manager</userHierarchyField>
+    </nextAutomatedApprover>
+    <processOrder>1</processOrder>
+    <recordEditability>AdminOnly</recordEditability>
+    <showApprovalHistory>true</showApprovalHistory>
+</ApprovalProcess>

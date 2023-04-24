@@ -1,0 +1,337 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Request_Type__c</fullName>
+    <description>This field may also be used in a custom metadata type and that should be updated as well if applicable.</description>
+    <externalId>false</externalId>
+    <label>Request Type</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>DOS Assistance</fullName>
+                <default>false</default>
+                <label>DOS Assistance</label>
+            </value>
+            <value>
+                <fullName>Incorrect Submission</fullName>
+                <default>false</default>
+                <label>Incorrect Submission</label>
+            </value>
+            <value>
+                <fullName>QA Change Order</fullName>
+                <default>false</default>
+                <label>QA Change Order</label>
+            </value>
+            <value>
+                <fullName>QA Multi Property Order</fullName>
+                <default>false</default>
+                <label>QA Multi Property Order</label>
+            </value>
+            <value>
+                <fullName>QA Single Property Order</fullName>
+                <default>false</default>
+                <label>QA Single Property Order</label>
+            </value>
+            <value>
+                <fullName>System Issue</fullName>
+                <default>false</default>
+                <label>System Issue</label>
+            </value>
+            <value>
+                <fullName>Admin Request</fullName>
+                <default>false</default>
+                <label>Admin Request</label>
+            </value>
+            <value>
+                <fullName>Amendment Request</fullName>
+                <default>false</default>
+                <label>Amendment Request</label>
+            </value>
+            <value>
+                <fullName>Contract Request (Individual Property)</fullName>
+                <default>false</default>
+                <label>Contract Request (Individual Property)</label>
+            </value>
+            <value>
+                <fullName>Contract Request (Multi-Property)</fullName>
+                <default>false</default>
+                <label>Contract Request (Multi-Property)</label>
+            </value>
+            <value>
+                <fullName>Change Order Request</fullName>
+                <default>false</default>
+                <label>Change Order Request</label>
+            </value>
+            <value>
+                <fullName>Revision Request</fullName>
+                <default>false</default>
+                <label>Revision Request</label>
+            </value>
+            <value>
+                <fullName>Proposal Request (Pricing Request)</fullName>
+                <default>false</default>
+                <label>Proposal Request (Pricing Request)</label>
+            </value>
+            <value>
+                <fullName>Amazon Connect</fullName>
+                <default>false</default>
+                <label>Amazon Connect</label>
+            </value>
+            <value>
+                <fullName>Non-Product Training</fullName>
+                <default>false</default>
+                <label>Non-Product Training</label>
+            </value>
+            <value>
+                <fullName>AHCC - Portal</fullName>
+                <default>false</default>
+                <label>AHCC - Portal</label>
+            </value>
+            <value>
+                <fullName>Email Distribution Group</fullName>
+                <default>false</default>
+                <label>Email Distribution Group</label>
+            </value>
+            <value>
+                <fullName>Email Template Update</fullName>
+                <default>false</default>
+                <label>Email Template Update</label>
+            </value>
+            <value>
+                <fullName>Enhancement Request - Any System</fullName>
+                <default>false</default>
+                <label>Enhancement Request - Any System</label>
+            </value>
+            <value>
+                <fullName>Other</fullName>
+                <default>false</default>
+                <label>Other</label>
+            </value>
+            <value>
+                <fullName>Process Change</fullName>
+                <default>false</default>
+                <label>Process Change</label>
+            </value>
+            <value>
+                <fullName>Page Layout Change</fullName>
+                <default>false</default>
+                <label>Page Layout Change</label>
+            </value>
+            <value>
+                <fullName>Report Request</fullName>
+                <default>false</default>
+                <label>Report Request</label>
+            </value>
+            <value>
+                <fullName>SLA/CSP</fullName>
+                <default>false</default>
+                <label>SLA/CSP</label>
+            </value>
+            <value>
+                <fullName>Salesforce</fullName>
+                <default>false</default>
+                <label>Salesforce</label>
+            </value>
+            <value>
+                <fullName>Salesforce Password</fullName>
+                <default>false</default>
+                <label>Salesforce Password</label>
+            </value>
+            <value>
+                <fullName>Survey Request (VoC)</fullName>
+                <default>false</default>
+                <label>Survey Request (VoC)</label>
+            </value>
+            <value>
+                <fullName>Training Request</fullName>
+                <default>false</default>
+                <label>Training Request</label>
+            </value>
+            <value>
+                <fullName>User Permission Change</fullName>
+                <default>false</default>
+                <label>User Permission Change</label>
+            </value>
+            <value>
+                <fullName>Workforce Management</fullName>
+                <default>false</default>
+                <label>Workforce Management</label>
+            </value>
+            <value>
+                <fullName>Onboarding/Exit Tasks</fullName>
+                <default>false</default>
+                <label>Onboarding/Exit Tasks</label>
+            </value>
+            <value>
+                <fullName>Contract Search</fullName>
+                <default>false</default>
+                <label>Contract Search</label>
+            </value>
+            <value>
+                <fullName>New Custom Site</fullName>
+                <default>false</default>
+                <label>New Custom Site</label>
+            </value>
+            <value>
+                <fullName>New Essential Site</fullName>
+                <default>false</default>
+                <label>New Essential Site</label>
+            </value>
+            <value>
+                <fullName>Update to Existing Site</fullName>
+                <default>false</default>
+                <label>Update to Existing Site</label>
+            </value>
+            <value>
+                <fullName>Trouble Shooting</fullName>
+                <default>false</default>
+                <label>Trouble Shooting</label>
+            </value>
+            <value>
+                <fullName>Breakout</fullName>
+                <default>false</default>
+                <label>Breakout</label>
+            </value>
+            <value>
+                <fullName>Animated Banner</fullName>
+                <default>false</default>
+                <label>Animated Banner</label>
+            </value>
+            <value>
+                <fullName>Dynamic Banner (iHotelier Clients ONLY)</fullName>
+                <default>false</default>
+                <label>Dynamic Banner (iHotelier Clients ONLY)</label>
+            </value>
+            <value>
+                <fullName>Standard Banner</fullName>
+                <default>false</default>
+                <label>Standard Banner</label>
+            </value>
+            <value>
+                <fullName>Video Banner</fullName>
+                <default>false</default>
+                <label>Video Banner</label>
+            </value>
+            <value>
+                <fullName>Image Resize/Graphic Overlays for Social Media</fullName>
+                <default>false</default>
+                <label>Image Resize/Graphic Overlays for Social Media</label>
+            </value>
+            <value>
+                <fullName>Image Stock Purchase</fullName>
+                <default>false</default>
+                <label>Image Stock Purchase</label>
+            </value>
+            <value>
+                <fullName>Video for Social Media</fullName>
+                <default>false</default>
+                <label>Video for Social Media</label>
+            </value>
+            <value>
+                <fullName>AGB</fullName>
+                <default>false</default>
+                <label>AGB</label>
+            </value>
+            <value>
+                <fullName>AGB Landing Page</fullName>
+                <default>false</default>
+                <label>AGB Landing Page</label>
+            </value>
+            <value>
+                <fullName>TPG</fullName>
+                <default>false</default>
+                <label>TPG</label>
+            </value>
+            <value>
+                <fullName>SABRE</fullName>
+                <default>false</default>
+                <label>SABRE</label>
+            </value>
+            <value>
+                <fullName>Client Provided Banner</fullName>
+                <default>false</default>
+                <label>Client Provided Banner</label>
+            </value>
+            <value>
+                <fullName>Check Specs on Client Provided Banner</fullName>
+                <default>false</default>
+                <label>Check Specs on Client Provided Banner</label>
+            </value>
+            <value>
+                <fullName>Resize Images</fullName>
+                <default>false</default>
+                <label>Resize Images</label>
+            </value>
+            <value>
+                <fullName>Quote</fullName>
+                <default>false</default>
+                <label>Quote</label>
+            </value>
+            <value>
+                <fullName>Work to be done</fullName>
+                <default>false</default>
+                <label>Work to be done</label>
+            </value>
+            <value>
+                <fullName>BE4 to BE5 Migration</fullName>
+                <default>false</default>
+                <label>BE4 to BE5 Migration</label>
+            </value>
+            <value>
+                <fullName>New RES/iH</fullName>
+                <default>false</default>
+                <label>New RES/iH</label>
+            </value>
+            <value>
+                <fullName>Update RES/iH</fullName>
+                <default>false</default>
+                <label>Update RES/iH</label>
+            </value>
+            <value>
+                <fullName>Internal Request</fullName>
+                <default>false</default>
+                <label>Internal Request</label>
+            </value>
+            <value>
+                <fullName>GMS Request</fullName>
+                <default>false</default>
+                <label>GMS Request</label>
+            </value>
+            <value>
+                <fullName>Digital Request</fullName>
+                <default>false</default>
+                <label>Digital Request</label>
+            </value>
+            <value>
+                <fullName>GDS Request</fullName>
+                <default>false</default>
+                <label>GDS Request</label>
+            </value>
+            <value>
+                <fullName>Travel Audience Request</fullName>
+                <default>false</default>
+                <label>Travel Audience Request</label>
+            </value>
+            <value>
+                <fullName>Travel Advertising Request</fullName>
+                <default>false</default>
+                <label>Travel Advertising Request</label>
+            </value>
+            <value>
+                <fullName>RES/iH Request</fullName>
+                <default>false</default>
+                <label>RES/iH Request</label>
+            </value>
+            <value>
+                <fullName>Web Request</fullName>
+                <default>false</default>
+                <label>Web Request</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

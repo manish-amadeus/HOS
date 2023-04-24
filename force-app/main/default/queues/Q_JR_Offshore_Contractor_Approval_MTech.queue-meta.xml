@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Queue xmlns="http://soap.sforce.com/2006/04/metadata">
+    <doesSendEmailToMembers>true</doesSendEmailToMembers>
+    <name>Q-JR Offshore Contractor Approval MTech</name>
+    <queueMembers>
+        <publicGroups>
+            <publicGroup>Offshore_Contractor_Admin_MTech</publicGroup>
+        </publicGroups>
+    </queueMembers>
+    <queueSobject>
+        <sobjectType>NI_Job_Requisition__c</sobjectType>
+    </queueSobject>
+</Queue>

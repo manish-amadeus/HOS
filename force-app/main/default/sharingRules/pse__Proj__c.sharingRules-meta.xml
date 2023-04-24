@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<SharingRules xmlns="http://soap.sforce.com/2006/04/metadata">
+    <sharingCriteriaRules>
+        <fullName>Order_Management_Project_View</fullName>
+        <accessLevel>Read</accessLevel>
+        <description>Created for Order Management to view Project records. NICC 051008</description>
+        <label>Order Management - Project View</label>
+        <sharedTo>
+            <group>Contracts_Group</group>
+        </sharedTo>
+        <criteriaItems>
+            <field>RecordTypeId</field>
+            <operation>equals</operation>
+            <value>Standard Project,Master Project</value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>false</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
+    <sharingOwnerRules>
+        <fullName>PM_Client_Services</fullName>
+        <accessLevel>Edit</accessLevel>
+        <description>NICC-031208</description>
+        <label>PM - Client Services</label>
+        <sharedTo>
+            <role>ClientServices</role>
+        </sharedTo>
+        <sharedFrom>
+            <role>ClientServices</role>
+        </sharedFrom>
+    </sharingOwnerRules>
+    <sharingOwnerRules>
+        <fullName>Support_Projects</fullName>
+        <accessLevel>Edit</accessLevel>
+        <label>Support - Projects</label>
+        <sharedTo>
+            <role>SupportTeam</role>
+        </sharedTo>
+        <sharedFrom>
+            <role>ClientServices</role>
+        </sharedFrom>
+    </sharingOwnerRules>
+</SharingRules>

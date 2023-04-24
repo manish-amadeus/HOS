@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>SettingType__c</fullName>
+    <description>Controls the data format, and the way the setting will appear in the editor.  All types except TextArea store values in the SettingValue__c field.  Settings of type TextArea store data in the SettingTextAreaValue__c field</description>
+    <encryptionScheme>None</encryptionScheme>
+    <externalId>false</externalId>
+    <inlineHelpText>Controls the data format, and control used to display/edit the setting&apos;s value.  Valid Setting Types are:
+
+String - Single line
+TextArea - Multiline
+Integer
+Checkbox - Boolean
+Picklist
+URL
+
+Page
+Method</inlineHelpText>
+    <label>Setting Type</label>
+    <length>255</length>
+    <required>true</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

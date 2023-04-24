@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Tech_Resource_c__c</fullName>
+    <externalDeveloperName>Tech_Resource__c</externalDeveloperName>
+    <externalId>false</externalId>
+    <isFilteringDisabled>false</isFilteringDisabled>
+    <isNameField>false</isNameField>
+    <isSortingDisabled>false</isSortingDisabled>
+    <label>Tech Resource</label>
+    <required>false</required>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Cybage</fullName>
+                <default>false</default>
+                <label>Cybage</label>
+            </value>
+            <value>
+                <fullName>Integrations</fullName>
+                <default>false</default>
+                <label>Integrations</label>
+            </value>
+            <value>
+                <fullName>PSS</fullName>
+                <default>false</default>
+                <label>PSS</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

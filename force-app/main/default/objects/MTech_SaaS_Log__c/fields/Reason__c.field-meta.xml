@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Reason__c</fullName>
+    <externalId>false</externalId>
+    <label>Reason</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Legacy Start</fullName>
+                <default>false</default>
+                <label>Legacy Start</label>
+            </value>
+            <value>
+                <fullName>New Account</fullName>
+                <default>false</default>
+                <label>New Account</label>
+            </value>
+            <value>
+                <fullName>Lost Account</fullName>
+                <default>false</default>
+                <label>Lost Account</label>
+            </value>
+            <value>
+                <fullName>Subscription Added</fullName>
+                <default>false</default>
+                <label>Subscription Added</label>
+            </value>
+            <value>
+                <fullName>Subscription Dropped</fullName>
+                <default>false</default>
+                <label>Subscription Dropped</label>
+            </value>
+            <value>
+                <fullName>Subscription Substitution</fullName>
+                <default>false</default>
+                <label>Subscription Substitution</label>
+            </value>
+            <value>
+                <fullName>Qty Increased</fullName>
+                <default>false</default>
+                <label>Qty Increased</label>
+            </value>
+            <value>
+                <fullName>Qty Decreased</fullName>
+                <default>false</default>
+                <label>Qty Decreased</label>
+            </value>
+            <value>
+                <fullName>Price Increased</fullName>
+                <default>false</default>
+                <label>Price Increased</label>
+            </value>
+            <value>
+                <fullName>Price Decreased</fullName>
+                <default>false</default>
+                <label>Price Decreased</label>
+            </value>
+            <value>
+                <fullName>Qty and Price Changed</fullName>
+                <default>false</default>
+                <label>Qty and Price Changed</label>
+            </value>
+            <value>
+                <fullName>Expiration Change only</fullName>
+                <default>false</default>
+                <label>Expiration Change only</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

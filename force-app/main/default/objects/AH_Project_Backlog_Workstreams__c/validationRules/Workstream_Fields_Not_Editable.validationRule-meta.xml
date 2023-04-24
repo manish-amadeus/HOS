@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Workstream_Fields_Not_Editable</fullName>
+    <active>true</active>
+    <description>NICC-055369
+Certain fields on the Internal Project record type and Workstream records are not editable to most users after the project has been Approved.</description>
+    <errorConditionFormula>NOT( ISNEW() ) &amp;&amp;
+NOT($Permission.Edit_AH_Project_Backlog_Internal_Projects) &amp;&amp;
+NI_Project_Backlog__r.RecordType.DeveloperName = &quot;Commercial_Operation_Projects&quot; &amp;&amp;
+NI_Project_Backlog__r.Approved__c = TRUE &amp;&amp;
+OR(
+ ISCHANGED( Annual_Efficiencies_Savings_hrs__c ) ,
+ ISCHANGED( Hourly_Cost__c ) ,
+ ISCHANGED( Annual_Efficiencies_Savings_Confidence__c ) ,
+ ISCHANGED( First_Year_Cost_Reduction__c ) 
+)</errorConditionFormula>
+    <errorMessage>Benefits information cannot be changed after the project has been approved. Please speak with the Project Owner, or refer to the Internal Project Prioritization Intake documentation for further information.</errorMessage>
+</ValidationRule>

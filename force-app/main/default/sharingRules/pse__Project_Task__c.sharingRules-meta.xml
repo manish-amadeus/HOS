@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<SharingRules xmlns="http://soap.sforce.com/2006/04/metadata">
+    <sharingCriteriaRules>
+        <fullName>IMT_IHG_GRS_AMEA</fullName>
+        <accessLevel>Edit</accessLevel>
+        <description>Access to IMT IHG GRS Projects Tasks in the Asia, Middle East and Africa Region</description>
+        <label>IMT - IHG GRS - AMEA</label>
+        <sharedTo>
+            <group>IMT_IHG_GRS_AMEA</group>
+        </sharedTo>
+        <criteriaItems>
+            <field>Project_Record_Type__c</field>
+            <operation>equals</operation>
+            <value>IMT - IHG GRS Project</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>IMT_Project_Region__c</field>
+            <operation>equals</operation>
+            <value>Asia Middle East Africa</value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>false</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
+    <sharingCriteriaRules>
+        <fullName>IMT_IHG_GRS_Europe</fullName>
+        <accessLevel>Edit</accessLevel>
+        <description>Access to IMT IHG GRS Projects in the Europe Region</description>
+        <label>IMT - IHG GRS - Europe</label>
+        <sharedTo>
+            <group>IMT_IHG_GRS_EMEA</group>
+        </sharedTo>
+        <criteriaItems>
+            <field>Project_Record_Type__c</field>
+            <operation>equals</operation>
+            <value>IMT - IHG GRS Project</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>IMT_Project_Region__c</field>
+            <operation>equals</operation>
+            <value>Europe</value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>false</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
+    <sharingCriteriaRules>
+        <fullName>IMT_IHG_GRS_Global</fullName>
+        <accessLevel>Edit</accessLevel>
+        <description>Sharing access to Global users on the IMT IHG GRS Project</description>
+        <label>IMT - IHG GRS - Global</label>
+        <sharedTo>
+            <group>IMT_IHG_GRS_Global</group>
+        </sharedTo>
+        <criteriaItems>
+            <field>Project_Record_Type__c</field>
+            <operation>equals</operation>
+            <value>IMT - IHG GRS Project</value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>false</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
+    <sharingCriteriaRules>
+        <fullName>IMT_IHG_GRS_Global_Read</fullName>
+        <accessLevel>Read</accessLevel>
+        <label>IMT - IHG GRS - Global Read</label>
+        <sharedTo>
+            <group>IMT_IHG_GRS_Global_View</group>
+        </sharedTo>
+        <criteriaItems>
+            <field>Project_Record_Type__c</field>
+            <operation>equals</operation>
+            <value>IMT - IHG GRS Project</value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>false</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
+    <sharingCriteriaRules>
+        <fullName>Internal_Projects</fullName>
+        <accessLevel>Edit</accessLevel>
+        <description>NI projects (customer or in-house project tasks)</description>
+        <label>Internal Projects</label>
+        <sharedTo>
+            <allInternalUsers></allInternalUsers>
+        </sharedTo>
+        <criteriaItems>
+            <field>Project_Record_Type__c</field>
+            <operation>notEqual</operation>
+            <value>IMT - IHG GRS Project</value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>false</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
+</SharingRules>

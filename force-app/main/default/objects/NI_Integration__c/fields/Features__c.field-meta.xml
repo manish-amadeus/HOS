@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Features__c</fullName>
+    <description>The features available with this integration.</description>
+    <externalId>false</externalId>
+    <label>Features</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>MultiselectPicklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Create group header in PMS</fullName>
+                <default>false</default>
+                <label>Create group header in PMS</label>
+            </value>
+            <value>
+                <fullName>Manage guestrooms in PMS</fullName>
+                <default>false</default>
+                <label>Manage guestrooms in PMS</label>
+            </value>
+            <value>
+                <fullName>Manage guestrooms in either system</fullName>
+                <default>false</default>
+                <label>Manage guestrooms in either system</label>
+            </value>
+            <value>
+                <fullName>Manage guestrooms manually in both sys</fullName>
+                <default>false</default>
+                <label>Manage guestrooms manually in both sys</label>
+            </value>
+            <value>
+                <fullName>View guest reservations for booking</fullName>
+                <default>false</default>
+                <label>View guest reservations for booking</label>
+            </value>
+            <value>
+                <fullName>View rooming list for bookings</fullName>
+                <default>false</default>
+                <label>View rooming list for bookings</label>
+            </value>
+            <value>
+                <fullName>View guest reservation details</fullName>
+                <default>false</default>
+                <label>View guest reservation details</label>
+            </value>
+            <value>
+                <fullName>View future reservations (pickup)</fullName>
+                <default>false</default>
+                <label>View future reservations (pickup)</label>
+            </value>
+            <value>
+                <fullName>View actualized rooms (pickup)</fullName>
+                <default>false</default>
+                <label>View actualized rooms (pickup)</label>
+            </value>
+            <value>
+                <fullName>Company profiles (PMS)</fullName>
+                <default>false</default>
+                <label>Company profiles (PMS)</label>
+            </value>
+            <value>
+                <fullName>Create/update guest profiles (PMS)</fullName>
+                <default>false</default>
+                <label>Create/update guest profiles (PMS)</label>
+            </value>
+            <value>
+                <fullName>Create/update travel profiles (PMS)</fullName>
+                <default>false</default>
+                <label>Create/update travel profiles (PMS)</label>
+            </value>
+            <value>
+                <fullName>Create company profiles (both ways)</fullName>
+                <default>false</default>
+                <label>Create company profiles (both ways)</label>
+            </value>
+            <value>
+                <fullName>Create folio transactions (PMS)</fullName>
+                <default>false</default>
+                <label>Create folio transactions (PMS)</label>
+            </value>
+            <value>
+                <fullName>Create guest activities (POS)</fullName>
+                <default>false</default>
+                <label>Create guest activities (POS)</label>
+            </value>
+            <value>
+                <fullName>Create guest reservation details (PMS)</fullName>
+                <default>false</default>
+                <label>Create guest reservation details (PMS)</label>
+            </value>
+            <value>
+                <fullName>Create member accounts (Loyalty)</fullName>
+                <default>false</default>
+                <label>Create member accounts (Loyalty)</label>
+            </value>
+            <value>
+                <fullName>Guest reservation preferences (PMS)</fullName>
+                <default>false</default>
+                <label>Guest reservation preferences (PMS)</label>
+            </value>
+            <value>
+                <fullName>Guest stay statistics - B&amp;E Rev</fullName>
+                <default>false</default>
+                <label>Guest stay statistics - B&amp;E Rev</label>
+            </value>
+            <value>
+                <fullName>Guest stay statistics - F&amp;B Rev</fullName>
+                <default>false</default>
+                <label>Guest stay statistics - F&amp;B Rev</label>
+            </value>
+            <value>
+                <fullName>Guest stay statistics - Guestroom Rev</fullName>
+                <default>false</default>
+                <label>Guest stay statistics - Guestroom Rev</label>
+            </value>
+            <value>
+                <fullName>Guest stay statistics - Other Rev</fullName>
+                <default>false</default>
+                <label>Guest stay statistics - Other Rev</label>
+            </value>
+            <value>
+                <fullName>Real time guest profile lookups</fullName>
+                <default>false</default>
+                <label>Real time guest profile lookups</label>
+            </value>
+            <value>
+                <fullName>Receive/view survey links</fullName>
+                <default>false</default>
+                <label>Receive/view survey links</label>
+            </value>
+            <value>
+                <fullName>Receive/view survey results</fullName>
+                <default>false</default>
+                <label>Receive/view survey results</label>
+            </value>
+            <value>
+                <fullName>Reward certificate lookup and processing</fullName>
+                <default>false</default>
+                <label>Reward certificate lookup and processing</label>
+            </value>
+            <value>
+                <fullName>Room Type statistics - B&amp;E Rev</fullName>
+                <default>false</default>
+                <label>Room Type statistics - B&amp;E Rev</label>
+            </value>
+            <value>
+                <fullName>Room Type statistics - F&amp;B Rev</fullName>
+                <default>false</default>
+                <label>Room Type statistics - F&amp;B Rev</label>
+            </value>
+            <value>
+                <fullName>Room Type statistics - Guestroom Rev</fullName>
+                <default>false</default>
+                <label>Room Type statistics - Guestroom Rev</label>
+            </value>
+            <value>
+                <fullName>Room Type statistics - Other Rev</fullName>
+                <default>false</default>
+                <label>Room Type statistics - Other Rev</label>
+            </value>
+            <value>
+                <fullName>Send reservations/create guest survey</fullName>
+                <default>false</default>
+                <label>Send reservations/create guest survey</label>
+            </value>
+            <value>
+                <fullName>Send reservations preferences</fullName>
+                <default>false</default>
+                <label>Send reservations preferences</label>
+            </value>
+            <value>
+                <fullName>View hotel availability</fullName>
+                <default>false</default>
+                <label>View hotel availability</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+    <visibleLines>10</visibleLines>
+</CustomField>

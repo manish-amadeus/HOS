@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>X2018_Laptop_Warranty_Expirations</fullName>
+    <columns>Product_ID__c</columns>
+    <columns>Model_Description__c</columns>
+    <columns>Warranty_Expires__c</columns>
+    <columns>NAME</columns>
+    <columns>Asset_Tag_Number__c</columns>
+    <columns>User__c</columns>
+    <columns>Custodian_Location__c</columns>
+    <columns>Custodian_Phone__c</columns>
+    <columns>Hardware_Type__c</columns>
+    <columns>Status__c</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>Warranty_Expires__c</field>
+        <operation>lessOrEqual</operation>
+        <value>12/31/2018</value>
+    </filters>
+    <filters>
+        <field>HardwareType__c</field>
+        <operation>equals</operation>
+        <value>Laptop</value>
+    </filters>
+    <filters>
+        <field>Warranty_Expires__c</field>
+        <operation>greaterThan</operation>
+        <value>12/31/2017</value>
+    </filters>
+    <filters>
+        <field>Status__c</field>
+        <operation>equals</operation>
+        <value>Available Inventory,Currently Being Configured,Deployed</value>
+    </filters>
+    <filters>
+        <field>Product_ID__c</field>
+        <operation>notContain</operation>
+        <value>T440,Apple,Hewlett,X1,X250,Microsoft</value>
+    </filters>
+    <label>2018 Laptop Warranty Expirations</label>
+</ListView>

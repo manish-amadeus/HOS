@@ -1,0 +1,529 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<RecordType xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>AH_UDC_Workbook</fullName>
+    <active>true</active>
+    <description>Used by Unified Data Collection to manage Workbooks</description>
+    <label>Unified Data Collection - Workbook</label>
+    <picklistValues>
+        <picklist>AH_PLCM_MM_Maximum_Capacity_Option__c</picklist>
+        <values>
+            <fullName>Option One</fullName>
+            <default>true</default>
+        </values>
+        <values>
+            <fullName>Option Two</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>AH_PLCM_MM_Total_Square_Footage__c</picklist>
+        <values>
+            <fullName>%3E75000</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>0-5000</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>10001-25000</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>25001-5000</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>50001-75000</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>5001-10000</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>AH_PLCM_MigrationProgress__c</picklist>
+        <values>
+            <fullName>Customer Inputs Complete</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Customer Inputs Pending</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Migration Complete</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Migration Date Confirmed</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Migration In Progress</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Project Created</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>AH_PLCM_Migration_Type__c</picklist>
+        <values>
+            <fullName>ACA</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Full</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>AH_PLCM_Portal_Progress__c</picklist>
+        <values>
+            <fullName>Cross-Reference Complete</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Customer Inputs Complete</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Migration Users Complete</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Portal Invitation Sent</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Property Details Complete</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>AH_PLCM_Product__c</picklist>
+        <values>
+            <fullName>Delphi%2Efdc Winter %2713</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Hotel SalesPro</fullName>
+            <default>true</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Account_Production_Configured__c</picklist>
+        <values>
+            <fullName>N%2FA</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>No</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Yes</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Account_Segment__c</picklist>
+        <values>
+            <fullName>A-High</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>B-Med</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>C-Low</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Approval_Status__c</picklist>
+        <values>
+            <fullName>Approved</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Rejected</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Submitted for Approval</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Document_Type__c</picklist>
+        <values>
+            <fullName>Agenda</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>BEO%2FBanquet Check</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Budgetary Guidelines</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Canada Letter</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Checklist</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Communication Plan</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Configuration Requirements</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Confirmation Letter</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Corporate Standards</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Custom Report%2FExport</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Custom Reports</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Data Migration Cross-reference Requirements</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Data Migration Data Analysis Report</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Data Migration Validation Report</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Data Migration Workbook</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Delphi%2Efdc Merge Document</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Design</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Document of Understanding</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Implementation Plan</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>New Installation Workbook</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>PSIE Documentation</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Preparation Call</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Project Plan</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Property Logo</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Proposal</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Quick Start Configuration Requirements</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Recap</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Reporting Plan</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Requirements</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Room Diagrams</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Schema%2FDatabase</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Sign Off</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Solution Design Document</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Standard Product and Service Definition</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Standard Services Complete Checklist</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Standards and Procedures</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Statement of Work</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>System Usage Standards</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Technical Readiness Call</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Test Plan</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Training Plan</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>UAT Signoff</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Use Cases</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Verification</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Workbook</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>HRM_Product__c</picklist>
+        <values>
+            <fullName>Connex</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>FDC</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>General SFDC</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Loyalty</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Install_Type__c</picklist>
+        <values>
+            <fullName>Hosted Performance Monitoring</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>MeetingMatrix</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>New Installation</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Other</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Peripheral Activation</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Upgrade</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Integration_Type__c</picklist>
+        <values>
+            <fullName>Epitome</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>EzRMS</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Galaxy</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>HMS</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>IDPMS</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>IDeaS</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>IQpms</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>LMS</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Maestro</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Micros OXI %28Opera%29</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>ResortSuite</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Rover</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>SIHOT</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>SMS Host</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Visual One</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Private_Offer_Enabled__c</picklist>
+        <values>
+            <fullName>No</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Yes</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Region__c</picklist>
+        <values>
+            <fullName>ASPAC</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>EMEA</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>LATAM</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>NORAM</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Stage__c</picklist>
+        <values>
+            <fullName>Draft</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Final</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Status__c</picklist>
+        <values>
+            <fullName>Draft</fullName>
+            <default>true</default>
+        </values>
+        <values>
+            <fullName>Duplicate</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Inactive</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Reviewed</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Sent for Review</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Vanity_URL__c</picklist>
+        <values>
+            <fullName>No</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Yes</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+</RecordType>

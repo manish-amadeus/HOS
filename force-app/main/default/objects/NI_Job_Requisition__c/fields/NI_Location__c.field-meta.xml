@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>NI_Location__c</fullName>
+    <deleteConstraint>Restrict</deleteConstraint>
+    <externalId>false</externalId>
+    <inlineHelpText>CODE     DESCRIPTION
+010	         United States (U.S.)
+020	         Asia Pacific (Singapore)
+022	         Australia
+024	         China
+030	         EMEA 
+060	         MTech
+070          Itesso</inlineHelpText>
+    <label>Financial Department</label>
+    <referenceTo>NI_Location__c</referenceTo>
+    <relationshipLabel>Job Requisitions</relationshipLabel>
+    <relationshipName>NI_Job_Requisitions1</relationshipName>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>true</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

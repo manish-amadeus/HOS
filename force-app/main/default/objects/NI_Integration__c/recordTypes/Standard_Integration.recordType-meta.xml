@@ -1,0 +1,2517 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<RecordType xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Standard_Integration</fullName>
+    <active>true</active>
+    <description>This is for proven integrations that allow the messages and features to be described.</description>
+    <label>Standard Integration</label>
+    <picklistValues>
+        <picklist>Amadeus_Product__c</picklist>
+        <values>
+            <fullName>ACPMS</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>APMA</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>ASEM</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Daylight %28 Legacy %29</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Delphi %28 Legacy %29</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Demand</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>GMS</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>HSP</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>HotSOS</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Hybrid Cloud</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>IDPMS</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>IHotelier</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Meetingbroker</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>OTA</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>PMPRO</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Payment Processing</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>RezExchange</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>TCCM%2FRoomRes</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>xml%2Epos</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Approved_By__c</picklist>
+        <values>
+            <fullName>21c Museum Hotels</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>25Hours Hotels</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>A Victory Hotels</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>ACHAT Hotels</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>AJ Capital Partners</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>AMAKS Hotels %26 Resorts</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>APA Hotel Co%2E%2C Ltd%2E</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>ARCOTEL Hotels</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>AZIMUT Hotels</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Abad Group</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Absolute Hotel Services Group</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Accor Company</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Ace Hotel Group</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Affinia</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>African Hotels %26 Adventures</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Allia Hotels</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Alp%27Azur Hotels</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Alt Hotels</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Althoff Hotel Collection</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Altis Hotel Group</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Aman Resort Services Ltd</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Amerian Hoteles</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Amrath Hotels</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Andrew Brownsword Hotels</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Anemon Hotels</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Apex Hotels</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Apollo Hotels %26 Resorts</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Aqua Hospitality</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Aranzazu Hoteles</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Arcadia Hotels AF</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Archipelago International</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Arcona Hotels</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Aristos Hotels</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Arora Group</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Aryaduta Hotel Group</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Atlantic Hotels</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Atour %28Shanghai%29 Hotel Management Ltd%2E%2C Co%2E</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Atton Hotels S%2EA%2E</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Austria Trend Hotels %26 Resorts</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Avari Hotels</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Axel Hotels</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Azalai Hotels</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Azur Hotels %26 Resorts</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>B%26B Hotels</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Baglioni Hotels</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Baney Corporation%2FOxford Hotel Group</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Banyan Tree Holdings Limited</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Barcelo Hotel Group</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Bastion Hotels</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Bay Hotels</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Bayview Intl Hotels %26 Resorts</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Be Live Hotels</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Beijing Capital Tourism Co%2C Ltd</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Belmond Luxury Hotels</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Berggruen Hotels</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Berjaya Corporation Berhad</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Berkshire Rooms Serviced Accommodations</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Best Hotels</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Best Western Hotels %26 Resorts</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Beta Hotels</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Blue Diamond Resorts</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Blue Horizon Group</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Blue Tree Hotels</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>BlueSun Hotels %26 Resorts</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Bonsai Hotels</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Boscolo Hotels</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Boudl Hotels %26 Resorts</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Bourbon Hotels %26 Resorts</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Bourne Leisure</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Bridal Tea House Hotels</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Britannia Hotels</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>COMO Hotels %26 Resorts</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Canad Inns</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Candeo Hotels</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Carlson Hospitality Company</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Carlton Hotel Collection</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Carris Hoteles</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Casa Andina Hoteles</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Centara Hotels %26 Resorts</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Centra Hotels %26 Resorts</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Central Apartment Hotels</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Chandris Hotels %26 Resorts</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Chic %26 Basic</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Choice Hotels International</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>CitizenM Hotels</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Citrus Hotels %26 Resorts</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>City Comfort Inn Group</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>City Inns</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>City Lodge Hotels Group</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Ciutat Hotels</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Clarks Group Hotels</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Coast Hotels</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Compass Hospitality</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Concept Hospitality</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Cosmopolitan Hotels</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Country Garden Phoenix Hotels</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Cresta Hotels</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Crown Hotels</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Crystal Hotels</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Daiwa Royal Hotels</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Daiwa Roynet Hotels</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Dalata Hotel Group</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Dan Hotels</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Daniel Thwaites PLC</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Danubius Hotels Group Company</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Decameron All Inclusive Hotels %26 Resorts</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Dedeman Hotels</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Delfin Hotels</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Derag Livinghotels</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Deutsche Hospitality</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Diego De Almagro Hoteles</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Distinction Hotels</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Divani Hotels</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Domina Hotel</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Dominion Hospitality</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Downtowner Inns</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Dream Hotel Group</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Drury Hotels</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Dusit Thani Public Company Ltd</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Duxton International</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Dynamique Hotels Management</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Dynasty Hotel Group</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>EVENT Hospitality</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Elba Hotels</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Electra Palace hotel</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Elegant Hotels Group</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Elite Hotels</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Emaar Hospitality Group</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>EuroAgentur Hotel</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Eurotel Hotels</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Evenia Hotels</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Extended Stay Hotels</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>FIH Regent Group</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>FJB Hotels</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>FX Hotels Group</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>FairBridge Hotels International</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Family Inns of America</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Far East Consortium International LTD</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Fenix Hospitality Sweden AB</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Firmdale Hotels</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Fletcher Hotels</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Four Seasons Hotels %26 Resorts</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Fragrance Hotels</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Franklyn Hotels %26 Resorts</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Frasers Hospitality</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Fresh Hotels</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Fujita Kanko Group</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Fujiya Hotels</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Fuller%27s</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Furama Hotels</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>G6 Hospitality</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Garden Hotels</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Garden Palace Hotels</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Generator Hostels Ltd</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Gloria Hotels %26 Resorts</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Good Inn Hotels</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Grace Inns</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Grand America Hotels %26 Resort</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Grand Hotel Management Group</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Grand Hotels International</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>GrandStay Hospitality</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Grange Hotels</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Green Rich Hotels</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>GreenTree Inns</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Greene King inns</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Gresham Hotels</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Gromada</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Groupe Menguy Investissements</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Groupe du Louvre</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Grupo BlueBay</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Grupo Empresarial Angeles</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Grupo Hoteles Playa%2C S%2EA%2E</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Grupo Pinero</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Grupo Posadas Grp</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Grupo Sol Melia</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Gunnewig Hotels</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Guoman Hotels Ltd</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>H-Hotels AG</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>H-TOP Hotels %26 Resorts Group</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>H10 Hotels</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>HCC Hotels</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>HMG Hotel Management</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>HMI Hotel Group</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>HNA Hospitality Group</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Hampshire Hospitality</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Harbour Hotels Group</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Harbour Plaza Hotels %26 Resorts</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Heartland Hotels</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Helnan Hotels</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Hengda Hotel Management Group</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Hi%21 Hotels International</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>High Tech Hotels %26 Resorts</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Hilton Worldwide</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Holiday Club Resorts</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Holiday Star Hotels</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Homeinns Hotel Group</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Hospes Hotels</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Hospitality Lodging Systems</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Hospitality Management Holdings %28HMH%29</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Hotel 81 Management</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Hotel Akena</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Hotel Green Chain SENDAI</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Hotel Husa</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Hoteles City Express</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Hoteles Estelar</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Hotels Viva</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Hotusa</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Huazhu Hotels Group</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Hyatt</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>IC Hotels</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>ITC-Welcomgroup</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Iberostar Hotels %26 Resorts</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Icelandair Hotels</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Idea Hotels</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Ilunion Hotels</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Imperial Hotels Group</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>InTown Suites</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Independent</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>InnSuites Hotels</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>InterCity Hotel Group</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>InterContinental Hotels Group</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>International Hotel Investments PLC</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>International Hotel Management Group B%2EV%2E</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Isrotel LTD</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>JA Resorts %26 Hotels</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>JAL Hotels Company</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>JR Kyushu Hotel Group</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Jinjiang Holding</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Jinling Hotels %26 Resorts</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>John Keells Group</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Jolly Hotels</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Kagum Hotels</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Kamat Hotels India</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Keihan Holdings Co%2E%2C Ltd%2E</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Kempinski Hotels</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Kenzi Hotels Group</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Keppel Land Hospitality Management Pte Ltd</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Kerzner International</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Key West Inns Company</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Kibbutz Hotels</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Kipriotis Hotels</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>LQ Management LLC</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Lafayette Hotels</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Lakeview Distinctive Hotels</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Landidyll Hotel</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Langham Hotels International</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Lapland Hotels</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Larkspur</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Legacy Hotels</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Legacy Hotels UK</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Lemon Hotels</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Lemon Tree Hotels</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Leonardo Hotels</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Libertel Group</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Ligula Hospitality Group</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Lindner Hotels%2C Inc</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Loews Hotels Company</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Lone Star Funds</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Lopesan Group</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Lords Inn Hotel %26 Developers Ltd%2E</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Louis Hotels</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Lungarno Hotels</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Luxemon Hotels %26 Resorts</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>MBI International</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>MGM Muthu Hotels</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Macdonald Hotels %26 Resorts</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Mandarin Oriental Hotel Group</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Mantra Group</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Marriott International</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Marston%27s</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Martin%27s Hotels</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Mayfair Hotels %26 Resorts</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Meritus Hotels %26 Resorts</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Millennium %26 Copthorne Global</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Milton Hotels %26 Residences</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Minor International</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Mister Bed Hotels</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Mitsui Fudosan Hotel Management Co%2E%2C Ltd</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Miyako Hotels</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Montage Hotels</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Monte Carlo Inns</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Mutiara Hotels %26 Resorts</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>My Home Hotels</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>MyStays Hotel Management</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Myhotel Hotels</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>NH Hotels Group</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>NYLO Hotels</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>NanYuan Inns</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Nevsky Hotels Group</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>New Century Hotel Group%2C Ltd%2E</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>New Otani Hotels</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Next Story Group</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Nihon Hotel Group</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Nippon View Hotel Co%2E%2C Ltd</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Northland Properties</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Novum Group</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>O%27Callaghan Hotels</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Oakwood Worldwide</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Okura Hotels %26 Resorts</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Olav Thon Grp</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Omni Hotels %26 Resorts</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Ona Hotels Apartments %26 Resorts</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Onyx Hospitality</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Outrigger Hotels Company</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Oxford Hotels %26 Inns</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>PT Sahid International Hotel Mgt %26 Consultant</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Palace Inns</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Palace Resorts</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Palladium Hotel Group</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Pan Pacific Hotels Group</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Parc Hotels %26 Resorts</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Passport Inns</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Pearl Continental Hotels</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Petul Apart Hotels</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Plateno Group</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Pod Inns</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Prayag Hotels %26 Resorts</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Premier Apartments UK</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Prince Hotels %26 Resorts</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Principal Hotel Company</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Promenade Hoteis</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Qubus Hotels</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Queensway Group Limited</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>RIU Hotels %26 Resorts</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Red Carpet Inns</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Red Lion Hotels Company</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Red Planet Hotels</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Reddy Group</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Regal %26 Corus Hotels</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Reikartz Hotels %26 Resorts</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Resol Hotel %26 Resort</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Resort Trust</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>ResortQuest Hawaii Grp</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Restel Hotellit Oy</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Richmond Hotels</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Rimonim Hotels %26 Resorts</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Ringhotels</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Robinsons Land Corporation</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Roc Hotels</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Rochester Hotels</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Rodd Hotels %26 Resorts</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Rode Inn Motels</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Room Mate Hotels</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Roomzzz Aparthotel</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Rosewood Hotels Group</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Rotana Hotel Management</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Royal Orchid Hotels</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Ryad Mogador Hotels</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>SACO The Service Apartment Company</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>SKYCITY Entertainment</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Santika Indonesia Hotels %26 Resorts</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Sarovar Hotels %26 Resorts</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Sawridge Inns</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Scenic Hotel Group</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Scholarly Hotel Investment Group Ltd</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Scottish Inns</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Sea Hotels</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Seasons Apartment Hotel Group</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Serena Hotels</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Shanghai Mehood Hotel Group</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Shangri-La Hotels %26 Resorts</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Shenzhen Grand Skylight Hotel Management Co%2C Ltd%2E</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Shuguang Hotel Group</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Sidorme Hotels</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Silken Hoteles</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Sixty Collective</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Skyline Worldwide</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Smile Hotels</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Sokos Hotels</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Solare Hotels %26 Resorts CC</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Soluxe International</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Sorat Hotels</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Sorea Hotel Chain</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Sotetsu Hotel Management Co%2E%2C Ltd%2E</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>St%2E Giles Hotels</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Stamford Hotels %26 Resorts</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Stoney Creek Hospitality</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Stout Street Hospitality</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Sun Maris Hotels</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Sunstar Hotel</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Swiss-Belhotel International</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>T A Fisher Group</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>TAUZIA Hotels</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>THB Hotels</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>TIME Hotels LLC</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>TUI Hotels %26 Resorts</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Talbot Hotels</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>The Ascott Limited</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>The Doyle Collection</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>The Heritage Hotels Group</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>The Indian Hotel Company</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>The Leela Palaces %26 Resorts</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>The Oberoi Group</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>The Park Hotels</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>The Peninsula Hotel</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>The Pride Group</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>The UK Holiday Group</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Tierra Viva Hotels</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Timhotel Hotels</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Toga Far East Hotels</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Tokyu Hotels Company</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Toplands Group of Companies</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Tr Lodging Enterprises Inc</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Transamerica Hospitality Group</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Travel Inn Hotels</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Travelodge Hotels Asia Pte Ltd</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Travelodge%2C UK</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Tsogo Sun hotels</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Tsokkos Hotels</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Tune Hotels</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Two Roads Hospitality</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>UNIZO Holdings Company Limited</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Unipol Gruppo Finanziario S%2EP%2EA</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>VIP Hotels</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Valentin Hotels</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Van Der Valk Hotels</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Vertice Hoteles</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Victor%27s Residenz Hotels</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Victoria Hotels %26 Resorts</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Vienna International Hotel</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Village Hotel Club</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Vista Hotels</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Waldorf Australia Group Pty Ltd</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Wanda Hotels %26 Resorts</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Warwick Hotels</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Washington Hotel Corporation</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Wei Bo Inns %26 Hotels</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Westmont Hospitality Group</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Wharf Hotels Management Limited</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Whitbread Hotel Company</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>White Bear Family Resort Co%2E%2C Ltd</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>WoodSpring Hotels</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Wyndham Extra Holidays</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Wyndham Worldwide</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Yadis Hotels</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Yotel</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Young%27s</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Zenit Hoteles</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Zhejiang Narada</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Zhejiang SSAW Hospitality Service Company</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Zhongan Inns</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Zleep Hotels</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>relexa Hotels</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Communication__c</picklist>
+        <values>
+            <fullName>Asynchronous</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Synchronous</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Connection_Type__c</picklist>
+        <values>
+            <fullName>1 Way</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>2 Way</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>2 Way ADV</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>ARI</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>ARI%2FRES</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>RES</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Data_Transfer_Type__c</picklist>
+        <values>
+            <fullName>Batched</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Deployed%2FRemote</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>File Based</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>REST API</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>SOAP API</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>XML</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Environment__c</picklist>
+        <values>
+            <fullName>Client%2FServer</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Cloud</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Features__c</picklist>
+        <values>
+            <fullName>Company profiles %28PMS%29</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Create company profiles %28both ways%29</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Create folio transactions %28PMS%29</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Create group header in PMS</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Create guest activities %28POS%29</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Create guest reservation details %28PMS%29</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Create member accounts %28Loyalty%29</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Create%2Fupdate guest profiles %28PMS%29</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Create%2Fupdate travel profiles %28PMS%29</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Guest reservation preferences %28PMS%29</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Guest stay statistics - B%26E Rev</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Guest stay statistics - F%26B Rev</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Guest stay statistics - Guestroom Rev</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Guest stay statistics - Other Rev</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Manage guestrooms in PMS</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Manage guestrooms in either system</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Manage guestrooms manually in both sys</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Real time guest profile lookups</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Receive%2Fview survey links</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Receive%2Fview survey results</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Reward certificate lookup and processing</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Room Type statistics - B%26E Rev</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Room Type statistics - F%26B Rev</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Room Type statistics - Guestroom Rev</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Room Type statistics - Other Rev</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Send reservations preferences</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Send reservations%2Fcreate guest survey</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>View actualized rooms %28pickup%29</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>View future reservations %28pickup%29</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>View guest reservation details</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>View guest reservations for booking</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>View hotel availability</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>View rooming list for bookings</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>HRM_Module__c</picklist>
+        <values>
+            <fullName>HRM Guest %26 Social Relations</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>HRM Loyalty</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>HRM Multi-Channel Marketing</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>HRM Sales %26 Catering</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>HRM Sales Automation</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Integration_Product_Type__c</picklist>
+        <values>
+            <fullName>Custom - Non-Supported Data</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Custom - Supported Data</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Custom Certified</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Declined</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Decommissioned</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Demand Data Validation</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Development%2FCertification</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Do Not Sell</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>In Certification</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>In Development</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>In Pilot</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>In Plan</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Live</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Not Available</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>On Hold</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Other</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Product Certified</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Released%2FGTM</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Researching</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Vendor Engagement</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Integration_Type__c</picklist>
+        <values>
+            <fullName>Address Search %26 Verification</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Back Office</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Call Accounting</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Channel Manager</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Communication</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Credit Card %2F Payment</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Digital Signage %28EMS%29</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Distribution Channel</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>E-mail Marketing</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Exports</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Guest Facing</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>High Speed Internet %28HSIA%29</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Hotel System</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Inventory %26 Procurement</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Key card Systems</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Mini Bar</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>One Way Guest Reservation</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Other System</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Pay TV</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Phone Systems</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Point of Sale %28POS%29</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Property Management System %28 PMS %29</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Revenue Management System %28RMS%29</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Room Diagramming</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Survey System</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Voice Mail</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Yield %2F RMS management</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Mechanism__c</picklist>
+        <values>
+            <fullName>Push%2FPull</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Push%2FPush</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Specification__c</picklist>
+        <values>
+            <fullName>Booking Analysis API</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Custom</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Data File Exchange</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Definite Events API</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Guestroom API</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>HTNG</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>HTNG 2011B</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>HTNG2010A</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>MICE Integration Framework</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Meetingbroker Web Services</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>OTA</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>OTAC</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>OTAD</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>OXI</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>ResV5</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Room Block API</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Service Order API</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Shop %26 Book</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>TLS_Version__c</picklist>
+        <values>
+            <fullName>TLS 1%2E0</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>TLS 1%2E1</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>TLS 1%2E2</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>TLS 1%2E3</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Vendor_Product_Type__c</picklist>
+        <values>
+            <fullName>Addres Search %26 Verification</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Back Office</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Call Accouting</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Central Reservation System %28CRS%29</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Channel Manager</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Communication</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Credit Card %2F Payment</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Distribution Channel</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>E-Mail Marketing System</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Event Management System %28EMS%29</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Exports</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Guest Facing</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Heating%2C Ventilation %26 Air Conditioning System %28HVAC%29</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>High Speed Internet %28HSIA%29</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Hotel System</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Inventory %26 Procurement</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Keycard Systems</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Mini Bar</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Other System</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Pay TV</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Phone Systems</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Point of Sale System %28POS%29</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Property Management System %28PMS%29</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Revenue Management System %28RMS%29</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Room Diagramming</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Sales %26 Catering System %28S%26C%29</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Security%2FPanic Button</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Survey System</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Voice Mail</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Yield %2F RMS management</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+</RecordType>

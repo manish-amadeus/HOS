@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Closed_Lost_Category_c__c</fullName>
+    <externalDeveloperName>Closed_Lost_Category__c</externalDeveloperName>
+    <externalId>false</externalId>
+    <isFilteringDisabled>false</isFilteringDisabled>
+    <isNameField>false</isNameField>
+    <isSortingDisabled>false</isSortingDisabled>
+    <label>Closed Lost Category</label>
+    <required>false</required>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Customer_TC_Support_Relationship</fullName>
+                <default>false</default>
+                <label>Customer  - TC Support &amp;  Relationship</label>
+            </value>
+            <value>
+                <fullName>Customer_Functionality_Connections</fullName>
+                <default>false</default>
+                <label>Customer  - Functionality/Connections</label>
+            </value>
+            <value>
+                <fullName>Customer_Outside_TCs_Ability_to_Influence</fullName>
+                <default>false</default>
+                <label>Customer  - Outside TC’s Ability to Influence</label>
+            </value>
+            <value>
+                <fullName>TC Initiated/Internal Use</fullName>
+                <default>false</default>
+                <label>TC Initiated/Internal Use</label>
+            </value>
+            <value>
+                <fullName>Customer_Value_Price</fullName>
+                <default>false</default>
+                <label>Customer  - Value/Price</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

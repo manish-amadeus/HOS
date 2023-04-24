@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>EOM_Partner_Activations</fullName>
+    <booleanFilter>(1 AND 2 AND 4) OR (1 AND 3 AND 4 ) OR (1 AND 2 AND 3 AND 4)</booleanFilter>
+    <columns>Billing_Contract__c</columns>
+    <columns>NAME</columns>
+    <columns>Account_Name__c</columns>
+    <columns>Payment_Terms__c</columns>
+    <columns>Total_Invoiced_to_Date__c</columns>
+    <columns>Contract_Total_Amount__c</columns>
+    <columns>Revenue_Recognized_to_Date__c</columns>
+    <columns>Live_Date__c</columns>
+    <columns>Activation_Date__c</columns>
+    <columns>Revenue_Category__c</columns>
+    <columns>Contract_Start_Date__c</columns>
+    <columns>Contract_End_Date__c</columns>
+    <columns>Product_Description__c</columns>
+    <columns>Product__c</columns>
+    <columns>LAST_UPDATE</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>Live_Date__c</field>
+        <operation>notEqual</operation>
+    </filters>
+    <filters>
+        <field>Contract_Start_Date__c</field>
+        <operation>equals</operation>
+    </filters>
+    <filters>
+        <field>Contract_End_Date__c</field>
+        <operation>equals</operation>
+    </filters>
+    <filters>
+        <field>Status__c</field>
+        <operation>equals</operation>
+        <value>Active</value>
+    </filters>
+    <label>EOM:  Partner Activations</label>
+    <language>en_US</language>
+    <sharedTo>
+        <group>Finance_Billing_Team</group>
+    </sharedTo>
+</ListView>

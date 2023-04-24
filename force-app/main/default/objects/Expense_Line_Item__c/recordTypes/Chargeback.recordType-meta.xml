@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<RecordType xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Chargeback</fullName>
+    <active>false</active>
+    <description>Billable expense</description>
+    <label>Chargeback</label>
+    <picklistValues>
+        <picklist>Category__c</picklist>
+        <values>
+            <fullName>Meals</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Other</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Supplies</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Travel</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Sub_Category__c</picklist>
+        <values>
+            <fullName>Airfare</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Auto Rental %2B Gas</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Breakfast</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Bus%2C Limo%2C Taxi%2C Train %26 Subway</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Business Meals %26 Entertainment</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Client Gifts</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Conference</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Dinner</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Hotel %26 Lodging</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Laundry</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Lunch %26 Snack</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Mileage</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Other</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Parking %26 Tolls</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Postage</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Supplies</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Telephone%2C Fax %26 Internet</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Tips %26 Incidentals</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Who_Paid__c</picklist>
+        <values>
+            <fullName>Company Paid</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Employee Paid</fullName>
+            <default>true</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>lod_Expenditure_Type__c</picklist>
+        <values>
+            <fullName>Reimbursable Expense%3A Lodging</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Reimbursable Expense%3A Meals</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Reimbursable Expense%3A Misc Travel</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Reimbursable Expense%3A Transportation</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+</RecordType>

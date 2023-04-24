@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>SO_Component__c</fullName>
+    <description>Requested and managed by John Heimann. NICC - 023242</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Identifies the component with Service Optimization that the customer is calling about.</inlineHelpText>
+    <label>SO Component</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <controllingField>Assigned_Product_Line__c</controllingField>
+        <restricted>true</restricted>
+        <valueSetName>SO_Component</valueSetName>
+        <valueSettings>
+            <controllingFieldValue>HotSOS</controllingFieldValue>
+            <valueName>Database Request</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>HotSOS</controllingFieldValue>
+            <valueName>HotSOS Configuration - Amenities</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>HotSOS</controllingFieldValue>
+            <valueName>HotSOS Configuration - Issues</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>HotSOS</controllingFieldValue>
+            <valueName>HotSOS Configuration - Locations</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>HotSOS</controllingFieldValue>
+            <valueName>HotSOS Configuration - Meters</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>HotSOS</controllingFieldValue>
+            <valueName>HotSOS Configuration - Personnel</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>HotSOS</controllingFieldValue>
+            <valueName>HotSOS Configuration - Schedules</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>HotSOS</controllingFieldValue>
+            <valueName>HotSOS Dashboards - Housekeeping</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>HotSOS</controllingFieldValue>
+            <valueName>HotSOS Dashboards - Service Orders</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>HotSOS</controllingFieldValue>
+            <valueName>HotSOS Devices</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>HotSOS</controllingFieldValue>
+            <valueName>HotSOS Housekeeping Console</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>HotSOS</controllingFieldValue>
+            <valueName>HotSOS Ops - Amenities</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>HotSOS</controllingFieldValue>
+            <valueName>HotSOS Ops - General</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>HotSOS</controllingFieldValue>
+            <valueName>HotSOS Ops - Guests</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>HotSOS</controllingFieldValue>
+            <valueName>HotSOS Ops - Housekeeping - Personnel</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>HotSOS</controllingFieldValue>
+            <valueName>HotSOS Ops - Housekeeping - Room Attendant</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>HotSOS</controllingFieldValue>
+            <valueName>HotSOS Ops - Housekeeping - Supervisor</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>HotSOS</controllingFieldValue>
+            <valueName>HotSOS Ops - Messages</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>HotSOS</controllingFieldValue>
+            <valueName>HotSOS Ops - Meters</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>HotSOS</controllingFieldValue>
+            <valueName>HotSOS Ops - Personnel</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>HotSOS</controllingFieldValue>
+            <valueName>HotSOS Ops - Service Orders</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>HotSOS</controllingFieldValue>
+            <valueName>HotSOS Report UI</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>HotSOS</controllingFieldValue>
+            <valueName>HotSOS Thick Client</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>HotSOS</controllingFieldValue>
+            <valueName>PM Works - Approvers</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>HotSOS</controllingFieldValue>
+            <valueName>PM Works - Schedules</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>HotSOS</controllingFieldValue>
+            <valueName>PM Works - Weekly Reports</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>HotSOS</controllingFieldValue>
+            <valueName>SO Interfaces/API/Dashboard</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>HotSOS</controllingFieldValue>
+            <valueName>SO Legacy - hotel ServicePro</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>HotSOS</controllingFieldValue>
+            <valueName>SO Legacy - HotSOS 2.0</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>HotSOS</controllingFieldValue>
+            <valueName>SO Legacy - Other</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>HotSOS</controllingFieldValue>
+            <valueName>SO Legacy - SOSuite</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>HotSOS</controllingFieldValue>
+            <valueName>SO Reports Display and Data</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>HotSOS</controllingFieldValue>
+            <valueName>SO VIP</valueName>
+        </valueSettings>
+    </valueSet>
+</CustomField>

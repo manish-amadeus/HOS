@@ -1,0 +1,518 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Status__c</fullName>
+    <externalDeveloperName>Status</externalDeveloperName>
+    <externalId>false</externalId>
+    <isFilteringDisabled>false</isFilteringDisabled>
+    <isNameField>false</isNameField>
+    <isSortingDisabled>false</isSortingDisabled>
+    <label>Status</label>
+    <readOnlyProxy>true</readOnlyProxy>
+    <required>false</required>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Acknowledged</fullName>
+                <default>false</default>
+                <label>Acknowledged</label>
+            </value>
+            <value>
+                <fullName>Approved</fullName>
+                <default>false</default>
+                <label>Approved</label>
+            </value>
+            <value>
+                <fullName>Auto-Close</fullName>
+                <default>false</default>
+                <label>Auto-Close</label>
+            </value>
+            <value>
+                <fullName>Auto-SPAM</fullName>
+                <default>false</default>
+                <label>Auto-SPAM</label>
+            </value>
+            <value>
+                <fullName>Awaiting Information</fullName>
+                <default>false</default>
+                <label>Awaiting Information</label>
+            </value>
+            <value>
+                <fullName>Awaiting InSite Update</fullName>
+                <default>false</default>
+                <label>Awaiting InSite Update</label>
+            </value>
+            <value>
+                <fullName>Cancelled</fullName>
+                <default>false</default>
+                <label>Cancelled</label>
+            </value>
+            <value>
+                <fullName>Closed</fullName>
+                <default>false</default>
+                <label>Closed</label>
+            </value>
+            <value>
+                <fullName>Closed – Adjustment Issued</fullName>
+                <default>false</default>
+                <label>Closed – Adjustment Issued</label>
+            </value>
+            <value>
+                <fullName>Closed-AttachmentNotSent</fullName>
+                <default>false</default>
+                <label>Closed-AttachmentNotSent</label>
+            </value>
+            <value>
+                <fullName>Closed-AttachmentSent</fullName>
+                <default>false</default>
+                <label>Closed-AttachmentSent</label>
+            </value>
+            <value>
+                <fullName>Closed – Contract Processed</fullName>
+                <default>false</default>
+                <label>Closed – Contract Processed</label>
+            </value>
+            <value>
+                <fullName>Closed - Customer Issue Resolved</fullName>
+                <default>false</default>
+                <label>Closed - Customer Issue Resolved</label>
+            </value>
+            <value>
+                <fullName>Closed - Incorrect Mailbox</fullName>
+                <default>false</default>
+                <label>Closed - Incorrect Mailbox</label>
+            </value>
+            <value>
+                <fullName>Closed – Info/Admin Assistance Provided</fullName>
+                <default>false</default>
+                <label>Closed – Info/Admin Assistance Provided</label>
+            </value>
+            <value>
+                <fullName>Closed - No Action Needed</fullName>
+                <default>false</default>
+                <label>Closed - No Action Needed</label>
+            </value>
+            <value>
+                <fullName>Closed – Rebuilt Opty Processed</fullName>
+                <default>false</default>
+                <label>Closed – Rebuilt Opty Processed</label>
+            </value>
+            <value>
+                <fullName>Closed – Report NOT Sent</fullName>
+                <default>false</default>
+                <label>Closed – Report NOT Sent</label>
+            </value>
+            <value>
+                <fullName>Closed - Report Sent to Client</fullName>
+                <default>false</default>
+                <label>Closed - Report Sent to Client</label>
+            </value>
+            <value>
+                <fullName>Closed - Report Sent to DOS</fullName>
+                <default>false</default>
+                <label>Closed - Report Sent to DOS</label>
+            </value>
+            <value>
+                <fullName>Closed - Sent to Proper Dept</fullName>
+                <default>false</default>
+                <label>Closed - Sent to Proper Dept</label>
+            </value>
+            <value>
+                <fullName>Closed - Termination</fullName>
+                <default>false</default>
+                <label>Closed - Termination</label>
+            </value>
+            <value>
+                <fullName>Closed - Transferred</fullName>
+                <default>false</default>
+                <label>Closed - Transferred</label>
+            </value>
+            <value>
+                <fullName>Closed - Unresolved</fullName>
+                <default>false</default>
+                <label>Closed - Unresolved</label>
+            </value>
+            <value>
+                <fullName>Closed - Updated Report Sent</fullName>
+                <default>false</default>
+                <label>Closed - Updated Report Sent</label>
+            </value>
+            <value>
+                <fullName>Collections Agreed on Diff Payment Plan</fullName>
+                <default>false</default>
+                <label>Collections Agreed on Diff Payment Plan</label>
+            </value>
+            <value>
+                <fullName>Completed – Awaiting QA/QC</fullName>
+                <default>false</default>
+                <label>Completed – Awaiting QA/QC</label>
+            </value>
+            <value>
+                <fullName>Confirmed Release</fullName>
+                <default>false</default>
+                <label>Confirmed Release</label>
+            </value>
+            <value>
+                <fullName>Correct Invoice</fullName>
+                <default>false</default>
+                <label>Correct Invoice</label>
+            </value>
+            <value>
+                <fullName>Cost Estimate Complete</fullName>
+                <default>false</default>
+                <label>Cost Estimate Complete</label>
+            </value>
+            <value>
+                <fullName>Cost Estimate Pending</fullName>
+                <default>false</default>
+                <label>Cost Estimate Pending</label>
+            </value>
+            <value>
+                <fullName>Cost Waiver Pending</fullName>
+                <default>false</default>
+                <label>Cost Waiver Pending</label>
+            </value>
+            <value>
+                <fullName>Credit/Rebill</fullName>
+                <default>false</default>
+                <label>Credit/Rebill</label>
+            </value>
+            <value>
+                <fullName>Customer Portal Issue</fullName>
+                <default>false</default>
+                <label>Customer Portal Issue</label>
+            </value>
+            <value>
+                <fullName>Deferred Awaiting Future Release</fullName>
+                <default>false</default>
+                <label>Deferred Awaiting Future Release</label>
+            </value>
+            <value>
+                <fullName>Design Complete</fullName>
+                <default>false</default>
+                <label>Design Complete</label>
+            </value>
+            <value>
+                <fullName>Design Pending</fullName>
+                <default>false</default>
+                <label>Design Pending</label>
+            </value>
+            <value>
+                <fullName>Duplicate</fullName>
+                <default>false</default>
+                <label>Duplicate</label>
+            </value>
+            <value>
+                <fullName>Escalate to L3</fullName>
+                <default>false</default>
+                <label>Escalate to L3</label>
+            </value>
+            <value>
+                <fullName>Gathering Requirements</fullName>
+                <default>false</default>
+                <label>Gathering Requirements</label>
+            </value>
+            <value>
+                <fullName>Incorrect Mailbox</fullName>
+                <default>false</default>
+                <label>Incorrect Mailbox</label>
+            </value>
+            <value>
+                <fullName>In Design</fullName>
+                <default>false</default>
+                <label>In Design</label>
+            </value>
+            <value>
+                <fullName>In Production/Dev</fullName>
+                <default>false</default>
+                <label>In Production/Dev</label>
+            </value>
+            <value>
+                <fullName>In Progress</fullName>
+                <default>false</default>
+                <label>In Progress</label>
+            </value>
+            <value>
+                <fullName>In Progress - L1 Billing</fullName>
+                <default>false</default>
+                <label>In Progress - L1 Billing</label>
+            </value>
+            <value>
+                <fullName>In Progress - Need Addendum</fullName>
+                <default>false</default>
+                <label>In Progress - Need Addendum</label>
+            </value>
+            <value>
+                <fullName>In Progress - Other</fullName>
+                <default>false</default>
+                <label>In Progress - Other</label>
+            </value>
+            <value>
+                <fullName>In Progress - Product Approval Pending</fullName>
+                <default>false</default>
+                <label>In Progress - Product Approval Pending</label>
+            </value>
+            <value>
+                <fullName>In Progress - Response received</fullName>
+                <default>false</default>
+                <label>In Progress - Response received</label>
+            </value>
+            <value>
+                <fullName>In Progress - Termination Pending</fullName>
+                <default>false</default>
+                <label>In Progress - Termination Pending</label>
+            </value>
+            <value>
+                <fullName>Live Push Complete</fullName>
+                <default>false</default>
+                <label>Live Push Complete</label>
+            </value>
+            <value>
+                <fullName>Live Push Pending</fullName>
+                <default>false</default>
+                <label>Live Push Pending</label>
+            </value>
+            <value>
+                <fullName>Need BID(s)</fullName>
+                <default>false</default>
+                <label>Need BID(s)</label>
+            </value>
+            <value>
+                <fullName>Need Campaign Number(s)</fullName>
+                <default>false</default>
+                <label>Need Campaign Number(s)</label>
+            </value>
+            <value>
+                <fullName>Need Clarification</fullName>
+                <default>false</default>
+                <label>Need Clarification</label>
+            </value>
+            <value>
+                <fullName>Need More Info</fullName>
+                <default>false</default>
+                <label>Need More Info</label>
+            </value>
+            <value>
+                <fullName>Needs Prioritization</fullName>
+                <default>false</default>
+                <label>Needs Prioritization</label>
+            </value>
+            <value>
+                <fullName>New</fullName>
+                <default>false</default>
+                <label>New</label>
+            </value>
+            <value>
+                <fullName>No Action Required</fullName>
+                <default>false</default>
+                <label>No Action Required</label>
+            </value>
+            <value>
+                <fullName>On Hold</fullName>
+                <default>false</default>
+                <label>On Hold</label>
+            </value>
+            <value>
+                <fullName>On Hold - Awaiting External</fullName>
+                <default>false</default>
+                <label>On Hold - Awaiting External</label>
+            </value>
+            <value>
+                <fullName>On Hold - Awaiting Internal</fullName>
+                <default>false</default>
+                <label>On Hold - Awaiting Internal</label>
+            </value>
+            <value>
+                <fullName>On Hold - Awaiting Internal Defect</fullName>
+                <default>false</default>
+                <label>On Hold - Awaiting Internal Defect</label>
+            </value>
+            <value>
+                <fullName>On Hold - Awaiting Internal Enhancement</fullName>
+                <default>false</default>
+                <label>On Hold - Awaiting Internal Enhancement</label>
+            </value>
+            <value>
+                <fullName>On Hold by IT</fullName>
+                <default>false</default>
+                <label>On Hold by IT</label>
+            </value>
+            <value>
+                <fullName>On Hold by Product</fullName>
+                <default>false</default>
+                <label>On Hold by Product</label>
+            </value>
+            <value>
+                <fullName>On Hold - Check Data</fullName>
+                <default>false</default>
+                <label>On Hold - Check Data</label>
+            </value>
+            <value>
+                <fullName>On Hold - Defect Resolution Needed</fullName>
+                <default>false</default>
+                <label>On Hold - Defect Resolution Needed</label>
+            </value>
+            <value>
+                <fullName>On Hold - Future Release</fullName>
+                <default>false</default>
+                <label>On Hold - Future Release</label>
+            </value>
+            <value>
+                <fullName>On Hold - Pending Activation</fullName>
+                <default>false</default>
+                <label>On Hold - Pending Activation</label>
+            </value>
+            <value>
+                <fullName>On Hold - Waiting for Client</fullName>
+                <default>false</default>
+                <label>On Hold - Waiting for Client</label>
+            </value>
+            <value>
+                <fullName>Open</fullName>
+                <default>false</default>
+                <label>Open</label>
+            </value>
+            <value>
+                <fullName>Pending Animation</fullName>
+                <default>false</default>
+                <label>Pending Animation</label>
+            </value>
+            <value>
+                <fullName>Pending Cash Apps Resolution</fullName>
+                <default>false</default>
+                <label>Pending Cash Apps Resolution</label>
+            </value>
+            <value>
+                <fullName>Pending Customer Approval</fullName>
+                <default>false</default>
+                <label>Pending Customer Approval</label>
+            </value>
+            <value>
+                <fullName>Pending QC</fullName>
+                <default>false</default>
+                <label>Pending QC</label>
+            </value>
+            <value>
+                <fullName>Pending Revenue Approval</fullName>
+                <default>false</default>
+                <label>Pending Revenue Approval</label>
+            </value>
+            <value>
+                <fullName>Prioritized</fullName>
+                <default>false</default>
+                <label>Prioritized</label>
+            </value>
+            <value>
+                <fullName>Production/Dev Complete</fullName>
+                <default>false</default>
+                <label>Production/Dev Complete</label>
+            </value>
+            <value>
+                <fullName>QA/QC Complete</fullName>
+                <default>false</default>
+                <label>QA/QC Complete</label>
+            </value>
+            <value>
+                <fullName>Ready for Production</fullName>
+                <default>false</default>
+                <label>Ready for Production</label>
+            </value>
+            <value>
+                <fullName>Rejected</fullName>
+                <default>false</default>
+                <label>Rejected</label>
+            </value>
+            <value>
+                <fullName>Report Checked - No Issues Found</fullName>
+                <default>false</default>
+                <label>Report Checked - No Issues Found</label>
+            </value>
+            <value>
+                <fullName>Report Ready for Distribution</fullName>
+                <default>false</default>
+                <label>Report Ready for Distribution</label>
+            </value>
+            <value>
+                <fullName>Report Updated for Distribution</fullName>
+                <default>false</default>
+                <label>Report Updated for Distribution</label>
+            </value>
+            <value>
+                <fullName>Resolved - Awaiting Confirmation</fullName>
+                <default>false</default>
+                <label>Resolved - Awaiting Confirmation</label>
+            </value>
+            <value>
+                <fullName>Revenue Approved Credit Pending</fullName>
+                <default>false</default>
+                <label>Revenue Approved Credit Pending</label>
+            </value>
+            <value>
+                <fullName>Revisions Required</fullName>
+                <default>false</default>
+                <label>Revisions Required</label>
+            </value>
+            <value>
+                <fullName>SPAM</fullName>
+                <default>false</default>
+                <label>SPAM</label>
+            </value>
+            <value>
+                <fullName>Terminate with Credit/Partial Credit</fullName>
+                <default>false</default>
+                <label>Terminate with Credit/Partial Credit</label>
+            </value>
+            <value>
+                <fullName>Terminate without Credit</fullName>
+                <default>false</default>
+                <label>Terminate without Credit</label>
+            </value>
+            <value>
+                <fullName>Triage In Progress</fullName>
+                <default>false</default>
+                <label>Triage In Progress</label>
+            </value>
+            <value>
+                <fullName>Unassigned</fullName>
+                <default>false</default>
+                <label>Unassigned</label>
+            </value>
+            <value>
+                <fullName>Waiting for Billing</fullName>
+                <default>false</default>
+                <label>Waiting for Billing</label>
+            </value>
+            <value>
+                <fullName>Waiting for Collections</fullName>
+                <default>false</default>
+                <label>Waiting for Collections</label>
+            </value>
+            <value>
+                <fullName>Waiting for resp-DOS</fullName>
+                <default>false</default>
+                <label>Waiting for resp-DOS</label>
+            </value>
+            <value>
+                <fullName>Waiting for resp-IT/Technical</fullName>
+                <default>false</default>
+                <label>Waiting for resp-IT/Technical</label>
+            </value>
+            <value>
+                <fullName>Waiting for resp-Product/Pricing/Billing</fullName>
+                <default>false</default>
+                <label>Waiting for resp-Product/Pricing/Billing</label>
+            </value>
+            <value>
+                <fullName>Waiting on Child Case</fullName>
+                <default>false</default>
+                <label>Waiting on Child Case</label>
+            </value>
+            <value>
+                <fullName>Send to Demand SmartQ</fullName>
+                <default>false</default>
+                <label>Send to Demand SmartQ</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<SharingRules xmlns="http://soap.sforce.com/2006/04/metadata">
+    <sharingOwnerRules>
+        <fullName>Edit_All</fullName>
+        <accessLevel>Edit</accessLevel>
+        <description>Grants Edit Access to all NI Cancellation Records</description>
+        <label>Edit All</label>
+        <sharedTo>
+            <group>NI_Cancellations_Read_Edit_All</group>
+        </sharedTo>
+        <sharedFrom>
+            <allInternalUsers></allInternalUsers>
+        </sharedFrom>
+    </sharingOwnerRules>
+    <sharingOwnerRules>
+        <fullName>Share_Owned_by_Queue</fullName>
+        <accessLevel>Edit</accessLevel>
+        <description>Sharing rule to grant access to a public group when owned by a queue</description>
+        <label>Share Owned by Queue</label>
+        <sharedTo>
+            <group>NI_Cancellations_Read_Edit_All</group>
+        </sharedTo>
+        <sharedFrom>
+            <queue>Q_Sales_Cancellation</queue>
+        </sharedFrom>
+    </sharingOwnerRules>
+    <sharingOwnerRules>
+        <fullName>Share_Queue_Owned</fullName>
+        <accessLevel>Edit</accessLevel>
+        <label>Share Queue Owned</label>
+        <sharedTo>
+            <group>NI_Cancellations_Read_Edit_All</group>
+        </sharedTo>
+        <sharedFrom>
+            <queue>Q_Shared_Services</queue>
+        </sharedFrom>
+    </sharingOwnerRules>
+</SharingRules>

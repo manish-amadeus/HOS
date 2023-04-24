@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Customer_Impact__c</fullName>
+    <defaultValue>&quot;Customers may be experiencing &lt;insert symptoms here&gt;. This prevents customers from &lt;insert text here&gt;; or &lt;insert text here&gt; functionality is currently not available for certain customers. This prevents customers from &lt;insert text here&gt;.&quot;</defaultValue>
+    <description>NICC-028950 - Added for the Trust Incident Notifications project.</description>
+    <encryptionScheme>None</encryptionScheme>
+    <externalId>false</externalId>
+    <inlineHelpText>Replace this text by inserting the impact of this issue as understood from the IR.</inlineHelpText>
+    <label>Customer Impact</label>
+    <length>32768</length>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>LongTextArea</type>
+    <visibleLines>5</visibleLines>
+</CustomField>

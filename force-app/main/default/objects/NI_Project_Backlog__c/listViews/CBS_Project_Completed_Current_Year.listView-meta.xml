@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>CBS_Project_Completed_Current_Year</fullName>
+    <columns>NAME</columns>
+    <columns>Sponsor__c</columns>
+    <columns>Request_Status__c</columns>
+    <columns>Phase__c</columns>
+    <columns>Project_Completion_Date__c</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>RECORDTYPE</field>
+        <operation>equals</operation>
+        <value>NI_Project_Backlog__c.Business_Systems</value>
+    </filters>
+    <filters>
+        <field>Request_Status__c</field>
+        <operation>equals</operation>
+        <value>Completed</value>
+    </filters>
+    <filters>
+        <field>Project_Completion_Date__c</field>
+        <operation>equals</operation>
+        <value>THIS_YEAR</value>
+    </filters>
+    <label>HOS DTS Projects Completed Current Year</label>
+    <sharedTo>
+        <group>Business_Systems_Internal</group>
+    </sharedTo>
+</ListView>

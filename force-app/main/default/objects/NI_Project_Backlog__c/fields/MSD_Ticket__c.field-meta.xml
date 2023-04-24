@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>MSD_Ticket__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <description>Lookup field to MSD Ticket number.  NICC 055600</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Lookup field to MSD Ticket number.</inlineHelpText>
+    <label>MSD Ticket</label>
+    <referenceTo>MSD_Ticket__c</referenceTo>
+    <relationshipLabel>AH Project Backlog</relationshipLabel>
+    <relationshipName>AH_Project_Backlog</relationshipName>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>Lookup</type>
+</CustomField>

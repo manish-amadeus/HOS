@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Closed_Records_With_Zero_Time</fullName>
+    <columns>NAME</columns>
+    <columns>Case__c</columns>
+    <columns>Event_Type__c</columns>
+    <columns>Old_Value__c</columns>
+    <columns>New_Value__c</columns>
+    <columns>Detail__c</columns>
+    <columns>Time_Elapsed__c</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>CREATED_DATE</field>
+        <operation>equals</operation>
+        <value>5/9/2021 12:00 AM</value>
+    </filters>
+    <filters>
+        <field>CREATEDBY_USER.ALIAS</field>
+        <operation>equals</operation>
+        <value>sharris</value>
+    </filters>
+    <filters>
+        <field>Time_Elapsed__c</field>
+        <operation>equals</operation>
+        <value>0</value>
+    </filters>
+    <filters>
+        <field>Event_Type__c</field>
+        <operation>equals</operation>
+        <value>Closed</value>
+    </filters>
+    <label>Closed Records With Zero Time</label>
+    <sharedTo>
+        <allInternalUsers></allInternalUsers>
+    </sharedTo>
+</ListView>

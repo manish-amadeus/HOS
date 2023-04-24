@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Request_Status__c</fullName>
+    <externalId>false</externalId>
+    <label>Request Status</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>true</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>New</fullName>
+                <default>true</default>
+                <label>New</label>
+            </value>
+            <value>
+                <fullName>Backlog</fullName>
+                <default>false</default>
+                <label>Backlog</label>
+            </value>
+            <value>
+                <fullName>Acknowledged</fullName>
+                <default>false</default>
+                <label>Acknowledged</label>
+            </value>
+            <value>
+                <fullName>Assigned</fullName>
+                <default>false</default>
+                <label>Assigned</label>
+            </value>
+            <value>
+                <fullName>In Progress</fullName>
+                <default>false</default>
+                <label>In Progress</label>
+            </value>
+            <value>
+                <fullName>Pending External Team</fullName>
+                <default>false</default>
+                <label>Pending External Team</label>
+            </value>
+            <value>
+                <fullName>Awaiting Information</fullName>
+                <default>false</default>
+                <label>Awaiting Information</label>
+            </value>
+            <value>
+                <fullName>Pending QA</fullName>
+                <default>false</default>
+                <label>Pending QA</label>
+            </value>
+            <value>
+                <fullName>Closed</fullName>
+                <default>false</default>
+                <label>Closed</label>
+            </value>
+            <value>
+                <fullName>Closed - Contract Processed</fullName>
+                <default>false</default>
+                <label>Closed - Contract Processed</label>
+            </value>
+            <value>
+                <fullName>Closed - Incorrect Mailbox</fullName>
+                <default>false</default>
+                <label>Closed - Incorrect Mailbox</label>
+            </value>
+            <value>
+                <fullName>Closed - Info/Admin Opty Processed</fullName>
+                <default>false</default>
+                <label>Closed - Info/Admin Opty Processed</label>
+            </value>
+            <value>
+                <fullName>Closed - Unresolved</fullName>
+                <default>false</default>
+                <label>Closed - Unresolved</label>
+            </value>
+            <value>
+                <fullName>Rejected</fullName>
+                <default>false</default>
+                <label>Rejected</label>
+            </value>
+            <value>
+                <fullName>SPAM</fullName>
+                <default>false</default>
+                <label>SPAM</label>
+            </value>
+            <value>
+                <fullName>Duplicate</fullName>
+                <default>false</default>
+                <label>Duplicate</label>
+            </value>
+            <value>
+                <fullName>Waiting on internal</fullName>
+                <default>false</default>
+                <label>Waiting on internal</label>
+            </value>
+            <value>
+                <fullName>Closed Blocked</fullName>
+                <default>false</default>
+                <label>Closed Blocked</label>
+            </value>
+            <value>
+                <fullName>Closed Cancelled</fullName>
+                <default>false</default>
+                <label>Closed Cancelled</label>
+            </value>
+            <value>
+                <fullName>Closed Fulfilled</fullName>
+                <default>false</default>
+                <label>Closed Fulfilled</label>
+            </value>
+            <value>
+                <fullName>Close Duplicate</fullName>
+                <default>false</default>
+                <label>Close Duplicate</label>
+            </value>
+            <value>
+                <fullName>Pending User Confirmation</fullName>
+                <default>false</default>
+                <label>Pending User Confirmation</label>
+            </value>
+            <value>
+                <fullName>QA Complete</fullName>
+                <default>false</default>
+                <label>QA Complete</label>
+            </value>
+            <value>
+                <fullName>Alpha Review</fullName>
+                <default>false</default>
+                <label>Alpha Review</label>
+            </value>
+            <value>
+                <fullName>Alpha Edits</fullName>
+                <default>false</default>
+                <label>Alpha Edits</label>
+            </value>
+            <value>
+                <fullName>Beta Review</fullName>
+                <default>false</default>
+                <label>Beta Review</label>
+            </value>
+            <value>
+                <fullName>Beta Edits</fullName>
+                <default>false</default>
+                <label>Beta Edits</label>
+            </value>
+            <value>
+                <fullName>Final Review</fullName>
+                <default>false</default>
+                <label>Final Review</label>
+            </value>
+            <value>
+                <fullName>Final Edits</fullName>
+                <default>false</default>
+                <label>Final Edits</label>
+            </value>
+            <value>
+                <fullName>Need more info</fullName>
+                <default>false</default>
+                <label>Need More Info</label>
+            </value>
+            <value>
+                <fullName>Waiting for Client Feedback</fullName>
+                <default>false</default>
+                <label>Waiting for Client Feedback</label>
+            </value>
+            <value>
+                <fullName>Canceled</fullName>
+                <default>false</default>
+                <label>Canceled</label>
+            </value>
+            <value>
+                <fullName>Approved</fullName>
+                <default>false</default>
+                <label>Approved</label>
+            </value>
+            <value>
+                <fullName>On Hold</fullName>
+                <default>false</default>
+                <label>On Hold</label>
+            </value>
+            <value>
+                <fullName>Working</fullName>
+                <default>false</default>
+                <label>Working</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

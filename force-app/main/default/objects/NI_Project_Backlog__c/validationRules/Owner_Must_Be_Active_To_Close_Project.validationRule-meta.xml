@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Owner_Must_Be_Active_To_Close_Project</fullName>
+    <active>true</active>
+    <description>NICC-058179; The Owner of an Internal Project must be an active user to mark the Project Completed. The Owner will be used as the “Assigned To” on automatically-generated Project Backlog Tasks.</description>
+    <errorConditionFormula>AND(
+RecordType.Name = &quot;Commercial_Operation_Projects&quot;,
+Owner:User.IsActive = FALSE,
+$Profile.Name &lt;&gt; &quot;System Administrator&quot;,
+AND(ISCHANGED(Request_Status__c ), ISPICKVAL(Request_Status__c, &quot;Completed&quot;)
+))</errorConditionFormula>
+    <errorDisplayField>OwnerId</errorDisplayField>
+    <errorMessage>Warning: The record Owner is inactive and needs to be reassigned. If assistance is needed, please reach out to the Process Improvement Team.</errorMessage>
+</ValidationRule>

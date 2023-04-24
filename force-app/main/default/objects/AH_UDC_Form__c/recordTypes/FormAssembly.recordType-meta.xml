@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<RecordType xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>FormAssembly</fullName>
+    <active>true</active>
+    <description>This form is a Form Assembly form</description>
+    <label>Form Assembly</label>
+    <picklistValues>
+        <picklist>FormType__c</picklist>
+        <values>
+            <fullName>Central</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Product</fullName>
+            <default>true</default>
+        </values>
+        <values>
+            <fullName>Shared</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+</RecordType>

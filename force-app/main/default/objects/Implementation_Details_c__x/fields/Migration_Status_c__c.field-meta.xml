@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Migration_Status_c__c</fullName>
+    <externalDeveloperName>Migration_Status__c</externalDeveloperName>
+    <externalId>false</externalId>
+    <isFilteringDisabled>false</isFilteringDisabled>
+    <isNameField>false</isNameField>
+    <isSortingDisabled>false</isSortingDisabled>
+    <label>Migration Status</label>
+    <readOnlyProxy>true</readOnlyProxy>
+    <required>false</required>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Ready to start migration</fullName>
+                <default>false</default>
+                <label>Ready to start migration</label>
+            </value>
+            <value>
+                <fullName>BE 4.0 set-up completed</fullName>
+                <default>false</default>
+                <label>BE 4.0 set-up completed</label>
+            </value>
+            <value>
+                <fullName>Intro email sent</fullName>
+                <default>false</default>
+                <label>Intro email sent</label>
+            </value>
+            <value>
+                <fullName>Preview email sent</fullName>
+                <default>false</default>
+                <label>Preview email sent</label>
+            </value>
+            <value>
+                <fullName>Activation reminder sent</fullName>
+                <default>false</default>
+                <label>Reminder Email sent</label>
+            </value>
+            <value>
+                <fullName>BE 4.0 Live</fullName>
+                <default>false</default>
+                <label>BE 4.0 Live</label>
+            </value>
+            <value>
+                <fullName>Optimizations needed</fullName>
+                <default>false</default>
+                <label>Optimizations needed</label>
+            </value>
+            <value>
+                <fullName>GTM revisions needed</fullName>
+                <default>false</default>
+                <label>GTM revisions needed</label>
+            </value>
+            <value>
+                <fullName>Do Not Migrate</fullName>
+                <default>false</default>
+                <label>Do Not Migrate</label>
+            </value>
+            <value>
+                <fullName>Back on Web 3.0</fullName>
+                <default>false</default>
+                <label>Back on Web 3.0</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>User_Type_c__c</fullName>
+    <externalDeveloperName>User_Type__c</externalDeveloperName>
+    <externalId>false</externalId>
+    <isFilteringDisabled>false</isFilteringDisabled>
+    <isNameField>false</isNameField>
+    <isSortingDisabled>false</isSortingDisabled>
+    <label>User Type</label>
+    <readOnlyProxy>true</readOnlyProxy>
+    <required>false</required>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Integration User</fullName>
+                <default>false</default>
+                <label>Integration User</label>
+            </value>
+            <value>
+                <fullName>Data User</fullName>
+                <default>false</default>
+                <label>Data User</label>
+            </value>
+            <value>
+                <fullName>Sales Placeholder</fullName>
+                <default>false</default>
+                <label>Sales Placeholder</label>
+            </value>
+            <value>
+                <fullName>Standard User</fullName>
+                <default>false</default>
+                <label>Standard User</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>56.0</apiVersion>
+    <description>NICC-061820; for PLCM Migrations NI Documents, copies the Opportunity Owner Email to the NI Doc to send email alerts</description>
+    <environments>Default</environments>
+    <interviewLabel>NI Document - Copy Opportunity Owner Email {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>NI Document - Copy Opportunity Owner Email</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>FREE_FORM_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <recordUpdates>
+        <description>Copies the email address of the Opportunity Owner to the NI Doc when it&apos;s created</description>
+        <name>UpdateOppOwnerEmail</name>
+        <label>UpdateOppOwnerEmail</label>
+        <locationX>392</locationX>
+        <locationY>450</locationY>
+        <inputAssignments>
+            <field>Opportunity_Owner_Email__c</field>
+            <value>
+                <elementReference>$Record.Opportunity__r.Owner.Email</elementReference>
+            </value>
+        </inputAssignments>
+        <inputReference>$Record</inputReference>
+    </recordUpdates>
+    <start>
+        <locationX>65</locationX>
+        <locationY>42</locationY>
+        <connector>
+            <targetReference>UpdateOppOwnerEmail</targetReference>
+        </connector>
+        <filterFormula>{!$Record.RecordType.DeveloperName} = &quot;PLCM_Migrations&quot;</filterFormula>
+        <object>NI_Documentation__c</object>
+        <recordTriggerType>Create</recordTriggerType>
+        <triggerType>RecordAfterSave</triggerType>
+    </start>
+    <status>Draft</status>
+</Flow>

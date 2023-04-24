@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>CPR_Phase__c</fullName>
+    <externalId>false</externalId>
+    <label>CPR - Phase</label>
+    <required>false</required>
+    <trackHistory>true</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Analysis</fullName>
+                <default>true</default>
+                <label>Analysis</label>
+            </value>
+            <value>
+                <fullName>Plan</fullName>
+                <default>false</default>
+                <label>Plan</label>
+            </value>
+            <value>
+                <fullName>Develop</fullName>
+                <default>false</default>
+                <label>Develop</label>
+            </value>
+            <value>
+                <fullName>Deploy</fullName>
+                <default>false</default>
+                <label>Deploy</label>
+            </value>
+            <value>
+                <fullName>Closed</fullName>
+                <default>false</default>
+                <label>Closed</label>
+            </value>
+            <value>
+                <fullName>Cancelled</fullName>
+                <default>false</default>
+                <label>Cancelled</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Request_Type__c</fullName>
+    <description>Used for Development Requests</description>
+    <externalId>false</externalId>
+    <label>Request Type</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Developer Assistance</fullName>
+                <default>false</default>
+                <label>Developer Assistance</label>
+            </value>
+            <value>
+                <fullName>New Idea</fullName>
+                <default>false</default>
+                <label>New Idea</label>
+            </value>
+            <value>
+                <fullName>Product Manager Assistance</fullName>
+                <default>false</default>
+                <label>Product Manager Assistance</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

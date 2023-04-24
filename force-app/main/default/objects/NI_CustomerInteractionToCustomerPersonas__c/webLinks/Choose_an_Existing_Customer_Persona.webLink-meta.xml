@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<WebLink xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Choose_an_Existing_Customer_Persona</fullName>
+    <availability>online</availability>
+    <displayType>massActionButton</displayType>
+    <encodingKey>UTF-8</encodingKey>
+    <linkType>url</linkType>
+    <masterLabel>Choose an Existing Customer Persona</masterLabel>
+    <openType>replace</openType>
+    <protected>false</protected>
+    <requireRowSelection>true</requireRowSelection>
+    <url>{!URLFOR($Action.NI_CustomerInteractionToCustomerPersonas__c.New,null,[&quot;CF00N32000002zbHM&quot;= 
+NI_Customer_Interaction__c.Name, 
+&quot;CF00N32000002zbHM_lkid&quot;=NI_Customer_Interaction__c.Id,&quot;saveURL&quot;=NI_Customer_Interaction__c.Id,&quot;retURL&quot;=NI_Customer_Interaction__c.Id] 
+)}</url>
+</WebLink>

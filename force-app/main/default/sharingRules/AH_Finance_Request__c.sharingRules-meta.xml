@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<SharingRules xmlns="http://soap.sforce.com/2006/04/metadata">
+    <sharingCriteriaRules>
+        <fullName>COVID_19_Share</fullName>
+        <accessLevel>Edit</accessLevel>
+        <description>NICC-042019</description>
+        <label>COVID-19 Share</label>
+        <sharedTo>
+            <allInternalUsers></allInternalUsers>
+        </sharedTo>
+        <criteriaItems>
+            <field>RecordTypeId</field>
+            <operation>equals</operation>
+            <value>COVID-19</value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>false</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
+    <sharingCriteriaRules>
+        <fullName>Credit_Note_Request_Billing_Team_Edit_All</fullName>
+        <accessLevel>Edit</accessLevel>
+        <description>NICC-030490
+Members of the Finance Billing Team Public Group can modify all Finance Requests</description>
+        <label>Credit Note Request Billing Team Edit All</label>
+        <sharedTo>
+            <group>Finance_Billing_Team</group>
+        </sharedTo>
+        <criteriaItems>
+            <field>RecordTypeId</field>
+            <operation>equals</operation>
+            <value>Sales Credit Note Request</value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>false</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
+</SharingRules>

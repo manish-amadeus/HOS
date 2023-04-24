@@ -1,0 +1,102 @@
+.titleText {
+    font-size:18px;
+    font-weight:bold;
+    color:#000000; 
+    }
+    .labelText {
+    font-size:10px;
+    font-weight:bold;
+    color:#000000; 
+    }
+    .fieldText {
+    font-size:10px;
+    color:#000000; 
+    }
+    .detailText {
+    font-size:10px;
+    color:#000000; 
+    }
+    .footerText {
+    font-size:10px;
+    color:#A9A9A9;
+                }
+.tablehead {
+    border: .3px solid;
+    background-color: #A0CF67;
+    font-weight: bold;
+    font-size: 10px;
+}
+
+.totals {
+    background-color: #0099FF;
+    font-weight: bold;
+}
+
+.infohead {
+  font-size: 70%;
+  font-weight: bold;
+}
+
+.odd {
+ border-bottom: 1px solid #000;
+ padding: 1px 1px 2px 2px;
+ font-size: 100%;
+}
+
+.even {
+   border-bottom: 1px solid #000;
+   background-color: #D8D8D8;
+   padding: 1px 1px 2px 2px;
+   font-size: 100%;
+}
+
+.hrstyle {
+    height: 1px;
+    border-width: 0;
+    background-color: #006A71;
+    }
+
+
+@page {
+       @top-center {
+                    content: element(header);
+
+                               }
+
+                               @bottom-center {
+
+                                     content: element(footer);
+
+                               }
+                            margin-top: 100px;
+                            margin-bottom: 80px  
+                            }
+
+                                     div.header {
+                                      padding: 5px;
+                                      position: running(header);
+
+                           }
+                       div.footer {
+
+                                display: block;
+
+                             padding: 5px;
+
+                               position: running(footer);
+
+                      }
+
+                                     .pagenumber:before {
+
+                                        content: counter(page);
+
+                       }
+
+                                   .pagecount:before {
+
+                             content: counter(pages);
+
+                        }
+
+

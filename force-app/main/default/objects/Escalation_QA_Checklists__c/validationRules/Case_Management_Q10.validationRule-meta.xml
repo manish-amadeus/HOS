@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Case_Management_Q10</fullName>
+    <active>true</active>
+    <description>&quot;Tagged Correct Property&quot; must be 0, 1 or 5</description>
+    <errorConditionFormula>AND (
+    RecordType.DeveloperName = &quot;Customer_Care_Quality_Form&quot;, 
+    OR (
+        NOT(CONTAINS(&quot;0,1,5&quot;, TEXT(Tagged_Correct_Property__c))),
+        ISNULL(Tagged_Correct_Property__c)
+    )
+)</errorConditionFormula>
+    <errorDisplayField>Tagged_Correct_Property__c</errorDisplayField>
+    <errorMessage>Please update your value to: 0 for N/A, 1 for NO or 5 for YES.</errorMessage>
+</ValidationRule>

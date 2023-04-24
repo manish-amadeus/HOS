@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>AmadeusForms</fullName>
+    <columns>NAME</columns>
+    <columns>CREATED_DATE</columns>
+    <columns>RECORDTYPE</columns>
+    <columns>FormType__c</columns>
+    <columns>CREATEDBY_USER</columns>
+    <columns>FormAssemblyId__c</columns>
+    <columns>DevelopForm__c</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>RECORDTYPE</field>
+        <operation>equals</operation>
+        <value>AH_UDC_Form__c.AH_UDC_AmadeusForm</value>
+    </filters>
+    <label>Amadeus Forms</label>
+    <language>en_US</language>
+</ListView>

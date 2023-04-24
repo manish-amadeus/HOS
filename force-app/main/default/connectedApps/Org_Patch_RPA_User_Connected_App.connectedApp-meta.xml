@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ConnectedApp xmlns="http://soap.sforce.com/2006/04/metadata">
+    <contactEmail>hospitality.itbssharedmb@amadeus.com</contactEmail>
+    <description>Created for AH Org Patch RPA User. NICC 051453</description>
+    <label>Org Patch RPA User Connected App</label>
+    <oauthConfig>
+        <callbackUrl>https://amadeus-hospitality.my.salesforce.com/</callbackUrl>
+        <consumerKey>3MVG9igNVW5mZVnXrVx_V11V80bNasrAp0UhuWBeMyI2N.QlU.ChIlL5ORVQsYp4jgFGpQtIolTxK.YXewxT4</consumerKey>
+        <isAdminApproved>false</isAdminApproved>
+        <isClientCredentialEnabled>false</isClientCredentialEnabled>
+        <isCodeCredentialEnabled>false</isCodeCredentialEnabled>
+        <isCodeCredentialPostOnly>false</isCodeCredentialPostOnly>
+        <isConsumerSecretOptional>false</isConsumerSecretOptional>
+        <isIntrospectAllTokens>false</isIntrospectAllTokens>
+        <isSecretRequiredForRefreshToken>false</isSecretRequiredForRefreshToken>
+        <scopes>Api</scopes>
+    </oauthConfig>
+    <oauthPolicy>
+        <ipRelaxation>ENFORCE</ipRelaxation>
+        <refreshTokenPolicy>infinite</refreshTokenPolicy>
+    </oauthPolicy>
+</ConnectedApp>

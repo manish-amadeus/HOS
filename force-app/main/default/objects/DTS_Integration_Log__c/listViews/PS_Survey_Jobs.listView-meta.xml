@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>PS_Survey_Jobs</fullName>
+    <booleanFilter>1 OR 2</booleanFilter>
+    <columns>NAME</columns>
+    <columns>Date_Time__c</columns>
+    <columns>Details__c</columns>
+    <columns>Integration_Name__c</columns>
+    <columns>Integration_Status__c</columns>
+    <columns>Job_Process_ID__c</columns>
+    <columns>Job_Process_Name__c</columns>
+    <columns>Job_Process_Type__c</columns>
+    <columns>Summary__c</columns>
+    <columns>Type__c</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>Integration_Name__c</field>
+        <operation>equals</operation>
+        <value>PS Survey Job</value>
+    </filters>
+    <filters>
+        <field>Integration_Name__c</field>
+        <operation>equals</operation>
+        <value>ConfirmIT PS Survey</value>
+    </filters>
+    <label>Confirmit PS Survey Jobs</label>
+</ListView>

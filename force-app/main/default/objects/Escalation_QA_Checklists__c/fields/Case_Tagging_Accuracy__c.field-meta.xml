@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Case_Tagging_Accuracy__c</fullName>
+    <defaultValue>0</defaultValue>
+    <description>Agent confirmed with the customer that their email and phone number is accurate. NICC 053612</description>
+    <externalId>false</externalId>
+    <inlineHelpText>DI should match Case Product Line, correct Module and Component, correct article and valid pushback method.
+POSSIBLE VALUES: 0, 1, 2, 3, 4, 5</inlineHelpText>
+    <label>Case Tagging Accuracy</label>
+    <precision>2</precision>
+    <required>false</required>
+    <scale>0</scale>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Number</type>
+    <unique>false</unique>
+</CustomField>

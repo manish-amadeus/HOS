@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Q_Sales_Cancellation_NI_Cancellation</fullName>
+    <columns>NAME</columns>
+    <columns>CREATED_DATE</columns>
+    <columns>Cancel_Renewal_By_Date__c</columns>
+    <columns>Account__c</columns>
+    <columns>Activity_Line_Item__c</columns>
+    <columns>Amadeus_RSM__c</columns>
+    <columns>Anticipated_Revenue_Loss__c</columns>
+    <columns>Status__c</columns>
+    <columns>Days_Late__c</columns>
+    <columns>Late_Cancellation__c</columns>
+    <columns>Renewal_Cancellation_Requester__c</columns>
+    <columns>CREATEDBY_USER</columns>
+    <columns>Product__c</columns>
+    <columns>Product2__c</columns>
+    <filterScope>Queue</filterScope>
+    <label>Q-Sales Cancellation</label>
+    <queue>Q_Sales_Cancellation</queue>
+    <sharedTo>
+        <allInternalUsers></allInternalUsers>
+    </sharedTo>
+</ListView>

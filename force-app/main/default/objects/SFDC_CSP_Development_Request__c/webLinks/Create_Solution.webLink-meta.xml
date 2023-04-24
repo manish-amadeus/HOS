@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<WebLink xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Create_Solution</fullName>
+    <availability>online</availability>
+    <description>Create a solution from a CR.</description>
+    <displayType>button</displayType>
+    <encodingKey>UTF-8</encodingKey>
+    <linkType>url</linkType>
+    <masterLabel>Create Solution</masterLabel>
+    <openType>replace</openType>
+    <protected>false</protected>
+    <url>https://amadeus-hospitality.my.salesforce.com/apex/SolutionNew?retURL=%2F{!SFDC_CSP_Development_Request__c.Id}&amp;crid={!SFDC_CSP_Development_Request__c.Id}</url>
+</WebLink>

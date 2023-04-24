@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Live_Date_Billing_Contract_Date__c</fullName>
+    <description>Variance between Subscription Activation Transaction date and Billing Contract created date</description>
+    <externalId>false</externalId>
+    <formula>Date__c - DATEVALUE(Subscription_Activation_No__r.Billing_Contract__r.CreatedDate)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <inlineHelpText>Variance between Subscription Activation Transaction date and Billing Contract created date</inlineHelpText>
+    <label>Live Date - Billing Contract Date</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>0</scale>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Number</type>
+    <unique>false</unique>
+</CustomField>

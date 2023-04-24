@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>TDelphiSelectwithMarketVision2007</fullName>
+    <booleanFilter>1 or 2 or 3</booleanFilter>
+    <columns>NAME</columns>
+    <columns>Template_Name__c</columns>
+    <columns>Opportunity__c</columns>
+    <columns>CURRENCY_ISO_CODE</columns>
+    <columns>Quote_Amount__c</columns>
+    <columns>LAST_UPDATE</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>NAME</field>
+        <operation>equals</operation>
+        <value>,Q-00886,Q-00885,Q-00883,Q-00884,Q-00882,Q-00932,Q-00931,Q-00929,Q-00930,Q-00928</value>
+    </filters>
+    <filters>
+        <field>NAME</field>
+        <operation>equals</operation>
+        <value>,Q-00937,Q-00936,Q-00934,Q-00935,Q-00933,Q-00942,Q-00941,Q-00939,Q-00940,Q-00938</value>
+    </filters>
+    <filters>
+        <field>NAME</field>
+        <operation>equals</operation>
+        <value>,Q-00890,Q-00889,Q-00887,Q-00888,Q-00911</value>
+    </filters>
+    <label>T-Delphi Select with Market Vision -2007</label>
+</ListView>

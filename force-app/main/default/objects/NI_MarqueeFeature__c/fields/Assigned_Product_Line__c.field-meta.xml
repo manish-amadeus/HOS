@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Assigned_Product_Line__c</fullName>
+    <description>This selection determines which Portfolio and Program the Epic will be created in (area path)</description>
+    <externalId>false</externalId>
+    <inlineHelpText>This selection determines which Portfolio and Program the Epic will be created in (area path)</inlineHelpText>
+    <label>Assigned Product Line</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Central Sales</fullName>
+                <default>false</default>
+                <label>Central Sales</label>
+            </value>
+            <value>
+                <fullName>Daylight</fullName>
+                <default>false</default>
+                <label>Daylight</label>
+            </value>
+            <value>
+                <fullName>Delphi</fullName>
+                <default>false</default>
+                <label>Delphi</label>
+            </value>
+            <value>
+                <fullName>Delphi.fdc R Series</fullName>
+                <default>false</default>
+                <label>Delphi.fdc R Series</label>
+            </value>
+            <value>
+                <fullName>Delphi.fdc Winter Series</fullName>
+                <default>false</default>
+                <label>Delphi.fdc Winter Series</label>
+            </value>
+            <value>
+                <fullName>Delphi.Net</fullName>
+                <default>false</default>
+                <label>Delphi.Net</label>
+            </value>
+            <value>
+                <fullName>Diagrams</fullName>
+                <default>false</default>
+                <label>Diagrams</label>
+            </value>
+            <value>
+                <fullName>Guest Centric Applications</fullName>
+                <default>false</default>
+                <label>Guest Centric Applications</label>
+            </value>
+            <value>
+                <fullName>HSP</fullName>
+                <default>false</default>
+                <label>HSP</label>
+            </value>
+            <value>
+                <fullName>iPlan</fullName>
+                <default>false</default>
+                <label>iPlan</label>
+            </value>
+            <value>
+                <fullName>I-Server</fullName>
+                <default>false</default>
+                <label>I-Server</label>
+            </value>
+            <value>
+                <fullName>MeetingBroker</fullName>
+                <default>false</default>
+                <label>MeetingBroker</label>
+            </value>
+            <value>
+                <fullName>MeetingMatrix</fullName>
+                <default>false</default>
+                <label>MeetingMatrix</label>
+            </value>
+            <value>
+                <fullName>AHWS</fullName>
+                <default>false</default>
+                <label>AHWS</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

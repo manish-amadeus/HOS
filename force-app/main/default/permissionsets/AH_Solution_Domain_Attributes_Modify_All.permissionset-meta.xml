@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PermissionSet xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>NICC-048128
+
+This permission set grants &quot;Modify All&quot; permissions to the AH_Solution_Domain_Attributes__c Object.  This permission set was originally created for Fred Roue</description>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>AH_Solution_Domain_Attributes__c.Active__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <hasActivationRequired>false</hasActivationRequired>
+    <label>AH Solution Domain Attributes - Modify All</label>
+    <license>Salesforce</license>
+    <objectPermissions>
+        <allowCreate>true</allowCreate>
+        <allowDelete>true</allowDelete>
+        <allowEdit>true</allowEdit>
+        <allowRead>true</allowRead>
+        <modifyAllRecords>true</modifyAllRecords>
+        <object>AH_Solution_Domain_Attributes__c</object>
+        <viewAllRecords>true</viewAllRecords>
+    </objectPermissions>
+    <tabSettings>
+        <tab>AH_Solution_Domain_Attributes__c</tab>
+        <visibility>Visible</visibility>
+    </tabSettings>
+</PermissionSet>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Vendor_System_Name__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <description>Lookup to NI Vendor Systems Object</description>
+    <externalId>false</externalId>
+    <label>Vendor System Name</label>
+    <referenceTo>NI_Vendor_Systems__c</referenceTo>
+    <relationshipLabel>Related Integrations</relationshipLabel>
+    <relationshipName>NI_Integrations</relationshipName>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>true</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

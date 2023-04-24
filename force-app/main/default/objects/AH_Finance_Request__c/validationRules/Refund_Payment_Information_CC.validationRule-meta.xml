@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Refund_Payment_Information_CC</fullName>
+    <active>true</active>
+    <description>Certain field is required when selecting a Payment Type</description>
+    <errorConditionFormula>AND (
+RecordType.Name = &quot;Refund Request&quot;,
+ISPICKVAL(Payment_Type__c,&quot;credit card&quot;)
+&amp;&amp;
+or(
+ISBLANK(CC_Transaction_Date__c),
+ISBLANK(CC_Name_on_Card__c))
+)</errorConditionFormula>
+    <errorMessage>Credit card info are required for Credit Card Refund</errorMessage>
+</ValidationRule>

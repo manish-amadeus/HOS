@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>INTGR_Account__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <description>NICC-030216 - Lookup populated by integration code for ease in referencing field values and to create a relationship for a related list on the INTGR_Account__c Object</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Lookup to integration account record details</inlineHelpText>
+    <label>Integration Account</label>
+    <referenceTo>INTGR_Account__c</referenceTo>
+    <relationshipLabel>Integration Cases</relationshipLabel>
+    <relationshipName>Integration_Cases</relationshipName>
+    <required>false</required>
+    <trackFeedHistory>true</trackFeedHistory>
+    <trackHistory>true</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

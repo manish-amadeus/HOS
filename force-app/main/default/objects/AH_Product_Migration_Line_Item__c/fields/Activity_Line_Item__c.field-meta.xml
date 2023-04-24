@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Activity_Line_Item__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <description>NICC-034281</description>
+    <externalId>false</externalId>
+    <label>Activity Line Item</label>
+    <referenceTo>Activity_Line_Item__c</referenceTo>
+    <relationshipLabel>Product Migration Line Items</relationshipLabel>
+    <relationshipName>Product_Migration_Line_Details</relationshipName>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

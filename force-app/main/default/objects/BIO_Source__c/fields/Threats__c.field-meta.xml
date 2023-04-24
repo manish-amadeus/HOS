@@ -1,0 +1,252 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Threats__c</fullName>
+    <businessOwnerUser>ssavage@newmarketinc.com.sbfull</businessOwnerUser>
+    <businessStatus>Active</businessStatus>
+    <description>Risk Register field</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Applicable Threats (source: Corporate Threat Catalog)</inlineHelpText>
+    <label>Threats</label>
+    <required>false</required>
+    <securityClassification>Restricted</securityClassification>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>MultiselectPicklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>T 0.1 Fire</fullName>
+                <default>false</default>
+                <label>T 0.1 Fire</label>
+            </value>
+            <value>
+                <fullName>T 0.2 Unfavorable Climatic Conditions</fullName>
+                <default>false</default>
+                <label>T 0.2 Unfavorable Climatic Conditions</label>
+            </value>
+            <value>
+                <fullName>T 0.3 Water</fullName>
+                <default>false</default>
+                <label>T 0.3 Water</label>
+            </value>
+            <value>
+                <fullName>T 0.4 Pollution, Dust, Corrosion</fullName>
+                <default>false</default>
+                <label>T 0.4 Pollution, Dust, Corrosion</label>
+            </value>
+            <value>
+                <fullName>T 0.5 Natural Disasters</fullName>
+                <default>false</default>
+                <label>T 0.5 Natural Disasters</label>
+            </value>
+            <value>
+                <fullName>T 0.6 Environmental Disasters.</fullName>
+                <default>false</default>
+                <label>T 0.6 Environmental Disasters.</label>
+            </value>
+            <value>
+                <fullName>T 0.7 Major Events in the Environment</fullName>
+                <default>false</default>
+                <label>T 0.7 Major Events in the Environment</label>
+            </value>
+            <value>
+                <fullName>T 0.8 Failure or Disruption of the Power Supply</fullName>
+                <default>false</default>
+                <label>T 0.8 Failure or Disruption of the Power Supply</label>
+            </value>
+            <value>
+                <fullName>T 0.9 Failure or Disruption of Communication  Networks.</fullName>
+                <default>false</default>
+                <label>T 0.9 Failure or Disruption of Communication  Networks.</label>
+            </value>
+            <value>
+                <fullName>T 0.10 Failure or Disruption of Mains Supply</fullName>
+                <default>false</default>
+                <label>T 0.10 Failure or Disruption of Mains Supply</label>
+            </value>
+            <value>
+                <fullName>T 0.11 Failure or Disruption of Service Providers</fullName>
+                <default>false</default>
+                <label>T 0.11 Failure or Disruption of Service Providers</label>
+            </value>
+            <value>
+                <fullName>T 0.12 Interfering Radiation.</fullName>
+                <default>false</default>
+                <label>T 0.12 Interfering Radiation.</label>
+            </value>
+            <value>
+                <fullName>T 0.13 Intercepting Compromising Emissions</fullName>
+                <default>false</default>
+                <label>T 0.13 Intercepting Compromising Emissions</label>
+            </value>
+            <value>
+                <fullName>T 0.14 Interception of Information / Espionage .</fullName>
+                <default>false</default>
+                <label>T 0.14 Interception of Information / Espionage .</label>
+            </value>
+            <value>
+                <fullName>T 0.15 Eavesdropping.</fullName>
+                <default>false</default>
+                <label>T 0.15 Eavesdropping.</label>
+            </value>
+            <value>
+                <fullName>T 0.16 Theft of Devices, Storage Media and Documents.</fullName>
+                <default>false</default>
+                <label>T 0.16 Theft of Devices, Storage Media and Documents.</label>
+            </value>
+            <value>
+                <fullName>T 0.17 Loss of Devices, Storage Media and Documents</fullName>
+                <default>false</default>
+                <label>T 0.17 Loss of Devices, Storage Media and Documents</label>
+            </value>
+            <value>
+                <fullName>T 0.18 Bad Planning or Lack of Adaption</fullName>
+                <default>false</default>
+                <label>T 0.18 Bad Planning or Lack of Adaption</label>
+            </value>
+            <value>
+                <fullName>T 0.19 Disclosure of Sensitive Information</fullName>
+                <default>false</default>
+                <label>T 0.19 Disclosure of Sensitive Information</label>
+            </value>
+            <value>
+                <fullName>T 0.20 Information or Products from an Unreliable Source.</fullName>
+                <default>false</default>
+                <label>T 0.20 Information or Products from an Unreliable Source.</label>
+            </value>
+            <value>
+                <fullName>T 0.21 Manipulation of Hardware or Software.</fullName>
+                <default>false</default>
+                <label>T 0.21 Manipulation of Hardware or Software.</label>
+            </value>
+            <value>
+                <fullName>T 0.22 Manipulation of Information.</fullName>
+                <default>false</default>
+                <label>T 0.22 Manipulation of Information.</label>
+            </value>
+            <value>
+                <fullName>T 0.23 Unauthorized Access to IT Systems</fullName>
+                <default>false</default>
+                <label>T 0.23 Unauthorized Access to IT Systems</label>
+            </value>
+            <value>
+                <fullName>T 0.24 Destruction of Devices or Storage Media</fullName>
+                <default>false</default>
+                <label>T 0.24 Destruction of Devices or Storage Media</label>
+            </value>
+            <value>
+                <fullName>T 0.25 Failure of Devices or Systems.</fullName>
+                <default>false</default>
+                <label>T 0.25 Failure of Devices or Systems.</label>
+            </value>
+            <value>
+                <fullName>T 0.26 Malfunction of Devices or Systems.</fullName>
+                <default>false</default>
+                <label>T 0.26 Malfunction of Devices or Systems.</label>
+            </value>
+            <value>
+                <fullName>T 0.27 Lack of Resources.</fullName>
+                <default>false</default>
+                <label>T 0.27 Lack of Resources.</label>
+            </value>
+            <value>
+                <fullName>T 0.28 Software Vulnerabilities or Errors.</fullName>
+                <default>false</default>
+                <label>T 0.28 Software Vulnerabilities or Errors.</label>
+            </value>
+            <value>
+                <fullName>T 0.29 Violation of Laws or Regulations</fullName>
+                <default>false</default>
+                <label>T 0.29 Violation of Laws or Regulations</label>
+            </value>
+            <value>
+                <fullName>T 0.30 Unauthorized Use or Administration of Devices  and Systems.</fullName>
+                <default>false</default>
+                <label>T 0.30 Unauthorized Use or Administration of Devices  and Systems.</label>
+            </value>
+            <value>
+                <fullName>T 0.31 Incorrect Use or Administration of Devices and  Systems</fullName>
+                <default>false</default>
+                <label>T 0.31 Incorrect Use or Administration of Devices and  Systems</label>
+            </value>
+            <value>
+                <fullName>T 0.32 Abuse of Authorizations</fullName>
+                <default>false</default>
+                <label>T 0.32 Abuse of Authorizations</label>
+            </value>
+            <value>
+                <fullName>T 0.33 Absence of Personnel</fullName>
+                <default>false</default>
+                <label>T 0.33 Absence of Personnel</label>
+            </value>
+            <value>
+                <fullName>T 0.34 Attack</fullName>
+                <default>false</default>
+                <label>T 0.34 Attack</label>
+            </value>
+            <value>
+                <fullName>T 0.35 Coercion, Extortion or Corruption.</fullName>
+                <default>false</default>
+                <label>T 0.35 Coercion, Extortion or Corruption.</label>
+            </value>
+            <value>
+                <fullName>T 0.36 Identity Theft.</fullName>
+                <default>false</default>
+                <label>T 0.36 Identity Theft.</label>
+            </value>
+            <value>
+                <fullName>T 0.37 Reputation of Actions</fullName>
+                <default>false</default>
+                <label>T 0.37 Reputation of Actions</label>
+            </value>
+            <value>
+                <fullName>T 0.38 Abuse of Personal Data.</fullName>
+                <default>false</default>
+                <label>T 0.38 Abuse of Personal Data.</label>
+            </value>
+            <value>
+                <fullName>T 0.39 Malicious Software.</fullName>
+                <default>false</default>
+                <label>T 0.39 Malicious Software.</label>
+            </value>
+            <value>
+                <fullName>T 0.40 Denial of Service.</fullName>
+                <default>false</default>
+                <label>T 0.40 Denial of Service.</label>
+            </value>
+            <value>
+                <fullName>T 0.41 Sabotage</fullName>
+                <default>false</default>
+                <label>T 0.41 Sabotage</label>
+            </value>
+            <value>
+                <fullName>T 0.42 Social Engineering</fullName>
+                <default>false</default>
+                <label>T 0.42 Social Engineering</label>
+            </value>
+            <value>
+                <fullName>T 0.43 Replaying Messages</fullName>
+                <default>false</default>
+                <label>T 0.43 Replaying Messages</label>
+            </value>
+            <value>
+                <fullName>T 0.44 Unauthorized Entry to Premises</fullName>
+                <default>false</default>
+                <label>T 0.44 Unauthorized Entry to Premises</label>
+            </value>
+            <value>
+                <fullName>T 0.45 Data Loss</fullName>
+                <default>false</default>
+                <label>T 0.45 Data Loss</label>
+            </value>
+            <value>
+                <fullName>T 0.46 Loss of Integrity of Sensitive Information</fullName>
+                <default>false</default>
+                <label>T 0.46 Loss of Integrity of Sensitive Information</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+    <visibleLines>4</visibleLines>
+</CustomField>

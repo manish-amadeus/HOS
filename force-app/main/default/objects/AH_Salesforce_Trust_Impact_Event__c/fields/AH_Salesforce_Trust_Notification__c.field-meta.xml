@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>AH_Salesforce_Trust_Notification__c</fullName>
+    <description>NICC-031037</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Lookup to the master notification record.</inlineHelpText>
+    <label>AH Salesforce Trust Notification</label>
+    <referenceTo>AH_Salesforce_Trust_Notification__c</referenceTo>
+    <relationshipLabel>AH Salesforce Trust Impacts/Events</relationshipLabel>
+    <relationshipName>AH_Salesforce_Trust_Impact_Event</relationshipName>
+    <relationshipOrder>0</relationshipOrder>
+    <reparentableMasterDetail>false</reparentableMasterDetail>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>MasterDetail</type>
+    <writeRequiresMasterRead>false</writeRequiresMasterRead>
+</CustomField>

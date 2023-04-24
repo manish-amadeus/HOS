@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Business_Systems_Prioritization_View</fullName>
+    <columns>NAME</columns>
+    <columns>BS_Project_Status__c</columns>
+    <columns>Priority__c</columns>
+    <columns>Organizational_Impact__c</columns>
+    <columns>Priority_Overriden__c</columns>
+    <columns>Corporate_Initiative_Lookup__c</columns>
+    <columns>Sponsor__c</columns>
+    <columns>Estimated_Total_Net_Project_Value__c</columns>
+    <columns>Legal_Compliance__c</columns>
+    <columns>Required_for_Security_Compliance__c</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>RECORDTYPE</field>
+        <operation>equals</operation>
+        <value>NI_Project_Backlog__c.Business_Systems</value>
+    </filters>
+    <filters>
+        <field>Request_Status__c</field>
+        <operation>notEqual</operation>
+        <value>Completed,Rejected,Canceled</value>
+    </filters>
+    <filters>
+        <field>NAME</field>
+        <operation>notContain</operation>
+        <value>Master</value>
+    </filters>
+    <filters>
+        <field>Priority__c</field>
+        <operation>greaterOrEqual</operation>
+        <value>1</value>
+    </filters>
+    <label>Business Systems Record Forecast View</label>
+</ListView>

@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Credit_Note_Reason__c</fullName>
+    <businessOwnerGroup>DEPT_Finance</businessOwnerGroup>
+    <businessStatus>Active</businessStatus>
+    <description>Updated per NICC-037379.  Field Label changed from &quot;Credit Note Reason&quot; to &quot;Reason&quot;
+Updates to values, NICC-042151.
+NICC-058517</description>
+    <externalId>false</externalId>
+    <inlineHelpText>The business reason for the Finance Request</inlineHelpText>
+    <label>Reason</label>
+    <required>false</required>
+    <securityClassification>Internal</securityClassification>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>true</sorted>
+            <value>
+                <fullName>Bad Debt</fullName>
+                <default>false</default>
+                <label>Bad Debt</label>
+            </value>
+            <value>
+                <fullName>Cancellation</fullName>
+                <default>false</default>
+                <label>Cancellation</label>
+            </value>
+            <value>
+                <fullName>Cancellation - Full Invoice</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Cancellation - Full Invoice</label>
+            </value>
+            <value>
+                <fullName>Cancellation - Partial Invoice</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Cancellation - Partial Invoice</label>
+            </value>
+            <value>
+                <fullName>Concession</fullName>
+                <default>false</default>
+                <label>Concession</label>
+            </value>
+            <value>
+                <fullName>Contract Change</fullName>
+                <default>false</default>
+                <label>Contract Change</label>
+            </value>
+            <value>
+                <fullName>Customer Service - Goodwill</fullName>
+                <default>false</default>
+                <label>Customer Service - Goodwill</label>
+            </value>
+            <value>
+                <fullName>Duplicate Payment</fullName>
+                <default>false</default>
+                <label>Duplicate Payment</label>
+            </value>
+            <value>
+                <fullName>Historical Cancellation</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Historical Cancellation</label>
+            </value>
+            <value>
+                <fullName>Historical Cancellation – Full Invoice</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Historical Cancellation – Full Invoice</label>
+            </value>
+            <value>
+                <fullName>Historical Cancellation – Partial Invoice</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Historical Cancellation – Partial Invoice</label>
+            </value>
+            <value>
+                <fullName>Invoice Correction</fullName>
+                <default>false</default>
+                <label>Invoice Correction</label>
+            </value>
+            <value>
+                <fullName>Invoice Revision</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Invoice Revision</label>
+            </value>
+            <value>
+                <fullName>Migration</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Migration</label>
+            </value>
+            <value>
+                <fullName>Open Credit</fullName>
+                <default>false</default>
+                <label>Open Credit</label>
+            </value>
+            <value>
+                <fullName>Overpayment</fullName>
+                <default>false</default>
+                <label>Overpayment</label>
+            </value>
+            <value>
+                <fullName>RVP Discretionary Credit</fullName>
+                <default>false</default>
+                <label>RVP Discretionary Credit</label>
+            </value>
+            <value>
+                <fullName>SLTC Cleanup</fullName>
+                <default>false</default>
+                <label>SLTC Cleanup</label>
+            </value>
+            <value>
+                <fullName>User Reduction</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>User Reduction</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

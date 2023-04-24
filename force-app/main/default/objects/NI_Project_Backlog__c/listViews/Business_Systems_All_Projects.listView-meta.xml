@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Business_Systems_All_Projects</fullName>
+    <columns>NAME</columns>
+    <columns>Request_Status__c</columns>
+    <columns>Sponsor__c</columns>
+    <columns>Corporate_Initiative__c</columns>
+    <columns>CREATED_DATE</columns>
+    <columns>CREATEDBY_USER</columns>
+    <columns>Requested_Completion_Date__c</columns>
+    <columns>Priority__c</columns>
+    <columns>Complexity__c</columns>
+    <columns>Sprint__c</columns>
+    <filterScope>Mine</filterScope>
+    <filters>
+        <field>RECORDTYPE</field>
+        <operation>equals</operation>
+        <value>NI_Project_Backlog__c.Business_Systems,NI_Project_Backlog__c.Development_Opportunity,NI_Project_Backlog__c.Development_Request,NI_Project_Backlog__c.Finance_Project,NI_Project_Backlog__c.IT_Project,NI_Project_Backlog__c.Commercial_Operation_Projects,NI_Project_Backlog__c.Marketing_Project,NI_Project_Backlog__c.Security_Project</value>
+    </filters>
+    <label>Business Systems - All</label>
+    <sharedTo>
+        <group>Business_Systems_Internal</group>
+    </sharedTo>
+</ListView>

@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomApplication xmlns="http://soap.sforce.com/2006/04/metadata">
+    <actionOverrides>
+        <actionName>Tab</actionName>
+        <content>AH_UDC_HomePageDefault1</content>
+        <formFactor>Large</formFactor>
+        <skipRecordTypeSelect>false</skipRecordTypeSelect>
+        <type>Flexipage</type>
+        <pageOrSobjectType>standard-home</pageOrSobjectType>
+    </actionOverrides>
+    <description>This is the app for Unified Data Collection Tabs</description>
+    <formFactors>Large</formFactors>
+    <isNavAutoTempTabsDisabled>false</isNavAutoTempTabsDisabled>
+    <isNavPersonalizationDisabled>false</isNavPersonalizationDisabled>
+    <isNavTabPersistenceDisabled>false</isNavTabPersistenceDisabled>
+    <label>Unified Data Collection</label>
+    <navType>Standard</navType>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>AH_UDC_NI_Documentation_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>NI_Documentation__c</pageOrSobjectType>
+        <recordType>NI_Documentation__c.AH_UDC_Workbook</recordType>
+        <type>Flexipage</type>
+        <profile>AH Sales - Lightning</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>AH_UDC_NI_Documentation_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>NI_Documentation__c</pageOrSobjectType>
+        <recordType>NI_Documentation__c.AH_UDC_Workbook</recordType>
+        <type>Flexipage</type>
+        <profile>AH Support CSR - Lightning</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>AH_UDC_Workbook_Admin_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>AH_UDC_Workbook__c</pageOrSobjectType>
+        <recordType>AH_UDC_Workbook__c.AH_UDC_Workbook</recordType>
+        <type>Flexipage</type>
+        <profile>AH PSA T&amp;E - SF - Lightning</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>AH_UDC_Workbook_Admin_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>AH_UDC_Workbook__c</pageOrSobjectType>
+        <recordType>AH_UDC_Workbook__c.AH_UDC_Workbook</recordType>
+        <type>Flexipage</type>
+        <profile>AH PSA Project Management - Lightning</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>AH_UDC_Workbook_Admin_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>AH_UDC_Workbook__c</pageOrSobjectType>
+        <recordType>AH_UDC_Workbook__c.AH_UDC_Workbook</recordType>
+        <type>Flexipage</type>
+        <profile>AH PSA Management - Lightning</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>AH_UDC_NI_Documentation_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>NI_Documentation__c</pageOrSobjectType>
+        <recordType>NI_Documentation__c.AH_UDC_Workbook</recordType>
+        <type>Flexipage</type>
+        <profile>AH Support Managers - Lightning</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>AH_UDC_Workbook_Admin_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>AH_UDC_Workbook__c</pageOrSobjectType>
+        <recordType>AH_UDC_Workbook__c.AH_UDC_Workbook</recordType>
+        <type>Flexipage</type>
+        <profile>NI Product Management</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>AH_UDC_NI_Documentation_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>NI_Documentation__c</pageOrSobjectType>
+        <recordType>NI_Documentation__c.AH_UDC_Workbook</recordType>
+        <type>Flexipage</type>
+        <profile>AH Order Management - Lightning</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>AH_UDC_NI_Documentation_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>NI_Documentation__c</pageOrSobjectType>
+        <recordType>NI_Documentation__c.AH_UDC_Workbook</recordType>
+        <type>Flexipage</type>
+        <profile>NI Development</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>AH_UDC_NI_Documentation_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>NI_Documentation__c</pageOrSobjectType>
+        <recordType>NI_Documentation__c.AH_UDC_Workbook</recordType>
+        <type>Flexipage</type>
+        <profile>NI Support CSR</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>AH_UDC_NI_Documentation_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>NI_Documentation__c</pageOrSobjectType>
+        <recordType>NI_Documentation__c.AH_UDC_Workbook</recordType>
+        <type>Flexipage</type>
+        <profile>PMS Production Support &amp; Systems</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>AH_UDC_NI_Documentation_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>NI_Documentation__c</pageOrSobjectType>
+        <recordType>NI_Documentation__c.AH_UDC_Workbook</recordType>
+        <type>Flexipage</type>
+        <profile>NI Marketing</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>AH_UDC_NI_Documentation_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>NI_Documentation__c</pageOrSobjectType>
+        <recordType>NI_Documentation__c.AH_UDC_Workbook</recordType>
+        <type>Flexipage</type>
+        <profile>AH Operations - Lightning</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>AH_UDC_NI_Documentation_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>NI_Documentation__c</pageOrSobjectType>
+        <recordType>NI_Documentation__c.AH_UDC_Workbook</recordType>
+        <type>Flexipage</type>
+        <profile>AH Business Systems</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>AH_UDC_NI_Documentation_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>NI_Documentation__c</pageOrSobjectType>
+        <recordType>NI_Documentation__c.AH_UDC_Workbook</recordType>
+        <type>Flexipage</type>
+        <profile>NI DC Infrastructure</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>AH_UDC_NI_Documentation_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>NI_Documentation__c</pageOrSobjectType>
+        <recordType>NI_Documentation__c.AH_UDC_Workbook</recordType>
+        <type>Flexipage</type>
+        <profile>AH Corporate Business Systems - Platform</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>AH_UDC_NI_Documentation_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>NI_Documentation__c</pageOrSobjectType>
+        <recordType>NI_Documentation__c.AH_UDC_Workbook</recordType>
+        <type>Flexipage</type>
+        <profile>NI Subscription Management</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>AH_UDC_NI_Documentation_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>NI_Documentation__c</pageOrSobjectType>
+        <recordType>NI_Documentation__c.AH_UDC_Workbook</recordType>
+        <type>Flexipage</type>
+        <profile>NI DC Operations</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>AH_UDC_Workbook_Admin_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>AH_UDC_Workbook__c</pageOrSobjectType>
+        <recordType>AH_UDC_Workbook__c.AH_UDC_Workbook</recordType>
+        <type>Flexipage</type>
+        <profile>NI PSA Administrator</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>AH_UDC_Workbook_Admin_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>AH_UDC_Workbook__c</pageOrSobjectType>
+        <recordType>AH_UDC_Workbook__c.AH_UDC_Workbook</recordType>
+        <type>Flexipage</type>
+        <profile>Admin</profile>
+    </profileActionOverrides>
+    <tabs>standard-home</tabs>
+    <tabs>AH_UDC_ActionSummary</tabs>
+    <tabs>standard-Account</tabs>
+    <tabs>standard-Contact</tabs>
+    <tabs>NI_Documentation__c</tabs>
+    <tabs>pse__Proj__c</tabs>
+    <tabs>AH_UDC_Workbook__c</tabs>
+    <tabs>AH_UDC_Form__c</tabs>
+    <tabs>AH_UDC_PropertyAccount__c</tabs>
+    <tabs>standard-Feed</tabs>
+    <tabs>AH_UDC_ConfigurationSettings</tabs>
+    <tabs>AH_UDC_Log__c</tabs>
+    <uiType>Lightning</uiType>
+</CustomApplication>

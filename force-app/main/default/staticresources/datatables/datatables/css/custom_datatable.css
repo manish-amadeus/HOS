@@ -1,0 +1,321 @@
+/*
+ * Colour dictionary:
+ *
+ * Table control elements:   #719ba7
+ * Header cells:             #66A9BD
+ * Body header cells:        #91c5d4
+ * Body content cells:       #d5eaf0
+ * Body content cells (alt): #bcd9e1
+ * Footer header:            #b0cc7f
+ * Footer content:           #d7e1c5
+ */
+
+
+/*
+ * Page setup styles
+ */
+body {
+	font: 80%/1.45em Arial, Verdana, Helvetica, sans-serif;
+	margin: 0;
+	padding: 0;
+	color: #111;
+	background-color: #fff;
+}
+
+#container {
+	margin: 0 auto;
+	width: 960px
+}
+
+h1 {
+	text-align: center;
+	font-size: 1.2em;
+	font-weight: bold;
+	margin: 1em 0;
+}
+
+
+/*
+ * DataTables framework
+ */
+div.dataTables_wrapper {
+	/*background-color: #dedede;*/
+}
+
+div.dataTables_length {
+	float: left;
+}
+
+div.dataTables_filter {
+	float: right;
+}
+
+div.dataTables_info {
+	padding: 9px 6px 6px 6px;
+	float: left;
+}
+
+div.dataTables_paginate {
+	float: right;
+}
+
+div.dataTables_length,
+div.dataTables_filter,
+div.dataTables_paginate {
+	padding: 6px;
+}
+
+/* Self clearing - http://www.webtoolkit.info/css-clearfix.html */
+.dataTables_wrapper:after {
+	content: ".";
+	display: block;
+	clear: both;
+	visibility: hidden;
+	line-height: 0;
+	height: 0;
+}
+ 
+html[xmlns] .dataTables_wrapper {
+	display: block;
+}
+ 
+* html .dataTables_wrapper {
+	height: 1%;
+}
+
+
+/*
+ * Table styles
+ */
+table.pretty {
+	width: 100%;
+	clear: both;
+}
+
+table.pretty td,
+table.pretty th {
+	padding: 5px;
+	/*border: 1px solid #fff !important;*/
+}
+
+/* Header cells */
+table.pretty thead th {
+	text-align: center;
+	background: rgb(219, 239, 246) !important;
+	/*border-top: 1px solid #DAD3D3 !important;
+    border-right: 1px solid #DAD3D3 !important;
+	*/
+}
+
+/* Body cells */
+table.pretty tbody th {
+	text-align: left;
+	background: #91c5d4 !important;
+}
+	
+table.pretty tbody td {
+	text-align: left;
+	background: #fff !important;
+}
+		
+table.pretty tbody tr.odd td { 
+	background: #fff !important;
+}
+
+/* Footer cells */	
+table.pretty tfoot th {
+	background: #b0cc7f !important;
+	text-align: left;
+}
+	
+table.pretty tfoot td {
+	background: #d7e1c5 !important;
+	text-align: center;
+	font-weight: bold;
+}
+
+table.dataTable{
+	border: 1px solid #DAD3D3 !important;
+}
+
+.dataTables_wrapper.no-footer .dataTables_scrollBody{
+	border-bottom: 1px solid #DAD3D3 !important;
+}
+
+table.dataTable th.dt-center, table.dataTable td.dt-center, table.dataTable td.dataTables_empty{
+	text-align: left !important;
+}
+
+.headerColor{
+	background-color: #EADFCE !important;
+}
+#toggle{
+  display: none;
+  visibility: hidden;
+}
+#showhide{
+  display: block;
+  padding: 0.5em;
+  text-align: center;
+  color: #666;
+  float:left;
+}
+#showhide:hover {
+  color: #000;
+}
+#showhide::before {
+  font-family: Consolas, monaco, monospace;
+  font-weight: bold;
+  font-size: 15px;
+  /*content: "+";*/
+  vertical-align: text-top;
+  display: inline-block;
+  width: 20px;
+  height: 100%;
+  margin-right: 3px;
+  background: radial-gradient(ellipse at center, #CCC 50%, transparent 50%);
+}
+#expand {
+  height: 0px;
+  overflow: hidden;
+  transition: height 2s;
+}
+section {
+  padding: 10px 20px;
+}
+#toggle:checked ~ #expand {
+  height: 0px;
+}
+#toggle:checked ~ label::before {
+  /*content: "-";*/
+}
+
+#toggle1{
+  display: none;
+  visibility: hidden;
+}
+
+#showhide1{
+  display: block;
+  padding: 0.5em;
+  text-align: center;
+  color: #666;
+  float:left;
+}
+#showhide1:hover{
+  color: #000;
+}
+#showhide1::before{
+  font-family: Consolas, monaco, monospace;
+  font-weight: bold;
+  font-size: 15px;
+  /*content: "+";*/
+  vertical-align: text-top;
+  display: inline-block;
+  width: 20px;
+  height: 100%;
+  margin-right: 3px;
+  background: radial-gradient(ellipse at center, #CCC 50%, transparent 50%);
+}
+#expand1{
+  height: 0px;
+  overflow: hidden;
+  transition: height 2s;
+}
+
+#toggle2{
+  display: none;
+  visibility: hidden;
+}
+
+#showhide2{
+  display: block;
+  padding: 0.5em;
+  text-align: center;
+  color: #666;
+  float:left;
+}
+#showhide2:hover{
+  color: #000;
+}
+#showhide2::before{
+  font-family: Consolas, monaco, monospace;
+  font-weight: bold;
+  font-size: 15px;
+  /*content: "+";*/
+  vertical-align: text-top;
+  display: inline-block;
+  width: 20px;
+  height: 100%;
+  margin-right: 3px;
+  background: radial-gradient(ellipse at center, #CCC 50%, transparent 50%);
+}
+#expand2{
+  height: 0px;
+  overflow: hidden;
+  transition: height 2s;
+}
+
+#toggle3{
+  display: none;
+  visibility: hidden;
+}
+
+#showhide3{
+  display: block;
+  padding: 0.5em;
+  text-align: center;
+  color: #666;
+  float:left;
+}
+#showhide3:hover{
+  color: #000;
+}
+#showhide3::before{
+  font-family: Consolas, monaco, monospace;
+  font-weight: bold;
+  font-size: 15px;
+  /*content: "+";*/
+  vertical-align: text-top;
+  display: inline-block;
+  width: 20px;
+  height: 100%;
+  margin-right: 3px;
+  background: radial-gradient(ellipse at center, #CCC 50%, transparent 50%);
+}
+#expand3{
+  height: 0px;
+  overflow: hidden;
+  transition: height 2s;
+}
+
+.loader {
+	position: fixed;
+	left: 0px;
+	top: 0px;
+	width: 100%;
+	height: 100%;
+	z-index: 9999;
+	opacity:0.6;
+	/*background: url('http://upload.wikimedia.org/wikipedia/commons/e/ed/Cursor_Windows_Vista.gif') 50% 50% no-repeat rgb(249,249,249); */
+	background: url('../images/Cursor_Windows_Vista.gif') 50% 50% no-repeat rgb(249,249,249);
+}
+
+td.details-control {
+	/*background: url('http://legacy.datatables.net/release-datatables/examples/examples_support/details_open.png') no-repeat center center;*/
+	background: url('../images/details_open.png') no-repeat center center;
+	cursor: pointer;
+}
+tr.details td.details-control {
+	/*background: url('https://datatables.net/examples/resources/details_close.png') no-repeat center center;*/
+	background: url('../images/details_close.png') no-repeat center center;
+}
+.openImg{
+	/*background: url('http://legacy.datatables.net/release-datatables/examples/examples_support/details_open.png') no-repeat center center;*/
+	background: url('../images/details_open.png') no-repeat center center;
+}
+
+.closeImg{
+	/*background: url('https://datatables.net/examples/resources/details_close.png') no-repeat center center;*/
+	background: url('../images/details_close.png') no-repeat center center;
+}

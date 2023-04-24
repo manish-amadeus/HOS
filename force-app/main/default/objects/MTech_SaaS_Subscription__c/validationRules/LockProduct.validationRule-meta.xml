@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>LockProduct</fullName>
+    <active>true</active>
+    <description>Product cannot be changed. Check the Is_Deleted checkbox and create a new subscription.</description>
+    <errorConditionFormula>AND(NOT ISNEW(), PRIORVALUE(Product__c) &lt;&gt; Product__c)</errorConditionFormula>
+    <errorMessage>Product cannot be changed. Check the Is_Deleted checkbox and create a new subscription.</errorMessage>
+</ValidationRule>

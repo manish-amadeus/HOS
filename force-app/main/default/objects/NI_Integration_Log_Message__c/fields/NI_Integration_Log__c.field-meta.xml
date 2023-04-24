@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>NI_Integration_Log__c</fullName>
+    <description>Integration Log ID</description>
+    <externalId>false</externalId>
+    <label>NI Integration Log</label>
+    <referenceTo>NI_Integration_Log__c</referenceTo>
+    <relationshipLabel>NI Integration Log Messages</relationshipLabel>
+    <relationshipName>NI_Integration_Log_Messages</relationshipName>
+    <relationshipOrder>0</relationshipOrder>
+    <reparentableMasterDetail>false</reparentableMasterDetail>
+    <trackTrending>false</trackTrending>
+    <type>MasterDetail</type>
+    <writeRequiresMasterRead>false</writeRequiresMasterRead>
+</CustomField>

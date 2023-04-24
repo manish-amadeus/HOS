@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Add_On_c__c</fullName>
+    <externalDeveloperName>Add_On__c</externalDeveloperName>
+    <externalId>false</externalId>
+    <isFilteringDisabled>false</isFilteringDisabled>
+    <isNameField>false</isNameField>
+    <isSortingDisabled>false</isSortingDisabled>
+    <label>Add On</label>
+    <readOnlyProxy>true</readOnlyProxy>
+    <required>false</required>
+    <type>MultiselectPicklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Carousel</fullName>
+                <default>false</default>
+                <label>Carousel</label>
+            </value>
+            <value>
+                <fullName>Star Rating</fullName>
+                <default>false</default>
+                <label>Star Rating</label>
+            </value>
+            <value>
+                <fullName>Weather Widget</fullName>
+                <default>false</default>
+                <label>Weather Widget</label>
+            </value>
+            <value>
+                <fullName>Parallax</fullName>
+                <default>false</default>
+                <label>Parallax</label>
+            </value>
+            <value>
+                <fullName>Interactive Banners</fullName>
+                <default>false</default>
+                <label>Interactive Banners</label>
+            </value>
+            <value>
+                <fullName>Booking Masque Integration</fullName>
+                <default>false</default>
+                <label>Booking Masque Integration</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+    <visibleLines>4</visibleLines>
+</CustomField>

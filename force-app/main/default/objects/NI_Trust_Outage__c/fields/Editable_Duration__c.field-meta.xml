@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Editable_Duration__c</fullName>
+    <description>NICC-019102</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Incident End Time - Incident Start Time (in minutes). This field is populated by a workflow rule only if it is blank, the End Date and End Time GMT fields have been populated, and the status is not Resolved.</inlineHelpText>
+    <label>Total Duration (Editable)</label>
+    <precision>10</precision>
+    <required>false</required>
+    <scale>0</scale>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Number</type>
+    <unique>false</unique>
+</CustomField>

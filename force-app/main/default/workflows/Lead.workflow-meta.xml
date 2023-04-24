@@ -1,0 +1,260 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Workflow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <alerts>
+        <fullName>CarlsonMBPropertyChange</fullName>
+        <ccEmails>hospitality.webformprocessing@amadeus.com</ccEmails>
+        <description>Carlson MB Property Change</description>
+        <protected>false</protected>
+        <recipients>
+            <recipient>Fulfillment</recipient>
+            <type>role</type>
+        </recipients>
+        <recipients>
+            <recipient>sjunkins@newmarketinc.com</recipient>
+            <type>user</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>Support_Email_Templates/New_Carlson_Property_MB_Change</template>
+    </alerts>
+    <alerts>
+        <fullName>Email_to_Lead_Owner</fullName>
+        <description>Email to Lead Owner</description>
+        <protected>false</protected>
+        <recipients>
+            <type>owner</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>SalesMarketing/LeadsNewassignmentnotificationSAMPLE</template>
+    </alerts>
+    <alerts>
+        <fullName>Email_to_Submitter</fullName>
+        <description>Email to Submitter</description>
+        <protected>false</protected>
+        <recipients>
+            <field>Email</field>
+            <type>email</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>SalesMarketing/HTML_Web_to_Lead_Response_2013</template>
+    </alerts>
+    <alerts>
+        <fullName>Hilton_MB_Announcement</fullName>
+        <ccEmails>Hospitality.WebFormProcessing@Amadeus.com</ccEmails>
+        <description>Hilton MB Announcement</description>
+        <protected>false</protected>
+        <recipients>
+            <recipient>Fulfillment</recipient>
+            <type>role</type>
+        </recipients>
+        <recipients>
+            <recipient>sjunkins@newmarketinc.com</recipient>
+            <type>user</type>
+        </recipients>
+        <senderType>DefaultWorkflowUser</senderType>
+        <template>unfiled$public/New_Hilton_MB_Property</template>
+    </alerts>
+    <alerts>
+        <fullName>IHGMBAnnouncement</fullName>
+        <ccEmails>hospitality.webformprocessing@amadeus.com</ccEmails>
+        <description>IHG MB Announcement</description>
+        <protected>false</protected>
+        <recipients>
+            <recipient>Fulfillment</recipient>
+            <type>role</type>
+        </recipients>
+        <recipients>
+            <recipient>sjunkins@newmarketinc.com</recipient>
+            <type>user</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>unfiled$public/New_IHG_Property</template>
+    </alerts>
+    <alerts>
+        <fullName>Langham_MB_Announcement</fullName>
+        <ccEmails>hospitality.webformprocessing@amadeus.com</ccEmails>
+        <description>Langham MB Announcement</description>
+        <protected>false</protected>
+        <recipients>
+            <recipient>Fulfillment</recipient>
+            <type>role</type>
+        </recipients>
+        <recipients>
+            <recipient>sjunkins@newmarketinc.com</recipient>
+            <type>user</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>unfiled$public/New_Langham_Property</template>
+    </alerts>
+    <alerts>
+        <fullName>Marriott_UK_MB_Open_Props</fullName>
+        <description>Marriott UK MB Open Props</description>
+        <protected>false</protected>
+        <recipients>
+            <recipient>Fulfillment</recipient>
+            <type>role</type>
+        </recipients>
+        <recipients>
+            <recipient>sjunkins@newmarketinc.com</recipient>
+            <type>user</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>unfiled$public/New_Marriott_UK_Property</template>
+    </alerts>
+    <alerts>
+        <fullName>Marriott_UK_MB_Open_Props_2</fullName>
+        <ccEmails>hospitality.webformprocessing@amadeus.com</ccEmails>
+        <description>Marriott UK MB Open Props #2</description>
+        <protected>false</protected>
+        <senderType>CurrentUser</senderType>
+        <template>unfiled$public/New_Marriott_UK_Property</template>
+    </alerts>
+    <alerts>
+        <fullName>New_MOHG_MB_Property</fullName>
+        <ccEmails>hospitality.meetingbrokerchannelactivation@amadeus.com</ccEmails>
+        <description>New MOHG MB Property</description>
+        <protected>false</protected>
+        <recipients>
+            <recipient>aboyle@newmarketinc.com</recipient>
+            <type>user</type>
+        </recipients>
+        <recipients>
+            <recipient>sjunkins@newmarketinc.com</recipient>
+            <type>user</type>
+        </recipients>
+        <senderType>DefaultWorkflowUser</senderType>
+        <template>SFDC_Click_Thru/New_MOHG_Property</template>
+    </alerts>
+    <alerts>
+        <fullName>StarwoodMBAnnouncement</fullName>
+        <ccEmails>hospitality.webformprocessing@amadeus.com</ccEmails>
+        <description>Starwood MB Announcement</description>
+        <protected>false</protected>
+        <recipients>
+            <recipient>Fulfillment</recipient>
+            <type>role</type>
+        </recipients>
+        <recipients>
+            <recipient>sjunkins@newmarketinc.com</recipient>
+            <type>user</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>unfiled$public/New_Starwood_Property</template>
+    </alerts>
+    <rules>
+        <fullName>Carlson MB Lead Announcements</fullName>
+        <actions>
+            <name>CarlsonMBPropertyChange</name>
+            <type>Alert</type>
+        </actions>
+        <active>true</active>
+        <criteriaItems>
+            <field>Campaign.Name</field>
+            <operation>equals</operation>
+            <value>Carlson MB Open Props</value>
+        </criteriaItems>
+        <triggerType>onCreateOrTriggeringUpdate</triggerType>
+    </rules>
+    <rules>
+        <fullName>Hilton MB Lead Announcements</fullName>
+        <actions>
+            <name>Hilton_MB_Announcement</name>
+            <type>Alert</type>
+        </actions>
+        <active>true</active>
+        <criteriaItems>
+            <field>Campaign.Name</field>
+            <operation>equals</operation>
+            <value>Hilton MB Open Props</value>
+        </criteriaItems>
+        <triggerType>onCreateOrTriggeringUpdate</triggerType>
+    </rules>
+    <rules>
+        <fullName>IHG MB Lead Announcements</fullName>
+        <actions>
+            <name>IHGMBAnnouncement</name>
+            <type>Alert</type>
+        </actions>
+        <active>true</active>
+        <criteriaItems>
+            <field>Campaign.Name</field>
+            <operation>equals</operation>
+            <value>IHG MB Open Props</value>
+        </criteriaItems>
+        <triggerType>onCreateOrTriggeringUpdate</triggerType>
+    </rules>
+    <rules>
+        <fullName>Langham MB Lead Announcements</fullName>
+        <actions>
+            <name>Langham_MB_Announcement</name>
+            <type>Alert</type>
+        </actions>
+        <active>true</active>
+        <criteriaItems>
+            <field>Campaign.Name</field>
+            <operation>equals</operation>
+            <value>Langham MB Open Props</value>
+        </criteriaItems>
+        <triggerType>onCreateOrTriggeringUpdate</triggerType>
+    </rules>
+    <rules>
+        <fullName>MOHG MB Lead Announcements</fullName>
+        <actions>
+            <name>New_MOHG_MB_Property</name>
+            <type>Alert</type>
+        </actions>
+        <active>true</active>
+        <criteriaItems>
+            <field>Campaign.Name</field>
+            <operation>equals</operation>
+            <value>MOHG MB Open Props</value>
+        </criteriaItems>
+        <triggerType>onCreateOrTriggeringUpdate</triggerType>
+    </rules>
+    <rules>
+        <fullName>Marriott UK MB Lead Announcements</fullName>
+        <actions>
+            <name>Marriott_UK_MB_Open_Props</name>
+            <type>Alert</type>
+        </actions>
+        <actions>
+            <name>Marriott_UK_MB_Open_Props_2</name>
+            <type>Alert</type>
+        </actions>
+        <active>true</active>
+        <criteriaItems>
+            <field>Campaign.Name</field>
+            <operation>equals</operation>
+            <value>Marriott UK MB Open Props</value>
+        </criteriaItems>
+        <triggerType>onCreateOrTriggeringUpdate</triggerType>
+    </rules>
+    <rules>
+        <fullName>Response to Lead Submittion - New Site%2Ecom Workaround</fullName>
+        <actions>
+            <name>Email_to_Lead_Owner</name>
+            <type>Alert</type>
+        </actions>
+        <actions>
+            <name>Email_to_Submitter</name>
+            <type>Alert</type>
+        </actions>
+        <active>true</active>
+        <description>Lead is not part of a campaign - Email to Submitter &amp; Owner</description>
+        <formula>and(ISPICKVAL( LeadSource , &quot;Web Site&quot;),  ISBLANK(Campaign.Name ))</formula>
+        <triggerType>onCreateOnly</triggerType>
+    </rules>
+    <rules>
+        <fullName>Starwood MB Lead Announcements</fullName>
+        <actions>
+            <name>StarwoodMBAnnouncement</name>
+            <type>Alert</type>
+        </actions>
+        <active>true</active>
+        <criteriaItems>
+            <field>Campaign.Name</field>
+            <operation>equals</operation>
+            <value>Starwood MB Open Props</value>
+        </criteriaItems>
+        <triggerType>onCreateOrTriggeringUpdate</triggerType>
+    </rules>
+</Workflow>

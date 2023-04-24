@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PermissionSet xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>NICC-059038
+Grants edit access to the &quot;Priority Overridden&quot;,&quot;Priority Override Reason&quot; &amp; &quot;Priority&quot; fields on the AH Project Backlog Object.
+
+Originally created for Philippe Payard</description>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>NI_Project_Backlog__c.Priority_Overide_Reason__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>NI_Project_Backlog__c.Priority_Overriden__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>NI_Project_Backlog__c.Priority__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <hasActivationRequired>false</hasActivationRequired>
+    <label>AH Project Backlog - Edit Priority Override Fields - Platform</label>
+    <license>Salesforce Platform</license>
+</PermissionSet>

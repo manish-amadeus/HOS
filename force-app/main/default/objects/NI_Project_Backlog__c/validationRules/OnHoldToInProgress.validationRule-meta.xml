@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>OnHoldToInProgress</fullName>
+    <active>true</active>
+    <description>NICC-056815
+Users are not allowed to change the Status of Internal Projects from On Hold to any Status other than &quot;Canceled&quot; or &quot;Pending Scheduling&quot;</description>
+    <errorConditionFormula>AND(
+RecordType.DeveloperName = &quot;Commercial_Operation_Projects&quot;,
+NOT( ISNEW() ),
+Approved__c = TRUE,
+ISCHANGED(Request_Status__c), 
+ISPICKVAL(PRIORVALUE(Request_Status__c),&quot;On Hold&quot;),
+NOT(OR( ISPICKVAL(Request_Status__c, &quot;Canceled&quot;),
+ISPICKVAL(Request_Status__c, &quot;Pending Scheduling&quot;))), 
+$Profile.Name &lt;&gt; &quot;System Administrator&quot;,
+$Permission.Edit_AH_Project_Backlog_Internal_Projects = FALSE
+)</errorConditionFormula>
+    <errorDisplayField>Request_Status__c</errorDisplayField>
+    <errorMessage>That Status change is not allowed. The only allowed Status changes are &quot;Canceled&quot; or &quot;Pending Scheduling&quot;. Please contact the Process Improvement team if you need more assistance.</errorMessage>
+</ValidationRule>

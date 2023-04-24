@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>Partially Delivered</label>
+    <protected>false</protected>
+    <values>
+        <field>Description__c</field>
+        <value xsi:type="xsd:string">Part(s) of a Change Request has been delivered and is generally available in the current release, however part(s) of the Change Request remains undelivered. A Change Request is typically “Partially Delivered” if it has been delivered in some version(s) of the product but not in all versions. The Change Request will be updated if the undelivered parts are delivered.</value>
+    </values>
+    <values>
+        <field>Status__c</field>
+        <value xsi:type="xsd:string">Partially Delivered</value>
+    </values>
+</CustomMetadata>

@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Request_Type__c</fullName>
+    <businessOwnerUser>lertle@newmarketinc.com.sbfull</businessOwnerUser>
+    <businessStatus>Active</businessStatus>
+    <description>The values denoted are the type of request associated with the users request details.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Request type relates to the solution that will be associated to users request details.</inlineHelpText>
+    <label>Request Type</label>
+    <required>false</required>
+    <securityClassification>Internal</securityClassification>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>true</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>true</sorted>
+            <value>
+                <fullName>Add User</fullName>
+                <default>false</default>
+                <label>Add User</label>
+            </value>
+            <value>
+                <fullName>Approval Process</fullName>
+                <default>false</default>
+                <label>Approval Process</label>
+            </value>
+            <value>
+                <fullName>Community Issue/Request</fullName>
+                <default>false</default>
+                <label>Community Issue/Request</label>
+            </value>
+            <value>
+                <fullName>Dataload</fullName>
+                <default>false</default>
+                <label>Dataload</label>
+            </value>
+            <value>
+                <fullName>Duplicate</fullName>
+                <default>false</default>
+                <label>Duplicate</label>
+            </value>
+            <value>
+                <fullName>Einstein Analytics</fullName>
+                <default>false</default>
+                <label>Einstein Analytics</label>
+            </value>
+            <value>
+                <fullName>Email Notification</fullName>
+                <default>false</default>
+                <label>Email Notification</label>
+            </value>
+            <value>
+                <fullName>Enhancement - Minor</fullName>
+                <default>false</default>
+                <label>Enhancement - Minor</label>
+            </value>
+            <value>
+                <fullName>Enhancement - Project</fullName>
+                <default>false</default>
+                <label>Enhancement - Project</label>
+            </value>
+            <value>
+                <fullName>Exchange Rates</fullName>
+                <default>false</default>
+                <label>Exchange Rates</label>
+            </value>
+            <value>
+                <fullName>Field (New, field visibility, tracking)</fullName>
+                <default>false</default>
+                <label>Field (New, field visibility, tracking)</label>
+            </value>
+            <value>
+                <fullName>General User Update</fullName>
+                <default>false</default>
+                <label>General User Update</label>
+            </value>
+            <value>
+                <fullName>Grant Login Access</fullName>
+                <default>false</default>
+                <label>Grant Login Access</label>
+            </value>
+            <value>
+                <fullName>Incident</fullName>
+                <default>false</default>
+                <label>Incident</label>
+            </value>
+            <value>
+                <fullName>Licensing</fullName>
+                <default>false</default>
+                <label>Licensing</label>
+            </value>
+            <value>
+                <fullName>Lightning for Outlook</fullName>
+                <default>false</default>
+                <label>Lightning for Outlook</label>
+            </value>
+            <value>
+                <fullName>Locked Account</fullName>
+                <default>false</default>
+                <label>Locked Account</label>
+            </value>
+            <value>
+                <fullName>Manager update</fullName>
+                <default>false</default>
+                <label>Manager update</label>
+            </value>
+            <value>
+                <fullName>MFA</fullName>
+                <default>false</default>
+                <label>MFA</label>
+            </value>
+            <value>
+                <fullName>Other</fullName>
+                <default>false</default>
+                <label>Other</label>
+            </value>
+            <value>
+                <fullName>Package Upgrade</fullName>
+                <default>false</default>
+                <label>Package Upgrade</label>
+            </value>
+            <value>
+                <fullName>Page Layout Change</fullName>
+                <default>false</default>
+                <label>Page Layout Change</label>
+            </value>
+            <value>
+                <fullName>Partner Community Access</fullName>
+                <default>false</default>
+                <label>Partner Community Access</label>
+            </value>
+            <value>
+                <fullName>Password Reset</fullName>
+                <default>false</default>
+                <label>Password Reset</label>
+            </value>
+            <value>
+                <fullName>Permission Update</fullName>
+                <default>false</default>
+                <label>Permission Update</label>
+            </value>
+            <value>
+                <fullName>Picklist Value Addition/Update</fullName>
+                <default>false</default>
+                <label>Picklist Value Addition/Update</label>
+            </value>
+            <value>
+                <fullName>Platform Changes</fullName>
+                <default>false</default>
+                <label>Platform Changes</label>
+            </value>
+            <value>
+                <fullName>Process Change Review</fullName>
+                <default>false</default>
+                <label>Process Change Review</label>
+            </value>
+            <value>
+                <fullName>Process Error</fullName>
+                <default>false</default>
+                <label>Process Error</label>
+            </value>
+            <value>
+                <fullName>Queue/Public Group</fullName>
+                <default>false</default>
+                <label>Queue/Public Group</label>
+            </value>
+            <value>
+                <fullName>Quip</fullName>
+                <default>false</default>
+                <label>Quip</label>
+            </value>
+            <value>
+                <fullName>Remove User</fullName>
+                <default>false</default>
+                <label>Remove User</label>
+            </value>
+            <value>
+                <fullName>Reporting</fullName>
+                <default>false</default>
+                <label>Reporting</label>
+            </value>
+            <value>
+                <fullName>Role/Profile Change</fullName>
+                <default>false</default>
+                <label>Role/Profile Change</label>
+            </value>
+            <value>
+                <fullName>RPA User - Setup &amp; Perms</fullName>
+                <default>false</default>
+                <label>RPA User - Setup &amp; Perms</label>
+            </value>
+            <value>
+                <fullName>Sandbox Access</fullName>
+                <default>false</default>
+                <label>Sandbox Access</label>
+            </value>
+            <value>
+                <fullName>Sandbox Refresh</fullName>
+                <default>false</default>
+                <label>Sandbox Refresh</label>
+            </value>
+            <value>
+                <fullName>Vas024/Surveys</fullName>
+                <default>false</default>
+                <label>Vas024/Surveys</label>
+            </value>
+            <value>
+                <fullName>WebEx</fullName>
+                <default>false</default>
+                <label>WebEx</label>
+            </value>
+            <value>
+                <fullName>Webform</fullName>
+                <default>false</default>
+                <label>Webform</label>
+            </value>
+            <value>
+                <fullName>Wrong Assignment</fullName>
+                <default>false</default>
+                <label>Wrong Assignment</label>
+            </value>
+            <value>
+                <fullName>Wrong Assignment - Another SF org</fullName>
+                <default>false</default>
+                <label>Wrong Assignment - Another SF org</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

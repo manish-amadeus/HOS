@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Payment_Plan_Type__c</fullName>
+    <description>NICC-045216</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Please select the appropriate payment plan option you&apos;ve discussed with the customer</inlineHelpText>
+    <label>Payment Plan Type</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>50% now</fullName>
+                <default>false</default>
+                <label>50% now/50% in 30 days</label>
+            </value>
+            <value>
+                <fullName>3 equal payments over 3 months</fullName>
+                <default>false</default>
+                <label>3 equal payments over 3 months</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

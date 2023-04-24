@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Product_Line_Required</fullName>
+    <active>true</active>
+    <description>NICC-019829</description>
+    <errorConditionFormula>TEXT(Product_Line_Global__c ) = null</errorConditionFormula>
+    <errorMessage>Product Line is required</errorMessage>
+</ValidationRule>

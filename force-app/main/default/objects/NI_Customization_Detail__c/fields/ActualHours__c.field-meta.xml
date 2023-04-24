@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>ActualHours__c</fullName>
+    <externalId>false</externalId>
+    <inlineHelpText>READ ONLY FIELD. Holds sum of actual hours set in related work allocations.</inlineHelpText>
+    <label>Actual Hours</label>
+    <summarizedField>NI_CustomizationDetailToService__c.Actual_Hours__c</summarizedField>
+    <summaryForeignKey>NI_CustomizationDetailToService__c.Detail__c</summaryForeignKey>
+    <summaryOperation>sum</summaryOperation>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Summary</type>
+</CustomField>

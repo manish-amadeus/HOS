@@ -1,0 +1,278 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<RecordType xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Service_Selection_Criteria</fullName>
+    <active>true</active>
+    <compactLayoutAssignment>Medallia_Selection_Criteria_Compact_Layout</compactLayoutAssignment>
+    <label>Service Selection Criteria</label>
+    <picklistValues>
+        <picklist>Account_Associated_to_Case_is_of_Type__c</picklist>
+        <values>
+            <fullName>Customer</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Assignment_Status__c</picklist>
+        <values>
+            <fullName>Scheduled</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Case_Origin__c</picklist>
+        <values>
+            <fullName>OnSite</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Trainer</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Case_Reason__c</picklist>
+        <values>
+            <fullName>Amadeus Configuration</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Cannot Duplicate</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Customer Environment</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Data Fix</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Development Deployment</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Platform Performance</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Return Material Application</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Training %2F HDI</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>User Management</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Case_Status__c</picklist>
+        <values>
+            <fullName>Closed</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Case_Type__c</picklist>
+        <values>
+            <fullName>Data Transfer</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Inquiry</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Contact_Status__c</picklist>
+        <values>
+            <fullName>Active</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Credit_Status__c</picklist>
+        <values>
+            <fullName>Credit Hold</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Declined</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Support Hold</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Group__c</picklist>
+        <values>
+            <fullName>BI</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>CRS</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>GMS</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Property Management</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>RES</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Sales and Catering</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Service Optimization</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Web Solutions</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Milestone_Type__c</picklist>
+        <values>
+            <fullName>Billable Milestone</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Override_Project_Practice__c</picklist>
+        <values>
+            <fullName>Consulting</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Project Management</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Training</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Project_Object__c</picklist>
+        <values>
+            <fullName>Customer Project</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Project_Record__c</picklist>
+        <values>
+            <fullName>Record1</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Record2</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Project_Stage__c</picklist>
+        <values>
+            <fullName>Project Closing</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Project_Type__c</picklist>
+        <values>
+            <fullName>Customer Project</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Record_Type__c</picklist>
+        <values>
+            <fullName>Close Case</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Role__c</picklist>
+        <values>
+            <fullName>Consultant</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Integrations</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Project Manager</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Solution Design</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Trainer</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Support_Tier__c</picklist>
+        <values>
+            <fullName>Contractor</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>SurveySubType__c</picklist>
+        <values>
+            <fullName>No%2FTraining</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Project</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>W%2FTraining</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>SurveyType__c</picklist>
+        <values>
+            <fullName>Services - Consulting Survey</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Services - Installer Survey</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Services - Project Manager</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Services - Training Survey</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Type__c</picklist>
+        <values>
+            <fullName>Customer</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+</RecordType>

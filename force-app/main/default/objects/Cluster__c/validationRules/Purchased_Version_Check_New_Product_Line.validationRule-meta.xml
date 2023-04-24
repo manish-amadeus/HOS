@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Purchased_Version_Check_New_Product_Line</fullName>
+    <active>true</active>
+    <description>NICC-019829 - Restrict the Purchased Version selection to Version whose Product Group should match the Product Group selected.
+
+As Product group field as been removed, this validation is updated as per product line</description>
+    <errorConditionFormula>AND (
+    TEXT(Product_Line_Global__c) != TEXT(Purchased_Version__r.Product_Line_Global__c), 
+    Purchased_Version__c != null
+)</errorConditionFormula>
+    <errorDisplayField>Purchased_Version__c</errorDisplayField>
+    <errorMessage>Please select a Version that is associated with the Cluster&apos;s Product Line</errorMessage>
+</ValidationRule>

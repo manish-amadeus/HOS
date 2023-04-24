@@ -1,0 +1,1554 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Workflow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <alerts>
+        <fullName>AlertProjectOfficethataPricingSheetisrequired</fullName>
+        <description>Alert Project Office that a Pricing Sheet is required</description>
+        <protected>false</protected>
+        <recipients>
+            <recipient>Contracts - Primary</recipient>
+            <type>opportunityTeam</type>
+        </recipients>
+        <recipients>
+            <recipient>Contracts - Secondary</recipient>
+            <type>opportunityTeam</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>NISalesWorkflowEmails/PricingSheetNeeded</template>
+    </alerts>
+    <alerts>
+        <fullName>Alert_Contracts_of_Oppty_Product</fullName>
+        <description>Alert Contracts of Oppty Product</description>
+        <protected>false</protected>
+        <recipients>
+            <recipient>Contracts_Group</recipient>
+            <type>group</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>Contracts/Contracts_Alert_to_Remove_Product</template>
+    </alerts>
+    <alerts>
+        <fullName>Alert_Support_From_Opportunity</fullName>
+        <ccEmails>heather.seward@amadeus.com</ccEmails>
+        <ccEmails>sean.harris@amadeus.com</ccEmails>
+        <description>Alert Support From Opportunity</description>
+        <protected>false</protected>
+        <recipients>
+            <field>Secondary_Account_Owner__c</field>
+            <type>userLookup</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>Support_Email_Templates/Sales_to_Support_Supervisors_case</template>
+    </alerts>
+    <alerts>
+        <fullName>Alertcontractsthatanopportunityhaspotentialrevrecissues</fullName>
+        <description>Alert contracts that an opportunity has potential rev rec issues</description>
+        <protected>false</protected>
+        <recipients>
+            <recipient>Contracts - Primary</recipient>
+            <type>opportunityTeam</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>NISalesWorkflowEmails/PotentialRevRecIssuesAlert</template>
+    </alerts>
+    <alerts>
+        <fullName>Approval_Recalled_By_Contracts</fullName>
+        <description>Approval Recalled By Contracts</description>
+        <protected>false</protected>
+        <recipients>
+            <type>owner</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>unfiled$public/Recalled_Opp_Approval</template>
+    </alerts>
+    <alerts>
+        <fullName>COO_Discount_Approval_Rejected</fullName>
+        <description>COO Discount Approval Rejected</description>
+        <protected>false</protected>
+        <recipients>
+            <recipient>Contracts - Primary</recipient>
+            <type>accountTeam</type>
+        </recipients>
+        <recipients>
+            <recipient>Contracts - Secondary</recipient>
+            <type>accountTeam</type>
+        </recipients>
+        <recipients>
+            <recipient>Sales Manager</recipient>
+            <type>accountTeam</type>
+        </recipients>
+        <recipients>
+            <type>owner</type>
+        </recipients>
+        <recipients>
+            <recipient>tguo@newmarketinc.com</recipient>
+            <type>user</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>SalesMarketing/Discount_has_been_Denied_by_COO</template>
+    </alerts>
+    <alerts>
+        <fullName>Discount_Approval_Denied_by_Manager</fullName>
+        <description>Discount Approval Denied by Manager</description>
+        <protected>false</protected>
+        <recipients>
+            <recipient>Contracts - Primary</recipient>
+            <type>opportunityTeam</type>
+        </recipients>
+        <recipients>
+            <recipient>Contracts - Secondary</recipient>
+            <type>opportunityTeam</type>
+        </recipients>
+        <recipients>
+            <type>owner</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>SalesMarketing/Discount_has_been_Denied_by_Manager</template>
+    </alerts>
+    <alerts>
+        <fullName>Discount_Denied_by_Jeff</fullName>
+        <description>Discount Denied by Jeff</description>
+        <protected>false</protected>
+        <recipients>
+            <recipient>Contracts - Primary</recipient>
+            <type>opportunityTeam</type>
+        </recipients>
+        <recipients>
+            <recipient>Contracts - Secondary</recipient>
+            <type>opportunityTeam</type>
+        </recipients>
+        <recipients>
+            <recipient>Sales Manager</recipient>
+            <type>opportunityTeam</type>
+        </recipients>
+        <recipients>
+            <type>owner</type>
+        </recipients>
+        <recipients>
+            <recipient>tguo@newmarketinc.com</recipient>
+            <type>user</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>SalesMarketing/Discount_has_been_Denied_by_Jeff</template>
+    </alerts>
+    <alerts>
+        <fullName>Discount_has_Been_Approved_by_All_Parties</fullName>
+        <description>Discount has Been Approved by All Parties</description>
+        <protected>false</protected>
+        <recipients>
+            <recipient>Contracts - Primary</recipient>
+            <type>opportunityTeam</type>
+        </recipients>
+        <recipients>
+            <recipient>Contracts - Secondary</recipient>
+            <type>opportunityTeam</type>
+        </recipients>
+        <recipients>
+            <type>owner</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>SalesMarketing/Discount_has_been_Approved_By_Everyone</template>
+    </alerts>
+    <alerts>
+        <fullName>EmailSentbcAccountonSupportHoldClosedWon</fullName>
+        <description>Email Sent b/c Account on Support Hold (Closed Won)</description>
+        <protected>false</protected>
+        <recipients>
+            <recipient>Contracts - Primary</recipient>
+            <type>opportunityTeam</type>
+        </recipients>
+        <recipients>
+            <recipient>Contracts - Secondary</recipient>
+            <type>opportunityTeam</type>
+        </recipients>
+        <recipients>
+            <type>owner</type>
+        </recipients>
+        <recipients>
+            <recipient>jhiscox@newmarketinc.com</recipient>
+            <type>user</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>SalesMarketing/AccountonSupportHoldClosedwon</template>
+    </alerts>
+    <alerts>
+        <fullName>Email_Alert_for_Lee_when_CSD_Deal_Closes_won_or_lost</fullName>
+        <description>Email Alert for Lee when CSD Deal Closes won or lost</description>
+        <protected>false</protected>
+        <recipients>
+            <recipient>asantana@newmarketinc.com</recipient>
+            <type>user</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>NISalesWorkflowEmails/Email_Alert_for_CSD_Closed_Deal</template>
+    </alerts>
+    <alerts>
+        <fullName>Email_Lee_if_US_Closed_Deal_over_25k</fullName>
+        <description>Email Lee if US Closed Deal over $25k</description>
+        <protected>false</protected>
+        <recipients>
+            <recipient>lhorgan@newmarketinc.com</recipient>
+            <type>user</type>
+        </recipients>
+        <recipients>
+            <recipient>prantilla@newmarketinc.com</recipient>
+            <type>user</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>SalesMarketing/Email_Alert_for_US_25k_closed_deal</template>
+    </alerts>
+    <alerts>
+        <fullName>Email_To_Opportunity_Owner_No_Contract</fullName>
+        <description>Email To Opportunity Owner  - No Contract</description>
+        <protected>false</protected>
+        <recipients>
+            <type>owner</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>unfiled$public/Opp_CW_Status_No_Sales_Order</template>
+    </alerts>
+    <alerts>
+        <fullName>Email_to_Billing_Accounting</fullName>
+        <ccEmails>orders@newmarketinc.com</ccEmails>
+        <ccEmails>OrdersForBilling@newmarketinc.com</ccEmails>
+        <description>Email to Billing / Accounting</description>
+        <protected>false</protected>
+        <recipients>
+            <recipient>aboyle@newmarketinc.com</recipient>
+            <type>user</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>unfiled$public/Notification_Accounting</template>
+    </alerts>
+    <alerts>
+        <fullName>Email_to_Contracts_Approved</fullName>
+        <description>Email to Contracts Approved</description>
+        <protected>false</protected>
+        <recipients>
+            <recipient>Contracts_Group</recipient>
+            <type>group</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>unfiled$public/Response_to_Contracts</template>
+    </alerts>
+    <alerts>
+        <fullName>Fulfillment_Consolidated_Order_Notification</fullName>
+        <description>Fulfillment Consolidated Order Notification</description>
+        <protected>false</protected>
+        <recipients>
+            <recipient>aboyle@newmarketinc.com</recipient>
+            <type>user</type>
+        </recipients>
+        <recipients>
+            <recipient>moblein@newmarketinc.com</recipient>
+            <type>user</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>NI_Fulfillment/Consolidated_Order_Notification</template>
+    </alerts>
+    <alerts>
+        <fullName>MissingPiecesclearedalert</fullName>
+        <description>Missing Pieces cleared alert</description>
+        <protected>false</protected>
+        <recipients>
+            <recipient>Contracts - Primary</recipient>
+            <type>opportunityTeam</type>
+        </recipients>
+        <recipients>
+            <type>owner</type>
+        </recipients>
+        <recipients>
+            <recipient>motoole@newmarketinc.com</recipient>
+            <type>user</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>NISalesWorkflowEmails/MissingPiecesClearedAlert</template>
+    </alerts>
+    <alerts>
+        <fullName>Missing_Pieces_cleared_alert_APAC</fullName>
+        <description>Missing Pieces cleared alert - APAC</description>
+        <protected>false</protected>
+        <recipients>
+            <recipient>motoole@newmarketinc.com</recipient>
+            <type>user</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>NISalesWorkflowEmails/MissingPiecesClearedAlert</template>
+    </alerts>
+    <alerts>
+        <fullName>New_Opportunity_From_Support_Alert</fullName>
+        <description>New Opportunity From Support Alert</description>
+        <protected>false</protected>
+        <recipients>
+            <type>owner</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>Support_Email_Templates/Case_To_Opportunity</template>
+    </alerts>
+    <alerts>
+        <fullName>Notification_to_Contracts_group</fullName>
+        <description>Notification to Contracts group</description>
+        <protected>false</protected>
+        <recipients>
+            <recipient>Contracts_Group</recipient>
+            <type>group</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>unfiled$public/Notification_to_Contracts</template>
+    </alerts>
+    <alerts>
+        <fullName>Notification_to_Sales_Manager</fullName>
+        <description>Notification to Sales Manager</description>
+        <protected>false</protected>
+        <recipients>
+            <field>Discount_1stLevelApprover__c</field>
+            <type>userLookup</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>unfiled$public/Notification_Sales_Manager</template>
+    </alerts>
+    <alerts>
+        <fullName>Notify_Jennifer_Trevino_Closed_Lost_Clost_Won_DNM</fullName>
+        <description>Notify Jennifer Trevino Closed, Lost, Clost Won, DNM</description>
+        <protected>false</protected>
+        <recipients>
+            <recipient>jtrevino@newmarketinc.com</recipient>
+            <type>user</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>NISalesWorkflowEmails/Email_Alert_for_CSD_Closed_Deal</template>
+    </alerts>
+    <alerts>
+        <fullName>Opportunity_Discount_Approval_Approved_by_Dan_Hiza</fullName>
+        <description>Opportunity Discount Approval - Approved by Dan Hiza</description>
+        <protected>false</protected>
+        <recipients>
+            <recipient>Contracts - Primary</recipient>
+            <type>opportunityTeam</type>
+        </recipients>
+        <recipients>
+            <recipient>Contracts - Secondary</recipient>
+            <type>opportunityTeam</type>
+        </recipients>
+        <recipients>
+            <type>owner</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>SalesMarketing/Discount_has_been_Approved_by_Dan_Hiza</template>
+    </alerts>
+    <alerts>
+        <fullName>Opportunity_Discount_Approval_Approved_by_Jo_Stanford</fullName>
+        <description>Opportunity Discount Approval - Approved by Jo Stanford</description>
+        <protected>false</protected>
+        <recipients>
+            <recipient>Contracts - Primary</recipient>
+            <type>opportunityTeam</type>
+        </recipients>
+        <recipients>
+            <recipient>Contracts - Secondary</recipient>
+            <type>opportunityTeam</type>
+        </recipients>
+        <recipients>
+            <type>owner</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>SalesMarketing/Discount_has_been_Approved_by_Jo_Stanford</template>
+    </alerts>
+    <alerts>
+        <fullName>Opportunity_Discount_Approval_Approved_by_Malcolm_Cheong</fullName>
+        <description>Opportunity Discount Approval - Approved by Malcolm Cheong</description>
+        <protected>false</protected>
+        <recipients>
+            <recipient>Contracts - Primary</recipient>
+            <type>opportunityTeam</type>
+        </recipients>
+        <recipients>
+            <recipient>Contracts - Secondary</recipient>
+            <type>opportunityTeam</type>
+        </recipients>
+        <recipients>
+            <type>owner</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>NISalesWorkflowEmails/Discount_has_been_Approved_by_Malcolm_Cheong</template>
+    </alerts>
+    <alerts>
+        <fullName>Opportunity_Discount_Approval_Approved_by_Steve_Lambert</fullName>
+        <description>Opportunity Discount Approval - Approved by Jo Stanford</description>
+        <protected>false</protected>
+        <recipients>
+            <recipient>Contracts - Primary</recipient>
+            <type>opportunityTeam</type>
+        </recipients>
+        <recipients>
+            <recipient>Contracts - Secondary</recipient>
+            <type>opportunityTeam</type>
+        </recipients>
+        <recipients>
+            <type>owner</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>NISalesWorkflowEmails/Discount_has_been_Approved_by_SteveL</template>
+    </alerts>
+    <alerts>
+        <fullName>Opportunity_Discount_Approval_Approved_by_Tim_Guo</fullName>
+        <description>Opportunity Discount Approval - Approved by Tim Guo</description>
+        <protected>false</protected>
+        <recipients>
+            <recipient>Contracts - Primary</recipient>
+            <type>opportunityTeam</type>
+        </recipients>
+        <recipients>
+            <recipient>Contracts - Secondary</recipient>
+            <type>opportunityTeam</type>
+        </recipients>
+        <recipients>
+            <type>owner</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>SalesMarketing/Discount_has_been_Approved_by_Tim</template>
+    </alerts>
+    <alerts>
+        <fullName>Opportunity_Discount_Approval_Denied_by_Dan_Hiza</fullName>
+        <description>Opportunity Discount Approval - Denied by Dan Hiza</description>
+        <protected>false</protected>
+        <recipients>
+            <recipient>Contracts - Primary</recipient>
+            <type>opportunityTeam</type>
+        </recipients>
+        <recipients>
+            <recipient>Contracts - Secondary</recipient>
+            <type>opportunityTeam</type>
+        </recipients>
+        <recipients>
+            <type>owner</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>SalesMarketing/Discount_has_been_Rejected_by_Dan_Hiza</template>
+    </alerts>
+    <alerts>
+        <fullName>Opportunity_Discount_Approval_Denied_by_Steve_L</fullName>
+        <description>Opportunity Discount Approval - Denied by Jo Stanford</description>
+        <protected>false</protected>
+        <recipients>
+            <recipient>Contracts - Primary</recipient>
+            <type>opportunityTeam</type>
+        </recipients>
+        <recipients>
+            <recipient>Contracts - Secondary</recipient>
+            <type>opportunityTeam</type>
+        </recipients>
+        <recipients>
+            <type>owner</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>NISalesWorkflowEmails/Discount_has_been_Rejected_by_Jo_Stanford</template>
+    </alerts>
+    <alerts>
+        <fullName>Opportunity_Discount_Approval_Denied_by_Tim</fullName>
+        <description>Opportunity Discount Approval - Denied by Tim</description>
+        <protected>false</protected>
+        <recipients>
+            <recipient>Contracts - Primary</recipient>
+            <type>opportunityTeam</type>
+        </recipients>
+        <recipients>
+            <recipient>Contracts - Secondary</recipient>
+            <type>opportunityTeam</type>
+        </recipients>
+        <recipients>
+            <type>owner</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>SalesMarketing/Discount_has_been_rejected_by_Tim</template>
+    </alerts>
+    <alerts>
+        <fullName>Opportunity_Discount_Approval_Manager_Approved</fullName>
+        <description>Opportunity Discount Approval - Manager Approved</description>
+        <protected>false</protected>
+        <recipients>
+            <recipient>Contracts - Primary</recipient>
+            <type>opportunityTeam</type>
+        </recipients>
+        <recipients>
+            <recipient>Contracts - Secondary</recipient>
+            <type>opportunityTeam</type>
+        </recipients>
+        <recipients>
+            <type>owner</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>NISalesWorkflowEmails/Discount_has_been_Approved_by_Manager</template>
+    </alerts>
+    <alerts>
+        <fullName>Opportunity_Discount_Approval_Rejection_Notice</fullName>
+        <description>Opportunity Discount Approval Rejection Notice</description>
+        <protected>false</protected>
+        <recipients>
+            <type>owner</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>Opportunity/Opportunity_Discount_Approval_Rejection</template>
+    </alerts>
+    <alerts>
+        <fullName>Opportunity_Discount_Approval_Status</fullName>
+        <description>Opportunity Discount Approval - Status</description>
+        <protected>false</protected>
+        <recipients>
+            <field>Submitter_Email__c</field>
+            <type>email</type>
+        </recipients>
+        <recipients>
+            <type>owner</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>Opportunity/Opportunity_Discount_Approval_Status</template>
+    </alerts>
+    <alerts>
+        <fullName>Opportunity_Discount_Approval_Status_Initial</fullName>
+        <description>Opportunity Discount Approval - Status Initial</description>
+        <protected>false</protected>
+        <recipients>
+            <type>owner</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>Opportunity/Opportunity_Discount_Approval_Status</template>
+    </alerts>
+    <alerts>
+        <fullName>Opportunity_Placed_On_Hold_By_Accounting</fullName>
+        <ccEmails>Sara.Joy@amadeus.com,</ccEmails>
+        <ccEmails>Michele.OToole@amadeus.com,</ccEmails>
+        <ccEmails>Caithline.Greep@amadeus.com,</ccEmails>
+        <ccEmails>Hospitality.contracts@amadeus.com</ccEmails>
+        <description>Opportunity Placed On Hold By Accounting</description>
+        <protected>false</protected>
+        <recipients>
+            <recipient>Contracts - Primary</recipient>
+            <type>opportunityTeam</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>NISalesWorkflowEmails/Placed_on_Hold_by_Accounting</template>
+    </alerts>
+    <alerts>
+        <fullName>SE_Resource_has_changed</fullName>
+        <description>SE Resource has changed; NICC-037921</description>
+        <protected>false</protected>
+        <recipients>
+            <recipient>Sales_Engineering</recipient>
+            <type>group</type>
+        </recipients>
+        <recipients>
+            <type>owner</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>Sales_Engineering_Templates/VE_Resource_Assignment_Changed</template>
+    </alerts>
+    <alerts>
+        <fullName>Sales_Engineering_Oppty_Stage_Alert</fullName>
+        <description>Sales Engineering Oppty Stage Alert</description>
+        <protected>false</protected>
+        <recipients>
+            <recipient>Sales_Engineering</recipient>
+            <type>group</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>Sales_Engineering_Templates/Sales_Engineering_Opportunity_Stage_Change_Alert</template>
+    </alerts>
+    <alerts>
+        <fullName>Sales_Rejection_of_Approval</fullName>
+        <description>Sales Rejection of Approval</description>
+        <protected>false</protected>
+        <recipients>
+            <recipient>Contracts_Group</recipient>
+            <type>group</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>unfiled$public/Opp_Approval_Rejected</template>
+    </alerts>
+    <alerts>
+        <fullName>SendShipmentPhysically</fullName>
+        <description>Send Shipment Physically</description>
+        <protected>false</protected>
+        <recipients>
+            <recipient>Contracts - Primary</recipient>
+            <type>opportunityTeam</type>
+        </recipients>
+        <recipients>
+            <recipient>Fulfillment</recipient>
+            <type>role</type>
+        </recipients>
+        <recipients>
+            <recipient>motoole@newmarketinc.com</recipient>
+            <type>user</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>IT_TEMPLATE_CLEANUP/Physical_Shipment</template>
+    </alerts>
+    <alerts>
+        <fullName>Send_VE_Group_email_that_VE_is_Needed</fullName>
+        <description>Send VE Group email that VE is Needed; NICC-037921</description>
+        <protected>false</protected>
+        <recipients>
+            <recipient>Sales_Engineering</recipient>
+            <type>group</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>Sales_Engineering_Templates/Value_Engineering_Resource_Needed</template>
+    </alerts>
+    <alerts>
+        <fullName>SupportHoldNewOppty</fullName>
+        <description>Support Hold (New Oppty)</description>
+        <protected>false</protected>
+        <recipients>
+            <recipient>Contracts - Primary</recipient>
+            <type>opportunityTeam</type>
+        </recipients>
+        <recipients>
+            <recipient>Contracts - Secondary</recipient>
+            <type>opportunityTeam</type>
+        </recipients>
+        <recipients>
+            <type>owner</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>SalesMarketing/AccountonSupportHoldNewOppty</template>
+    </alerts>
+    <alerts>
+        <fullName>Your_Discount_Approval_has_been_Denied_by_Lee</fullName>
+        <description>Your Discount Approval has been Denied by Lee</description>
+        <protected>false</protected>
+        <recipients>
+            <recipient>Contracts - Primary</recipient>
+            <type>opportunityTeam</type>
+        </recipients>
+        <recipients>
+            <recipient>Contracts - Secondary</recipient>
+            <type>opportunityTeam</type>
+        </recipients>
+        <recipients>
+            <recipient>Sales Manager</recipient>
+            <type>opportunityTeam</type>
+        </recipients>
+        <recipients>
+            <type>owner</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>SalesMarketing/Discount_has_been_Denied_by_Paul</template>
+    </alerts>
+    <fieldUpdates>
+        <fullName>AmounttriggeredbyAmountBoxes</fullName>
+        <description>Amount Field updated from the Amount boxes</description>
+        <field>Amount</field>
+        <formula>Services_Amount__c  + Software_Amount__c + Sub_MeetingBroker_Amount__c + Subscription_Amount__c</formula>
+        <name>Amount triggered by Amount Boxes</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Formula</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>Approx_SFDC_Go_Live_Date_is_Close_Date</fullName>
+        <description>Approx SFDC Go Live Date is Close Date + 30 days</description>
+        <field>Approximate_SFDC_Go_Live_Date__c</field>
+        <formula>CloseDate + 30</formula>
+        <name>Approx SFDC Go Live Date is Close Date +</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Formula</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>Change_VE_Status_to_Unassigned</fullName>
+        <field>VE_Status__c</field>
+        <literalValue>Not Assigned</literalValue>
+        <name>Change VE Status to Unassigned</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Literal</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>Discount_Approval_Status_Approved</fullName>
+        <field>Discount_Approval_Status__c</field>
+        <literalValue>Approved</literalValue>
+        <name>Discount Approval Status = Approved</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Literal</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>Discount_Approval_Status_Recalled</fullName>
+        <field>Discount_Approval_Status__c</field>
+        <literalValue>Recalled</literalValue>
+        <name>Discount Approval Status = Recalled</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Literal</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>Discount_Approval_Status_Rejected</fullName>
+        <field>Discount_Approval_Status__c</field>
+        <literalValue>Rejected</literalValue>
+        <name>Discount Approval Status = Rejected</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Literal</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>Discount_Approval_Status_Submitted</fullName>
+        <field>Discount_Approval_Status__c</field>
+        <literalValue>Submitted</literalValue>
+        <name>Discount Approval Status = Submitted</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Literal</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>Order_Status_Complete</fullName>
+        <description>NICC-027116 - This field update is used for Opportunities that have the &quot;Partner&quot; record type.
+
+It sets the Oder Status field to &quot;Complete&quot; based on the Partner Live Date field.</description>
+        <field>Order_Status__c</field>
+        <literalValue>Complete</literalValue>
+        <name>Order Status Complete</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Literal</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>PricingSheetCompletedsettoNo</fullName>
+        <description>Set Pricing Sheet Completed field on Opportunity to &quot;No&quot; when Pricing Sheet Needed = &quot;Yes&quot;</description>
+        <field>Pricing_Sheet_Completed__c</field>
+        <literalValue>No</literalValue>
+        <name>Pricing Sheet Completed set to No</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Literal</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>SOWNeededSettoNo</fullName>
+        <description>Set SOW Needed field on Opportunity to &quot;No&quot; when SOW Completed = &quot;Yes&quot;</description>
+        <field>SOW_Completed__c</field>
+        <literalValue>No</literalValue>
+        <name>SOW Needed Set to No</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Literal</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>SetSOWNeededtoNo</fullName>
+        <field>SOW_Needed__c</field>
+        <literalValue>No</literalValue>
+        <name>Set SOW Needed to No</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Literal</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>Set_Closed_Date_to_Now</fullName>
+        <field>CloseDate</field>
+        <formula>Today()</formula>
+        <name>Set Closed Date to Now</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Formula</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>true</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>Submitter_s_Email</fullName>
+        <description>NICC-062731; Holds the email address of the user who submitted this Opportunity for approval</description>
+        <field>Submitter_Email__c</field>
+        <formula>$User.Email</formula>
+        <name>Submitter&apos;s Email</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Formula</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>Update_Approximate_SFDC_Go_Live_Date_c</fullName>
+        <field>Approximate_SFDC_Go_Live_Date__c</field>
+        <formula>CloseDate + 90</formula>
+        <name>Update Approximate_SFDC_Go_Live_Date__c</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Formula</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>Update_Close_Date</fullName>
+        <field>CloseDate</field>
+        <formula>TODAY()</formula>
+        <name>Update Close Date</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Formula</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>Update_Product_Intake_URL</fullName>
+        <description>Remove any link</description>
+        <field>Product_Intake_URL__c</field>
+        <name>Update Product Intake URL</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Null</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>Update_Stage_Prior_to_Close_Lost_field</fullName>
+        <description>Update &quot;Stage Prior to Close Lost&quot; field</description>
+        <field>Stage_Prior_to_Close_Lost__c</field>
+        <formula>TEXT (PRIORVALUE( StageName ))</formula>
+        <name>Update &quot;Stage Prior to Close Lost&quot; field</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Formula</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>VE_Stage_Stamp</fullName>
+        <field>Stage_when_VE_is_Needed__c</field>
+        <formula>TEXT( StageName )</formula>
+        <name>VE Stage Stamp</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Formula</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>Value_Proposition_Created</fullName>
+        <description>At least one Value Proposition record is related to this Opp. record. Created for Kristina Scontras. NICC-024398</description>
+        <field>Value_Proposition_Created__c</field>
+        <literalValue>1</literalValue>
+        <name>Value Proposition Created</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Literal</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <rules>
+        <fullName>Alert Contracts of Oppty Product</fullName>
+        <actions>
+            <name>Alert_Contracts_of_Oppty_Product</name>
+            <type>Alert</type>
+        </actions>
+        <active>true</active>
+        <criteriaItems>
+            <field>Opportunity.StageName</field>
+            <operation>equals</operation>
+            <value>Closed Won</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Opportunity.Contracts_SKU_Count__c</field>
+            <operation>greaterThan</operation>
+            <value>0</value>
+        </criteriaItems>
+        <description>NICC-025259</description>
+        <triggerType>onCreateOrTriggeringUpdate</triggerType>
+    </rules>
+    <rules>
+        <fullName>Alert Lee if a US %2425k Deal Won</fullName>
+        <actions>
+            <name>Email_Lee_if_US_Closed_Deal_over_25k</name>
+            <type>Alert</type>
+        </actions>
+        <active>true</active>
+        <booleanFilter>1 AND 2 and 3 AND 4 AND 5</booleanFilter>
+        <criteriaItems>
+            <field>Opportunity.StageName</field>
+            <operation>equals</operation>
+            <value>Closed Won</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>User.UserRoleId</field>
+            <operation>startsWith</operation>
+            <value>US</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Opportunity.Non_Support_Total_Amount__c</field>
+            <operation>greaterOrEqual</operation>
+            <value>&quot;USD 25,000&quot;</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Opportunity.RecordTypeId</field>
+            <operation>notEqual</operation>
+            <value>LOD Customer Opportunity</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Opportunity.RecordTypeId</field>
+            <operation>notEqual</operation>
+            <value>LOD Partner Order</value>
+        </criteriaItems>
+        <triggerType>onCreateOrTriggeringUpdate</triggerType>
+    </rules>
+    <rules>
+        <fullName>Amount triggered by Amount Boxes</fullName>
+        <actions>
+            <name>AmounttriggeredbyAmountBoxes</name>
+            <type>FieldUpdate</type>
+        </actions>
+        <active>true</active>
+        <booleanFilter>1 AND 2 AND 3 AND 4 AND 5 AND 6</booleanFilter>
+        <criteriaItems>
+            <field>Opportunity.Amount</field>
+            <operation>equals</operation>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Opportunity.RecordTypeId</field>
+            <operation>notEqual</operation>
+            <value>LOD Customer Opportunity</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Opportunity.RecordTypeId</field>
+            <operation>notEqual</operation>
+            <value>LOD Partner Order</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Opportunity.RecordTypeId</field>
+            <operation>notEqual</operation>
+            <value>MTech Incremental Opportunity</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Opportunity.RecordTypeId</field>
+            <operation>notEqual</operation>
+            <value>MTech New Opportunity</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Opportunity.RecordTypeId</field>
+            <operation>notEqual</operation>
+            <value>MTech Cancellation</value>
+        </criteriaItems>
+        <description>Amount is the equivalent of the amount boxes or products if the products exist.</description>
+        <triggerType>onAllChanges</triggerType>
+    </rules>
+    <rules>
+        <fullName>Create Task - Sales Order Opportunity - Closed Won%2FTentative Status</fullName>
+        <actions>
+            <name>Email_to_Billing_Accounting</name>
+            <type>Alert</type>
+        </actions>
+        <active>true</active>
+        <criteriaItems>
+            <field>Opportunity.RecordTypeId</field>
+            <operation>equals</operation>
+            <value>Sales Order</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Opportunity.Order_Status__c</field>
+            <operation>equals</operation>
+            <value>Tentative</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Opportunity.StageName</field>
+            <operation>equals</operation>
+            <value>Closed Won</value>
+        </criteriaItems>
+        <description>When an opportunity is set to a Sales Order, with Closed Won or Tentative status, create a task to Michele O&apos;Toole and email DL_Orders@newmarketinc.com (orders@newmarketinc.com)</description>
+        <triggerType>onCreateOrTriggeringUpdate</triggerType>
+    </rules>
+    <rules>
+        <fullName>Email when Sales Engineering Resource is Needed</fullName>
+        <actions>
+            <name>Send_VE_Group_email_that_VE_is_Needed</name>
+            <type>Alert</type>
+        </actions>
+        <actions>
+            <name>Change_VE_Status_to_Unassigned</name>
+            <type>FieldUpdate</type>
+        </actions>
+        <actions>
+            <name>VE_Stage_Stamp</name>
+            <type>FieldUpdate</type>
+        </actions>
+        <active>true</active>
+        <description>Updated on 10/29/2012 by Stu Emery to prevent the workflow from firing when the Price Book changes or when a Price Book is added to the opportunity</description>
+        <formula>/*
+Only fire the workflow if a change is made to the &quot;Is VE Needed&quot; field, it is set to &quot;true&quot; and the previous value of this field was not &quot;true&quot;
+*/
+
+AND(ISCHANGED( Is_VE_Needed__c ), Is_VE_Needed__c = true, PRIORVALUE( Is_VE_Needed__c ) != true, NOT(BEGINS( RecordType.Name, &quot;MTech&quot;)))</formula>
+        <triggerType>onAllChanges</triggerType>
+    </rules>
+    <rules>
+        <fullName>Fulfillment Consolidated Order Notification</fullName>
+        <actions>
+            <name>Fulfillment_Consolidated_Order_Notification</name>
+            <type>Alert</type>
+        </actions>
+        <active>true</active>
+        <description>Salesforce.com Change Request: NICC-005898</description>
+        <formula>AND(ISCHANGED(Order_Status__c), ISPICKVAL(Order_Status__c, &quot;Integrated&quot;), Consolidated_Order__c = true)</formula>
+        <triggerType>onAllChanges</triggerType>
+    </rules>
+    <rules>
+        <fullName>HRM Sales Order</fullName>
+        <actions>
+            <name>HRM_Notification_Automated_By_Integration_User</name>
+            <type>Task</type>
+        </actions>
+        <active>true</active>
+        <criteriaItems>
+            <field>Opportunity.Previous_Record_Type__c</field>
+            <operation>startsWith</operation>
+            <value>HRM</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Opportunity.Order_Status__c</field>
+            <operation>equals</operation>
+            <value>Tentative</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Opportunity.StageName</field>
+            <operation>equals</operation>
+            <value>Closed Won</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Opportunity.RecordTypeId</field>
+            <operation>equals</operation>
+            <value>Sales Order</value>
+        </criteriaItems>
+        <description>HRM Existing Org Opportunity
+HRM New Org Opportunity
+HRM Sales</description>
+        <triggerType>onCreateOrTriggeringUpdate</triggerType>
+    </rules>
+    <rules>
+        <fullName>Implementation Status is changed to true</fullName>
+        <actions>
+            <name>Send_screenshot</name>
+            <type>Task</type>
+        </actions>
+        <active>true</active>
+        <description>NICC-015526</description>
+        <formula>AND (
+    ISCHANGED(AIP_Implementation_Status__c), 
+    AIP_Implementation_Status__c = true, 
+    OR (
+         RecordType.Name = &quot;Amadeus AIP&quot;, 
+         RecordType.Name = &quot;Sales Order&quot;   
+    )  
+)</formula>
+        <triggerType>onAllChanges</triggerType>
+    </rules>
+    <rules>
+        <fullName>Jennifer Trevino%3A Closed Lost%2C Closed Won%2C DNM Manager Alert_v%2E2</fullName>
+        <actions>
+            <name>Notify_Jennifer_Trevino_Closed_Lost_Clost_Won_DNM</name>
+            <type>Alert</type>
+        </actions>
+        <active>true</active>
+        <description>Salesforce.com Change Request: NICC-013952, Send e-mail to the Manager of the Opportunity Owner any Closed Won, Closed Lost or Closed DNM opportunities</description>
+        <formula>AND(Owner.Manager.Alias = &quot;jtrev&quot;,OR( ISPICKVAL(StageName,&quot;Closed Won&quot;),ISPICKVAL(StageName,&quot;Closed Lost&quot;),ISPICKVAL(StageName,&apos;Did Not Materialize&quot;DNM&quot;&apos;)))</formula>
+        <triggerType>onCreateOrTriggeringUpdate</triggerType>
+    </rules>
+    <rules>
+        <fullName>Missing Pieces Cleared Alert</fullName>
+        <actions>
+            <name>MissingPiecesclearedalert</name>
+            <type>Alert</type>
+        </actions>
+        <active>true</active>
+        <booleanFilter>1 AND 2 AND 3 AND 4 AND 5</booleanFilter>
+        <criteriaItems>
+            <field>Opportunity.Missing_Pieces_Y_N__c</field>
+            <operation>equals</operation>
+            <value>Yes</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Opportunity.Missing_Pieces__c</field>
+            <operation>equals</operation>
+            <value>None</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Opportunity.RecordTypeId</field>
+            <operation>notEqual</operation>
+            <value>LOD Customer Opportunity</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Opportunity.RecordTypeId</field>
+            <operation>notEqual</operation>
+            <value>LOD Partner Order</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Opportunity.Order_Status__c</field>
+            <operation>equals</operation>
+            <value>Integrated,Shipped,Definite</value>
+        </criteriaItems>
+        <description>Used to alert accounting, sales rep and sales management that an order that had missing pieces has now been cleard of all missing pieces.</description>
+        <triggerType>onCreateOrTriggeringUpdate</triggerType>
+    </rules>
+    <rules>
+        <fullName>Missing Pieces Cleared Alert - APAC</fullName>
+        <actions>
+            <name>Missing_Pieces_cleared_alert_APAC</name>
+            <type>Alert</type>
+        </actions>
+        <active>true</active>
+        <description>Used to alert APAC accounting, sales rep and sales management that an order that had missing pieces has now been cleard of all missing pieces.</description>
+        <formula>AND(
+    Owner.Division = &quot;APSG&quot;,
+    ISPICKVAL(Missing_Pieces_Y_N__c, &quot;Yes&quot;),
+    INCLUDES(Missing_Pieces__c, &quot;None&quot;), 
+    RecordType.Name &lt;&gt; &quot;LOD Customer Opportunity&quot;,
+    RecordType.Name &lt;&gt; &quot;LOD Partner Order&quot;
+)</formula>
+        <triggerType>onCreateOrTriggeringUpdate</triggerType>
+    </rules>
+    <rules>
+        <fullName>Need PO</fullName>
+        <actions>
+            <name>GetPOforOrder</name>
+            <type>Task</type>
+        </actions>
+        <active>true</active>
+        <booleanFilter>1 AND 2 AND 3 AND 4</booleanFilter>
+        <criteriaItems>
+            <field>Opportunity.StageName</field>
+            <operation>equals</operation>
+            <value>Approval - Closing 80%</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Opportunity.PO_Required__c</field>
+            <operation>equals</operation>
+            <value>PO Number,Hardcopy PO</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Opportunity.RecordTypeId</field>
+            <operation>notEqual</operation>
+            <value>LOD Customer Opportunity</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Opportunity.RecordTypeId</field>
+            <operation>notEqual</operation>
+            <value>LOD Partner Order</value>
+        </criteriaItems>
+        <description>Alert to rep at Sales Stage=Approval that PO is required and not yet filled in</description>
+        <triggerType>onCreateOrTriggeringUpdate</triggerType>
+    </rules>
+    <rules>
+        <fullName>Partner Opportunity - Update Order Status</fullName>
+        <active>true</active>
+        <description>NICC-027116 - This workflow sets the Order Status field to &quot;Complete&quot; on Opportunities that have the &quot;Partner&quot; record type.</description>
+        <formula>AND (   RecordType.Name = &quot;Partner&quot;,   NOT(ISBLANK(Partner_Live_Date__c)),   ISPICKVAL(StageName,&quot;Sold&quot;)  )</formula>
+        <triggerType>onCreateOrTriggeringUpdate</triggerType>
+        <workflowTimeTriggers>
+            <actions>
+                <name>Order_Status_Complete</name>
+                <type>FieldUpdate</type>
+            </actions>
+            <offsetFromField>Opportunity.Partner_Live_Date__c</offsetFromField>
+            <timeLength>0</timeLength>
+            <workflowTimeTriggerUnit>Hours</workflowTimeTriggerUnit>
+        </workflowTimeTriggers>
+    </rules>
+    <rules>
+        <fullName>Placed on Hold by Accounting</fullName>
+        <actions>
+            <name>Opportunity_Placed_On_Hold_By_Accounting</name>
+            <type>Alert</type>
+        </actions>
+        <active>true</active>
+        <description>Salesforce.com Change Request: NICC-010418; updated by NICC-052302
+
+Send an e-mail to the Opportunity Owner and Opportunity Team Members when a Sales Order has been placed on hold by Accounting</description>
+        <formula>ISPICKVAL( PlacedOnHoldByAccountingPicklist__c , &quot;Yes&quot;)</formula>
+        <triggerType>onCreateOrTriggeringUpdate</triggerType>
+    </rules>
+    <rules>
+        <fullName>Potential Rev Rec Issues Alert</fullName>
+        <actions>
+            <name>Alertcontractsthatanopportunityhaspotentialrevrecissues</name>
+            <type>Alert</type>
+        </actions>
+        <active>true</active>
+        <booleanFilter>1 AND 2 AND 3 AND 4</booleanFilter>
+        <criteriaItems>
+            <field>Opportunity.Rev_Rec_Issue__c</field>
+            <operation>equals</operation>
+            <value>True</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Opportunity.Probability</field>
+            <operation>greaterOrEqual</operation>
+            <value>60</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Opportunity.RecordTypeId</field>
+            <operation>notEqual</operation>
+            <value>LOD Customer Opportunity</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Opportunity.RecordTypeId</field>
+            <operation>notEqual</operation>
+            <value>LOD Partner Order</value>
+        </criteriaItems>
+        <description>Alert Contracts that an opportunity has potential rev rec issues.</description>
+        <triggerType>onCreateOrTriggeringUpdate</triggerType>
+    </rules>
+    <rules>
+        <fullName>Pricing Sheet Needed</fullName>
+        <actions>
+            <name>AlertProjectOfficethataPricingSheetisrequired</name>
+            <type>Alert</type>
+        </actions>
+        <active>true</active>
+        <booleanFilter>1 AND 2 AND 3</booleanFilter>
+        <criteriaItems>
+            <field>Opportunity.Pricing_Sheet_Needed__c</field>
+            <operation>equals</operation>
+            <value>Yes</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Opportunity.RecordTypeId</field>
+            <operation>notEqual</operation>
+            <value>LOD Customer Opportunity</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Opportunity.RecordTypeId</field>
+            <operation>notEqual</operation>
+            <value>LOD Partner Order</value>
+        </criteriaItems>
+        <description>Alert Project Office that Pricing Sheet is needed</description>
+        <triggerType>onCreateOrTriggeringUpdate</triggerType>
+    </rules>
+    <rules>
+        <fullName>Remove Product Intake URL</fullName>
+        <actions>
+            <name>Update_Product_Intake_URL</name>
+            <type>FieldUpdate</type>
+        </actions>
+        <active>true</active>
+        <criteriaItems>
+            <field>Opportunity.Product_Intake_URL__c</field>
+            <operation>notEqual</operation>
+        </criteriaItems>
+        <description>When an opportunity is cloned, the Product Intake URL should not be cloned with the new opportunity</description>
+        <triggerType>onCreateOnly</triggerType>
+    </rules>
+    <rules>
+        <fullName>Reseller Contract Request</fullName>
+        <actions>
+            <name>Contracts_Request</name>
+            <type>Task</type>
+        </actions>
+        <active>true</active>
+        <booleanFilter>1 AND 2 AND 3 AND 4</booleanFilter>
+        <criteriaItems>
+            <field>Opportunity.ISR_Contracts_Request__c</field>
+            <operation>equals</operation>
+            <value>True</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>User.ProfileId</field>
+            <operation>startsWith</operation>
+            <value>NI - Sales Partner User</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Opportunity.RecordTypeId</field>
+            <operation>notEqual</operation>
+            <value>LOD Customer Opportunity</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Opportunity.RecordTypeId</field>
+            <operation>notEqual</operation>
+            <value>LOD Partner Order</value>
+        </criteriaItems>
+        <triggerType>onCreateOrTriggeringUpdate</triggerType>
+    </rules>
+    <rules>
+        <fullName>SE Assignment Updated</fullName>
+        <actions>
+            <name>SE_Resource_has_changed</name>
+            <type>Alert</type>
+        </actions>
+        <active>true</active>
+        <description>Need an email alert to be Resource that VE Assignment has changed</description>
+        <formula>AND(ISCHANGED(VE_Resource__c),NOT(BEGINS(RecordType.Name, &quot;MTech&quot;)))</formula>
+        <triggerType>onAllChanges</triggerType>
+    </rules>
+    <rules>
+        <fullName>Send Shipment Physically</fullName>
+        <actions>
+            <name>SendShipmentPhysically</name>
+            <type>Alert</type>
+        </actions>
+        <active>true</active>
+        <criteriaItems>
+            <field>Opportunity.Shipped_Physically__c</field>
+            <operation>equals</operation>
+            <value>True</value>
+        </criteriaItems>
+        <triggerType>onCreateOrTriggeringUpdate</triggerType>
+    </rules>
+    <rules>
+        <fullName>Set Pricing Sheet Completed to %22No%22</fullName>
+        <actions>
+            <name>PricingSheetCompletedsettoNo</name>
+            <type>FieldUpdate</type>
+        </actions>
+        <active>true</active>
+        <criteriaItems>
+            <field>Opportunity.Pricing_Sheet_Needed__c</field>
+            <operation>equals</operation>
+            <value>Yes</value>
+        </criteriaItems>
+        <description>Set Pricing Sheet Completed to &quot;No&quot; when Pricing Sheet Needed = &quot;Yes&quot;</description>
+        <triggerType>onCreateOrTriggeringUpdate</triggerType>
+    </rules>
+    <rules>
+        <fullName>Set SOW Needed to %22No%22</fullName>
+        <actions>
+            <name>SetSOWNeededtoNo</name>
+            <type>FieldUpdate</type>
+        </actions>
+        <active>true</active>
+        <booleanFilter>1 AND 2 AND 3</booleanFilter>
+        <criteriaItems>
+            <field>Opportunity.SOW_Completed__c</field>
+            <operation>equals</operation>
+            <value>Yes</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Opportunity.RecordTypeId</field>
+            <operation>notEqual</operation>
+            <value>LOD Customer Opportunity</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Opportunity.RecordTypeId</field>
+            <operation>notEqual</operation>
+            <value>LOD Partner Order</value>
+        </criteriaItems>
+        <description>Set SOW Needed to &quot;No&quot; when SOW Completed = &quot;Yes&quot;</description>
+        <triggerType>onAllChanges</triggerType>
+    </rules>
+    <rules>
+        <fullName>Support Hold Oppty %28Closed Won%29</fullName>
+        <actions>
+            <name>EmailSentbcAccountonSupportHoldClosedWon</name>
+            <type>Alert</type>
+        </actions>
+        <active>true</active>
+        <booleanFilter>1 AND 2 AND 3 AND 4 AND 5 AND 6 AND 7 AND 8</booleanFilter>
+        <criteriaItems>
+            <field>Account.Credit_Status__c</field>
+            <operation>equals</operation>
+            <value>Support Hold</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Opportunity.StageName</field>
+            <operation>equals</operation>
+            <value>Closed Won</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Opportunity.RecordTypeId</field>
+            <operation>notEqual</operation>
+            <value>LOD Customer Opportunity</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Opportunity.RecordTypeId</field>
+            <operation>notEqual</operation>
+            <value>LOD Partner Order</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Opportunity.RecordTypeId</field>
+            <operation>notEqual</operation>
+            <value>MTech Incremental Opportunity</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Opportunity.RecordTypeId</field>
+            <operation>notEqual</operation>
+            <value>MTech New Opportunity</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Opportunity.RecordTypeId</field>
+            <operation>notEqual</operation>
+            <value>MTech Cancellation</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Opportunity.RecordTypeId</field>
+            <operation>notEqual</operation>
+            <value>TravelClick</value>
+        </criteriaItems>
+        <description>when an Opportunity is created where the account is on support hold and Oppty turned Closed Won
+NICC-051521</description>
+        <triggerType>onCreateOrTriggeringUpdate</triggerType>
+    </rules>
+    <rules>
+        <fullName>Support Hold Oppty %28new Oppty%29</fullName>
+        <actions>
+            <name>SupportHoldNewOppty</name>
+            <type>Alert</type>
+        </actions>
+        <active>true</active>
+        <booleanFilter>1 AND 2 AND 3 AND 4 AND 5 AND 6 AND 7</booleanFilter>
+        <criteriaItems>
+            <field>Account.Credit_Status__c</field>
+            <operation>equals</operation>
+            <value>Support Hold</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Opportunity.RecordTypeId</field>
+            <operation>notEqual</operation>
+            <value>LOD Customer Opportunity</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Opportunity.RecordTypeId</field>
+            <operation>notEqual</operation>
+            <value>LOD Partner Order</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Opportunity.RecordTypeId</field>
+            <operation>notEqual</operation>
+            <value>MTech Incremental Opportunity</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Opportunity.RecordTypeId</field>
+            <operation>notEqual</operation>
+            <value>MTech New Opportunity</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Opportunity.RecordTypeId</field>
+            <operation>notEqual</operation>
+            <value>MTech Cancellation</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Opportunity.RecordTypeId</field>
+            <operation>notEqual</operation>
+            <value>TravelClick</value>
+        </criteriaItems>
+        <description>when an Opportunity is created where the account is on support hold and Oppty has been created
+NICC-051276
+NICC-051521
+NICC-051977</description>
+        <triggerType>onCreateOrTriggeringUpdate</triggerType>
+    </rules>
+    <rules>
+        <fullName>Update %22Stage Prior to Close Lost%22 field</fullName>
+        <actions>
+            <name>Update_Stage_Prior_to_Close_Lost_field</name>
+            <type>FieldUpdate</type>
+        </actions>
+        <active>true</active>
+        <criteriaItems>
+            <field>Opportunity.StageName</field>
+            <operation>equals</operation>
+            <value>Closed Lost</value>
+        </criteriaItems>
+        <description>NICC-025997</description>
+        <triggerType>onCreateOrTriggeringUpdate</triggerType>
+    </rules>
+    <rules>
+        <fullName>Update Approx Go Live Date</fullName>
+        <actions>
+            <name>Approx_SFDC_Go_Live_Date_is_Close_Date</name>
+            <type>FieldUpdate</type>
+        </actions>
+        <active>true</active>
+        <criteriaItems>
+            <field>Opportunity.Approximate_SFDC_Go_Live_Date__c</field>
+            <operation>equals</operation>
+        </criteriaItems>
+        <triggerType>onCreateOrTriggeringUpdate</triggerType>
+    </rules>
+    <rules>
+        <fullName>Update Approximate_SFDC_Go_Live_Date%5F%5Fc</fullName>
+        <actions>
+            <name>Update_Approximate_SFDC_Go_Live_Date_c</name>
+            <type>FieldUpdate</type>
+        </actions>
+        <active>true</active>
+        <description>When the Close Date on opportunity is updated, update the Approximate SFDC Go-Live Date field to close date + 90 if the Approximate SFDC Go-Live Date is earlier than the Close Date</description>
+        <formula>ISCHANGED( CloseDate )</formula>
+        <triggerType>onAllChanges</triggerType>
+    </rules>
+    <rules>
+        <fullName>Update Close Date When Opportunity is Closed</fullName>
+        <actions>
+            <name>Update_Close_Date</name>
+            <type>FieldUpdate</type>
+        </actions>
+        <active>true</active>
+        <description>NICC-015810: Updates the &quot;Close Date&quot; to today&apos;s date when an opportunity &quot;Stage&quot; is changed to Closed Won or Closed Lost.</description>
+        <formula>AND (
+    ISCHANGED(StageName),
+    OR (
+        ISPICKVAL(StageName, &quot;Closed Lost&quot;), 
+        ISPICKVAL(StageName, &quot;Closed Won&quot;)
+    ) 
+)</formula>
+        <triggerType>onAllChanges</triggerType>
+    </rules>
+    <rules>
+        <fullName>Value Proposition Related to Opp Record</fullName>
+        <actions>
+            <name>Value_Proposition_Created</name>
+            <type>FieldUpdate</type>
+        </actions>
+        <active>true</active>
+        <criteriaItems>
+            <field>Opportunity.of_Value_Proposition_Records__c</field>
+            <operation>greaterThan</operation>
+            <value>0</value>
+        </criteriaItems>
+        <description>If at least one Value Proposition record is related to an opportunity record, check Value Proposition Created field. NICC- 024398.</description>
+        <triggerType>onCreateOrTriggeringUpdate</triggerType>
+    </rules>
+    <tasks>
+        <fullName>Contracts_Request</fullName>
+        <assignedTo>sfeeney@newmarketinc.com</assignedTo>
+        <assignedToType>user</assignedToType>
+        <description>This opportunity needs processing!! 
+
+Thank you!!</description>
+        <dueDateOffset>2</dueDateOffset>
+        <notifyAssignee>false</notifyAssignee>
+        <priority>Normal - 2 Days</priority>
+        <protected>false</protected>
+        <status>Not Started</status>
+        <subject>Contracts Request</subject>
+    </tasks>
+    <tasks>
+        <fullName>GetPOforOrder</fullName>
+        <assignedToType>owner</assignedToType>
+        <description>A PO is required for this order.  Please forward PO info to Contracts team.</description>
+        <dueDateOffset>0</dueDateOffset>
+        <notifyAssignee>true</notifyAssignee>
+        <priority>High - 1 Day</priority>
+        <protected>false</protected>
+        <status>Not Started</status>
+        <subject>Get PO for Order</subject>
+    </tasks>
+    <tasks>
+        <fullName>HRM_Notification_Automated_By_Integration_User</fullName>
+        <assignedTo>integration_user@newmarketinc.com</assignedTo>
+        <assignedToType>user</assignedToType>
+        <description>Notification of Sales Order to Subscription team completed, by automation, Integration User.
+Salesforce.com NICC -  022675</description>
+        <dueDateOffset>0</dueDateOffset>
+        <notifyAssignee>false</notifyAssignee>
+        <offsetFromField>Opportunity.CloseDate</offsetFromField>
+        <priority>Low</priority>
+        <protected>false</protected>
+        <status>Not Started</status>
+        <subject>HRM Notification Automated By Integration User</subject>
+    </tasks>
+    <tasks>
+        <fullName>Send_screenshot</fullName>
+        <assignedToType>owner</assignedToType>
+        <dueDateOffset>0</dueDateOffset>
+        <notifyAssignee>true</notifyAssignee>
+        <offsetFromField>Opportunity.Action_Date__c</offsetFromField>
+        <priority>Normal</priority>
+        <protected>false</protected>
+        <status>Not Started</status>
+        <subject>Send screenshot</subject>
+    </tasks>
+</Workflow>

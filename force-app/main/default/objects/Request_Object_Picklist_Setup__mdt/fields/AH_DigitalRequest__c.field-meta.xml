@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>AH_DigitalRequest__c</fullName>
+    <businessStatus>Active</businessStatus>
+    <description>NICC-057703; Used to populate Product choices in the Flow called &quot;Request - Creative Request Intake Form&quot;. Used on the screen called &quot;MediaInputScreen&quot;, field &quot;Digital Request&quot;</description>
+    <externalId>false</externalId>
+    <fieldManageability>DeveloperControlled</fieldManageability>
+    <label>Digital Request</label>
+    <required>false</required>
+    <securityClassification>Internal</securityClassification>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Custom (Tier 1)</fullName>
+                <default>false</default>
+                <label>Custom (Tier 1)</label>
+            </value>
+            <value>
+                <fullName>Template (Tiers 2, 3 &amp; 4)</fullName>
+                <default>false</default>
+                <label>Template (Tiers 2, 3 &amp; 4)</label>
+            </value>
+            <value>
+                <fullName>Client Provided Banner</fullName>
+                <default>false</default>
+                <label>Client Provided Banner</label>
+            </value>
+            <value>
+                <fullName>Dynamic Banner (iHotelier Clients ONLY)</fullName>
+                <default>false</default>
+                <label>Dynamic Banner (iHotelier Clients ONLY)</label>
+            </value>
+            <value>
+                <fullName>Add-On Banner</fullName>
+                <default>false</default>
+                <label>Add-On Banner</label>
+            </value>
+            <value>
+                <fullName>Video for Social Media</fullName>
+                <default>false</default>
+                <label>Video for Social Media</label>
+            </value>
+            <value>
+                <fullName>Image Resize/Graphic Overlays</fullName>
+                <default>false</default>
+                <label>Image Resize/Graphic Overlays</label>
+            </value>
+            <value>
+                <fullName>Update</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Update</label>
+            </value>
+            <value>
+                <fullName>Video Banner</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Video Banner</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

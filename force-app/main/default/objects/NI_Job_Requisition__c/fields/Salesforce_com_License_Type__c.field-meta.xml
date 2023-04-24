@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Salesforce_com_License_Type__c</fullName>
+    <description>All employees are setup with a Salesforce Platform License by default.  This gives employees access to the various Newmarket specific applications within Salesforce.   Accessing Cases and Opportunities in Salesforce requires a Standard license which may need to be purchased.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>All employees are setup with a Salesforce Platform License by default.  This gives employees access to the various Newmarket specific applications within Salesforce.   Accessing Cases and Opportunities in Salesforce requires a Standard license</inlineHelpText>
+    <label>Salesforce.com License Type</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Platform</fullName>
+                <default>true</default>
+                <label>Platform</label>
+            </value>
+            <value>
+                <fullName>Standard</fullName>
+                <default>false</default>
+                <label>Standard</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>SaraJ_Luan_PRiceBook_Project</fullName>
+    <columns>NAME</columns>
+    <columns>Account_Name__c</columns>
+    <columns>Contract_Start_Date__c</columns>
+    <columns>Contract_End_Date__c</columns>
+    <columns>Product__c</columns>
+    <columns>Product_Description__c</columns>
+    <columns>Renewal_Pricebook__c</columns>
+    <columns>Auto_Renewal__c</columns>
+    <columns>Renewal_Processed__c</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>Renewal_Date__c</field>
+        <operation>greaterOrEqual</operation>
+        <value>1/1/2022</value>
+    </filters>
+    <filters>
+        <field>Auto_Renewal__c</field>
+        <operation>equals</operation>
+        <value>1</value>
+    </filters>
+    <filters>
+        <field>Renewal_Processed__c</field>
+        <operation>equals</operation>
+        <value>0</value>
+    </filters>
+    <label>SaraJ/Luan PRiceBook Project</label>
+    <language>en_US</language>
+</ListView>

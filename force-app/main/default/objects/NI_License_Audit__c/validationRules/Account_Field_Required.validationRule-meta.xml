@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Account_Field_Required</fullName>
+    <active>true</active>
+    <description>Salesforce.com NICC -022951</description>
+    <errorConditionFormula>ISBLANK(Account__c )</errorConditionFormula>
+    <errorMessage>Account field is required to create Audit record.</errorMessage>
+</ValidationRule>

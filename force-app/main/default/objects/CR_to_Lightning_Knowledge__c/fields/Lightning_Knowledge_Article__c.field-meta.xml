@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Lightning_Knowledge_Article__c</fullName>
+    <description>Lightning Knowledge project.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Lightning Knowledge in junction with Change Request.</inlineHelpText>
+    <label>Lightning Knowledge Article</label>
+    <referenceTo>Lightning_Knowledge__kav</referenceTo>
+    <relationshipLabel>Change Request</relationshipLabel>
+    <relationshipName>CR_to_Lightning_Knowledges</relationshipName>
+    <relationshipOrder>0</relationshipOrder>
+    <reparentableMasterDetail>true</reparentableMasterDetail>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>MasterDetail</type>
+    <writeRequiresMasterRead>false</writeRequiresMasterRead>
+</CustomField>

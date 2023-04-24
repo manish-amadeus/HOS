@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Answer_Format__c</fullName>
+    <description>Only includes Radio Button today, as that is what the scoring supports.  When multiple answers can be chosen a multi select option can be added.</description>
+    <externalId>false</externalId>
+    <label>Answer Format</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Radio Button</fullName>
+                <default>true</default>
+                <label>Radio Button</label>
+            </value>
+            <value>
+                <fullName>Checkbox</fullName>
+                <default>false</default>
+                <label>Checkbox</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

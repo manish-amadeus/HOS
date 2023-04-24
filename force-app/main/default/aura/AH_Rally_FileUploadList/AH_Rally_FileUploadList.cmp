@@ -1,0 +1,79 @@
+<aura:component controller="AH_Rally_LEXMethods" implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access="global">
+    
+    <aura:attribute name="listOfFiles" type="List" default=""/>
+    <aura:attribute name="recordId" type="String" default="{!v.recordId}"/>
+    <aura:handler name="init" value="{!this}" action="{!c.init}" />
+    <aura:handler event="c:AH_Rally_Event" action="{!c.init}"/>
+    <aura:handler event="force:showToast" action="{!c.refresh}" />
+    
+    <div class="demo-only" >
+        <div class="slds-page-header slds-page-header_vertical">
+            <div class="slds-media">
+                <div class="slds-media__figure">
+                    
+                </div>
+                <div class="slds-media__body">
+                    <ui:message title="Information" severity="info" closable="true">
+                        Please click on send link in order to send attachment to associated User Story
+                    </ui:message>
+                    <div class="slds-page-header__name">
+                        <div class="slds-page-header__name-title">
+                            <h2 id="id-of-modalheader-h2" class="slds-text-heading_medium">Attachment List</h2>
+                        </div>                       
+                    </div>
+                    <div style="float: right;margin-top: -9px;"><lightning:button label="View all" title="View all" onclick="{!c.openRelatedList}"/></div>
+                </div>
+            </div>
+
+            <table class="slds-table slds-table--bordered slds-table--striped">
+                <thead>
+                    <tr>
+                        <th scope="col"><span class="slds-truncate">Action</span></th>
+                        <th scope="col"><span class="slds-truncate">Title</span></th>
+                        <th scope="col"><span class="slds-truncate">Last modified Date</span></th>
+                        <!--<th scope="col"><span class="slds-truncate">File Type</span></th>-->
+                        <th scope="col"><span class="slds-truncate">File Size</span></th>
+                        <th scope="col"><span class="slds-truncate">Rally Status</span></th>                            
+                    </tr>
+                </thead>
+                <tbody>
+                    <aura:iteration items="{!v.listOfFiles}" var="fobj">
+                        <tr>
+                            <td>
+                                <lightning:buttonMenu aura:id="menu" onselect="{! c.handleSelect }" alternativeText="Show menu">
+                                    <aura:if isTrue="{!fobj.userStoryCreated}">    
+                                        <aura:if isTrue="{!fobj.fileStatus !='Sent'}">  
+                                            <lightning:menuItem value="{!'sent_'+fobj.id}" label="Send" />
+                                            <aura:set attribute="else"> 
+                                                <lightning:menuItem value="" disabled="true" label="Send" />
+                                            </aura:set>    
+                                        </aura:if>
+                                    </aura:if>                                    
+                                    <lightning:menuItem value="{!'delete_'+fobj.id}" label="Delete"  />                                    
+                                </lightning:buttonMenu>                                
+                            </td>
+                            <td >
+                                <a target="_blank"  href="{!'/lightning/r/ContentDocument/'+fobj.id+'/view'}" >
+                                    {!fobj.Title}
+                                </a> 
+                            </td>
+                            <td>
+                                <lightning:formattedDateTime value="{!fobj.LastModifiedDate}" year="numeric" day="2-digit" month="long" hour="2-digit" minute="2-digit"/>
+                            </td>
+                            <td>
+                                {!fobj.ContentSize}
+                            </td>
+                            <td>
+                                <span style='color:green;font-weight:bold;'>
+                                {!fobj.fileStatus}
+                                </span>
+                            </td>
+                        </tr>
+                    </aura:iteration>
+                </tbody>
+            </table>
+
+        </div>
+    </div>    
+    
+</aura:component>

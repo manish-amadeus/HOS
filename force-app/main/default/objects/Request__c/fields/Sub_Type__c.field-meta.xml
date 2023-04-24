@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Sub_Type__c</fullName>
+    <businessOwnerGroup>Business_Systems_Internal</businessOwnerGroup>
+    <businessStatus>Active</businessStatus>
+    <description>These are the picklist values for Delivery Request Type</description>
+    <externalId>false</externalId>
+    <label>Sub-Type</label>
+    <required>false</required>
+    <securityClassification>Internal</securityClassification>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <controllingField>PS_Request_Type__c</controllingField>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Configuration</fullName>
+                <default>false</default>
+                <label>Configuration</label>
+            </value>
+            <value>
+                <fullName>Consulting</fullName>
+                <default>false</default>
+                <label>Consulting</label>
+            </value>
+            <value>
+                <fullName>Custom</fullName>
+                <default>false</default>
+                <label>Custom</label>
+            </value>
+            <value>
+                <fullName>Data Services</fullName>
+                <default>false</default>
+                <label>Data Services</label>
+            </value>
+            <value>
+                <fullName>New/Change PSA User/MDM</fullName>
+                <default>false</default>
+                <label>New/Change PSA User/MDM</label>
+            </value>
+            <value>
+                <fullName>PSA Q&amp;A/Troubleshooting</fullName>
+                <default>false</default>
+                <label>PSA Q&amp;A/Troubleshooting</label>
+            </value>
+            <value>
+                <fullName>Consulting, Configuration and Training</fullName>
+                <default>false</default>
+                <label>Consulting, Configuration and Training</label>
+            </value>
+            <value>
+                <fullName>Consulting, Configuration, Training and Data Services</fullName>
+                <default>false</default>
+                <label>Consulting, Configuration, Training and Data Services</label>
+            </value>
+            <value>
+                <fullName>Reporting Assistance</fullName>
+                <default>false</default>
+                <label>Reporting Assistance</label>
+            </value>
+            <value>
+                <fullName>Report Services</fullName>
+                <default>false</default>
+                <label>Report Services</label>
+            </value>
+            <value>
+                <fullName>Diagrams</fullName>
+                <default>false</default>
+                <label>Diagrams</label>
+            </value>
+            <value>
+                <fullName>Schedule Assistance</fullName>
+                <default>false</default>
+                <label>Schedule Assistance</label>
+            </value>
+            <value>
+                <fullName>Consulting and Training</fullName>
+                <default>false</default>
+                <label>Consulting and Training</label>
+            </value>
+            <value>
+                <fullName>Training</fullName>
+                <default>false</default>
+                <label>Training</label>
+            </value>
+            <value>
+                <fullName>Travel Day Request</fullName>
+                <default>false</default>
+                <label>Travel Day Request</label>
+            </value>
+            <value>
+                <fullName>Other</fullName>
+                <default>false</default>
+                <label>Other</label>
+            </value>
+            <value>
+                <fullName>Integration LOE</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Integration LOE</label>
+            </value>
+            <value>
+                <fullName>Priority Scheduling Request</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Priority Scheduling Request</label>
+            </value>
+        </valueSetDefinition>
+        <valueSettings>
+            <controllingFieldValue>Custom Services Quote</controllingFieldValue>
+            <valueName>Configuration</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Custom Services Quote</controllingFieldValue>
+            <valueName>Consulting</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Custom Services Quote</controllingFieldValue>
+            <valueName>Custom</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Custom Services Quote</controllingFieldValue>
+            <valueName>Data Services</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Custom Services Quote</controllingFieldValue>
+            <valueName>Consulting, Configuration and Training</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Custom Services Quote</controllingFieldValue>
+            <valueName>Consulting, Configuration, Training and Data Services</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Custom Services Quote</controllingFieldValue>
+            <valueName>Report Services</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Custom Services Quote</controllingFieldValue>
+            <valueName>Diagrams</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Custom Services Quote</controllingFieldValue>
+            <valueName>Consulting and Training</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Custom Services Quote</controllingFieldValue>
+            <valueName>Training</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Project Office Requests</controllingFieldValue>
+            <valueName>New/Change PSA User/MDM</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Project Office Requests</controllingFieldValue>
+            <valueName>PSA Q&amp;A/Troubleshooting</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Project Office Requests</controllingFieldValue>
+            <valueName>Reporting Assistance</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Project Office Requests</controllingFieldValue>
+            <valueName>Schedule Assistance</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Project Office Requests</controllingFieldValue>
+            <valueName>Travel Day Request</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Project Office Requests</controllingFieldValue>
+            <valueName>Other</valueName>
+        </valueSettings>
+    </valueSet>
+</CustomField>

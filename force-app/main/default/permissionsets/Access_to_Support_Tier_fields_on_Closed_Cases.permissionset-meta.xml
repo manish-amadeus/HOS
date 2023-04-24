@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PermissionSet xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>This allows a Support Manager or Supervisor to have access to the Support Tier related fields on closed Cases.</description>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Case.Support_Tier_Override_Role__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Case.Support_Tier_Override_Sub_Role__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Case.Support_Tier_Override__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <hasActivationRequired>false</hasActivationRequired>
+    <label>Access to Support Tier fields on Closed Cases</label>
+    <license>Salesforce</license>
+</PermissionSet>

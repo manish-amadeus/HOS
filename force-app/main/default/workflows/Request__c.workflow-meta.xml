@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Workflow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <alerts>
+        <fullName>Delivery_Request_Canceled</fullName>
+        <description>Notify Request Contact a Delivery Request has been canceled</description>
+        <protected>false</protected>
+        <recipients>
+            <recipient>yoleidis.hernandez@amadeus.com</recipient>
+            <type>user</type>
+        </recipients>
+        <recipients>
+            <field>Request_Contact__c</field>
+            <type>userLookup</type>
+        </recipients>
+        <senderAddress>noreplycontracts@newmarketinc.com</senderAddress>
+        <senderType>OrgWideEmailAddress</senderType>
+        <template>Professional_Services_Email_Templates/Delivery_Request_canceled_Notification</template>
+    </alerts>
+    <alerts>
+        <fullName>Delivery_Request_Closed</fullName>
+        <description>Notify Request Contact a Delivery Request has been closed</description>
+        <protected>false</protected>
+        <recipients>
+            <recipient>yoleidis.hernandez@amadeus.com</recipient>
+            <type>user</type>
+        </recipients>
+        <recipients>
+            <field>Request_Contact__c</field>
+            <type>userLookup</type>
+        </recipients>
+        <senderAddress>hospitality.no-reply@amadeus.com</senderAddress>
+        <senderType>OrgWideEmailAddress</senderType>
+        <template>Professional_Services_Email_Templates/Delivery_Request_Closed_Notification</template>
+    </alerts>
+    <alerts>
+        <fullName>Delivery_Request_New_Owner</fullName>
+        <description>Delivery Request - Email alert when a new request is assigned to Account or Opportunity owner</description>
+        <protected>false</protected>
+        <recipients>
+            <type>owner</type>
+        </recipients>
+        <recipients>
+            <recipient>yoleidis.hernandez@amadeus.com</recipient>
+            <type>user</type>
+        </recipients>
+        <senderAddress>hospitality.no-reply@amadeus.com</senderAddress>
+        <senderType>OrgWideEmailAddress</senderType>
+        <template>Professional_Services_Email_Templates/Request_Assigned_Account_or_Opportunity_Owner</template>
+    </alerts>
+    <alerts>
+        <fullName>Global_Ops_Queue_Email_Alert</fullName>
+        <ccEmails>CS.GlobalOps@amadeus.com</ccEmails>
+        <description>Global Ops Queue Email Alert</description>
+        <protected>false</protected>
+        <recipients>
+            <recipient>natercia.rodrigues@amadeus.com</recipient>
+            <type>user</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>Shared_Services_Templates/Global_Ops_Queue_Email_Template_1634127672868</template>
+    </alerts>
+    <alerts>
+        <fullName>Order_Management_New_Request_Record</fullName>
+        <description>Order Management New Request Record</description>
+        <protected>false</protected>
+        <recipients>
+            <type>creator</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>unfiled$public/Order_Management_New_Request_Email</template>
+    </alerts>
+    <alerts>
+        <fullName>SharedServicesGlobalOpsPasswordReset</fullName>
+        <ccEmails>alesha.bencivenga@amadeus.com</ccEmails>
+        <description>Shared Services Global Ops Password Reset</description>
+        <protected>false</protected>
+        <recipients>
+            <recipient>CS_Shared_Services</recipient>
+            <type>group</type>
+        </recipients>
+        <recipients>
+            <recipient>Global_Ops</recipient>
+            <type>group</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>Shared_Services_Templates/Request_SharedServicesGlobalOpsPasswordReset_1634229161168</template>
+    </alerts>
+    <alerts>
+        <fullName>Shared_Services_Queue_Email_Alert</fullName>
+        <ccEmails>Alesha.Bencivenga@amadeus.com</ccEmails>
+        <description>Shared Services Queue Email Alert</description>
+        <protected>false</protected>
+        <recipients>
+            <recipient>CS_Shared_Services</recipient>
+            <type>group</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>Shared_Services_Templates/Shared_Services_Queue_Email_Template_1634127476757</template>
+    </alerts>
+    <alerts>
+        <fullName>Shared_Servies_Global_Ops_Request</fullName>
+        <description>Shared Servies Global Ops Request</description>
+        <protected>false</protected>
+        <recipients>
+            <type>creator</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>Shared_Services_Templates/Shared_Services_Global_Ops_Request_1633712826138</template>
+    </alerts>
+</Workflow>

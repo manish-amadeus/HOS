@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>DevelopForm__c</fullName>
+    <description>This URL will open the Form in the Form Assembly designer.</description>
+    <externalId>false</externalId>
+    <formula>IF( RecordType.DeveloperName !=&apos;FormAssembly&apos;,&apos;&apos;,
+&apos;https://amadeushospitalitysb.tfaforms.net/forms/builder/5.0.0/&apos; + FormAssemblyId__c)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <inlineHelpText>This URL will open the Form in the Form Assembly designer.</inlineHelpText>
+    <label>Develop Form</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

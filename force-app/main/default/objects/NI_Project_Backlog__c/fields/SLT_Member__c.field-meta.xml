@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>SLT_Member__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <description>NICC-061428</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Senior Leadership Team member for this project</inlineHelpText>
+    <label>SLT Member</label>
+    <referenceTo>User</referenceTo>
+    <relationshipName>AH_Project_Backlog1</relationshipName>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>Lookup</type>
+</CustomField>

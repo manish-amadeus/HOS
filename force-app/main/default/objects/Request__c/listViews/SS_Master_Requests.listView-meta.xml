@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>SS_Master_Requests</fullName>
+    <columns>NAME</columns>
+    <columns>Request_Title__c</columns>
+    <columns>MSD_Ticket__c</columns>
+    <columns>Work_Record_Number__c</columns>
+    <columns>BS_Related_AH_Project_Backlog__c</columns>
+    <columns>Request_Contact__c</columns>
+    <columns>Request_Status__c</columns>
+    <columns>Request_Type__c</columns>
+    <columns>CREATED_DATE</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>Request_Status__c</field>
+        <operation>notEqual</operation>
+        <value>Closed,Closed - Contract Processed,Closed - Incorrect Mailbox,Closed - Info/Admin Opty Processed,Closed - Unresolved,Rejected,SPAM,Duplicate,Closed Blocked,Closed Cancelled,Closed Fulfilled,Close Duplicate</value>
+    </filters>
+    <filters>
+        <field>Request_Title__c</field>
+        <operation>contains</operation>
+        <value>Master</value>
+    </filters>
+    <label>Digi Master Requests</label>
+</ListView>

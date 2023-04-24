@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>CustomObjects__c</fullName>
+    <complianceGroup>Normal</complianceGroup>
+    <externalId>false</externalId>
+    <inlineHelpText>A sum of all Managed objects.</inlineHelpText>
+    <label>Managed Custom Objects</label>
+    <securityClassification>Internal</securityClassification>
+    <summarizedField>NI_Org_Details_Installed_Packages__c.Objects__c</summarizedField>
+    <summaryFilterItems>
+        <field>NI_Org_Details_Installed_Packages__c.Managed__c</field>
+        <operation>equals</operation>
+        <value>True</value>
+    </summaryFilterItems>
+    <summaryFilterItems>
+        <field>NI_Org_Details_Installed_Packages__c.Package_Allowed__c</field>
+        <operation>equals</operation>
+        <value>False</value>
+    </summaryFilterItems>
+    <summaryFilterItems>
+        <field>NI_Org_Details_Installed_Packages__c.Package_Verified__c</field>
+        <operation>equals</operation>
+        <value>True</value>
+    </summaryFilterItems>
+    <summaryForeignKey>NI_Org_Details_Installed_Packages__c.NI_Org_Details__c</summaryForeignKey>
+    <summaryOperation>sum</summaryOperation>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Summary</type>
+</CustomField>

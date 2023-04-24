@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>First_Day_Acknowledgement_Of_Request__c</fullName>
+    <defaultValue>0</defaultValue>
+    <description>On the first  day of case ownership, the agent follows proper acknowledgement requirements as described. 
+Updated per NICC 053612</description>
+    <externalId>false</externalId>
+    <inlineHelpText>On the first day of case ownership, the agent follows proper acknowledgement requirements as described in case handling SOP.
+POSSIBLE VALUES: 0, 1, 5</inlineHelpText>
+    <label>First day acknowledgement of request *</label>
+    <precision>2</precision>
+    <required>false</required>
+    <scale>0</scale>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Number</type>
+    <unique>false</unique>
+</CustomField>

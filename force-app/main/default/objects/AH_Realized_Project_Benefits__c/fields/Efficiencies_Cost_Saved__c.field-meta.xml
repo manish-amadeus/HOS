@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Efficiencies_Cost_Saved__c</fullName>
+    <businessOwnerUser>dmerrill@newmarketinc.com.sbfull</businessOwnerUser>
+    <businessStatus>Active</businessStatus>
+    <description>NICC-054810; visibility to this field is granted through the &quot;AH Realized Benefits fields&quot; permission set.</description>
+    <externalId>false</externalId>
+    <formula>Hourly_Cost__c  *  Efficiencies_Savings_hrs__c</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Efficiencies Cost Saved</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>2</scale>
+    <securityClassification>Restricted</securityClassification>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Currency</type>
+</CustomField>

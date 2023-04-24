@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<WebLink xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>New_Requirements_Lightning_Experience</fullName>
+    <availability>online</availability>
+    <description>NICC-061216; Creates a new Requirement record in lightning experience and pre-populates the Account, Opportunity and Case field</description>
+    <displayType>massActionButton</displayType>
+    <encodingKey>UTF-8</encodingKey>
+    <linkType>url</linkType>
+    <masterLabel>New Requirements (Lightning Experience)</masterLabel>
+    <openType>replace</openType>
+    <protected>false</protected>
+    <requireRowSelection>true</requireRowSelection>
+    <url>/lightning/o/Requirement__c/new?defaultFieldValues=
+Account_Name__c={!Case.AccountId},
+Opportunity_Name__c={!Case.OpportunityId__c},
+Case__c={!Case.Id}</url>
+</WebLink>

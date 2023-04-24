@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Total_Package_Amount__c</fullName>
+    <description>The total amount of all the Milestones generated.  It will be divided up among the milestones based on Milestone Percent supplied in Product Package Milestone definition.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>The total amount of all the Milestones generated.  It will be divided up among the milestones based on Milestone Percent supplied in Product Package Milestone definition.</inlineHelpText>
+    <label>Total Package Amount</label>
+    <precision>12</precision>
+    <required>true</required>
+    <scale>2</scale>
+    <trackTrending>false</trackTrending>
+    <type>Currency</type>
+</CustomField>

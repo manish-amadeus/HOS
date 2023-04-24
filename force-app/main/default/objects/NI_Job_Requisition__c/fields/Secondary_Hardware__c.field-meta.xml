@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Secondary_Hardware__c</fullName>
+    <description>The secondary hardware that the employee requires</description>
+    <externalId>false</externalId>
+    <inlineHelpText>The secondary hardware that the employee requires</inlineHelpText>
+    <label>Secondary Hardware</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>No Secondary Hardware Needed</fullName>
+                <default>true</default>
+                <label>No Secondary Hardware Needed</label>
+            </value>
+            <value>
+                <fullName>Windows Laptop</fullName>
+                <default>false</default>
+                <label>Windows Laptop</label>
+            </value>
+            <value>
+                <fullName>Windows Desktop</fullName>
+                <default>false</default>
+                <label>Windows Desktop</label>
+            </value>
+            <value>
+                <fullName>Mac Laptop</fullName>
+                <default>false</default>
+                <label>Mac Laptop</label>
+            </value>
+            <value>
+                <fullName>Mac Desktop</fullName>
+                <default>false</default>
+                <label>Mac Desktop</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

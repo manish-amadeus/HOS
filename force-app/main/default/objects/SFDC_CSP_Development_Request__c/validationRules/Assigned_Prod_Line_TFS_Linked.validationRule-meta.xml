@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Assigned_Prod_Line_TFS_Linked</fullName>
+    <active>true</active>
+    <description>When the Assigned Product Line does not equal specific values, the TFS Linked checkbox should not be checkmarked. NICC-064390</description>
+    <errorConditionFormula>AND(
+TFS_Linked__c = TRUE,
+TEXT( Assigned_Product_Line__c ) &lt;&gt; &quot;Connex&quot;,
+TEXT( Assigned_Product_Line__c ) &lt;&gt; &quot;Daylight&quot;,
+TEXT( Assigned_Product_Line__c ) &lt;&gt; &quot;Delphi&quot;,
+TEXT( Assigned_Product_Line__c ) &lt;&gt; &quot;Delphi.fdc R Series&quot;,
+TEXT( Assigned_Product_Line__c ) &lt;&gt; &quot;Delphi.fdc Winter Series&quot;,
+TEXT( Assigned_Product_Line__c ) &lt;&gt; &quot;Delphi.Net&quot;,
+TEXT( Assigned_Product_Line__c ) &lt;&gt; &quot;Diagrams&quot;,
+TEXT( Assigned_Product_Line__c ) &lt;&gt; &quot;HotSOS&quot;,
+TEXT( Assigned_Product_Line__c ) &lt;&gt; &quot;iPlan&quot;,
+TEXT( Assigned_Product_Line__c ) &lt;&gt; &quot;I-Server&quot;,
+TEXT( Assigned_Product_Line__c ) &lt;&gt; &quot;MeetingBroker&quot;,
+TEXT( Assigned_Product_Line__c ) &lt;&gt; &quot;MeetingMatrix&quot;,
+TEXT( Assigned_Product_Line__c ) &lt;&gt; &quot;NWS&quot;
+)</errorConditionFormula>
+    <errorMessage>The TFS Linked checkbox needs to be unchecked in order to Save when using this Assigned Product Line.</errorMessage>
+</ValidationRule>

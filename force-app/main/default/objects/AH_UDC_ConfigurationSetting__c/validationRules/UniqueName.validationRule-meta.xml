@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>UniqueName</fullName>
+    <active>true</active>
+    <errorConditionFormula>AND(VLOOKUP($ObjectType.AH_UDC_ConfigurationSetting__c.Fields.Name, $ObjectType.AH_UDC_ConfigurationSetting__c.Fields.Name, Name) = Name, OR(ISNEW(), ISCHANGED(Name)))</errorConditionFormula>
+    <errorMessage>The name of the setting must be unique.</errorMessage>
+</ValidationRule>

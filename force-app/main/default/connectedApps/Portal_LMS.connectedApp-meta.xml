@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ConnectedApp xmlns="http://soap.sforce.com/2006/04/metadata">
+    <contactEmail>geetha.amalraj@amadeus.com</contactEmail>
+    <description>Portal to LMS Valamis Integration : NICC-060813</description>
+    <label>Portal_LMS</label>
+    <samlConfig>
+        <acsUrl>https://amadeusdry.prod.valamis.io/c/portal/vsaml/acs?m=hos</acsUrl>
+        <encryptionType>AES_128</encryptionType>
+        <entityUrl>https://amadeusdry.prod.valamis.io/saml</entityUrl>
+        <issuer>https://amadeus-hospitality.my.salesforce.com</issuer>
+        <samlNameIdFormat>Unspecified</samlNameIdFormat>
+        <samlSigningAlgoType>SHA256</samlSigningAlgoType>
+        <samlSubjectType>Username</samlSubjectType>
+    </samlConfig>
+</ConnectedApp>

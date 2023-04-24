@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Discretionary_Credit_Origin_c__c</fullName>
+    <externalDeveloperName>Discretionary_Credit_Origin__c</externalDeveloperName>
+    <externalId>false</externalId>
+    <isFilteringDisabled>false</isFilteringDisabled>
+    <isNameField>false</isNameField>
+    <isSortingDisabled>false</isSortingDisabled>
+    <label>Discretionary Credit Origin</label>
+    <readOnlyProxy>true</readOnlyProxy>
+    <required>false</required>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Implementation issues</fullName>
+                <default>false</default>
+                <label>Implementation issues</label>
+            </value>
+            <value>
+                <fullName>Functionality issues (Product)</fullName>
+                <default>false</default>
+                <label>Functionality issues (Product)</label>
+            </value>
+            <value>
+                <fullName>Bad Sale (DOS)</fullName>
+                <default>false</default>
+                <label>Bad Sale (DOS)</label>
+            </value>
+            <value>
+                <fullName>Customer Experience</fullName>
+                <default>false</default>
+                <label>Customer Experience</label>
+            </value>
+            <value>
+                <fullName>Renewal Mismanagement</fullName>
+                <default>false</default>
+                <label>Renewal Mismanagement</label>
+            </value>
+            <value>
+                <fullName>Client Issue - Performance didn’t meet expectations/Customer Experience</fullName>
+                <default>false</default>
+                <label>Client Issue - Performance didn’t meet expectations/Customer Experience</label>
+            </value>
+            <value>
+                <fullName>Internal issue – delay in onboarding</fullName>
+                <default>false</default>
+                <label>Internal issue – delay in onboarding</label>
+            </value>
+            <value>
+                <fullName>Internal Issue – Internal Error</fullName>
+                <default>false</default>
+                <label>Internal Issue – Internal Error</label>
+            </value>
+            <value>
+                <fullName>Internal Issue – Renewal Management</fullName>
+                <default>false</default>
+                <label>Internal Issue – Renewal Management</label>
+            </value>
+            <value>
+                <fullName>Bad Sale</fullName>
+                <default>false</default>
+                <label>Bad Sale</label>
+            </value>
+            <value>
+                <fullName>Media Related – Spoilage</fullName>
+                <default>false</default>
+                <label>Media Related – Spoilage</label>
+            </value>
+            <value>
+                <fullName>Technical Issues – Functionality/System incompatibility</fullName>
+                <default>false</default>
+                <label>Technical Issues – Functionality/System incompatibility</label>
+            </value>
+            <value>
+                <fullName>Client Issue - Goodwill Credit</fullName>
+                <default>false</default>
+                <label>Client Issue - Goodwill Credit</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

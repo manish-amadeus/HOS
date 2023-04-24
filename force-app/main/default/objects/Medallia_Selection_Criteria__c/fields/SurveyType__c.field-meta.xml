@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>SurveyType__c</fullName>
+    <externalId>false</externalId>
+    <label>SurveyType</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>true</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Services - Installer Survey</fullName>
+                <default>false</default>
+                <label>Services - Installer Survey</label>
+            </value>
+            <value>
+                <fullName>Services - Consulting Survey</fullName>
+                <default>false</default>
+                <label>Services - Consulting Survey</label>
+            </value>
+            <value>
+                <fullName>Services - Training Survey</fullName>
+                <default>false</default>
+                <label>Services - Training Survey</label>
+            </value>
+            <value>
+                <fullName>Services - Project Manager</fullName>
+                <default>false</default>
+                <label>Services - Project Manager</label>
+            </value>
+            <value>
+                <fullName>Customer Support</fullName>
+                <default>false</default>
+                <label>Customer Support</label>
+            </value>
+            <value>
+                <fullName>Solution Adoption</fullName>
+                <default>false</default>
+                <label>Solution Adoption</label>
+            </value>
+            <value>
+                <fullName>Project Managers - 1</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Project Managers No Training</label>
+            </value>
+            <value>
+                <fullName>Project Managers - 2</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Project Managers With Training</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

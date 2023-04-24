@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>P_SATs_without_date</fullName>
+    <columns>NAME</columns>
+    <columns>Related_Account__c</columns>
+    <columns>Date__c</columns>
+    <columns>Status__c</columns>
+    <columns>Quantity__c</columns>
+    <columns>Value__c</columns>
+    <columns>CREATEDBY_USER</columns>
+    <columns>Product_Code__c</columns>
+    <columns>CREATED_DATE</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>Date__c</field>
+        <operation>equals</operation>
+    </filters>
+    <filters>
+        <field>Status__c</field>
+        <operation>notEqual</operation>
+        <value>Canceled</value>
+    </filters>
+    <label>P - SATs without date</label>
+</ListView>

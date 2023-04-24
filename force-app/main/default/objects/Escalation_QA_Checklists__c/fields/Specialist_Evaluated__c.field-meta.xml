@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Specialist_Evaluated__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <description>field to use when more than one specialist worked on the case (replaces Additional Specialist picklist field)
+NICC 053612</description>
+    <externalId>false</externalId>
+    <label>Agent Evaluated</label>
+    <referenceTo>User</referenceTo>
+    <relationshipName>Escalation_QA_Checkslists</relationshipName>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

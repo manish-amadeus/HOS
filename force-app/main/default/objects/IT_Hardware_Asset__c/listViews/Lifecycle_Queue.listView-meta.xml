@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Lifecycle_Queue</fullName>
+    <booleanFilter>1 AND (2 OR 5) AND 3 AND 4 AND 6</booleanFilter>
+    <columns>NAME</columns>
+    <columns>Product_ID__c</columns>
+    <columns>Replacement_Configuration__c</columns>
+    <columns>HardwareType__c</columns>
+    <columns>Lifecycle_Date__c</columns>
+    <columns>Asset_Location__c</columns>
+    <columns>User__c</columns>
+    <columns>Asset_Tag_Number__c</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>Status__c</field>
+        <operation>equals</operation>
+        <value>Available Inventory</value>
+    </filters>
+    <filters>
+        <field>HardwareType__c</field>
+        <operation>equals</operation>
+        <value>Laptop,Workstation</value>
+    </filters>
+    <filters>
+        <field>RECORDTYPE</field>
+        <operation>equals</operation>
+        <value>IT_Hardware_Asset__c.User_Hardware</value>
+    </filters>
+    <filters>
+        <field>Secondary_Machine__c</field>
+        <operation>equals</operation>
+        <value>0</value>
+    </filters>
+    <filters>
+        <field>Hardware_Type__c</field>
+        <operation>equals</operation>
+        <value>Laptop,Workstation</value>
+    </filters>
+    <filters>
+        <field>Custodian_Location__c</field>
+        <operation>notEqual</operation>
+        <value>EU - Office</value>
+    </filters>
+    <label>Lifecycle Availability (Other)</label>
+</ListView>

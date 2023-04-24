@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>RMS_Type_c__c</fullName>
+    <externalDeveloperName>RMS_Type__c</externalDeveloperName>
+    <externalId>false</externalId>
+    <inlineHelpText>What is the RMS type?</inlineHelpText>
+    <isFilteringDisabled>false</isFilteringDisabled>
+    <isNameField>false</isNameField>
+    <isSortingDisabled>false</isSortingDisabled>
+    <label>RMS Type</label>
+    <required>false</required>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Duetto</fullName>
+                <default>false</default>
+                <label>Duetto</label>
+            </value>
+            <value>
+                <fullName>Ideas G2</fullName>
+                <default>false</default>
+                <label>Ideas G2</label>
+            </value>
+            <value>
+                <fullName>Ideas G3</fullName>
+                <default>false</default>
+                <label>Ideas G3</label>
+            </value>
+            <value>
+                <fullName>Juyo</fullName>
+                <default>false</default>
+                <label>Juyo</label>
+            </value>
+            <value>
+                <fullName>BookingSuite</fullName>
+                <default>false</default>
+                <label>BookingSuite</label>
+            </value>
+            <value>
+                <fullName>EasyRMS</fullName>
+                <default>false</default>
+                <label>EasyRMS</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

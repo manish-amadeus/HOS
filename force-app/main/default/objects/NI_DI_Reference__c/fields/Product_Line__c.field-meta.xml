@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Product_Line__c</fullName>
+    <description>The Product Line that the Deployment Instance should have for this record</description>
+    <externalId>false</externalId>
+    <inlineHelpText>The Product Line that the Deployment Instance should have for this record</inlineHelpText>
+    <label>Product Line</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Customer Portal</fullName>
+                <default>false</default>
+                <label>Customer Portal</label>
+            </value>
+            <value>
+                <fullName>Delphi.fdc</fullName>
+                <default>false</default>
+                <label>Delphi.fdc</label>
+            </value>
+            <value>
+                <fullName>Guest &amp; Social Relations</fullName>
+                <default>false</default>
+                <label>Guest &amp; Social Relations</label>
+            </value>
+            <value>
+                <fullName>Libra</fullName>
+                <default>false</default>
+                <label>Libra</label>
+            </value>
+            <value>
+                <fullName>Loyalty Management</fullName>
+                <default>false</default>
+                <label>Loyalty Management</label>
+            </value>
+            <value>
+                <fullName>Multi-Channel Marketing</fullName>
+                <default>false</default>
+                <label>Multi-Channel Marketing</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

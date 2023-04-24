@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Workflow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fieldUpdates>
+        <fullName>Billing_Contract_Line_Item_Cancelled_Che</fullName>
+        <description>Update the Billing Contract Line Item &quot;Cancelled&quot; checkbox when the &quot;Status&quot; is set to cancelled.</description>
+        <field>Cancelled__c</field>
+        <literalValue>1</literalValue>
+        <name>Billing Contract Line Item Cancelled Che</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Literal</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>Billing_Notification_Date</fullName>
+        <field>Billing_Notification_Date__c</field>
+        <formula>if(ISBLANK(Activity_Line_Item__r.Billing_Renewal_Lead_Time_Days__c) = false, Invoice_Date__c - Activity_Line_Item__r.Billing_Renewal_Lead_Time_Days__c, Invoice_Date__c)</formula>
+        <name>Billing Notification Date</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Formula</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>true</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>Cancelled_Billing_Lines</fullName>
+        <field>Cancelled__c</field>
+        <literalValue>0</literalValue>
+        <name>Cancelled Billing Lines</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Literal</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>true</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>Cancelled_True</fullName>
+        <field>Cancelled__c</field>
+        <literalValue>1</literalValue>
+        <name>Cancelled True</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Literal</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>Check_Auto_Renewal_box</fullName>
+        <description>Checks Auto-Renewal checkbox</description>
+        <field>Auto_Renewal__c</field>
+        <literalValue>1</literalValue>
+        <name>Check Auto-Renewal box</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Literal</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>true</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>Invoice_Date_Activation_Date</fullName>
+        <field>Invoice_Date__c</field>
+        <formula>Activation_Date__c</formula>
+        <name>Invoice Date = Activation Date</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Formula</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>true</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>Ready_to_Invoice_FALSE</fullName>
+        <field>Ready_to_Invoice__c</field>
+        <literalValue>0</literalValue>
+        <name>Ready to Invoice = FALSE</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Literal</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>Ready_to_Invoice_TRUE</fullName>
+        <field>Ready_to_Invoice__c</field>
+        <literalValue>1</literalValue>
+        <name>Ready to Invoice = TRUE</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Literal</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>true</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>Total_Amount_Calc</fullName>
+        <field>Total_Amount__c</field>
+        <formula>Unit_Price__c *  Quantity__c</formula>
+        <name>Total Amount Calc</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Formula</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <rules>
+        <fullName>Billing Notification Date</fullName>
+        <actions>
+            <name>Billing_Notification_Date</name>
+            <type>FieldUpdate</type>
+        </actions>
+        <active>true</active>
+        <formula>ISBLANK(Billing_Notification_Date__c) ||  ISCHANGED(Invoice_Date__c)</formula>
+        <triggerType>onAllChanges</triggerType>
+    </rules>
+    <rules>
+        <fullName>Cancelled Billing Lines</fullName>
+        <actions>
+            <name>Cancelled_True</name>
+            <type>FieldUpdate</type>
+        </actions>
+        <active>true</active>
+        <criteriaItems>
+            <field>Billing_Contract_Line_Item__c.Status__c</field>
+            <operation>equals</operation>
+            <value>Cancelled</value>
+        </criteriaItems>
+        <description>Update the the cancelled checkbox when the status = &apos;Cancelled&apos;</description>
+        <triggerType>onCreateOrTriggeringUpdate</triggerType>
+    </rules>
+    <rules>
+        <fullName>Non Cancelled Billing Lines</fullName>
+        <actions>
+            <name>Cancelled_Billing_Lines</name>
+            <type>FieldUpdate</type>
+        </actions>
+        <active>true</active>
+        <criteriaItems>
+            <field>Billing_Contract_Line_Item__c.Status__c</field>
+            <operation>notEqual</operation>
+            <value>Cancelled</value>
+        </criteriaItems>
+        <description>Update the the cancelled checkbox when the status = &apos;Cancelled&apos;</description>
+        <triggerType>onCreateOrTriggeringUpdate</triggerType>
+    </rules>
+    <rules>
+        <fullName>Populate BCLI Auto-Renewal</fullName>
+        <actions>
+            <name>Check_Auto_Renewal_box</name>
+            <type>FieldUpdate</type>
+        </actions>
+        <active>true</active>
+        <booleanFilter>(1 OR 2)</booleanFilter>
+        <criteriaItems>
+            <field>Billing_Contract_Line_Item__c.Revenue_Category__c</field>
+            <operation>equals</operation>
+            <value>Support</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Billing_Contract_Line_Item__c.Revenue_Category__c</field>
+            <operation>equals</operation>
+            <value>Subscription</value>
+        </criteriaItems>
+        <description>Populates Auto-Renewal Checkbox on BCLI</description>
+        <triggerType>onCreateOnly</triggerType>
+    </rules>
+    <rules>
+        <fullName>Ready for Invoice %3D TRUE</fullName>
+        <actions>
+            <name>Ready_to_Invoice_TRUE</name>
+            <type>FieldUpdate</type>
+        </actions>
+        <active>true</active>
+        <description>Updated 03/11/2019 per NICC-033311
+Updated 03/18/2019 per NICC-033506
+Updated 01/14/2020 per NICC-040069</description>
+        <formula>/*((MONTH(Billing_Notification_Date__c) = MONTH(TODAY()) 
+&amp;&amp; 
+YEAR(Billing_Notification_Date__c) = YEAR(TODAY())) 
+|| 
+(Billing_Notification_Date__c &lt;= TODAY()) 
+) 
+&amp;&amp; 
+Invoiced__c = false &amp;&amp; ((ISBLANK(Activity_Line_Item__r.Activation_Date__c) = False &amp;&amp; Activation_Required__c = TRUE) || Activation_Required__c = FALSE ) &amp;&amp; Cancelled__c = false*/
+
+/*ORIGINAL CODE*/
+Billing_Notification_Date__c &lt;= today()  &amp;&amp;  Invoiced__c = false  &amp;&amp;  ((ISBLANK(Activity_Line_Item__r.Activation_Date__c) = False   &amp;&amp;   Activation_Required__c = TRUE) || Activation_Required__c = FALSE ) &amp;&amp; Cancelled__c = false</formula>
+        <triggerType>onAllChanges</triggerType>
+    </rules>
+    <rules>
+        <fullName>Ready to Invoice %3D FALSE</fullName>
+        <actions>
+            <name>Ready_to_Invoice_FALSE</name>
+            <type>FieldUpdate</type>
+        </actions>
+        <active>true</active>
+        <description>Updated 03/21/2019 per NICC-033574
+Updated 01/14/2020 per NICC-040069</description>
+        <formula>/*(
+(YEAR(Billing_Notification_Date__c) = YEAR(TODAY())
+&amp;&amp;
+MONTH(Billing_Notification_Date__c) &gt; MONTH(TODAY()))
+||
+YEAR(Billing_Notification_Date__c) &gt; YEAR(TODAY())
+)
+||
+Cancelled__c = true */
+
+/* ORIGINAL CODE*/
+Billing_Notification_Date__c &gt; today() || Cancelled__c = true</formula>
+        <triggerType>onAllChanges</triggerType>
+    </rules>
+</Workflow>

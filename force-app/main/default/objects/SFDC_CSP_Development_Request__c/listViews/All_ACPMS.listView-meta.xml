@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>All_ACPMS</fullName>
+    <columns>NAME</columns>
+    <columns>Title__c</columns>
+    <columns>CREATED_DATE</columns>
+    <columns>Public_Status__c</columns>
+    <columns>Support_Priority__c</columns>
+    <columns>Notes__c</columns>
+    <columns>OWNER.FIRST_NAME</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>Public_Status__c</field>
+        <operation>notContain</operation>
+        <value>Product Team Review,Partially Delivered,Delivered,Solutions Available,Not Planned,Existing Feature</value>
+    </filters>
+    <filters>
+        <field>Assigned_Product_Line__c</field>
+        <operation>equals</operation>
+        <value>Cloud PMS</value>
+    </filters>
+    <filters>
+        <field>Type__c</field>
+        <operation>equals</operation>
+        <value>Defect</value>
+    </filters>
+    <label>ACPMS</label>
+    <sharedTo>
+        <allInternalUsers></allInternalUsers>
+    </sharedTo>
+</ListView>

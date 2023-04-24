@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<AnalyticSnapshot xmlns="http://soap.sforce.com/2006/04/metadata">
+    <groupColumn>Contact$Name</groupColumn>
+    <mappings>
+        <sourceField>ExecutionTime</sourceField>
+        <sourceType>snapshot</sourceType>
+        <targetField>Time_Card_Snapshot__c.Date_of_Pull__c</targetField>
+    </mappings>
+    <mappings>
+        <sourceField>Contact$pse__Practice__c</sourceField>
+        <sourceType>tabular</sourceType>
+        <targetField>Time_Card_Snapshot__c.Practice__c</targetField>
+    </mappings>
+    <mappings>
+        <sourceField>Contact$pse__Region__c</sourceField>
+        <sourceType>tabular</sourceType>
+        <targetField>Time_Card_Snapshot__c.Region__c</targetField>
+    </mappings>
+    <mappings>
+        <sourceField>Contact$Name</sourceField>
+        <sourceType>tabular</sourceType>
+        <targetField>Time_Card_Snapshot__c.Resource__c</targetField>
+    </mappings>
+    <mappings>
+        <aggregateType>Sum</aggregateType>
+        <sourceField>Contact.pse__Timecards__r$pse__Total_Hours__c</sourceField>
+        <sourceType>summary</sourceType>
+        <targetField>Time_Card_Snapshot__c.Total_Hours__c</targetField>
+    </mappings>
+    <name>Minimum Timecard Submittal</name>
+    <runningUser>mdugdale@newmarketinc.com</runningUser>
+    <sourceReport>PS_Enterprise_Revenue_Scrum_Reports/Audit_Minimum_Timecard_Submittal</sourceReport>
+    <targetObject>Time_Card_Snapshot__c</targetObject>
+</AnalyticSnapshot>

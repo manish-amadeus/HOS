@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Salesforce_App__c</fullName>
+    <description>Specific Force.com Application that the KB Article applies to</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Specific Force.com Application that the KB Article applies to</inlineHelpText>
+    <label>Salesforce App</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>true</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>MultiselectPicklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>FinancialForce - Accounting</fullName>
+                <default>false</default>
+                <label>FinancialForce - Accounting</label>
+            </value>
+            <value>
+                <fullName>FinancialForce - PSA</fullName>
+                <default>false</default>
+                <label>FinancialForce - PSA</label>
+            </value>
+            <value>
+                <fullName>License Management App (LMA)</fullName>
+                <default>false</default>
+                <label>License Management App (LMA)</label>
+            </value>
+            <value>
+                <fullName>NI Change Control</fullName>
+                <default>false</default>
+                <label>NI Change Control</label>
+            </value>
+            <value>
+                <fullName>SalesCoach</fullName>
+                <default>false</default>
+                <label>SalesCoach</label>
+            </value>
+            <value>
+                <fullName>Salesforce - All</fullName>
+                <default>false</default>
+                <label>Salesforce - All</label>
+            </value>
+            <value>
+                <fullName>Sertifi E-Sign</fullName>
+                <default>false</default>
+                <label>Sertifi E-Sign</label>
+            </value>
+            <value>
+                <fullName>SFDC Channel Order</fullName>
+                <default>false</default>
+                <label>SFDC Channel Order</label>
+            </value>
+            <value>
+                <fullName>SFDC Support Tools</fullName>
+                <default>false</default>
+                <label>SFDC Support Tools</label>
+            </value>
+            <value>
+                <fullName>Xactly</fullName>
+                <default>false</default>
+                <label>Xactly</label>
+            </value>
+            <value>
+                <fullName>Site.com</fullName>
+                <default>false</default>
+                <label>Site.com</label>
+            </value>
+            <value>
+                <fullName>Apttus</fullName>
+                <default>false</default>
+                <label>Apttus</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+    <visibleLines>4</visibleLines>
+</CustomField>

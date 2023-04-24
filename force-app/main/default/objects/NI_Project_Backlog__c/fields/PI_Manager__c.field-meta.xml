@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>PI_Manager__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <description>2021/07/15: NICC-051848</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Process Improvement Team member assigned to the project</inlineHelpText>
+    <label>PI Manager</label>
+    <referenceTo>User</referenceTo>
+    <relationshipName>AH_Project_Backlog</relationshipName>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>Lookup</type>
+</CustomField>

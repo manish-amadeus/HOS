@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Workflow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fieldUpdates>
+        <fullName>AmountCalculatedbyMiles</fullName>
+        <description>Amount = Miles * 0.575; updated in NICC-040284</description>
+        <field>Amount__c</field>
+        <formula>Miles__c *0.575</formula>
+        <name>Amount Calculated by Miles</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Formula</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>Expense_Line_Amount_Breda_Travel_Mls</fullName>
+        <description>NICC-022755</description>
+        <field>Amount__c</field>
+        <formula>0.4 * Travel_mileage_Breda_Employee_only__c</formula>
+        <name>Expense Line Amount - Breda Travel Mls</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Formula</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>Expense_Line_Amount_Breda_commuting</fullName>
+        <description>NICC-022755</description>
+        <field>Amount__c</field>
+        <formula>0.19 * Commute_mileage_Breda_Employee_only__c</formula>
+        <name>Expense Line Amount - Breda Commute Mls</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Formula</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <rules>
+        <fullName>Amount Calculated by Miles</fullName>
+        <actions>
+            <name>AmountCalculatedbyMiles</name>
+            <type>FieldUpdate</type>
+        </actions>
+        <active>true</active>
+        <formula>ISPICKVAL( Sub_Category__c , &quot;Mileage&quot;)</formula>
+        <triggerType>onCreateOrTriggeringUpdate</triggerType>
+    </rules>
+    <rules>
+        <fullName>Breda Commuting Mileage</fullName>
+        <actions>
+            <name>Expense_Line_Amount_Breda_commuting</name>
+            <type>FieldUpdate</type>
+        </actions>
+        <active>true</active>
+        <description>NICC-022755</description>
+        <formula>not isblank(Commute_mileage_Breda_Employee_only__c)</formula>
+        <triggerType>onCreateOrTriggeringUpdate</triggerType>
+    </rules>
+    <rules>
+        <fullName>Breda Travel Mileage</fullName>
+        <actions>
+            <name>Expense_Line_Amount_Breda_Travel_Mls</name>
+            <type>FieldUpdate</type>
+        </actions>
+        <active>true</active>
+        <description>NICC-022755</description>
+        <formula>Not ISBLANK(Travel_mileage_Breda_Employee_only__c)</formula>
+        <triggerType>onCreateOrTriggeringUpdate</triggerType>
+    </rules>
+</Workflow>

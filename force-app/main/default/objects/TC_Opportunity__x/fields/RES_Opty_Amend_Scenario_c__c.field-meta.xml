@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>RES_Opty_Amend_Scenario_c__c</fullName>
+    <externalDeveloperName>RES_Opty_Amend_Scenario__c</externalDeveloperName>
+    <externalId>false</externalId>
+    <isFilteringDisabled>false</isFilteringDisabled>
+    <isNameField>false</isNameField>
+    <isSortingDisabled>false</isSortingDisabled>
+    <label>RES- Opty Amend Scenario</label>
+    <required>false</required>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Change of Management Company (New IH ID)</fullName>
+                <default>false</default>
+                <label>Change of Management Company (New IH ID)</label>
+            </value>
+            <value>
+                <fullName>Change of Management Company (Same IH ID &amp; New Services Added)</fullName>
+                <default>false</default>
+                <label>Change of Management Company (Same IH ID &amp; New Services Added)</label>
+            </value>
+            <value>
+                <fullName>Change of Management Company (Same IH ID &amp; Services)</fullName>
+                <default>false</default>
+                <label>Change of Management Company (Same IH ID &amp; Services)</label>
+            </value>
+            <value>
+                <fullName>Extension of Bundle Contract Term (New Services)</fullName>
+                <default>false</default>
+                <label>Extension of Bundle Contract Term (New Services)</label>
+            </value>
+            <value>
+                <fullName>Extension of Bundle Contract Term (Same Services)</fullName>
+                <default>false</default>
+                <label>Extension of Bundle Contract Term (Same Services)</label>
+            </value>
+            <value>
+                <fullName>Other scenario, Implementation Details MANUALLY handled.</fullName>
+                <default>false</default>
+                <label>Other scenario, Implementation Details MANUALLY handled.</label>
+            </value>
+            <value>
+                <fullName>Renegotiation- New Services</fullName>
+                <default>false</default>
+                <label>Renegotiation- New Services</label>
+            </value>
+            <value>
+                <fullName>Renegotiation- Pricing (Same Services)</fullName>
+                <default>false</default>
+                <label>Renegotiation- Pricing (Same Services)</label>
+            </value>
+            <value>
+                <fullName>Start Date Change Only</fullName>
+                <default>false</default>
+                <label>Start Date Change Only</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

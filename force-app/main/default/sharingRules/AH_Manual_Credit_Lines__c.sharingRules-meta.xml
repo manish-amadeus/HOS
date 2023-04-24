@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<SharingRules xmlns="http://soap.sforce.com/2006/04/metadata">
+    <sharingOwnerRules>
+        <fullName>Finance_Billing_Team_Read_Edit</fullName>
+        <accessLevel>Edit</accessLevel>
+        <description>NICC-030490
+
+Grants read and edit permissions to members of the Finance Billing Team Public Group</description>
+        <label>Finance Billing Team - Read/Edit</label>
+        <sharedTo>
+            <group>Finance_Billing_Team</group>
+        </sharedTo>
+        <sharedFrom>
+            <roleAndSubordinatesInternal>CEOCFO</roleAndSubordinatesInternal>
+        </sharedFrom>
+    </sharingOwnerRules>
+</SharingRules>

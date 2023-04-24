@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Invoice_Due_Date__c</fullName>
+    <externalId>false</externalId>
+    <formula>if(ISBLANK(Due_Date_Override__c) = true,
+
+if(TEXT(Agreement__r.APTS_Invoice_Terms__c) = &apos;thirty (30)&apos;, Next_Invoice_Date__c + 30,
+   if(TEXT(Agreement__r.APTS_Invoice_Terms__c) = &apos;forty five (45)&apos;, Next_Invoice_Date__c + 30,
+      Next_Invoice_Date__c)
+   ),
+Due_Date_Override__c)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <inlineHelpText>Calculated from the Apptus Agreement Invoice Terms field</inlineHelpText>
+    <label>Invoice Due Date</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Date</type>
+</CustomField>

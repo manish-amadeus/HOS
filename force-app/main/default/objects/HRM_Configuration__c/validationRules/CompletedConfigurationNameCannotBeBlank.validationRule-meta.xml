@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>CompletedConfigurationNameCannotBeBlank</fullName>
+    <active>true</active>
+    <description>If the status = Completed the Configuration Name cannot be blank</description>
+    <errorConditionFormula>AND( Text(Status__c) = &quot;Completed&quot;,  ISBLANK(Configuration_Name__c ))</errorConditionFormula>
+    <errorMessage>When the status is marked as completed, the Configuration Name must be filled in.</errorMessage>
+</ValidationRule>

@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Status_c__c</fullName>
+    <externalDeveloperName>Status__c</externalDeveloperName>
+    <externalId>false</externalId>
+    <isFilteringDisabled>false</isFilteringDisabled>
+    <isNameField>false</isNameField>
+    <isSortingDisabled>false</isSortingDisabled>
+    <label>Status</label>
+    <required>false</required>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Active</fullName>
+                <default>false</default>
+                <label>Active</label>
+            </value>
+            <value>
+                <fullName>Active/Enrolled</fullName>
+                <default>false</default>
+                <label>Active/Enrolled</label>
+            </value>
+            <value>
+                <fullName>Active- Awaiting Live Activation</fullName>
+                <default>false</default>
+                <label>Active- Awaiting Live Activation</label>
+            </value>
+            <value>
+                <fullName>Active- Awaiting Live Activation AM Review</fullName>
+                <default>false</default>
+                <label>Active- Awaiting Live Activation AM Review</label>
+            </value>
+            <value>
+                <fullName>Active- Conversion to Bundle</fullName>
+                <default>false</default>
+                <label>Active- Conversion to Bundle</label>
+            </value>
+            <value>
+                <fullName>Active – Rebuild</fullName>
+                <default>false</default>
+                <label>Active- Rebuild</label>
+            </value>
+            <value>
+                <fullName>Active- Transitioning to Customer Care</fullName>
+                <default>false</default>
+                <label>Active- Transitioning to Customer Care</label>
+            </value>
+            <value>
+                <fullName>Canceled/Terminated</fullName>
+                <default>false</default>
+                <label>Canceled/Terminated</label>
+            </value>
+            <value>
+                <fullName>Duplicate</fullName>
+                <default>false</default>
+                <label>Duplicate</label>
+            </value>
+            <value>
+                <fullName>Impl- Assigned</fullName>
+                <default>false</default>
+                <label>Impl- Assigned</label>
+            </value>
+            <value>
+                <fullName>Impl- Awaiting Forms</fullName>
+                <default>false</default>
+                <label>Impl- Awaiting Forms</label>
+            </value>
+            <value>
+                <fullName>Impl- Awaiting Live Activation</fullName>
+                <default>false</default>
+                <label>Impl- Awaiting Live Activation</label>
+            </value>
+            <value>
+                <fullName>Impl- Working on Setup</fullName>
+                <default>false</default>
+                <label>Impl- Working on Setup</label>
+            </value>
+            <value>
+                <fullName>N/A</fullName>
+                <default>false</default>
+                <label>N/A</label>
+            </value>
+            <value>
+                <fullName>New</fullName>
+                <default>false</default>
+                <label>New</label>
+            </value>
+            <value>
+                <fullName>Not Started</fullName>
+                <default>false</default>
+                <label>Not Started</label>
+            </value>
+            <value>
+                <fullName>On Hold</fullName>
+                <default>false</default>
+                <label>On Hold</label>
+            </value>
+            <value>
+                <fullName>On Hold – AMEX/CWV Form - Missing/Incomplete</fullName>
+                <default>false</default>
+                <label>On Hold – AMEX/CWV Form - Missing/Incomplete</label>
+            </value>
+            <value>
+                <fullName>On Hold - Bar Rate Issue on Contract</fullName>
+                <default>false</default>
+                <label>On Hold - Bar Rate Issue on Contract</label>
+            </value>
+            <value>
+                <fullName>On Hold - Contract Incomplete</fullName>
+                <default>false</default>
+                <label>On Hold - Contract Incomplete</label>
+            </value>
+            <value>
+                <fullName>On Hold - Contract is Not Signed</fullName>
+                <default>false</default>
+                <label>On Hold - Contract is Not Signed</label>
+            </value>
+            <value>
+                <fullName>On Hold - Covid19</fullName>
+                <default>false</default>
+                <label>On Hold - Covid19</label>
+            </value>
+            <value>
+                <fullName>On Hold - Credit Hold</fullName>
+                <default>false</default>
+                <label>On Hold - Credit Hold</label>
+            </value>
+            <value>
+                <fullName>On Hold - Discount Approval Missing</fullName>
+                <default>false</default>
+                <label>On Hold - Discount Approval Missing</label>
+            </value>
+            <value>
+                <fullName>On Hold- Executive Review</fullName>
+                <default>false</default>
+                <label>On Hold- Executive Review</label>
+            </value>
+            <value>
+                <fullName>On Hold- Pending Interface/Website/Provider</fullName>
+                <default>false</default>
+                <label>On Hold- External 3rd Party Dependency</label>
+            </value>
+            <value>
+                <fullName>On Hold- Future Start Date</fullName>
+                <default>false</default>
+                <label>On Hold- Future Start Date</label>
+            </value>
+            <value>
+                <fullName>On Hold- Internal Product Dependency</fullName>
+                <default>false</default>
+                <label>On Hold- Internal Product Dependency</label>
+            </value>
+            <value>
+                <fullName>On Hold -  Pending Term and Rebuild</fullName>
+                <default>false</default>
+                <label>On Hold- Pending Term &amp; Rebuild</label>
+            </value>
+            <value>
+                <fullName>On Hold- Pending Termination</fullName>
+                <default>false</default>
+                <label>On Hold- Pending Termination</label>
+            </value>
+            <value>
+                <fullName>On Hold - Questionnaire Missing/ Incomplete</fullName>
+                <default>false</default>
+                <label>On Hold - Questionnaire Missing/ Incomplete</label>
+            </value>
+            <value>
+                <fullName>On Hold- Sister Property Dependency</fullName>
+                <default>false</default>
+                <label>On Hold- Sister Property Dependency</label>
+            </value>
+            <value>
+                <fullName>On Hold- Technical Issue</fullName>
+                <default>false</default>
+                <label>On Hold- Technical Issue</label>
+            </value>
+            <value>
+                <fullName>Pending</fullName>
+                <default>false</default>
+                <label>Pending</label>
+            </value>
+            <value>
+                <fullName>Pending GDS Activation</fullName>
+                <default>false</default>
+                <label>Pending GDS Activation</label>
+            </value>
+            <value>
+                <fullName>Rebuild</fullName>
+                <default>false</default>
+                <label>Rebuild</label>
+            </value>
+            <value>
+                <fullName>Switch</fullName>
+                <default>false</default>
+                <label>Switch</label>
+            </value>
+            <value>
+                <fullName>Terminated</fullName>
+                <default>false</default>
+                <label>Terminated</label>
+            </value>
+            <value>
+                <fullName>Unconsumed Bundle Component</fullName>
+                <default>false</default>
+                <label>Unconsumed Bundle Component</label>
+            </value>
+            <value>
+                <fullName>Unconsumed Reseller Component</fullName>
+                <default>false</default>
+                <label>Unconsumed Reseller Component</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Question__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <description>The question field on the junction object.</description>
+    <externalId>false</externalId>
+    <label>Question</label>
+    <referenceTo>SFDC_Questions__c</referenceTo>
+    <relationshipLabel>Follow On Questions</relationshipLabel>
+    <relationshipName>R00N60000001WdfNEAS</relationshipName>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>
