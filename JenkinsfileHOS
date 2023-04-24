@@ -50,10 +50,10 @@ node {
                 stage('Prepare (current build, target org, instance url)') {
 					// Define target org/env and instance URL
                     if ( ("${env.BITBUCKET_SOURCE_BRANCH}".contains("feature/") || "${env.BITBUCKET_SOURCE_BRANCH}".contains("bugfix/") ) && "${env.BITBUCKET_TARGET_BRANCH}".contains("develop")) {
-                        SF_TARGET_ENV = "SBFULL"
+                        SF_TARGET_ENV = "HOSSBFULL"
                         currentBuild.description = "Deployment to SBFULL - ${SDWORK_ID}"
                     } else if ("${env.BITBUCKET_SOURCE_BRANCH}".contains("promotion/") && "${env.BITBUCKET_TARGET_BRANCH}".contains("release")) {
-                        SF_TARGET_ENV = "SBFULL"
+                        SF_TARGET_ENV = "HOSSBFULL"
                         currentBuild.description = "Deployment to SBFULL - V${SDWORK_ID}"
                     }
 					// Print some usefull info
@@ -76,7 +76,9 @@ node {
                     commandOutput "git config user.email \"$SCMVARS.GIT_AUTHOR_EMAIL\""
                     commandOutput "git config user.name \"$SCMVARS.GIT_AUTHOR_NAME\""
                     // Authorize connections through sfdx to Salesforce org
-					rc = commandStatus "sfdx auth:jwt:grant --instanceurl ${INSTANCEURL} --clientid ${CONSUMER_KEY} --jwtkeyfile ${CONSUMER_SERVER_KEY} --username ${USERNAME} --setalias ${SF_TARGET_ENV}"
+					//rc = commandStatus "sfdx auth:jwt:grant --instanceurl ${INSTANCEURL} --clientid ${CONSUMER_KEY} --jwtkeyfile ${CONSUMER_SERVER_KEY} --username ${USERNAME} --setalias ${SF_TARGET_ENV}"
+                    //Updated SFDX command for the latest version of SF CLI
+                    rc = commandStatus "sfdx auth:jwt:grant -r ${INSTANCEURL} -i ${CONSUMER_KEY} -f ${CONSUMER_SERVER_KEY} -o ${USERNAME} -a ${SF_TARGET_ENV} -d"
                     if (rc != 0) {
                         error 'Salesforce org authorization failed.'
                     }
